@@ -155,7 +155,6 @@ DBM_CORE_BOSSHEALTH_HIDE_FRAME		= "隐藏生命值框体"
 DBM_CORE_ALLIANCE					= "联盟"
 DBM_CORE_HORDE						= "部落"
 
-DBM_CORE_WORLD_BOSS					= "世界首领"
 DBM_CORE_UNKNOWN					= "未知"
 DBM_CORE_LEFT						= "左"
 DBM_CORE_RIGHT						= "右"

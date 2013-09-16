@@ -84,7 +84,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	wasteOfTime				= "很好，我會創造一個力場隔離你們的腐化。"
+	wasteOfTime			= "很好，我會創造一個力場隔離你們的腐化。"
 })
 
 ------------------
@@ -134,12 +134,12 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	newForces1	= "Here they come!",--Jaina's line, horde may not be same
+	newForces1	= "他們來了!",
+	newForces1H	= "趕快把她弄下來，讓我用手掐死她。",
 	newForces2	= "龍喉氏族，前進!",
 	newForces3	= "為了地獄吼!",
 	newForces4	= "下一隊，前進!",
-	tower		= "邊的防空砲塔!",--The door barring the South/North Tower has been breached!
-	demolisher	= "|h柯爾克隆石毀車|h|r前去進攻砲台!"--In case they remove the bad epiccenter spellid will use this
+	tower		= "的門已經遭到破壞!"
 })
 
 --------------------
@@ -252,8 +252,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Module1 = "Module 1's all prepared for system reset.",
-	Victory	= "Module 2's all prepared for system reset"
+	Module1 = "模組一號已準備好系統重置。",
+	Victory	= "模組二號已準備好系統重置。"
 })
 
 ---------------------------
@@ -381,9 +381,12 @@ L= DBM:GetModLocalization(869)
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
-})
-
-L:SetMiscLocalization({
+	SoundGC					= "語音警告：$journal:8298相關提示",
+	optDD					= "先祖治療鏈打斷提示",
+	alldd					= "總是提示(如果你選他為目標或焦點)",
+	DD1						= "單數提示",
+	DD2						= "雙數提示",
+	nodd					= "不提示"
 })
 
 -------------

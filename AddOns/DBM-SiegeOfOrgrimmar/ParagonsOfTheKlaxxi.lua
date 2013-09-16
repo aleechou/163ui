@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10264 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10288 $"):sub(12, -3))
 mod:SetCreatureID(71152, 71153, 71154, 71155, 71156, 71157, 71158, 71160, 71161)
 mod:SetZone()
 mod:SetUsedIcons(1)
@@ -62,7 +62,7 @@ local warnHewn						= mod:NewStackAnnounce(143275, 2, nil, false)
 local warnBloodletting				= mod:NewSpellAnnounce(143280, 4)
 --Rik'kal the Dissector
 local warnGeneticAlteration			= mod:NewStackAnnounce(143279, 2, nil, false)
-local warnInjection					= mod:NewStackAnnounce(143339)--Triggers 143340 at 10 stacks
+local warnInjection					= mod:NewStackAnnounce(143339)
 local warnMutate					= mod:NewTargetAnnounce(143337, 3)
 --Hisek the Swarmkeeper
 local warnAim						= mod:NewTargetAnnounce(142948, 4)--Maybe wrong debuff id, maybe 144759 instead
@@ -129,6 +129,7 @@ local specWarnBloodletting			= mod:NewSpecialWarningSwitch(143280, not mod:IsHea
 --Rik'kal the Dissector
 local specWarnMutate				= mod:NewSpecialWarningYou(143337)
 local specWarnParasiteFixate		= mod:NewSpecialWarningYou(143358)
+local specWarnInjection				= mod:NewSpecialWarningSpell(143339, mod:IsTank(), nil, nil, 3)
 --Hisek the Swarmkeeper
 local specWarnAim					= mod:NewSpecialWarningYou(142948)
 local yellAim						= mod:NewYell(142948)
@@ -157,6 +158,7 @@ local timerBloodlettingCD			= mod:NewCDTimer(35, 143280)--35-65 variable. most o
 --Rik'kal the Dissector
 local timerMutate					= mod:NewBuffFadesTimer(20, 143337)
 local timerMutateCD					= mod:NewCDTimer(45, 143337)
+local timerInjectionCD				= mod:NewNextTimer(9.5, 143339, nil, mod:IsTank())
 --Hisek the Swarmkeeper
 local timerAim						= mod:NewTargetTimer(5, 142948)--or is it 7, conflicting tooltips
 local timerAimCD					= mod:NewCDTimer(42, 142948)
@@ -526,6 +528,7 @@ local function CheckBosses(GUID)
 				if activetime < 10 then bosstype = 5 end
 				soundkillboss(cid)
 			elseif cid == 71158 then--Rik'kal the Dissector
+				timerInjectionCD:Start(14)
 				timerMutateCD:Start(34)
 				if UnitDebuff("player", GetSpellInfo(143275)) then vulnerable = true end
 				if activetime >= 15 then
@@ -723,7 +726,8 @@ function mod:SPELL_CAST_START(args)
 		warnBloodletting:Show()
 		specWarnBloodletting:Show()
 		timerBloodlettingCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_rnkd.mp3") --软泥快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbrn.mp3")
+		sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_rnkd.mp3")
 	elseif args.spellId == 143974 then
 		warnShieldBash:Show()
 		timerShieldBashCD:Start()
@@ -739,6 +743,9 @@ function mod:SPELL_CAST_START(args)
 		warnRapidFire:Show()
 		specWarnRapidFire:Show()
 		--timerRapidFireCD:Start()
+	elseif args.spellId == 143339 then
+		specWarnInjection:Show()
+		timerInjectionCD:Start()
 	end
 end
 
@@ -974,6 +981,7 @@ function mod:UNIT_DIED(args)
 		soundkillboss(nil, cid)
 	elseif cid == 71158 then--Rik'kal the Dissector
 		timerMutateCD:Cancel()
+		timerInjectionCD:Cancel()
 		soundkillboss(nil, cid)
 	elseif cid == 71153 then--Hisek the Swarmkeeper
 		timerAimCD:Cancel()

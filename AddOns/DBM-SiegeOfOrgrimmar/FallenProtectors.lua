@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndBD		= mod:NewSound(nil, "SoundBD", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10181 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10280 $"):sub(12, -3))
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetZone()
 
@@ -150,6 +150,7 @@ end
 
 function mod:InfernoStrikeTarget(targetname, uId)
 	if not targetname then return end
+	--[[
 	if targetname == UnitName("player") then
 		specWarnInfernoStrike:Show()
 		yellInfernoStrike:Yell()
@@ -159,7 +160,7 @@ function mod:InfernoStrikeTarget(targetname, uId)
 		sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-	end
+	end]]
 end
 
 function mod:OnCombatStart(delay)
@@ -314,13 +315,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_amqh.mp3")--暗牧強化
 		timerBaneCD:Cancel()
 		timerCalamityCD:Cancel()
-		timerClashCD:Cancel()--Can't be cast during ANYONES special
 	elseif args.spellId == 143955 then--Misery, Sorrow, and Gloom
 		warnMiserySorrowGloom:Show()
 		specWarnMiserySorrowGloom:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_wsqh.mp3")--武僧強化
 		timerVengefulStrikesCD:Cancel()
-		timerClashCD:Cancel()--Can't be cast during ANYONES special
+		timerClashCD:Cancel()
 		timerCorruptedBrewCD:Cancel()
 		timerInfernoStrikeCD:Start(8)
 		timerDefiledGroundCD:Start(10)
@@ -330,7 +330,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dzqh.mp3")--盜賊強化
 		timerGougeCD:Cancel()
 		timerGarroteCD:Cancel()
-		timerClashCD:Cancel()--Can't be cast during ANYONES special
 		timerCalamityCD:Cancel()--Can't be cast during THIS special
 	elseif args.spellId == 143434 then
 		if not GridStatus or not mod.Options.BaneGridCount then return end
@@ -367,7 +366,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerInfernoStrikeCD:Cancel()
 		timerCorruptedBrewCD:Start(12)
 		timerVengefulStrikesCD:Start(18)
---		timerClashCD:Start()--No good data on this, since i have no logs where I didn't push another bosses special before clash was cast after his own
+		timerClashCD:Start(46)--Still needs more verification.
 	elseif args.spellId == 143812 then--Mark of Anguish
 		timerGarroteCD:Start(12)--TODO, verify consistency in all difficulties
 		timerGougeCD:Start(23)--Seems to be either be exactly 23 or exactly 35. Not sure what causes it to switch.

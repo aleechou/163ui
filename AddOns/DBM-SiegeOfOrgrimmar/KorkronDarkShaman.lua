@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10201 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10281 $"):sub(12, -3))
 mod:SetCreatureID(71859, 71858)--haromm, Kardris
 mod:SetZone()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
@@ -18,7 +18,7 @@ mod:RegisterEventsInCombat(
 )
 
 --Dogs
-local warnRend						= mod:NewStackAnnounce(144304, 2)
+local warnRend						= mod:NewStackAnnounce(144304, 2, nil, mod:IsTank())
 
 --General
 local warnPoisonmistTotem			= mod:NewSpellAnnounce(144288, 3)--85%
@@ -181,7 +181,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif args.spellId == 144005 then
-		self:BossTargetScanner(71858, "ToxicStormTarget", 0.025, 12)
+		self:BossTargetScanner(71858, "ToxicStormTarget", 0.05, 16)
 		warnToxicStorm:Show()
 		timerToxicStormCD:Start()
 		if self:checkTankDistance(args:GetSrcCreatureID()) then
@@ -192,8 +192,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143990 then
 		timerFoulGeyserCD:Start()
 		if self:checkTankDistance(args:GetSrcCreatureID()) then
-			specWarnFoulGeyser:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbrn.mp3") --準備軟泥
+--			specWarnFoulGeyser:Show()
 --DELETE		countdownFoulGeyser:Start()
 		end
 	elseif args.spellId == 144070 then
@@ -259,6 +258,25 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFoulGeyser:Show(args.destName)
 		if args:IsPlayer() then
 			yellFoulGeyser:Yell()
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_rnkd.mp3") --软泥快打
+			sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbrn.mp3") --準備軟泥
+		else
+			local uId = DBM:GetRaidUnitId(args.destName)
+			if uId then
+				local x, y = GetPlayerMapPosition(uId)
+				if x == 0 and y == 0 then
+					SetMapToCurrentZone()
+					x, y = GetPlayerMapPosition(uId)
+				end
+				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				if inRange and inRange < 60 then
+					if not mod:IsMeleeDps() then
+						specWarnFoulGeyser:Show()
+						sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_rnkd.mp3")
+						sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbrn.mp3")
+					end
+				end
+			end
 		end
 	end
 end

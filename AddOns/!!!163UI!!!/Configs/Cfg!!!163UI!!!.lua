@@ -310,7 +310,7 @@ U1RegisterAddon("!!!163UI!!!", {
         text = L["小地图相关"], type = "text",
         {
             var = "changeClip",
-            default = true,
+            default = false,
             text = "修改小地图目标标记",
             tip = "说明`默认的小地图目标标记太大，容易遮挡周围图标，选中此项可简化一下。",
             callback = function(cfg, v, loading)

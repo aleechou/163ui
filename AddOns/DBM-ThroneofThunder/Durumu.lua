@@ -671,7 +671,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 			--BH ADD END
 		end
 	elseif msg:find("spell:133795") then--Does show in combat log, but emote gives targetname 3 seconds earlier.
-		local target = DBM:GetFullNameByShortName(target)
+		local target = DBM:GetUnitFullName(target)
 		warnLifeDrain:Show(target)
 		specWarnLifeDrain:Show(target)
 		timerLifeDrain:Start()

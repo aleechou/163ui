@@ -113,7 +113,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 		end
 		if self.Options.HudMAP then
-			SoulMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 8, 10, 0, 1, 0, 1):Appear():RegisterForAlerts():Rotate(360, 10))
+			SoulMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 10, 10, 0, 1, 0, 0.4):Appear():RegisterForAlerts():Rotate(360, 10))
 		end
 		--ADD HUD END
 		if self.Options.SetIconOnBurningSoul then--Set icons on first debuff to get an earlier spread out.

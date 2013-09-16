@@ -227,6 +227,7 @@ function Mapster:PLAYER_REGEN_ENABLED()
 			frameRef:SetParent(WorldMapFrame)
 			frameRef:ClearAllPoints()
 			frameRef:SetPoint("TOPLEFT", WorldMapDetailFrame)
+			frameRef:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame)
 			frameRef.Hide = nil
 			frameRef.Show = nil
 			frameRef.SetScale = nil
@@ -298,16 +299,11 @@ function Mapster:EncounterJournal_AddMapButtons()
 	local index = 1
 	local x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)
 
-	local mini = WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE
 	while name do
-		local bossButton = _G["EJMapButton"..index];
+		local bossButton = _G["EJMapButton"..index]
 		if bossButton then
-			if db.showEJBosses then
-				bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
-				bossButton:SetScale(db.ejScale)
-			else
-				bossButton:Hide()
-			end
+			bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height)
+			bossButton:SetScale(db.ejScale)
 		end
 		index = index + 1
 		x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)

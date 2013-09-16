@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndQS		= mod:NewSound(nil, "SoundQS", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10275 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10306 $"):sub(12, -3))
 mod:SetCreatureID(71734)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 
 --Sha of Pride
 local warnGiftOfTitans			= mod:NewTargetAnnounce(144359, 1)
-local warnSwellingPride			= mod:NewSpellAnnounce(144400, 3)
+local warnSwellingPride			= mod:NewCountAnnounce(144400, 3)
 local warnMark					= mod:NewTargetAnnounce(144351, 3, nil, mod:IsHealer())
 local warnWoundedPride			= mod:NewTargetAnnounce(144358, 4, nil, mod:IsTank() or mod:IsHealer())
 local warnSelfReflection		= mod:NewSpellAnnounce(144800, 3)
@@ -45,7 +45,7 @@ local warnMockingBlast			= mod:NewSpellAnnounce(144379, 3, nil, false)
 --Sha of Pride
 local specWarnGiftOfTitans		= mod:NewSpecialWarningYou(144359)
 local yellGiftOfTitans			= mod:NewYell(144359)
-local specWarnSwellingPride		= mod:NewSpecialWarningSpell(144400, nil, nil, nil, 2)
+local specWarnSwellingPride		= mod:NewSpecialWarningCount(144400, nil, nil, nil, 2)
 local specWarnWoundedPride		= mod:NewSpecialWarningSpell(144358, mod:IsTank())
 local specWarnSelfReflection	= mod:NewSpecialWarningSpell(144800, nil, nil, nil, 2)
 local specWarnCorruptedPrison	= mod:NewSpecialWarningSpell(144574)
@@ -54,7 +54,7 @@ local yellCorruptedPrison		= mod:NewYell(144574, nil, false)
 --Pride
 local specWarnBurstingPride		= mod:NewSpecialWarningMove(144911)--25-49 Energy
 local yellBurstingPride			= mod:NewYell(144911)
-local specWarnProjection		= mod:NewSpecialWarningYou(146822)--50-74 Energy
+local specWarnProjection		= mod:NewSpecialWarningYou(146822, nil, nil, nil, 3)--50-74 Energy
 local specWarnAuraOfPride		= mod:NewSpecialWarningYou(146817)--75-99 Energy
 local yellAuraOfPride			= mod:NewYell(146817)
 local specWarnOvercome			= mod:NewSpecialWarningYou(144843, nil, nil, nil, 3)--100 EnergyHonestly, i have a feeling your best option if this happens is to find a way to kill yourself!
@@ -113,6 +113,7 @@ local corruptedPrisonTargets = {}
 local prideLevel = EJ_GetSectionInfo(8255)
 local firstWound = false
 local UnleashedCast = false
+local swellingCount = 0
 local warnedpowerhigh = false
 local TTbuff = false
 
@@ -239,6 +240,7 @@ function mod:OnCombatStart(delay)
 	UnleashedCast = false
 	TTbuff = false
 	warnedpowerhigh = false
+	swellingCount = 0
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(prideLevel)
 		DBM.InfoFrame:Show(5, "playerpower", 5, ALTERNATE_POWER_INDEX)
@@ -259,8 +261,9 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 144400 then
-		warnSwellingPride:Show()
-		specWarnSwellingPride:Show()
+		swellingCount = swellingCount + 1
+		warnSwellingPride:Show(swellingCount)
+		specWarnSwellingPride:Show(swellingCount)
 		drcount = drcount + 1
 		if MyJS() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷

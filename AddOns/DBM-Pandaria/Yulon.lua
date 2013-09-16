@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10266 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10283 $"):sub(12, -3))
 mod:SetCreatureID(71955)
 mod:SetZone()
 mod:SetMinSyncRevision(10162)
@@ -11,7 +11,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED",
+	"SPELL_DAMAGE",
+	"SPELL_MISSED",
 	"UNIT_SPELLCAST_SUCCEEDED target focus"
 )
 
@@ -20,7 +21,6 @@ mod:RegisterEvents(
 )
 
 local warnJadefireBreath		= mod:NewSpellAnnounce(144530, 2, nil, mod:IsTank())
-local warnJadefireBolt			= mod:NewSpellAnnounce(144532, 3)--Target scanning works but only grabs one of like 3-5 targets.
 local warnJadefireWall			= mod:NewSpellAnnounce(144533, 4)
 
 local specWarnJadefireBreath	= mod:NewSpecialWarningSpell(144530, mod:IsTank())
@@ -28,7 +28,6 @@ local specWarnJadefireBlaze		= mod:NewSpecialWarningMove(144538)
 local specWarnJadefireWall		= mod:NewSpecialWarningSpell(144533, nil, nil, nil, 2)
 
 local timerJadefireBreathCD		= mod:NewCDTimer(18.5, 144530, nil, mod:IsTank())
-local timerJadefireBoltCD		= mod:NewCDTimer(18, 144532)
 local timerJadefireWallCD		= mod:NewNextTimer(60, 144533)
 
 mod:AddBoolOption("RangeFrame", true)--For jadefire bolt/blaze (depending how often it's cast, if it's infrequent i'll kill range finder)
@@ -38,7 +37,6 @@ local yellTriggered = false
 function mod:OnCombatStart(delay)
 	if yellTriggered then--We know for sure this is an actual pull and not diving into in progress
 		timerJadefireBreathCD:Start(6-delay)
-		timerJadefireBoltCD:Start(15-delay)
 	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(11)
@@ -60,18 +58,16 @@ function mod:SPELL_CAST_START(args)
 		if mod:IsTank() or mod:IsHealer() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3") --準備吐息
 		end
-	elseif args.spellId == 144545 then
-		warnJadefireBolt:Show()
-		timerJadefireBoltCD:Start()
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 144537 and args:IsPlayer() then
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 144538 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnJadefireBlaze:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
+mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Victory then

@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndPX		= mod:NewSound(nil, "SoundPX", mod:IsManaUser())
 
-mod:SetRevision(("$Revision: 10246 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10305 $"):sub(12, -3))
 mod:SetCreatureID(71529)
 mod:SetZone()
 mod:SetUsedIcons(8)
@@ -32,7 +32,7 @@ local warnEnrage					= mod:NewTargetAnnounce(145974, 3, nil, mod:IsTank() or mod
 --Infusion of Acid
 local warnAcidPustules				= mod:NewSpellAnnounce(143971, 2)
 local warnAcidBreath				= mod:NewStackAnnounce(143780, 2, nil, mod:IsTank())
-local warnCorrosiveBlood			= mod:NewTargetAnnounce(143791, 2, nil, mod:IsHealer())
+local warnCorrosiveBlood			= mod:NewTargetAnnounce(143791, 2, nil, false)--Spammy, CD was reduced to 2 seconds
 --Infusion of Frost
 local warnFrostPustules				= mod:NewSpellAnnounce(143968, 3)
 local warnFrostBreath				= mod:NewStackAnnounce(143773, 2, nil, mod:IsTank())
@@ -45,7 +45,7 @@ local warnBurningBloodBlood			= mod:NewTargetAnnounce(143783, 3)
 --Stage 1: A Cry in the Darkness
 local specWarnFearsomeRoar			= mod:NewSpecialWarningStack(143766, mod:IsTank(), 2)
 local specWarnFearsomeRoarOther		= mod:NewSpecialWarningTarget(143766, mod:IsTank())
-local specWarnDeafeningScreech		= mod:NewSpecialWarningCast(143343, nil, nil, nil, 2)
+local specWarnDeafeningScreech		= mod:NewSpecialWarningSpell(143343, nil, nil, nil, 2)--Too late to give a stop casting warning, so it's spell now.
 --Stage 2: Frenzy for Blood!
 local specWarnBloodFrenzy			= mod:NewSpecialWarningSpell(143440, nil, nil, nil, 2)
 local specWarnFixate				= mod:NewSpecialWarningRun(143445, nil, nil, nil, 3)
@@ -131,16 +131,16 @@ local screechTimers = {
 
 local screechTimers = {
 	[0] = 13.2,
-	[1] = 8.5,
-	[2] = 7.2,
+	[1] = 13.2,
+	[2] = 10.8,
 	[3] = 7.2,
-	[4] = 6,--Not enough data, but this may pop 4.8 sometimes, if so i'll drop it to that
-	[5] = 4.8,
-	[6] = 4.8,--probably another 4.8 baseline but my data is actually 6
-	[7] = 4.8,--probably another 4.8 baseline but my data is actually 5.2
-	[8] = 3.6,
-	[9] = 3.6,--Can be a 4.8
-	[10]= 3.6,
+	[4] = 4.8,
+	[5] = 3.6,
+	[6] = 2.4,
+	[7] = 2.4,
+	[8] = 2.4,
+	[9] = 2.4,
+	[10]= 2.4,
 	[11]= 2.4,
 	[12]= 2.4,
 	[13]= 2.4,
@@ -202,7 +202,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 143343 then--Assumed, 2 second channel but "Instant" cast flagged, this generally means SPELL_AURA_APPLIED
-		if screechCount < 11 then--Don't spam special warning once cd is lower than 3 seconds.
+		if screechCount < 8 then--Don't spam special warning once cd is lower than 4.8 seconds.
 			specWarnDeafeningScreech:Show()
 		end
 		timerDeafeningScreechCD:Cancel()

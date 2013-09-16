@@ -2231,11 +2231,11 @@ function Archy:ScanBags()
 			private.distance_indicator_frame.loritemButton.tooltip = {LOREWALKER_ITEMS.LODESTONE.id,_G.USE}
 		end
 	end
-	if lorewalker_map_count == 0 and lorewalker_lode_count == 0 then
+	--[[if lorewalker_map_count == 0 and lorewalker_lode_count == 0 then
 		private.distance_indicator_frame.loritemButton:Disable()
 		private.distance_indicator_frame.loritemButton.icon:SetDesaturated(1)
 		private.distance_indicator_frame.loritemButton.tooltip = _G.BROWSE_NO_RESULTS
-	end
+	end]]
 	
 end
 

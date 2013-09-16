@@ -50,7 +50,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10277 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 10305 $"):sub(12, -3)),
 	DisplayVersion = "5.4.1 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
 	DisplayReleaseVersion = "5.4.0", -- Needed to work around bigwigs sending improper version information
 	ReleaseRevision = 10267 -- the revision of the latest stable version that is available
@@ -719,19 +719,36 @@ do
 	end
 	
 	local function showOldVerWarning()
-		StaticPopupDialogs["DBM_OLD_BC_VERSION"] = {
-			preferredIndex = STATICPOPUP_NUMDIALOGS,
-			text = "You are still running the old DBM3 compatibility layer for deprecated DBM3 mods which have been replaced by DBM4 mods. This mod will cause error messages on login and must be disabled.\nYou should also remove the folder DBM-BurningCrusade from your Interface/AddOns folder.\nClick okay to disable the mod and reload the UI.",
-			button1 = OKAY,
-			OnAccept = function()
-				DisableAddOn("DBM-BurningCrusade")
-				ReloadUI()
-			end,
-			timeout = 0,
-			exclusive = 1,
-			whileDead = 1
-		}
-		StaticPopup_Show("DBM_OLD_BC_VERSION")
+		local popup = CreateFrame("Frame", nil, UIParent)
+		popup:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+			tile = true, tileSize = 16, edgeSize = 16,
+			insets = {left = 1, right = 1, top = 1, bottom = 1}}
+		)
+		popup:SetSize(600, 160)
+		popup:SetPoint("TOP", UIParent, "TOP", 0, -200)
+		popup:SetFrameStrata("DIALOG")
+
+		local text = popup:CreateFontString()
+		text:SetFontObject(ChatFontNormal)
+		text:SetWidth(570)
+		text:SetWordWrap(true)
+		text:SetPoint("TOP", popup, "TOP", 0, -15)
+		text:SetText("You are still running the old DBM3 compatibility layer for deprecated DBM3 mods which have been replaced by DBM4 mods. This mod will cause error messages on login and must be disabled.\nYou should also remove the folder DBM-BurningCrusade from your Interface/AddOns folder.\nClick okay to disable the mod and reload the UI.")
+
+		local accept = CreateFrame("Button", nil, popup)
+		accept:SetNormalTexture("Interface\\Buttons\\UI-DialogBox-Button-Up")
+		accept:SetPushedTexture("Interface\\Buttons\\UI-DialogBox-Button-Down")
+		accept:SetHighlightTexture("Interface\\Buttons\\UI-DialogBox-Button-Highlight", "ADD")
+		accept:SetSize(128, 35)
+		accept:SetPoint("BOTTOM", popup, "BOTTOM", 0, 0)
+		accept:SetScript("OnClick", function(f) DisableAddOn("DBM-BurningCrusade") ReloadUI() f:GetParent():Hide() end)
+
+		local atext = accept:CreateFontString()
+		atext:SetFontObject(ChatFontNormal)
+		atext:SetPoint("CENTER", accept, "CENTER", 0, 5)
+		atext:SetText(OKAY)
+		PlaySound("igMainMenuOpen")
 	end
 
 	function DBM:ADDON_LOADED(modname)
@@ -1333,19 +1350,55 @@ end
 ------------------
 do
 	local ignore, cancel
-	StaticPopupDialogs["DBM_CONFIRM_IGNORE"] = {
-		preferredIndex = STATICPOPUP_NUMDIALOGS,
-		text = DBM_PIZZA_CONFIRM_IGNORE,
-		button1 = YES,
-		button2 = NO,
-		OnAccept = function(self)
-			DBM:AddToPizzaIgnore(ignore)
-			DBM.Bars:CancelBar(cancel)
-		end,
-		timeout = 0,
-		hideOnEscape = 1
-	}
-	
+	local popuplevel = 0
+	local function showPopupConfirmIgnore(ignore, cancel)
+		local popup = CreateFrame("Frame", nil, UIParent)
+		popup:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+			tile = true, tileSize = 16, edgeSize = 16,
+			insets = {left = 1, right = 1, top = 1, bottom = 1}}
+		)
+		popup:SetSize(500, 80)
+		popup:SetPoint("TOP", UIParent, "TOP", 0, -200)
+		popup:SetFrameStrata("DIALOG")
+		popup:SetFrameLevel(popuplevel)
+		popuplevel = popuplevel + 1
+
+		local text = popup:CreateFontString()
+		text:SetFontObject(ChatFontNormal)
+		text:SetWidth(470)
+		text:SetWordWrap(true)
+		text:SetPoint("TOP", popup, "TOP", 0, -15)
+		text:SetText(DBM_PIZZA_CONFIRM_IGNORE:format(ignore))
+
+		local accept = CreateFrame("Button", nil, popup)
+		accept:SetNormalTexture("Interface\\Buttons\\UI-DialogBox-Button-Up")
+		accept:SetPushedTexture("Interface\\Buttons\\UI-DialogBox-Button-Down")
+		accept:SetHighlightTexture("Interface\\Buttons\\UI-DialogBox-Button-Highlight", "ADD")
+		accept:SetSize(128, 35)
+		accept:SetPoint("BOTTOM", popup, "BOTTOM", -75, 0)
+		accept:SetScript("OnClick", function(f) DBM:AddToPizzaIgnore(ignore) DBM.Bars:CancelBar(cancel) f:GetParent():Hide() end)
+
+		local atext = accept:CreateFontString()
+		atext:SetFontObject(ChatFontNormal)
+		atext:SetPoint("CENTER", accept, "CENTER", 0, 5)
+		atext:SetText(YES)
+
+		local decline = CreateFrame("Button", nil, popup)
+		decline:SetNormalTexture("Interface\\Buttons\\UI-DialogBox-Button-Up")
+		decline:SetPushedTexture("Interface\\Buttons\\UI-DialogBox-Button-Down")
+		decline:SetHighlightTexture("Interface\\Buttons\\UI-DialogBox-Button-Highlight", "ADD")
+		decline:SetSize(128, 35)
+		decline:SetPoint("BOTTOM", popup, "BOTTOM", 75, 0)
+		decline:SetScript("OnClick", function(f) f:GetParent():Hide() end)
+
+		local dtext = decline:CreateFontString()
+		dtext:SetFontObject(ChatFontNormal)
+		dtext:SetPoint("CENTER", decline, "CENTER", 0, 5)
+		dtext:SetText(NO)
+		PlaySound("igMainMenuOpen")
+	end
+
 	local function linkHook(self, link, string, button, ...)
 		local linkType, arg1, arg2, arg3 = strsplit(":", link)
 		if linkType ~= "DBM" then
@@ -1356,7 +1409,7 @@ do
 		elseif arg1 == "ignore" then
 			cancel = link:match("DBM:ignore:(.+):[^%s:]+$")
 			ignore = link:match(":([^:]+)$")
-			StaticPopup_Show("DBM_CONFIRM_IGNORE", ignore)
+			showPopupConfirmIgnore(ignore, cancel)
 		elseif arg1 == "update" then
 			DBM:ShowUpdateReminder(arg2, arg3) -- displayVersion, revision
 		elseif arg1 == "forums" then
@@ -1507,7 +1560,6 @@ do
 	
 	local raidUIds = {}
 	local raidGuids = {}
-	local raidShortNames = {}
 	
 
 	--	save playerinfo into raid table on load. (for solo raid)
@@ -1527,14 +1579,12 @@ do
 				raid[playerName].locale = GetLocale()
 				raidUIds["player"] = playerName
 				raidGuids[UnitGUID("player")] = playerName
-				raidShortNames[playerName] = playerName
 			end
 		end)
 	end)
 
 	local function updateAllRoster()
 		if IsInRaid() then
-			twipe(raidShortNames)
 			enableIcons = false
 			local latestRevision = tonumber(DBM.Revision)
 			if not inRaid then
@@ -1569,11 +1619,6 @@ do
 					raid[name].updated = true
 					raidUIds[id] = name
 					raidGuids[UnitGUID(id) or ""] = name
-					if not raidShortNames[shortname] then
-						raidShortNames[shortname] = name
-					else
-						raidShortNames[shortname] = DBM_CORE_GENERIC_WARNING_DUPLICATE:format(name:gsub("%-.*$", ""))
-					end
 					--Something is wrong here, need to investigate. I watched MULTIPLE revisions OLDER than mine setting icons, revisions that HAVE this change. it is NOT disabling icons for revisions. I am seeing 5.2.3 release set icons when i have 5.2.4 alpha, even some 5.2.2 alphas setting icons when there is a 5.2.3 and 5.2.4 alpha in raid. this should not happen!
 					--Maybe this improve wrong icon setting? (but, older verison also to be updated)
 					if raid[name].revision and raid[name].revision > tonumber(DBM.Revision) then
@@ -1588,7 +1633,6 @@ do
 				if not v.updated then
 					raidUIds[v.id] = nil
 					raidGuids[v.guid] = nil
-					raidShortNames[v.shortname] = nil
 					raid[i] = nil
 					fireEvent("raidLeave", i)
 				else
@@ -1596,7 +1640,6 @@ do
 				end
 			end
 		elseif IsInGroup() then
-			twipe(raidShortNames)
 			if not inRaid then
 				-- joined a new party
 				inRaid = true
@@ -1636,17 +1679,11 @@ do
 				raid[name].updated = true
 				raidUIds[id] = name
 				raidGuids[UnitGUID(id) or ""] = name
-				if not raidShortNames[shortname] then
-					raidShortNames[shortname] = name
-				else
-					raidShortNames[shortname] = DBM_CORE_GENERIC_WARNING_DUPLICATE:format(name:gsub("%-.*$", ""))
-				end
 			end
 			for i, v in pairs(raid) do
 				if not v.updated then
 					raidUIds[v.id] = nil
 					raidGuids[v.guid] = nil
-					raidShortNames[v.shortname] = nil
 					raid[i] = nil
 					fireEvent("partyLeave", i)
 				else
@@ -1673,7 +1710,6 @@ do
 			raid[playerName].locale = GetLocale()
 			raidUIds["player"] = playerName
 			raidGuids[UnitGUID("player")] = playerName
-			raidShortNames[playerName] = playerName
 		end
 	end
 
@@ -1715,10 +1751,6 @@ do
 
 	function DBM:GetRaidUnitId(name)
 		return raid[name] and raid[name].id
-	end
-
-	function DBM:GetFullNameByShortName(name)
-		return raidShortNames[name]
 	end
 
 	function DBM:GetUnitFullName(uId)
@@ -2470,27 +2502,77 @@ do
 	-- beware, ugly and missplaced code ahead
 	-- todo: move this somewhere else
 	do
-		local accessList
+		local accessList = {}
+		local savedSender
 
-		StaticPopupDialogs["DBM_INSTANCE_ID_PERMISSION"] = {
-			preferredIndex = STATICPOPUP_NUMDIALOGS,
-			text = DBM_REQ_INSTANCE_ID_PERMISSION,
-			button1 = YES,
-			button2 = NO,
-			OnAccept = function(self)
-				accessList[self.data] = true
-				syncHandlers["IR"](self.data) -- just call the sync handler again, the sender is now on the accessList and the requested data will be sent
-			end,
-			OnCancel = function(self, data, reason)
-				SendAddonMessage("D4", "II\t" .. (reason or "unknown"), "WHISPER", self.data) -- some events might
-			end,
-			timeout = 59,
-			hideOnEscape = 1,
-			noCancelOnReuse = 1,
-			multiple = 1,
-			showAlert = 1,
-			whileDead = 1
-		}
+		local inspopup = CreateFrame("Frame", "DBMINSTANCEPOPUP", UIParent)
+		inspopup:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+			tile = true, tileSize = 16, edgeSize = 16,
+			insets = {left = 1, right = 1, top = 1, bottom = 1}}
+		)
+		inspopup:SetSize(500, 120)
+		inspopup:SetPoint("TOP", UIParent, "TOP", 0, -200)
+		inspopup:SetFrameStrata("DIALOG")
+
+		local inspopuptext = inspopup:CreateFontString()
+		inspopuptext:SetFontObject(ChatFontNormal)
+		inspopuptext:SetWidth(470)
+		inspopuptext:SetWordWrap(true)
+		inspopuptext:SetPoint("TOP", inspopup, "TOP", 0, -15)
+
+		local buttonaccept = CreateFrame("Button", nil, inspopup)
+		buttonaccept:SetNormalTexture("Interface\\Buttons\\UI-DialogBox-Button-Up")
+		buttonaccept:SetPushedTexture("Interface\\Buttons\\UI-DialogBox-Button-Down")
+		buttonaccept:SetHighlightTexture("Interface\\Buttons\\UI-DialogBox-Button-Highlight", "ADD")
+		buttonaccept:SetSize(128, 35)
+		buttonaccept:SetPoint("BOTTOM", inspopup, "BOTTOM", -75, 0)
+
+		local buttonatext = buttonaccept:CreateFontString()
+		buttonatext:SetFontObject(ChatFontNormal)
+		buttonatext:SetPoint("CENTER", buttonaccept, "CENTER", 0, 5)
+		buttonatext:SetText(YES)
+
+		local buttondecline = CreateFrame("Button", nil, inspopup)
+		buttondecline:SetNormalTexture("Interface\\Buttons\\UI-DialogBox-Button-Up")
+		buttondecline:SetPushedTexture("Interface\\Buttons\\UI-DialogBox-Button-Down")
+		buttondecline:SetHighlightTexture("Interface\\Buttons\\UI-DialogBox-Button-Highlight", "ADD")
+		buttondecline:SetSize(128, 35)
+		buttondecline:SetPoint("BOTTOM", inspopup, "BOTTOM", 75, 0)
+
+		local buttondtext = buttondecline:CreateFontString()
+		buttondtext:SetFontObject(ChatFontNormal)
+		buttondtext:SetPoint("CENTER", buttondecline, "CENTER", 0, 5)
+		buttondtext:SetText(NO)
+
+		inspopup:Hide()
+
+		local function autoDecline(sender, force)
+			inspopup:Hide()
+			savedSender = nil
+			if force then
+				SendAddonMessage("D4", "II\t" .. "denied", "WHISPER", sender)
+			else
+				SendAddonMessage("D4", "II\t" .. "timeout", "WHISPER", sender)
+			end
+		end
+
+		local function showPopupInstanceIdPermission(sender)
+			DBM:Unschedule(autoDecline)
+			DBM:Schedule(59, autoDecline, sender)
+			inspopup:Hide()
+			if savedSender ~= sender then 
+				if savedSender then
+					autoDecline(savedSender, 1) -- Do not allow multiple popups, so auto decline to previous sender.
+				end
+				savedSender = sender
+			end
+			inspopuptext:SetText(DBM_REQ_INSTANCE_ID_PERMISSION:format(sender, sender))
+			buttonaccept:SetScript("OnClick", function(f) savedSender = nil DBM:Unschedule(autoDecline) accessList[sender] = true syncHandlers["IR"](sender) f:GetParent():Hide() end)
+			buttondecline:SetScript("OnClick", function(f) autoDecline(sender, 1) end)
+			PlaySound("igMainMenuOpen")
+			inspopup:Show()
+		end
 
 		syncHandlers["IR"] = function(sender)
 			if DBM:GetRaidRank(sender) == 0 or sender == playerName then
@@ -2499,7 +2581,7 @@ do
 			accessList = accessList or {}
 			if not accessList[sender] then
 				-- ask for permission
-				StaticPopup_Show("DBM_INSTANCE_ID_PERMISSION", sender, sender, sender)
+				showPopupInstanceIdPermission(sender)
 				return
 			end
 			-- okay, send data
@@ -2519,9 +2601,11 @@ do
 		end
 
 		syncHandlers["IRE"] = function(sender)
-			local popup = StaticPopup_FindVisible("DBM_INSTANCE_ID_PERMISSION", sender)
-			if popup and popup.data == sender then -- found the popup with the correct data (StaticPopup_FindVisible already checks the data (but only if multiple is set), check it again to be safe is the function changes or something...)
-				popup:Hide()
+			local popup = DBMINSTANCEPOPUP:IsShown()
+			if popup and savedSender == sender then -- found the popup with the correct data
+				savedSender = nil
+				DBM:Unschedule(autoDecline)
+				DBMINSTANCEPOPUP:Hide()
 			end
 		end
 
@@ -3673,7 +3757,7 @@ end
 function DBM:GetCurrentInstanceDifficulty()
 	local _, instanceType, difficulty, difficultyName, maxPlayers, _, _, _, instanceGroupSize = GetInstanceInfo()
 	if difficulty == 0 then
-		return "worldboss", DBM_CORE_WORLD_BOSS.." - "
+		return "worldboss", RAID_INFO_WORLD_BOSS.." - "
 	elseif difficulty == 1 then
 		return "normal5", difficultyName.." - "
 	elseif difficulty == 2 then
@@ -4048,6 +4132,11 @@ do
 		return DBM.Options.FilterSayAndYell and #inCombat > 0, ...
 	end
 
+	--This is the source of the taints. As well as function DBM:AddMsg(text, prefix) function
+	--It's also required and impossible to avoid since we need this stuff
+	--This taint LOOKS like a StaticPopupDialog taint but it is not. That taint was actaully fixed in 5.3
+	--Install http://www.wowace.com/addons/notaint/ which embeds libchatanims to fix problem.
+	--Additional information at http://www.wowace.com/addons/libchatanims/
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", filterOutgoing)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filterOutgoing)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterIncoming)
@@ -4588,8 +4677,9 @@ function bossModPrototype:checkTankDistance(cid, distance)
 			SetMapToCurrentZone()
 			x, y = GetPlayerMapPosition(uId)
 		end
+		if x == 0 and y == 0 then return true end
 		local inRange = DBM.RangeCheck:GetDistance("player", x, y)--We check how far we are from the tank who has that boss
-		if (inRange and inRange > distance) or not (x == 0 and y == 0) then--You are not near the person tanking boss
+		if (inRange and inRange > distance) then--You are not near the person tanking boss
 			return false
 		end
 	end
@@ -6014,7 +6104,7 @@ do
 	function timerPrototype:GetTime(...)
 		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
 		local bar = DBM.Bars:GetBar(id)
-		return bar and (bar.totalTime - bar.timer) or 0, (bar and bar.totalTime) or 0
+		return bar and (bar.totalTime - bar.timer) or 0, (bar and bar.totalTime) or 0, (bar and bar.timer) or 0
 	end
 
 	function timerPrototype:IsStarted(...)

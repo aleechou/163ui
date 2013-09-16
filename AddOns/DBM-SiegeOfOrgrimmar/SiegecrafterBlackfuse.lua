@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndFMD	= mod:NewSound(nil, "SoundFMD", mod:IsRangedDps())
 
-mod:SetRevision(("$Revision: 10267 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10295 $"):sub(12, -3))
 mod:SetCreatureID(71504)--71591 Automated Shredder
 mod:SetZone()
 
@@ -35,7 +35,7 @@ local warnDeathFromAbove				= mod:NewTargetAnnounce(144208, 4)--Player target, n
 local warnAssemblyLine					= mod:NewSpellAnnounce("ej8202", 3, 85914)
 local warnShockwaveMissileActivated		= mod:NewSpellAnnounce("ej8204", 3, 143639)--Unsure if this will even show in CLEU, may need UNIT event or emote
 local warnShockwaveMissile				= mod:NewCountAnnounce(143641, 3)
---local warnLaserTurretActivated			= mod:NewSpellAnnounce("ej8208", 3, 143867, false)--Many scripted triggers. gonna need an emote or UNIT_SPELL event for this i'm sure
+--local warnLaserTurretActivated			= mod:NewSpellAnnounce("ej8208", 3, 143867, false)--No event to detect it
 local warnLaserFixate					= mod:NewTargetAnnounce(143828, 3, 143867)--Not in combat log, needs more debugging to find a way around blizz fail
 local warnMagneticCrush					= mod:NewSpellAnnounce(144466, 3)--Unsure if correct ID, could be 143487 instead
 local warnCrawlerMine					= mod:NewSpellAnnounce("ej8212", 3, 144010)--Crawler Mine Spawning

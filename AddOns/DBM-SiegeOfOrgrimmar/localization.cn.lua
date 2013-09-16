@@ -138,7 +138,6 @@ L:SetMiscLocalization({
 	newForces3	= "为了地狱咆哮！",
 	newForces4	= "下一队，前进！",
 	tower		= "塔楼的大门被攻破了！",--The door barring the South/North Tower has been breached!
-	demolisher	= "|h库卡隆投石车|h|r攻击塔楼！"--In case they remove the bad epiccenter spellid will use this
 })
 
 --------------------
@@ -375,9 +374,12 @@ L= DBM:GetModLocalization(869)
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
-})
-
-L:SetMiscLocalization({
+	SoundGC					= "语音警告：$journal:8298相关提示",
+	optDD					= "先祖治疗链打断提示",
+	alldd					= "总是提示(如果你选他為目标或焦点)",
+	DD1						= "单数提示",
+	DD2						= "双数提示",
+	nodd					= "不提示"
 })
 
 -------------

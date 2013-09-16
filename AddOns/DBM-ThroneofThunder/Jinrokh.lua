@@ -296,7 +296,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg:find("spell:137175") then
-		local target = DBM:GetFullNameByShortName(target)
+		local target = DBM:GetUnitFullName(target)
 		warnThrow:Show(target)
 		timerStormCD:Start()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_tt_lttz.mp3") --雷霆投擲

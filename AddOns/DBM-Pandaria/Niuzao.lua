@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10266 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10283 $"):sub(12, -3))
 mod:SetCreatureID(71954)
 mod:SetMinSyncRevision(10162)
 
@@ -10,7 +10,6 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_APPLIED_DOSE",
 	"UNIT_SPELLCAST_SUCCEEDED target focus"
@@ -30,7 +29,8 @@ local specWarnMassiveQuake		= mod:NewSpecialWarningCast(144611, mod:IsHealer())
 local specWarnCharge			= mod:NewSpecialWarningSpell(144609, nil, nil, nil, 2)--66 and 33%. Maybe add pre warns
 
 local timerHeadbuttCD			= mod:NewCDTimer(47, 144610, nil, mod:IsTank())
-local timerMassiveQuakeCD		= mod:NewCDTimer(48, 137511)
+local timerMassiveQuake			= mod:NewBuffActiveTimer(13, 144611)
+local timerMassiveQuakeCD		= mod:NewCDTimer(48, 144611)
 
 local yellTriggered = false
 
@@ -49,24 +49,21 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 144610 then
 		warnHeadbutt:Show()
 		specWarnHeadbutt:Show()
-		if mod:IsTank() or mod:IsHealer() then
+		if mod:IsTank() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 		end
 		timerHeadbuttCD:Start()
 	elseif args.spellId == 144611 then
 		warnMassiveQuake:Show()
 		specWarnMassiveQuake:Show()
+		timerMassiveQuake:Start()
 		if mod:IsHealer() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\healall.mp3") --注意群療
 		else
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --准备AOE
 		end
 		timerMassiveQuakeCD:Start()
-	end
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 144609 then
+	elseif args.spellId == 144608 then
 		warnCharge:Show()
 		specWarnCharge:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\chargemove.mp3") --衝鋒快躲

@@ -513,7 +513,7 @@ end
 
 function mod:OnSync(msg, target)
 	if msg == "ChargeTo" and target then
-		local target = DBM:GetFullNameByShortName(target)
+		local target = DBM:GetUnitFullName(target)
 		warnCharge:Show(target)
 		timerCharge:Start()
 		timerChargeCD:Start()
@@ -575,7 +575,7 @@ function mod:OnSync(msg, target)
 			end
 		end
 	elseif msg == "Sand" and target then
-		local target = DBM:GetFullNameByShortName(target)
+		local target = DBM:GetUnitFullName(target)
 		if target == UnitName("player") then
 			specWarnSandTrapYou:Show()
 			yellSandTrap:Yell()

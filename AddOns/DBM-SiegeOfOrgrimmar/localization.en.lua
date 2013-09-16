@@ -133,12 +133,12 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	newForces1	= "Here they come!",--Jaina's line, horde may not be same
+	newForces1	= "Here they come!",--Jaina's line, alliance
+	newForces1H	= "Bring her down quick so i can wrap my fingers around her neck.",--Sylva's line, horde
 	newForces2	= "Dragonmaw, advance!",
 	newForces3	= "For Hellscream!",
 	newForces4	= "Next squad, push forward!",
-	tower		= "The door barring the",--The door barring the South/North Tower has been breached!
-	demolisher	= "[Kor'kron Demolisher]|h|r to assault the tower!"--In case they remove the bad epiccenter spellid will use this
+	tower		= "The door barring the"--The door barring the South/North Tower has been breached!
 })
 
 --------------------

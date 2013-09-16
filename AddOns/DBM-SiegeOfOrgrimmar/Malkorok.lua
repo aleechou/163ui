@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(846, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10243 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10282 $"):sub(12, -3))
 mod:SetCreatureID(71454)
 mod:SetZone()
 
@@ -45,7 +45,7 @@ local timerBloodRageCD					= mod:NewNextTimer(124.7, 142879)
 local timerArcingSmashCD				= mod:NewNextCountTimer(17.5, 142815)--17-18 variation (the 23 second ones are delayed by Breath of Yshaarj)
 local timerImplodingEnergy				= mod:NewCastTimer(10, 142986)--Always 10 seconds after arcing
 local timerSeismicSlamCD				= mod:NewNextCountTimer(17.5, 142851)--Works exactly same as arcingsmash 18 sec unless delayed by breath. two sets of 3
-local timerBreathofYShaarjCD			= mod:NewNextCountTimer(59, 142842)
+local timerBreathofYShaarjCD			= mod:NewNextCountTimer(70, 142842)
 local timerFatalStrike					= mod:NewTargetTimer(30, 142990, nil, mod:IsTank())
 
 local berserkTimer						= mod:NewBerserkTimer(360)
@@ -130,10 +130,10 @@ function mod:OnCombatStart(delay)
 	timerSeismicSlamCD:Start(5-delay, 1)
 	timerArcingSmashCD:Start(11-delay, 1)
 	timerBreathofYShaarjCD:Start(-delay, 1)
-	sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
-	sndWOP:Schedule(59.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-	sndWOP:Schedule(60.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-	sndWOP:Schedule(61.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+	sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
+	sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+	sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+	sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	timerBloodRageCD:Start(122-delay)
 	if self:IsDifficulty("lfr25") then
 		berserkTimer:Start(720-delay)
@@ -172,10 +172,10 @@ function mod:SPELL_CAST_START(args)
 			timerSeismicSlamCD:Start(5, 1)
 			timerArcingSmashCD:Start(11, 1)
 			timerBreathofYShaarjCD:Start(nil, 2)
-			sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
-			sndWOP:Schedule(59.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(60.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(61.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
+			sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	elseif args.spellId == 143199 then
 		breathCast = 0
@@ -185,11 +185,11 @@ function mod:SPELL_CAST_START(args)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\scattersoon.mp3")--注意分散
 		timerSeismicSlamCD:Start(5, 1)
 		timerArcingSmashCD:Start(11, 1)
-		timerBreathofYShaarjCD:Start()
-		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
-		sndWOP:Schedule(59.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(60.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(61.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		timerBreathofYShaarjCD:Start(nil, 1)
+		sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yszb.mp3") --亞煞極之息準備
+		sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerBloodRageCD:Start()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(5)
@@ -243,14 +243,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 		self:Unschedule(warnDisplacedEnergyTargets)
-		self:Schedule(0.3, warnDisplacedEnergyTargets)
+		self:Schedule(0.5, warnDisplacedEnergyTargets)
 	elseif args.spellId == 142990 then
 		local amount = args.amount or 1
-		if amount % 3 == 0 or amount >= 12 then
+		if amount % 3 == 0 then
 			warnFatalStrike:Show(args.destName, amount)
 		end
 		timerFatalStrike:Start(args.destName)
-		if amount >= 12 then
+		if amount % 3 == 0 and amount >= 12 then
 			if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 				specWarnFatalStrike:Show(amount)
 			else--Taunt as soon as stacks are clear, regardless of stack count.
