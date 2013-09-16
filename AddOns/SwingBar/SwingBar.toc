@@ -1,8 +1,0 @@
-## Interface: 50400
-## Notes: 显示普通攻击的的进度
-## Author: 独孤傲雪,Warbaby
-
-SwingBar.lua
-
-## Title: |cff880303[网易有爱]|r SwingBar
-## X-Vendor: NetEase

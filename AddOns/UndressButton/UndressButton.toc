@@ -1,8 +1,0 @@
-## Interface: 50400
-## Author: haxninja
-## Title: |cFFFFFFFF[A]|rUndressButton
-## Notes: Enhances the Dressing Room with additional buttons.
-UndressButton.xml
-
-## Title: |cff880303[网易有爱]|r UndressButton
-## X-Vendor: NetEase
