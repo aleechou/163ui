@@ -287,7 +287,18 @@ function XP:OnRepEvent(event)
 end
 
 function XP:UpdateReputation()
-	local name, reaction, min, max, value = GetWatchedFactionInfo()
+	local name, reaction, min, max, value, factionID = GetWatchedFactionInfo()
+	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
+	
+	if friendID then 
+	   if nextFriendThreshold then
+	       min, max, value = friendThreshold, nextFriendThreshold, friendRep
+	   else
+	       -- max rank, make it look like a full bar
+	       min, max, value = 0, 1, 1;
+	   end
+	end
+
 	max = max - min
 	value = value - min
 
@@ -304,7 +315,12 @@ function XP:UpdateReputation()
 	textEnv.repMax = max
 	textEnv.tnl = max - value
 	textEnv.pct = round(value / max * 100)
-	textEnv.repLevel = _G['FACTION_STANDING_LABEL' .. reaction]
+	if friendID then
+		textEnv.repLevel = friendTextLevel
+	else
+		textEnv.repLevel = _G['FACTION_STANDING_LABEL' .. reaction]
+	end
+
 
 	local getRepText = assert(loadstring(self:GetRepFormat(), "getRepText"))
 	setfenv(getRepText, textEnv)
