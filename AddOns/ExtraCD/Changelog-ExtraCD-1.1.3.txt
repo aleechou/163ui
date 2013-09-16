@@ -1,0 +1,129 @@
+------------------------------------------------------------------------
+r115 | superk521 | 2013-05-25 11:09:45 +0000 (Sat, 25 May 2013) | 9 lines
+Changed paths:
+   A /tags/1.1.3 (from /trunk:114)
+
+tag as version 1.1.3
+add new pvp weapon enchants
+before a combat start, if the proc rate reaches 100%, display "max" instead of multiples of the rate
+fix spell ids for healer's meta gem
+fix a bug that sorting data can not be saved after gears change
+fix for that it displays an error text after mage's Alter Time ability removed
+fix for "Load Config" button not working
+
+
+------------------------------------------------------------------------
+r114 | superk521 | 2013-05-25 10:13:17 +0000 (Sat, 25 May 2013) | 4 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+fix healer's meta gem
+fix a bug that sorting data can not be saved after gears change
+fix for all icons that display a error text after mage's Alter Time ability removed(need testing)
+
+------------------------------------------------------------------------
+r113 | superk521 | 2013-05-24 17:13:19 +0000 (Fri, 24 May 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+before a combat start, if the proc rate reaches 100%, display "max" instead of multiples of the rate
+------------------------------------------------------------------------
+r112 | superk521 | 2013-05-24 12:26:28 +0000 (Fri, 24 May 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+add algorithm for max proc rate when it reachs 100% out of combat
+------------------------------------------------------------------------
+r111 | superk521 | 2013-05-24 10:16:58 +0000 (Fri, 24 May 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+add algorithm for max proc rate when it reachs 100% out of combat
+------------------------------------------------------------------------
+r110 | superk521 | 2013-05-24 09:43:13 +0000 (Fri, 24 May 2013) | 1 line
+Changed paths:
+   M /trunk/data.lua
+
+add Bloody Dancing Steel and Conquest of Spirit (no testing)
+------------------------------------------------------------------------
+r109 | superk521 | 2013-05-23 20:02:34 +0000 (Thu, 23 May 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/ExtraCD.toc
+
+update for patch 5.3
+------------------------------------------------------------------------
+r108 | superk521 | 2013-05-15 11:49:05 +0000 (Wed, 15 May 2013) | 1 line
+Changed paths:
+   M /trunk/data.lua
+
+fix spell id for healer's legendary gem
+------------------------------------------------------------------------
+r106 | superk521 | 2013-05-03 06:38:57 +0000 (Fri, 03 May 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+add event SPELL_AURA_APPLIED_DOSE to fix Primordius' Talisman of Rage and the similar
+now the time is rounded down instead of rounded to neareast
+------------------------------------------------------------------------
+r104 | superk521 | 2013-05-01 10:03:58 +0000 (Wed, 01 May 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/data.lua
+
+bug fix
+
+------------------------------------------------------------------------
+r103 | superk521 | 2013-05-01 09:47:30 +0000 (Wed, 01 May 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/Locales/enUS.lua
+   M /trunk/Locales/zhCN.lua
+   M /trunk/Locales/zhTW.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+update for update for 1.1.2
+5.add rppm trinkets and meta gems
+------------------------------------------------------------------------
+r102 | superk521 | 2013-05-01 03:29:26 +0000 (Wed, 01 May 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+bug fix
+------------------------------------------------------------------------
+r101 | superk521 | 2013-04-30 17:23:40 +0000 (Tue, 30 Apr 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+bug fix
+------------------------------------------------------------------------
+r100 | superk521 | 2013-04-30 09:29:07 +0000 (Tue, 30 Apr 2013) | 3 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/Locales/enUS.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+update for 1.1.2
+3.show the multiples of the proc chance for rppm items
+4.algorithm optimization:reuse icon frames and reduce the time for equip check 
+------------------------------------------------------------------------
+r99 | superk521 | 2013-04-29 09:19:34 +0000 (Mon, 29 Apr 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+update 1.1.2
+2.now default profiles are character specific(delete old profiles after this update)
+------------------------------------------------------------------------
+r98 | superk521 | 2013-04-25 15:26:21 +0000 (Thu, 25 Apr 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+updating for rppm-trinket:
+1.only show glow at proc for sustained effects, and only show glow at triggerabe for non-sustained effects
+------------------------------------------------------------------------

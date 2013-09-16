@@ -1,0 +1,17 @@
+## Interface: 50400
+## LoadOnDemand: 0
+## Title: Trade Forwarder
+# Title-zhCN: |cff880303[网易有爱]|r 交易频道转发
+## Notes: Receive Trade channel messages wherever you are!!
+## Notes-zhTW: 讓你隨時隨地接收交易頻道信息!!
+## Notes-zhCN: 让你随时随地接收交易频道信息!!
+## Author: Warbaby@163.com
+## Version: 2.20
+## OptionalDeps: Traditionalize, ChatLink, IgnoreMore, AshChat, WIM
+## SavedVariables: TFW_CHAT_LIST, TFW_knownMaxVersion, TFW_SHOW, TFW_AUTO, TFW_INCOMING_MIN
+
+TradeForwarder.lua
+
+
+## Title: |cff880303[网易有爱]|r TradeForwarder
+## X-Vendor: NetEase

@@ -1,0 +1,6 @@
+<Ui>
+<Include file="AceAddon-3.0\AceAddon-3.0.xml"/>
+<Include file="AceEvent-3.0\AceEvent-3.0.xml"/>
+<Include file="AceLocale-3.0\AceLocale-3.0.xml"/>
+<Include file="AceTimer-3.0\AceTimer-3.0.xml"/>
+</Ui>

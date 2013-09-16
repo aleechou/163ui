@@ -1,0 +1,17 @@
+## Interface: 50400
+## Author: kunda
+## Version: 50100-1
+## SavedVariables: EnhancedTradeSkillUI_Options
+## X-Curse-Packaged-Version: 50100-1
+## X-Curse-Project-Name: EnhancedTradeSkillUI
+## X-Curse-Project-ID: enhanced-trade-skill-ui
+## X-Curse-Repository-ID: wow/enhanced-trade-skill-ui/mainline
+
+EnhancedTradeSkillUI-localization-enUS.lua
+EnhancedTradeSkillUI-localization-zhTW.lua
+EnhancedTradeSkillUI-localization-zhCN.lua
+
+EnhancedTradeSkillUI.lua
+
+## Title: |cff880303[网易有爱]|r EnhancedTradeSkillUI
+## X-Vendor: NetEase

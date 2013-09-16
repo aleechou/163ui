@@ -1,0 +1,13 @@
+## Interface: 30200
+## Title: Lib: AceGUI-3.0-Spell-EditBox
+## Notes: Adds predicted lists for spells while the user types
+## Author: Shadowed
+## X-Category: Library
+## OptionalDeps: Ace3
+## X-Curse-Packaged-Version: r20090807071246
+## X-Curse-Project-Name: AceGUI-3.0-Spell-EditBox
+## X-Curse-Project-ID: ace-gui-3-0-spell-editbox
+## X-Curse-Repository-ID: wow/ace-gui-3-0-spell-editbox/mainline
+
+AceGUI-3.0-Spell-EditBox.xml
+## test.lua

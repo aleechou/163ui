@@ -1,0 +1,31 @@
+## Interface: 50400
+## X-Curse-Packaged-Version: 0.7.10
+## X-Curse-Project-Name: JPack
+## X-Curse-Project-ID: jpack
+## X-Curse-Repository-ID: wow/jpack/mainline
+
+## Title: JPack
+## Notes: Quick (re)sort out your items in your bags/bank/guildbank!
+## Notes-zhCN: 背包整理
+## Version: 0.7.9
+## SavedVariables: JPackDB
+## Author: Jason Green, yleaf, 阳一
+## OptionalDeps: tekDebug
+## X-ProjectHome: http://wow.curseforge.com/addons/jpack/
+
+
+localization\locales.xml
+JPack.lua
+
+JPackConfig.lua
+
+#@debug@
+# ex\localization.lua
+# ex\JPack_Ex.lua
+# broker\core.lua
+#@end-debug@
+
+## Title: |cff880303[网易有爱]|r JPack
+## X-Vendor: NetEase
+JPack_Ex.lua
+JPack_Broker.lua

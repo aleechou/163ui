@@ -1,0 +1,19 @@
+## Interface: 50400
+## Author: Evilsithgirl (Reckoning-Mannoroth-US)
+## Version: 1.3
+## Grid Author: Pastamancer & Maia
+## Dependencies: GridStatusRaidDebuff
+## X-Curse-Packaged-Version: r23
+## X-Curse-Project-Name: GridStatusRD_MoP
+## X-Curse-Project-ID: gridstatusrd_mop
+## X-Curse-Repository-ID: wow/gridstatusrd_mop/mainline
+
+CheckCompat.lua
+MogushanVaults.lua
+HeartOfFear.lua
+ShaofAnger.lua
+TerraceofEndlessSpring.lua
+ThroneofThunder.lua
+
+## Title: |cff880303[网易有爱]|r GridStatusRD_MoP
+## X-Vendor: NetEase

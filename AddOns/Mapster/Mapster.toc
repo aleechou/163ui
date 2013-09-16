@@ -1,0 +1,30 @@
+## Interface: 50400
+## Author: Nevcairiel
+## SavedVariables: MapsterDB
+## X-Category: Map
+## Version: 1.5.2-4-gf4c5dcc
+## X-License: All rights reserved.
+## X-Curse-Packaged-Version: 1.5.2-4-gf4c5dcc
+## X-Curse-Project-Name: Mapster
+## X-Curse-Project-ID: mapster
+## X-Curse-Repository-ID: wow/mapster/mainline
+
+## OptionalDeps: Ace3, LibWindow-1.1
+
+Libs\LibWindow-1.1\LibWindow-1.1.lua
+
+Locale\locale.xml
+
+Mapster.lua
+Config.lua
+
+Coords.lua
+GroupIcons.lua
+BattleMap.lua
+FogClear.lua
+InstanceMaps.lua
+Scaling.lua
+
+## Title: |cff880303[网易有爱]|r Mapster
+## X-Vendor: NetEase
+## OptionalDeps: LibBabble-3.0

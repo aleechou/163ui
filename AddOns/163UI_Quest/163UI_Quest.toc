@@ -1,0 +1,7 @@
+## Interface: 50400
+## Notes: 任务物品价格显示，及半自动交接任务功能
+## Author: Abin,Warbaby
+163UI_Quest.lua
+
+## Title: |cff880303[网易有爱]|r 163UI_Quest
+## X-Vendor: NetEase

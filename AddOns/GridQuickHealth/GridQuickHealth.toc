@@ -1,0 +1,11 @@
+## Interface: 50400
+# Title: Grid_QuickHealth
+# Notes: Makes grid QuickHealth aware
+## Author: Cncfanatics, Tifi
+## Dependencies: Grid
+
+# libs\LibQuickHealth-2.0\LibQuickHealth-2.0.lua
+GridQuickHealth.lua
+
+## Title: |cff880303[网易有爱]|r GridQuickHealth
+## X-Vendor: NetEase

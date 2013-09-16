@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: WhisperPop
+## Version: 3.1
+## Author: Abin
+## X-Category: Chat/Communication
+## SavedVariables: WhisperPopDB
+
+Includes\VirtualScrollList-1.0.lua
+Localization.lua
+WhisperPop.lua
+MainFrame.lua
+MessageFrame.lua
+OptionFrame.lua
+
+## Title: |cff880303[网易有爱]|r WhisperPop
+## X-Vendor: NetEase

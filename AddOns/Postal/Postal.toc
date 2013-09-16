@@ -1,0 +1,32 @@
+## Interface: 50400
+## Version: 3.5.1
+## Author: Xinhuan
+## X-Credits: Ammo, Rabbit, Grennon, Mikk
+## X-Category: Mail
+## OptionalDeps: Ace3, !BlizzBugsSuck, !ClassColors
+## SavedVariables: Postal3DB
+## X-Curse-Packaged-Version: v3.5.1
+## X-Curse-Project-Name: Postal
+## X-Curse-Project-ID: postal
+## X-Curse-Repository-ID: wow/postal/mainline
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Mailbox: true
+## X-Email: xinhuan AT gmail DOT com
+
+Localization.lua
+Postal.lua
+
+# Users can comment out any module (or delete the .lua) of any module they do not wish to load
+Modules\Express.lua
+Modules\OpenAll.lua
+Modules\Wire.lua
+Modules\Select.lua
+Modules\TradeBlock.lua
+Modules\Rake.lua
+Modules\BlackBook.lua
+Modules\DoNotWant.lua
+Modules\CarbonCopy.lua
+
+## Title: |cff880303[网易有爱]|r Postal
+## X-Vendor: NetEase

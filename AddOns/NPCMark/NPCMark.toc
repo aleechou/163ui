@@ -1,0 +1,12 @@
+## Interface: 50400
+## Version: 0.1.4
+## Author: Terry
+## Notes-zhCN: 在大地图上标记NPC的坐标点。
+## Notes-zhTW: 在大地圖上標記NPC的座標點。
+## SavedVariables: NPCMarkDB, MapMarkHide
+
+NPCMark.xml
+
+
+## Title: |cff880303[网易有爱]|r NPCMark
+## X-Vendor: NetEase

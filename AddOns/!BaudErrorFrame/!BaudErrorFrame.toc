@@ -1,0 +1,11 @@
+## Interface: 50400
+## Title: !BaudErrorFrame
+## Notes: Improved error reporting.
+## Author: Baudzilla
+## Version: 1.3
+## SavedVariables: BaudErrorFrameConfig
+
+BaudErrorFrame.xml
+
+## Title: |cff880303[网易有爱]|r !BaudErrorFrame
+## X-Vendor: NetEase

@@ -1,0 +1,109 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+  <Frame name="NxFrame">
+		<Scripts>
+			<OnLoad>
+        if Nx and not Nx.NXVerOld then
+          Nx:NXOnLoad (self)
+        else
+          this:Hide()
+        end
+			</OnLoad>
+			<OnEvent>
+				Nx:NXOnEvent (event, ...)
+			</OnEvent>
+      <OnUpdate>
+        Nx:NXOnUpdate (elapsed)
+      </OnUpdate>
+    </Scripts>
+	</Frame>
+
+  <Slider name="NxSliderFrame" orientation="HORIZONTAL" virtual="true">
+    <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+      <EdgeSize>
+        <AbsValue val="8"/>
+      </EdgeSize>
+      <TileSize>
+        <AbsValue val="8"/>
+      </TileSize>
+      <BackgroundInsets>
+        <AbsInset left="3" right="3" top="6" bottom="6"/>
+      </BackgroundInsets>
+    </Backdrop>
+    <ThumbTexture file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+      <Size>
+        <AbsDimension x="32" y="32"/>
+      </Size>
+    </ThumbTexture>
+  </Slider>
+
+  <ScrollFrame name="NxQuestDetails" inherits="UIPanelScrollFrameTemplate" virtual="true">
+    <Size>
+      <AbsDimension x="298" y="334"/>
+    </Size>
+    <Anchors>
+      <Anchor point="TOPLEFT">
+        <Offset>
+          <AbsDimension x="19" y="-76"/>
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <ScrollChild>
+      <Frame name="NXQuestLogDetailScrollChildFrame">
+        <Size>
+          <AbsDimension x="298" y="333"/>
+        </Size>
+      </Frame>
+    </ScrollChild>
+  </ScrollFrame>
+
+	<Button name="NXMiniMapBut" parent="Minimap" toplevel="true" hidden="false" frameStrata="LOW" enableMouse="true" movable="true">
+
+		<NormalTexture file="Interface\AddOns\Carbonite\Gfx\MMBut"/>
+		<PushedTexture alphaMode="ADD" file="Interface\AddOns\Carbonite\Gfx\MMBut"/>
+		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Scripts>
+			<OnEnter>
+        Nx.NXMiniMapBut:NXOnEnter (self)
+      </OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnLoad>
+        self:RegisterForClicks ("LeftButtonUp", "MiddleButtonUp", "RightButtonUp")
+      </OnLoad>
+			<OnClick>
+        Nx.NXMiniMapBut:NXOnClick (button, down)
+			</OnClick>
+			<OnMouseUp>
+        self:StopMovingOrSizing()
+        self.NXDrag = false
+      </OnMouseUp>
+			<OnDragStart>
+				if button == "LeftButton" and IsShiftKeyDown() then
+					self:StartMoving()
+          self.NXDrag = true
+				end
+			</OnDragStart>
+			<OnDragStop>
+        self:StopMovingOrSizing()
+        self.NXDrag = false
+      </OnDragStop>
+      <OnUpdate>
+        if Nx then
+          Nx.NXMiniMapBut:NXOnUpdate (self)
+        else
+          UIErrorsFrame:AddMessage ("Carbonite File Error!\nDownload and unzip it again", 1, .2, .2)
+        end
+      </OnUpdate>
+    </Scripts>
+	</Button>
+
+</Ui>

@@ -1,0 +1,22 @@
+## Interface: 50400
+## Version: 3.1.8
+## Author: Xinhuan
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSink-2.0, LibDBIcon-1.0, !ClassColors
+## X-eMail: xinhuan @ gmail DOT com
+## X-Donate: PayPal:xinhuan @ gmail DOT com
+## X-Category: Combat
+## X-ConfigMode: true
+## SavedVariables: Omen3DB
+## X-Curse-Packaged-Version: v3.1.8
+## X-Curse-Project-Name: Omen Threat Meter
+## X-Curse-Project-ID: omen-threat-meter
+## X-Curse-Repository-ID: wow/omen-threat-meter/mainline
+
+Localization\enUS.lua
+Localization\zhTW.lua
+Localization\zhCN.lua
+
+Omen.lua
+
+## Title: |cff880303[网易有爱]|r Omen
+## X-Vendor: NetEase

@@ -1,0 +1,20 @@
+## Interface: 50400
+## Author: d07.RiV (Iroared)
+## Version: 1.32
+## SavedVariables: ReforgeLiteDB
+## Dependencies: 
+## X-Curse-Packaged-Version: v1.32
+## X-Curse-Project-Name: ReforgeLite
+## X-Curse-Project-ID: reforgelite
+## X-Curse-Repository-ID: wow/reforgelite/mainline
+
+Localization.lua
+Scaling.lua
+GUI.lua
+ReforgeLite.lua
+ReforgeEngine.lua
+Presets.lua
+TaskUI.lua
+
+## Title: |cff880303[网易有爱]|r ReforgeLite
+## X-Vendor: NetEase

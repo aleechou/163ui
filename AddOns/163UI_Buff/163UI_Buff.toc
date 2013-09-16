@@ -1,0 +1,9 @@
+## Interface: 50400
+## LoadOnDemand: 0
+## Notes:  增益时间精确到秒，显示施法者等。
+
+SBuff_BuffTimer.lua
+CastBy.lua
+
+## Title: |cff880303[网易有爱]|r 163UI_Buff
+## X-Vendor: NetEase

@@ -1,0 +1,18 @@
+## Interface: 50400
+## Title: GridCooldownText
+## Notes: Displays the remaining time on grid icon's cooldown animation.
+## Dependencies: Grid
+## Author: Whitetooth
+## X-eMail: hotdogee [at] gmail [dot] com
+## X-Credits: CooldownTimerText
+## X-Category: UnitFrame
+
+embeds.xml
+
+## X-Curse-Packaged-Version: r38
+## X-Curse-Project-Name: GridCooldownText
+## X-Curse-Project-ID: grid-cooldown-text
+## X-Curse-Repository-ID: wow/grid-cooldown-text/mainline
+
+## Title: |cff880303[网易有爱]|r GridCooldownText
+## X-Vendor: NetEase

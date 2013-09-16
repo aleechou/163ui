@@ -1,0 +1,27 @@
+﻿## Interface: 50400
+## X-Min-Interface: 50001
+## Notes: Deadly Boss Mods
+## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
+## LoadOnDemand: 0
+## DefaultState: enabled
+## Author: Tandanu and Nitram
+## X-Website: http://www.deadlybossmods.com
+
+embeds.xml
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+DBT-Template.xml
+DBT.lua
+DBM-Core.lua
+DBM-Arrow.lua
+DBM-Flash.lua
+DBM-RangeCheck.lua
+DBM-BossHealth.lua
+DBM-BossHealth.xml
+DBM-InfoFrame.lua
+DBM-HudMap.lua
+
+## Title: |cff880303[网易有爱]|r DBM-Core
+## X-Vendor: NetEase

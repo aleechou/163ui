@@ -1,0 +1,15 @@
+## Interface: 50400
+## Author: kunda
+## Title: GridStatusRaidIcons
+## Notes: Adds Raid Target Icon status to Grid (Player or Player Target).
+## Version: 40300-1
+## Dependencies: Grid
+## X-Curse-Packaged-Version: 40300-1
+## X-Curse-Project-Name: GridStatusRaidIcons
+## X-Curse-Project-ID: grid-status-raid-icons
+## X-Curse-Repository-ID: wow/grid-status-raid-icons/mainline
+
+embeds.xml
+
+## Title: |cff880303[网易有爱]|r GridStatusRaidIcons
+## X-Vendor: NetEase

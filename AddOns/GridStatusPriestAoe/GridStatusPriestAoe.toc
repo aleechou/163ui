@@ -1,0 +1,19 @@
+﻿## Interface: 50400
+## Title: GridStatusPriestAoe
+## Notes: Shows optimal target to use with priest area healing spells
+## Dependencies: Grid
+## OptionalDeps: GridStatusEmphasize, LibQuickHealth-2.0, LibMapData-1.0
+## Author: Slaren
+## Version: v1.2c
+## Grid Author: Pastamancer & Maia
+## X-GridStatusModule: GridStatusPriestAoe
+## X-Curse-Packaged-Version: v1.2c
+## X-Curse-Project-Name: GridStatusPriestAoe
+## X-Curse-Project-ID: gridstatuspriestaoe
+## X-Curse-Repository-ID: wow/gridstatuspriestaoe/mainline
+
+#@no-lib-strip@
+libs\LibMapData-1.0\library.lua
+#@end-no-lib-strip@
+
+GridStatusPriestAoe.lua

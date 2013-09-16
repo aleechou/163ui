@@ -1,0 +1,57 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    <Script file="TargetCharms.lua"/>
+
+    <Button name="SecureCharmTemplate" inherits="SecureActionButtonTemplate" virtual="true">
+        <Size><AbsDimension x="32" y="32"/></Size>
+        <PushedTexture alphaMode="ADD" file="Interface\Buttons\UI-Quickslot-Depress"/>
+        <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+        <DisabledTexture  alphaMode="ADD" file="Interface\Buttons\UI-Quickslot" />
+        <Scripts>
+            <OnEnter>
+                GameTooltip:SetOwner(self);
+                GameTooltip:ClearLines();
+                GameTooltip:AddLine("世界标记助手", 1, 1, 1);
+                if self:GetID()&lt;6 then
+                    GameTooltip:AddLine("点击左键施放世界标记");
+                    GameTooltip:AddLine("点击右键清除此标记");
+                else
+                    GameTooltip:AddLine("清除所有标记");
+                end
+                GameTooltip:AddLine("SHIFT+左键移动位置");
+                GameTooltip:Show();
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+            <OnMouseDown>
+                if IsShiftKeyDown() then self:GetParent():StartMoving(); end
+            </OnMouseDown>
+            <OnMouseUp>
+                self:GetParent():StopMovingOrSizing();
+            </OnMouseUp>
+        </Scripts>
+    </Button>
+
+    <Frame name="FlareCharms" parent="UIParent" movable="true" frameStrata="DIALOG" frameLevel="3">
+        <Size><AbsDimension x="32" y="32"/></Size>
+        <Anchors><Anchor point="TOPLEFT" relativePoint="TOP"><Offset><AbsDimension x="100" y="0"/></Offset></Anchor></Anchors>
+        <Frames>
+            <Button name="FlareCharmsCharm0">
+                <Size>
+                    <AbsDimension x="1" y="1"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT"><Offset><AbsDimension x="-1" y="-1"/></Offset></Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                TargetCharms_OnLoad(self);
+            </OnLoad>
+            <OnEvent>
+                TargetCharms_OnEvent(self, event);
+            </OnEvent>
+        </Scripts>
+    </Frame>
+</Ui>

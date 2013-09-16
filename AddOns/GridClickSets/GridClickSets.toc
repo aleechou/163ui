@@ -1,0 +1,12 @@
+## Interface: 50400
+## Title: GridClickSets
+# Title-zhCN: |cff880303[网易有爱]|r Grid点击施法
+## Notes: Set the clicking action for Grid buttons
+## Author: Warbaby
+## Version: 2.0
+## OptionalDeps: Grid
+## SavedVariablesPerCharacter: GridClickSetsForTalents
+embeds.xml
+
+## Title: |cff880303[网易有爱]|r GridClickSets
+## X-Vendor: NetEase

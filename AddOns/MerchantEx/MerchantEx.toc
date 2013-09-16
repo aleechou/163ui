@@ -1,0 +1,19 @@
+## Interface: 50400
+## Version: 2.0
+## Author: Abin
+## Title: MerchantEx
+## SavedVariables: MerchantExDB
+
+Includes\InterfaceOptionPage-1.0.lua
+Includes\VirtualScrollList-1.0.lua
+Includes\TabFrame-1.0.lua
+
+Locales\enUS.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+
+Core.lua
+OptionFrame.lua
+
+## Title: |cff880303[网易有爱]|r MerchantEx
+## X-Vendor: NetEase
