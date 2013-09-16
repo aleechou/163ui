@@ -38,6 +38,7 @@ L["Set the icon border"] = "设置图标边框的风格"
 -- new
 L["Advance"] = "高级"
 L["Add New CD"] = "添加新冷却"
+L["Data"] = "数据"
 L["Proc Test"] = "触发测试"
 
 L["Automatically scan and load icds of the types below"] = "自动检测并加载以下类型的内置内却"
@@ -52,6 +53,8 @@ L["To unlock or lock the original data. It's suggested that you should not modif
 L["Are you sure to delete all custom data?"] = "确定删除所有自定义数据?"
 L["Unlock Original Data"] = "解锁原始数据"
 L["Lock Original Data"] = "锁定原始数据"
+L["Reset Original Data"] = "重置原始数据"
+L["Delete Custom Data"] = "删除自定义数据"
 L["Proc test provides the feature of testing coverage of proc and estimating the real icds of the unknown"] = "触发测试提供测试触发特效覆盖率和估算内置冷却的功能"
 L["Add a new proc test(no limit of being a proc), and manage it by yourself."] = "添加一个新的触发测试(不局限于触发特效),可自由管理."
 L["Add New Proc Test"] = "添加新触发测试"

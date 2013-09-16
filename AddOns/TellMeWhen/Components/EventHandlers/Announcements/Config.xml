@@ -1,0 +1,419 @@
+﻿<Ui>
+	<Button name="TellMeWhen_ChannelSelectButton" inherits="TellMeWhen_EventSubComponentSelectButton" virtual="true" >
+		<Scripts>
+			<OnClick>
+				if TMW.CI.ics then
+					TMW.EVENTS:GetEventSettings().Channel = self.channel
+					TMW.IE:ScheduleIconSetup()
+				end
+
+				TMW.EVENTS:LoadConfig()
+				
+				local Announcements = TMW.EVENTS:GetEventHandler("Announcements")
+				Announcements:SelectChannel(self.channel)
+			</OnClick>
+		</Scripts>
+	</Button>
+ 
+ 
+	<Frame name="$parentAnnouncements" inherits="TellMeWhen_EventContainer" parentKey="Announcements">
+		
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentChannelListHeader" inherits="GameFontNormalLarge" parentKey="ChannelListHeader" justifyH="LEFT" />
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="$parentEditBox" inherits="TellMeWhen_InputBoxTemplate" multiline="true" parentKey="EditBox" autoFocus="false">
+				<Size y="20"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="5"/>
+					<Anchor point="RIGHT" x="-20"/>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="$parentHeader" inherits="GameFontNormalLarge" parentKey="Header" justifyH="LEFT" text="">
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" y="1"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentError" parentKey="Error" inherits="GameFontRed" justifyH="LEFT" >
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						TMW:TT(self, "ANN_EDITBOX", "ANN_EDITBOX_DESC")
+						self.__noWrapTooltipText = true
+						
+						self.label = "|cFFFF5050" .. TMW.L["ANN_EDITBOX_WARN"]
+						self.BackgroundText:SetWidth(self:GetWidth())
+						
+						self.Header:SetText(TMW.L["ANN_EDITBOX"])
+						self.Error:SetWidth(self:GetWidth() - 27)
+						
+						TMW.SUG:EnableEditBox(self, "dogtags")
+						
+						TMW:RegisterCallback("TMW_CONFIG_SAVE_SETTINGS", self, "ClearFocus")
+						
+						TMW.HELP:NewCode("ANN_LINK_INSERTED", nil, true)
+						
+						TMW.Classes.ChatEdit_InsertLink_Hook:New(self, function(self, text, linkType, linkID)
+							-- The ability to yell out clickable links is cool.
+							-- However, with DogTag, we need some slight modifications to get colors to work.
+							
+							local color, link = text:match("|cff(%x%x%x%x%x%x)(|H.*|h)")
+							
+							text = '["' .. link .. '":Color("' .. color .. '")]'
+							
+							self.editbox:Insert(text)
+							
+							TMW.HELP:Show("ANN_LINK_INSERTED", TMW.CI.ic, self.editbox, 0, 0, TMW.L["HELP_ANN_LINK_INSERTED"])
+
+							-- notify success
+							return true
+						end)
+
+					</OnLoad>
+					<OnTextChanged>
+						local text = self:GetText()
+						if text == "" then
+							self.BackgroundText:SetText(self.label)
+						else
+							self.BackgroundText:SetText(nil)
+						end
+						
+						if userInput and (GetLocale() == "zhCN" or GetLocale() == "zhTW") then
+							-- It seems that bad things happen here while typing chinese characters
+							-- See http://wow.curseforge.com/addons/tellmewhen/tickets/641-typing-chinese-error/
+							return
+						end 
+						
+						local DogTag = LibStub("LibDogTag-3.0")
+						local colorText = self:GetText()
+						if self.lastText ~= colorText then
+							local text = colorText:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+							
+							self.lastText = DogTag:ColorizeCode(text):gsub("|r", "")
+							local position = self:GetCursorPosition()
+							local skip = 0
+							for i = 1, position do
+								if colorText:byte(i) == ("|"):byte() then
+									if colorText:byte(i+1) == ("c"):byte() then
+										skip = skip + 10
+									elseif colorText:byte(i+1) == ("r"):byte() then
+										skip = skip + 2
+									end
+								end
+							end
+							position = position - skip
+							self:SetText(self.lastText)
+							
+							local betterPosition = 0
+							for i = 1, position do
+								betterPosition = betterPosition + 1
+								while self.lastText:byte(betterPosition) == ("|"):byte() do
+									if self.lastText:byte(betterPosition+1) == ("c"):byte() then
+										betterPosition = betterPosition + 10
+									elseif self.lastText:byte(betterPosition+1) == ("r"):byte() then
+										betterPosition = betterPosition + 2
+									else
+										break
+									end
+								end
+							end
+							
+							self:SetCursorPosition(betterPosition)
+						end
+					</OnTextChanged>
+					<OnEditFocusLost>
+						EditBox_ClearHighlight(self)
+						
+						local DogTag = LibStub("LibDogTag-3.0")
+						local text = self:GetText()
+						text = DogTag:CleanCode(text)
+						text = DogTag:ColorizeCode(text)
+						text = text:gsub("\\124([Hh])", "|%1") -- DogTag screws with hyperlinks. This fixes them.
+						text = text:trim("; \t\r\n")
+						
+						self:SetText(text)
+						
+						if TMW.CI.ics then
+							text = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+							TMW.EVENTS:GetEventSettings().Text = text
+						end
+						
+						TMW.IE:ScheduleIconSetup()
+						self:GetScript("OnTextChanged")(self)
+
+						TMW.EVENTS:LoadConfig()
+					</OnEditFocusLost>
+					<OnTabPressed>
+						self:Insert(strrep(" ", 4))
+					</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			
+			
+			<Frame name="$parentChannelList" parentKey="ChannelList">
+				<Size x="150" y="10"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentEditBoxError" relativePoint="BOTTOMLEFT" x="-5" y="-25"/>
+					<Anchor point="BOTTOM" y="-0"/>
+				</Anchors>
+				<Frames>
+					<Button name="$parentNone" inherits="TellMeWhen_ChannelSelectButton" parentKey="None" id="1"/>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						local ChannelListHeader = self:GetParent().ChannelListHeader
+						
+						TMW:ConvertContainerToScrollFrame(self, true, nil, 8)
+						
+						ChannelListHeader:SetText(TMW.L["ANN_CHANTOUSE"])
+						ChannelListHeader:SetPoint("BOTTOM", self.ScrollFrame, "TOP", 7, 1)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+
+			<Frame name="$parentConfigFrames" parentKey="ConfigFrames">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChannelListScrollFrame" relativePoint="TOPRIGHT" x="5" y="0"/>
+					<Anchor point="BOTTOMRIGHT" x="-0" y="0"/>
+				</Anchors>
+				<Frames>
+					<Frame name="$parentLocation" inherits="TMW_DropDownMenuTemplate" parentKey="Location">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="-0" y="-15"/>
+						</Anchors>
+						<Layers>
+							<Layer level="OVERLAY">
+								<FontString name="$parentHeader" inherits="GameFontNormal" parentKey="Header" justifyH="LEFT" text="">
+									<Anchors>
+										<Anchor point="BOTTOM" relativePoint="TOP" y="1"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+								self.Header:SetText(TMW.L["ANN_SUB_CHANNEL"])
+								UIDropDownMenu_SetWidth(self, 135)
+								
+								local Announcements = TMW.EVENTS:GetEventHandler("Announcements")
+								self.initialize = Announcements.Location_DropDown
+							</OnLoad>
+						</Scripts>
+					</Frame>
+					<EditBox name="$parentWhisperTarget" inherits="TellMeWhen_InputBoxTemplate" parentKey="WhisperTarget" autoFocus="false">
+						<Size x="135" y="15"/>
+						<Anchors>
+							<Anchor point="TOPLEFT"  x="30" y="-15"/>
+						</Anchors>
+						<Layers>
+							<Layer level="OVERLAY">
+								<FontString name="$parentHeader" inherits="GameFontNormal" parentKey="Header" justifyH="LEFT" text="">
+									<Anchors>
+										<Anchor point="BOTTOM" relativePoint="TOP" y="1"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+								self.Header:SetText(TMW.L["ANN_WHISPERTARGET"])
+								TMW:TT(self, "ANN_WHISPERTARGET", "ANN_WHISPERTARGET_DESC")
+								self.label = TMW.L["ANN_WHISPERTARGET"]
+								self.BackgroundText:SetWidth(self:GetWidth())
+								TMW.SUG:EnableEditBox(self, "dogtags")
+							</OnLoad>
+							<OnTextChanged>
+								local text = self:GetText()
+								if text == "" then
+									self.BackgroundText:SetText(self.label)
+								else
+									self.BackgroundText:SetText(nil)
+								end
+								
+								local DogTag = LibStub("LibDogTag-3.0")
+								local colorText = self:GetText()
+								if self.lastText ~= colorText then
+									local text = colorText:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+									
+									self.lastText = DogTag:ColorizeCode(text):gsub("|r", "")
+									local position = self:GetCursorPosition()
+									local skip = 0
+									for i = 1, position do
+										if colorText:byte(i) == ("|"):byte() then
+											if colorText:byte(i+1) == ("c"):byte() then
+												skip = skip + 10
+											elseif colorText:byte(i+1) == ("r"):byte() then
+												skip = skip + 2
+											end
+										end
+									end
+									position = position - skip
+									self:SetText(self.lastText)
+									
+									local betterPosition = 0
+									for i = 1, position do
+										betterPosition = betterPosition + 1
+										while self.lastText:byte(betterPosition) == ("|"):byte() do
+											if self.lastText:byte(betterPosition+1) == ("c"):byte() then
+												betterPosition = betterPosition + 10
+											elseif self.lastText:byte(betterPosition+1) == ("r"):byte() then
+												betterPosition = betterPosition + 2
+											else
+												break
+											end
+										end
+									end
+									
+									self:SetCursorPosition(betterPosition)
+								end
+							</OnTextChanged>
+							<OnEditFocusLost>
+								EditBox_ClearHighlight(self)
+								
+								local DogTag = LibStub("LibDogTag-3.0")
+								self:SetText(DogTag:CleanCode(self:GetText()))
+								self:SetText(DogTag:ColorizeCode(self:GetText()))
+								
+								local text = self:GetText():trim("; \t\r\n")
+								
+								if TMW.CI.ics then
+									text = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+									TMW.EVENTS:GetEventSettings().Location = text
+								end
+								
+								TMW.IE:ScheduleIconSetup()
+								self:GetScript("OnTextChanged")(self)
+
+								TMW.EVENTS:LoadConfig()
+							</OnEditFocusLost>
+						</Scripts>
+					</EditBox>
+
+					<CheckButton name="$parentSticky" inherits="TellMeWhen_CheckTemplate" parentKey="Sticky">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentLocation" relativePoint="BOTTOMLEFT" x="15" y="-5"/>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self.text:SetText(TMW.L["ANN_STICKY"])
+							</OnLoad>
+							<OnClick>
+								TMW.EVENTS:GetEventSettings().Sticky = not not self:GetChecked()
+							</OnClick>
+						</Scripts>
+					</CheckButton>
+					<CheckButton name="$parentShowIconTex" inherits="TellMeWhen_CheckTemplate" parentKey="ShowIconTex">
+						<Anchors>
+							<Anchor point="TOP" relativeTo="$parentSticky" relativePoint="BOTTOM" y="4"/>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self.text:SetText(TMW.L["ANN_SHOWICON"])
+								TMW:TT(self, "ANN_SHOWICON", "ANN_SHOWICON_DESC")
+							</OnLoad>
+							<OnClick>
+								TMW.EVENTS:GetEventSettings().ShowIconTex = not not self:GetChecked()
+								TMW.IE:ScheduleIconSetup()
+							</OnClick>
+						</Scripts>
+					</CheckButton>
+					<Button name="$parentColor" parentKey="Color">
+						<Size x="20" y="20"/>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="$parentShowIconTex" relativePoint="BOTTOM"/>
+						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<Texture>
+									<Size x="17.5" y="17.5"/>
+									<Anchors>
+										<Anchor point="CENTER"/>
+									</Anchors>
+									<Color r="1.0" g="1.0" b="1.0"/>
+								</Texture>
+								<FontString name="$parenttext" parentKey="text" justifyH="LEFT" inherits="GameFontHighlightSmall">
+									<Anchors>
+										<Anchor point="LEFT" relativePoint="RIGHT" x="2"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+								self.text:SetText(TMW.L["FONTCOLOR"])
+								self.func = function()
+									local settings = TMW.EVENTS:GetEventSettings()
+									local r, g, b = ColorPickerFrame:GetColorRGB()
+									settings.r = r
+									settings.g = g
+									settings.b = b
+									self:GetNormalTexture():SetVertexColor(r, g, b, 1)
+									TMW.IE:ScheduleIconSetup()
+								end
+								self.cancel = function()
+									local settings = TMW.EVENTS:GetEventSettings()
+									local r, g, b = self.br, self.bg, self.bb
+									settings.r = r
+									settings.g = g
+									settings.b = b
+									self:GetNormalTexture():SetVertexColor(r, g, b, 1)
+									TMW.IE:ScheduleIconSetup()
+								end
+							</OnLoad>
+							<OnClick>
+								local settings = TMW.EVENTS:GetEventSettings()
+								local r, g, b = settings.r, settings.g, settings.b
+								self.br, self.bg, self.bb = r, g, b
+
+								ColorPickerFrame.hasOpacity = nil
+								ColorPickerFrame.func, ColorPickerFrame.cancelFunc = self.func, self.cancel
+								ColorPickerFrame:SetColorRGB(r,g,b)
+								ColorPickerFrame:Show()
+							</OnClick>
+						</Scripts>
+						<NormalTexture name="$parentNormalTexture" file="Interface\ChatFrame\ChatFrameColorSwatch"/>
+					</Button>
+
+					<Slider name="$parentSize" inherits="TellMeWhen_SliderTemplate" parentKey="Size" minvalue="0" maxvalue="38" valuestep="1">
+						<Size x="150" y="17"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentColor" relativePoint="BOTTOMLEFT" y="-17"/>
+						</Anchors>
+						<Scripts>
+							<OnMinMaxChanged>
+								local minValue, maxValue = self:GetMinMaxValues()
+								self.Low:SetText(TMW.L["DEFAULT"])
+								self.High:SetText(maxValue)
+							</OnMinMaxChanged>
+							<OnValueChanged>
+								local val = self:GetValue()
+								self.Mid:SetText(val == 0 and TMW.L["DEFAULT"] or val)
+								if TMW.CI.ics then
+									TMW.EVENTS:GetEventSettings().Size = val
+									TMW.IE:ScheduleIconSetup()
+								end
+							</OnValueChanged>
+							<OnLoad>
+								self.text:SetText(TMW.L["FONTSIZE"])
+								self:EnableMouseWheel(true)
+							</OnLoad>
+							<OnMouseWheel>
+								self:SetValue(self:GetValue()+delta)
+							</OnMouseWheel>
+						</Scripts>
+					</Slider>
+
+
+				</Frames>
+			</Frame>
+		</Frames>
+	</Frame>
+</Ui>

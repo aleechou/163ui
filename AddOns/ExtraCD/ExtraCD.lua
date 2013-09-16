@@ -8,7 +8,7 @@ local mod = ExtraCD
 local tinsert, tremove = table.insert, table.remove
 local tonumber, tostring = tonumber, tostring
 local ECD_TEXT = "ExtraCD"
-local ECD_VERSION = "1.1.3"
+local ECD_VERSION = "1.2.0b"
 local ECD_AUTHOR = "superk"
 local active = {}
 local equippedItems = {}
@@ -441,9 +441,9 @@ function mod:ScanPlayerICDs()
 								if v.ppm and not self.db.showRPPM then break end
 								if type(v.ppm) == "table" then
 									if v.ppm[class] then 
-										specppm = v.ppm[class][spec]
+										specppm = v.ppm[class][spec] * v.ppm.BASE
 									else
-										specppm = v.ppm.OTHER
+										specppm = v.ppm.OTHER * v.ppm.BASE
 									end
 								else 
 									specppm = v.ppm
@@ -603,10 +603,10 @@ local function UpdateIcon(btn, elapsed)
 			if btn.ppm and btn.ppm > 0 and mod.db.showMultiples then
 				if mod.db.textOpacity > 0 and mod.db.showtext then
 					btn.text:SetTextColor(1, 1, 0, mod.db.textOpacity)
-					local haste =  math.max(GetCombatRatingBonus(CR_HASTE_MELEE), GetCombatRatingBonus(CR_HASTE_SPELL), GetCombatRatingBonus(CR_HASTE_RANGED)) / 100
-					btn.multiples = math.max(1, 1+((math.min(1000, (GetTime() - btn.start))/(60 / btn.ppm / (1 + haste) / hasteBonus)) - 1.5) * 3)
+					-- local haste =  math.max(GetCombatRatingBonus(CR_HASTE_MELEE), GetCombatRatingBonus(CR_HASTE_SPELL), GetCombatRatingBonus(CR_HASTE_RANGED)) / 100
+					btn.multiples = math.max(1, 1+((math.min(120, (GetTime() - btn.start))/(60 / btn.ppm )) - 1.5) * 3)
 					if btn.maxMultiplesFlag >= 1 then
-						local rate = btn.ppm * (1 + haste) * hasteBonus * 10 / 60
+						local rate = btn.ppm * 10 / 60
 						if rate * btn.multiples >= 1 then
 							btn.maxMultiplesFlag = 2
 						else
@@ -763,7 +763,7 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(event, ...)
 	end
 end
 function mod:UNIT_AURA(event, uid)
-	if uid == "player" then
+	--[[if uid == "player" then
 		local buffId
 		hasteBonus = 1
 		for i = 1, 40 do
@@ -772,7 +772,7 @@ function mod:UNIT_AURA(event, uid)
 				hasteBonus = hasteBonus * (1 + self.HASTE_BONUS[buffId] / 100)
 			end
 		end
-	end
+	end]]
 end
 
 function mod:EnterPetBattle()

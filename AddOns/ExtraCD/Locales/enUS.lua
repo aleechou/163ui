@@ -37,6 +37,7 @@ L["Set the icon border"] = true
 L["Advance"] = true
 L["Add New CD"] = true
 L["Proc Test"] = true
+L["Data"] = true
 
 L["Automatically scan and load icds of the types below"] = true
 L["spec"] = true
@@ -45,6 +46,8 @@ L["Add a new custom cd(no limit of being an icd), and manage it by yourself.(mar
 L["Data options provide more customized options for adding new cds and modifying the original cds"] = true
 L["To reset all addon original data, your custom data and proc test data will not be changed"] = true
 L["Are you sure to reset all addon original data?"] = true
+L["Reset Original Data"] = true
+L["Delete Custom Data"] = true
 L["To delete all custom data, the addon original data and proc test data will not be changed"] = true
 L["To unlock or lock the original data. It's suggested that you should not modify the addon original data, some advance users may need this feature."] = true
 L["Are you sure to delete all custom data?"] = true

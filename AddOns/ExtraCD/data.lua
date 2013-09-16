@@ -1,7 +1,7 @@
 ﻿local mod = ExtraCD
 
 function mod:GetDataVersion()
-	return 48
+	return 52
 end
 
 function mod:GetSpellData() 
@@ -135,6 +135,130 @@ function mod:GetSpellData()
 	-- item
 		-- type = "item" 
 		-- item = {the item id}
+		-- MOP 5.4
+		-- SoO WH(Warforged Heroic)/ H/ WN/ N/ F(Flexible)/ LFR  
+		[148911] = {
+			desc = "",
+			type = "item",
+			item = {105607, 104611, 105358, 102304, 104860, 105109},
+			cd = 115,
+			duration = 20,
+		}, -- Thok's Acid-Grooved Tooth
+		[146250] = {
+			desc = "",
+			type = "item",
+			item = {105609, 104613, 105360, 102305, 104862, 105111},
+			cd = 115,
+			duration = 20,
+		}, -- Thok's Tail Tip
+		[146046] = {
+			desc = "",
+			type = "item",
+			item = {105422, 104426, 105173, 102293, 104675, 104924},
+			cd = 115,
+			duration = 20,
+		}, -- Purified Bindings of Immerseus
+		[146308] = {
+			desc = "",
+			type = "item",
+			item = {105472, 104476, 105223, 102292, 104725, 104974},
+			cd = 115,
+			duration = 20,
+		}, -- Assurance of Consequence
+		[146314] = {
+			desc = "",
+			type = "item",
+			item = {105474, 104478, 105225, 102299, 104727, 104976},
+			cd = 115,
+			duration = 20,
+		}, -- Prismatic Prison of Pride
+		[146245] = {
+			desc = "",
+			type = "item",
+			item = {105491, 104495, 105242, 102298, 104744, 104993},
+			cd = 55,
+			duration = 10,
+		}, -- Evil Eye of Galakras
+		[148903] = {
+			desc = "",
+			type = "item",
+			item = {105527, 104531, 105278, 102301, 104780, 105029},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Haromm's Talisman
+		[148906] = {
+			desc = "",
+			type = "item",
+			item = {105540, 104544, 105291, 102300, 104793, 105042},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Kardris' Toxic Totem
+		[148908] = {
+			desc = "",
+			type = "item",
+			item = {105549, 104553, 105300, 102294, 104802, 105051},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Nazgrim's Burnished Insignia
+		[148897] = {
+			desc = "",
+			type = "item",
+			item = {105572, 104576, 105323, 102303, 104825, 105074},
+			cd = 85,
+			duration = 15,
+		}, -- Frenzied Crystal of Rage
+		[148896] = {
+			desc = "",
+			type = "item",
+			item = {105580, 104584, 105331, 102302, 104833, 105082},
+			cd = 85,
+			duration = 15,
+		}, -- Sigil of Rampage
+		[146310] = {
+			desc = "",
+			type = "item",
+			item = {105612, 104616, 105363, 102311, 104865, 105114},
+			cd = 0,
+			ppm = 1,
+			duration = 10,
+		}, -- Ticking Ebon Detonator
+		[146317] = {
+			desc = "",
+			type = "item",
+			item = {105615, 104619, 105366, 102309, 104868, 105117},
+			cd = 0,
+			ppm = 0.92,
+			modifier = 'haste',
+			duration = 10,
+		}, -- Dysmorphic Samophlange of Discontinuity
+		[146285] = {
+			desc = "",
+			type = "item",
+			item = {105632, 104636, 105383, 102308, 104885, 105134},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Skeer's Bloodsoaked Talisman
+		[146184] = {
+			desc = "",
+			type = "item",
+			item = {105648, 104652, 105399, 102310, 104901, 105150},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Black Blood of Y'Shaarj
+		[148899] = {
+			desc = "",
+			type = "item",
+			item = {105459, 104463, 105210, 102295, 104712, 104961},
+			cd = 85,
+			duration = 15,
+		}, -- Fusion-Fire Core
+		
+			
 		-- MOP 5.2
 		-- TH(Thunderforged Heroic)/ H/ TN/ N/ LFR Raid
 		[138756] = {
@@ -142,15 +266,16 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96741,96369,95997,94512,95625},
 			cd = 22,
-			ppm = 0.62,
-			duration = 20,
+			ppm = 1.21,
+			duration = 10,
 		}, -- Renataki's Soul Charm
 		[138856] = {
 			desc = "",
 			type = "item",
 			item = {96757,96385,96013,94514,95641},
 			cd = 0,
-			ppm = 1.05,
+			ppm = 0.96,
+			modifier = 'haste',
 			duration = 10,
 		}, -- Horridon's Last Gasp
 		[138938] = {
@@ -158,24 +283,24 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96781,96409,96037,94523,95665},
 			cd = 0,
-			ppm = 0.55,
-			duration = 20,
+			ppm = 1.1,
+			duration = 10,
 		}, -- Bad Juju
 		[138786] = {
 			desc = "",
 			type = "item",
 			item = {96785,96413,96041,94513,95669},
 			cd = 22,
-			ppm = 0.588,
-			duration = 20,
+			ppm = 1.21,
+			duration = 10,
 		}, -- Wushoolay's Final Choice
 		[138898] = {
 			desc = "",
 			type = "item",
 			item = {96827,96455,96083,94521,95711},
 			cd = 0,
-			ppm = 0.525,
-			duration = 20,
+			ppm = 1.1,
+			duration = 10,
 		}, -- Breath of the Hydra
 		[140380] = {
 			desc = "",
@@ -189,8 +314,8 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96842,96470,96098,94515,95726},
 			cd = 22,
-			ppm = 0.616,
-			duration = 20,
+			ppm = 1.21,
+			duration = 10,
 		}, -- Fabled Feather of Ji-Kun
 		
 		[138895] = {
@@ -198,7 +323,7 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96864,96492,96120,94522,95748},
 			cd = 0,
-			ppm = 3.3,
+			ppm = 3.5,
 			duration = 10,
 		}, -- Talisman of Bloodlust
 		
@@ -214,7 +339,7 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96873,96501,96129,94519,95757},
 			cd = 0,
-			ppm = 3.3,
+			ppm = 3.5,
 			duration = 10,
 		}, -- Primordius' Talisman of Rage
 		
@@ -225,7 +350,8 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96888,96516,96144,94531,95772},
 			cd = 0,
-			--ppm = 0.8085,
+			ppm = 0.85,
+			modifier = 'critical',
 			duration = 10,
 		}, -- Cha-Ye's Essence of Brilliance		
 		[139170] = {
@@ -233,7 +359,8 @@ function mod:GetSpellData()
 			type = "item",
 			item = {96915,96543,96171,94529,95799},
 			cd = 0,
-			--ppm = 0.825,
+			ppm = 0.72,
+			modifier = 'critical',
 			duration = 20,
 		}, -- Gaze of the Twins		
 		[138963] = {
@@ -363,25 +490,25 @@ function mod:GetSpellData()
 			duration = 20,
 		}, -- H
 		
-		-- pvp 493(H/L) 483 476 458
+		-- pvp 522(H/L set) 496(H/L set) 496(H/L) 483 476 458
 		[126707] = {
 			desc = "",
 			type = "item",
-			item = {94356,91104,84935,91457,84349},
+			item = {100586,100200,100026,99777,94356,91104,84935,91457,84349},
 			cd = 50,
 			duration = 20,
 		}, -- AGI
 		[126705] = {
 			desc = "",
 			type = "item",
-			item = {94482,91401,84941,91754,84489},
+			item = {100712,100491,100152,99938,94482,91401,84941,91754,84489},
 			cd = 50,
 			duration = 20,
 		}, -- SP
 		[126700] = {
 			desc = "",
 			type = "item",
-			item = {94415,91415,84937,91768,84495},
+			item = {100505,100645,100085,99948,94415,91415,84937,91768,84495},
 			cd = 50,
 			duration = 20,
 		}, -- STR
@@ -604,27 +731,46 @@ function mod:GetSpellData()
 		[104993] = {
 			desc = "",
 			type = "enchant",
-			enchant = {4442, 5124},
+			enchant = {4442},
 			slot = 16,
-			ppm = 2,
+			ppm = 2.2,
 			duration = 12,
 			cd = 0
-		}, -- Jade Spirit, Spirit of Conquest
+		}, -- Jade Spirit
+		[142535] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5124},
+			slot = 16,
+			ppm = 2.2,
+			duration = 12,
+			cd = 0
+		}, -- Spirit of Conquest
 		[120032] = {
 			desc = "",
 			type = "enchant",
-			enchant = {4444, 5125},
+			enchant = {4444},
 			slot = 16,
-			ppm = 2,
+			ppm = 2.53,
 			duration = 12,
 			cd = 0
-		}, -- Steel Dancing, Bloody Dancing Steel
+		}, -- Steel Dancing
+		[142530] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5125},
+			slot = 16,
+			ppm = 2.53,
+			duration = 12,
+			cd = 0
+		}, -- Bloody Dancing Steel
 		[116660] = {
 			desc = "",
 			type = "enchant",
 			enchant = {4446},
 			slot = 16,
-			ppm = 4,
+			ppm = 3.67,
+			modifier = 'haste',
 			duration = 7,
 			cd = 0
 		}, -- River's Song
@@ -641,7 +787,7 @@ function mod:GetSpellData()
 			slot = 1,
 			cd = 0,
 			duration = 15,
-			ppm = 1.4
+			ppm = 2.57
 		}, -- Indomitable Primal Diamond
 		[137590] = {
 			type = "gem",
@@ -656,6 +802,7 @@ function mod:GetSpellData()
 				DRUID = {1.872, 1, 1, 1},
 				PRIEST = {1, 1, 0.933},
 				OTHER = 1,
+				BASE = 1.35
 			}
 		}, -- Sinister Primal Diamond
 		[137331] = {
@@ -665,7 +812,7 @@ function mod:GetSpellData()
 			cd = 0,
 			class = "MONK",
 			duration = 4,
-			ppm = 1.4
+			ppm = 1.61
 		}, -- Courageous Primal Diamond -- Monk
 		[137247] = {
 			type = "gem",
@@ -674,7 +821,7 @@ function mod:GetSpellData()
 			cd = 0,
 			class = "DRUID",
 			duration = 4,
-			ppm = 1.4
+			ppm = 1.61
 		}, -- Courageous Primal Diamond -- Druid
 		[137288] = {
 			type = "gem",
@@ -683,7 +830,7 @@ function mod:GetSpellData()
 			cd = 0,
 			class = "PALADIN",
 			duration = 4,
-			ppm = 1.4
+			ppm = 1.61
 		}, -- Courageous Primal Diamond -- Paladin
 		[137323] = {
 			type = "gem",
@@ -692,7 +839,7 @@ function mod:GetSpellData()
 			cd = 0,
 			class = "PRIEST",
 			duration = 4,
-			ppm = 1.4
+			ppm = 1.61
 		}, -- Courageous Primal Diamond -- Priest
 		[137326] = {
 			type = "gem",
@@ -701,7 +848,7 @@ function mod:GetSpellData()
 			cd = 0,
 			class = "SHAMAN",
 			duration = 4,
-			ppm = 1.4
+			ppm = 1.61
 		}, -- Courageous Primal Diamond -- Shaman
 	}
 end

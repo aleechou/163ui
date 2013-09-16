@@ -586,7 +586,7 @@ function mod:OnOptionCreate()
 				args = {
 					data = {
 						type = "group",
-						name = "Data",
+						name = L["Data"],
 						args = {
 							ecddesc4 = {
 								type = "description",
@@ -642,7 +642,7 @@ function mod:OnOptionCreate()
 							},
 							dataReset = {
 								type = "execute",
-								name = "Reset Original Data",
+								name = L["Reset Original Data"],
 								desc = L["To reset all addon original data, your custom data and proc test data will not be changed"],
 								confirm = true,
 								confirmText = L["Are you sure to reset all addon original data?"],
@@ -670,7 +670,7 @@ function mod:OnOptionCreate()
 							},
 							dataDelete = {
 								type = "execute",
-								name = "Delete Custom Data",
+								name = L["Delete Custom Data"],
 								desc = L["To delete all custom data, the addon original data and proc test data will not be changed"],
 								confirm = true,
 								confirmText = L["Are you sure to delete all custom data?"],

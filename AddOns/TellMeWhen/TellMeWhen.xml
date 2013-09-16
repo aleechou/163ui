@@ -1,0 +1,100 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ .. \FrameXML\UI.xsd">
+
+	<!-- TEMPLATES -->
+	
+	<Frame name="TellMeWhen_GroupTemplate" enableMouse="false" toplevel="true" movable="true" parent="TMW" virtual="true">
+		<Size x="1" y="1"/>
+	</Frame>
+
+	<Button name="TellMeWhen_IconTemplate" virtual="true" enableMouse="true">
+		<Size x="30" y="30"/>
+	</Button>
+
+	<!-- END TEMPLATES -->
+
+	<Cooldown hidden="true">
+		<!-- cooldown bug fixer.
+		Seems to fix the long-standing bug once and for all where cooldown models would
+		not show up until one was initiated somewhere outside a TMW icon.
+		Don't ask why this works, because I don't have a clue. But, it does. So leave it alone.-->
+		<Scripts>
+			<OnLoad>
+				self:SetCooldown(GetTime(), 1)
+			</OnLoad>
+		</Scripts>
+	</Cooldown>
+
+	<Frame name="TellMeWhen_BlizzOptionsStub" hidden="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontHighlightLarge" parentKey="text" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				if not _G.TellMeWhen then
+					local AceLocale = LibStub("AceLocale-3.0", true)
+					local msg
+					if AceLocale then
+						local L = AceLocale:GetLocale("TellMeWhen", true)
+						msg = L["ERROR_NOTLOADED_ERROR"]
+					else
+						msg = "TellMeWhen has failed to load! Are you missing a required library?"
+					end
+					
+					DEFAULT_CHAT_FRAME:AddMessage("|cff33ff99TellMeWhen|r: " .. msg)
+					 
+					return
+				end
+				
+				self.name = "TellMeWhen"
+				InterfaceOptions_AddCategory(self)
+				
+				self.text:SetText(TMW.L["ERROR_NOTINITIALIZED_INTERFACEPANEL_EXPLANATION"])
+				
+				self:RegisterEvent("PLAYER_REGEN_ENABLED")
+				self:RegisterEvent("PLAYER_REGEN_DISABLED")
+			</OnLoad>
+			<OnShow>
+				self.text:SetWidth(self:GetWidth() - 150)
+				
+				if TMW:CheckCanDoLockedAction(false) then
+					TMW:LoadOptions()
+					
+					if TMW.AddedToBlizz then
+						self.text:SetText(TMW.L["ERROR_GAMEMENU_INTERFACE_OPTIONS_FUCKED"])
+
+						InterfaceOptionsFrame_OpenToCategory(TMW.AddedToBlizz)
+
+						-- Sometimes a lot of things fuck up and I have to do this.
+						-- It might not even work (which is why ERROR_GAMEMENU_INTERFACE_OPTIONS_FUCKED exists)
+						InterfaceOptionsFrame_OnShow()
+						InterfaceOptionsFrame_OpenToCategory(TMW.AddedToBlizz)
+						
+						self:UnregisterAllEvents()
+					end
+				end
+			</OnShow>
+			<OnEvent>
+				if event == "PLAYER_REGEN_ENABLED" then
+					self.text:SetText(TMW.L["ERROR_NOTINITIALIZED_INTERFACEPANEL_EXPLANATION"])
+					
+					if self:IsShown() then
+						self:Hide()
+						self:Show()
+					end
+				elseif event == "PLAYER_REGEN_DISABLED" and not TMW.ALLOW_LOCKDOWN_CONFIG then
+					self.text:SetText(TMW.L["ERROR_NOOPTIONSLOAD_INCOMBAT"])
+				end
+			</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>
+
+
+
+

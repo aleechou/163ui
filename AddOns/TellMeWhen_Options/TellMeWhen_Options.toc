@@ -1,0 +1,15 @@
+﻿## Interface: 50400
+## Title: TellMeWhen Options
+## X-Curse-Packaged-Version: 6.2.5
+## X-Curse-Project-Name: TellMeWhen
+## X-Curse-Project-ID: tellmewhen
+## X-Curse-Repository-ID: wow/tellmewhen/mainline
+
+## Author: Cybeloras of Aerie Peak/Detheroc/Mal'Ganis
+## Notes: Options and configuration for TellMeWhen
+## RequiredDeps: TellMeWhen
+## LoadOnDemand: 1
+## SavedVariables: TMWOptDB
+## X-Category: Combat
+
+..\TellMeWhen\Options\includes.xml

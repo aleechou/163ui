@@ -1,0 +1,33 @@
+﻿<Ui>
+
+<Script file="Class.lua"/>
+
+<Include file="BaseClasses\includes.core.xml"/>
+
+
+
+<Include file="Common\includes.core.xml"/>
+<Include file="Help\includes.core.xml"/>
+<Include file="Spells\includes.core.xml"/>
+<Include file="Suggester\includes.core.xml"/>
+<Include file="Conditions\includes.core.xml"/>
+<Include file="Units\includes.core.xml"/>
+<Include file="IconEvents\includes.core.xml"/>
+<Include file="Resizer_Generic\includes.core.xml"/>
+<Include file="Snippets\includes.core.xml"/>
+
+
+
+<Script file="IconType.lua"/>
+<Script file="IconView.lua"/>
+
+<Script file="Group.lua"/>
+<Script file="GroupModule.lua"/>
+
+<Script file="Icon.lua"/>
+<Script file="IconModule.lua"/>
+<Script file="IconDataProcessor.lua"/>
+<Script file="IconDataProcessorHook.lua"/>
+
+
+</Ui>

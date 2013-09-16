@@ -1,0 +1,15 @@
+## Interface: 50001
+## Title: Lib: SpellRange-1.0
+## Notes: Provides enhanced spell range checking functionality
+## Author: Cybeloras of Detheroc/Mal'Ganis
+## X-Category: Library
+## X-Curse-Packaged-Version: r9
+## X-Curse-Project-Name: LibSpellRange-1.0
+## X-Curse-Project-ID: libspellrange-1-0
+## X-Curse-Repository-ID: wow/libspellrange-1-0/mainline
+
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+#@end-no-lib-strip@
+
+lib.xml

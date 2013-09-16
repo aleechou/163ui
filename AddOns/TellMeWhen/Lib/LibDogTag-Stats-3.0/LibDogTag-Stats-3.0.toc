@@ -1,0 +1,14 @@
+## Interface: 50300
+## LoadOnDemand: 1
+## Title: Lib: DogTag-Stats-3.0
+## Notes: A library to provide tags for player combat stats to LibDogTag-3.0
+## Author: Cybeloras
+## Version: 3.0
+## X-Category: Library
+## Dependencies: LibDogTag-3.0
+## X-Curse-Packaged-Version: r18
+## X-Curse-Project-Name: LibDogTag-Stats-3.0 
+## X-Curse-Project-ID: libdogtag-stats-3-0
+## X-Curse-Repository-ID: wow/libdogtag-stats-3-0/mainline
+
+lib.xml

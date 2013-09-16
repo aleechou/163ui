@@ -1,0 +1,7 @@
+﻿<Ui>
+
+<Script file="Help.lua"/>
+
+<Include file="Help.xml"/>
+
+</Ui>

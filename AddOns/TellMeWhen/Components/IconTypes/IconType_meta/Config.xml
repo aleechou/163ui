@@ -1,0 +1,170 @@
+﻿<Ui>
+
+	<Frame name="TellMeWhen_MetaGroup" virtual="true">
+		<Size y="30"/>
+		<Frames>
+			<Frame name="$parentIcon" parentKey="icon" inherits="TMW_IconDropDownMenuTemplate">
+				<Size y="30"/>
+				<Anchors>
+					<Anchor point="LEFT" x="13"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("LeftButton", "RightButton")
+						
+						self.wrapTooltips = 1
+						self.initialize = TMW.ME.IconMenu
+						self.Button:SetFrameLevel(self:GetFrameLevel()+1)
+						self.previewSize = 21
+						UIDropDownMenu_SetWidth(self, self:GetParent():GetParent():GetWidth() - 25, 0)
+						TMW:TT(self, "CHOOSEICON", "CHOOSEICON_DESC")
+					</OnLoad>
+					<OnDragStart>
+						TMW.ME.draggingFrame = self
+						TMW.ME.draggingButton = button
+						TMW.ME.draggingOriginalFrame = self
+					</OnDragStart>
+					<OnDragStop>
+						TMW.ME.draggingFrame = nil
+						TMW.ME.draggingButton = nil
+						TMW.ME.draggingOriginalFrame = nil
+					</OnDragStop>
+					<OnUpdate>						
+						if self:IsMouseOver() and TMW.ME.draggingFrame and self ~= TMW.ME.draggingFrame then
+							if TMW.ME.draggingButton == "LeftButton" then
+								local sourceID = TMW.ME.draggingFrame:GetParent():GetID()
+								local destID = self:GetParent():GetID()
+								local delta = abs(sourceID - destID)
+								
+								if sourceID > destID then
+									for i = destID, sourceID - 1, 1 do
+										TMW.ME:SwapIcons(i, i + 1)
+									end
+								else
+									for i = sourceID, destID - 1, 1 do
+										TMW.ME:SwapIcons(i, i + 1)
+									end
+								end
+								
+								TMW.ME.draggingFrame = self
+								
+							elseif TMW.ME.draggingButton == "RightButton" then
+							
+								TMW.ME:SwapIcons(TMW.ME.draggingFrame:GetParent():GetID(), TMW.ME.draggingOriginalFrame:GetParent():GetID())
+								TMW.ME:SwapIcons(self:GetParent():GetID(), TMW.ME.draggingOriginalFrame:GetParent():GetID())
+								
+								TMW.ME.draggingFrame = self
+							end
+						end
+					</OnUpdate>
+				</Scripts>
+			</Frame>
+			
+			<Button name="$parentDelete" parentKey="delete" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="-16" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						TMW:TT(self, "METAPANEL_REMOVE", "METAPANEL_REMOVE_DESC")
+					</OnLoad>
+					<OnClick>
+						TMW.ME:Delete(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				TMW.ME[self:GetID()] = self
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="TellMeWhen_MetaIconOptions" inherits="TellMeWhen_OptionsModuleContainer" virtual="true">
+		<Size y="20"/>
+		<Frames>
+			<Button name="$parentAdd" parentKey="Add" inherits="TellMeWhen_ButtonTemplate">
+				<Size x="160" y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="7" y="-7"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+					
+						self:SetText([[|TInterface\PaperDollInfoFrame\Character-Plus:0|t ]] .. TMW.L["META_ADDICON"])
+						
+						TMW:TT(self, "META_ADDICON", "META_ADDICON_DESC")
+						
+						self:SetWidth(self:GetTextWidth()+15)
+						self:SetFrameLevel(self:GetParent():GetFrameLevel()+4)
+						self.Background:SetAlpha(0.7)
+					</OnLoad>
+					<OnClick>
+						tinsert(TMW.CI.ics.Icons, "")
+						TMW.ME:LoadConfig()
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<CheckButton name="$parentCheckNext" inherits="TellMeWhen_CheckTemplate" parentKey="CheckNext">
+				<Anchors>
+					<!-- <Anchor point="TOPLEFT" x="5" y="-6"/> -->
+					<Anchor point="LEFT" relativeTo="$parentAdd" relativePoint="RIGHT" x="8" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>						
+						TMW.IE:CreateSettingFrameFromData(self, {
+							setting = "CheckNext",
+							title = TMW.L["ICONMENU_CHECKNEXT"],
+							tooltip = TMW.L["ICONMENU_CHECKNEXT_DESC"],
+						})
+					</OnLoad>
+				</Scripts>
+			</CheckButton>
+			
+			<Frame name="$parent1" inherits="TellMeWhen_MetaGroup" id="1">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentCheckNext" relativePoint="BOTTOM" y="-3"/>
+					<Anchor point="LEFT" x="-3"/>
+					<Anchor point="TOPRIGHT" y="-12"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.Header:SetText(TMW.L["ICONMENU_COMPONENTICONS"])
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="TellMeWhen_MetaSortSettings" inherits="TellMeWhen_OptionsModuleContainer" virtual="true">
+		<Size y="92"/>
+		<Scripts>
+			<OnLoad>
+				self.Header:SetText(TMW.L["SORTBY"])
+				TMW.IE:BuildSimpleCheckSettingFrame(self, {
+					numPerRow = 3,
+					{
+						setting = "Sort",
+						value = false,
+						title = TMW.L["SORTBYNONE"],
+						tooltip = TMW.L["SORTBYNONE_META_DESC"],
+					},
+					{
+						setting = "Sort",
+						value = -1,
+						title = TMW.L["ICONMENU_SORTASC"],
+						tooltip = TMW.L["ICONMENU_SORTASC_META_DESC"],
+					},
+					{
+						setting = "Sort",
+						value = 1,
+						title = TMW.L["ICONMENU_SORTDESC"],
+						tooltip = TMW.L["ICONMENU_SORTDESC_META_DESC"],
+					},
+				})
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
