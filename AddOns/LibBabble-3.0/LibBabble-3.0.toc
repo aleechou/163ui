@@ -1,0 +1,17 @@
+## Interface: 50200
+
+## LoadOnDemand: 1
+
+LibBabble-3.0.lua
+LibBabble-Zone-3.0.lua
+LibBabble-Faction-3.0.lua
+LibBabble-Boss-3.0.lua
+LibBabble-Inventory-3.0.lua
+
+#只有AtlasLoot和MogIt在用，直接引
+#LibBabble-ItemSet-3.0.lua
+
+## X-Date-Update: Tue Sep 20 10:04:42 CST 2011
+
+## Title: |cff880303[网易有爱]|r LibBabble-3.0
+## X-Vendor: NetEase

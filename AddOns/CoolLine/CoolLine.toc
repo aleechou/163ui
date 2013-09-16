@@ -1,0 +1,11 @@
+## Interface: 50400
+## Author: TotalPackage
+## Version: 5.1.001
+
+## SavedVariables: CoolLineDB
+# SavedVariablesPerCharacter: CoolLineCharDB
+
+core.lua
+
+## Title: |cff880303[网易有爱]|r CoolLine
+## X-Vendor: NetEase

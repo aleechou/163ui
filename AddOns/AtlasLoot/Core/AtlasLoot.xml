@@ -1,0 +1,85 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+	<Script file="AtlasLoot.lua"/>
+	<Script file="ItemFrame_GUI.lua"/>
+	<Script file="GUI_Atlas.lua"/>
+	<Script file="ItemFrame.lua"/>
+	<Script file="IngameLocales.lua"/>
+    <Script file="TextParsing.lua"/>
+    <Script file="Options.lua"/>
+    <Script file="LootButtons.lua"/>
+    <Script file="AtlasIntegration.lua"/>
+	<Script file="Panel.lua"/>
+	<Script file="QuickLooks.lua"/>
+	<Script file="EJIntegration.lua"/>
+	<Script file="BonusRoll.lua"/>
+	
+    <Script file="Search.lua"/>
+	
+	<!--@debug@ <Script file="DEVTOOLS.lua"/> @end-debug@-->
+
+    <GameTooltip name="AtlasLootTooltipTEMP" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+	
+	<FontString name="AtlasLoot_ItemAmountFont" font="Fonts\ARIALN.TTF" outline="NORMAL" virtual="true" >
+		<FontHeight>
+			<AbsValue val="14"/>
+		</FontHeight>
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</FontString>
+	
+	<CheckButton name="WishListIconButtonTemplate" inherits="SimplePopupButtonTemplate" virtual="true">
+		<Scripts>
+		</Scripts>
+		<NormalTexture name="$parentIcon" nonBlocking="true">
+			<Size>
+				<AbsDimension x="36" y="36"/>
+			</Size>
+			<Anchors>
+				<Anchor point="CENTER">
+					<Offset>
+						<AbsDimension x="0" y="-1"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalTexture>
+		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+		<CheckedTexture alphaMode="ADD" file="Interface\Buttons\CheckButtonHilight"/>
+	</CheckButton>
+	
+	<Button name="AtlasLoot_RoundButton" virtual="true">
+		<Size x="30" y="30"/>
+		<Layers>
+			<Layer level="ARTWORK" textureSubLevel="2">
+				<Texture name="$parentRing" file="Interface\TalentFrame\talent-main" parentKey="ring">
+					<Size x="30" y="30"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0" />
+					</Anchors>
+					<TexCoords left="0.50000000" right="0.91796875" top="0.00195313" bottom="0.21093750"/>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="icon">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentRing" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>	
+		</Layers>
+	</Button>
+
+	<Button name="AtlasLoot_SpecButton" virtual="true">
+		<Size x="12.5" y="12.5"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentSpecIcon" parentKey="specIcon">
+					<Size x="12.5" y="12.5"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>	
+		</Layers>
+	</Button>
+</Ui>

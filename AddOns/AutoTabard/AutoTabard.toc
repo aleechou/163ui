@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: AutoTabard
+## Title-deDE: Autowappenrock
+## Title-zhTW: AutoTabard 自動外袍
+## Version: 1.971
+## Notes: Automatically equips the choosen tabard in heroic instances
+## Notes-deDE: Rüstet Euch automatisch mit dem gewähltem Wappenrock in den heroischen Instanzen aus
+## Notes-zhTW: 當進入英雄副本時，自動裝備已選擇的外袍。
+## Author: evil.oz
+## SavedVariablesPerCharacter: AutoTabard_DesiredFaction, AutoTabard_SavedTabard, AutoTabard_HighlightFaction,  AutoTabard_RestoreHighlightFaction, AutoTabard_SavedHighlightFaction
+AutoTabard.xml
+## Title: |cff880303[网易有爱]|r AutoTabard
+## X-Vendor: NetEase

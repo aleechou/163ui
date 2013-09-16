@@ -1,0 +1,5 @@
+<Bindings>
+	<Binding name="UndressButtonName" header="UndressButtonHeader">
+		UndressButton_DressUpTarget("inspect")
+	</Binding>
+</Bindings>

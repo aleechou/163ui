@@ -1,0 +1,21 @@
+## Interface: 50400
+## Author: hshh
+## Title: ChannelClean
+## Notes: Make your chat channel always clean.
+## Notes-zhCN: 过滤掉重复发送的刷屏信息, 给你一个清洁的聊天窗口.
+## Notes-zhTW: 過濾掉重複發送的刷屏資訊, 給你一個清潔的聊天視窗.
+## Version: 3.0
+## X-eMail: hshh@hshh.org
+## X-Website: http://www.hshh.org/
+## X-Category: Chat/Communication
+## SavedVariables: DuowanAddon_ChannelCleanDB
+## Version: 3.1.0.17 
+
+
+Locale.zhCN.lua
+Locale.zhTW.lua
+
+ChannelClean.lua
+
+## Title: |cff880303[网易有爱]|r ChannelClean
+## X-Vendor: NetEase

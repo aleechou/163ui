@@ -1,0 +1,15 @@
+## Interface: 50400
+## LoadOnDemand: 0
+## Title: TradeLog
+## Notes: trade history log, recent trade list by Warbaby@163.com
+## Notes-zhCN: 交易记录 by Warbaby (三月十二@聖光之願<冰封十字軍>)
+## SavedVariablesPerCharacter: TradeLog_TradesHistory, TRADE_LOG_BUTTON_POS, TradeLog_Announce_Checked, TradeLog_AnnounceChannel
+localization-enUS.lua
+localization-zhCN.lua
+localization-zhTW.lua
+TradeLog.lua
+RecentTradeFrame.xml
+TradeLogFrame.xml
+
+## Title: |cff880303[网易有爱]|r TradeLog
+## X-Vendor: NetEase

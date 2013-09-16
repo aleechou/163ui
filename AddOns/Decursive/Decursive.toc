@@ -1,0 +1,67 @@
+## Interface: 50400
+## X-Max-Interface: 50400
+## X-Min-Interface: 50001
+## X-Curse-Packaged-Version: 2.7.3
+## X-Curse-Project-Name: Decursive
+## X-Curse-Project-ID: decursive
+## X-Curse-Repository-ID: wow/decursive/mainline
+
+
+
+## SavedVariables: DecursiveDB
+
+## Version: 2.7.3
+## Author: John Wellesz
+
+## X-License: All Rights Reserved
+
+## OptionalDeps: Ace3, LibQTip-1.0, LibDataBroker-1.1, LibDBIcon-1.0, !BugGrabber
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Class: Mage, Priest, Paladin, Druid, Hunter, Warlock, Shaman, Monk
+## X-LoadOn-Slash: /decursive, /dcr
+
+
+## X-Embeds: Ace3, LibQTip-1.0, LibDataBroker-1.1, LibDBIcon-1.0, !BugGrabber
+
+## X-ReleaseDate: "2013-03-10T02:29:40Z"
+## X-Category: Combat
+## X-Website: http://www.2072productions.com/to/decursive.php
+## X-Credits: Sylvin (Full french translation), Peter Sun, Ananhaid (ZhTW and zhCN translation), Fenlis, Chkid (koKR translation), Hemathio, Swix, Athariel, StingerSoft (Russian Translation), Freydis88, Floyddotnet, Vilogity, Dessa, Farook (German translation)
+
+## X-AceForum: 4195
+
+## X-eMail: archarodim@teaser.fr
+
+embeds.xml
+
+Dcr_DIAG.lua
+Dcr_DIAG.xml
+
+Localization\load.xml
+
+DCR_init.lua
+Dcr_LDB.lua
+Dcr_utils.lua
+
+
+Dcr_opt.lua
+Dcr_Events.lua
+
+Dcr_Raid.lua
+
+Decursive.lua
+Decursive.xml
+
+Dcr_lists.lua
+Dcr_lists.xml
+
+Dcr_DebuffsFrame.lua
+Dcr_DebuffsFrame.xml
+
+Dcr_LiveList.lua
+Dcr_LiveList.xml
+
+
+## Title: |cff880303[网易有爱]|r Decursive
+## X-Vendor: NetEase

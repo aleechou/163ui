@@ -1,0 +1,9 @@
+## Interface: 50400
+## Notes:  显示副本boss的简易攻略。
+
+## SavedVariables: 
+
+163UI_BossGuide.lua
+
+## Title: |cff880303[网易有爱]|r 163UI_BossGuide
+## X-Vendor: NetEase

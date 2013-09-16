@@ -1,0 +1,15 @@
+## Interface: 30300
+## Title: ButtonFacade: |cffff8000HelloKitty|r
+## Version: 1.1
+## Notes: HelloKitty skins for ButtonFacade.
+## Notes-deDE: HelloKitty Skins für ButtonFacade.
+## Notes-esMX: HelloKitty texturas para ButtonFacade.
+## Notes-esES: HelloKitty texturas para ButtonFacade.
+## Notes-frFR: Skin HelloKitty pour ButtonFacade.
+## Notes-koKR: ButtonFacade에 대한  스킨.
+## Notes-ruRU: HelloKitty Шкурки для ButtonFacade.
+## Notes-zhCN: 为ButtonFacade HelloKitty皮肤。
+## Notes-zhTW: HelloKitty皮膚的ButtonFacade。
+## Author: Psychoshamoo
+
+Skins.lua

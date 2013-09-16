@@ -1,0 +1,12 @@
+## Interface: 50400
+## Title: Dominos Cast
+## Title-zhCN: |cFF0099FF[Dominos]|r 施法条模块
+## Notes: A movable casting bar, with timer
+## Author: Tuller
+## Dependencies: Dominos
+#localization.lua
+#castBar.xml
+castBar.lua
+
+## Title: |cff880303[网易有爱]|r Dominos_Cast
+## X-Vendor: NetEase

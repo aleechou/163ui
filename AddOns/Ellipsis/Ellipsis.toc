@@ -1,0 +1,22 @@
+## Interface: 50400
+## Author: Kith (Kithulhu)
+## Version: 3.0.3
+## SavedVariables: EllipsisDB
+## OptionalDeps: Ace3, LibSharedMedia-3.0, LibSink-2.0
+## X-Embeds: Ace3, LibSharedMedia-3.0, LibSink-2.0
+## X-Category: Interface Enhancements
+
+Locales\Local_enUS.lua
+Locales\Local_zhCN.lua
+Locales\Local_zhTW.lua
+
+Core.lua
+ClassData.lua
+Config.lua
+GUI.lua
+Cooldowns.lua
+AuraHandler.lua
+
+
+## Title: |cff880303[网易有爱]|r Ellipsis
+## X-Vendor: NetEase

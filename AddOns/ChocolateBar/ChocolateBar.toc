@@ -1,0 +1,31 @@
+## Interface: 50400
+## Author: yess
+## Version: v2.4
+## X-Email: starfire@fantasymail.de
+## OptionalDeps: Ace3, LibSharedMedia-3.0, LibJostle-3.0
+## X-Curse-Packaged-Version: v2.4
+## X-Curse-Project-Name: ChocolateBar Broker Display
+## X-Curse-Project-ID: chocolatebar
+## X-Curse-Repository-ID: wow/chocolatebar/mainline
+
+## SavedVariables: ChocolateBarDB
+
+#@no-lib-strip@
+libs\LibJostle-3.0\LibJostle-3.0.lua
+#@end-no-lib-strip@
+
+localization\enUS.lua
+localization\zhCN.lua
+localization\zhTW.lua
+
+Core.lua
+DragAndDrop.lua
+Chocolate.lua
+Bar.lua
+#MoreChocolate.lua
+#Clock.lua
+
+Brokers.lua
+
+## Title: |cff880303[网易有爱]|r ChocolateBar
+## X-Vendor: NetEase

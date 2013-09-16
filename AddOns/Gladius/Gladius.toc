@@ -1,0 +1,40 @@
+## Interface: 50400
+## X-Compatible-With: 40000
+## Title: Gladius 5
+## Notes: Arena enemy unit frames
+## Version: 5.1-06
+## Author: Firebunny. Original author: Proditor
+## SavedVariables: Gladius2DB
+## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+Gladius.lua
+
+localization\zhCN.lua
+localization\zhTW.lua
+
+options.lua
+speclist.lua
+
+modules\healthbar.lua
+modules\powerbar.lua
+modules\castbar.lua
+modules\auras.lua
+modules\classicon.lua
+modules\trinket.lua
+modules\highlight.lua
+modules\clicks.lua
+modules\targetbar.lua
+modules\tags.lua
+modules\announcements.lua
+modules\drtracker.lua
+modules\timer.lua
+modules\layout.lua
+modules\dispell.lua
+
+
+## Title: |cff880303[网易有爱]|r Gladius
+## X-Vendor: NetEase

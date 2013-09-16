@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: TargetCharms
+## Notes: Toolbar for setting charms/raid icons on targets. Ctrl+Right-click in game for setup menu or type /tc setup
+## Notes: 世界/团队标记工具条. ctrl+鼠标右键点击团队标记工具条或/tc setup打开设置菜单
+## Author: Gander
+## Version: 1.5.3 (11/22/2010)
+## SavedVariablesPerCharacter: TargetCharms_Options
+localization.cn.lua
+
+TargetCharms.xml
+
+## Title: |cff880303[网易有爱]|r TargetCharms
+## X-Vendor: NetEase

@@ -1,0 +1,85 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+	<Script file="UndressButton.lua"/>
+	<Button name="DressUpFrameUndressButton" parent="DressUpFrame" inherits="UIPanelButtonTemplate" text="全部脱下">
+		<Size>
+			<AbsDimension x="80" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="RIGHT" relativeTo="DressUpFrameResetButton" relativePoint="LEFT">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				UndressButton_Load(self);
+			</OnLoad>
+			<OnEvent>
+				UndressButton_Event(self, event, ...);
+			</OnEvent>
+			<OnClick>
+				DressUpModel:Undress();
+				PlaySound("gsTitleOptionOK");
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="DressUpFrameDressTargetButton" parent="DressUpFrame" inherits="UIPanelButtonTemplate" text="试穿目标">
+		<Size>
+			<AbsDimension x="80" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="RIGHT" relativeTo="DressUpFrameUndressButton" relativePoint="LEFT">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+			</OnLoad>
+			<OnShow>
+				UndressButton_Reset();
+			</OnShow>
+			<OnClick>
+				if (button == "LeftButton") then
+					UndressButton_DressUpTarget("inspect");
+					PlaySound("gsTitleOptionOK");
+				else
+					UndressButton_DressUpTarget("dress");
+					PlaySound("gsTitleOptionOK");
+				end
+			</OnClick>
+			<OnEnter>
+				GameTooltip:SetOwner(self);
+				GameTooltip:AddLine("说明", 1, 1, 1);
+				GameTooltip:AddLine("左键点击观察目标玩家的模型");
+				GameTooltip:AddLine("右键点击试穿目标玩家的装备");
+				GameTooltip:Show();
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<Button name="AuctionDressUpFrameUndressButton" parent="UIParent" inherits="UIPanelButtonTemplate" text="全部脱下">
+		<Size>
+			<AbsDimension x="80" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOM" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="2"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				SideDressUpModel:Undress();
+				PlaySound("gsTitleOptionOK");
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

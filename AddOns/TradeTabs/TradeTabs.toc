@@ -1,0 +1,10 @@
+## Interface: 50400
+## Title: ProfessionTabs
+## Notes: ProfessionTabs. Adds tabs of your professions to your trade and tradeskill frames
+## Author: Beoko
+## Version: 1.0.7
+
+TradeTabs.lua
+
+## Title: |cff880303[网易有爱]|r TradeTabs
+## X-Vendor: NetEase

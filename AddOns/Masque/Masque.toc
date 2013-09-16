@@ -1,0 +1,32 @@
+## Interface: 50400
+## Version: 5.1.389
+## Author: StormFX, JJSheets
+## X-Website: http://www.wowace.com/projects/masque/
+## X-Category: Interface Enhancements
+## X-WoWI-ID: 12097
+## OptionalDeps: Ace3
+## SavedVariables: MasqueDB
+## X-Curse-Packaged-Version: v5.1.389
+## X-Curse-Project-Name: Masque
+## X-Curse-Project-ID: masque
+## X-Curse-Repository-ID: wow/masque/mainline
+
+# Locales
+Core\Locales.lua
+
+# Add-On
+Masque.lua
+
+# Skins
+Skins\Skins.lua
+Skins\Blizzard.lua
+Skins\Dream.lua
+Skins\Zoomed.lua
+
+# Core
+Core\Button.lua
+Core\Groups.lua
+Core\Options.lua
+
+## Title: |cff880303[网易有爱]|r Masque
+## X-Vendor: NetEase

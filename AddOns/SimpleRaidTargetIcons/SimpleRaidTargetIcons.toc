@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: SimpleRaidTargetIcons
+## Author: Driizt
+## X-Credits: Brodrick (aka Kirov), Qzot
+## Version: 1.16
+## Notes: Displays a widget on modifier + left click or double click on a unit to let a player assign Raid Target Icons.
+# Title-zhCN: |CFFFF8000辅助|R 标记助手
+## Notes-zhCN: Shift、Ctrl（默认）或Alt+鼠标左键单击,或双击鼠标左键快速标记目标
+# Title-zhTW: |CFFFF8000輔助|R 標記助手
+## Notes-zhTW: Shift、Ctrl（預設）或Alt+滑鼠左鍵按一下,或按兩下滑鼠左鍵快速標記目標
+## X-Repple: 辅助
+## SavedVariablesPerCharacter: SRTISaved
+SimpleRaidTargetIcons.lua
+
+## Title: |cff880303[网易有爱]|r SimpleRaidTargetIcons
+## X-Vendor: NetEase

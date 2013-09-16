@@ -1,0 +1,34 @@
+## Interface: 50400
+# Title: _|cffCCCC88NPCScan|r.Overlay
+# Notes: Adds mob patrol paths to your map.
+## Author: Saiket
+## Version: 5.0.0.3
+## X-Date: 2012-10-15
+## X-Category: Map
+## X-License: GPLv3
+## X-Email: saiket.wow@gmail.com
+## X-Website: http://sites.google.com/site/wowsaiket/Add-Ons/NPCScanOverlay
+## X-Feedback: http://code.google.com/p/wow-saiket/issues/list?can=1&q=AddOn:NPCScan.Overlay
+## X-WoWI-ID: 14686
+## SavedVariables: _NPCScanOverlayOptions
+## OptionalDeps: Ace3, _NPCScan, AlphaMap3, Carbonite
+Locales\Locale-enUS.lua
+Locales\Locale-zhCN.lua
+Locales\Locale-zhTW.lua
+
+_NPCScan.Overlay.lua
+_NPCScan.Overlay.Config.lua
+_NPCScan.Overlay.Modules.lua
+_NPCScan.Overlay.PathData.lua
+
+# Canvas modules
+Modules\WorldMapTemplate.lua
+Modules\WorldMap.lua
+Modules\BattlefieldMinimap.lua
+Modules\Minimap.lua
+Modules\AlphaMap3.lua
+Modules\Carbonite.lua
+
+## Title: |cff880303[网易有爱]|r _NPCScan.Overlay
+## X-Vendor: NetEase
+## DefaultState: disabled

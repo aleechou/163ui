@@ -1,0 +1,131 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+E:\PROGRA~1\Altova\XMLSpy2006\UI.xsd">
+	<Script file="locale.lua"/>
+	<Script file="NPCMData.cn.lua"/>
+	<Script file="NPCMark.lua"/>
+	<Button name="MapMarkTemplate" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="20" y="20"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" file="Interface\AddOns\icon\NPCMark\NodeNormal">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+			</OnLoad>			
+			<OnEnter>
+				MapMarkPoint_OnEnter(self);			
+			</OnEnter>
+			<OnLeave>
+				MapMarkPoint_OnLeave(self);
+			</OnLeave>
+		</Scripts>
+		<HighlightTexture alphaMode="ADD" file="Interface\AddOns\NPCMark\icon\NodeHighlight"/>
+	</Button>
+	
+	<CheckButton name="MapMarkCheckButton" frameStrata="HIGH" parent="WorldMapDetailFrame" hidden="true">
+		<Size>
+			<AbsDimension x="22" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT">
+				<Offset>
+					<AbsDimension x="-100" y="-16"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<NormalTexture file="Interface\Buttons\UI-CheckBox-Up">
+			<Size>
+				<AbsDimension x="24" y="28"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="3" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalTexture>
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check">
+			<Size>
+				<AbsDimension x="24" y="24"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="3" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</CheckedTexture>
+		<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD">
+			<Size>
+				<AbsDimension x="24" y="24"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="3" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+				self:SetChecked(1)
+				MapMarkToggleEnable(self:GetChecked())
+			</OnLoad>
+			<OnClick>
+				MapMarkToggleEnable(self:GetChecked())
+			</OnClick>
+            <!-- <OnShow> -->
+            <!--     self:SetFrameStrata'DIALOG' -->
+            <!-- </OnShow> -->
+		</Scripts>
+	</CheckButton>
+
+	<Frame name="MapPlusDDList" frameStrata="HIGH" inherits="UIDropDownMenuTemplate" parent="WorldMapDetailFrame" hidden="true">
+		<Anchors>	
+			<Anchor point="LEFT" relativeTo="MapMarkCheckButton" relativePoint="RIGHT">
+				<Offset>
+					<AbsDimension x="-14" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+                self:SetScale(0.75)
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+				UIDropDownMenu_SetWidth(self,100);
+				UIDropDownMenu_SetButtonWidth(self,120);
+			</OnLoad>
+            <!-- <OnShow> -->
+            <!--     self:SetFrameStrata'DIALOG' -->
+            <!-- </OnShow> -->
+		</Scripts>
+	</Frame>
+
+	<GameTooltip name="NPCMTooltip" frameStrata="HIGH" hidden="false" toplevel="true" parent="WorldMapFrame" inherits="GameTooltipTemplate">
+		<Scripts>
+			<OnLoad>
+				self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+				self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+				self:SetOwner(UIParent, "ANCHOR_NONE");
+			</OnLoad>
+		</Scripts>
+	</GameTooltip>
+</Ui>

@@ -1,0 +1,53 @@
+## Interface: 50400
+## Version: 5.0.4.1520
+## X-ReleaseDate: "$Date: 2012-08-28 09:26:01 +0000 (Tue, 28 Aug 2012) $"
+## X-Curse-Packaged-Version: 5.0.4.1520
+## X-Curse-Project-Name: Grid
+## X-Curse-Project-ID: grid
+## X-Curse-Repository-ID: wow/grid/mainline
+
+# Title: Grid
+# Notes: A compact grid of party/raid unit frames.
+
+## Author: Phanx, Pastamancer, Maia
+## Credits: Greltok, Jerry, jlam
+## X-Copyright: Copyright (c) 2006-2012 Pastamancer, Phanx. All rights reserved.
+## X-License: See the accompanying LICENSE file for details.
+## X-Website: http://www.wowace.com/addons/grid/
+
+## OptionalDeps: Ace3, LibDBIcon-1.0, LibDualSpec-1.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, AceGUI-3.0-Spell-EditBox, UTF8, Clique, SharedMedia
+## SavedVariables: GridDB
+
+..\LibBabble-3.0\LibBabble-3.0.lua
+..\LibBabble-3.0\LibBabble-Zone-3.0.lua
+..\LibBabble-3.0\LibBabble-Boss-3.0.lua
+
+Locales\GridLocale-zhCN.lua
+Locales\GridLocale-zhTW.lua
+
+GridCore.lua
+GridRoster.lua
+GridFrame.lua
+GridLayout.lua
+GridLayoutLayouts.lua
+GridStatus.lua
+GridLDB.lua
+
+Statuses\GridStatusAggro.lua
+Statuses\GridStatusAuras.lua
+Statuses\GridStatusHeals.lua
+Statuses\GridStatusHealth.lua
+#Statuses\GridStatusMana.lua
+Statuses\GridStatusName.lua
+Statuses\GridStatusRange.lua
+Statuses\GridStatusReadyCheck.lua
+Statuses\GridStatusResurrect.lua
+Statuses\GridStatusTarget.lua
+Statuses\GridStatusVehicle.lua
+Statuses\GridStatusVoiceComm.lua
+
+ConfigMenu.lua
+
+## Title: |cff880303[网易有爱]|r Grid
+## X-Vendor: NetEase
+## DefaultState: Disabled
