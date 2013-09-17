@@ -8,7 +8,7 @@ local mod = ExtraCD
 local tinsert, tremove = table.insert, table.remove
 local tonumber, tostring = tonumber, tostring
 local ECD_TEXT = "ExtraCD"
-local ECD_VERSION = "1.2.0b"
+local ECD_VERSION = "1.2.1b"
 local ECD_AUTHOR = "superk"
 local active = {}
 local equippedItems = {}
@@ -345,12 +345,15 @@ function mod:ScanPlayerICDs()
 	local link1 = GetInventoryItemLink("player", 13)
 	local link2 = GetInventoryItemLink("player", 14)
 	local link3 = GetInventoryItemLink("player", 16)
+	local link4 = GetInventoryItemLink("player", 15)
 	local trinket1
 	local trinket2
 	local waepon1
+	local cloak
 	if link1 then trinket1 = link1:match("item:(%d+)") end
 	if link2 then trinket2 = link2:match("item:(%d+)") end
 	if link3 then weapon1 = link3:match("item:(%d+)") end
+	if link4 then cloak = link4:match("item:(%d+)") end
 		
 	local items = {}
 	for i = 1, 19 do
@@ -410,9 +413,9 @@ function mod:ScanPlayerICDs()
 					if v.ppm and not self.db.showRPPM then break end
 					if type(v.ppm) == "table" then
 						if v.ppm[class] then 
-							specppm = v.ppm[class][spec]
+							specppm = v.ppm[class][spec] * v.ppm.BASE
 						else
-							specppm = v.ppm.OTHER
+							specppm = v.ppm.OTHER * v.ppm.BASE
 						end
 					else 
 						specppm = v.ppm
@@ -425,6 +428,9 @@ function mod:ScanPlayerICDs()
 						break
 					elseif tonumber(weapon1 or -1) == item  then
 						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 16, duration = v.duration or 0})
+						break
+					elseif tonumber(cloak or -1) == item  then
+						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 15, duration = v.duration or 0})
 						break
 					end
 				end

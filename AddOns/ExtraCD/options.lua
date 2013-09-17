@@ -109,7 +109,22 @@ function mod:AddDataOption(spellId)
 				name = L["RPPM"],
 				type = "input",
 				disabled = function() return self.db.dataLock and isOriginal end,
-				get = function() return tostring(db.ppm or 0) end,
+				get = function() 
+					if not db.ppm then return "0" end
+					local _, class = UnitClass("player")
+					local spec = GetSpecialization("player")
+					local specppm
+					if type(db.ppm) == "table" then
+						if db.ppm[class] then 
+							specppm = db.ppm[class][spec] * db.ppm.BASE
+						else
+							specppm = db.ppm.OTHER * db.ppm.BASE
+						end
+					else 
+						specppm = db.ppm
+					end
+					return tostring(specppm)
+				end,
 				set = function(info, value) db.ppm = tonumber(value) self:ResetAllIcons() end,
 				pattern = "%d+$",
 			},

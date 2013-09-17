@@ -1,7 +1,7 @@
 ﻿local mod = ExtraCD
 
 function mod:GetDataVersion()
-	return 52
+	return 54
 end
 
 function mod:GetSpellData() 
@@ -136,6 +136,67 @@ function mod:GetSpellData()
 		-- type = "item" 
 		-- item = {the item id}
 		-- MOP 5.4
+		-- Legendary cloak
+		[146193] = {
+			desc = "",
+			type = "item",
+			item = {102245, 102250},
+			cd = 120,
+		}, -- Qian-Le, Courage of Niuzao & Xing-Ho, Breath of Yu'lon
+		[146198] = {
+			desc = "",
+			type = "item",
+			item = {102246},
+			cd = 0,
+			ppm = {
+				MAGE = {3.26, 3.13, 3.13},
+				WARLOCK = {2.87, 3.26, 3},
+				SHAMAN = {2.74, 2.61, 2.61},
+				DRUID = {2.87, 2.61, 2.61, 2.61},
+				PRIEST = {2.61, 2.61, 2.61},
+				OTHER = 2.61,
+				BASE = 1
+			}, 
+			modifier = 'haste',
+			duration = 4,
+		}, -- Xing-Ho, Breath of Yu'lon
+		[146194] = {
+			desc = "",
+			type = "item",
+			item = {102248, 102249},
+			cd = 0,
+			ppm = {
+				ROGUE = {2.70, 2, 1.74},
+				SHAMAN = {1.74,2.70, 1.74},
+				DRUID = {1.74, 2.26, 1.04, 1.74},
+				DEATHKNIGHT = {1.04, 2.61, 1.83},
+				HUNTER = {1.74, 2.09, 2},
+				WARRIOR = {2.35, 1.83, 1.04},
+				MONK = {1.04, 2.09, 1.74},
+				PALADIN = {1.74, 1.04, 2.52},
+				OTHER = 1.74,
+				BASE = 1
+			}, 
+			modifier = 'haste',
+			duration = 3,
+		}, -- Fen-Yu, Fury of Xuen & Gong-Lu, Strength of Xuen
+		[146200] = {
+			desc = "",
+			type = "item",
+			item = {102247},
+			cd = 0,
+			ppm = {
+				SHAMAN = {0.58, 0.58, 0.41},
+				DRUID = {0.58, 0.58, 0.58, 0.46},
+				PRIEST = {0.81, 0.58, 0.58},
+				MONK = {0.58, 0.58, 0.46},
+				PALADIN = {0.64, 0.58, 0.58},
+				OTHER = 0.58,
+				BASE = 1
+			}, 
+			duration = 10,
+		}, -- Jina-Kang, Kindness of Chi-Ji
+		
 		-- SoO WH(Warforged Heroic)/ H/ WN/ N/ F(Flexible)/ LFR  
 		[148911] = {
 			desc = "",
@@ -257,6 +318,30 @@ function mod:GetSpellData()
 			cd = 85,
 			duration = 15,
 		}, -- Fusion-Fire Core
+		
+		-- Timeless series 535 & 496 
+		[146218] = {
+			desc = "",
+			type = "item",
+			item = {103987, 103687},
+			cd = 115,
+			duration = 20,
+		}, -- Yu'lon's Bite
+		[146296] = {
+			desc = "",
+			type = "item",
+			item = {103989, 103689},
+			cd = 115,
+			duration = 20,
+		}, -- Alacrity of Xuen
+		[146312] = {
+			desc = "",
+			type = "item",
+			item = {103986, 103686},
+			cd = 115,
+			duration = 20,
+		}, -- Discipline of Xuen
+				
 		
 			
 		-- MOP 5.2

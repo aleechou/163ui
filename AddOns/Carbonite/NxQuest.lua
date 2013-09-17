@@ -1880,6 +1880,9 @@ function Nx.Quest:ScanBlizzQuestDataTimer()
 	local scanCnt = 0
 
 	while scanCnt < 10 do
+		if InCombatLockdown() then			
+			return
+		end
 
 		if mapId ~= curMapId then
 
@@ -1905,7 +1908,7 @@ function Nx.Quest:ScanBlizzQuestDataTimer()
 
 --			Nx.prt ("ScanQ next %s %s", cont, mapId)
 
-			if cont == 5 then			-- Done?
+			if cont == 6 then			-- Done?
 
 				WatchFrame:RegisterEvent ("WORLD_MAP_UPDATE")	-- Back on when done
 
@@ -6974,7 +6977,7 @@ function Nx.Quest.Watch:UpdateList()
 			  local cTimer ={GetWorldElapsedTimers()}
 				for _,id in ipairs(cTimer) do
  		          local description, elapsedTime, isChallengeModeTimer = GetWorldElapsedTime(id) 
- 		          if (isChallengeModeTimer) then
+ 		          if isChallengeModeTimer > 0 then
  		            list:ItemAdd(0)
  			        list:ItemSet(2,format("|cffff8888%s",description))
  			        list:ItemSetButton("QuestWatchTip",false)
@@ -9000,7 +9003,7 @@ function Nx.Quest:DecodeComRcv (info, msg)
 
 	--	msg = "0000###"
 
-	if #msg < 7 then	-- Too short?
+	if not msg or #msg < 7 then	-- Too short?
 		return	-- error, so nil length
 	end
 
