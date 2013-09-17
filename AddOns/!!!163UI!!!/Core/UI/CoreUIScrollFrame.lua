@@ -96,7 +96,7 @@ CoreUICreateHybridUpdateScroll = function(scrollFrame)
     if scrollFrame.scrollBar and floor(totalHeight - scrollFrame:GetHeight() + 0.5)<=0 then scrollFrame.scrollBar:SetMinMaxValues(0,1) end --不然左侧拖动滚动会出问题,用1是为了防止HybridScrollFrame_Update里的>= math.floor(maxVal)
     if(scrollFrame.noScrollBar and scrollFrame.scrollBar) then scrollFrame.scrollBar:Hide() end
 end
-local CoreUICreateHybrid_OnValueChanged = function(self, value) HybridScrollFrame_OnValueChanged(self:GetParent(), value); end
+local CoreUICreateHybrid_OnValueChanged = function(self, value) HybridScrollFrame_OnValueChanged(LFG_SUBTYPEID_FLEXRAID and self or self:GetParent(), value); end
 local CoreUICreateHybrid_DummyButton = CreateFrame("Button");
 --- 复制HybridScrollFrame_OnMouseWheel，按住Shift一次滚动一次, 按住Ctrl可以翻页滚动
 local CoreUICreateHybrid_OnMouseWheel = function(self, delta, stepSize)
