@@ -4,7 +4,7 @@ local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndZQ		= mod:NewSound(nil, "SoundZQ", true)
 local sndTT		= mod:NewSound(nil, "SoundTT", true)
 
-mod:SetRevision(("$Revision: 10313 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10327 $"):sub(12, -3))
 mod:SetCreatureID(72311, 72560, 72249, 73910, 72302)--Boss needs to engage off friendly NCPS, not the boss. I include the boss too so we don't detect a win off losing varian. :)
 mod:SetReCombatTime(120)--fix combat re-starts after killed. Same issue as tsulong. Fires TONS of IEEU for like 1-2 minutes after fight ends.
 mod:SetMainBossID(72249)
@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED target focus boss1",
+	"UNIT_SPELLCAST_SUCCEEDED",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
@@ -127,31 +127,34 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 147688 and self:checkTankDistance(args.sourceGUID, 60) then--Might be an applied event instead
+	if args.spellId == 147688 and self:checkTankDistance(args.sourceGUID, 40) then--Might be an applied event instead
 		warnArcingSmash:Show()
 		specWarnArcingSmash:Show()
 		if self:AntiSpam(10, 4) then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\carefly.mp3")--小心击飞
 		end
-	elseif args.spellId == 146757 and self:checkTankDistance(args.sourceGUID, 60) then
+	elseif args.spellId == 146757 and self:checkTankDistance(args.sourceGUID, 40) then
 		local source = args.sourceName
 		warnChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnChainheal:Show(source)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
+	elseif args.spellId == 146848 then
+		specWarnSkullCracker:Show()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_sfzd.mp3")--旋風斬
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 146769 and self:checkTankDistance(args.sourceGUID, 60) then
+	if args.spellId == 146769 and self:checkTankDistance(args.sourceGUID, 40) then
 		warnCrushersCall:Show()
 		specWarnCrushersCall:Show()
 		timerCrushersCallCD:Start()
-	elseif args.spellId == 146849 and self:checkTankDistance(args.sourceGUID, 60) then
+	elseif args.spellId == 146849 and self:checkTankDistance(args.sourceGUID, 40) then
 		warnShatteringCleave:Show()
 		timerShatteringCleaveCD:Start()
-	elseif args.spellId == 146753 and self:checkTankDistance(args.sourceGUID, 60) then
+	elseif args.spellId == 146753 and self:checkTankDistance(args.sourceGUID, 40) then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
 		sndTT:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
@@ -179,7 +182,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 147029 then--Tank debuff version
 		warnFlamesofGalakrond:Show(args.destName, 1)
 		timerFlamesofGalakrond:Start(args.destName)
-	elseif args.spellId == 147328 and self:checkTankDistance(args.sourceGUID, 60) then
+	elseif args.spellId == 147328 and self:checkTankDistance(args.sourceGUID, 40) then
 		warnWarBanner:Show()
 		sndZQ:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zqkd.mp3")--战旗快打
 		specWarnWarBanner:Show()
@@ -203,19 +206,32 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFlameArrow:Show()
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 		end
+	elseif args.spellId == 147711 then
+		warnCurseVenom:Show()
+		specWarnCurseVenom:Show()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dskd.mp3")--毒蛇快打
 	end
 end
 
 function mod:SPELL_AURA_APPLIED_DOSE(args)
 	if args.spellId == 147029 then--Tank debuff version
-		local amount = args.amount or 1
-		warnFlamesofGalakrond:Show(args.destName, amount)
-		timerFlamesofGalakrond:Start(args.destName)
-		if amount >= 3 then
-			if args:IsPlayer() then
-				specWarnFlamesofGalakrondTank:Show(amount)
-			else
-				specWarnFlamesofGalakrondOther:Show(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName)
+		for i = 1, 5 do
+			local bossUnitID = "boss"..i
+			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID then
+				if self:IsTanking(uId, bossUnitID) then
+					local amount = args.amount or 1
+					warnFlamesofGalakrond:Show(args.destName, amount)
+					timerFlamesofGalakrond:Start(args.destName)
+					if amount >= 3 then
+						if args:IsPlayer() then
+							specWarnFlamesofGalakrondTank:Show(amount)
+						else
+							specWarnFlamesofGalakrondOther:Show(args.destName)
+						end
+					end
+				end
+				break--break loop if find right boss
 			end
 		end
 	end
@@ -235,7 +251,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId
 	if spellId == 147705 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnPoisonCloud:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-	elseif spellId == 146765 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+	elseif spellId == 146765 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnFlameArrow:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
@@ -243,9 +259,9 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 146764 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+	if spellId == 146764 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 	--	specWarnFlameArrow:Show()
-	elseif spellId == 146872 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then
+	elseif spellId == 146872 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShadowAttack:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
@@ -263,10 +279,10 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 147825 then--Muzzle Spray::0:147825
+	if spellId == 147825 and self:AntiSpam(2, 2) then--Muzzle Spray::0:147825
 		warnMuzzleSpray:Show()
 		specWarnMuzzleSpray:Show()
-	elseif spellId == 50630 then--Eject All Passengers:
+	elseif spellId == 50630 and self:AntiSpam(2, 3) then--Eject All Passengers:
 		timerAddsCD:Cancel()
 		warnPhase2:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") -- 2階段
@@ -275,7 +291,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.newForces1 or msg == L.newForces2 or msg == L.newForces3 or msg == L.newForces4 then
+	if msg == L.newForces1 or msg == L.newForces1H or msg == L.newForces2 or msg == L.newForces3 or msg == L.newForces4 then
 		self:SendSync("Adds")
 	end
 end
@@ -296,7 +312,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 end
 
 function mod:OnSync(msg)
-	if msg == "Adds" and self:AntiSpam(10, 3) then
+	if msg == "Adds" and self:AntiSpam(10, 4) then
 		addsCount = addsCount + 1
 		if addsCount == 1 then
 			timerAddsCD:Start(48)

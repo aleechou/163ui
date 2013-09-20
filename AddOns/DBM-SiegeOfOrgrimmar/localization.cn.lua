@@ -241,6 +241,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
+	RangeFrame	= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(10, 145987),
 	Filterarea				= "其他：使用更严格的方式判定所在区域"
 })
 

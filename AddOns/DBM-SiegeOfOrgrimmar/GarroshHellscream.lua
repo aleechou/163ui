@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndGC		= mod:NewSound(nil, "SoundGC", mod:IsDps())
 
-mod:SetRevision(("$Revision: 10315 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10320 $"):sub(12, -3))
 mod:SetCreatureID(71865)
 mod:SetZone()
 
@@ -17,7 +17,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED",
 	"UNIT_DIED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"--I saw garrosh fire boss1 and boss3 events, so use all 5 to be safe
 )
 
@@ -29,7 +28,7 @@ local warnFireUnstableIronStar		= mod:NewSpellAnnounce(147047, 3)
 local warnFarseerWolfRider			= mod:NewSpellAnnounce("ej8294", 3, 144585)
 local warnSiegeEngineer				= mod:NewSpellAnnounce("ej8298", 4, 144616)
 local warnChainHeal					= mod:NewSpellAnnounce(144583, 4)
-local warnChainLightning			= mod:NewSpellAnnounce(144584, 3)--Maybe turn off by default if too spammy
+local warnChainLightning			= mod:NewSpellAnnounce(144584, 3, nil, false)--Maybe turn off by default if too spammy
 --Intermission: Realm of Y'Shaarj
 local warnYShaarjsProtection		= mod:NewTargetAnnounce(144945, 2)
 local warnAnnihilate				= mod:NewCastAnnounce(144969, 4)
@@ -328,10 +327,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerSiegeEngineerCD:Cancel()
 		sndGC:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3")
 		timerFarseerWolfRiderCD:Cancel()
+		timerEnterRealm:Start(25)
 		if not mod:IsHealer() then
 			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3")
 		end
---		timerEnterRealm:Start(25)--For some reason this isn't starting a 25 second timer, wtf?
 	elseif spellId == 144866 then--Enter Realm of Y'Shaarj
 		timerPowerIronStar:Cancel()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3")
@@ -352,7 +351,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 --		countdownWhirlingCorruption:Cancel()
 	elseif spellId == 144956 then--Jump To Ground (intermission ending)
 		if phase == 1 then
-			timerEnterRealm:Start(25)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段
 		else
 			timerEnterRealm:Start()
@@ -374,6 +372,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	--"<556.9 21:41:56> [UNIT_SPELLCAST_SUCCEEDED] Garrosh Hellscream [[boss1:Realm of Y'Shaarj::0:145647]]", -- [169886]
 	elseif spellId == 145647 then--Phase 3 trigger
 		timerEnterRealm:Cancel()
+		timerDesecrateCD:Cancel()
+		timerTouchOfYShaarjCD:Cancel()
+		timerWhirlingCorruptionCD:Cancel()
 --		countdownTouchOfYShaarj:Cancel()
 --		countdownWhirlingCorruption:Cancel()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")

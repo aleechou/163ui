@@ -50,10 +50,10 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10305 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 10323 $"):sub(12, -3)),
 	DisplayVersion = "5.4.1 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
-	DisplayReleaseVersion = "5.4.0", -- Needed to work around bigwigs sending improper version information
-	ReleaseRevision = 10267 -- the revision of the latest stable version that is available
+	DisplayReleaseVersion = "5.4.1", -- Needed to work around bigwigs sending improper version information
+	ReleaseRevision = 10320 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -3720,7 +3720,7 @@ end
 
 function DBM:StartLogging(timer, checkFunc)
 	self:Unschedule(DBM.StopLogging)
-	if DBM.Options.LogOnlyRaidBosses and savedDifficulty ~= "normal10" and savedDifficulty ~= "normal25" and savedDifficulty ~= "heroic10" and savedDifficulty ~= "heroic25" then return end
+	if DBM.Options.LogOnlyRaidBosses and savedDifficulty ~= "normal10" and savedDifficulty ~= "normal25" and savedDifficulty ~= "heroic10" and savedDifficulty ~= "heroic25" and savedDifficulty ~= "flex" then return end
 	if DBM.Options.AutologBosses and not LoggingCombat() then--Start logging here to catch pre pots.
 		self:AddMsg("|cffffff00"..COMBATLOGENABLED.."|r")
 		LoggingCombat(1)
@@ -3755,7 +3755,7 @@ function DBM:StopLogging()
 end
 
 function DBM:GetCurrentInstanceDifficulty()
-	local _, instanceType, difficulty, difficultyName, maxPlayers, _, _, _, instanceGroupSize = GetInstanceInfo()
+	local _, _, difficulty, difficultyName, _, _, _, _, instanceGroupSize = GetInstanceInfo()
 	if difficulty == 0 then
 		return "worldboss", RAID_INFO_WORLD_BOSS.." - "
 	elseif difficulty == 1 then

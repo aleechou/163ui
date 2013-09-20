@@ -247,6 +247,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	RangeFrame	= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(10, 145987),
 	Filterarea				= "Other: Use stricter way to tell the area"
 })
 
@@ -380,9 +381,12 @@ L= DBM:GetModLocalization(869)
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
-})
-
-L:SetMiscLocalization({
+	SoundGC					= "Voice Warning: $journal:8298 related",
+	optDD					= "Ancestral Chain Heal interrupt warnings",
+	alldd					= "Always (If he's your target or focus)",
+	DD1						= "Odd number",
+	DD2						= "Even number",
+	nodd					= "None"
 })
 
 -------------
