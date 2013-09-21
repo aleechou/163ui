@@ -35,10 +35,11 @@ function ActionButton:New(id)
 			end
 		]])
 
-		b:UpdateGrid()
-		b:UpdateHotkey(b.buttonType)
-		b:UpdateMacro()
-		b:UnregisterEvent('UPDATE_BINDINGS')
+		Dominos.BindingsController:Register(b, b:GetName():match('DominosActionButton%d'))
+		--b:UpdateGrid()
+		--b:UpdateHotkey(b.buttonType)
+		--b:UpdateMacro()
+		--b:UnregisterEvent('UPDATE_BINDINGS')
 
 		--hack #1billion, get rid of range indicator text
 		local hotkey = _G[b:GetName() .. 'HotKey']
@@ -46,10 +47,14 @@ function ActionButton:New(id)
 			hotkey:SetText('')
 		end
 
-		self.active[id] = b
+		b:UpdateGrid()
+		b:UpdateMacro()
 
-		return b
+		self.active[id] = b
+		--return b
 	end
+
+	return b
 end
 
 local function Create(id)
@@ -114,6 +119,7 @@ function ActionButton:Free()
 	self.active[id] = nil
 	
 	ActionBarActionEventsFrame_UnregisterFrame(self)
+	Dominos.BindingsController:Unregister(self)
 	
 	self:SetParent(HiddenActionButtonFrame)
 	self:Hide()
@@ -132,6 +138,7 @@ function ActionButton:OnEnter()
 	if Dominos:ShouldShowTooltips() then
 		ActionButton_SetTooltip(self)
 		ActionBarButtonEventsFrame.tooltipOwner = self
+		ActionBarActionEventsFrame.tooltipOwner = self
 		ActionButton_UpdateFlyout(self)
 	end
 	KeyBound:Set(self)

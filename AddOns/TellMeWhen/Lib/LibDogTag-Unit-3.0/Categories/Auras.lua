@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 253 $"):match("%d+")) or 0
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 262 $"):match("%d+")) or 0
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -158,7 +158,7 @@ DogTag:AddTimerHandler("Unit", function(num, currentTime)
 			currentAuras[unit] = t
 			currentDebuffTypes[unit] = u
 			currentAuraTimes[unit] = v
-			local oldNumDebuffs = currentNumDebuffs[unit]
+			local oldNumDebuffs = rawget(currentNumDebuffs, unit)
 			currentNumDebuffs[unit] = numDebuffs
 			old = del(old)
 			oldType = del(oldType)

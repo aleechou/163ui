@@ -8,7 +8,7 @@ local LBF = LibStub('LibButtonFacade', true)
 --[[ Bag Bar ]]--
 
 local BagBar = Dominos:CreateClass('Frame', Dominos.Frame)
-Dominos.BagBar  = BagBar
+--Dominos.BagBar  = BagBar
 
 
 function BagBar:New()
@@ -114,4 +114,19 @@ function BagBar:CreateMenu()
 	
 	menu:AddAdvancedPanel()
 	self.menu = menu
+end
+
+--[[ Bag Bar Controller ]]
+
+local BagBarController = Dominos:NewModule('BagBar')
+
+function BagBarController:Load()
+	self.frame = BagBar:New()
+end
+
+function BagBarController:Unload()
+	if self.frame then
+		self.frame:Free()
+		self.frame = nil
+	end
 end

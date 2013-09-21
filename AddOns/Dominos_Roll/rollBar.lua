@@ -4,7 +4,7 @@
 --]]
 
 --[[
-	Copyright (c) 2008-2009 Jason Greer
+	Copyright (c) 2008-2013 Jason Greer
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without 
@@ -33,29 +33,14 @@
 --]]
 
 
---[[ Module Stuff ]]--
-
-local DRB = Dominos:NewModule('roll')
-local L = LibStub('AceLocale-3.0'):GetLocale('Dominos')
-local RollBar
-
-function DRB:Load()
-	UIPARENT_MANAGED_FRAME_POSITIONS['GroupLootContainer'] = nil
-	
-	self.frame = RollBar:New()
-end
-
-function DRB:Unload()
-	self.frame:Free()
-end
-
-
 --[[ Roll Bar Object ]]--
 
-RollBar = Dominos:CreateClass('Frame', Dominos.Frame)
+local RollBar = Dominos:CreateClass('Frame', Dominos.Frame)
+local L = LibStub('AceLocale-3.0'):GetLocale('Dominos')
 
 function RollBar:New()
 	local f = self.super.New(self, 'roll', L.TipRollBar)
+
 	f:LoadButtons()
 	f:Layout()
 
@@ -95,4 +80,20 @@ end
 
 function RollBar:GetGroupLootContainer()
 	return _G['GroupLootContainer']
+end
+
+
+--[[ Module Stuff ]]--
+local RollBarController = Dominos:NewModule('RollBar')
+
+function RollBarController:OnInitialize()
+	_G['GroupLootContainer'].ignoreFramePositionManager = true
+end
+
+function RollBarController:Load()
+	self.frame = RollBar:New()
+end
+
+function RollBarController:Unload()
+	self.frame:Free()
 end

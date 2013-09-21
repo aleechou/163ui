@@ -86,3 +86,4 @@ L['totem3'] = '圖騰條3'
 L['extra'] = '額外快捷鍵'
 L['Dominos'] = "多米諾動作條"
 L['page'] = '翻頁條'
+L['encounter'] = '觸發器'

@@ -87,3 +87,4 @@ L['totem3'] = 'totem3'
 L['extra'] = 'extra'
 L['Dominos'] = "Dominos"
 L['page'] = 'page'
+L['encounter'] = 'encounter'

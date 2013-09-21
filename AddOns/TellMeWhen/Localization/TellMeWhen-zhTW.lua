@@ -1586,7 +1586,7 @@ L["SUG_INSERTNAME_INTERFERE"] = [=[|TInterface\AddOns\TellMeWhen\Textures\Alert:
 如果使用名稱可能無法被正確的檢查。
 你應當使用一個ID來檢查。 |r]=]
 L["SUG_INSERT_RIGHT"] = "|cff7fffff點擊滑鼠右鍵|r"
-L["SUG_INSERT_TAB"] = "或著按|cff7fffffTab|r鍵"
+L["SUG_INSERT_TAB"] = "或者按|cff7fffffTab|r鍵"
 L["SUG_INSERTTEXTSUB"] = "%s插入標籤"
 L["SUG_MATCH_WPNENCH_ENCH"] = "(.*)"
 L["SUG_MISC"] = "雜項"

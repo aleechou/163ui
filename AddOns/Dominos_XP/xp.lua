@@ -58,17 +58,20 @@ local textEnv = {
 }
 
 --[[ Module Stuff ]]--
-
-local DXP = Dominos:NewModule('xp')
+local XpBarController = Dominos:NewModule('XpBar')
 local XP
 
-function DXP:Load()
+function XpBarController:Load()
 	self.frame = XP:New()
 	self.frame:SetFrameStrata('BACKGROUND')
 end
 
-function DXP:Unload()
+function XpBarController:Unload()
 	self.frame:Free()
+end
+
+function XpBarController:OnInitialize()
+	Dominos:Load()
 end
 
 
@@ -300,7 +303,7 @@ function XP:UpdateReputation()
 	end
 
 	max = max - min
-	value = value - min
+	value = value - min	
 
 	local color = FACTION_BAR_COLORS[reaction]
 	self.value:SetStatusBarColor(color.r, color.g, color.b)
@@ -315,12 +318,12 @@ function XP:UpdateReputation()
 	textEnv.repMax = max
 	textEnv.tnl = max - value
 	textEnv.pct = round(value / max * 100)
+
 	if friendID then
 		textEnv.repLevel = friendTextLevel
 	else
 		textEnv.repLevel = _G['FACTION_STANDING_LABEL' .. reaction]
 	end
-
 
 	local getRepText = assert(loadstring(self:GetRepFormat(), "getRepText"))
 	setfenv(getRepText, textEnv)

@@ -57,7 +57,7 @@ U1RegisterAddon("Dominos", {
             Dominos:Unload()
             Dominos.db:ResetProfile()
             -- insert out diff
-            Dominos:U1_InitPreset(true --[[ force ]])
+            Dominos:U1_InitPreset(true)
             Dominos.isNewProfile = nil
             Dominos:Load()
         end
@@ -151,7 +151,7 @@ U1RegisterAddon("Dominos", {
 });
 
 U1RegisterAddon("Dominos_Config", { title = "配置界面模块", protected = 1, hide = 1, });
-U1RegisterAddon("Dominos_Cast", {title = "施法条模块", load = "LOGIN", desc = "令系统默认施法条可以移动和配置的多米诺模块。网易有爱叶子修改。", protected = nil, hide = nil, });
-U1RegisterAddon("Dominos_Roll", {title = "掷点界面模块", load = "LOGIN", desc = "让装备等待Roll点决定归属时的各个框体可以移动的多米诺模块。", protected = nil, hide = nil, });
-U1RegisterAddon("Dominos_Totems", {title = "图腾条模块", load = "LOGIN", desc = "移动萨满图腾条的多米诺模块", protected = nil, hide = nil, });
-U1RegisterAddon("Dominos_XP", {title = "经验条模块", load = "LOGIN", desc = "一个可移动的经验条/声望条模块，右键点击可以切换经验/声望。", protected = nil, hide = nil, });
+U1RegisterAddon("Dominos_Cast", {title = "施法条模块", load="LOGIN", desc = "令系统默认施法条可以移动和配置的多米诺模块。网易有爱叶子修改。", protected = nil, hide = nil, });
+U1RegisterAddon("Dominos_Roll", {title = "掷点界面模块", load="LOGIN", desc = "让装备等待Roll点决定归属时的各个框体可以移动的多米诺模块。", protected = nil, hide = nil, });
+U1RegisterAddon("Dominos_Encounter", {title = "触发模块", load="LOGIN", desc = "移动玩家能量槽的多米诺模块", protected = nil, hide = nil, });
+U1RegisterAddon("Dominos_XP", {title = "经验条模块", desc = "一个可移动的经验条/声望条模块，右键点击可以切换经验/声望。", protected = nil, hide = nil, });

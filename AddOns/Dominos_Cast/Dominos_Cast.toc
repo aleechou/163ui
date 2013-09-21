@@ -6,6 +6,7 @@
 ## Dependencies: Dominos
 #localization.lua
 #castBar.xml
+localization.xml
 castBar.lua
 
 ## Title: |cff880303[网易有爱]|r Dominos_Cast

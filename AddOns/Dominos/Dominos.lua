@@ -16,7 +16,7 @@ function Dominos:OnInitialize()
 	-- XXX 163
 	self.db = LibStub('AceDB-3.0'):New('DominosDB', self:GetDefaults(),
 	'网易有爱-'..(GetRealmName())..'-'..(UnitName'player'))
-	self:U1_InitPreset()
+	--self:U1_InitPreset()
 	-- XXX 163 end
 
 	self.db.RegisterCallback(self, 'OnNewProfile')
@@ -137,86 +137,6 @@ function Dominos:GetDefaults()
 end
 
 function Dominos:UpdateSettings(major, minor, bugfix)
-	--perform state translation to handle updates from older versions
-	if major < '4' then
-		for profile,sets in pairs(self.db.sv.profiles) do
-			if sets.frames then
-				for frameId, frameSets in pairs(sets.frames) do
-					if frameSets.pages then
-						for class, oldStates in pairs(frameSets.pages) do
-							local newStates = {}
-							
-							--convert class states
-							if class == 'WARRIOR' then
-								newStates['battle'] = oldStates['[bonusbar:1]']
-								newStates['defensive'] = oldStates['[bonusbar:2]']
-								newStates['berserker'] = oldStates['[bonusbar:3]']
-							elseif class == 'DRUID' then
-								newStates['moonkin'] = oldStates['[bonusbar:4]']
-								newStates['bear'] = oldStates['[bonusbar:3]']
-								newStates['tree'] = oldStates['[form:5]']
-								newStates['prowl'] = oldStates['[bonusbar:1,stealth]']
-								newStates['cat'] = oldStates['[bonusbar:1]']
-							elseif class == 'PRIEST' then
-								newStates['shadow'] = oldStates['[bonusbar:1]']
-							elseif class == 'ROGUE' then
-								newStates['vanish'] = oldStates['[bonusbar:1,form:3]']
-								newStates['shadowdance'] = oldStates['[bonusbar:2]']
-								newStates['stealth'] = oldStates['[bonusbar:1]']
-							elseif class == 'WARLOCK' then
-								newStates['meta'] = oldStates['[form:2]']
-							end
-						
-							--modifier states
-							for i, state in Dominos.BarStates:getAll('modifier') do
-								newStates[state.id] = oldStates[state.value]
-							end
-							
-							--possess states
-							for i, state in Dominos.BarStates:getAll('possess') do
-								newStates[state.id] = oldStates[state.value]
-							end
-							
-							--page states
-							for i, state in Dominos.BarStates:getAll('page') do
-								newStates[state.id] = oldStates[state.value]
-							end
-							
-							--targeting states
-							for i, state in Dominos.BarStates:getAll('target') do
-								newStates[state.id] = oldStates[state.value]
-							end
-							
-							frameSets.pages[class] = newStates
-						end
-					end
-				end
-			end
-		end
-	end
-	
-	--fix missing druid bear form paging
-	for profile, sets in pairs(self.db.sv.profiles) do
-		if sets.frames then
-			for frameId, frameSets in pairs(sets.frames) do
-				if frameSets.pages then
-					for class, states in pairs(frameSets.pages) do
-						--convert class states
-						if class == 'DRUID' then
-							if tonumber(frameId) == 1 and not states['bear'] then
-								states['bear'] = 8
-							else
-								if tonumber(frameId) ~= 1 and states['bear'] == 8 then
-									states['bear'] = nil
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-	
 	--inject new roll bar defaults
 	if major == '5' and minor == '0' and bugfix < '14' then
 		for profile,sets in pairs(self.db.sv.profiles) do
@@ -233,35 +153,14 @@ end
 
 function Dominos:UpdateVersion()
 	DominosVersion = CURRENT_VERSION
-	self:Print(format(L.Updated, DominosVersion))
+
+	self:Print(string.format(L.Updated, DominosVersion))
 end
 
 
 --Load is called  when the addon is first enabled, and also whenever a profile is loaded
-local function HasClassBar()
-	local _,class = UnitClass('player')
-	return not(class == 'MAGE' or class == 'SHAMAN')
-end
-
 function Dominos:Load()
-	for i = 1, self:NumBars() do
-		self.ActionBar:New(i)
-	end
-	
-	if HasClassBar() then
-		self.ClassBar:New()
-	end
-	
-	self.PetBar:New()
-	self.BagBar:New()
-	self.MenuBar:New()
-	self.ExtraBar:New()
-	self.VehicleBar:New()
-	
-	self.PageBar:New() --163
-
-	--load in extra functionality
-	for _,module in self:IterateModules() do
+	for i,module in self:IterateModules() do
 		module:Load()
 	end
 
@@ -274,16 +173,6 @@ end
 
 --unload is called when we're switching profiles
 function Dominos:Unload()
-	self.ActionBar:ForAll('Free')
-	self.Frame:ForFrame('pet', 'Free')
-	self.Frame:ForFrame('class', 'Free')
-	self.Frame:ForFrame('menu', 'Free')
-	self.Frame:ForFrame('bags', 'Free')
-	self.Frame:ForFrame('extra', 'Free')
-	self.Frame:ForFrame('vehicle', 'Free')
-	
-	self.Frame:ForFrame('page', 'Free') --163
-
 	--unload any module stuff
 	for _,module in self:IterateModules() do
 		module:Unload()
@@ -295,23 +184,22 @@ end
 
 --shamelessly pulled from Bartender4
 function Dominos:HideBlizzard()
-	if MultiActionBar_UpdateGrid then
-		MultiActionBar_UpdateGrid = Multibar_EmptyFunc
-	end
-	
 	-- Hidden parent frame
 	local UIHider = CreateFrame('Frame', nil, UIParent, 'SecureFrameTemplate'); UIHider:Hide()
 	self.UIHider = UIHider
 	
+	--[[ disable multibars ]]--
+
 	_G['MultiBarBottomLeft']:SetParent(UIHider)
 	_G['MultiBarBottomRight']:SetParent(UIHider)
 	_G['MultiBarLeft']:SetParent(UIHider)
 	_G['MultiBarRight']:SetParent(UIHider)
-	
-	UIPARENT_MANAGED_FRAME_POSITIONS["MainMenuBar"] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS["StanceBarFrame"] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
+
+	if MultiActionBar_UpdateGrid then
+		MultiActionBar_UpdateGrid = Multibar_EmptyFunc
+	end
+
+	--[[ disable menu bar ]]--
 
 	MainMenuBar:EnableMouse(false)
 
@@ -331,16 +219,39 @@ function Dominos:HideBlizzard()
 
 	ReputationWatchBar:SetParent(UIHider)
 
-	_G['StanceBarFrame']:UnregisterAllEvents()
-	_G['StanceBarFrame']:Hide()
-	_G['StanceBarFrame']:SetParent(UIHider)
+
+	--[[ disable stance bar ]]--
+
+	local stanceBar = _G['StanceBarFrame']
+	-- stanceBar:UnregisterAllEvents()
+	stanceBar:SetParent(UIHider)
+
+
+	-- [[ disable possess bar ]]--
+
+	local possessBar = _G['PossessBarFrame']
+	possessBar:UnregisterAllEvents()
+	possessBar:SetParent(UIHider)
+
+
+	-- [[ disable pet action bar ]]--
+
+	local petActionBar = _G['PetActionBarFrame']
+	-- petActionBar:UnregisterAllEvents()
+	petActionBar:SetParent(UIHider)
+
+
+	--[[ disable ui position manager ]]--
+
+	_G['MultiBarBottomLeft'].ignoreFramePositionManager = true
+	_G['MultiBarRight'].ignoreFramePositionManager = true
+	_G['MainMenuBar'].ignoreFramePositionManager = true
+	_G['StanceBarFrame'].ignoreFramePositionManager = true
+	_G['PossessBarFrame'].ignoreFramePositionManager = true
+	_G['MultiCastActionBarFrame'].ignoreFramePositionManager = true
 	
-	_G['PossessBarFrame']:Hide()
-	_G['PossessBarFrame']:SetParent(UIHider)
-	
-	_G['PetActionBarFrame']:Hide()
-	_G['PetActionBarFrame']:SetParent(UIHider)
-	
+
+	--[[ disable the override ui, if we need to ]]
 	self:UpdateUseOverrideUI()
 end
 
@@ -541,19 +452,6 @@ do
 
         frames.cast = { x=0, y=200, point='BOTTOM', showText=true, }
         frames.roll = { x=0, y=0, point='CENTER', numButtons = NUM_GROUP_LOOT_FRAMES, spacing=2, columns=1, }
-        frames.page = { x=0, y=0, point='BOTTOMLEFT', spacing=-8, columns=1, anchor='1LC', scale=0.9, fadeAlpha=0.35, }
-
-        frames.totem1 = CopyTable(frames.class)
-        frames.totem1.showTotems = true
-        frames.totem1.showRecall = true
-        frames.totem1.scale = 0.9
-
-        frames.totem2 = CopyTable(frames.totem1)
-        frames.totem2.anchor = 'totem1TL'
-        frames.totem2.hidden = true
-
-        frames.totem3 = CopyTable(frames.totem2)
-        frames.totem3.anchor = 'totem2TL'
     end
 end
 
@@ -678,7 +576,11 @@ end
 --[[ Options Menu Display ]]--
 
 function Dominos:ShowOptions()
+	if InCombatLockdown() then
+		return
+	end
 	if LoadAddOn('Dominos_Config') then
+		InterfaceOptionsFrame_Show()
 		InterfaceOptionsFrame_OpenToCategory(self.Options)
 		return true
 	end
@@ -860,6 +762,9 @@ function Dominos:HideConfigHelper()
 end
 
 function Dominos:SetLock(enable)
+	if InCombatLockdown() then
+		return
+	end
 	self.locked = enable or false
 	if self:Locked() then
 		self.Frame:ForAll('Lock')

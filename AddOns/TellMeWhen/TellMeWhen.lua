@@ -15,16 +15,16 @@
 -- ADDON GLOBALS AND LOCALS
 -- ---------------------------------
 
-TELLMEWHEN_VERSION = "6.2.5"
+TELLMEWHEN_VERSION = "6.2.6"
 
 TELLMEWHEN_VERSION_MINOR = ""
-local projectVersion = "6.2.5" -- comes out like "6.2.2-21-g4e91cee"
+local projectVersion = "6.2.6" -- comes out like "6.2.2-21-g4e91cee"
 if strmatch(projectVersion, "%-%d+%-") then
 	TELLMEWHEN_VERSION_MINOR = (" r%d (%s)"):format(strmatch(projectVersion, "%-(%d+)%-(.*)"))
 end
 
 TELLMEWHEN_VERSION_FULL = TELLMEWHEN_VERSION .. TELLMEWHEN_VERSION_MINOR
-TELLMEWHEN_VERSIONNUMBER = 62501 -- NEVER DECREASE THIS NUMBER (duh?).  IT IS ALSO ONLY INTERNAL (for versioning of)
+TELLMEWHEN_VERSIONNUMBER = 62602 -- NEVER DECREASE THIS NUMBER (duh?).  IT IS ALSO ONLY INTERNAL (for versioning of)
 
 if TELLMEWHEN_VERSIONNUMBER > 63000 or TELLMEWHEN_VERSIONNUMBER < 62000 then
 	-- safety check because i accidentally made the version number 414069 once

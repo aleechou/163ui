@@ -1,0 +1,11 @@
+## Interface: 50400
+## Title: Dominos Encounter
+## Title-zhCN: |cFF0099FF[Dominos]|r 触发条模块
+## Notes: Makes the PlayerPowerBarAlt movable
+## Author: Tuller (with help from Goranaws)
+## Dependencies: Dominos
+bar.lua
+controller.lua
+
+## Title: |cff880303[网易有爱]|r Dominos_XP
+## X-Vendor: NetEase

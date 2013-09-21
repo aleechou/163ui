@@ -3,22 +3,20 @@
 		the code for Dominos action bars and buttons
 --]]
 
---libs and omgspeed
+--[[ globals ]]--
+
+local Dominos = _G['Dominos']
+local ActionButton = Dominos.ActionButton
+
+local MAX_BUTTONS = 120
+
 local ceil = math.ceil
 local min = math.min
 local format = string.format
-local MAX_BUTTONS = 120
-local NUM_POSSESS_BAR_BUTTONS = 12
-local KeyBound = LibStub('LibKeyBound-1.0')
-local ActionButton = Dominos.ActionButton
-
 
 --[[ Action Bar ]]--
 
-local ActionBar = Dominos:CreateClass('Frame', Dominos.Frame)
-Dominos.ActionBar = ActionBar
-
---[[ Constructor Code ]]--
+local ActionBar = Dominos:CreateClass('Frame', Dominos.Frame); Dominos.ActionBar = ActionBar
 
 --metatable magic.  Basically this says, 'create a new table for this index'
 --I do this so that I only create page tables for classes the user is actually playing
@@ -45,7 +43,7 @@ ActionBar.mainbarOffsets = {
 			pages.cat = 6
 			pages.bear = 8
 			pages.moonkin = 9
-			-- pages.tree = 7
+			pages.tree = 7
 		-- elseif i == 'WARRIOR' then
 			-- pages.battle = 6
 			-- pages.defensive = 7
@@ -54,7 +52,7 @@ ActionBar.mainbarOffsets = {
 			pages.shadow = 6
 		elseif i == 'ROGUE' then
 			pages.stealth = 6
-			pages.shadowdance = 7
+			pages.shadowdance = 6
 		elseif i == 'MONK' then
 			pages.tiger = 6
 			pages.ox = 7
@@ -76,8 +74,8 @@ function ActionBar:New(id)
 	f.pages = f.sets.pages[f.class]
 	f.baseID = f:MaxLength() * (id-1)
 
-	f:LoadStateController()
 	f:LoadButtons()
+	f:LoadStateController()
 	f:UpdateClickThrough()
 	f:UpdateStateDriver()
 	f:Layout()
@@ -169,8 +167,9 @@ function ActionBar:GetOffset(stateId)
 	return self.pages[stateId]
 end
 
---note to self:
---if you leave a ; on the end of a statebutton string, it causes evaluation issues, especially if you're doing right click selfcast on the base state
+-- note to self:
+-- if you leave a ; on the end of a statebutton string, it causes evaluation issues, 
+-- especially if you're doing right click selfcast on the base state
 function ActionBar:UpdateStateDriver()
 	UnregisterStateDriver(self.header, 'page', 0)
 
@@ -211,9 +210,11 @@ function ActionBar:UpdateAction(i)
 	for i, state in Dominos.BarStates:getAll() do
 		local offset = self:GetOffset(state.id)
 		local actionId = nil
+
 		if offset then
 			actionId = ToValidID(b:GetAttribute('action--base') + offset * maxSize)
 		end
+
 		b:SetAttribute('action--S' .. i, actionId)
 	end
 end
@@ -240,7 +241,7 @@ function ActionBar:LoadStateController()
 
 	self.header:SetAttribute('updateState', [[
 		local state
-		if self:GetAttribute('state-overridepage') > 10 and self:GetAttribute('state-overridebar') then
+		if self:GetAttribute('state-overridepage') > 0 and self:GetAttribute('state-overridebar') then
 			state = 'override'
 		else
 			state = self:GetAttribute('state-page')
@@ -257,7 +258,9 @@ function ActionBar:RefreshActions()
 end
 
 function ActionBar:UpdateOverrideBar()
-	self.header:SetAttribute('state-overridebar', self:IsOverrideBar())
+	local isOverrideBar = self:IsOverrideBar()
+
+	self.header:SetAttribute('state-overridebar', isOverrideBar)
 end
 
 --returns true if the possess bar, false otherwise
@@ -286,12 +289,6 @@ function ActionBar:UpdateGrid()
 		self:ShowGrid()
 	else
 		self:HideGrid()
-	end
-end
-
-function ActionBar:UPDATE_BINDINGS()
-	for _,b in pairs(self.buttons) do
-		b:UpdateHotkey(b.buttonType)
 	end
 end
 
@@ -507,4 +504,21 @@ do
 
 		ActionBar.menu = menu
 	end
+end
+
+
+--[[ Action Bar Controller ]]--
+
+local ActionBarController = Dominos:NewModule('ActionBars', 'AceEvent-3.0')
+
+function ActionBarController:Load()
+	for i = 1, Dominos:NumBars() do
+		ActionBar:New(i)
+	end
+end
+
+function ActionBarController:Unload()
+	for i = 1, Dominos:NumBars() do
+		Dominos.Frame:ForFrame(i, 'Free')
+	end	
 end
