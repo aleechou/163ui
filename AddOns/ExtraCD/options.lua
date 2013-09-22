@@ -459,8 +459,8 @@ function mod:OnOptionCreate()
 								order = 1,
 							},
 							showMultiples = {
-								name = L["Chance multiples"],
-								desc = L["Show number of chance multiples on RPPM icons"],
+								name = L["Modified rppm"],
+								desc = L["Show rppm modified by player stat and time since last proc(the number is capped by 6 out of combat)"],
 								type = "toggle",
 								order = 2,
 							},

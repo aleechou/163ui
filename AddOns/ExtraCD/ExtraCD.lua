@@ -8,7 +8,7 @@ local mod = ExtraCD
 local tinsert, tremove = table.insert, table.remove
 local tonumber, tostring = tonumber, tostring
 local ECD_TEXT = "ExtraCD"
-local ECD_VERSION = "1.2.1b"
+local ECD_VERSION = "1.2.2"
 local ECD_AUTHOR = "superk"
 local active = {}
 local equippedItems = {}
@@ -81,6 +81,9 @@ mod.HASTE_BONUS = {
 	[80353] = 30,
 	[90355] = 30,
 	[32182] = 30,
+	[16166] = 30,
+	[26297] = 20,
+	[48265] = {14}
 }
 
 mod.RELATED_SLOT = {
@@ -314,6 +317,8 @@ function mod:CreateIcon(order, bar)
 	btn.start = -200
 	if btn.duration == 0 and not btn.overlay then btn:CreateOverlay() end
 	btn.link = GetSpellLink(active[order].id)
+	btn.spellId = active[order].id
+	btn.modifier = self:GetSpellData()[btn.spellId].modifier
 	btn.order = order
 	if self.db.tip then 
 		btn:SetScript("OnEnter",function(self, motion)
@@ -609,10 +614,18 @@ local function UpdateIcon(btn, elapsed)
 			if btn.ppm and btn.ppm > 0 and mod.db.showMultiples then
 				if mod.db.textOpacity > 0 and mod.db.showtext then
 					btn.text:SetTextColor(1, 1, 0, mod.db.textOpacity)
-					-- local haste =  math.max(GetCombatRatingBonus(CR_HASTE_MELEE), GetCombatRatingBonus(CR_HASTE_SPELL), GetCombatRatingBonus(CR_HASTE_RANGED)) / 100
-					btn.multiples = math.max(1, 1+((math.min(120, (GetTime() - btn.start))/(60 / btn.ppm )) - 1.5) * 3)
+					local rppm = btn.ppm
+					if btn.modifier == "haste" then
+						local haste = math.max(GetCombatRatingBonus(CR_HASTE_MELEE), GetCombatRatingBonus(CR_HASTE_SPELL), GetCombatRatingBonus(CR_HASTE_RANGED)) / 100
+						rppm = btn.ppm * (1 + haste) * hasteBonus
+					end
+					if btn.modifier == "crit" then
+						local crit = math.max(GetCritChance(), GetRangedCritChance(), GetSpellCritChance(1)) / 100
+						rppm = btn.ppm * (1 + crit)
+					end
+					btn.multiples = math.max(1, 1+((math.min(120, (GetTime() - btn.start))/(60 / rppm )) - 1.5) * 3)
 					if btn.maxMultiplesFlag >= 1 then
-						local rate = btn.ppm * 10 / 60
+						local rate = rppm * 10 / 60
 						if rate * btn.multiples >= 1 then
 							btn.maxMultiplesFlag = 2
 						else
@@ -621,9 +634,9 @@ local function UpdateIcon(btn, elapsed)
 					end
 					if btn.maxMultiplesFlag ~= 2 then
 						if btn.multiples >= 10 then
-							btn.text:SetFormattedText("%d", btn.multiples)
+							btn.text:SetFormattedText("%d", rppm * btn.multiples)
 						else
-							btn.text:SetFormattedText("%.1f", btn.multiples)
+							btn.text:SetFormattedText("%.1f", rppm * btn.multiples)
 						end
 					else
 						btn.text:SetText("max")
@@ -677,6 +690,11 @@ end
 function mod:EnterCombat()
 	if self.db.combat then self.bar:Show() end
 	self:StartProcTest()
+	for k, v in pairs(active) do
+		if self.bar[k].maxMultiplesFlag == 1 then
+			self.bar[k].maxMultiplesFlag = 0
+		end
+	end
 end
 
 function mod:LeaveCombat()
@@ -769,16 +787,20 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(event, ...)
 	end
 end
 function mod:UNIT_AURA(event, uid)
-	--[[if uid == "player" then
+	if uid == "player" then
 		local buffId
 		hasteBonus = 1
 		for i = 1, 40 do
 			buffId = select(11, UnitBuff("player", i))
-			if self.HASTE_BONUS[buffId] then 
-				hasteBonus = hasteBonus * (1 + self.HASTE_BONUS[buffId] / 100)
+			if self.HASTE_BONUS[buffId] then
+				if type(self.HASTE_BONUS[buffId]) == "table" then					
+					hasteBonus = hasteBonus * (1 + select(self.HASTE_BONUS[buffId][1], UnitBuff("player", i)) / 100)
+				else
+					hasteBonus = hasteBonus * (1 + self.HASTE_BONUS[buffId] / 100)
+				end
 			end
 		end
-	end]]
+	end
 end
 
 function mod:EnterPetBattle()

@@ -1,10 +1,42 @@
 ------------------------------------------------------------------------
-r128 | superk521 | 2013-09-16 19:13:55 +0000 (Mon, 16 Sep 2013) | 2 lines
+r136 | superk521 | 2013-09-21 16:09:32 +0000 (Sat, 21 Sep 2013) | 8 lines
 Changed paths:
-   A /tags/1.2.1b (from /trunk:127)
+   A /tags/1.2.2 (from /trunk:135)
 
-tag as version 1.2.1b
-add Yu'lon's Bite, Alacrity of Xuen and Discipline of Xuen
+tag as version 1.2.2
+1.fix some 5.2 trinkets' icd
+2.procs influenced by haste or critical ratings now can display their right rppm on the icon
+3.**IMPORTANT** now the number on rppm icons means the modified rppm, capped by 6(shows "max", and means 100% chance) and have a linear relationship with proc chance when player is out of combat
+4.fix the legendary tank cloak's spellId
+5.add troll's Berserking and Shaman's Elemental Mastery into "haste bonus" spells
+6.fix a display error when player comes into combat but the text can still reach "max"  
+
+------------------------------------------------------------------------
+r131 | superk521 | 2013-09-21 15:44:15 +0000 (Sat, 21 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+fix a display error when player comes into combat but the text can still reach "max"  
+------------------------------------------------------------------------
+r130 | superk521 | 2013-09-21 15:21:28 +0000 (Sat, 21 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+1.add troll's Berserking and Shaman's Elemental Mastery into "haste bonus" spells
+------------------------------------------------------------------------
+r129 | superk521 | 2013-09-21 15:05:11 +0000 (Sat, 21 Sep 2013) | 4 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/Locales/enUS.lua
+   M /trunk/Locales/zhCN.lua
+   M /trunk/Locales/zhTW.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+1.fix some 5.2 trinkets' icd
+2.procs influenced by haste or critical ratings now can display their right rppm on the icon
+3.**IMPORTANT** now the number on rppm icons means the modified rppm, capped by 6(shows "max", and means 100% chance) and have a linear relationship with proc chance when player is out of combat
+4.fix the legendary tank cloak's spellId
 ------------------------------------------------------------------------
 r127 | superk521 | 2013-09-16 19:13:00 +0000 (Mon, 16 Sep 2013) | 1 line
 Changed paths:

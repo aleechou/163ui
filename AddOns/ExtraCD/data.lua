@@ -1,7 +1,7 @@
 ﻿local mod = ExtraCD
 
 function mod:GetDataVersion()
-	return 54
+	return 55
 end
 
 function mod:GetSpellData() 
@@ -137,12 +137,12 @@ function mod:GetSpellData()
 		-- item = {the item id}
 		-- MOP 5.4
 		-- Legendary cloak
-		[146193] = {
+		[148010] = {
 			desc = "",
 			type = "item",
 			item = {102245, 102250},
 			cd = 120,
-		}, -- Qian-Le, Courage of Niuzao & Xing-Ho, Breath of Yu'lon
+		}, -- Qian-Le, Courage of Niuzao & Qian-Ying, Fortitude of Niuzao
 		[146198] = {
 			desc = "",
 			type = "item",
@@ -350,7 +350,7 @@ function mod:GetSpellData()
 			desc = "",
 			type = "item",
 			item = {96741,96369,95997,94512,95625},
-			cd = 22,
+			cd = 10,
 			ppm = 1.21,
 			duration = 10,
 		}, -- Renataki's Soul Charm
@@ -375,7 +375,7 @@ function mod:GetSpellData()
 			desc = "",
 			type = "item",
 			item = {96785,96413,96041,94513,95669},
-			cd = 22,
+			cd = 10,
 			ppm = 1.21,
 			duration = 10,
 		}, -- Wushoolay's Final Choice
@@ -398,7 +398,7 @@ function mod:GetSpellData()
 			desc = "",
 			type = "item",
 			item = {96842,96470,96098,94515,95726},
-			cd = 22,
+			cd = 10,
 			ppm = 1.21,
 			duration = 10,
 		}, -- Fabled Feather of Ji-Kun
@@ -436,7 +436,7 @@ function mod:GetSpellData()
 			item = {96888,96516,96144,94531,95772},
 			cd = 0,
 			ppm = 0.85,
-			modifier = 'critical',
+			modifier = 'crit',
 			duration = 10,
 		}, -- Cha-Ye's Essence of Brilliance		
 		[139170] = {
@@ -445,7 +445,7 @@ function mod:GetSpellData()
 			item = {96915,96543,96171,94529,95799},
 			cd = 0,
 			ppm = 0.72,
-			modifier = 'critical',
+			modifier = 'crit',
 			duration = 20,
 		}, -- Gaze of the Twins		
 		[138963] = {
@@ -459,21 +459,21 @@ function mod:GetSpellData()
 			desc = "",
 			type = "item",
 			item = {96918,96546,96174,94532,95802},
-			cd = 22,
+			cd = 10,
 			duration = 10,
 		}, -- Rune of Re-Origination
 		[139117] = {
 			desc = "",
 			type = "item",
 			item = {96918,96546,96174,94532,95802},
-			cd = 22,
+			cd = 10,
 			duration = 10,
 		}, -- Rune of Re-Origination
 		[139121] = {
 			desc = "",
 			type = "item",
 			item = {96918,96546,96174,94532,95802},
-			cd = 22,
+			cd = 10,
 			duration = 10,
 		}, -- Rune of Re-Origination
 		------------------------------------------------
