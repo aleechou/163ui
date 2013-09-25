@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Title: Dominos Encounter
-## Title-zhCN: |cFF0099FF[Dominos]|r 触发条模块
+## Title-zhCN: |cFF0099FF[Dominos]|r 特殊能量条模块
 ## Notes: Makes the PlayerPowerBarAlt movable
 ## Author: Tuller (with help from Goranaws)
 ## Dependencies: Dominos

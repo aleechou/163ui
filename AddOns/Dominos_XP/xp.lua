@@ -71,7 +71,7 @@ function XpBarController:Unload()
 end
 
 function XpBarController:OnInitialize()
-	Dominos:Load()
+	self:Load()
 end
 
 

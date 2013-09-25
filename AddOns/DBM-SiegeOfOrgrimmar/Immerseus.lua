@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndPZ		= mod:NewSound(nil, "SoundPZ", true)
 
-mod:SetRevision(("$Revision: 10274 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10353 $"):sub(12, -3))
 mod:SetCreatureID(71543)--Doesn't die, will need kill detection
 mod:SetReCombatTime(45)--Lets just assume he has same bug as tsulong in advance and avoid problems
 mod:SetZone()
@@ -25,27 +25,28 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_MONSTER_YELL"
 )
 
-local warnBreath					= mod:NewSpellAnnounce(143436, 3, nil, mod:IsTank() or mod:IsHealer())
-local warnShaBolt					= mod:NewSpellAnnounce(143295, 3, nil, false)
-local warnSwirl						= mod:NewSpellAnnounce(143309, 4)
-local warnSplit						= mod:NewSpellAnnounce(143020, 2)
-local warnReform					= mod:NewSpellAnnounce(143469, 2)
-local warnSwellingCorruptionCast	= mod:NewSpellAnnounce(143578, 2, 143574)--Heroic (this is the boss spellcast trigger spell NOT personal debuff warning)
+local warnBreath						= mod:NewSpellAnnounce(143436, 3, nil, mod:IsTank() or mod:IsHealer())
+local warnShaBolt						= mod:NewSpellAnnounce(143295, 3, nil, false)
+local warnSwirl							= mod:NewSpellAnnounce(143309, 4)
+local warnSplit							= mod:NewSpellAnnounce(143020, 2)
+local warnReform						= mod:NewSpellAnnounce(143469, 2)
+local warnSwellingCorruptionCast		= mod:NewSpellAnnounce(143578, 2, 143574)--Heroic (this is the boss spellcast trigger spell NOT personal debuff warning)
 
-local specWarnBreath				= mod:NewSpecialWarningSpell(143436, mod:IsTank())
-local specWarnShaSplash				= mod:NewSpecialWarningMove(143297)
-local specWarnSwirl					= mod:NewSpecialWarningSpell(143309, nil, nil, nil, 2)
+local specWarnBreath					= mod:NewSpecialWarningSpell(143436, mod:IsTank())
+local specWarnShaSplash					= mod:NewSpecialWarningMove(143297)
+local specWarnSwirl						= mod:NewSpecialWarningSpell(143309, nil, nil, nil, 2)
 local specWarnSwellingCorruption	= mod:NewSpecialWarningStack(143574, nil, 3)
 local specWarnSplit					= mod:NewSpecialWarningCount(143020, nil, nil, nil, 2)
 
-local timerBreathCD					= mod:NewCDTimer(35, 143436, nil, mod:IsTank() or mod:IsHealer())--35-65 second variation wtf?
-local timerShaBoltCD				= mod:NewCDTimer(6, 143295, nil, false)--every 6-20 seconds (yeah it variates that much)
-local timerSwirlCD					= mod:NewCDTimer(48.5, 143309)
-local timerShaResidue				= mod:NewBuffActiveTimer(10, 143459)
-local timerPurifiedResidue			= mod:NewBuffActiveTimer(15, 143524)
-local timerSwellingCorruptionCD		= mod:NewCDTimer(75, 143578, nil, nil, nil, 143574)
+local timerBreathCD						= mod:NewCDTimer(35, 143436, nil, mod:IsTank() or mod:IsHealer())--35-65 second variation wtf?
+local timerSwirl						= mod:NewBuffActiveTimer(13, 143309)
+local timerShaBoltCD					= mod:NewCDTimer(6, 143295, nil, false)--every 6-20 seconds (yeah it variates that much)
+local timerSwirlCD						= mod:NewCDTimer(48.5, 143309)
+local timerShaResidue					= mod:NewBuffActiveTimer(10, 143459)
+local timerPurifiedResidue				= mod:NewBuffActiveTimer(15, 143524)
+local timerSwellingCorruptionCD			= mod:NewCDTimer(75, 143578, nil, nil, nil, 143574)
 
-local berserkTimer					= mod:NewBerserkTimer(605)
+local berserkTimer						= mod:NewBerserkTimer(605)
 
 local lastPower = 100
 
@@ -93,7 +94,7 @@ function mod:OnCombatStart(delay)
 		"UNIT_POWER_FREQUENT boss1"--Do not want this one persisting out of combat even after a wipe, in case you go somewhere else.
 	)
 	if self:IsDifficulty("heroic10", "heroic25") then
-		timerSwellingCorruptionCD:Start(12.5-delay)--12.5-14sec variation
+		timerSwellingCorruptionCD:Start(10-delay)--10-14sec variation
 	end
 end
 
@@ -115,6 +116,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143309 then
 		warnSwirl:Show()
 		specWarnSwirl:Show()
+		timerSwirl:Start()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
@@ -188,24 +190,7 @@ end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 143020 then--Split
-		splitcount = splitcount + 1
-		warnSplit:Show()
-		specWarnSplit:Show(splitcount)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fl.mp3") --分裂開始
-		timerBreathCD:Cancel()
-		timerSwirlCD:Cancel()
-		timerShaBoltCD:Cancel()
-		timerSwellingCorruptionCD:Cancel()
-		needwarndr = true
-		killcount = 0
-		cleancount = 0
-		updateInfoFrame()
-	elseif spellId == 143293 and self:AntiSpam(3, 2) then--Sha Bolt
+	if spellId == 143293 and self:AntiSpam(3, 2) then--Sha Bolt
 		warnShaBolt:Show()
 		timerShaBoltCD:Start()
 	elseif spellId == 143578 then--Swelling Corruption
@@ -230,15 +215,32 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		warnReform:Show()
 		needwarndr = false
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fljs.mp3") --分裂結束
---		timerBreathCD:Start(15)--8-15 second variation, iffy on this being set
-		timerSwirlCD:Start(24)--24-26 variation, this probably is set?
+		timerBreathCD:Start(14)
+		timerSwirlCD:Start(24)
 		sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
 		sndWOP:Schedule(21, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Schedule(23, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
---[[		if self:IsDifficulty("heroic10", "heroic25") then
-			timerSwellingCorruptionCD:Start(12.5)
-		end--]]
+		if self:IsDifficulty("heroic10", "heroic25") then
+			timerSwellingCorruptionCD:Start(17)
+		end
+	elseif msg:find("spell:143020") then--split
+		splitcount = splitcount + 1
+		warnSplit:Show()
+		specWarnSplit:Show(splitcount)
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fl.mp3") --分裂開始
+		timerBreathCD:Cancel()
+		timerSwirlCD:Cancel()
+		timerShaBoltCD:Cancel()
+		timerSwellingCorruptionCD:Cancel()
+		needwarndr = true
+		killcount = 0
+		cleancount = 0
+		updateInfoFrame()
 	end
 end
 

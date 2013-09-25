@@ -1,21 +1,50 @@
 ## Interface: 50400
 ## Author: nullberri(汉化：上官晓雾)
-## Version: r37 2.6.2
+## Notes: Displays the rarity of the enemies pets in their tooltip.
+## Version: 2.9.8
+## LoadOnDemand: 1
+## LoadWith: Blizzard_PetJournal
 ## X-Date: 2012-7-25
 ## X-Category: Pet Journal
-## X-Localizations: enUS
+## X-Localizations: enUS,deDe,ruRU
 ## SavedVariables: PetJournalEnhancedDB
 
 libs\LibPetJournal-2.0\LibPetJournal-2.0.lua
 libs\LibPetBreedInfo-1.0\LibPetBreedInfo-1.0.lua
 
-Localization.lua
+#no dep
 PetJournalEnhanced.lua
-modules\ZoneIDs.lua
-modules\HookedFunctions.lua
-modules\DropdownMenu.lua
-modules\UniqueCount.lua
+local-enUS.lua
+
+local-ptBR.lua
+local-frFR.lua
+local-deDE.lua
+#itIT
+local-koKR.lua
+local-esMX.lua
+local-ruRU.lua
+local-zhCN.lua
+#esES
+local-zhTW.lua
+local-zhCN.lua
+
+modules\StaticData.lua
+modules\config.lua
+
+#dep: StaticData
 modules\ZoneFiltering.lua
+
+#dep: Config
+modules\UniqueCount.lua
+
+#dep: ZoneFiltering
+modules\Sorting.lua
+
+#dep: Config, Sorting
+modules\DropdownMenu.lua
+
+#dep: Config, Sorting, DropDown
+modules\HookedFunctions.lua
 
 
 ## Title: |cff880303[网易有爱]|r PetJournalEnhanced

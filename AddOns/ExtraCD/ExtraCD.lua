@@ -317,8 +317,10 @@ function mod:CreateIcon(order, bar)
 	btn.start = -200
 	if btn.duration == 0 and not btn.overlay then btn:CreateOverlay() end
 	btn.link = GetSpellLink(active[order].id)
-	btn.spellId = active[order].id
-	btn.modifier = self:GetSpellData()[btn.spellId].modifier
+	btn.spellId = active[order].id	
+	if self:GetSpellData()[btn.spellId] then
+		btn.modifier = self:GetSpellData()[btn.spellId].modifier
+	end
 	btn.order = order
 	if self.db.tip then 
 		btn:SetScript("OnEnter",function(self, motion)
@@ -417,7 +419,7 @@ function mod:ScanPlayerICDs()
 					local specppm
 					if v.ppm and not self.db.showRPPM then break end
 					if type(v.ppm) == "table" then
-						if v.ppm[class] then 
+						if v.ppm[class] and v.ppm[class][spec] then 
 							specppm = v.ppm[class][spec] * v.ppm.BASE
 						else
 							specppm = v.ppm.OTHER * v.ppm.BASE
@@ -451,7 +453,7 @@ function mod:ScanPlayerICDs()
 								local specppm
 								if v.ppm and not self.db.showRPPM then break end
 								if type(v.ppm) == "table" then
-									if v.ppm[class] then 
+									if v.ppm[class] and v.ppm[class][spec] then 
 										specppm = v.ppm[class][spec] * v.ppm.BASE
 									else
 										specppm = v.ppm.OTHER * v.ppm.BASE

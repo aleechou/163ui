@@ -470,6 +470,7 @@ local savedinstances, templine
 			local displaytable = {}
 			for i = 1, v.numsaved do				
                 local isRF = v.instance[i]._isrf
+				local isWorldBoss = (v.instance[i].difficultyName == RAID_INFO_WORLD_BOSS)
 				if (not isRF) and Broker_RaidSaveConfig.hideexpiredtip and (v.instance[i].expires == 0 or v.instance[i].expires < time()) then
 				else
 					local colnum = 1
@@ -512,20 +513,24 @@ local savedinstances, templine
 					local instancediffstring = ""
                     if(isRF) then
                         instancediffstring = '随机副本'
-                    elseif v.instance[i].israid ~= nil then
-						instancediffstring = addon:GetDungeonDifficultyText(v.instance[i].difficulty, v.instance[i].israid)
+                    --elseif v.instance[i].israid ~= nil then
+					elseif v.instance[i].difficultyName ~= nil then
+						--instancediffstring = addon:GetDungeonDifficultyText(v.instance[i].difficulty, v.instance[i].israid)
+						instancediffstring = v.instance[i].difficultyName
 					else
 						instancediffstring = "|cffa0933d".._G["UNKNOWN"].."|r"
 					end
 					-- Desaturate label colors for expired instances
                     if(not isRF) then
-                        if v.instance[i].expires == 0 or v.instance[i].expires < time() then
+                        if v.instance[i].expires == 0 or v.instance[i].expires < time() and not isWorldBoss then
                             namestring = _G["GRAY_FONT_COLOR_CODE"]..v.instance[i].name.."|r"
                             idstring = _G["GRAY_FONT_COLOR_CODE"].."["..v.instance[i].id.."]".."|r"
                             expirestring = _G["GRAY_FONT_COLOR_CODE"]..L["Expired"].."|r"
                             cooldownstring = _G["GRAY_FONT_COLOR_CODE"]..L["Expired"].."|r"
                             instancediffstring = _G["GRAY_FONT_COLOR_CODE"]..RemoveColorCode(instancediffstring).."|r"
-                        end
+                        elseif isWorldBoss then
+							cooldownstring = _G["NORMAL_FONT_COLOR_CODE"]..addon:GetWorldBossResetTime(v.instance[i].expires).."|r"
+						end
                     end
 					-- set the columns
 					display[1] = namestring.."  "
@@ -670,26 +675,38 @@ end
 
 function addon:Refresh()	
 	local player = Broker_RaidSaveConfig.realm[GetRealmName()].char[GetUnitName("player")]
-	player.numsaved = GetNumSavedInstances()
+	local savedInstances = GetNumSavedInstances();
+	local savedWorldBosses = GetNumSavedWorldBosses();
+	player.numsaved = savedInstances + savedWorldBosses
 	player.numactive, player.numgroup, player.numraid = 0, 0, 0
 	player.instance = {}
 	if player.numsaved == 0 then
 	else
-		local iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, temp
+		local iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, idifficultyName, temp
 		for i = 1, player.numsaved do
-			iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid = GetSavedInstanceInfo(i)
-			if iexpires > 0 then
-				iexpires = iexpires + time()
-				player.numactive = player.numactive + 1
-				if iisraid == true then
-					player.numraid = player.numraid + 1
-				elseif iisraid == false then
-					player.numgroup = player.numgroup + 1
+			if i <= savedInstances then
+				iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, _, idifficultyName = GetSavedInstanceInfo(i)
+				if iexpires > 0 then
+					iexpires = iexpires + time()
+					player.numactive = player.numactive + 1
+					if iisraid == true then
+						player.numraid = player.numraid + 1
+					elseif iisraid == false then
+						player.numgroup = player.numgroup + 1
+					end
 				end
+				-- insert data into table
+				temp = { name = iname, id = iid, idMostSig = iidmostsig, expires = iexpires, difficulty = idiff, locked = ilocked, extended = iextended, israid = iisraid, difficultyName = idifficultyName }
+				table.insert(player.instance, temp)
+			else
+				iname, iid, iexpires = GetSavedWorldBossInfo(i - savedInstances)
+				ilocked = true
+				iextended = false
+				israid = false
+				idifficultyName = RAID_INFO_WORLD_BOSS;
+				temp = { name = iname, id = iid, expires = iexpires, locked = ilocked, extended = iextended, difficultyName = idifficultyName }
+				table.insert(player.instance, temp)
 			end
-			-- insert data into table
-			temp = { name = iname, id = iid, idMostSig = iidmostsig, expires = iexpires, difficulty = idiff, locked = ilocked, extended = iextended, israid = iisraid }
-			table.insert(player.instance, temp)
 		end
 	end
 
@@ -781,6 +798,13 @@ if not seconds then return end
 		timestring = date("%H", seconds)..":"..date("%M", seconds)
 	end
 	return timestring
+end
+
+function addon:GetWorldBossResetTime(seconds)
+	if not seconds then return end
+	local hour = floor(seconds / 3600)
+	local minute = floor((seconds - hour * 3600) / 60)
+	return (hour > 1 and string.format("%s小时%s分钟", hour, minute) or string.format("%s分钟", minute))
 end
 
 function addon:UPDATE_INSTANCE_INFO()

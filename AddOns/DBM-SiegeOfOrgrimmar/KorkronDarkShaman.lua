@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10281 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10365 $"):sub(12, -3))
 mod:SetCreatureID(71859, 71858)--haromm, Kardris
 mod:SetZone()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
@@ -50,7 +50,9 @@ local specWarnAshenWall				= mod:NewSpecialWarningSpell(144070, nil, nil, nil, 2
 local specWarnIronTomb				= mod:NewSpecialWarningSpell(144328, nil, nil, nil, 2)
 --Wavebinder Kardris
 local specWarnFrostStormBolt		= mod:NewSpecialWarningSpell(144214, false)--spammy, but useful for a tank if they want to time active mitigation around it.
-local specWarnToxicStorm			= mod:NewSpecialWarningSpell(144005, mod:IsMelee())
+local specWarnToxicStormFix			= mod:NewSpecialWarningSpell(144005) --BH FIX
+local specWarnToxicStormNear		= mod:NewSpecialWarningTarget(144005)
+local yellToxicStorm				= mod:NewYell(144005)
 local specWarnFoulGeyser			= mod:NewSpecialWarningSpell(143990)
 local yellFoulGeyser				= mod:NewYell(143990)
 local specWarnFallingAsh			= mod:NewSpecialWarningSpell(143973, nil, nil, nil, 2)--Seems like an everyone waring.
@@ -69,6 +71,7 @@ local timerFrostStormBoltCD			= mod:NewCDTimer(6.8, 144214, nil, mod:IsTank())
 local timerToxicStormCD				= mod:NewCDTimer(32, 144005)--Pretty much a next timers unless boss is casting something else
 local timerFoulGeyserCD				= mod:NewCDTimer(32.5, 143990)--Pretty much a next timers unless boss is casting something else
 local timerFallingAshCD				= mod:NewCDTimer(32.5, 143973)--Pretty much a next timers unless boss is casting something else
+local timerFallingAsh				= mod:NewBuffFadesTimer(15, 143973) --BH ADD
 local timerIronPrisonCD				= mod:NewCDTimer(31.5, 144330)--Pretty much a next timers unless boss is casting something else
 local timerIronPrison				= mod:NewBuffFadesTimer(60, 144330)
 
@@ -79,6 +82,9 @@ local berserkTimer					= mod:NewBerserkTimer(540)
 
 mod:AddBoolOption("RangeFrame")--This is more or less for foul geyser and foul stream splash damage
 mod:AddBoolOption("SetIconOnToxicMists", false)
+
+mod:AddBoolOption("SoundEle", true, "sound")
+mod:AddBoolOption("SoundEnh", true, "sound")
 
 local toxicMistsTargets = {}
 local toxicMistsTargetsIcons = {}
@@ -150,11 +156,23 @@ function mod:FoulStreamTarget(targetname, uId)
 end
 
 function mod:ToxicStormTarget(targetname, uId)
-	if not targetname then 
-		print("DBM DEBUG: Target scanning Failed")
-		return
+	if not targetname then return end
+	warnToxicStorm:Show(targetname)
+	if (targetname == UnitName("player")) and (not mod:IsTank()) then
+--		specWarnToxicStormFix:Show()
+		yellToxicStorm:Yell()
 	else
-		print("DBM DEBUG: ToxicStormTarget returned "..targetname)
+		if uId then
+			local x, y = GetPlayerMapPosition(uId)
+			if x == 0 and y == 0 then
+				SetMapToCurrentZone()
+				x, y = GetPlayerMapPosition(uId)
+			end
+			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			if inRange and inRange < 8 then--Range guesswork
+				specWarnToxicStormNear:Show(targetname)
+			end
+		end
 	end
 end
 
@@ -171,7 +189,12 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 144214 then
+	if args.spellId == 144005 and mod.Options.SoundEle then
+		self:BossTargetScanner(71858, "ToxicStormTarget", 0.5, 5)
+		timerToxicStormCD:Start()
+		specWarnToxicStormFix:Show()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\wwsoon.mp3") --準備旋風
+--[[elseif args.spellId == 144214 then
 		for i = 1, 2 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
@@ -179,23 +202,16 @@ function mod:SPELL_CAST_START(args)
 				specWarnFrostStormBolt:Show()
 				timerFrostStormBoltCD:Start()
 			end
-		end
-	elseif args.spellId == 144005 then
-		self:BossTargetScanner(71858, "ToxicStormTarget", 0.05, 16)
-		warnToxicStorm:Show()
-		timerToxicStormCD:Start()
-		if self:checkTankDistance(args:GetSrcCreatureID()) then
-			specWarnToxicStorm:Show() --劇毒風暴
-		end
-	elseif args.spellId == 144090 then
-		self:BossTargetScanner(71859, "FoulStreamTarget", 0.025, 12)
-	elseif args.spellId == 143990 then
+		end--]]
+	elseif args.spellId == 144090 and mod.Options.SoundEnh then
+		self:BossTargetScanner(71859, "FoulStreamTarget", 0.05, 16)
+	elseif args.spellId == 143990 and mod.Options.SoundEle then
 		timerFoulGeyserCD:Start()
 		if self:checkTankDistance(args:GetSrcCreatureID()) then
 --			specWarnFoulGeyser:Show()
---DELETE		countdownFoulGeyser:Start()
+--			countdownFoulGeyser:Start()
 		end
-	elseif args.spellId == 144070 then
+	elseif args.spellId == 144070 and mod.Options.SoundEnh then
 		warnAshenWall:Show()
 		timerAshenWallCD:Start()
 		if self:checkTankDistance(args:GetSrcCreatureID()) then--Now we know who is tanking that boss
@@ -206,23 +222,22 @@ function mod:SPELL_CAST_START(args)
 		ashCount = ashCount + 1
 		warnFallingAsh:Show()
 		timerFallingAshCD:Start()
-		if self:checkTankDistance(args:GetSrcCreatureID()) then--Now we know who is tanking that boss
-			specWarnFallingAsh:Show()--Give special warning cause this ability concerns you
-			sndWOP:Schedule(26, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_wmys.mp3") -- 5s後隕石爆炸
-			if MyJS() then
-				sndWOP:Schedule(27.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
-			else
-				sndWOP:Schedule(27.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-			end
-			sndWOP:Schedule(28.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(29.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(30.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		timerFallingAsh:Start()
+		specWarnFallingAsh:Show()--Give special warning cause this ability concerns you
+		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_wmys.mp3") -- 5s後隕石爆炸
+		if MyJS() then
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+		else
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
 		end
+		sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if ashCount == 6 then ashCount = 0 end
-	elseif args.spellId == 144330 then
+	elseif args.spellId == 144330 and mod.Options.SoundEle then
 		warnIronPrison:Show()
 		timerIronPrisonCD:Start()
-	elseif args.spellId == 144328 then
+	elseif args.spellId == 144328 and mod.Options.SoundEnh then
 		warnIronTomb:Show()
 		timerIronTombCD:Start()
 		specWarnIronTomb:Show()
@@ -246,15 +261,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 144291 and self:AntiSpam() then
 		warnRustedIronTotem:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xttt.mp3") --鏽鐵圖騰
-	elseif args.spellId == 144215 and args.sourceName == UnitName("target") then
+--[[elseif args.spellId == 144215 and args.sourceName == UnitName("target") then
 		for i = 1, 2 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				specWarnFroststormStrikeCast:Schedule(4)
 				timerFroststormStrikeCD:Start()
 			end
-		end
-	elseif args.spellId == 143990 then
+		end--]]
+	elseif args.spellId == 143990 and mod.Options.SoundEle then
 		warnFoulGeyser:Show(args.destName)
 		if args:IsPlayer() then
 			yellFoulGeyser:Yell()
@@ -303,16 +318,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Unschedule(warnIronPrisonTargets)
 		self:Schedule(0.5, warnIronPrisonTargets)
 		if args:IsPlayer() then
-			specWarnIronPrison:Schedule(56)
+			specWarnIronPrison:Schedule(55)
 			timerIronPrison:Start()
 			yellIronPrisonFades:Schedule(59, playerName, 1)
 			yellIronPrisonFades:Schedule(58, playerName, 2)
 			yellIronPrisonFades:Schedule(57, playerName, 3)
 			yellIronPrisonFades:Schedule(56, playerName, 4)
 			yellIronPrisonFades:Schedule(55, playerName, 5)
-			sndWOP:Schedule(56, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3") --快開自保
+			sndWOP:Schedule(55, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3") --快開自保
 		end
-	elseif args.spellId == 144215 then
+	elseif args.spellId == 144215 and mod.Options.SoundEnh then
 		local amount = args.amount or 1
 		timerFroststormStrike:Start(args.destName)
 		if amount % 2 == 0 then

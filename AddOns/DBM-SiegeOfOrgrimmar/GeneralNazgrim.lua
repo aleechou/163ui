@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndTT		= mod:NewSound(nil, "SoundTT", true)
 
-mod:SetRevision(("$Revision: 10204 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10363 $"):sub(12, -3))
 mod:SetCreatureID(71515)
 mod:SetZone()
+mod:SetUsedIcons(8, 7, 6, 4, 2, 1)
 
 mod:RegisterCombat("combat")
 
@@ -81,14 +82,18 @@ local timerCoolingOff				= mod:NewBuffFadesTimer(15, 143484)
 --Kor'kron Adds
 local timerEmpoweredChainHealCD		= mod:NewNextSourceTimer(6, 143473)
 
---local countdownAdds					= mod:NewCountdown(45, "ej7920")
---local countdownCoolingOff			= mod:NewCountdown(15, 143484, nil, nil, nil, nil, true)
+--local countdownAdds					= mod:NewCountdown(45, "ej7920", false)--Confusing with Colling Off. off by default.
+--local countdownCoolingOff			= mod:NewCountdownFades(15, 143484, nil, nil, nil, nil, true)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
+
+mod:AddBoolOption("SetIconOnAdds")
 
 local addsCount = 0
 local boneTargets = {}
 local UnitName, UnitExists, UnitGUID, UnitDetailedThreatSituation = UnitName, UnitExists, UnitGUID, UnitDetailedThreatSituation
+local adds = {}
+local scanLimiter = 0
 
 mod:AddBoolOption("InfoFrame", true, "sound")
 
@@ -98,8 +103,42 @@ local function warnBoneTargets()
 	table.wipe(boneTargets)
 end
 
+local function scanForMobs()
+	if DBM:GetRaidRank() > 0 then--Cannot impliment counting because it seems there is too much variation between difficulties and it would be ugly
+		scanLimiter = scanLimiter + 1
+		for uId in DBM:GetGroupMembers() do
+			local unitid = uId.."target"
+			local guid = UnitGUID(unitid)
+			local cid = mod:GetCIDFromGUID(guid)
+			if guid and not adds[guid] then
+				if cid == 71519 then--Shaman
+					SetRaidTarget(unitid, 8)
+				elseif cid == 71517 then--Arcweaver
+					SetRaidTarget(unitid, 7)
+				end
+				adds[guid] = true
+			end
+		end
+		local guid2 = UnitGUID("mouseover")
+		local cid = mod:GetCIDFromGUID(guid2)
+		if guid2 and not adds[guid2] then
+			if cid == 71519 then--Shaman
+				SetRaidTarget("mouseover", 8)
+			elseif cid == 71517 then--Arcweaver
+				SetRaidTarget("mouseover", 7)
+			end
+			adds[guid2] = true
+		end
+		--This version of it has no returns because it has to find more than one mob, therefor it's simply a 10 second timed scan (or when iconset is reached)
+		if scanLimiter < 50 then--Don't scan for more than 10 seconds
+			mod:Schedule(0.2, scanForMobs)
+		end
+	end
+end
+
 function mod:OnCombatStart(delay)
 	addsCount = 0
+	table.wipe(adds)
 	table.wipe(boneTargets)
 	timerAddsCD:Start(-delay, 1)
 	sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3") --準備小怪
@@ -266,7 +305,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			specWarnAssassinsMarkOther:Show(args.destName)
 		end
-	elseif args.spellId == 143475 then
+	elseif args.spellId == 143475 and not args:IsDestTypePlayer() then
 		warnEarthShield:Show(args.destName)
 		specWarnEarthShield:Show(args.destName)
 		if mod:IsMagicDispeller() then
@@ -306,7 +345,12 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")
 		timerAddsCD:Start(nil, addsCount+1)
 --		countdownAdds:Start()
+		if self.Options.SetIconOnAdds then
+			scanLimiter = 0
+			scanForMobs()
+		end
 	elseif msg == L.allForces then
+		--Icon setting not put here on purpose, so as not ot mess with existing adds (it's burn boss phase anyawys)
 		specWarnAdds:Show(0)
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --第二阶段

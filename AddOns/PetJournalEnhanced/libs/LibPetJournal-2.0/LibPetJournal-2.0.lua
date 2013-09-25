@@ -20,7 +20,7 @@
  IN THE SOFTWARE.
 ]]
 
-local MAJOR, MINOR = "LibPetJournal-2.0", 24
+local MAJOR, MINOR = "LibPetJournal-2.0", 26
 local lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
@@ -28,12 +28,12 @@ if not lib then return end
 local is5_0 = select(4, GetBuildInfo()) < 50100
 
 --
--- GLOBALS: PetJournal
+--
 --
 
 local _G = _G
-local hooksecurefunc, tinsert, pairs, wipe = _G.hooksecurefunc, _G.table.insert, _G.pairs, _G.wipe
-local ipairs = _G.ipairs
+local assert, hooksecurefunc, ipairs, IsLoggedIn, pairs, tinsert, wipe
+    = assert, hooksecurefunc, ipairs, IsLoggedIn, pairs, tinsert, wipe
 local C_PetJournal = _G.C_PetJournal
 
 local start_background
@@ -97,8 +97,8 @@ do
         assert(not lib._filters_cleared, "ClearFilters() already called")
         lib._filters_cleared = true
         
-        if PetJournal then
-            PetJournal:UnregisterEvent("PET_JOURNAL_LIST_UPDATE")
+        if _G.PetJournal then
+            _G.PetJournal:UnregisterEvent("PET_JOURNAL_LIST_UPDATE")
         end
         lib.event_frame:UnregisterEvent("PET_JOURNAL_LIST_UPDATE")
 
@@ -177,8 +177,8 @@ do
             end
         end
     
-        if PetJournal then
-            PetJournal:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
+        if _G.PetJournal then
+            _G.PetJournal:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
         end
         lib.event_frame:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
     end
@@ -237,7 +237,7 @@ function lib:LoadPets()
     
     wipe(lib._petids)
     
-    local total, owned = C_PetJournal.GetNumPets(false)
+    local total, owned = C_PetJournal.GetNumPets()
     if total == 0 and owned == 0 then
         self:RestoreFilters()
         self.event_frame:Show()
@@ -248,7 +248,7 @@ function lib:LoadPets()
     
     -- scan pets
     for i = 1,total do
-        local petID, speciesID, isOwned, _, _, _, _, _, _, _, creatureID = C_PetJournal.GetPetInfoByIndex(i, false)
+        local petID, speciesID, isOwned, _, _, _, _, _, _, _, creatureID = C_PetJournal.GetPetInfoByIndex(i)
         
         if i == 1 and isOwned then
             -- PetJournal has some weird consistency issues when the UI is loading.
@@ -326,7 +326,7 @@ function lib.event_frame:PET_JOURNAL_LIST_UPDATE()
         return
     end
     
-    local total, owned = C_PetJournal.GetNumPets(false)
+    local total, owned = C_PetJournal.GetNumPets()
     if lib._last_owned ~= owned then
         lib._last_owned = owned
         if not lib:LoadPets() then
@@ -364,7 +364,7 @@ lib.event_frame:SetScript("OnUpdate", function(frame, elapsed)
     timer = timer + elapsed
     if timer > 2 then        
         if lib:LoadPets() then
-            lib.callbacks:Fire("PetsUpdated", self)
+            lib.callbacks:Fire("PetsUpdated", lib)
         end
         timer = 0
     end

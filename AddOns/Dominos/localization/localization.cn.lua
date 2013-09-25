@@ -87,4 +87,4 @@ L['totem3'] = '图腾条3'
 L['extra'] = '特殊按钮'
 L['Dominos'] = "多米诺动作条"
 L['page'] = '翻页条'
-L['encounter'] = '触发器'
+L['encounter'] = '特殊能量条'

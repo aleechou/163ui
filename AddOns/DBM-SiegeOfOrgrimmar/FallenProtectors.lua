@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndBD		= mod:NewSound(nil, "SoundBD", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10280 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10367 $"):sub(12, -3))
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetZone()
+mod:SetUsedIcons(7)
 
 mod:RegisterCombat("combat")
 
@@ -20,6 +21,15 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
+local Softfoot = EJ_GetSectionInfo(7889)
+local Stonetoe = EJ_GetSectionInfo(7885)
+local Tenderheart = EJ_GetSectionInfo(7904)
+
+mod:SetBossHealthInfo(
+	71479, Softfoot,
+	71475, Stonetoe,
+	71480, Tenderheart
+)
 
 --All
 local warnBondGoldenLotus			= mod:NewCastAnnounce(143497, 4)
@@ -40,7 +50,7 @@ local warnGarrote					= mod:NewTargetAnnounce(143198, 3, nil, mod:IsHealer())
 local warnMarkOfAnguish				= mod:NewSpellAnnounce(143812, 2)--Activation
 local warnMarked					= mod:NewTargetAnnounce(143840, 3)--Embodied Anguish			
 --Sun Tenderheart
-local warnShaShear					= mod:NewTargetAnnounce(143423, 3)--BH FIXED
+local warnShaShear					= mod:NewCastAnnounce(143423, 3, 5, nil, false)
 local warnBane						= mod:NewCastAnnounce(143446, 4, nil, nil, mod:IsHealer())
 local warnCalamity					= mod:NewSpellAnnounce(143491, 4)
 ----Sun Tenderheart's Desperate Measures
@@ -89,15 +99,19 @@ local timerGougeCD					= mod:NewCDTimer(30, 143330, nil, mod:IsTank())--30-41
 local timerGarroteCD				= mod:NewCDTimer(30, 143198, nil, mod:IsHealer())--30-46 (heroic 20-26)
 --Sun Tenderheart
 local timerBaneCD					= mod:NewCDTimer(17, 143446, nil, mod:IsHealer())--17-25 (heroic 13-20)
-local timerCalamityCD				= mod:NewCDTimer(42, 143491)--42-50 (when two can be cast in a row) Also affected by boss specials
+local timerCalamityCD				= mod:NewCDTimer(40, 143491)--40-50 (when two can be cast in a row) Also affected by boss specials
 
---local berserkTimer				= mod:NewBerserkTimer(490)
+local berserkTimer					= mod:NewBerserkTimer(600)
+
+mod:AddBoolOption("SetIconOnStrike")
 
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
+local strikeDebuff = GetSpellInfo(143962)--Cast spellid, Unconfirmed if debuff has same id or even name. Need to verify
+local previousStrike = nil
 
-local needshowbrew = true
+local kicknum = 0
 
 ----Grid----
 local GridStatus
@@ -107,13 +121,16 @@ end
 local canrecount = true
 local DebuffGuid = {}
 --------Grid End----
-
+mod:AddBoolOption("InfoFrame", true, "sound")
 mod:AddBoolOption("BaneGridCount", false, "sound")
+
 local calacount = 0
 for i = 1, 4 do
 	mod:AddBoolOption("dr"..i, false, "sound")
 end
 mod:AddDropdownOption("optOC", {"imm", "five", "ten", "fift", "twty", "none"}, "imm", "sound")
+
+mod:AddDropdownOption("optDD", {"alldd", "DD1", "DD2", "DD3", "nodd"}, "alldd", "sound")
 
 local function MyJS()
 	if (mod.Options.dr1 and calacount == 1) or (mod.Options.dr2 and calacount == 2) or (mod.Options.dr3 and calacount == 3) or (mod.Options.dr4 and calacount == 4) then
@@ -125,13 +142,12 @@ end
 function mod:BrewTarget(targetname, uId)
 	if not targetname then return end
 	warnCorruptedBrew:Show(targetname)
-	self:SendSync("Brew", targetname, uId)
-	if not needshowbrew then return end
-	needshowbrew = false
 	if targetname == UnitName("player") then
 		specWarnCorruptedBrew:Show()
 		yellCorruptedBrew:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		if not self:IsDifficulty("normal25", "heroic25") then
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		end
 	else
 		if uId then
 			local x, y = GetPlayerMapPosition(uId)
@@ -142,7 +158,9 @@ function mod:BrewTarget(targetname, uId)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnCorruptedBrewNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+				if not self:IsDifficulty("normal25", "heroic25") then					
+					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+				end
 			end
 		end
 	end
@@ -150,17 +168,10 @@ end
 
 function mod:InfernoStrikeTarget(targetname, uId)
 	if not targetname then return end
-	--[[
+--	print("DBM DEBUG: Infero Strike on "..targetname.." ?")
 	if targetname == UnitName("player") then
-		specWarnInfernoStrike:Show()
-		yellInfernoStrike:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3") --快回人群
-		sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3")
-		sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-	end]]
+		
+	end
 end
 
 function mod:OnCombatStart(delay)
@@ -170,10 +181,10 @@ function mod:OnCombatStart(delay)
 	timerCorruptedBrewCD:Start(18-delay)
 	timerGougeCD:Start(23-delay)
 	timerCalamityCD:Start(31-delay)
-	timerClashCD:Start(-delay)--Unsure if stll same, since this almost NEVER happens, at least one of them will enter a special and cancel this timer
---	berserkTimer:Start(-delay)
+	timerClashCD:Start(45-delay)
+	berserkTimer:Start(-delay)
 	calacount = 0
-	needshowbrew = true
+	kicknum = 0
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(EJ_GetSectionInfo(8017))
 		DBM.InfoFrame:Show(3, "FPHealth")
@@ -196,10 +207,16 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 143958 then
 		local source = args.sourceName
 		warnCorruptionShock:Show()
-		if source == UnitName("target") or source == UnitName("focus") then 
+		kicknum = kicknum + 1
+		if ((mod.Options.optDD == "DD1") and (kicknum == 1)) or ((mod.Options.optDD == "DD2") and (kicknum == 2)) or ((mod.Options.optDD == "DD3") and (kicknum == 3)) or ((mod.Options.optDD == "alldd") and (source == UnitName("target") or source == UnitName("focus"))) then
 			specWarnCorruptionShock:Show(source)
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
+		if ((mod.Options.optDD == "DD1") and (kicknum == 3)) or ((mod.Options.optDD == "DD2") and (kicknum == 1))  or ((mod.Options.optDD == "DD3") and (kicknum == 2)) then
+			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+		end
+		if kicknum == 3 then kicknum = 0 end
 	elseif args.spellId == 143330 then
 		warnGouge:Show()
 		timerGougeCD:Start()
@@ -237,9 +254,9 @@ function mod:SPELL_CAST_START(args)
 		warnDefiledGround:Show()
 		timerDefiledGroundCD:Start()
 	elseif args.spellId == 143962 then
-		self:BossTargetScanner(71481, "InfernoStrikeTarget", 2, 1)
 		warnInfernoStrike:Show()
 		timerInfernoStrikeCD:Start()
+		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--This one is a pain, because boss looks at CORRECT target for a super split second, then stares at previous target for rest of time. Repeated scans don't fix it because you really can't tell good target from shit one
 	elseif args.spellId == 143497 then
 		warnBondGoldenLotus:Show()
 	elseif args.spellId == 144396 then
@@ -324,6 +341,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCorruptedBrewCD:Cancel()
 		timerInfernoStrikeCD:Start(8)
 		timerDefiledGroundCD:Start(10)
+		kicknum = 0
+		if mod.Options.optDD == "DD1" then
+			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+		end
 	elseif args.spellId == 143812 then--Mark of Anguish
 		warnMarkOfAnguish:Show()
 		specWarnMarkOfAnquish:Show()
@@ -366,7 +387,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerInfernoStrikeCD:Cancel()
 		timerCorruptedBrewCD:Start(12)
 		timerVengefulStrikesCD:Start(18)
-		timerClashCD:Start(46)--Still needs more verification.
+		timerClashCD:Start(46)
+		if previousStrike and self.Options.SetIconOnStrike then
+			SetRaidTarget(previousStrike, 0)
+			previousStrike = nil
+		end
 	elseif args.spellId == 143812 then--Mark of Anguish
 		timerGarroteCD:Start(12)--TODO, verify consistency in all difficulties
 		timerGougeCD:Start(23)--Seems to be either be exactly 23 or exactly 35. Not sure what causes it to switch.
@@ -396,33 +421,11 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 143019 then--Does not show in combat log on normal
-		needshowbrew = true
 		self:BossTargetScanner(71475, "BrewTarget", 0.025)
 		timerCorruptedBrewCD:Start()
-	end
-end
-
-function mod:OnSync(msg, targetname, uId)
-	if msg == "Brew" and targetname and needshowbrew then
-		needshowbrew = false
-		if targetname == UnitName("player") then
-			specWarnCorruptedBrew:Show()
-			yellCorruptedBrew:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-		else
-			if uId then
-				local x, y = GetPlayerMapPosition(uId)
-				if x == 0 and y == 0 then
-					SetMapToCurrentZone()
-					x, y = GetPlayerMapPosition(uId)
-				end
-				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
-				if inRange and inRange < 6 then
-					specWarnCorruptedBrewNear:Show(targetname)
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-				end
-			end
-		end		
+		if self:IsDifficulty("normal25", "heroic25") then
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\watchstep.mp3") --注意腳下
+		end
 	end
 end
 

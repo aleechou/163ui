@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndFMD	= mod:NewSound(nil, "SoundFMD", mod:IsRangedDps())
 
-mod:SetRevision(("$Revision: 10295 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10351 $"):sub(12, -3))
 mod:SetCreatureID(71504)--71591 Automated Shredder
 mod:SetZone()
 

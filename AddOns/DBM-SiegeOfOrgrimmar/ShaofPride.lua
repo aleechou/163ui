@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndQS		= mod:NewSound(nil, "SoundQS", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10306 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10343 $"):sub(12, -3))
 mod:SetCreatureID(71734)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
@@ -44,7 +44,7 @@ local warnMockingBlast			= mod:NewSpellAnnounce(144379, 3, nil, false)
 
 --Sha of Pride
 local specWarnGiftOfTitans		= mod:NewSpecialWarningYou(144359)
-local yellGiftOfTitans			= mod:NewYell(144359)
+local yellGiftOfTitans			= mod:NewYell(146594, nil, false)
 local specWarnSwellingPride		= mod:NewSpecialWarningCount(144400, nil, nil, nil, 2)
 local specWarnWoundedPride		= mod:NewSpecialWarningSpell(144358, mod:IsTank())
 local specWarnSelfReflection	= mod:NewSpecialWarningSpell(144800, nil, nil, nil, 2)
@@ -71,11 +71,13 @@ local timerSelfReflectionCD		= mod:NewNextTimer(25, 144800)
 local timerWoundedPrideCD		= mod:NewNextTimer(30, 144358, nil, mod:IsTank())--A tricky on that is based off unit power but with variable timings, but easily workable with an 11, 26 rule
 local timerCorruptedPrisonCD	= mod:NewNextTimer(53, 144574)--Technically 51 for Imprison base cast, but this is timer til debuffs go out.
 local timerManifestationCD		= mod:NewNextTimer(60, "ej8262", nil, nil, nil, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
-local timerSwellingPrideCD		= mod:NewNextTimer(75.5, 144400)
+local timerSwellingPrideCD		= mod:NewNextCountTimer(75.5, 144400)
 local timerWeakenedResolve		= mod:NewBuffFadesTimer(60, 147207, nil, false)
 --Pride
 local timerBurstingPride		= mod:NewCastTimer(3, 144911)
 local timerProjection			= mod:NewCastTimer(6, 146822)
+
+local berserkTimer				= mod:NewBerserkTimer(600)
 
 --local countdownSwellingPride	= mod:NewCountdown(75.5, 144400)
 --local countdownReflection		= mod:NewCountdown(25, 144800, false, nil, nil, nil, true)
@@ -212,7 +214,9 @@ function mod:OnCombatStart(delay)
 	twipe(AoPMarkers)
 	timerGiftOfTitansCD:Start(7.5-delay)
 	timerMarkCD:Start(-delay)
-	timerWoundedPrideCD:Start(10-delay)
+	if not self:IsDifficulty("lfr25") then
+		timerWoundedPrideCD:Start(10-delay)
+	end
 	timerSelfReflectionCD:Start(-delay)
 --	countdownReflection:Start(-delay)
 	sndWOP:Schedule(21-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3") --準備小怪
@@ -222,19 +226,20 @@ function mod:OnCombatStart(delay)
 	timerCorruptedPrisonCD:Start(-delay)
 	sndWOP:Schedule(40-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\readyrescue.mp3") --準備救人
 	timerManifestationCD:Start(-delay)
-	sndWOP:Schedule(58-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪
-	specWarnManifestation:Schedule(62-delay)
+	sndWOP:Schedule(60-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪
+	specWarnManifestation:Schedule(64-delay)
 	if mod:IsDps() then
-		sndWOP:Schedule(62-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+		sndWOP:Schedule(64-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
 	else
-		sndWOP:Schedule(62-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+		sndWOP:Schedule(64-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
 	end
-	timerSwellingPrideCD:Start(-delay)
+	timerSwellingPrideCD:Start(-delay, 1)
 --	countdownSwellingPride:Start(-delay)
 	sndWOP:Schedule(72.5-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
 	sndWOP:Schedule(73.5-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 	sndWOP:Schedule(74.5-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 	sndWOP:Schedule(75.5-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+	berserkTimer:Start(-delay)
 	firstWound = false
 	drcount = 0
 	UnleashedCast = false
@@ -285,12 +290,15 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif args.spellId == 144832 then
 		--These abilitie cd reset on CAST_START not finish and cause a desync from energy
+--		countdownReflection:Cancel()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --P2
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		timerWoundedPrideCD:Start(11.5) --BH FIXED
+		if not self:IsDifficulty("lfr25") then
+			timerWoundedPrideCD:Start(11.5) --BH FIXED
+		end
 		timerSelfReflectionCD:Start()
 --		countdownReflection:Start()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")
@@ -318,14 +326,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\readyrescue.mp3") --準備救人
 		timerWoundedPrideCD:Start(11.5)		
 		timerManifestationCD:Start()
-		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪
-		specWarnManifestation:Schedule(62)
+		sndWOP:Schedule(60, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪
+		specWarnManifestation:Schedule(64)
 		if mod:IsDps() then
-			sndWOP:Schedule(62, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+			sndWOP:Schedule(64, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
 		else
-			sndWOP:Schedule(62, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+			sndWOP:Schedule(64, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
 		end		
-		timerSwellingPrideCD:Start()
+		timerSwellingPrideCD:Start(75, swellingCount + 1)
 --		countdownSwellingPride:Start()
 		sndWOP:Schedule(72.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
 		sndWOP:Schedule(73.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
@@ -371,22 +379,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3") --階段轉換		
 		timerGiftOfTitansCD:Cancel()
 --		countdownSwellingPride:Cancel()
---		countdownReflection:Cancel()
+		timerSwellingPrideCD:Cancel()
 		firstWound = false
 		UnleashedCast = true
 		timerManifestationCD:Start()--Not yet verified if altered or not
 		specWarnManifestation:Cancel()
-		specWarnManifestation:Schedule(62)
+		specWarnManifestation:Schedule(64)
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3")		
-		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪		
+		sndWOP:Schedule(60, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3") --準備大怪		
 		if mod:IsDps() then
 			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")
-			sndWOP:Schedule(62, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+			sndWOP:Schedule(64, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
 		else
 			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")
-			sndWOP:Schedule(62, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+			sndWOP:Schedule(64, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
 		end
-		timerSwellingPrideCD:Start(75)--Not yet verified if altered or not (it would be 62 instead of 60 though since we'd be starting at 0 energy instead of cast finish of last swelling)
+		timerSwellingPrideCD:Start(75, swellingCount + 1)--Not yet verified if altered or not (it would be 62 instead of 60 though since we'd be starting at 0 energy instead of cast finish of last swelling)
 --		countdownSwellingPride:Start(75)--Not yet verified if altered or not (it would be 62 instead of 60 though since we'd be starting at 0 energy instead of cast finish of last swelling)
 		sndWOP:Schedule(72, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
 		sndWOP:Schedule(73, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
@@ -410,7 +418,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Schedule(0.5, warnGiftOfTitansTargets)
 		if args:IsPlayer() then
 			specWarnGiftOfTitans:Show()
-			yellGiftOfTitans:Yell()
+			if not self:IsDifficulty("lfr25") then
+				yellGiftOfTitans:Yell()
+			end
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttzc.mp3") --泰坦之賜
 			if mod:IsHealer() then
 				sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
@@ -493,7 +503,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if mod:IsTank() or mod:IsHealer() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 		end	
-		if not firstWound then
+		if not firstWound and not self:IsDifficulty("lfr25") then
 			firstWound = true
 			timerWoundedPrideCD:Start()
 		end

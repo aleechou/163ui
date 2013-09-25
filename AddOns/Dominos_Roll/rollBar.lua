@@ -88,6 +88,7 @@ local RollBarController = Dominos:NewModule('RollBar')
 
 function RollBarController:OnInitialize()
 	_G['GroupLootContainer'].ignoreFramePositionManager = true
+	self:Load()
 end
 
 function RollBarController:Load()

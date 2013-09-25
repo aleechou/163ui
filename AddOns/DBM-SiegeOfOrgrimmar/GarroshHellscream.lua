@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndGC		= mod:NewSound(nil, "SoundGC", mod:IsDps())
 
-mod:SetRevision(("$Revision: 10320 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10363 $"):sub(12, -3))
 mod:SetCreatureID(71865)
 mod:SetZone()
+mod:SetUsedIcons(8, 7)
 
 mod:RegisterCombat("combat")
 
@@ -83,7 +84,11 @@ local timerGrippingDespair			= mod:NewTargetTimer(15, 145183, nil, mod:IsTank())
 --local countdownWhirlingCorruption	= mod:NewCountdown(52, 144985)
 --local countdownTouchOfYShaarj		= mod:NewCountdown(45, 145071, false, nil, nil, nil, true)--Off by default only because it's a cooldown and it does have a 45-48sec variation
 
+mod:AddBoolOption("SetIconOnShaman")
+
 local touchOfYShaarjTargets = {}
+local adds = {}
+local scanLimiter = 0
 local firstIronStar = false
 local engineerDied = 0
 local phase = 1
@@ -91,6 +96,44 @@ local UnitExists = UnitExists
 local whirlCount = 0
 local desecrateCount = 0
 local mindControlCount = 0
+local shamanAlive = 0
+
+--This should be faster and more controllable then a perminant onupdate handler that wastes cpu whole fight.
+--This is me testing better icon method that i may migrate to older mods still wasting cpu on onupdate stuff
+--Or maybe find a workable tempate with args for a core function
+local function scanForMobs()
+	if DBM:GetRaidRank() > 0 then
+		scanLimiter = scanLimiter + 1
+		for uId in DBM:GetGroupMembers() do
+			local unitid = uId.."target"
+			local guid = UnitGUID(unitid)
+			local cid = mod:GetCIDFromGUID(guid)
+			if cid == 71983 and guid and not adds[guid] then
+				if shamanAlive == 1 then
+					SetRaidTarget(unitid, 8)
+				else--We are behind on them, so use X instead of skull
+					SetRaidTarget(unitid, 7)
+				end
+				adds[guid] = true
+				return
+			end
+		end
+		local guid2 = UnitGUID("mouseover")
+		local cid = mod:GetCIDFromGUID(guid2)
+		if cid == 71983 and guid2 and not adds[guid2] then
+			if shamanAlive == 1 then
+				SetRaidTarget("mouseover", 8)
+			else--We are behind on them, so use X instead of skull
+				SetRaidTarget("mouseover", 7)
+			end
+			adds[guid2] = true
+			return
+		end
+		if scanLimiter < 40 then--Don't scan for more than 8 seconds
+			mod:Schedule(0.2, scanForMobs)
+		end
+	end
+end
 
 local healcount = 0
 
@@ -141,8 +184,10 @@ function mod:OnCombatStart(delay)
 	whirlCount = 0
 	desecrateCount = 0
 	mindControlCount = 0
+	shamanAlive = 0
 	healcount = 0
 	table.wipe(touchOfYShaarjTargets)
+	table.wipe(adds)
 	timerDesecrateCD:Start(10.5-delay, 1)
 	timerSiegeEngineerCD:Start(20-delay)
 	sndGC:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3") --攻城師準備
@@ -274,6 +319,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args.spellId == 144585 then
+		shamanAlive = shamanAlive + 1
 		warnFarseerWolfRider:Show()
 		specWarnFarseerWolfRider:Show()
 		timerFarseerWolfRiderCD:Start()
@@ -285,6 +331,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		healcount = 0
 		if mod.Options.optDD == "DD1" then
 			sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+		end
+		if self.Options.SetIconOnShaman then
+			scanLimiter = 0
+			scanForMobs()
 		end
 	end
 end
@@ -311,6 +361,8 @@ function mod:UNIT_DIED(args)
 			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3")
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqch.mp3") --鐵球摧毀
 		end
+	elseif cid == 71983 then--Farseer Wolf Rider
+		shamanAlive = shamanAlive - 1
 	end
 end
 

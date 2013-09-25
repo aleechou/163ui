@@ -185,6 +185,11 @@ function GridStatusRaidDebuff:ZoneCheck()
 		realzone = localzone
 	end
 
+	-- If loading the game in Proving Grounds this seems to be the case
+	if not realzone then
+		return
+	end
+
 	self:UpdateAllUnit()
 	self:CheckDetectZone()
 
@@ -503,6 +508,12 @@ function GridStatusRaidDebuff:LoadZoneDebuff(zone, name)
 	local args = self.options.args[zone].args
 
 	k = debuff_list[zone][name]
+	local order = k.order
+	-- Make it sorted by name. Values become 9999.0 -- 9999.99999999
+	if order==9999 then
+		local a,b,c = string.byte(name, 1, 3)
+		order=9999 + ((a or 0)*65536 + (b or 0)*256 + (c or 0)) / 16777216
+	end
 
 	if not args[name] then
 		description = L["Enable %s"]:format(name)
@@ -518,7 +529,7 @@ function GridStatusRaidDebuff:LoadZoneDebuff(zone, name)
 			type = "group",
 			name = menuName,
 			desc = description,
-			order = k.order,
+			order = order,
 			args = {
 				["enable"] = {
 					type = "toggle",

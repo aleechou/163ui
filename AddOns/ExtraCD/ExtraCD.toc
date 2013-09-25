@@ -6,7 +6,7 @@
 ## Author: superk
 ## SavedVariables: ExtraCDDB
 ## Version: 1.2
-## X-Curse-Packaged-Version: 1.2.2
+## X-Curse-Packaged-Version: 1.2.2c
 ## X-Curse-Project-Name: ExtraCD
 ## X-Curse-Project-ID: extracd
 ## X-Curse-Repository-ID: wow/extracd/mainline

@@ -298,15 +298,30 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSetToBlowYou:Show()
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
 --			countdownSetToBlow:Start()
-			timerSetToBlow:Start()
-			specWarnSetToBlow:Schedule(26)
-			sndWOP:Schedule(26, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
-			sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(29, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
-				self:Schedule(32, hideRangeFrame)
+			if self:IsDifficulty("heroic10", "heroic25") then	
+				timerSetToBlow:Start(15)
+				specWarnSetToBlow:Schedule(10)
+				sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+				sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+				sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				if self.Options.RangeFrame then
+					DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
+					self:Schedule(16, hideRangeFrame)
+				end
+			else
+				timerSetToBlow:Start()
+				specWarnSetToBlow:Schedule(25)
+				sndWOP:Schedule(25, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+				sndWOP:Schedule(26, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+				sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(29, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				if self.Options.RangeFrame then
+					DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
+					self:Schedule(32, hideRangeFrame)
+				end
 			end
 		end
 	elseif args.spellId == 145692 and checkTankDistance(args.sourceGUID) then
@@ -332,6 +347,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerSetToBlow:Cancel()
 		specWarnSetToBlow:Cancel()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")

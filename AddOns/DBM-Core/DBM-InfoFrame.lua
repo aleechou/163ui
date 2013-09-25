@@ -211,7 +211,6 @@ local function updateLines()
 	end
 end
 
---namesort add start
 local function updateNamesortLines()
 	table.wipe(sortedLines)
 	for i in pairs(lines) do
@@ -232,7 +231,6 @@ local function updateNotsortLines()
 		v(sortedLines)
 	end
 end
---add end
 
 local function updateIcons()
 	table.wipe(icons)
@@ -729,7 +727,7 @@ function onUpdate(self, elapsed)
 		end
 		local name = sortedLines[i]
 		-- filter players who are not in the current zone (i.e. just idling/watching while being in the raid)
-		local unitId = DBM:GetRaidUnitId(DBM:GetFullNameByShortName(name))
+		local unitId = DBM:GetRaidUnitId(DBM:GetUnitFullName(name))
 		local raidId = unitId and unitId:sub(0, 4) == "raid" and (tonumber(unitId:sub(5) or 0) or 0)
 		if not raidId or select(7, GetRaidRosterInfo(raidId)) == currentMapName then
 			linesShown = linesShown + 1

@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10275 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10353 $"):sub(12, -3))
 mod:SetCreatureID(72276)
 mod:SetZone()
 
@@ -17,11 +17,21 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE",
 	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"--This boss changes boss ID every time you jump into one of tests, because he gets unregistered as boss1 then registered as boss2 when you leave, etc
+	"UNIT_HEALTH boss1",
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",--This boss can change boss ID any time you jump into one of tests, because he gets unregistered as boss1 then registered as boss2 when you leave, etc
+	"CHAT_MSG_ADDON"
 )
 
 mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL"
+)
+local senddr = {}
+local warneddr = {}
+
+local boss = EJ_GetSectionInfo(8216)
+
+mod:SetBossHealthInfo(
+	72276, boss
 )
 
 --Amalgam of Corruption
@@ -49,7 +59,7 @@ local specWarnTearReality				= mod:NewSpecialWarningMove(144482)
 --Test of Reliance (Healer)
 local specWarnDishearteningLaugh		= mod:NewSpecialWarningSpell(146707, false, nil, nil, 2)
 local specWarnLingeringCorruption		= mod:NewSpecialWarningDispel(144514)
-local specWarnLCMove					= mod:NewSpecialWarningMove(146703)
+local specWarnBottomlessPitMove			= mod:NewSpecialWarningMove(146703)
 --Test of Confidence (tank)
 local specWarnTitanicSmash				= mod:NewSpecialWarningMove(144628)
 local specWarnBurstOfCorruption			= mod:NewSpecialWarningSpell(144654, nil, nil, nil, 2)
@@ -75,11 +85,11 @@ local timerTitanicSmashCD				= mod:NewCDTimer(14.5, 144628)--14-17sec variation
 local timerPiercingCorruptionCD			= mod:NewCDTimer(14, 144657)--14-17sec variation
 local timerHurlCorruptionCD				= mod:NewNextTimer(20, 144649)
 
-local berserkTimer						= mod:NewBerserkTimer(420)
+local berserkTimer						= mod:NewBerserkTimer(418)
 
 local countdownLookWithin				= mod:NewCountdownFades(59, "ej8220")
---local countdownLingeringCorruption	= mod:NewCountdown(15.5, 144514, mod:IsHealer(), nil, nil, nil, true)
---local countdownHurlCorruption			= mod:NewCountdown(20, 144649, mod:IsTank(), nil, nil, nil, true)
+--local countdownLingeringCorruption	= mod:NewCountdown(15.5, 144514, nil, nil, nil, nil, true)
+--local countdownHurlCorruption			= mod:NewCountdown(20, 144649, nil, nil, nil, nil, true)
 
 mod:AddBoolOption("InfoFrame", false)
 mod:AddBoolOption("InfoFrame2", true, "sound")
@@ -135,6 +145,8 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:SetHeader(GetSpellInfo(144452))
 		DBM.InfoFrame:Show(4, "playersomedebuffs", 144849, 144850, 144851)
 	end
+	table.wipe(senddr)
+	table.wipe(warneddr)
 end
 
 function mod:OnCombatEnd()
@@ -212,6 +224,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_mbrc.mp3")--隊友入场			
 			fixdebuffremovebug(args.destName)
 		end
+	elseif args.spellId == 146703 and args:IsPlayer() and self:AntiSpam(3, 2) then
+		specWarnBottomlessPitMove:Show()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 
@@ -260,11 +275,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 146179 then--Frayed
 		specWarnManifestation:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--二階段準備
+		sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3")--準備大怪
+		if mod:IsDps() then
+			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+		else
+			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+		end
 	end
 end
 
---"<21:44:39> CHAT_MSG_MONSTER_YELL#Very well, I will create a field to keep your corruption quarantined.#Norushen###Shiramune##0#0##0#837#nil#0#false#false", -- [1]
---"<21:45:04> [UNIT_SPELLCAST_SUCCEEDED] Amalgam of Corruption [[boss1:Icy Fear::0:145733]]", -- [1]
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.wasteOfTime then
 		self:SendSync("prepull")
@@ -280,12 +299,30 @@ end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 146703 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
-		specWarnLCMove:Show()
+	if spellId == 146703 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		specWarnBottomlessPitMove:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_HEALTH(uId)
+	if uId ~= "boss1" then return end
+	local h = UnitHealth(uId) / UnitHealthMax(uId) * 100
+	if h > 40 and h < 40.3 and not senddr["dr40"] then
+		senddr["dr40"] = true
+		self:SendSync("dr40")
+	elseif h > 30 and h < 30.3 and not senddr["dr30"] then
+		senddr["dr30"] = true
+		self:SendSync("dr30")
+	elseif h > 20 and h < 20.3 and not senddr["dr20"] then
+		senddr["dr20"] = true
+		self:SendSync("dr20")
+	elseif h > 10 and h < 10.3 and not senddr["dr10"] then
+		senddr["dr10"] = true
+		self:SendSync("dr10")
+	end
+end
 
 function mod:OnSync(msg)
 	if msg == "BlindHatred" then
@@ -305,7 +342,9 @@ function mod:OnSync(msg)
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			end
 		end)
-	elseif msg == "ManifestationDied" and not playerInside then
+	elseif msg == "prepull" then
+		timerCombatStarts:Start()
+	elseif msg == "ManifestationDied" and not playerInside and self:AntiSpam(1) then
 		specWarnManifestationSoon:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3")--準備大怪
 		if mod:IsDps() then
@@ -313,7 +352,32 @@ function mod:OnSync(msg)
 		else
 			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
 		end
-	elseif msg == "prepull" then
-		timerCombatStarts:Start()
+	elseif msg == "dr40" or msg == "dr30" or msg == "dr20" or msg == "dr10" then
+		if not warneddr[msg] then
+			warneddr[msg] = true
+			specWarnManifestationSoon:Show()
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3")--準備大怪
+			if mod:IsDps() then
+				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+			else
+				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+			end
+		end
+	end
+end
+
+function mod:CHAT_MSG_ADDON(prefix, message, channel, sender)
+	--Because core already registers BigWigs prefix with server, shouldn't need it here
+	if prefix == "BigWigs" and message then
+		local bwPrefix, bwMsg = message:match("^(%u-):(.+)")
+		if bwMsg == "InsideBigAddDeath" and not playerInside and self:AntiSpam(1) then
+			specWarnManifestationSoon:Show()
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmobsoon.mp3")--準備大怪
+			if mod:IsDps() then
+				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killbigmob.mp3")--大怪快打
+			else
+				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bigmob.mp3")--大怪出現
+			end
+		end
 	end
 end

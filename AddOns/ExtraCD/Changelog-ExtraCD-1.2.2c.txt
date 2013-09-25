@@ -1,16 +1,22 @@
 ------------------------------------------------------------------------
-r136 | superk521 | 2013-09-21 16:09:32 +0000 (Sat, 21 Sep 2013) | 8 lines
+r140 | superk521 | 2013-09-22 22:28:04 +0000 (Sun, 22 Sep 2013) | 2 lines
 Changed paths:
-   A /tags/1.2.2 (from /trunk:135)
+   A /tags/1.2.2c (from /trunk:139)
 
-tag as version 1.2.2
-1.fix some 5.2 trinkets' icd
-2.procs influenced by haste or critical ratings now can display their right rppm on the icon
-3.**IMPORTANT** now the number on rppm icons means the modified rppm, capped by 6(shows "max", and means 100% chance) and have a linear relationship with proc chance when player is out of combat
-4.fix the legendary tank cloak's spellId
-5.add troll's Berserking and Shaman's Elemental Mastery into "haste bonus" spells
-6.fix a display error when player comes into combat but the text can still reach "max"  
+tag as version 1.2.2c
+fix a lua error for characters below level 10(without specialization)
+------------------------------------------------------------------------
+r139 | superk521 | 2013-09-22 22:18:28 +0000 (Sun, 22 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
 
+fix a lua error for characters below level 10(without specialization)
+------------------------------------------------------------------------
+r137 | superk521 | 2013-09-22 12:10:58 +0000 (Sun, 22 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+fix a lua error when logging in and loading icons
 ------------------------------------------------------------------------
 r131 | superk521 | 2013-09-21 15:44:15 +0000 (Sat, 21 Sep 2013) | 1 line
 Changed paths:

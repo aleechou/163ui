@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10327 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10364 $"):sub(12, -3))
 mod:SetCreatureID(71466)
 mod:SetZone()
 
@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 --Assault Mode
 local warnBorerDrill			= mod:NewSpellAnnounce(144218, 3)
 local warnLaserBurn				= mod:NewTargetAnnounce(144459, 3, nil, mod:IsHealer())
-local warnMortarCannon			= mod:NewSpellAnnounce(144316, 3, nil, mod:IsRanged())--Could not get target scanning working.
+local warnMortarCannon			= mod:NewSpellAnnounce(144316, 3, nil, false)--Could not get target scanning working.
 local warnCrawlerMine			= mod:NewSpellAnnounce(144673, 3)
 local warnIgniteArmor			= mod:NewStackAnnounce(144467, 2, nil, mod:IsTank())--Seems redundant to count debuffs and warn for breath, so just do debuffs
 --Siege Mode
@@ -62,7 +62,7 @@ local timerCuttingLaser			= mod:NewTargetTimer(10, 146325)--Spell tooltip says 1
 --local timerCuttingLaserCD		= mod:NewCDTimer(10, 146325)
 local timerShockPulseCD			= mod:NewNextCountTimer(16.5, 144485)--Confirmed, blizzard did take solid argued feedback and changed this mechanic, yay.
 --local timerNapalmOilCD		= mod:NewCDTimer(21.5, 144492)
-local timerDemolisherCanonCD	= mod:NewCDTimer(10, 144154)
+local timerDemolisherCanonCD	= mod:NewCDTimer(9, 144154)
 local timerMortarBarrageCD		= mod:NewCDTimer(30, 144555)
 
 --local soundCuttingLaser			= mod:NewSound(146325)
@@ -159,18 +159,21 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 144467 then
-		local amount = args.amount or 1
-		warnIgniteArmor:Show(args.destName, amount)
-		timerIgniteArmor:Start(args.destName)
-		timerIgniteArmorCD:Start()
-		if amount >= 3 then
-			if args:IsPlayer() then
-				specWarnIgniteArmor:Show(amount)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sunderhigh.mp3") --破甲過高
-			else
-				specWarnIgniteArmorOther:Show(args.destName)
-				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if self:IsTanking(uId, "boss1") then
+			local amount = args.amount or 1
+			warnIgniteArmor:Show(args.destName, amount)
+			timerIgniteArmor:Start(args.destName)
+			timerIgniteArmorCD:Start()
+			if amount >= 3 then
+				if args:IsPlayer() then
+					specWarnIgniteArmor:Show(amount)
+					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sunderhigh.mp3") --破甲過高
+				else
+					specWarnIgniteArmorOther:Show(args.destName)
+					if mod:IsTank() then
+						sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+					end
 				end
 			end
 		end
