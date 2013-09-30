@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndQS		= mod:NewSound(nil, "SoundQS", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10343 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10412 $"):sub(12, -3))
 mod:SetCreatureID(71734)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
@@ -69,6 +69,7 @@ local timerGiftOfTitansCD		= mod:NewNextTimer(25.5, 144359)--NOT cast or tied or
 local timerMarkCD				= mod:NewNextTimer(20.5, 144351, nil, mod:IsHealer())
 local timerSelfReflectionCD		= mod:NewNextTimer(25, 144800)
 local timerWoundedPrideCD		= mod:NewNextTimer(30, 144358, nil, mod:IsTank())--A tricky on that is based off unit power but with variable timings, but easily workable with an 11, 26 rule
+local timerBanishmentCD			= mod:NewNextTimer(37.5, 145215)
 local timerCorruptedPrisonCD	= mod:NewNextTimer(53, 144574)--Technically 51 for Imprison base cast, but this is timer til debuffs go out.
 local timerManifestationCD		= mod:NewNextTimer(60, "ej8262", nil, nil, nil, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
 local timerSwellingPrideCD		= mod:NewNextCountTimer(75.5, 144400)
@@ -250,6 +251,9 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:SetHeader(prideLevel)
 		DBM.InfoFrame:Show(5, "playerpower", 5, ALTERNATE_POWER_INDEX)
 	end
+	if self:IsDifficulty("heroic10", "heroic25") then
+		timerBanishmentCD:Start(-delay)
+	end
 end
 
 function mod:OnCombatEnd()
@@ -309,6 +313,9 @@ function mod:SPELL_CAST_START(args)
 		timerCorruptedPrisonCD:Start()
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\readyrescue.mp3")
 		sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\readyrescue.mp3") --準備救人			
+		if self:IsDifficulty("heroic10", "heroic25") then
+			timerBanishmentCD:Start()
+		end
 	end
 end
 
@@ -339,6 +346,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Schedule(73.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Schedule(74.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Schedule(75.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		if self:IsDifficulty("heroic10", "heroic25") then
+			timerBanishmentCD:Start()
+		end
 		--This is done here because a lot can change during a cast, and we need to know players energy when cast ends, i.e. this event
 		for uId in DBM:GetGroupMembers() do
 			local maxPower = UnitPowerMax(uId, ALTERNATE_POWER_INDEX)

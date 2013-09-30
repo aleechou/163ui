@@ -195,24 +195,20 @@ function menu:OnCommand(editbox, prefix)
 end
 
 -- Create menu for TradeSkill frame
-menu = CreateMenu("TradeSkillFrameSearchBox", "TRADE_SKILL_SHOW")
+local menu = CreateMenu("TradeSkillFrameSearchBox", "TRADE_SKILL_SHOW")
 
 function menu:OnShow()
 	return GetTradeSkillLine() == TRADESKILL_NAME
 end
 
-if not BuyName then
-	menu = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
+local menuAuctionLite = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
 
-	function menu:OnAttach(editbox)
-		editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
-	end
+function menuAuctionLite:OnShow()
+	return IsAddOnLoaded("AuctionLite")
 end
 
-if not TradeskillInfoInputBox then
-	menu = CreateMenu("TradeskillInfoInputBox", "TRADE_SKILL_SHOW")
+local menuTrade = CreateMenu("TradeskillInfoInputBox", "TRADE_SKILL_SHOW")
 
-	function menu:OnAttach(editbox)
-		editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
-	end
+function menuTrade:OnShow(editbox)
+	return TradeskillInfoInputBox ~= nil
 end

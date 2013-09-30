@@ -64,6 +64,7 @@ local warnBloodletting				= mod:NewSpellAnnounce(143280, 4)
 local warnGeneticAlteration			= mod:NewStackAnnounce(143279, 2, nil, false)
 local warnInjection					= mod:NewStackAnnounce(143339)
 local warnMutate					= mod:NewTargetAnnounce(143337, 3)
+
 --Hisek the Swarmkeeper
 local warnAim						= mod:NewTargetAnnounce(142948, 4)--Maybe wrong debuff id, maybe 144759 instead
 local warnRapidFire					= mod:NewSpellAnnounce(143243, 3)

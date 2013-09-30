@@ -23,7 +23,7 @@ L:SetOptionLocalization({
 	warnQueuePosition	= "警报：你当前的队列号",
 	specWarnYourNext	= "特殊警报：当你下一个登场时",
 	specWarnYourTurn	= "特殊警报：轮到玩家登场",
-	SpectatorMode		= "在观看比赛时显示警报与计时条\n（特殊警报不会同步给其他观众）",
+	SpectatorMode		= "在观看比赛时显示警报与计时条<br/>（特殊警报不会同步给其他观众）",
 	SpeakOutQueue		= "当你的队列号提升时报数"
 })
 

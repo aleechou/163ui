@@ -10,7 +10,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
-	SoundPZ					= "Voice Warning: When $spell:117878 stacks more than 3 warn you to stop attack",
+	SoundPZD				= "Voice Warning: When $spell:117878 stacks more than 3 warn you to stop attack",
 	InfoFrame				= "Info Frame: Track how many puddles have been killed or purified",
 	dr						= "Defensive warning[Warning will be showed at $spell:143020, but you should use your defensive cooldowns before contact]",
 	dr1						= "$spell:143020 1",
@@ -42,6 +42,7 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	InfoFrame				= "Info Frame: Boss Health Monitor",
 	SoundBD					= "Voice Warning: Dispel $spell:143434",
 	dr1						= "Defensive warning: $spell:143491 1/4",
 	dr2						= "Defensive warning: $spell:143491 2/4",
@@ -55,6 +56,14 @@ L:SetOptionLocalization({
 	fift					= "15",
 	twty					= "20",
 	none					= "Never",
+	optDD					= "Embodied Gloom Interrupt Warning",
+	alldd					= "Always (If he's your target or focus)",
+	DD1						= "Interrupt 1",
+	DD2						= "Interrupt 2",
+	DD3						= "Interrupt 3",
+	nodd					= "None",
+	SetIconOnStrike			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143962),
+	RangeFrame			= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(5, 143423)--For heroic. Need to chage smart range frame?
 })
 
 L:SetMiscLocalization({
@@ -187,6 +196,8 @@ L:SetOptionLocalization({
 	dr4						= "$spell:143973 4/6",
 	dr5						= "$spell:143973 5/6",
 	dr6						= "$spell:143973 6/6",
+	SoundEle				= "Special: Enable Wavebinder Kardris ability warnings",
+	SoundEnh				= "Special: Enable Earthbreaker Haromm ability warnings",
 	SetIconOnToxicMists		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(144089),
 	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(4, 143990)
 })
@@ -208,6 +219,7 @@ L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
 	SoundTT					= "Voice Warning: Kill $spell:143474",
 	InfoFrame				= "Info Frame: Rage Monitor",	
+	SetIconOnAdds			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej7920"),
 	warnDefensiveStanceSoon			= "Pre-warning: $spell:143593 (5 seconds before)"
 })
 
@@ -232,11 +244,13 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
 	HudMAP					= "HUD MAP: $spell:142913",
+	SetIconOnDisplacedEnergy= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(142913),
+	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT_SHORT:format("8/5")
 })
 
-L:SetMiscLocalization({
-	bloodRageEnds	= "subsides!"
-})
+MHExRTL = {}
+MHExRTL.panelbossmodsmalkorokdanger ="! Danger !"
+MHExRTL.sendnote ="Open manually modify the map, left click to select, right to cancel, your changes will be synchronized to the whole group, please use caution!"
 
 ------------------------
 -- Spoils of Pandaria --
@@ -387,7 +401,8 @@ L:SetOptionLocalization({
 	alldd					= "Always (If he's your target or focus)",
 	DD1						= "Odd number",
 	DD2						= "Even number",
-	nodd					= "None"
+	nodd					= "None",
+	SetIconOnShaman			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej8294"),
 })
 
 -------------

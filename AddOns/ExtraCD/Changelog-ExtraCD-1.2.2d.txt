@@ -1,10 +1,18 @@
 ------------------------------------------------------------------------
-r140 | superk521 | 2013-09-22 22:28:04 +0000 (Sun, 22 Sep 2013) | 2 lines
+r142 | superk521 | 2013-09-26 15:02:58 +0000 (Thu, 26 Sep 2013) | 3 lines
 Changed paths:
-   A /tags/1.2.2c (from /trunk:139)
+   A /tags/1.2.2d (from /trunk:141)
 
-tag as version 1.2.2c
-fix a lua error for characters below level 10(without specialization)
+tag as version 1.2.2d
+fix a lua error for haste bonus spell(dk's Unholy Presence)
+
+------------------------------------------------------------------------
+r141 | superk521 | 2013-09-26 15:02:14 +0000 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+fix a lua error for haste bonus spell(dk's Unholy Presence)
+
 ------------------------------------------------------------------------
 r139 | superk521 | 2013-09-22 22:18:28 +0000 (Sun, 22 Sep 2013) | 1 line
 Changed paths:

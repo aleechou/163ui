@@ -6,7 +6,7 @@
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
-## SavedVariablesPerCharacter: DBMSiegeOfOrgrimmar_SavedVars, DBMSiegeOfOrgrimmar_SavedStats
+## SavedVariablesPerCharacter: DBMSiegeOfOrgrimmar_SavedVars, DBMSiegeOfOrgrimmar_SavedStats, ExRT
 ## X-DBM-Mod-Name: Siege of Orgrimmar
 ## X-DBM-Mod-Name-zhTW: 圍攻奧格瑪 (SoO)
 ## X-DBM-Mod-Name-zhCN: 决战奥格瑞玛
@@ -29,6 +29,7 @@ IronJuggernaut.lua
 KorkronDarkShaman.lua
 GeneralNazgrim.lua
 Malkorok.lua
+Malkorokhelper.lua
 SpoilsOfPandria.lua
 ThokTheBloodthirsty.lua
 SiegecrafterBlackfuse.lua

@@ -40,16 +40,14 @@ L:SetWarningLocalization({
 
 L:SetTimerLocalization{
 	SubmergTimer	= "Submerge",
-	EmergeTimer		= "Emerge",
-	TimerCombat		= "Combat starts"
+	EmergeTimer		= "Emerge"
 }
 
 L:SetOptionLocalization({
 	Emerged			= "Show warning when Ahune emerges",
 	specWarnAttack	= "Show special warning when Ahune becomes vulnerable",
 	SubmergTimer	= "Show timer for submerge",
-	EmergeTimer		= "Show timer for emerge",
-	TimerCombat		= "Show timer for start of combat",
+	EmergeTimer		= "Show timer for emerge"
 })
 
 L:SetMiscLocalization({
@@ -87,13 +85,8 @@ L:SetWarningLocalization({
 	warnHorsemanHead		= "Head of the Horseman Active"
 })
 
-L:SetTimerLocalization{
-	TimerCombatStart		= "Combat starts"
-}
-
 L:SetOptionLocalization({
 	WarnPhase				= "Show a warning for each phase change",
-	TimerCombatStart		= "Show timer for start of combat",
 	warnHorsemanSoldiers	= "Show warning for Pulsing Pumpkin spawn",
 	warnHorsemanHead		= "Show warning for Head of the Horseman spawning"
 })
@@ -155,7 +148,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SetBubbles			= "Automatically disable chat bubbles during $spell:101871\n(restores them when game ends)"
+	SetBubbles			= "Automatically disable chat bubbles during $spell:101871<br/>(restores them when game ends)"
 })
 
 ----------------------

@@ -1,9 +1,8 @@
 ﻿local mod	= DBM:NewMod(850, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
-local sndTT		= mod:NewSound(nil, "SoundTT", true)
 
-mod:SetRevision(("$Revision: 10363 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10462 $"):sub(12, -3))
 mod:SetCreatureID(71515)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 4, 2, 1)
@@ -16,6 +15,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
+	"SPELL_DAMAGE",
 	"UNIT_DIED",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -52,10 +52,12 @@ local specWarnSunderOther			= mod:NewSpecialWarningTarget(143494, mod:IsTank())
 local specWarnExecute				= mod:NewSpecialWarningSpell(143502, mod:IsTank(), nil, nil, 3)
 local specWarnBerserkerStance		= mod:NewSpecialWarningSpell(143594, mod:IsDps())--In case you want to throttle damage some
 local specWarnDefensiveStance		= mod:NewSpecialWarningSpell(143593, nil, nil, nil, 3)--Definitely OFF DPS
+local specWarnDefensiveStanceEnd	= mod:NewSpecialWarningEnd(143593)
 --Nazgrim Rage Abilities
 local specWarnHeroicShockwave		= mod:NewSpecialWarningSpell(143500, nil, nil, nil, 2)
 local specWarnKorkronBanner			= mod:NewSpecialWarningSwitch(143536, mod:IsDps())
 local specWarnRavager				= mod:NewSpecialWarningSpell(143872)
+local specWarnRavagerMove			= mod:NewSpecialWarningMove(143873)
 local specWarnWarSong				= mod:NewSpecialWarningSpell(143503, nil, nil, nil, 2)
 --Kor'kron Adds
 local specWarnIronstorm				= mod:NewSpecialWarningInterrupt(143420, mod:IsMelee())--Only needs to be interrupted if melee are near it
@@ -64,6 +66,8 @@ local specWarnMagistrike			= mod:NewSpecialWarningInterrupt(143431, false)--Spam
 local specWarnEmpoweredChainHeal	= mod:NewSpecialWarningInterrupt(143473)--Concerns everyone, if not interrupted will heal boss for a TON
 local specWarnAssassinsMark			= mod:NewSpecialWarningYou(143480)
 local yellAssassinsMark				= mod:NewYell(143480)
+local specWarnHunterMark			= mod:NewSpecialWarningYou(143882)
+local yellHunterMark				= mod:NewYell(143882)
 local specWarnAssassinsMarkOther	= mod:NewSpecialWarningTarget(143480, false)
 local specWarnEarthShield			= mod:NewSpecialWarningDispel(143475, mod:IsMagicDispeller())
 local specWarnHealingTideTotem		= mod:NewSpecialWarningSwitch(143474, false)--Not everyone needs to switch, should be turned on by assigned totem mashing people.
@@ -71,7 +75,7 @@ local specWarnHealingTideTotem		= mod:NewSpecialWarningSwitch(143474, false)--No
 --Nazgrim Core Abilities
 local timerAddsCD					= mod:NewNextCountTimer(45, "ej7920", nil, nil, nil, 2457)
 local timerSunder					= mod:NewTargetTimer(30, 143494, nil, mod:IsTank() or mod:IsHealer())
-local timerSunderCD					= mod:NewCDTimer(10, 143494, nil, mod:IsTank())
+local timerSunderCD					= mod:NewCDTimer(8, 143494, nil, mod:IsTank())
 local timerExecuteCD				= mod:NewNextTimer(33.5, 143502, nil, mod:IsTank() or mod:IsHealer())
 local timerBoneCD					= mod:NewCDTimer(30, 143638, nil, mod:IsHealer())
 local timerBerserkerStanceCD		= mod:NewNextTimer(60, 143594)
@@ -82,8 +86,8 @@ local timerCoolingOff				= mod:NewBuffFadesTimer(15, 143484)
 --Kor'kron Adds
 local timerEmpoweredChainHealCD		= mod:NewNextSourceTimer(6, 143473)
 
---local countdownAdds					= mod:NewCountdown(45, "ej7920", false)--Confusing with Colling Off. off by default.
---local countdownCoolingOff			= mod:NewCountdownFades(15, 143484, nil, nil, nil, nil, true)
+--local countdownAdds					= mod:NewCountdown(45, "ej7920")--Not confusing, two different voices (unless you set voice 1 and 2 to same voice but that's own fault. This is mandatory. EVERYONE (and in all modes) needs to know adds are coming so they switch or CC or avoid appropriate adds)
+--local countdownCoolingOff			= mod:NewCountdownFades(15, 143484, nil, nil, nil, true, true)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -94,8 +98,16 @@ local boneTargets = {}
 local UnitName, UnitExists, UnitGUID, UnitDetailedThreatSituation = UnitName, UnitExists, UnitGUID, UnitDetailedThreatSituation
 local adds = {}
 local scanLimiter = 0
+local defensiveActive = false
+local sunder = GetSpellInfo(143494)
+
+local saynum = 0
 
 mod:AddBoolOption("InfoFrame", true, "sound")
+local sndDS		= mod:NewSound(nil, "SoundDS", mod:IsMagicDispeller())
+local sndIFS	= mod:NewSound(nil, "SoundIFS", true)
+local sndISM	= mod:NewSound(nil, "SoundISM", true)
+
 
 local function warnBoneTargets()
 	warnBonecracker:Show(table.concat(boneTargets, "<, >"))
@@ -140,8 +152,11 @@ function mod:OnCombatStart(delay)
 	addsCount = 0
 	table.wipe(adds)
 	table.wipe(boneTargets)
+	defensiveActive = false
+	saynum = 0
 	timerAddsCD:Start(-delay, 1)
 	sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3") --準備小怪
+	sndWOP:Schedule(41, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 --	countdownAdds:Start()
 	berserkTimer:Start(-delay)
 end
@@ -175,23 +190,21 @@ function mod:SPELL_CAST_START(args)
 		if source == UnitName("target") or source == UnitName("focus") then
 			warnMagistrike:Show()
 			specWarnMagistrike:Show(source)
-			if mod:IsMelee() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
-			end
+			sndIFS:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 143432 then
 		local source = args.sourceName
-		if source == UnitName("target") or source == UnitName("focus") then 
+		if source == UnitName("target") or source == UnitName("focus") then
 			warnArcaneShock:Show()
 			specWarnArcaneShock:Show(source)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndIFS:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷			
 		end
 	elseif args.spellId == 143473 then
 		local source = args.sourceName
 		warnEmpoweredChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then
 			specWarnEmpoweredChainHeal:Show(source)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndISM:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 			timerEmpoweredChainHealCD:Start(source, args.sourceGUID)
 		end
 	elseif args.spellId == 143502 then
@@ -217,6 +230,10 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 143589 then
+		if defensiveActive then
+			defensiveActive = false
+			specWarnDefensiveStanceEnd:Show()
+		end
 		warnBattleStance:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zdzt.mp3") --戰鬥姿態
 		if mod.Options.InfoFrame then
@@ -244,10 +261,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Schedule(59, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	elseif args.spellId == 143593 then
+		defensiveActive = true
+		saynum = 0
 		warnDefensiveStance:Show()
 		specWarnDefensiveStance:Show()
 		local source = args.sourceName
-		if (source == UnitName("target")) and (not UnitDebuff("player", GetSpellInfo(143494))) then
+		if (source == UnitName("target")) and (not UnitDebuff("player", sunder)) then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopattack.mp3") --注意停手			
 		else
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fyzt.mp3") --防禦姿態
@@ -264,7 +283,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 143474 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
-		sndTT:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
 	elseif args.spellId == 143494 then--Because it can miss, we start CD here instead of APPLIED
 		timerSunderCD:Start()
 	end
@@ -276,12 +295,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSunder:Show(args.destName, amount)
 		timerSunder:Start(args.destName)
 		if args:IsPlayer() then
-			if amount >= 4 then--At this point the other tank SHOULD be clear.
+			if amount >= 3 then--At this point the other tank SHOULD be clear.
 				specWarnSunder:Show(amount)
 				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sunderhigh.mp3") --破甲過高
 			end
 		else--Taunt as soon as stacks are clear, regardless of stack count.
-			if amount >= 3 and not UnitDebuff("player", GetSpellInfo(143494)) and not UnitIsDeadOrGhost("player") then
+			if amount >= 2 and not UnitDebuff("player", sunder) and not UnitIsDeadOrGhost("player") then
 				specWarnSunderOther:Show(args.destName)
 				if mod:IsTank() then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
@@ -299,18 +318,23 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 143480 then
 		warnAssasinsMark:Show(args.destName)
 		if args:IsPlayer() then
-			specWarnAssassinsMark:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ckkp.mp3") --快跑 刺客點你
+			specWarnAssassinsMark:Schedule(1)			
 			yellAssassinsMark:Yell()
+			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ckkp.mp3") --快跑 刺客點你
 		else
 			specWarnAssassinsMarkOther:Show(args.destName)
+		end
+	elseif args.spellId == 143882 then
+		if args:IsPlayer() then
+			specWarnHunterMark:Schedule(1)			
+			yellHunterMark:Yell()
+			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 		end
 	elseif args.spellId == 143475 and not args:IsDestTypePlayer() then
 		warnEarthShield:Show(args.destName)
 		specWarnEarthShield:Show(args.destName)
-		if mod:IsMagicDispeller() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dun.mp3") --驅散大地盾
-		end
+		sndDS:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dun.mp3") --驅散大地盾
 	elseif args.spellId == 143638 then
 		boneTargets[#boneTargets + 1] = args.destName
 		self:Unschedule(warnBoneTargets)
@@ -338,10 +362,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		warnAdds:Show(addsCount)
 		specWarnAdds:Show(addsCount)
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmob.mp3") --小怪快打
-		self:Schedule(1, function()
-			DBM:PlayCountSound(addsCount)
-		end)
+--		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmob.mp3") --小怪快打
 		sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")
 		timerAddsCD:Start(nil, addsCount+1)
 --		countdownAdds:Start()
@@ -364,3 +385,28 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yzkd.mp3") --餘震快躲
 	end
 end
+
+function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 143873 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		specWarnRavagerMove:Show()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+	elseif (sourceGUID == UnitGUID("player")) and (destGUID == UnitGUID("boss1")) and self:AntiSpam(3, 1) then
+		local h = UnitHealth("boss1") / UnitHealthMax("boss1") * 100
+		if h > 40 then
+			if (not UnitDebuff("player", sunder)) and defensiveActive then
+				saynum = saynum + 1
+				if saynum == 1 then
+					SendChatMessage(L.Handslipped1, "SAY")
+				elseif saynum == 3 then
+					SendChatMessage(L.Handslipped2, "SAY")
+				elseif saynum == 7 then
+					SendChatMessage(L.Handslipped3, "SAY")
+				elseif saynum == 15 then
+					SendChatMessage(L.Handslipped4, "SAY")
+				end
+			end
+		end
+	end
+end
+mod.RANGE_DAMAGE = mod.SPELL_DAMAGE
+mod.SWING_DAMAGE = mod.SPELL_DAMAGE

@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10353 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10390 $"):sub(12, -3))
 mod:SetCreatureID(72276)
 mod:SetZone()
 
@@ -133,7 +133,7 @@ function mod:OnCombatStart(delay)
 		end
 	end)
 	if self:IsDifficulty("lfr25") then--Might also be flex as well
-		berserkTimer:Start(600-delay)--Still true?
+		berserkTimer:Start(600-delay)--No log to confirm 8 min, only one report, so changing back to 10 min for now.
 	else
 		berserkTimer:Start(-delay)
 	end

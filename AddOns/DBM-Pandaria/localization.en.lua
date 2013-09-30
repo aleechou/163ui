@@ -87,6 +87,7 @@ L:SetMiscLocalization({
 	Pull					= "The trial begins!",
 	Wave1					= "Do not let your judgement be clouded in trying times!",
 	Wave2					= "Listen to your inner voice, and seek out the truth!",
+	Wave3					= "Always consider the consequences of your actions!",
 	Victory					= "Your wisdom has seen you through this trial. May it ever light your way out of dark places."
 })
 
@@ -101,7 +102,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	Pull					= "We shall see.",
---	Victory					= "",
+	Victory					= "SOME RANDOM BLAH BLAH BLAH",
 	VictoryDem				= "Rakkas shi alar re pathrebosh il zila rethule kiel shi shi belaros rikk kanrethad adare revos shi xi thorje Rukadare zila te lok zekul melar "--Cover all bases and all
 })
 

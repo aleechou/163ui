@@ -4,9 +4,9 @@ local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndZQ		= mod:NewSound(nil, "SoundZQ", true)
 local sndTT		= mod:NewSound(nil, "SoundTT", true)
 
-mod:SetRevision(("$Revision: 10377 $"):sub(12, -3))
-mod:SetCreatureID(72311, 72560, 72249, 73910, 72302)--Boss needs to engage off friendly NCPS, not the boss. I include the boss too so we don't detect a win off losing varian. :)
-mod:SetReCombatTime(120, 15)--fix combat re-starts after killed. Same issue as tsulong. Fires TONS of IEEU for like 1-2 minutes after fight ends.
+mod:SetRevision(("$Revision: 10455 $"):sub(12, -3))
+mod:SetCreatureID(72311, 72560, 72249, 73910, 72302, 72561, 73909)--Boss needs to engage off friendly NCPS, not the boss. I include the boss too so we don't detect a win off losing varian. :)
+mod:SetReCombatTime(180, 15)--fix combat re-starts after killed. Same issue as tsulong. Fires TONS of IEEU for like 1-2 minutes after fight ends.
 mod:SetMainBossID(72249)
 mod:SetZone()
 mod:SetUsedIcons(8)
@@ -29,6 +29,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_MISSED",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED",
+	"UPDATE_WORLD_STATES",
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
@@ -82,7 +83,7 @@ local specWarnFlamesofGalakrondOther= mod:NewSpecialWarningTarget(147029, mod:Is
 
 --Stage 2: Bring Her Down!
 local timerAddsCD					= mod:NewNextCountTimer(55, "ej8553", nil, nil, nil, 2457)
-local timerTowerCD					= mod:NewTimer(151, "timerTowerCD", 88852)
+local timerTowerCD					= mod:NewTimer(99, "timerTowerCD", 88852)
 local timerDemolisherCD				= mod:NewNextTimer(20, "ej8562", nil, nil, nil, 116040)--EJ is just not complete yet, shouldn't need localizing
 local timerProtoCD					= mod:NewNextTimer(55, "ej8587", nil, nil, nil, 59961)
 ----High Enforcer Thranok (Road)
@@ -132,34 +133,37 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 147688 and self:checkTankDistance(args.sourceGUID) then
+	if args.spellId == 147688 and UnitPower("player", ALTERNATE_POWER_INDEX) > 0 then--Tower Spell
 		warnArcingSmash:Show()
 		specWarnArcingSmash:Show()
 		if self:AntiSpam(10, 4) then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\carefly.mp3")--小心击飞
 		end
-	elseif args.spellId == 146757 and self:checkTankDistance(args.sourceGUID) then
+	elseif args.spellId == 146757 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		local source = args.sourceName
 		warnChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnChainheal:Show(source)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
-	elseif args.spellId == 146848 then
+	elseif args.spellId == 146848 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		specWarnSkullCracker:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_sfzd.mp3")--旋風斬
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 146769 and self:checkTankDistance(args.sourceGUID) then
+	if args.spellId == 147824 and UnitPower("player", ALTERNATE_POWER_INDEX) > 0 and self:AntiSpam(3, 2) then--Tower Spell
+		warnMuzzleSpray:Show()
+		specWarnMuzzleSpray:Show()
+	elseif args.spellId == 146769 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnCrushersCall:Show()
 		specWarnCrushersCall:Show()
 		timerCrushersCallCD:Start()
-	elseif args.spellId == 146849 and self:checkTankDistance(args.sourceGUID) then
+	elseif args.spellId == 146849 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnShatteringCleave:Show()
 		timerShatteringCleaveCD:Start()
-	elseif args.spellId == 146753 and self:checkTankDistance(args.sourceGUID) then
+	elseif args.spellId == 146753 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
 		sndTT:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
@@ -170,6 +174,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 147068 then
 		flamesCount = flamesCount + 1
 		warnFlamesofGalakrondTarget:Show(args.destName)
+		timerFlamesofGalakrondCD:Cancel(flamesCount)
 		timerFlamesofGalakrondCD:Start(nil, flamesCount+1)
 		if args:IsPlayer() then
 			specWarnFlamesofGalakrondYou:Show()
@@ -184,11 +189,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if MyJS() then
 			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
 		end
-	elseif args.spellId == 147328 and self:checkTankDistance(args.sourceGUID) then
+	elseif args.spellId == 147328 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnWarBanner:Show()
 		sndZQ:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zqkd.mp3")--战旗快打
 		specWarnWarBanner:Show()
-	elseif args.spellId == 146899 then
+	elseif args.spellId == 146899 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnFracture:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFractureYou:Show()
@@ -203,7 +208,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnPoisonCloud:Show()
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 		end
-	elseif args.spellId == 147711 then
+	elseif args.spellId == 147711 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnCurseVenom:Show()
 		specWarnCurseVenom:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dskd.mp3")--毒蛇快打
@@ -273,10 +278,7 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 147825 and self:AntiSpam(2, 2) then--Muzzle Spray::0:147825
-		warnMuzzleSpray:Show()
-		specWarnMuzzleSpray:Show()
-	elseif spellId == 50630 and self:AntiSpam(2, 3) then--Eject All Passengers:
+	if spellId == 50630 and self:AntiSpam(2, 3) then--Eject All Passengers:
 		timerAddsCD:Cancel()
 		timerProtoCD:Cancel()
 		warnPhase2:Show()
@@ -291,6 +293,15 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
+function mod:UPDATE_WORLD_STATES()
+	local text = select(4, GetWorldStateUIInfo(4))
+	local percent = tonumber(string.match(text or "", "%d+"))
+	if percent == 1 and not firstTower and not self:IsDifficulty("heroic10", "heroic25") then
+		firstTower = true
+		timerTowerCD:Start()
+	end
+end
+
 --"<167.7 21:23:40> [CHAT_MSG_RAID_BOSS_EMOTE] CHAT_MSG_RAID_BOSS_EMOTE#Warlord Zaela orders a |cFFFF0404|hKor'kron Demolisher|h|r to assault the tower!
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("cFFFF0404") then--They fixed epiccenter bug (figured they would). Color code should be usuable though. It's only emote on encounter that uses it.
@@ -299,10 +310,6 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	elseif msg:find(L.tower) then
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ptkf.mp3") --炮塔攻破
 		timerDemolisherCD:Start()
-		if not firstTower and not self:IsDifficulty("heroic10", "heroic25") then
-			firstTower = true
-			timerTowerCD:Start()
-		end
 	end
 end
 

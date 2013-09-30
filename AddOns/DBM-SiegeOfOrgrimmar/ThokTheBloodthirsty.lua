@@ -88,7 +88,7 @@ local timerScorchingBreath		= mod:NewTargetTimer(30, 143767, nil, mod:IsTank() o
 local timerScorchingBreathCD	= mod:NewCDTimer(11, 143767, nil, mod:IsTank())--Often 12, but sometimes 11
 local timerBurningBloodCD		= mod:NewCDTimer(3.5, 143783, nil, false)--cast often, but someone might want to show it
 
-local timerDevotion				= mod:NewBuffActiveTimer(14, 31821)
+local timerDevotion				= mod:NewBuffActiveTimer(6, 31821)
 
 local berserkTimer				= mod:NewBerserkTimer(600)
 

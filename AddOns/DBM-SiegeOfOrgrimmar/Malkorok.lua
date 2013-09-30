@@ -56,8 +56,23 @@ local berserkTimer						= mod:NewBerserkTimer(360)
 
 mod:AddBoolOption("RangeFrame", true)--Various things
 mod:AddBoolOption("SetIconOnDisplacedEnergy", false)
-
 mod:AddBoolOption("HudMAP", false, "sound")
+
+mod:AddBoolOption("Malhelper", true, "sound")
+mod:AddBoolOption("MalhelperSend", false, "sound", 
+function()
+	if mod.Options.MalhelperSend then
+		DBM.MalHelperEnabled = true
+		DBM:AddMsg("|cFFFA6BC1"..MHExRTL.sendnote.."|r")
+	else
+		DBM.MalHelperEnabled = false
+	end
+end)
+
+mod:AddBoolOption("dr", true, "sound")
+for i = 1, 12 do
+	mod:AddBoolOption("dr"..i, false, "sound")
+end
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
@@ -74,9 +89,17 @@ local playerDebuffs = 0
 local breathCast = 0
 local arcingSmashCount = 0
 local seismicSlamCount = 0
+local ieCount = 0
 local displacedCast = false
 local UnitDebuff = UnitDebuff
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+
+local function MyJS()
+	if mod.Options["dr"..ieCount] then
+		return true
+	end
+	return false
+end
 
 local debuffFilter
 do
@@ -128,6 +151,7 @@ function mod:OnCombatStart(delay)
 	breathCast = 0
 	arcingSmashCount = 0
 	seismicSlamCount = 0
+	ieCount = 0
 	timerSeismicSlamCD:Start(5-delay, 1)
 	timerArcingSmashCD:Start(11-delay, 1)
 	timerBreathofYShaarjCD:Start(-delay, 1)
@@ -144,6 +168,18 @@ function mod:OnCombatStart(delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
+	if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
+		if self:IsDifficulty("normal25", "heroic25") then
+			ExRT:MalkorokAILoad()
+		else
+			ExRT:MalkorokLoad()
+		end
+		if self.Options.MalhelperSend then
+			DBM.MalHelperEnabled = true
+		else
+			DBM.MalHelperEnabled = false
+		end
+	end
 end
 
 function mod:OnCombatEnd()
@@ -152,6 +188,9 @@ function mod:OnCombatEnd()
 	end
 	if self.Options.HudMAP then
 		DBMHudMap:FreeEncounterMarkers()
+	end
+	if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
+		ExRT:ExBossmodsCloseAll()
 	end
 end
 
@@ -299,6 +338,7 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 142898 then--Faster than combat log
 		arcingSmashCount = arcingSmashCount + 1
+		ieCount = ieCount + 1
 		warnArcingSmash:Show(arcingSmashCount)
 		specWarnArcingSmash:Show(arcingSmashCount)
 		timerImplodingEnergy:Start()
@@ -306,6 +346,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnImplodingEnergySoon:Schedule(5)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_yhz.mp3") --圓弧斬快躲
 		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fscq.mp3") --分散踩圈
+		if MyJS() then
+			sndWOP:Schedule(5.8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Schedule(6.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+		end
 		if arcingSmashCount < 3 then
 			timerArcingSmashCD:Start(nil, arcingSmashCount+1)
 		end

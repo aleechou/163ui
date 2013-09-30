@@ -51,7 +51,7 @@ local new, del
 
 local defaults = {
 	profile = {
-		mirroricons = true,
+		mirroricons = false,
 		mirroriconside = "left",
 		
 		mirroranchor = "player",--L["Free"], L["Target"], L["Focus"]
@@ -97,7 +97,7 @@ local defaults = {
 
 		hideblizzmirrors = true,
 
-		showmirror = true,
+		showmirror = false,
 		showstatic = true,
 		showpvp = true,
 		showreadycheck = true,

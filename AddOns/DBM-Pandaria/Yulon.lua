@@ -1,9 +1,10 @@
-﻿local mod	= DBM:NewMod(858, "DBM-Pandaria", nil, 322)
+﻿local mod	= DBM:NewMod(858, "DBM-Pandaria", nil, 322, 1)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10283 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10429 $"):sub(12, -3))
 mod:SetCreatureID(71955)
+mod:SetReCombatTime(20)
 mod:SetZone()
 mod:SetMinSyncRevision(10162)
 
@@ -77,7 +78,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 			yellTriggered = true
 			DBM:StartCombat(self, 0)
 		end
-	elseif msg == L.Wave1 or msg == L.Wave2 then
+	elseif msg == L.Wave1 or msg == L.Wave2 or msg == L.Wave3 then
 		self:SendSync("Wave")
 	end
 end

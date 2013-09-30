@@ -5564,6 +5564,7 @@ function Nx.Map:UpdateGroup (plX, plY)
 
 	local palsInfo = Nx.Com.PalsInfo
 
+	--SetMapToCurrentZone()
 	for i = 1, members do
 
 		local unit = unitName .. i
@@ -5584,6 +5585,16 @@ function Nx.Map:UpdateGroup (plX, plY)
 		else
 			pX = pX * 100
 			pY = pY * 100
+			local lvl = max (GetCurrentMapDungeonLevel(), 1)
+			if GetCurrentMapAreaID() == 937 then
+				if GetCurrentMapDungeonLevel() == 0 then
+					lvl = 1
+				else
+					lvl = 2
+				end			
+			end			
+--			pY = pY + (((lvl - 1) * 668) / 256)	
+			pY = pY + (lvl - 1) * 100
 		end
 
 		if (pX ~= 0 or pY ~= 0) and not UnitIsUnit (unit, "player") then
@@ -5591,6 +5602,7 @@ function Nx.Map:UpdateGroup (plX, plY)
 			local fullName = unitRealm and #unitRealm > 0 and (name .. "-" .. unitRealm) or name
 
 			local wx, wy = self:GetWorldPos (mapId, pX, pY)
+			--Nx.prt("Pal2 %s %s %s", mapId, pX, pY)
 
 			local sz = 16 * self.DotRaidScale
 			if UnitInParty (unit) then

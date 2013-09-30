@@ -49,11 +49,11 @@ local db, getOptions
 
 local defaults = {
 	profile = {
-		target = true,
-		targetbuffs = true,
-		targetdebuffs = true,
+		target = false,
+		targetbuffs = false,
+		targetdebuffs = false,
 		targetfixedduration = 0,
-		targeticons = true,
+		targeticons = false,
 		targeticonside = "right",
 		
 		targetanchor = "player",--L["Free"], L["Target"], L["Focus"]
@@ -69,11 +69,11 @@ local defaults = {
 		targetwidth = 120,
 		targetheight = 12,
 		
-		focus = true,
-		focusbuffs = true,
-		focusdebuffs = true,
+		focus = false,
+		focusbuffs = false,
+		focusdebuffs = false,
 		focusfixedduration = 0,
-		focusicons = true,
+		focusicons = false,
 		focusiconside = "left",
 		
 		focusanchor = "player",--L["Free"], L["Target"], L["Focus"]
@@ -89,8 +89,8 @@ local defaults = {
 		focuswidth = 120,
 		focusheight = 12,
 		
-		buffnametext = true,
-		bufftimetext = true,
+		buffnametext = false,
+		bufftimetext = false,
 		
 		bufftexture = "LiteStep",
 		bufffont = "Friz Quadrata TT",
@@ -99,7 +99,7 @@ local defaults = {
 		
 		buffcolor = {0,0.49, 1},
 		
-		debuffsbytype = true,
+		debuffsbytype = false,
 		debuffcolor = {1.0, 0.7, 0},
 		Poison = {0, 1, 0},
 		Magic = {0, 0, 1},

@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10364 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10416 $"):sub(12, -3))
 mod:SetCreatureID(71466)
 mod:SetZone()
 
@@ -15,8 +15,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REFRESH",
 	"SPELL_AURA_REMOVED",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
+	"SPELL_PERIODIC_DAMAGE",
+	"SPELL_PERIODIC_MISSED",
 	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
@@ -56,13 +56,10 @@ local timerLaserBurnCD			= mod:NewCDTimer(12, 144459)
 local timerBorerDrillCD			= mod:NewCDTimer(17, 144218)
 local timerCrawlerMineCD		= mod:NewCDTimer(30, 144673)
 --Siege Mode
---http://us.battle.net/wow/en/forum/topic/9423383447?page=2#38 do to major inconsitecies and possible bugs, Some timers for Siege mode are disabled until a later test
 local timerSiegeModeCD			= mod:NewNextTimer(116, 84974, nil, nil, "timerSiegeModeCD")--Wish spell name was a litlte shorter but still better than localizing
 local timerCuttingLaser			= mod:NewTargetTimer(10, 146325)--Spell tooltip says 15 but combat log showed 10
---local timerCuttingLaserCD		= mod:NewCDTimer(10, 146325)
-local timerShockPulseCD			= mod:NewNextCountTimer(16.5, 144485)--Confirmed, blizzard did take solid argued feedback and changed this mechanic, yay.
---local timerNapalmOilCD		= mod:NewCDTimer(21.5, 144492)
-local timerDemolisherCanonCD	= mod:NewCDTimer(9, 144154)
+local timerShockPulseCD			= mod:NewNextCountTimer(16.5, 144485)
+local timerDemolisherCanonCD	= mod:NewCDTimer(8.5, 144154)
 local timerMortarBarrageCD		= mod:NewCDTimer(30, 144555)
 
 --local soundCuttingLaser			= mod:NewSound(146325)
@@ -92,7 +89,11 @@ function mod:OnCombatStart(delay)
 	timerBorerDrillCD:Start(-delay)
 	timerCrawlerMineCD:Start(-delay)
 	timerSiegeModeCD:Start(120.5-delay)--First one longer than rest
-	berserkTimer:Start(-delay)
+	if self:IsDifficulty("heroic10", "heroic25") then
+		berserkTimer:Start(450-delay)
+	else
+		berserkTimer:Start(-delay)
+	end
 	sndWOP:Schedule(117, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_qgzb.mp3") --強攻階段準備
 	sndWOP:Schedule(118, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 	sndWOP:Schedule(119, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
@@ -118,7 +119,7 @@ function mod:SPELL_CAST_START(args)
 		warnSeismicActivity:Show()
 		timerShockPulseCD:Start(nil, 1)
 		if self:IsDifficulty("heroic10", "heroic25") then
-			timerMortarBarrageCD:Start(15)
+			timerMortarBarrageCD:Start(20)
 		end
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_qgzb.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
@@ -199,13 +200,13 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 144218 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnBorerDrillMove:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:RAID_BOSS_WHISPER(msg)--It was actually CHAT_MSG_RAID_BOSS_EMOTE during test, but that was a bug, it'll probably be whisper next time
 	if msg:find("spell:144918") then
@@ -232,14 +233,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerDemolisherCanonCD:Start()
 	elseif spellId == 144492 then
 		warnNapalmOil:Show()
---		timerNapalmOilCD:Start()
 	elseif spellId == 146359 then--Regeneration (Assault Mode power regen activation)
 		--2 seconds slower than emote, but it's not pressing enough to matter so it's better localisation wise to do it this way
---		timerNapalmOilCD:Cancel()
-		timerDemolisherCanonCD:Cancel()
 		timerMortarBarrageCD:Cancel()
---		timerCuttingLaserCD:Cancel()
---		timerShockPulseCD:Cancel()
 		if siegeMode == true then--don't start timer on pull regenerate, pull regenerate is 5 seconds longer than rest of them
 			timerSiegeModeCD:Start()
 			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tjzb.mp3")
@@ -253,9 +249,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			sndWOP:Schedule(115, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			siegeMode = false
 		end
---[[		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end]]
 	elseif spellId == 144555 then
 		warnMortarBarrage:Show()
 		specWarnMortarBarrage:Show()
@@ -264,16 +257,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 end
 
 function mod:OnSync(msg, guid)
-	--Syncing used do to combat log range AND combat log bugs
-	--In ptr testing, the spell firing a combat log event was hit or miss
-	--Sometimes it fire SUCCESS but not APPLIED, sometimes APPLIED but not success
-	--And sometimes, fired neither one and emote only.
-	--So screw it, watch for all 3 and sync to cover range restriction too
+	--Syncing used do to combat log range issues if raid is too spread out
+	--It's easy to be out of range of combat log event
+	--We also scan success and applied since we may be in range of one and not the other
+	--We just watch both combat events and emote for good measure, so we grab SOMETHING and sync it
 	if msg == "LaserTarget" and guid then
 		local targetName = DBM:GetFullPlayerNameByGUID(guid)
 		warnCutterLaser:Show(targetName)
 		timerIgniteArmor:Start(targetName)
---		timerCuttingLaserCD:Start()
 		if targetName == UnitName("player") then
 			specWarnCutterLaser:Show()
 			yellCutterLaser:Yell()

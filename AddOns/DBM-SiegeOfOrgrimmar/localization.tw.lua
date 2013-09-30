@@ -11,7 +11,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",	
-	SoundPZ					= "語音警告：當$spell:117878疊加超過三層時提示注意停手",
+	SoundPZD				= "語音警告：當$spell:143579疊加超過三層時提示注意停手",
 	InfoFrame				= "資訊框：顯示擊殺和淨化的軟泥怪數量",
 	dr						= "減傷提示[警報會在第一個軟泥怪撞擊到本體時提示]",
 	dr1						= "$spell:143469 1",
@@ -63,7 +63,8 @@ L:SetOptionLocalization({
 	DD2						= "打斷2",
 	DD3						= "打斷3",
 	nodd					= "不提示",
-	SetIconOnStrike			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143962)
+	SetIconOnStrike			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143962),
+	RangeFrame			= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(5, 143423)--For heroic. Need to chage smart range frame?
 })
 
 L:SetMiscLocalization({
@@ -217,7 +218,9 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
-	SoundTT					= "語音警告：$spell:143474",
+	SoundDS					= "語音警告：驅散$spell:143475",
+	SoundIFS				= "語音警告：打斷$journal:7923",
+	SoundISM				= "語音警告：打斷$journal:7925",
 	InfoFrame				= "資訊框：怒氣監視器",
 	SetIconOnAdds			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej7920"),
 	warnDefensiveStanceSoon			= "預先警告：$spell:143593 (5秒前)"
@@ -229,7 +232,11 @@ L:SetMiscLocalization({
 	newForces3				= "重整部隊!",
 	newForces4				= "柯爾克隆，來我身邊!",
 	newForces5				= "下一隊，來前線!",
-	allForces				= "所有科爾克隆...聽我號令...殺死他們!"
+	allForces				= "所有科爾克隆...聽我號令...殺死他們!",
+	Handslipped1			= "不好意思，手滑打了下BOSS",
+	Handslipped2			= "哎呀，手又滑了",
+	Handslipped3			= "難道我這隻手是肥皂做的?",
+	Handslipped4			= "請斬斷我這隻罪惡之手吧！我居然完全忘了要停手！"
 })
 
 
@@ -243,10 +250,28 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
+	Malhelper				= "===特殊：開啟亞煞極之息輔助圖示 (/mal)===",
+	MalhelperSend			= "===輔助圖示：啟用手動修正模式===",
+	dr						= "減傷提示：$spell:142986 (爆炸前提示)",
+	dr1						= "$spell:142986 1",
+	dr2						= "$spell:142986 2",
+	dr3						= "$spell:142986 3",
+	dr4						= "$spell:142986 4",
+	dr5						= "$spell:142986 5",
+	dr6						= "$spell:142986 6",
+	dr7						= "$spell:142986 7",
+	dr8						= "$spell:142986 8",
+	dr9						= "$spell:142986 9",
+	dr10					= "$spell:142986 10",
+	dr11					= "$spell:142986 11",
+	dr12					= "$spell:142986 12",
 	HudMAP					= "高級定位監視(HUD)：$spell:142913",
 	SetIconOnDisplacedEnergy= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(142913),
 	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT_SHORT:format("8/5")
 })
+
+MHExRTL.panelbossmodsmalkorokdanger ="! 危險 !"
+MHExRTL.sendnote ="開啟手動修改圖示，左鍵選擇，右鍵取消，你的修改會被同步給全團，請謹慎使用！！！"
 
 ------------------------
 -- Spoils of Pandaria --

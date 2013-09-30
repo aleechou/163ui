@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndBD		= mod:NewSound(nil, "SoundBD", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10367 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10402 $"):sub(12, -3))
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetZone()
 mod:SetUsedIcons(7)
@@ -104,6 +104,7 @@ local timerCalamityCD				= mod:NewCDTimer(40, 143491)--40-50 (when two can be ca
 local berserkTimer					= mod:NewBerserkTimer(600)
 
 mod:AddBoolOption("SetIconOnStrike")
+mod:AddBoolOption("RangeFrame", false)
 
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
@@ -182,7 +183,14 @@ function mod:OnCombatStart(delay)
 	timerGougeCD:Start(23-delay)
 	timerCalamityCD:Start(31-delay)
 	timerClashCD:Start(45-delay)
-	berserkTimer:Start(-delay)
+	if self:IsDifficulty("lfr25") then--Might also be flex as well
+		berserkTimer:Start(900-delay)--15min confirmed
+	else
+		berserkTimer:Start(-delay)
+	end
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(5)
+	end
 	calacount = 0
 	kicknum = 0
 	if self.Options.InfoFrame then
@@ -200,6 +208,9 @@ function mod:OnCombatEnd()
 	end
 	if GridStatus then
 		GridStatusBaneDbmCount:UpdateAllUnitAuras()
+	end
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -220,7 +231,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143330 then
 		warnGouge:Show()
 		timerGougeCD:Start()
-		for i = 1, 3 do
+		for i = 1, 5 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				specWarnGouge:Show()--So show tank warning
@@ -256,7 +267,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143962 then
 		warnInfernoStrike:Show()
 		timerInfernoStrikeCD:Start()
-		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--This one is a pain, because boss looks at CORRECT target for a super split second, then stares at previous target for rest of time. Repeated scans don't fix it because you really can't tell good target from shit one
+--		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--This one is a pain, because boss looks at CORRECT target for a super split second, then stares at previous target for rest of time. Repeated scans don't fix it because you really can't tell good target from shit one
 	elseif args.spellId == 143497 then
 		warnBondGoldenLotus:Show()
 	elseif args.spellId == 144396 then
@@ -265,7 +276,7 @@ function mod:SPELL_CAST_START(args)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fcdj.mp3") --復仇打擊
 		end
 		timerVengefulStrikesCD:Start()
-		for i = 1, 3 do
+		for i = 1, 5 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				specWarnVengefulStrikes:Show()--So show tank warning
