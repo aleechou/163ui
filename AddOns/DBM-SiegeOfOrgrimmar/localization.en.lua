@@ -92,6 +92,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset		= "Norushen",
 	wasteOfTime				= "Very well, I will create a field to keep your corruption quarantined."
 })
 
@@ -142,6 +143,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset		= "Galakras",
 	Pull		= "Dragonmaw clan, retake the docks and push them into the sea!  In the name of Hellscream and the True Horde!",
 	newForces1	= "Here they come!",--Jaina's line, alliance
 	newForces1H	= "Bring her down quick so i can wrap my fingers around her neck.",--Sylva's line, horde

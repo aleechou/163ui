@@ -2,6 +2,8 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndFMD	= mod:NewSound(nil, "SoundFMD", mod:IsRangedDps())
+local sndDL		= mod:NewSound(nil, "SoundDL", mod:IsRangedDps())
+local sndCZ		= mod:NewSound(nil, "SoundCZ", false)
 
 mod:SetRevision(("$Revision: 10387 $"):sub(12, -3))
 mod:SetCreatureID(71504)--71591 Automated Shredder
@@ -69,6 +71,7 @@ local timerLaunchSawbladeCD				= mod:NewCDTimer(10, 143265)--10-15sec cd
 local timerAutomatedShredderCD			= mod:NewNextTimer(60, "ej8199", nil, nil, nil, 85914)
 local timerDeathFromAboveDebuff			= mod:NewTargetTimer(5, 144210, nil, not mod:IsHealer())
 local timerDeathFromAboveCD				= mod:NewNextTimer(40, 144208, nil, not mod:IsHealer())
+local timerOverloadCD					= mod:NewNextCountTimer(11, 145444)
 --The Assembly Line
 local timerAssemblyLineCD				= mod:NewNextTimer(40, "ej8202", nil, nil, nil, 59193)
 local timerPatternRecognition			= mod:NewBuffActiveTimer(60, 144236)
@@ -78,6 +81,7 @@ local timerShockwaveMissileCD			= mod:NewNextCountTimer(15, 143641)
 local timerBreakinPeriod				= mod:NewTargetTimer(60, 145269, nil, false)--Many mines can be up at once so timer off by default do to spam
 
 local missileCount = 0
+local OverloadCount = 0
 --local laserCount = 0--Fires 3 times
 --local activeWeaponsGUIDS = {}
 local shockwaveOvercharged = false
@@ -97,7 +101,7 @@ end
 local linemaker
 
 mod:AddBoolOption("InfoFrame", true, "sound")
-mod:AddDropdownOption("optCS", {"CSA", "CSB", "none"}, "none", "sound")
+mod:AddDropdownOption("optCS", {"CSA", "CSB", "CSALL", "none"}, "none", "sound")
 
 for i = 1, 15 do
 	mod:AddDropdownOption("optCSKILL"..i, {"killdl", "killfd", "killjg", "killdc", "killnone"}, "killnone", "sound")
@@ -174,6 +178,7 @@ end
 function mod:OnCombatStart(delay)
 --	table.wipe(activeWeaponsGUIDS)
 	missileCount = 0
+	OverloadCount = 0
 --	laserCount = 0
 	shockwaveOvercharged = false
 	weapon = 0
@@ -228,6 +233,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		else
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dlqh.mp3") --地雷強化
 		end
+	elseif args.spellId == 145444 then
+		OverloadCount = OverloadCount + 1
+		timerOverloadCD:Start(11, OverloadCount+1)
+		sndCZ:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
 	end
 end
 
@@ -263,7 +272,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(30, 3) then --BHFIX
 			warnCrawlerMine:Show()
 			specWarnCrawlerMine:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmine.mp3") --地雷快打
+			sndDL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmine.mp3") --地雷快打
 		end
 		timerBreakinPeriod:Start(args.destName, args.destGUID)
 	elseif args.spellId == 145580 then
@@ -308,6 +317,9 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 71591 then
 		timerDeathFromAboveCD:Cancel(args.destGUID)
+		OverloadCount = 0
+		timerOverloadCD:Cancel()
+		sndCZ:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 	end
 end
 
@@ -337,7 +349,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		if weapon == 1 then
 			sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tenwq.mp3") --10秒後武器啟動
 		end
-		if MyCS() then
+		if MyCS() or (mod.Options.optCS == "CSALL") then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_kqcs.mp3") --快去傳送帶
 			linemaker = register(DBMHudMap:AddEdge(0, 1, 0, 1, 10, "player", nil, nil, nil, 321, 258))
 			local weaponoption = "optCSKILL"..weapon

@@ -93,6 +93,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset					= "诺鲁什内场监视",
 	wasteOfTime				= "很好，我会制造一个空间来隔离你们的腐蚀。"
 })
 ------------------
@@ -142,6 +143,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset		= "迦拉卡斯",
 	newForces1	= "Here they come!",--Jaina's line, horde may not be same
 	newForces2	= "龙喉氏族，前进！",
 	newForces3	= "为了地狱咆哮！",
@@ -187,6 +189,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
+	SoundTL					= "语音警告：$spell:144330的十秒预警(即使不是你的$spell:144330也会报警，这是一个為治疗者製作的提示)",
 	dr						= "减伤提示[警报会在撞击前4秒提示]",
 	dr1						= "$spell:143973 1/6",
 	dr2						= "$spell:143973 2/6",
@@ -248,6 +251,7 @@ L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
 	Malhelper				= "===特殊：开啟亚煞极之息辅助图示 (/mal)===",
 	MalhelperSend			= "===辅助图示：启用手动修正模式===",
+	LTshow					= "长效特别警告：显示护盾吸收量",
 	dr						= "减伤提示：$spell:142986 (爆炸前提示)",
 	dr1						= "$spell:142986 1",
 	dr2						= "$spell:142986 2",
@@ -305,6 +309,37 @@ L:SetOptionLocalization({
 	SoundPX					= "倒计时：$spell:143343",
 	specWarnDevotion		= "特殊警告：$spell:31821",
 	RangeFrame				= "距离监视(10码)：动态",
+	dr						= "减伤提示：$spell:143343 (此顺序每次转阶段都会重置)",
+	dr1						= "$spell:143343 1",
+	dr2						= "$spell:143343 2",
+	dr3						= "$spell:143343 3",
+	dr4						= "$spell:143343 4",
+	dr5						= "$spell:143343 5",
+	dr6						= "$spell:143343 6",
+	dr7						= "$spell:143343 7",
+	dr8						= "$spell:143343 8",
+	dr9						= "$spell:143343 9",
+	dr10					= "$spell:143343 10",
+	dr11					= "$spell:143343 11",
+	dr12					= "$spell:143343 12",
+	dr13					= "$spell:143343 13",
+	dr14					= "$spell:143343 14",
+	dr15					= "$spell:143343 15",
+	dr16					= "$spell:143343 16",
+	dr17					= "$spell:143343 17",
+	dr18					= "$spell:143343 18",
+	dr19					= "$spell:143343 19",
+	dr20					= "$spell:143343 20",
+	dr21					= "$spell:143343 21",
+	dr22					= "$spell:143343 22",
+	dr23					= "$spell:143343 23",
+	dr24					= "$spell:143343 24",
+	dr25					= "$spell:143343 25",
+	dr26					= "$spell:143343 26",
+	dr27					= "$spell:143343 27",
+	dr28					= "$spell:143343 28",
+	dr29					= "$spell:143343 29",
+	dr30					= "$spell:143343 30",
 	FixateIcon				= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143445)
 })
 
@@ -322,10 +357,13 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
 	SoundFMD				= "语音警告：$spell:144208前提示伐木机快打",
+	SoundDL					= "语音警告：地雷清理提示",
+	SoundCZ					= "语音警告：伐木机$spell:145444AOE预警",
 	InfoFrame				= "信息框：$journal:8202",
 	optCS					= "传送带启动提示",
 	CSA						= "传送带一组",
 	CSB						= "传送带二组",
+	CSALL					= "总是提示",
 	none					= "我不去",
 	optCSKILL1				= "击杀提示：第1轮",
 	optCSKILL2				= "第2轮",

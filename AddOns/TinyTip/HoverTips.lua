@@ -188,7 +188,7 @@ local function OnHyperlinkEnter(frame, link, ...)
         if(speciesID and speciesID > 0) then
             BattlePetToolTip_Show(speciesID, tonumber(level), tonumber(breedQuality), tonumber(maxHealth), tonumber(power), tonumber(speed), tonumber(id))
             -- BattlePetTooltip:ClearAllPoints()
-            BattlePetTooltip:SetOwner(frame, 'ANCHOR_TOPLEFT')
+            --BattlePetTooltip:SetOwner(frame, 'ANCHOR_TOPLEFT')
         end
     end
     if orig1[frame] then return orig1[frame](frame, link, ...) end

@@ -93,6 +93,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset				= "諾努衫內場監視",
 	wasteOfTime			= "很好，我會創造一個力場隔離你們的腐化。"
 })
 
@@ -143,6 +144,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	nameset		= "葛拉卡斯",
 	Pull		= "龍喉氏族，奪回碼頭，把他們推進海裡!以地獄吼及正統部落之名!",
 	newForces1	= "他們來了!",
 	newForces1H	= "趕快把她弄下來，讓我用手掐死她。",
@@ -190,6 +192,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
+	SoundTL					= "語音警告：$spell:144330的十秒預警(即使不是你的$spell:144330也會報警，這是一個為治療者製作的提示)",
 	dr						= "減傷提示[警報會在撞擊前4秒提示]",
 	dr1						= "$spell:143973 1/6",
 	dr2						= "$spell:143973 2/6",
@@ -252,6 +255,7 @@ L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
 	Malhelper				= "===特殊：開啟亞煞極之息輔助圖示 (/mal)===",
 	MalhelperSend			= "===輔助圖示：啟用手動修正模式===",
+	LTshow					= "長效特別警告：顯示護盾吸收量",
 	dr						= "減傷提示：$spell:142986 (爆炸前提示)",
 	dr1						= "$spell:142986 1",
 	dr2						= "$spell:142986 2",
@@ -307,6 +311,37 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
 	SoundPX					= "倒计时：$spell:143343",
+	dr						= "減傷提示：$spell:143343 (此順序每次轉階段都會重置)",
+	dr1						= "$spell:143343 1",
+	dr2						= "$spell:143343 2",
+	dr3						= "$spell:143343 3",
+	dr4						= "$spell:143343 4",
+	dr5						= "$spell:143343 5",
+	dr6						= "$spell:143343 6",
+	dr7						= "$spell:143343 7",
+	dr8						= "$spell:143343 8",
+	dr9						= "$spell:143343 9",
+	dr10					= "$spell:143343 10",
+	dr11					= "$spell:143343 11",
+	dr12					= "$spell:143343 12",
+	dr13					= "$spell:143343 13",
+	dr14					= "$spell:143343 14",
+	dr15					= "$spell:143343 15",
+	dr16					= "$spell:143343 16",
+	dr17					= "$spell:143343 17",
+	dr18					= "$spell:143343 18",
+	dr19					= "$spell:143343 19",
+	dr20					= "$spell:143343 20",
+	dr21					= "$spell:143343 21",
+	dr22					= "$spell:143343 22",
+	dr23					= "$spell:143343 23",
+	dr24					= "$spell:143343 24",
+	dr25					= "$spell:143343 25",
+	dr26					= "$spell:143343 26",
+	dr27					= "$spell:143343 27",
+	dr28					= "$spell:143343 28",
+	dr29					= "$spell:143343 29",
+	dr30					= "$spell:143343 30",
 	specWarnDevotion		= "特別警告：$spell:31821",
 	RangeFrame				= "距離監視(10碼)：動態",
 	FixateIcon				= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143445)
@@ -326,10 +361,13 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
 	SoundFMD				= "語音警告：$spell:144208前提示伐木機快打",
+	SoundDL					= "語音警告：地雷清理提示",
+	SoundCZ					= "語音警告：伐木機$spell:145444AOE預警",
 	InfoFrame				= "資訊框：$journal:8202",
 	optCS					= "傳送帶啟動提示",
 	CSA						= "傳送帶一組",
 	CSB						= "傳送帶二組",
+	CSALL					= "總是提示",
 	none					= "我不去",
 	optCSKILL1				= "擊殺提示：第1輪",
 	optCSKILL2				= "第2輪",

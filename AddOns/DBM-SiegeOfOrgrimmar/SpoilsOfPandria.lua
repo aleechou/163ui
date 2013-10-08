@@ -139,6 +139,10 @@ local function warnspecmob(guid)
 		end
 	elseif cid == 71385 then
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tdsd.mp3") --投彈手快打
+	elseif cid == 71388 then
+		if mod:IsDps() then
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hupd.mp3") --琥珀快打
+		end
 	end
 end
 

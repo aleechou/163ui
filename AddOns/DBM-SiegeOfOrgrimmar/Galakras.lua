@@ -105,11 +105,11 @@ function()
 	if mod.Options.flamecount == "" then return end
 	local checknum = tonumber(mod.Options.flamecount)	
 	if type(checknum) == "number" then
-		DBM:AddMsg("["..L.name.."]".."|cFF00FF00"..mod.localization.options["flamecount"]..DBM_CORE_SETTO..checknum.."|r")
+		DBM:AddMsg("["..L.nameset.."]".."|cFF00FF00"..mod.localization.options["flamecount"]..DBM_CORE_SETTO..checknum.."|r")
 	else
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.flamecount.."\"")
 	end
 end)
 

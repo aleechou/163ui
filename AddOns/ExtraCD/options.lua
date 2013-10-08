@@ -43,6 +43,9 @@ function mod:AddOption(name, keyName)
 end
 
 function mod:AddDataOption(spellId)
+	if not spellId then 
+		return
+	end
 	local name, _, icon = GetSpellInfo(spellId)
 	local dbKey = tostring(spellId)
 	local db = self.db.spells[dbKey]
@@ -95,7 +98,7 @@ function mod:AddDataOption(spellId)
 				disabled = function() return self.db.dataLock and isOriginal end,
 				get = function() return tostring(db.cd or 0) end,
 				set = function(info, value) db.cd = tonumber(value) self:ResetAllIcons() end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 			},
 			duration = {
 				name = L["Duration"],
@@ -103,7 +106,7 @@ function mod:AddDataOption(spellId)
 				disabled = function() return self.db.dataLock and isOriginal end,
 				get = function() return tostring(db.duration or 0) end,
 				set = function(info, value) db.duration = tonumber(value) self:ResetAllIcons() end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 			},
 			rppm = {
 				name = L["RPPM"],
@@ -126,14 +129,14 @@ function mod:AddDataOption(spellId)
 					return tostring(specppm)
 				end,
 				set = function(info, value) db.ppm = tonumber(value) self:ResetAllIcons() end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 			},
 			spellId = {
 				name = L["Spell ID"],
 				type = "input",
 				disabled = true,
 				get = function() return dbKey end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 			},
 			delete = {
 				name = L["DELETE"],
@@ -164,6 +167,9 @@ function mod:RemoveDataOptions()
 end
 
 function mod:AddProcOption(spellId)
+	if not spellId then 
+		return
+	end
 	local name, _, icon = GetSpellInfo(spellId)
 	local dbKey = tostring(spellId)
 	local db = self.db.procs[dbKey]
@@ -238,7 +244,7 @@ function mod:AddProcOption(spellId)
 				type = "input",
 				get = function() return tostring(db.duration or 0) end,
 				set = function(info, value) db.duration = math.max(value, 0) end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 				order = 50,
 			},
 			combatTime = {
@@ -247,7 +253,7 @@ function mod:AddProcOption(spellId)
 				type = "input",
 				get = function() return tostring(db.combatTime or 0) end,
 				set = function(info, value) db.combatTime = math.max(value, 0) end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 				order = 60,
 			},
 			exactCD = {
@@ -256,7 +262,7 @@ function mod:AddProcOption(spellId)
 				type = "input",
 				get = function() return tostring(db.exactCD or "N/A") end,
 				set = function(info, value) db.exactCD = math.max(value, 0) end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 				order = 65,
 			},
 			calculate = {
@@ -301,7 +307,7 @@ function mod:AddProcOption(spellId)
 				type = "input",
 				disabled = true,
 				get = function() return dbKey end,
-				pattern = "%d+$",
+				pattern = "^%d+$",
 				order = 110,
 			},
 			delete = {
@@ -317,6 +323,9 @@ function mod:AddProcOption(spellId)
 end
 
 function mod:AddSortingOption(order, spellId, enable)
+	if not spellId then 
+		return
+	end
 	local name, _, icon = GetSpellInfo(spellId)
 	local dbKey = tostring(spellId)
 	if not name then 
@@ -631,7 +640,7 @@ function mod:OnOptionCreate()
 								type = "input",
 								set = function(info, value) newSpellId = value end,
 								get = function() return newSpellId end,
-								pattern = "%d+$",
+								pattern = "^%d+$",
 								order = 8,
 							},
 							addCustom = {
@@ -741,7 +750,7 @@ function mod:OnOptionCreate()
 								type = "input",
 								set = function(info, value) newProcId = value end,
 								get = function() return newProcId end,
-								pattern = "%d+$",
+								pattern = "^%d+$",
 								order = 8,
 							},
 							ecddesc = {

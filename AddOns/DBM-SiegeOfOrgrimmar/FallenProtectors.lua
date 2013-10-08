@@ -70,7 +70,7 @@ local specWarnDefiledGround			= mod:NewSpecialWarningMove(143959)
 local specWarnInfernoStrike			= mod:NewSpecialWarningYou(143962)
 local yellInfernoStrike				= mod:NewYell(143962)
 --He Softfoot
-local specWarnGouge					= mod:NewSpecialWarningMove(143330, mod:IsTank())--Maybe localize it as a "turn away" warning.
+local specWarnGouge					= mod:NewSpecialWarningMove(143330, mod:IsTank(), nil, nil, 3)--Maybe localize it as a "turn away" warning.
 local specWarnGougeStunOther		= mod:NewSpecialWarningTarget(143301, mod:IsTank())--Tank is stunned, other tank must taunt or he'll start killing people
 local specWarnNoxiousPoison			= mod:NewSpecialWarningMove(144367)
 ----He Softfoot's Desperate measures

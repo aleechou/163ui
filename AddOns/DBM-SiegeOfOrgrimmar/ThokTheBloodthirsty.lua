@@ -174,6 +174,18 @@ local function warnFrozenargets()
 	table.wipe(frozenTargets)
 end
 
+mod:AddBoolOption("dr", true, "sound")
+for i = 1, 30 do
+	mod:AddBoolOption("dr"..i, false, "sound")
+end
+
+local function MyJS()
+	if mod.Options["dr"..screechCount] then
+		return true
+	end
+	return false
+end
+
 function mod:OnCombatStart(delay)
 	screechCount = 0
 	table.wipe(corrosiveBloodTargets)
@@ -235,6 +247,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 143411 then
 		screechCount = args.amount or 1
 		warnAcceleration:Show(args.destName, screechCount)
+		if MyJS() then
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+		end
 	elseif args.spellId == 143766 then
 		local amount = args.amount or 1
 		warnFearsomeRoar:Show(args.destName, amount)

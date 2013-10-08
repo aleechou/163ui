@@ -544,7 +544,7 @@ local savedinstances, templine
 					end
 					if Broker_RaidSaveConfig.showcooldown then							
                         colnum = colnum + 1
-                        if(isRF) then
+                        if(isRF or not isWorldBoss) then
                             local ins = v.instance[i]
                             display[colnum] = ins.killed
                         else
@@ -682,10 +682,10 @@ function addon:Refresh()
 	player.instance = {}
 	if player.numsaved == 0 then
 	else
-		local iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, idifficultyName, temp
+		local iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, idifficultyName, inumEncounters, iencounterProgress, temp
 		for i = 1, player.numsaved do
 			if i <= savedInstances then
-				iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, _, idifficultyName = GetSavedInstanceInfo(i)
+				iname, iid, iexpires, idiff, ilocked, iextended, iidmostsig, iisraid, _, idifficultyName, inumEncounters, iencounterProgress = GetSavedInstanceInfo(i)
 				if iexpires > 0 then
 					iexpires = iexpires + time()
 					player.numactive = player.numactive + 1
@@ -695,8 +695,14 @@ function addon:Refresh()
 						player.numgroup = player.numgroup + 1
 					end
 				end
+				
+				local ikilled = iencounterProgress.."/"..inumEncounters.." "
+				for index = 1, inumEncounters do
+					local rname, _, rdead = GetSavedInstanceEncounterInfo(i, index)
+					ikilled = ikilled..(rdead and "|cffff0000X|r" or "|cff00ff00O|r")
+				end
 				-- insert data into table
-				temp = { name = iname, id = iid, idMostSig = iidmostsig, expires = iexpires, difficulty = idiff, locked = ilocked, extended = iextended, israid = iisraid, difficultyName = idifficultyName }
+				temp = { name = iname, id = iid, idMostSig = iidmostsig, expires = iexpires, difficulty = idiff, locked = ilocked, extended = iextended, israid = iisraid, difficultyName = idifficultyName, killed = ikilled }
 				table.insert(player.instance, temp)
 			else
 				iname, iid, iexpires = GetSavedWorldBossInfo(i - savedInstances)

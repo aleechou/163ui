@@ -5,8 +5,8 @@
 ## Notes-zhCN: 天赋,物品和附魔内置冷却监视
 ## Author: superk
 ## SavedVariables: ExtraCDDB
-## Version: 1.2
-## X-Curse-Packaged-Version: 1.2.2d
+## Version: 1.2.2e
+## X-Curse-Packaged-Version: 1.2.2e
 ## X-Curse-Project-Name: ExtraCD
 ## X-Curse-Project-ID: extracd
 ## X-Curse-Repository-ID: wow/extracd/mainline

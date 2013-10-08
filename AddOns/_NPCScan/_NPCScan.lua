@@ -10,117 +10,109 @@ local L = NS.L;
 
 NS.Frame = CreateFrame( "Frame" );
 NS.Updater = NS.Frame:CreateAnimationGroup();
-NS.Version = GetAddOnMetadata( ..., "Version" ):match( "^([%d.]+)" );
+--NS.Version = GetAddOnMetadata( ..., "Version" ):match( "^([%d.]+)" );
+NS.Version = 5.1;
 
 NS.Options = {
 	Version = NS.Version;
-	Achievements = {};
+	NPCs = {
+		[ 64004 ] = "Ghostly Pandaren Fisherman";
+		[ 64191 ] = "Ghostly Pandaren Craftsman";
+		[ 50409 ] ="Mysterious Camel Figurine";
+		[ 50410 ] = "Mysterious Camel Figurine";
+		[ 62346 ] = "Galleon";
+		[ 60491 ] = "Sha of Anger";
+		[ 69099 ] = "Nalak";
+		[ 69161 ] = "Oondasta";
+		};
+
+	NPCWorldIDs = {			
+		[ 50409 ] = 1; -- Mysterious Camel Figurine
+		[ 50410 ] = 1; -- Mysterious Camel Figurine
+		[ 62346 ] = 6; -- Galleon
+		[ 60491 ] = 6; --"Sha of Anger";
+		[ 64004 ] =  6; --"Ghostly Pandaren Fisherman";
+		[ 64191 ] = 6; --"Ghostly Pandaren Craftsman";
+		[ 69099 ] = 6; -- "Nalak";
+		[ 69161 ] = 6; -- "Oondasta";
+		};
 };
+
 NS.OptionsCharacter = {
 	Version = NS.Version;
-	NPCs = {};
+	Achievements = {		
+		[ 1312 ] = true; -- Bloody Rare (Outlands)
+		[ 2257 ] = true; -- Frostbitten (Northrend)
+		[ 7317 ] = true; -- One Of Many
+		[ 7439 ] = true; -- Glorious! (Pandaria)
+		[ 8103 ] = true; -- Champions of Lei Shen
+		[ 8714 ] = true;  --Timeless Champion
+
+			};
+	FlightSupress = true;
+	Modules = {};
+	ModulesAlpha = {};
+	ModulesExtra = {};
+	ModulesSaved = {};
 	NPCWorldIDs = {};
+	ShowAll = false;
 };
 
 NS.OptionsDefault = {
 	Version = NS.Version;
-	CacheWarnings = true;
-	AchievementsAddFound = nil;
-	AlertSoundUnmute = nil;
-	AlertSound = nil; -- Default sound
+	NPCs = {
+		[ 64004 ] = "Ghostly Pandaren Fisherman";
+		[ 64191 ] = "Ghostly Pandaren Craftsman";
+		[ 50409 ] ="Mysterious Camel Figurine";
+		[ 50410 ] = "Mysterious Camel Figurine";
+		[ 62346 ] = "Galleon";
+		[ 60491 ] = "Sha of Anger";
+		[ 69099 ] = "Nalak";
+		[ 69161 ] = "Oondasta";
+	};
+	NPCWorldIDs = {			
+		[ 50409 ] = 1; -- Mysterious Camel Figurine
+		[ 50410 ] = 1; -- Mysterious Camel Figurine
+		[ 62346 ] = 6; -- Galleon
+		[ 60491 ] = 6; --"Sha of Anger";
+		[ 64004 ] =  6; --"Ghostly Pandaren Fisherman";
+		[ 64191 ] = 6; --"Ghostly Pandaren Craftsman";
+		[ 69099 ] = 6; -- "Nalak";
+		[ 69161 ] = 6; -- "Oondasta";
+		};
+};
+
+NS.OptionsCharacterDefault = {
+	Version = NS.Version;
 	Achievements = {
 		[ 1312 ] = true; -- Bloody Rare (Outlands)
 		[ 2257 ] = true; -- Frostbitten (Northrend)
 		[ 7439 ] = true; -- Glorious! (Pandaria)
-	};
+		[ 8103 ] = true; -- Champions of Lei Shen
+		[ 8714 ] = true;  --Timeless Champion
+		[ 7317 ] = true; -- One Of Many
+			};
+	AchievementsAddFound = nil;
+	AlertSoundUnmute = nil;
+	AlertSound = nil; -- Default sound
+	CacheWarnings = true;
+	FlightSupress = true;
+	Modules = {};
+	ModulesSaved = {};
+	ModulesAlpha = {};
+	ModulesExtra = {};
+	NPCWorldIDs = {};
+	ShowAll = false;
 };
-
+--[[
 do
 	local DEEPHOLM = GetMapNameByID( 640 );
 	local MOLTEN_FRONT = GetMapNameByID( 795 );
 	NS.OptionsCharacterDefault = {
 		Version = NS.Version;
-		NPCs = {
-			[ 18684 ] = L.NPCs[ 18684 ]; -- Bro'Gaz the Clanless
-			[ 32491 ] = L.NPCs[ 32491 ]; -- Time-Lost Proto Drake
-			[ 33776 ] = L.NPCs[ 33776 ]; -- Gondria
-			[ 35189 ] = L.NPCs[ 35189 ]; -- Skoll
-			[ 38453 ] = L.NPCs[ 38453 ]; -- Arcturis
-			[ 49822 ] = L.NPCs[ 49822 ]; -- Jadefang
-			[ 49913 ] = L.NPCs[ 49913 ]; -- Lady LaLa
-			[ 50005 ] = L.NPCs[ 50005 ]; -- Poseidus
-			[ 50009 ] = L.NPCs[ 50009 ]; -- Mobus
-			[ 50050 ] = L.NPCs[ 50050 ]; -- Shok'sharak
-			[ 50051 ] = L.NPCs[ 50051 ]; -- Ghostcrawler
-			[ 50052 ] = L.NPCs[ 50052 ]; -- Burgy Blackheart
-			[ 50053 ] = L.NPCs[ 50053 ]; -- Thartuk the Exile
-			[ 50056 ] = L.NPCs[ 50056 ]; -- Garr
-			[ 50057 ] = L.NPCs[ 50057 ]; -- Blazewing
-			[ 50058 ] = L.NPCs[ 50058 ]; -- Terrorpene
-			[ 50059 ] = L.NPCs[ 50059 ]; -- Golgarok
-			[ 50060 ] = L.NPCs[ 50060 ]; -- Terborus
-			[ 50061 ] = L.NPCs[ 50061 ]; -- Xariona
-			[ 50062 ] = L.NPCs[ 50062 ]; -- Aeonaxx
-			[ 50063 ] = L.NPCs[ 50063 ]; -- Akma'hat
-			[ 50064 ] = L.NPCs[ 50064 ]; -- Cyrus the Black
-			[ 50065 ] = L.NPCs[ 50065 ]; -- Armagedillo
-			[ 50085 ] = L.NPCs[ 50085 ]; -- Overlord Sunderfury
-			[ 50086 ] = L.NPCs[ 50086 ]; -- Tarvus the Vile
-			[ 50089 ] = L.NPCs[ 50089 ]; -- Julak-Doom
-			[ 50138 ] = L.NPCs[ 50138 ]; -- Karoma
-			[ 50154 ] = L.NPCs[ 50154 ]; -- Madexx
-			[ 50159 ] = L.NPCs[ 50159 ]; -- Sambas
-			[ 50409 ] = L.NPCs[ 50409 ]; -- Mysterious Camel Figurine
-			[ 50410 ] = L.NPCs[ 50410 ]; -- Mysterious Camel Figurine
-			[ 50815 ] = L.NPCs[ 50815 ]; -- Skarr
-			[ 50959 ] = L.NPCs[ 50959 ]; -- Karkin
-			[ 51071 ] = L.NPCs[ 51071 ]; -- Captain Florence
-			[ 51079 ] = L.NPCs[ 51079 ]; -- Captain Foulwind
-			[ 51401 ] = L.NPCs[ 51401 ]; -- Madexx
-			[ 51402 ] = L.NPCs[ 51402 ]; -- Madexx
-			[ 51403 ] = L.NPCs[ 51403 ]; -- Madexx
-			[ 51404 ] = L.NPCs[ 51404 ]; -- Madexx
-			[ 54318 ] = L.NPCs[ 54318 ]; -- Ankha
-			[ 54319 ] = L.NPCs[ 54319 ]; -- Magria
-			[ 54320 ] = L.NPCs[ 54320 ]; -- Ban'thalos
-			[ 54321 ] = L.NPCs[ 54321 ]; -- Solix
-			[ 54322 ] = L.NPCs[ 54322 ]; -- Deth'tilac
-			[ 54323 ] = L.NPCs[ 54323 ]; -- Kirix
-			[ 54324 ] = L.NPCs[ 54324 ]; -- Skitterflame
-			[ 54338 ] = L.NPCs[ 54338 ]; -- Anthriss
-			[ 62346 ] = L.NPCs[ 62346 ]; -- Galleon
-			[ 71864 ] = L.NPCs[ 71864 ]; -- Spelurk
-			[ 71919 ] = L.NPCs[ 71919 ]; -- Zhu-Gon
-			[ 72032 ] = L.NPCs[ 72032 ]; -- Zvezdan
-			[ 72045 ] = L.NPCs[ 72045 ]; -- Chelon
-			[ 72048 ] = L.NPCs[ 72048 ]; -- Rattleskew
-			[ 72193 ] = L.NPCs[ 72193 ]; -- Karkanos
-			[ 72245 ] = L.NPCs[ 72245 ]; -- Zesqua
-			[ 72769 ] = L.NPCs[ 72769 ]; -- Jadefire
-			[ 72775 ] = L.NPCs[ 72775 ]; -- Bufo
-			[ 72808 ] = L.NPCs[ 72808 ]; -- Tsavo'ka
-			[ 72909 ] = L.NPCs[ 72909 ]; -- Gu'chi
-			[ 72970 ] = L.NPCs[ 72970 ]; -- Golgannar
-			[ 73157 ] = L.NPCs[ 73157 ]; -- Rock Moss
-			[ 73158 ] = L.NPCs[ 73158 ]; -- Gander
-			[ 73160 ] = L.NPCs[ 73160 ]; -- Steelhorn
-			[ 73161 ] = L.NPCs[ 73161 ]; -- Furyshell
-			[ 73163 ] = L.NPCs[ 73163 ]; -- Python
-			[ 73166 ] = L.NPCs[ 73166 ]; -- Spineclaw
-			[ 73167 ] = L.NPCs[ 73167 ]; -- Huolon
-			[ 73169 ] = L.NPCs[ 73169 ]; -- Jakur
-			[ 73170 ] = L.NPCs[ 73170 ]; -- Osu
-			[ 73171 ] = L.NPCs[ 73171 ]; -- Champion
-			[ 73172 ] = L.NPCs[ 73172 ]; -- Flintlord
-			[ 73173 ] = L.NPCs[ 73173 ]; -- Urdur
-			[ 73174 ] = L.NPCs[ 73174 ]; -- Archiereus
-			[ 73175 ] = L.NPCs[ 73175 ]; -- Cinderfall
-			[ 73277 ] = L.NPCs[ 73277 ]; -- Leafmender
-			[ 73282 ] = L.NPCs[ 73282 ]; -- Garnia
-			[ 73854 ] = L.NPCs[ 73854 ]; -- Cranegnasher
-			[ 73279 ] = L.NPCs[ 73279 ]; -- Evermaw
-			[ 73281 ] = L.NPCs[ 73281 ]; -- Vazuvius
-		};
+			NPCs = {
+		
+	};
 		NPCWorldIDs = {
 			[ 18684 ] = 3; -- Bro'Gaz the Clanless
 			[ 32491 ] = 4; -- Time-Lost Proto Drake
@@ -170,46 +162,18 @@ do
 			[ 54324 ] = MOLTEN_FRONT; -- Skitterflame
 			[ 54338 ] = MOLTEN_FRONT; -- Anthriss
 			[ 62346 ] = 6; -- Galleon
-			[ 71864 ] = 6; -- Spelurk
-			[ 71919 ] = 6; -- Zhu-Gon
-			[ 72032 ] = 6; -- Zvezdan
-			[ 72045 ] = 6; -- Chelon
-			[ 72048 ] = 6; -- Rattleskew
-			[ 72193 ] = 6; -- Karkanos
-			[ 72245 ] = 6; -- Zesqua
-			[ 72769 ] = 6; -- Jadefire
-			[ 72775 ] = 6; -- Bufo
-			[ 72808 ] = 6; -- Tsavo'ka
-			[ 72909 ] = 6; -- Gu'chi
-			[ 72970 ] = 6; -- Golgannar
-			[ 73157 ] = 6; -- Rock Moss
-			[ 73158 ] = 6; -- Gander
-			[ 73160 ] = 6; -- Steelhorn
-			[ 73161 ] = 6; -- Furyshell
-			[ 73163 ] = 6; -- Python
-			[ 73166 ] = 6; -- Spineclaw
-			[ 73167 ] = 6; -- Huolon
-			[ 73169 ] = 6; -- Jakur
-			[ 73170 ] = 6; -- Osu
-			[ 73171 ] = 6; -- Champion
-			[ 73172 ] = 6; -- Flintlord
-			[ 73173 ] = 6; -- Urdur
-			[ 73174 ] = 6; -- Archiereus
-			[ 73175 ] = 6; -- Cinderfall
-			[ 73277 ] = 6; -- Leafmender
-			[ 73282 ] = 6; -- Garnia
-			[ 73854 ] = 6; -- Cranegnasher
-			[ 73279 ] = 6; -- Evermaw
-			[ 73281 ] = 6; -- Vazuvius
 		};
 	};
 end
-
+]]--
 
 NS.Achievements = { --- Criteria data for each achievement.
 	[ 1312 ] = { WorldID = 3; }; -- Bloody Rare (Outlands)
 	[ 2257 ] = { WorldID = 4; }; -- Frostbitten (Northrend)
 	[ 7439 ] = { WorldID = 6; }; -- Glorious! (Pandaria)
+	[ 7317 ] = { WorldID = 6; }; -- One Of Many
+	[ 8103 ] = { WorldID = 6; }; -- Champions of Lei Shen
+	[ 8714 ] = { WorldID = 6; };  --Timeless Champion
 };
 do
 	local VirtualContinents = { --- Continents without physical maps aren't used.
@@ -289,12 +253,12 @@ local CacheList = {};
 do
 	--- Fills a cache list with all added NPCs, active or not.
 	local function CacheListPopulate ( self )
-		for NpcID in pairs( NS.OptionsCharacter.NPCs ) do
+		for NpcID in pairs( NS.Options.NPCs ) do
 			self[ NpcID ] = NS.TestID( NpcID );
 		end
-		for AchievementID in pairs( NS.Options.Achievements ) do
+		for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 			for CriteriaID, NpcID in pairs( NS.Achievements[ AchievementID ].Criteria ) do
-				if ( NS.Options.AchievementsAddFound or not select( 3, GetAchievementCriteriaInfoByID( AchievementID, CriteriaID ) ) ) then -- Not completed
+				if ( NS.OptionsCharacter.AchievementsAddFound or not select( 3, GetAchievementCriteriaInfoByID( AchievementID, CriteriaID ) ) ) then -- Not completed
 					self[ NpcID ] = NS.TestID( NpcID );
 				end
 			end
@@ -402,11 +366,11 @@ end
 -- @return True if custom NPC added.
 function NS.NPCAdd ( NpcID, Name, WorldID )
 	NpcID = assert( tonumber( NpcID ), "NpcID must be numeric." );
-	local OptionsCharacter = NS.OptionsCharacter;
-	if ( not OptionsCharacter.NPCs[ NpcID ] ) then
+	local Options = NS.Options;
+	if ( not Options.NPCs[ NpcID ] ) then
 		assert( type( Name ) == "string", "Name must be a string." );
 		assert( WorldID == nil or type( WorldID ) == "string" or type( WorldID ) == "number", "Invalid WorldID." );
-		OptionsCharacter.NPCs[ NpcID ], OptionsCharacter.NPCWorldIDs[ NpcID ] = Name, WorldID;
+		Options.NPCs[ NpcID ], Options.NPCWorldIDs[ NpcID ] = Name, WorldID;
 		if ( not NPCActivate( NpcID, WorldID ) ) then -- Didn't activate
 			NS.Config.Search.UpdateTab( "NPC" ); -- Just add row
 		end
@@ -418,9 +382,9 @@ end
 -- @return True if custom NPC removed.
 function NS.NPCRemove ( NpcID )
 	NpcID = tonumber( NpcID );
-	local OptionsCharacter = NS.OptionsCharacter;
-	if ( OptionsCharacter.NPCs[ NpcID ] ) then
-		OptionsCharacter.NPCs[ NpcID ], OptionsCharacter.NPCWorldIDs[ NpcID ] = nil;
+	local Options = NS.Options;
+	if ( Options.NPCs[ NpcID ] ) then
+		Options.NPCs[ NpcID ], Options.NPCWorldIDs[ NpcID ] = nil;
 		if ( not NPCDeactivate( NpcID ) ) then -- Wasn't active
 			NS.Config.Search.UpdateTab( "NPC" ); -- Just remove row
 		end
@@ -434,7 +398,7 @@ end
 --- Starts searching for an achievement's NPC if it meets all settings.
 local function AchievementNPCActivate ( Achievement, NpcID, CriteriaID )
 	if ( Achievement.Active and not Achievement.NPCsActive[ NpcID ]
-		and ( NS.Options.AchievementsAddFound or not select( 3, GetAchievementCriteriaInfoByID( Achievement.ID, CriteriaID ) ) ) -- Not completed
+		and ( NS.OptionsCharacter.AchievementsAddFound or not select( 3, GetAchievementCriteriaInfoByID( Achievement.ID, CriteriaID ) ) ) -- Not completed
 		and ScanAdd( NpcID )
 	) then
 		Achievement.NPCsActive[ NpcID ] = CriteriaID;
@@ -482,12 +446,12 @@ end
 function NS.AchievementAdd ( AchievementID )
 	AchievementID = assert( tonumber( AchievementID ), "AchievementID must be numeric." );
 	local Achievement = NS.Achievements[ AchievementID ];
-	if ( Achievement and not NS.Options.Achievements[ AchievementID ] ) then
-		if ( not next( NS.Options.Achievements ) ) then -- First
+	if ( Achievement and not NS.OptionsCharacter.Achievements[ AchievementID ] ) then
+		if ( not next( NS.OptionsCharacter.Achievements ) ) then -- First
 			NS.Frame:RegisterEvent( "ACHIEVEMENT_EARNED" );
 			NS.Frame:RegisterEvent( "CRITERIA_UPDATE" );
 		end
-		NS.Options.Achievements[ AchievementID ] = true;
+		NS.OptionsCharacter.Achievements[ AchievementID ] = true;
 		NS.Config.Search.AchievementSetEnabled( AchievementID, true );
 		AchievementActivate( Achievement );
 		return true;
@@ -497,10 +461,10 @@ end
 -- @param AchievementID  Numeric ID of achievement.
 -- @return True if achievement removed.
 function NS.AchievementRemove ( AchievementID )
-	if ( NS.Options.Achievements[ AchievementID ] ) then
+	if ( NS.OptionsCharacter.Achievements[ AchievementID ] ) then
 		AchievementDeactivate( NS.Achievements[ AchievementID ] );
-		NS.Options.Achievements[ AchievementID ] = nil;
-		if ( not next( NS.Options.Achievements ) ) then -- Last
+		NS.OptionsCharacter.Achievements[ AchievementID ] = nil;
+		if ( not next( NS.OptionsCharacter.Achievements ) ) then -- Last
 			NS.Frame:UnregisterEvent( "ACHIEVEMENT_EARNED" );
 			NS.Frame:UnregisterEvent( "CRITERIA_UPDATE" );
 		end
@@ -535,8 +499,8 @@ end
 --- Enables tracking of unneeded achievement NPCs.
 -- @return True if changed.
 function NS.SetAchievementsAddFound ( Enable )
-	if ( not Enable ~= not NS.Options.AchievementsAddFound ) then
-		NS.Options.AchievementsAddFound = Enable or nil;
+	if ( not Enable ~= not NS.OptionsCharacter.AchievementsAddFound ) then
+		NS.OptionsCharacter.AchievementsAddFound = Enable or nil;
 		NS.Config.Search.AddFoundCheckbox:SetChecked( Enable );
 
 		for _, Achievement in pairs( NS.Achievements ) do
@@ -550,8 +514,8 @@ end
 --- Enables unmuting sound to play found alerts.
 -- @return True if changed.
 function NS.SetAlertSoundUnmute ( Enable )
-	if ( not Enable ~= not NS.Options.AlertSoundUnmute ) then
-		NS.Options.AlertSoundUnmute = Enable or nil;
+	if ( not Enable ~= not NS.OptionsCharacter.AlertSoundUnmute ) then
+		NS.OptionsCharacter.AlertSoundUnmute = Enable or nil;
 
 		NS.Config.AlertSoundUnmute:SetChecked( Enable );
 		return true;
@@ -561,15 +525,22 @@ end
 -- @return True if changed.
 function NS.SetAlertSound ( AlertSound )
 	assert( AlertSound == nil or type( AlertSound ) == "string", "AlertSound must be a string or nil." );
-	if ( AlertSound ~= NS.Options.AlertSound ) then
-		NS.Options.AlertSound = AlertSound;
+	if ( AlertSound ~= NS.OptionsCharacter.AlertSound ) then
+		NS.OptionsCharacter.AlertSound = AlertSound;
 
 		UIDropDownMenu_SetText( NS.Config.AlertSound, AlertSound == nil and L.CONFIG_ALERT_SOUND_DEFAULT or AlertSound );
 		return true;
 	end
 end
 
-
+--- Enables Blocking alerts while on taxi.
+-- @return True if changed.
+function NS.SetBlockFlightScan ( Enable )
+		NS.OptionsCharacter.FlightSupress = Enable 
+		NS.Config.Search.BlockFlightScanCheckbox:SetChecked( Enable );
+		return Enable;
+	
+end
 
 
 local IsDefaultNPCValid;
@@ -600,32 +571,36 @@ function NS.Synchronize ( Options, OptionsCharacter )
 	end
 
 	-- Clear all scans
-	for AchievementID in pairs( NS.Options.Achievements ) do
+	for AchievementID in pairs( NS.Achievements ) do
 		NS.AchievementRemove( AchievementID );
 	end
-	for NpcID in pairs( NS.OptionsCharacter.NPCs ) do
+	for NpcID in pairs( NS.Options.NPCs ) do
+		NS.NPCRemove( NpcID );
+	end
+
+	for NpcID, WorldID in pairs( NS.RareMobData.NPCWorldIDs ) do
 		NS.NPCRemove( NpcID );
 	end
 	assert( not next( ScanIDs ), "Orphan NpcIDs in scan pool!" );
 
 	NS.SetCacheWarnings( Options.CacheWarnings );
 	NS.SetPrintTime( Options.PrintTime );
-	NS.SetAchievementsAddFound( Options.AchievementsAddFound );
-	NS.SetAlertSoundUnmute( Options.AlertSoundUnmute );
-	NS.SetAlertSound( Options.AlertSound );
+	NS.SetAchievementsAddFound( OptionsCharacter.AchievementsAddFound );
+	NS.SetAlertSoundUnmute( OptionsCharacter.AlertSoundUnmute );
+	NS.SetAlertSound( OptionsCharacter.AlertSound );
+	NS.SetBlockFlightScan(OptionsCharacter.FlightSupress);
 
 	local AddAllDefaults = IsShiftKeyDown();
-	for NpcID, Name in pairs( OptionsCharacter.NPCs ) do
+	for NpcID, Name in pairs( Options.NPCs ) do
 		-- If defaults, only add tamable custom mobs if the player is a hunter
 		if ( AddAllDefaults or not IsDefaultScan or IsDefaultNPCValid( NpcID ) ) then
-			NS.NPCAdd( NpcID, Name, OptionsCharacter.NPCWorldIDs[ NpcID ] );
-			--print("NpcID: " .. NpcID .. " Name: " .. Name .. " WID: " .. OptionsCharacter.NPCWorldIDs[ NpcID ]);
+			NS.NPCAdd( NpcID, Name, Options.NPCWorldIDs[ NpcID ] );
 		end
 	end
 	for AchievementID in pairs( NS.Achievements ) do
 		-- If defaults, don't enable completed achievements unless explicitly allowed
-		if ( Options.Achievements[ AchievementID ] and (
-			not IsDefaultScan or Options.AchievementsAddFound or not select( 4, GetAchievementInfo( AchievementID ) ) -- Not completed
+		if ( OptionsCharacter.Achievements[ AchievementID ] and (
+			not IsDefaultScan or OptionsCharacter.AchievementsAddFound or not select( 4, GetAchievementInfo( AchievementID ) ) -- Not completed
 		) ) then
 			NS.AchievementAdd( AchievementID );
 		end
@@ -689,12 +664,12 @@ do
 	end
 	--- @return Name of the source of NpcID's scan--either a custom name or achievement name.
 	local function GetScanSource ( NpcID )
-		local CustomName = NS.OptionsCharacter.NPCs[ NpcID ];
+		local CustomName = NS.Options.NPCs[ NpcID ];
 		if ( CustomName ) then
 			return CustomName;
 		end
 		-- Must have been from an achievement
-		for AchievementID in pairs( NS.Options.Achievements ) do
+		for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 			if ( NS.Achievements[ AchievementID ].NPCsActive[ NpcID ] ) then
 				return GetAchievementLink( AchievementID ); -- Colored link to distinguish from a custom name
 			end
@@ -704,7 +679,7 @@ do
 	local function OnFound ( NpcID, Name )
 		-- Disable active scans
 		NPCDeactivate( NpcID );
-		for AchievementID in pairs( NS.Options.Achievements ) do
+		for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 			AchievementNPCDeactivate( NS.Achievements[ AchievementID ], NpcID );
 		end
 
@@ -712,6 +687,20 @@ do
 		local Tamable = NS.TamableIDs[ NpcID ];
 		if ( Tamable ) then
 			Valid, InvalidReason = OnFoundTamable( NpcID, Name );
+		end
+
+		--Checks to see if player is on flightpath, this will block possible cross realm alerts
+		if (NS.OptionsCharacter.FlightSupress) then
+			local onTaxi = UnitOnTaxi("player")
+			if onTaxi then
+				Valid = false
+				 SetMapToCurrentZone()
+				local posX, posY = GetPlayerMapPosition("player");
+				local zoneName = GetZoneText();
+				InvalidReason = L.FOUND_UNIT_TAXI:format(Name,posX*100, posY*100, zoneName );
+					--NS.PlaySound ( AlertSound )
+				PlaySound("TellMessage", "master");
+			end
 		end
 
 		if ( Valid ) then
@@ -726,8 +715,8 @@ do
 	local GetAchievementCriteriaInfoByID = GetAchievementCriteriaInfoByID;
 	--- Scans all active criteria and removes any completed NPCs.
 	local function AchievementCriteriaUpdate ()
-		if ( not NS.Options.AchievementsAddFound ) then
-			for AchievementID in pairs( NS.Options.Achievements ) do
+		if ( not NS.OptionsCharacter.AchievementsAddFound ) then
+			for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 				local Achievement = NS.Achievements[ AchievementID ];
 				for NpcID, CriteriaID in pairs( Achievement.NPCsActive ) do
 					local _, _, Complete = GetAchievementCriteriaInfoByID( AchievementID, CriteriaID );
@@ -770,7 +759,7 @@ if ( select( 2, UnitClass( "player" ) ) == "HUNTER" ) then
 			if ( Name ) then
 				StabledList[ NpcID ] = Name;
 				NPCDeactivate( NpcID );
-				for AchievementID in pairs( NS.Options.Achievements ) do
+				for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 					AchievementNPCDeactivate( NS.Achievements[ AchievementID ], NpcID );
 				end
 			end
@@ -817,19 +806,15 @@ function NS.Frame:PLAYER_LOGIN ( Event )
 
 	-- Update settings incrementally
 	if ( Options and Options.Version ~= NS.Version ) then
-		if ( Options.Version == "3.0.9.2" ) then -- 3.1.0.1: Added options for finding already found and tamable mobs
-			Options.CacheWarnings = true;
-			Options.Version = "3.1.0.1";
-		end
-		if ( Options.Version < "5.0.0.3" ) then
-			-- 5.0.0.3: Made the achievement checkbox settings global
-			Options.Achievements = CopyTable( NS.OptionsDefault.Achievements );
-			Options.Version = "5.0.0.3";
-		end
+	--Clears old settings and updates to new variables
+		if ( (Options.Version == nil) or (Options.Version < "5.1") ) then
+		Options = NS.OptionsDefault;
+		OptionsCharacter = NS.OptionsCharacterDefault;
 		Options.Version = NS.Version;
+		end
 	end
 	-- Character settings
-	if ( OptionsCharacter and OptionsCharacter.Version ~= NS.Version ) then
+	--[[if ( OptionsCharacter and OptionsCharacter.Version ~= NS.Version ) then
 		local Version = OptionsCharacter.Version;
 
 		local WorldIDs = NS.OptionsCharacterDefault.NPCWorldIDs;
@@ -954,7 +939,7 @@ function NS.Frame:PLAYER_LOGIN ( Event )
 		end
 		OptionsCharacter.Version = NS.Version;
 	end
-
+--]]
 	NS.Overlays.Register();
 	NS.Synchronize( Options, OptionsCharacter ); -- Loads defaults if either are nil
 end
@@ -970,10 +955,17 @@ do
 		NS.WorldID = NS.ContinentIDs[ MapName ] or MapName;
 
 		-- Activate scans on this world
-		for NpcID, WorldID in pairs( NS.OptionsCharacter.NPCWorldIDs ) do
+		--Loads Any Custom Mobs
+		for NpcID, WorldID in pairs( NS.Options.NPCWorldIDs ) do
 			NPCActivate( NpcID, WorldID );
 		end
-		for AchievementID in pairs( NS.Options.Achievements ) do
+
+		--Loads Rare Mob Databas
+		for NpcID, WorldID in pairs( NS.RareMobData.NPCWorldIDs ) do
+			NPCActivate( NpcID, WorldID );
+		end
+
+		for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 			local Achievement = NS.Achievements[ AchievementID ];
 			if ( Achievement.WorldID ) then
 				AchievementActivate( Achievement );
@@ -989,15 +981,16 @@ do
 				NS.Print( L.CACHED_WORLD_FORMAT:format( ListString, MapName ) );
 			end
 		end
+		NS.Config.Search:UpdateTabNames()
 	end
 end
 --- Stops world-specific scans when leaving a world.
 function NS.Frame:PLAYER_LEAVING_WORLD ()
 	-- Stop scans that were only active on the previous world
-	for NpcID in pairs( NS.OptionsCharacter.NPCWorldIDs ) do
+	for NpcID in pairs( NS.Options.NPCWorldIDs ) do
 		NPCDeactivate( NpcID );
 	end
-	for AchievementID in pairs( NS.Options.Achievements ) do
+	for AchievementID in pairs( NS.OptionsCharacter.Achievements ) do
 		local Achievement = NS.Achievements[ AchievementID ];
 		if ( Achievement.WorldID ) then
 			AchievementDeactivate( Achievement );
@@ -1007,7 +1000,7 @@ function NS.Frame:PLAYER_LEAVING_WORLD ()
 end
 --- Stops tracking achievements when they finish.
 function NS.Frame:ACHIEVEMENT_EARNED ( _, AchievementID )
-	if ( not NS.Options.AchievementsAddFound ) then
+	if ( not NS.OptionsCharacter.AchievementsAddFound ) then
 		NS.AchievementRemove( AchievementID );
 	end
 end
@@ -1046,7 +1039,7 @@ function NS.SlashCommand ( Input )
 		elseif ( Command == L.CMD_REMOVE ) then
 			local ID = tonumber( Arguments );
 			if ( not ID ) then -- Search custom names
-				for NpcID, Name in pairs( NS.OptionsCharacter.NPCs ) do
+				for NpcID, Name in pairs( NS.Options.NPCs ) do
 					if ( Name == Arguments ) then
 						ID = NpcID;
 						break;
@@ -1094,12 +1087,11 @@ end
 
 local Frame = NS.Frame;
 Frame:SetScript( "OnEvent", Frame.OnEvent );
-Frame:RegisterEvent( "PLAYER_LOGIN" );
---[=[if ( not IsLoggedIn() ) then
-	Frame:RegisterEvent( "PLAYER_LOGIN" );
-else
+if ( IsLoggedIn() ) then
 	Frame:PLAYER_LOGIN( "PLAYER_LOGIN" );
-end]=]
+else
+	Frame:RegisterEvent( "PLAYER_LOGIN" );
+end
 Frame:RegisterEvent( "PLAYER_ENTERING_WORLD" );
 Frame:RegisterEvent( "PLAYER_LEAVING_WORLD" );
 Frame:RegisterEvent( "PLAYER_UPDATE_RESTING" );

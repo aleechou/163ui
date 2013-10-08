@@ -99,12 +99,12 @@ function()
 	local checkname = mod.Options.prevplayer
 	local uId = DBM:GetRaidUnitId(checkname)
 	if uId then
-		DBM:AddMsg("["..L.name.."]".."|cFF00FF00"..mod.localization.options["prevplayer"]..DBM_CORE_SETTO..checkname.."|r")
-		SendChatMessage("["..L.name.."]"..DBM_CORE_SETWISP, "WHISPER", nil, checkname)
+		DBM:AddMsg("["..L.nameset.."]".."|cFF00FF00"..mod.localization.options["prevplayer"]..DBM_CORE_SETTO..checkname.."|r")
+		SendChatMessage("["..L.nameset.."]"..DBM_CORE_SETWISP, "WHISPER", nil, checkname)
 	else
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
-		DBM:AddMsg("["..L.name.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
+		DBM:AddMsg("["..L.nameset.."]"..DBM_CORE_WRONGSET.."\""..mod.Options.prevplayer.."\"")
 	end
 end)
 

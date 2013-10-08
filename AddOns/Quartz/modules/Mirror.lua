@@ -97,7 +97,7 @@ local defaults = {
 
 		hideblizzmirrors = true,
 
-		showmirror = false,
+		showmirror = true,
 		showstatic = true,
 		showpvp = true,
 		showreadycheck = true,

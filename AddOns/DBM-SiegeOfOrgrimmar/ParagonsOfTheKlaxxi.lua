@@ -65,6 +65,7 @@ local warnGeneticAlteration			= mod:NewStackAnnounce(143279, 2, nil, false)
 local warnInjection					= mod:NewStackAnnounce(143339)
 local warnMutate					= mod:NewTargetAnnounce(143337, 3)
 
+local warnResult					= mod:NewTargetAnnounce(144095, 3)
 --Hisek the Swarmkeeper
 local warnAim						= mod:NewTargetAnnounce(142948, 4)--Maybe wrong debuff id, maybe 144759 instead
 local warnRapidFire					= mod:NewSpellAnnounce(143243, 3)
@@ -210,6 +211,11 @@ local bossspellinfo = {}
 local winderlive = false
 local locustlive = false
 
+local ResultTargets = {}
+local ResultMeleeTargets = {}
+local ResultRangedTargets = {}
+local ResultRangedDPSTargets = {}
+
 --[[EJ_GetSectionInfo(8004) --掠风者 71161
 EJ_GetSectionInfo(8009) 	--毒心者 71157
 EJ_GetSectionInfo(8010) 	--操纵者 71156
@@ -272,127 +278,6 @@ local function showspellinfo()
 			DBM.InfoFrame:Show(3, "other", bossspellinfo[firstboss].spell, bossspellinfo[firstboss].name, bossspellinfo[firstboss + 1].spell, bossspellinfo[firstboss + 1].name, bossspellinfo[firstboss + 2].spell, bossspellinfo[firstboss + 2].name)
 		end
 	end
-end
-
-local function soundkillboss(cid, dcid)
-	--[[ 不對啊 哀綠醬坑死我了 =ω= 為什麼第二輪刷出的是暴食皇-至尊-明澈的順序啊
-	if cid then activenum = activenum + 1 end
-	if dcid then deadnum = deadnum + 1 end
-	if cid == 71154 and bosstype == 1 then bosstype = 2 end
-	if cid == 71153 and bosstype == 3 then bosstype = 4 end
-	if cid == 71154 and bosstype == 5 then bosstype = 6 end
-	if bosstype == 1 then
-		if activenum == 1 then
-			print("『毒化心智』")
-		end
-		if deadnum == 1 then
-			print("『奪風者』")
-		elseif deadnum == 2 then
-			print("『開膛手』")
-		elseif deadnum == 3 then
-			print("『覓血者』")
-		elseif deadnum == 4 then
-			print("『操縱者』")
-		elseif deadnum == 5 then
-			print("『思緒清晰』")
-		elseif deadnum == 6 then
-			print("『至高者』")
-		elseif deadnum == 7 then
-			print("『暴虐蝗蟲』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	elseif bosstype == 2 then
-		if deadnum == 2 then
-			print("『思緒清晰』")
-		elseif deadnum == 3 then
-			print("『至高者』")
-		elseif deadnum == 4 then
-			print("『暴虐蝗蟲』")
-		elseif deadnum == 5 then
-			print("『開膛手』")
-		elseif deadnum == 6 then
-			print("『覓血者』")
-		elseif deadnum == 7 then
-			print("『操縱者』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	elseif bosstype == 3 then
-		if activenum == 1 then
-			print("『至高者』")
-		end
-		if deadnum == 1 then
-			print("『暴虐蝗蟲』")
-		elseif deadnum == 2 then
-			print("『毒化心智』")
-		elseif deadnum == 3 then
-			print("『思緒清晰』")
-		elseif deadnum == 4 then
-			print("『奪風者』")
-		elseif deadnum == 5 then
-			print("『開膛手』")
-		elseif deadnum == 6 then
-			print("『覓血者』")
-		elseif deadnum == 7 then
-			print("『操縱者』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	elseif bosstype == 4 then
-		if deadnum == 2 then
-			print("『開膛手』")
-		elseif deadnum == 3 then
-			print("『覓血者』")
-		elseif deadnum == 4 then
-			print("『毒化心智』")
-		elseif deadnum == 5 then
-			print("『思緒清晰』")
-		elseif deadnum == 6 then
-			print("『奪風者』")
-		elseif deadnum == 7 then
-			print("『操縱者』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	elseif bosstype == 5 then
-		if activenum == 1 then
-			print("『開膛手』")
-		end
-		if deadnum == 1 then
-			print("『覓血者』")
-		elseif deadnum == 2 then
-			print("『毒化心智』")
-		elseif deadnum == 3 then
-			print("『奪風者』")
-		elseif deadnum == 4 then
-			print("『操縱者』")
-		elseif deadnum == 5 then
-			print("『思緒清晰』")
-		elseif deadnum == 6 then
-			print("『至高者』")
-		elseif deadnum == 7 then
-			print("『暴虐蝗蟲』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	elseif bosstype == 6 then
-		if deadnum == 2 then
-			print("『暴虐蝗蟲』")
-		elseif deadnum == 3 then
-			print("『至高者』")
-		elseif deadnum == 4 then
-			print("『毒化心智』")
-		elseif deadnum == 5 then
-			print("『思緒清晰』")
-		elseif deadnum == 6 then
-			print("『奪風者』")
-		elseif deadnum == 7 then
-			print("『操縱者』")
-		elseif deadnum == 8 then
-			print("『蟲群守護者』")
-		end
-	end]]
 end
 
 local function warnActivatedTargets(vulnerable)
@@ -484,31 +369,26 @@ local function CheckBosses(GUID)
 						DBM.RangeCheck:Show(5)
 					end
 				end
-				soundkillboss(cid)
 			elseif cid == 71157 then--Xaril the Poisoned-Mind
 				if UnitDebuff("player", GetSpellInfo(142931)) then vulnerable = true end
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dxz.mp3") --毒心者參戰
 				end
-				soundkillboss(cid)
 			elseif cid == 71156 then--Kaz'tik the Manipulator
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_czz.mp3") --操縱者參戰
 				end
-				soundkillboss(cid)
 			elseif cid == 71155 then--Korven the Prime
 				timerShieldBashCD:Start(19)--20seconds from jump to center and REAL IEEU. question is whether or not filtering readyToFight will ignore the bad IEEU that come earlier
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zzz.mp3") --至尊者參戰
 				end
 				if activetime < 10 then bosstype = 3 end
-				soundkillboss(cid)
 			elseif cid == 71160 then--Iyyokuk the Lucid
 				timerInsaneCalculationCD:Start()
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_mcz.mp3") --明澈者參戰
 				end
-				soundkillboss(cid)
 			elseif cid == 71154 then--Ka'roz the Locust
 				timerFlashCD:Start(14)--In final LFR test, he didn't cast this for 20 seconds. TODO check this change
 				timerHurlAmberCD:Start(44)
@@ -519,7 +399,6 @@ local function CheckBosses(GUID)
 					locustlive = true
 					DBM.RangeCheck:Show(6)					
 				end
-				soundkillboss(cid)
 			elseif cid == 71152 then--Skeer the Bloodseeker
 				timerBloodlettingCD:Start(9)
 				if UnitDebuff("player", GetSpellInfo(143279)) then vulnerable = true end
@@ -527,7 +406,6 @@ local function CheckBosses(GUID)
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_nxz.mp3") --覓血者參戰
 				end
 				if activetime < 10 then bosstype = 5 end
-				soundkillboss(cid)
 			elseif cid == 71158 then--Rik'kal the Dissector
 				timerInjectionCD:Start(14)
 				timerMutateCD:Start(34)
@@ -535,14 +413,12 @@ local function CheckBosses(GUID)
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_qgz.mp3") --切割者參戰					
 				end
-				soundkillboss(cid)
 			elseif cid == 71153 then--Hisek the Swarmkeeper
 				timerAimCD:Start(37)--Might be 32 now with the UnitBuff filter, so pay attention to that and adjust as needed
 				--timerRapidFireCD:Start()
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_cqws.mp3") --蟲群衛士參戰
 				end
-				soundkillboss(cid)
 			end
 		end
 	end
@@ -562,6 +438,11 @@ function mod:OnCombatStart(delay)
 	twipe(YellowMarkers)
 	twipe(MZMarkers)
 	twipe(CFMarkers)
+	
+	twipe(ResultTargets)
+	twipe(ResultMeleeTargets)
+	twipe(ResultRangedTargets)
+	twipe(ResultRangedDPSTargets)
 	calculatedShape = nil
 	calculatedNumber = nil
 	calculatedColor = nil
@@ -864,6 +745,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnHurlAmber:Show()
 		specWarnHurlAmber:Show()
 		timerHurlAmberCD:Start()
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tzhp.mp3") --投擲琥珀
 	elseif args.spellId == 143337 then
 		mutateTargets[#mutateTargets + 1] = args.destName
 		if args.IsPlayer() then
@@ -952,20 +834,16 @@ function mod:UNIT_DIED(args)
 				DBM.RangeCheck:Hide()
 			end					
 		end
-		soundkillboss(nil, cid)
 	elseif cid == 71157 then--Xaril the Poisoned-Mind
 		timerToxicCatalystCD:Cancel()
-		soundkillboss(nil, cid)
 	elseif cid == 71156 then--Kaz'tik the Manipulator
-		soundkillboss(nil, cid)
+
 	elseif cid == 71155 then--Korven the Prime
 		timerShieldBashCD:Cancel()
 		timerEncaseInAmberCD:Cancel()
 --		countdownEncaseInAmber:Cancel()
-		soundkillboss(nil, cid)
 	elseif cid == 71160 then--Iyyokuk the Lucid
 		timerInsaneCalculationCD:Cancel()
-		soundkillboss(nil, cid)
 	elseif cid == 71154 then--Ka'roz the Locust
 		timerFlashCD:Cancel()
 		timerHurlAmberCD:Cancel()
@@ -976,18 +854,14 @@ function mod:UNIT_DIED(args)
 				DBM.RangeCheck:Show(5)
 			end
 		end
-		soundkillboss(nil, cid)
 	elseif cid == 71152 then--Skeer the Bloodseeker
 		timerBloodlettingCD:Cancel()
-		soundkillboss(nil, cid)
 	elseif cid == 71158 then--Rik'kal the Dissector
 		timerMutateCD:Cancel()
 		timerInjectionCD:Cancel()
-		soundkillboss(nil, cid)
 	elseif cid == 71153 then--Hisek the Swarmkeeper
 		timerAimCD:Cancel()
 		--timerRapidFireCD:Cancel()
-		soundkillboss(nil, cid)
 	end
 end
 
@@ -1024,6 +898,8 @@ end
 --143630 Green Staff
 --143631 Yellow Staff
 
+local colors = {"Red", "Purple", "Blue", "Green", "Yellow"}
+
 local RedDebuffs = {GetSpellInfo(143605), GetSpellInfo(143610), GetSpellInfo(143615), GetSpellInfo(143620), (GetSpellInfo(143627))}
 local PurpleDebuffs = {GetSpellInfo(143606), GetSpellInfo(143611), GetSpellInfo(143616), GetSpellInfo(143621), (GetSpellInfo(143628))}
 local BlueDebuffs = {GetSpellInfo(143607), GetSpellInfo(143612), GetSpellInfo(143617), GetSpellInfo(143622), (GetSpellInfo(143629))}
@@ -1044,165 +920,88 @@ GetSpellInfo(143620), GetSpellInfo(143621), GetSpellInfo(143622), GetSpellInfo(1
 GetSpellInfo(143627), GetSpellInfo(143628), GetSpellInfo(143629), GetSpellInfo(143630), (GetSpellInfo(143631))
 }
 
---[[
-"<32.1 20:15:38> [CHAT_MSG_MONSTER_EMOTE] CHAT_MSG_MONSTER_EMOTE#Iyyokuk begins choosing criteria from Daltin!#Iyyokuk the Lucid###Daltin##0#0##0#846#nil#0#false#false", -- [2547]
-"<32.1 20:15:38> [CHAT_MSG_RAID_BOSS_EMOTE] CHAT_MSG_RAID_BOSS_EMOTE#Iyyokuk selects: Sword |TInterface\\Icons\\ABILITY_IYYOKUK_SWORD_white.BLP:20|t!#Iyyokuk the Lucid###Iyyokuk the Luci
---]]
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)--This emote always comes first hopefully, so we have valid criteria to match to on monster emote message
-	if self:AntiSpam(3, 1) then
-		calculatedShape = nil
-		calculatedNumber = nil
-		calculatedColor = nil
-	end
-	--UPDATE. Seems now colors and shapes can avoid localizing with icons and color codes
-	--Still need to localize 5 numbers in 10 languages so 50 localizations instead of 150
-	if msg:find("FFFF0000") then
-		calculatedColor = "Red"
-	elseif msg:find("FFFF00FF") then
-		calculatedColor = "Purple"
-	elseif msg:find("FF0000FF") then
-		calculatedColor = "Blue"
-	elseif msg:find("FF00FF00") then
-		calculatedColor = "Green"
-	elseif msg:find("FFFFFF00") then
-		calculatedColor = "Yellow"
-	elseif msg:find("ABILITY_IYYOKUK_SWORD") then
-		calculatedShape = "Sword"
-	elseif msg:find("ABILITY_IYYOKUK_DRUM") then
-		calculatedShape = "Drum"
-	elseif msg:find("ABILITY_IYYOKUK_BOMB") then
-		calculatedShape = "Bomb"
-	elseif msg:find("ABILITY_IYYOKUK_MANTID") then
-		calculatedShape = "Mantid"
-	elseif msg:find("ABILITY_IYYOKUK_STAFF") then
-		calculatedShape = "Staff"
-	elseif msg:find(L.one) then
-		calculatedNumber = 1
-	elseif msg:find(L.two) then
-		calculatedNumber = 2
-	elseif msg:find(L.three) then
-		calculatedNumber = 3
-	elseif msg:find(L.four) then
-		calculatedNumber = 4
-	elseif msg:find(L.five) then
-		calculatedNumber = 5
-	end
-end
-
-local function delayMonsterEmote(target)
-	--Because now the raid boss emotes fire AFTER this and we need them first
-	warnCalculated:Show(target)
-	timerCalculated:Start()
-	timerInsaneCalculationCD:Start()
-	if target == UnitName("player") then
-		specWarnCalculated:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lklx.mp3") --拉開連線
-		yellCalculated:Yell()
-	else--it's not us, so now lets check activated criteria for target based on previous emotes
-		local criteriaMatched = false--Now to start checking matches.
-		if calculatedColor == "Red" then
-			for _, spellname in ipairs(RedDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Purple" then
-			for _, spellname in ipairs(PurpleDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Blue" then
-			for _, spellname in ipairs(BlueDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Green" then
-			for _, spellname in ipairs(GreenDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Yellow" then
-			for _, spellname in ipairs(YellowDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Sword" then
-			for _, spellname in ipairs(SwordDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Drum" then
-			for _, spellname in ipairs(DrumDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Bomb" then
-			for _, spellname in ipairs(BombDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Mantid" then
-			for _, spellname in ipairs(MantidDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedColor == "Staff" then
-			for _, spellname in ipairs(StaffDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					criteriaMatched = true
-					break
-				end
-			end
-		elseif calculatedNumber then
-			for _, spellname in ipairs(AllDebuffs) do
-				local _, _, _, count = UnitDebuff("player", spellname)
-				if count then--Found
-					if count == calculatedNumber then
-						criteriaMatched = true
-					end
-					break
-				end
-			end
+local function parseDebuff(player)
+	local count
+	for i= 1, 5 do
+		count = select(4, UnitDebuff(player, SwordDebuffs[i]))
+		if count then
+			return "Sword", colors[i], (count == 0) and 1 or count
 		end
-		if criteriaMatched then
-			specWarnCriteriaLinked:Show(target)
-			yellCalculated:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lklx.mp3") --拉開連線
+		count = select(4,UnitDebuff(player, DrumDebuffs[i]))
+		if count then
+			return "Drum", colors[i], (count == 0) and 1 or count
+		end
+		count = select(4,UnitDebuff(player, BombDebuffs[i]))
+		if count then
+			return "Bomb", colors[i], (count == 0) and 1 or count
+		end
+		count = select(4,UnitDebuff(player, MantidDebuffs[i]))
+		if count then
+			return "Mantid", colors[i], (count == 0) and 1 or count
+		end
+		count = select(4,UnitDebuff(player, StaffDebuffs[i]))
+		if count then
+			return "Staff", colors[i], (count == 0) and 1 or count
 		end
 	end
+	return false
 end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 	local targetname = DBM:GetUnitFullName(target)
 	if npc == calculatingDude then
-		self:Unschedule(delayMonsterEmote)
-		self:Schedule(0.5, delayMonsterEmote, targetname)
+--		warnCalculated:Show(targetname)
+		timerCalculated:Start()
+		timerInsaneCalculationCD:Start()
+		if target == UnitName("player") then
+			specWarnCalculated:Show()
+--			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lklx.mp3") --拉開連線
+			yellCalculated:Yell()
+		end
+		if self:IsDifficulty("heroic10", "heroic25") then
+			local resultshape, resultcolor, resultnumber = parseDebuff(target)
+			local shape, color, number = parseDebuff("player")
+			if shape then
+				if shape == resultshape or color == resultcolor or number == resultnumber then
+					if target ~= UnitName("player") then
+						specWarnCalculated:Show()
+--						sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lklx.mp3")
+						yellCalculated:Yell()
+					end
+				end
+			end			
+			twipe(ResultTargets)
+			twipe(ResultMeleeTargets)
+			twipe(ResultRangedTargets)
+			twipe(ResultRangedDPSTargets)
+			for i = 1, DBM:GetNumGroupMembers() do
+				local shapecheck, colorcheck, numbercheck = parseDebuff(UnitName("raid"..i))
+				if shapecheck then
+					if shapecheck == resultshape or colorcheck == resultcolor or numbercheck == resultnumber then
+						ResultTargets[#ResultTargets + 1] = UnitName("raid"..i)
+						local _, class = UnitClass("raid"..i)
+						if (class == "DRUID" and UnitPowerMax("raid"..i) > 200000) or class == "HUNTER" or class == "PRIEST" or class == "MAGE" or class == "WARLOCK" or (class == "SHAMAN" and UnitPowerMax("raid"..i) > 200000) or (class == "PALADIN" and UnitPowerMax("raid"..i) > 200000) then
+							ResultRangedTargets[#ResultRangedTargets + 1] = UnitName("raid"..i)
+							if self:UnitIsDps("raid"..i) then
+								ResultRangedDPSTargets[#ResultRangedDPSTargets + 1] = UnitName("raid"..i)
+							end
+						else
+							ResultMeleeTargets[#ResultMeleeTargets + 1] = UnitName("raid"..i)
+						end					
+					end
+				end
+			end
+			warnResult:Show(table.concat(ResultMeleeTargets, "<, >"))
+			warnResult:Show(table.concat(ResultRangedTargets, "<, >"))
+			--[[if #ResultMeleeTargets < 7 then
+				local meleenum = #ResultMeleeTargets
+				local needranged = 7 - meleenum
+				for i = 1, needranged do
+					if ResultRangedDPSTargets[i] == UnitName("player") then
+						sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\gather.mp3")
+					end
+				end
+			end]]
+		end		
 	end
 end

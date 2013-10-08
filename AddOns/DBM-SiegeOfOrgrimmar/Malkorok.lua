@@ -39,7 +39,7 @@ local specWarnBreathofYShaarj			= mod:NewSpecialWarningCount(142842, nil, nil, n
 local specWarnFatalStrike				= mod:NewSpecialWarningStack(142990, mod:IsTank(), 12)--stack guessed, based on CD
 local specWarnFatalStrikeOther			= mod:NewSpecialWarningTarget(142990, mod:IsTank())
 
-local timerBloodRage					= mod:NewBuffActiveTimer(22.5, 142879)--2.5sec cast plus 20 second duration
+local timerBloodRage					= mod:NewBuffActiveTimer(20.5, 142879)--2.5sec cast plus 20 second duration
 local timerDisplacedEnergyCD			= mod:NewNextTimer(11, 142913)
 local timerBloodRageCD					= mod:NewNextTimer(124.7, 142879)
 --Might of the Kor'kron
@@ -54,10 +54,6 @@ local berserkTimer						= mod:NewBerserkTimer(360)
 --local countdownImplodingEnergy			= mod:NewCountdown(10, 142986)
 --local soundDisplacedEnergy				= mod:NewSound(142913)
 
-mod:AddBoolOption("RangeFrame", true)--Various things
-mod:AddBoolOption("SetIconOnDisplacedEnergy", false)
-mod:AddBoolOption("HudMAP", false, "sound")
-
 mod:AddBoolOption("Malhelper", true, "sound")
 mod:AddBoolOption("MalhelperSend", false, "sound", 
 function()
@@ -68,6 +64,12 @@ function()
 		DBM.MalHelperEnabled = false
 	end
 end)
+
+mod:AddBoolOption("RangeFrame", true)--Various things
+mod:AddBoolOption("SetIconOnDisplacedEnergy", false)
+mod:AddBoolOption("HudMAP", false, "sound")
+
+mod:AddBoolOption("LTshow", true, "sound")
 
 mod:AddBoolOption("dr", true, "sound")
 for i = 1, 12 do
@@ -94,6 +96,8 @@ local displacedCast = false
 local UnitDebuff = UnitDebuff
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 
+local needshowshield = false
+
 local function MyJS()
 	if mod.Options["dr"..ieCount] then
 		return true
@@ -107,6 +111,60 @@ do
 		return UnitDebuff(uId, displacedEnergyDebuff)
 	end
 end
+
+--BH ADD
+local function getPerShield(shieldamount)
+	local maxhp = UnitHealthMax("player")
+	local pershield = math.max(1, math.floor(shieldamount / maxhp * 100))
+	if pershield <= 100 then
+		return pershield
+	end
+	return 100
+end
+
+local function getShieldState()
+	local colors = {"Red", "Yellow", "Green"}
+	local ShieldDebuffs = {GetSpellInfo(142863), GetSpellInfo(142864), GetSpellInfo(142865)}	
+	local amount
+	for i= 1, 3 do
+		amount = select(15, UnitDebuff("player", ShieldDebuffs[i]))
+		if amount then
+			local per = getPerShield(amount)
+			return colors[i], per
+		end
+	end
+	return "Red", 0
+end
+
+local elapsed = 0
+local showShieldLT
+do
+	local frame = CreateFrame("Frame")
+	local shieldcolor, shieldper
+	frame:SetScript("OnUpdate", function(self, e)
+		elapsed = elapsed + e
+		if not needshowshield then
+			frame:Hide()
+		end
+		if elapsed >= 0.5 then
+			shieldcolor, shieldper = getShieldState()
+			if needshowshield then
+				if shieldcolor == "Red" then
+					DBM:ShowLTSpecialWarning(_G["ABSORB"].."("..shieldper.."%)", 1, 0, 0)
+				elseif shieldcolor == "Yellow" then
+					DBM:ShowLTSpecialWarning(_G["ABSORB"].."("..shieldper.."%)", 1, 1, 0)
+				elseif shieldcolor == "Green" then
+					DBM:ShowLTSpecialWarning(_G["ABSORB"].."("..shieldper.."%)", 0, 1, 0)
+				end
+			end
+			elapsed = 0
+		end
+	end)
+	function showShieldLT()
+		frame:Show()
+	end
+end
+--BH ADD END
 
 local function warnDisplacedEnergyTargets()
 	if mod.Options.RangeFrame then
@@ -180,6 +238,14 @@ function mod:OnCombatStart(delay)
 			DBM.MalHelperEnabled = false
 		end
 	end
+	--BH ADD
+	if self.Options.LTshow then
+		needshowshield = true
+		showShieldLT()
+	else
+		needshowshield = false
+	end
+	--BH ADD END
 end
 
 function mod:OnCombatEnd()
@@ -192,6 +258,12 @@ function mod:OnCombatEnd()
 	if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
 		ExRT:ExBossmodsCloseAll()
 	end
+	--BH ADD
+	if self.Options.LTshow then
+		needshowshield = false
+		DBM:HideLTSpecialWarning()
+	end
+	--BH ADD END
 end
 
 function mod:SPELL_CAST_START(args)
@@ -200,7 +272,7 @@ function mod:SPELL_CAST_START(args)
 		warnBloodRage:Show()
 		specWarnBloodRage:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\gather.mp3")--快集合
-		timerBloodRage:Start()
+--		timerBloodRage:Start()
 		timerDisplacedEnergyCD:Start(3.5)
 	elseif args.spellId == 142842 then
 		breathCast = breathCast + 1
@@ -251,6 +323,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 			local elapsed, total = timerBloodRageCD:GetTime()
 			timerBloodRageCD:Update(elapsed+2.5, total)
 		end
+	elseif args.spellId == 142879 then
+		timerBloodRage:Start()
 	end
 end
 

@@ -391,18 +391,21 @@ function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
 		specWarnRavagerMove:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif (sourceGUID == UnitGUID("player")) and (destGUID == UnitGUID("boss1")) and self:AntiSpam(3, 1) then
+		if spellId == 148008 or spellId == 79136 then return end
 		local h = UnitHealth("boss1") / UnitHealthMax("boss1") * 100
 		if h > 40 then
 			if (not UnitDebuff("player", sunder)) and defensiveActive then
 				saynum = saynum + 1
-				if saynum == 1 then
-					SendChatMessage(L.Handslipped1, "SAY")
-				elseif saynum == 3 then
-					SendChatMessage(L.Handslipped2, "SAY")
-				elseif saynum == 7 then
-					SendChatMessage(L.Handslipped3, "SAY")
-				elseif saynum == 15 then
-					SendChatMessage(L.Handslipped4, "SAY")
+				if UnitGUID("target") == destGUID or UnitGUID("focus") == destGUID or UnitGUID("mouseover") == destGUID then
+					if saynum == 1 then
+						SendChatMessage(L.Handslipped1, "SAY")
+					elseif saynum == 3 then
+						SendChatMessage(L.Handslipped2, "SAY")
+					elseif saynum == 7 then
+						SendChatMessage(L.Handslipped3, "SAY")
+					elseif saynum == 15 then
+						SendChatMessage(L.Handslipped4, "SAY")
+					end
 				end
 			end
 		end

@@ -1,6 +1,7 @@
 ﻿local mod	= DBM:NewMod(856, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
+local sndTL		= mod:NewSound(nil, "SoundTL", false)
 
 mod:SetRevision(("$Revision: 10415 $"):sub(12, -3))
 mod:SetCreatureID(71859, 71858)--haromm, Kardris
@@ -197,7 +198,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143990 and mod.Options.SoundEle then
 		timerFoulGeyserCD:Start()
 		specWarnFoulGeyser:Show()
-		countdownFoulGeyser:Start()
+--		countdownFoulGeyser:Start()
 	elseif args.spellId == 144070 and mod.Options.SoundEnh then
 		warnAshenWall:Show()
 		timerAshenWallCD:Start()
@@ -292,6 +293,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellIronPrisonFades:Schedule(56, playerName, 4)
 			yellIronPrisonFades:Schedule(55, playerName, 5)
 			sndWOP:Schedule(55, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3") --快開自保
+		end
+		if self:AntiSpam(5, 1) then
+			sndTL:Schedule(50, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tentl.mp3") --10秒後鐵牢
 		end
 	elseif args.spellId == 144215 and mod.Options.SoundEnh then
 		local amount = args.amount or 1

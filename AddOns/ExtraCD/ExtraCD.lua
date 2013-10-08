@@ -735,7 +735,7 @@ end
 local atApplied
 function mod:COMBAT_LOG_EVENT_UNFILTERED(event, ...)
 	local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceFlags2, destGUID, destName, destFlags, destFlags2, spellId, spellName = select (1, ...)
-	if sourceGUID == UnitGUID("player") or (destGUID == UnitGUID("player") and CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_NEUTRAL_UNITS)) then
+	if sourceGUID == UnitGUID("player") or (destGUID == UnitGUID("player") and hideCaster) then
 		--print(sourceFlags, sourceFlags2, sourceGUID, sourceName,destName,destFlags,event,spellName,spellId)
 		--self:log(spellName .. spellId)
 		--for mages' spell Alter Time

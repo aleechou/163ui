@@ -11,6 +11,7 @@ local NS = CreateFrame( "Frame" );
 _NPCScan.Config.Search = NS;
 
 NS.AddFoundCheckbox = CreateFrame( "CheckButton", "_NPCScanSearchAchievementAddFoundCheckbox", NS, "InterfaceOptionsCheckButtonTemplate" );
+NS.BlockFlightScanCheckbox = CreateFrame( "CheckButton", "_NPCScannerBlockFlightScanCheckbox", NS, "InterfaceOptionsCheckButtonTemplate" );
 
 NS.TableContainer = CreateFrame( "Frame", nil, NS );
 
@@ -40,7 +41,19 @@ function NS.AddFoundCheckbox.setFunc ( Enable )
 	end
 end
 
+--FlightSupress
+function NS.BlockFlightScanCheckbox.setFunc ( Enable )
+	if ( _NPCScan.OptionsCharacter.FlightSupress) then
+		_NPCScan.OptionsCharacter.FlightSupress = false
+				NS.BlockFlightScanCheckbox:SetChecked( false );
+	else
+		_NPCScan.OptionsCharacter.FlightSupress = true
 
+		NS.BlockFlightScanCheckbox:SetChecked( true );
+		
+
+	end
+end
 
 
 --- Converts a localized world name into a WorldID.
@@ -99,10 +112,12 @@ function NS:TabOnEnter ()
 		end
 		GameTooltip:AddLine( Description, nil, nil, nil, true );
 
-		if ( not _NPCScan.Options.Achievements[ self.AchievementID ] ) then
+		if ( not _NPCScan.OptionsCharacter.Achievements[ self.AchievementID ] ) then
 			local Color = RED_FONT_COLOR;
 			GameTooltip:AddLine( L.SEARCH_ACHIEVEMENT_DISABLED, Color.r, Color.g, Color.b );
 		end
+	elseif ( self.AchievementID == "BEASTS" ) then
+		GameTooltip:SetText( L.SEARCH_TAMEBEAST_DECS, nil, nil, nil, nil, true );
 	else
 		GameTooltip:SetText( L.SEARCH_NPCS_DESC, nil, nil, nil, nil, true );
 	end
@@ -134,8 +149,8 @@ local Tabs = {}; -- [ "NPC" or AchievementID ] = Tab;
 function NS.NPCValidate ()
 	local NpcID, Name, WorldID = NS.NPCNpcID:GetNumber(), NS.NPCName:GetText(), GetWorldID( NS.NPCWorld:GetText() );
 
-	local OldName = _NPCScan.OptionsCharacter.NPCs[ NpcID ];
-	local OldWorldID = _NPCScan.OptionsCharacter.NPCWorldIDs[ NpcID ];
+	local OldName = _NPCScan.Options.NPCs[ NpcID ];
+	local OldWorldID = _NPCScan.Options.NPCWorldIDs[ NpcID ];
 	local CanAdd = NpcID and Name ~= ""
 		and NpcID >= 1 and NpcID <= _NPCScan.NpcIDMax
 		and ( Name ~= OldName or WorldID ~= OldWorldID );
@@ -186,8 +201,8 @@ end
 function NS:NPCOnSelect ( NpcID )
 	if ( NpcID ~= nil ) then
 		NS.NPCNpcID:SetNumber( NpcID );
-		NS.NPCName:SetText( _NPCScan.OptionsCharacter.NPCs[ NpcID ] );
-		NS.NPCWorld:SetText( GetWorldIDName( _NPCScan.OptionsCharacter.NPCWorldIDs[ NpcID ] ) or "" );
+		NS.NPCName:SetText( _NPCScan.Options.NPCs[ NpcID ] );
+		NS.NPCWorld:SetText( GetWorldIDName( _NPCScan.Options.NPCWorldIDs[ NpcID ] ) or "" );
 	end
 end
 --- Builds a dropdown of continent names.
@@ -235,10 +250,11 @@ end
 --- Fills the search table with custom NPCs.
 function NS:NPCUpdate ()
 	NS.NPCValidate();
-	local WorldIDs = _NPCScan.OptionsCharacter.NPCWorldIDs;
+	local WorldIDs = _NPCScan.Options.NPCWorldIDs;
 	local Overlay = IsAddOnLoaded( "_NPCScan.Overlay" ) and _NPCScan.Overlay;
-	for NpcID, Name in pairs( _NPCScan.OptionsCharacter.NPCs ) do
-		local Map = Overlay and Overlay.GetNPCMapID( NpcID );
+	for NpcID, Name in pairs( _NPCScan.Options.NPCs ) do
+		--local Map = Overlay and Overlay.GetNPCMapID( NpcID );
+		local Map =_NPCScan.RareMobData.NPCMapIDs[ NpcID] ;
 		local Row = NS.Table:AddRow( NpcID,
 			_NPCScan.TestID( NpcID ) and [[|TInterface\RaidFrame\ReadyCheck-NotReady:0|t]] or "",
 			Name, NpcID, GetWorldIDName( WorldIDs[ NpcID ] ) or "",
@@ -249,18 +265,61 @@ function NS:NPCUpdate ()
 		end
 	end
 end
---- Customizes the table when the NPCs tab is selected.
-function NS:NPCActivate ()
-	if ( IsAddOnLoaded( "_NPCScan.Overlay" ) ) then
-		NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_WORLD, L.SEARCH_MAP );
-	else
-		NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_WORLD );
+
+function NS:RareNPCUpdate ()
+	NS.NPCValidate();
+	local WorldIDs = _NPCScan.RareMobData.NPCWorldIDs;
+	for NpcID, Name in pairs( _NPCScan.RareMobData.NPCs ) do
+		local Map =_NPCScan.RareMobData.NPCMapIDs[ NpcID] ;
+		local Row = NS.Table:AddRow( NpcID,
+			_NPCScan.TestID( NpcID ) and [[|TInterface\RaidFrame\ReadyCheck-NotReady:0|t]] or "",
+			Name, NpcID, GetWorldIDName( WorldIDs[ NpcID ] ) or "",
+			Map and ( GetMapNameByID( Map ) or Map ) or "" );
+
+		if ( not _NPCScan.NPCIsActive( NpcID ) ) then
+			Row:SetAlpha( NS.InactiveAlpha );
+		end
 	end
+end
+
+function NS:TameableNPCUpdate ()
+--_NPCScan.TamableIDs
+	NS.NPCValidate();
+	local WorldIDs = _NPCScan.RareMobData.NPCWorldIDs;
+	for NpcID, Name in pairs( _NPCScan.TamableNames) do
+		local Map =  _NPCScan.TamableIDs[NpcID];
+		if type(Map) == "boolean" then Map = false end
+		local Row = NS.Table:AddRow( NpcID,
+			_NPCScan.TestID( NpcID ) and [[|TInterface\RaidFrame\ReadyCheck-NotReady:0|t]] or "",
+			Name, NpcID, GetWorldIDName( WorldIDs[ NpcID ] ) or "",
+			Map and ( GetMapNameByID( Map ) or Map ) or "" );
+
+		if ( not _NPCScan.NPCIsActive( NpcID ) ) then
+			Row:SetAlpha( NS.InactiveAlpha );
+		end
+	end
+end
+
+--- Customizes the table when the NPCs tab is selected.
+function NS:CustomNPCActivate ()
+		NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_WORLD,  L.SEARCH_MAP );
 	NS.Table:SetSortHandlers( true, true, true, true, true );
 	NS.Table:SetSortColumn( 2 ); -- Default by name
 
 	NS.NPCClear();
 	NS.NPCControls:Show();
+	NS.TableContainer:SetPoint( "BOTTOM", NS.NPCControls, "TOP", 0, 4 );
+	NS.Table.OnSelect = NS.NPCOnSelect;
+end
+
+--- Customizes the table when the NPCs tab is selected.
+function NS:DefultNPCActivate ()
+	NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_WORLD, L.SEARCH_MAP );
+	NS.Table:SetSortHandlers( true, true, true, true, true );
+	NS.Table:SetSortColumn( 2 ); -- Default by name
+
+	NS.NPCClear();
+	--NS.NPCControls:Show();
 	NS.TableContainer:SetPoint( "BOTTOM", NS.NPCControls, "TOP", 0, 4 );
 	NS.Table.OnSelect = NS.NPCOnSelect;
 end
@@ -298,9 +357,10 @@ function NS:AchievementUpdate ()
 	local Achievement = _NPCScan.Achievements[ self.AchievementID ];
 	local Overlay = IsAddOnLoaded( "_NPCScan.Overlay" ) and _NPCScan.Overlay;
 	for CriteriaID, NpcID in pairs( Achievement.Criteria ) do
+	if NpcID > 1 then
 		local Name, _, Completed = GetAchievementCriteriaInfoByID( self.AchievementID, CriteriaID );
-
-		local Map = Overlay and Overlay.GetNPCMapID( NpcID );
+		local Map = _NPCScan.RareMobData.NPCMapIDs[ NpcID]
+		--local Map = Overlay and Overlay.GetNPCMapID( NpcID );
 		local Row = NS.Table:AddRow( NpcID,
 			_NPCScan.TestID( NpcID ) and [[|TInterface\RaidFrame\ReadyCheck-NotReady:0|t]] or "",
 			Name, NpcID,
@@ -311,18 +371,16 @@ function NS:AchievementUpdate ()
 			Row:SetAlpha( NS.InactiveAlpha );
 		end
 	end
+	end
 end
 --- Customizes the table when an achievement tab is selected.
 function NS:AchievementActivate ()
-	if ( IsAddOnLoaded( "_NPCScan.Overlay" ) ) then
-		NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_COMPLETED, L.SEARCH_MAP );
-	else
-		NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_COMPLETED );
-	end
+
+	NS.Table:SetHeader( L.SEARCH_CACHED, L.SEARCH_NAME, L.SEARCH_ID, L.SEARCH_COMPLETED, L.SEARCH_MAP );
 	NS.Table:SetSortHandlers( true, true, true, true, true );
 	NS.Table:SetSortColumn( 2 ); -- Default by name
 
-	NS.Table.Header:SetAlpha( _NPCScan.Options.Achievements[ self.AchievementID ] and 1.0 or NS.InactiveAlpha );
+	NS.Table.Header:SetAlpha( _NPCScan.OptionsCharacter.Achievements[ self.AchievementID ] and 1.0 or NS.InactiveAlpha );
 end
 --- Undoes customization to the table when leaving an achievement tab.
 function NS:AchievementDeactivate ()
@@ -441,6 +499,15 @@ local Label = _G[ NS.AddFoundCheckbox:GetName().."Text" ];
 Label:SetText( L.SEARCH_ACHIEVEMENTADDFOUND );
 NS.AddFoundCheckbox:SetHitRectInsets( 4, 4 - Label:GetStringWidth(), 4, 4 );
 
+-- Flight alert supression checkboxes
+NS.BlockFlightScanCheckbox:SetPoint( "BOTTOMLEFT", NS.AddFoundCheckbox, "TOPLEFT", 0, 0 );
+NS.BlockFlightScanCheckbox.tooltipText = L.BLOCKFLIGHTSCAN_DESC;
+local Label = _G[ NS.BlockFlightScanCheckbox:GetName().."Text" ];
+Label:SetText( L.BLOCKFLIGHTSCAN );
+NS.BlockFlightScanCheckbox:SetHitRectInsets( 4, 4 - Label:GetStringWidth(), 4, 4 );
+
+
+
 
 -- Controls for NPCs table
 NS.NPCControls:Hide();
@@ -531,8 +598,10 @@ NS.TableContainer:SetPoint( "BOTTOM", NS.NPCControls );
 NS.TableContainer:SetBackdrop( { bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]]; } );
 
 -- Add all tabs
+local FirstTab;
 local LastTab;
 local TabCount = 0;
+local TabRow = 0;
 local function AddTab ( ID, Update, Activate, Deactivate )
 	TabCount = TabCount + 1;
 	local Tab = CreateFrame( "Button", "_NPCScanSearchTab"..TabCount, NS.TableContainer, "TabButtonTemplate" );
@@ -553,10 +622,28 @@ local function AddTab ( ID, Update, Activate, Deactivate )
 		Checkbox:SetPoint( "BOTTOMLEFT", 8, 0 );
 		Checkbox:SetHitRectInsets( 4, 4, 4, 4 );
 		Checkbox:SetScript( "OnClick", NS.TabCheckOnClick );
-		Checkbox:SetScript( "OnEnter", NS.TabCheckOnEnter );
+		--Checkbox:SetScript( "OnEnter", NS.TabCheckOnEnter );
 		Checkbox:SetScript( "OnLeave", GameTooltip_Hide );
 		NS.AchievementSetEnabled( ID, false ); -- Initialize the custom "unchecked" texture
 		PanelTemplates_TabResize( Tab, Checkbox:GetWidth() - 12 );
+	elseif ( ID  == "BEASTS") then
+		Tab:SetText(L.TAMEDBEASTS );
+		PanelTemplates_TabResize( Tab, -8 );
+	elseif ( ID  == "RARENPC") then
+		Tab:SetText("Rare Mobs" );
+		PanelTemplates_TabResize( Tab, -8 );
+		--Tab:GetFontString():SetPoint( "RIGHT", -12, 0 );
+		--local Checkbox = CreateFrame( "CheckButton", nil, Tab, "UICheckButtonTemplate" );
+		--Tab.AchievementID, Tab.Checkbox = ID, Checkbox;
+		--Checkbox:SetSize( 20, 20 );
+		--Checkbox:SetPoint( "BOTTOMLEFT", 8, 0 );
+		--Checkbox:SetHitRectInsets( 4, 4, 4, 4 );
+		--Checkbox:SetScript( "OnClick", NS.TabCheckOnClick2 );
+		--Checkbox:SetScript( "OnEnter", NS.TabCheckOnEnter );
+		--Checkbox:SetScript( "OnLeave", GameTooltip_Hide );
+		--NS.AchievementSetEnabled( ID, false ); -- Initialize the custom "unchecked" texture
+		--PanelTemplates_TabResize( Tab, Checkbox:GetWidth() - 12 );
+	
 	else
 		Tab:SetText( L.SEARCH_NPCS );
 		PanelTemplates_TabResize( Tab, -8 );
@@ -567,16 +654,35 @@ local function AddTab ( ID, Update, Activate, Deactivate )
 
 	PanelTemplates_DeselectTab( Tab );
 	if ( LastTab ) then
+		if (TabCount > 5 and TabRow == 0) then 
+		Tab:SetPoint( "BOTTOMLEFT", FirstTab, "TOPLEFT", 0,-10 );
+		NS.TableContainer:SetPoint( "TOP", NS.AddFoundCheckbox, "BOTTOM", 0, -60 );
+		TabRow = 1; 
+		else
 		Tab:SetPoint( "LEFT", LastTab, "RIGHT", -4, 0 );
+		end
 	else
 		Tab:SetPoint( "BOTTOMLEFT", NS.TableContainer, "TOPLEFT" );
 	end
+	if (TabCount == 1) then FirstTab = Tab end
 	LastTab = Tab;
 end
-AddTab( "NPC", NS.NPCUpdate, NS.NPCActivate, NS.NPCDeactivate );
+AddTab( "NPC", NS.NPCUpdate, NS.CustomNPCActivate, NS.NPCDeactivate );
+AddTab( "RARENPC", NS.RareNPCUpdate, NS.DefultNPCActivate, NS.NPCDeactivate );
+AddTab( "BEASTS", NS.TameableNPCUpdate, NS.DefultNPCActivate, NS.NPCDeactivate );
+
 for AchievementID in pairs( _NPCScan.Achievements ) do
 	AddTab( AchievementID, NS.AchievementUpdate, NS.AchievementActivate, NS.AchievementDeactivate );
 end
 
 
 InterfaceOptions_AddCategory( NS );
+
+
+function NS:UpdateTabNames()
+	for AchievementID in pairs(  _NPCScan.Achievements  ) do
+		Tabs[ AchievementID ]:SetText( ( select( 2, GetAchievementInfo( AchievementID ) ) ) );
+		Tabs[ AchievementID ]:GetFontString():SetPoint( "RIGHT", -12, 0 );
+		PanelTemplates_TabResize( Tabs[ AchievementID ], 20 - 12 );
+	end
+end
