@@ -1,9 +1,9 @@
 ## Interface: 50400
 ## Author: d07.RiV (Iroared)
-## Version: 1.33
+## Version: 1.35
 ## SavedVariables: ReforgeLiteDB
 ## Dependencies: 
-## X-Curse-Packaged-Version: v1.33
+## X-Curse-Packaged-Version: v1.35
 ## X-Curse-Project-Name: ReforgeLite
 ## X-Curse-Project-ID: reforgelite
 ## X-Curse-Repository-ID: wow/reforgelite/mainline

@@ -817,10 +817,10 @@ elseif gameLocale == "zhCN" then
   L["Heroic dungeons (+2)"] = "英雄副本 (+2)"
   L["Hit"] = "命中"
   L["HitLong"] = "命中等级"
-  L["Import"] = "导入" -- Needs review
+  L["Import"] = "导入"
   L["Import Pawn"] = "导入Pawn"
   L["Inactive window color"] = "未激活窗口的颜色"
---   L["Item level cap"] = ""
+  L["Item level cap"] = "物品等级上限"
   L["Manual"] = "手动"
   L["Mastery"] = "精通"
   L["MasteryLong"] = "精通等级"
@@ -841,7 +841,7 @@ elseif gameLocale == "zhCN" then
   L["Please press Compute button to update the reforge."] = "点<计算>按钮更新数据"
   L["Presets"] = "预设"
   L["PvP (+0)"] = "PvP (+0)"
---   L["PvP (496)"] = ""
+  L["PvP (496)"] = "PvP (496)"
   L["Raids (+3)"] = "团队 (+3)"
   L["ReforgeLite failed to compute your optimal reforge. Try increasing the speed by moving the speed slider.\\nError message: %s"] = "ReforgeLite无法计算你的最优重铸.请尝试调整速度滑块.\\n错误信息: %s"
   L["Reforging window must be open"] = "必须打开重铸窗口"
@@ -867,7 +867,7 @@ elseif gameLocale == "zhCN" then
   L["Tanking model"] = "坦克模式"
   L["Target level"] = "目标等级"
   L["Titan's Grip"] = "泰坦之握"
-  L["to"] = "直至" -- Needs review
+  L["to"] = "直至"
   L["Total"] = "总计"
   L["Weight after cap"] = "超过上限后权重"
 

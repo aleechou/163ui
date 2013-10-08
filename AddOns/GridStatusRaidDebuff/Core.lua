@@ -507,6 +507,7 @@ function GridStatusRaidDebuff:LoadZoneDebuff(zone, name)
 	local description, menuName, icon, data, k
 	local args = self.options.args[zone].args
 
+	-- Code by Mikk
 	k = debuff_list[zone][name]
 	local order = k.order
 	-- Make it sorted by name. Values become 9999.0 -- 9999.99999999
@@ -514,6 +515,7 @@ function GridStatusRaidDebuff:LoadZoneDebuff(zone, name)
 		local a,b,c = string.byte(name, 1, 3)
 		order=9999 + ((a or 0)*65536 + (b or 0)*256 + (c or 0)) / 16777216
 	end
+	-- End of code by Mikk
 
 	if not args[name] then
 		description = L["Enable %s"]:format(name)
@@ -678,12 +680,9 @@ function GridStatusRaidDebuff:LoadZoneDebuff(zone, name)
 					desc = "发送此BOSS技能链接到聊天窗",
 					order = 10,
 					func = function()
-                        local chatWindow = GetCVar("chatStyle")=="im" and SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME
+                        local chatWindow = ChatEdit_GetActiveWindow()
                         if chatWindow then
-                            chatWindow.editBox:Insert(GetSpellLink(k.debuffId))
-                            chatWindow.editBox:Show();
-                            chatWindow.editBox:HighlightText()
-                            chatWindow.editBox:SetFocus()
+                            chatWindow:Insert(GetSpellLink(k.debuffId))
                         end
 					end,
 				},

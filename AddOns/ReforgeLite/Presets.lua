@@ -85,8 +85,12 @@ ReforgeLite.capPresets = {
     value = 3,
     name = L["Spell hit cap"],
     getter = function ()
-      return ReforgeLite:RatingPerPoint (ReforgeLite.STATS.SPELLHIT) * (ReforgeLite:GetNeededSpellHit () - ReforgeLite:GetSpellHitBonus ())
-        + math.floor(GetCombatRating(CR_EXPERTISE) * ReforgeLite:GetConversion().e2h)
+      local conv = ReforgeLite:GetConversion()
+      local result = ReforgeLite:RatingPerPoint (ReforgeLite.STATS.SPELLHIT) * (ReforgeLite:GetNeededSpellHit () - ReforgeLite:GetSpellHitBonus ())
+      if conv[ReforgeLite.STATS.EXP] and conv[ReforgeLite.STATS.EXP][ReforgeLite.STATS.HIT] then
+        result = result + math.floor(GetCombatRating(CR_EXPERTISE) * conv[ReforgeLite.STATS.EXP][ReforgeLite.STATS.HIT])
+      end
+      return result
     end
   },
   {
@@ -717,7 +721,7 @@ function ReforgeLite:InitPresets ()
     for k, v in pairs (self.pdb.customMethodPresets) do
       info.text = k
       info.func = function ()
-        self.db.customMethodPresets[k] = nil
+        self.pdb.customMethodPresets[k] = nil
         if next (self.pdb.customMethodPresets) == nil then
           self.methodPresetsButton:Disable()
           self.deleteMethodPresetButton:Disable ()

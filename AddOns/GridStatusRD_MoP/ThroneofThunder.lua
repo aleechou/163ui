@@ -177,4 +177,6 @@ GridStatusRaidDebuff:DebuffId(zoneid, 135001, 172, 2, 2) --Maim
 
 --Ra-den (Heroic only)
 GridStatusRaidDebuff:BossNameId(zoneid, 180, "Ra-den")
+GridStatusRaidDebuff:DebuffId(zoneid, 138308, 181, 6, 6) --Unstable Vita
+GridStatusRaidDebuff:DebuffId(zoneid, 138372, 182, 5, 5) --Vita Sensitivity
 

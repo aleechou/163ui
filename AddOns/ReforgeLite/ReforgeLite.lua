@@ -1,4 +1,4 @@
--- ReforgeLite v1.33 by d07.RiV (Iroared)
+-- ReforgeLite v1.35 by d07.RiV (Iroared)
 -- All rights reserved
 
 local function DeepCopy (t, cache)
@@ -355,9 +355,9 @@ ReforgeLite.itemStats = {
     long = L["HitLong"],
     getter = function()
       local result = GetCombatRating(class == "HUNTER" and CR_HIT_RANGED or CR_HIT_SPELL)
-      local e2h = ReforgeLite:GetConversion().e2h
-      if e2h > 0 then
-        result = result + math.floor(GetCombatRating(CR_EXPERTISE) * e2h)
+      local conv = ReforgeLite:GetConversion()
+      if conv[ReforgeLite.STATS.EXP] and conv[ReforgeLite.STATS.EXP][ReforgeLite.STATS.HIT] then
+        result = result + math.floor(GetCombatRating(CR_EXPERTISE) * conv[ReforgeLite.STATS.EXP][ReforgeLite.STATS.HIT])
       end
       return result
     end,
@@ -401,7 +401,6 @@ ReforgeLite.reforgeTable = {
 }
 
 local REFORGE_COEFF = 0.4
-ReforgeLite.spiritBonus = (select (2, UnitRace ("player")) == "Human" and 1.03 or 1)
 
 function ReforgeLite:UpdateWindowSize ()
   self.db.windowWidth = self:GetWidth ()
@@ -1484,10 +1483,15 @@ function ReforgeLite:IsReforgeMatching (item, reforge, override)
   end
 
   local conv = self:GetConversion()
-  deltas[self.STATS.SPIRIT] = math.floor (deltas[self.STATS.SPIRIT] * self.spiritBonus + 0.5)
-  deltas[self.STATS.HIT] = deltas[self.STATS.HIT] + math.floor(deltas[self.STATS.SPIRIT] * conv.s2h + 0.5) +
-                                                    math.floor(deltas[self.STATS.EXP] * conv.e2h + 0.5)
-  deltas[self.STATS.EXP] = deltas[self.STATS.EXP] + math.floor(deltas[self.STATS.SPIRIT] * conv.s2e + 0.5)
+  local mult = self:GetStatMultipliers()
+  for i = 1, #self.itemStats do
+    deltas[i] = math.floor(deltas[i] * (mult[i] or 1) + 0.5)
+  end
+  for src, c in pairs(conv) do
+    for dst, factor in pairs(c) do
+      deltas[dst] = deltas[dst] + math.floor(deltas[src] * factor + 0.5)
+    end
+  end
 
   for i = 1, #self.itemStats do
     if self:GetStatScore (i, self.pdb.method.stats[i]) ~= self:GetStatScore (i, self.pdb.method.stats[i] - deltas[i]) then
