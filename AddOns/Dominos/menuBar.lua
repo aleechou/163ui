@@ -19,8 +19,9 @@ local MICRO_BUTTONS = {
 	'LFDMicroButton',
 	'EJMicroButton',
 	'CompanionsMicroButton',
-	'StoreMicroButton',	
-	'MainMenuMicroButton'
+	'MainMenuMicroButton',
+	'HelpMicroButton'
+	--'StoreMicroButton'
 }
 
 local MICRO_BUTTON_NAMES = {
