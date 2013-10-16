@@ -287,6 +287,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
+	LTZD					= "長效特別警告：你中了$spell:145987",
 	RangeFrame	= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(10, 145987),
 	Filterarea				= "其他：使用更嚴格的方式判定所在區域"
 })
@@ -305,12 +306,15 @@ L:SetWarningLocalization({
 	specWarnDevotion		= "%s 開啓了虔誠光環"
 })
 
-L:SetTimerLocalization({
-})
-
 L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
 	SoundPX					= "倒计时：$spell:143343",
+	LTRange					= "長效特別警告：P1$spell:143343層數/P2首領距離",
+	optDD					= "毒血驅散鏈",
+	DD1						= "驅散1",
+	DD2						= "驅散2",
+	DD3						= "驅散3",
+	nodd					= "我不驅散",
 	dr						= "減傷提示：$spell:143343 (此順序每次轉階段都會重置)",
 	dr1						= "$spell:143343 1",
 	dr2						= "$spell:143343 2",
@@ -362,6 +366,7 @@ L:SetOptionLocalization({
 	SoundWOP				= "語音警告：重要技能",
 	SoundFMD				= "語音警告：$spell:144208前提示伐木機快打",
 	SoundDL					= "語音警告：地雷清理提示",
+	LTFD					= "長效特別警告：顯示$spell:143266和$spell:143828震動圖標提示",
 	SoundCZ					= "語音警告：伐木機$spell:145444AOE預警",
 	InfoFrame				= "資訊框：$journal:8202",
 	optCS					= "傳送帶啟動提示",

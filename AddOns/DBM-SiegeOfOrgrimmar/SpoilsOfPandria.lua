@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(870, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10393 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10625 $"):sub(12, -3))
 mod:SetCreatureID(73720, 71512)
 mod:SetZone()
 
@@ -22,7 +22,8 @@ mod:RegisterEventsInCombat(
 	"SWING_DAMAGE",
 	"SWING_MISSED",
 	"UNIT_DIED",
-	"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_RAID_BOSS_WHISPER",
+	"UPDATE_WORLD_STATES"
 )
 
 local warnSuperNova				= mod:NewCastAnnounce(146815, 4)--Heroic
@@ -72,8 +73,6 @@ local specWarnPathOfBlossoms	= mod:NewSpecialWarningMove(146257)
 --Crate of Pandaren Relics
 local specWarnGustingCraneKick	= mod:NewSpecialWarningSpell(146180, nil, nil, nil, 2)
 
-local timerSuperNova			= mod:NewCastTimer(10, 146815)
-local timerArmageddonCD			= mod:NewCastTimer(270, 145864, (GetSpellInfo(20479)))--145864 will never fly as timer text, it's like bajillion characters long. use 20479 for timertext
 --Massive Crate of Goods
 local timerReturnToStoneCD		= mod:NewNextTimer(12, 145489)
 local timerSetToBlowCD			= mod:NewNextTimer(9.6, 145996)
@@ -97,14 +96,18 @@ local timerGustingCraneKickCD	= mod:NewCDTimer(18, 146180)
 local timerPathOfBlossomsCD		= mod:NewCDTimer(15, 146253)
 
 --local countdownSetToBlow		= mod:NewCountdownFades(29, 145996)
-local countdownArmageddon		= mod:NewCountdown(270, 145864, nil, nil, nil, nil, true)
+local countdownArmageddon		= mod:NewCountdown(270, 145864, nil, nil, 10, nil, true)
+
+local berserkTimer				= mod:NewBerserkTimer(480)
 
 mod:AddBoolOption("RangeFrame")
+mod:AddBoolOption("LTZD", true, "sound")
 mod:AddBoolOption("Filterarea", true, "sound")
 
 local activeBossGUIDS = {}
 local setToBlowTargets = {}
 local bossDamageTarget = {}
+local worldTimer = 0
 
 local function checkTankDistance(guid)
 	local uId, _
@@ -128,7 +131,7 @@ local function warnspecmob(guid)
 	if not checkTankDistance(guid) then return end
 	local cid = mod:GetCIDFromGUID(guid)
 	if cid == 71382 then
-		if mod:IsDps() then
+		if mod:IsDps() or mod:IsTank() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hpkd.mp3") --花瓶快打
 		end
 	elseif cid == 71395 then
@@ -140,7 +143,7 @@ local function warnspecmob(guid)
 	elseif cid == 71385 then
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tdsd.mp3") --投彈手快打
 	elseif cid == 71388 then
-		if mod:IsDps() then
+		if mod:IsDps() or mod:IsTank() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hupd.mp3") --琥珀快打
 		end
 	end
@@ -176,19 +179,16 @@ end
 function mod:OnCombatStart(delay)
 	table.wipe(activeBossGUIDS)
 	table.wipe(setToBlowTargets)
-	if self:IsDifficulty("lfr25") then
-		timerArmageddonCD:Start(297.5-delay)
-		countdownArmageddon:Start(297.5-delay)
-	else
-		timerArmageddonCD:Start(267.5-delay)--May variate by 1 second, my world state stata is showing osmetimes it's 167 and somtimes it's 168 when IEEU fires. may have to just do shitty world state stuff to make it more accurate
-		countdownArmageddon:Start(267.5-delay)
-	end
+	worldTimer = 0
 end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+	if self.Options.LTZD then
+		DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -213,7 +213,7 @@ function mod:SPELL_CAST_START(args)
 		warnMantidSwarm:Show()
 		specWarnMantidSwarm:Show()
 		timerMantidSwarmCD:Start(args.sourceGUID)
-		if mod:IsTank() then
+		if mod:IsDps() or mod:IsTank() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zhcq.mp3") --召喚蟲群
 		end
 	elseif args.spellId == 145816 and checkTankDistance(args.sourceGUID) then
@@ -249,7 +249,6 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 146815 then
 		warnSuperNova:Show()
 		specWarnSuperNova:Show()
-		timerSuperNova:Start()
 	end
 end
 
@@ -298,34 +297,24 @@ function mod:SPELL_AURA_APPLIED(args)
 		setToBlowTargets[#setToBlowTargets + 1] = args.destName
 		self:Unschedule(warnSetToBlowTargets)
 		self:Schedule(0.5, warnSetToBlowTargets)
-		if args:IsPlayer() then
+		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			specWarnSetToBlowYou:Show()
+			DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
 --			countdownSetToBlow:Start()
-			if self:IsDifficulty("heroic10", "heroic25") then	
-				timerSetToBlow:Start(15)
-				specWarnSetToBlow:Schedule(10)
-				sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
-				sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-				sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
-					self:Schedule(16, hideRangeFrame)
-				end
-			else
-				timerSetToBlow:Start()
-				specWarnSetToBlow:Schedule(25)
-				sndWOP:Schedule(25, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
-				sndWOP:Schedule(26, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-				sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(29, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
-					self:Schedule(32, hideRangeFrame)
-				end
+			timerSetToBlow:Start(15)
+			specWarnSetToBlow:Schedule(10)
+			sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+			sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			if self.Options.RangeFrame then
+				DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
+				self:Schedule(16, hideRangeFrame)
+			end
+			if self.Options.LTZD then
+				DBM:ShowLTSpecialWarning(145987, 1, 0, 0, 1, 145987, 15, 15)
 			end
 		end
 	elseif args.spellId == 145692 and checkTankDistance(args.sourceGUID) then
@@ -355,6 +344,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		if self.Options.LTZD then
+			DBM:HideLTSpecialWarning()
+		end
 	elseif args.spellId == 145692 then
 		timerEnrage:Cancel(args.destName)
 	end
@@ -437,26 +429,38 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---[[
-"<270.3 23:27:32> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#Module 1's all prepared for system reset.#Secured Stockpile of Pandaren Spoils###Omegal
-"<270.3 23:27:33> [WORLD_STATE_UI_TIMER_UPDATE] |0#0#true#Defense systems activating in 17 seconds.###Time remaining until the GB-11010 \"Armageddon\"-class defense systems activate.###0#0#0", -- [49218]
-"<270.4 23:27:33> [UPDATE_WORLD_STATES] |0#0#true#Defense systems activating in 286 seconds.###Time remaining until the GB-11010 \"Armageddon\"-class defense systems activate.###0#0#0", -- [49221]
-----------------
-"<283.7 22:31:28> [WORLD_STATE_UI_TIMER_UPDATE] |0#0#false#Defense systems activating in 2 seconds.###Time remaining until the GB-11010 \"Armageddon\"-class defense systems activate.###0#0#0", -- [45259]
-"<283.7 22:31:28> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#Module 1's all prepared for system reset.#Secured Stockpile of Pandaren Spoils###Daltin##0#0##0#31#nil#0#false#false", -- [45267]
-"<284.7 22:31:29> [UPDATE_WORLD_STATES] |0#0#false#Defense systems activating in 271 seconds.###Time remaining until the GB-11010 \"Armageddon\"-class defense systems activate.###0#0#0", -- [45333]
---]]
-function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Module1 or msg:find(L.Module1) then
-		local elapsed, total = timerArmageddonCD:GetTime()
-		local remaining = total - elapsed
+function mod:UPDATE_WORLD_STATES()
+	local text = select(4, GetWorldStateUIInfo(5))
+	local time = tonumber(string.match(text or "", "%d+"))
+	if time > worldTimer then
+		local newTime = time - (time/100) - 1 -- bliz timer litte fast. wtf?
+		berserkTimer:Cancel()
 		countdownArmageddon:Cancel()
-		if self:IsDifficulty("lfr25") then
-			timerArmageddonCD:Start(300+remaining)
-			countdownArmageddon:Start(300+remaining)
-		else
-			timerArmageddonCD:Start(270+remaining)
-			countdownArmageddon:Start(270+remaining)
+		berserkTimer:Start(newTime)
+		countdownArmageddon:Start(newTime)
+	end
+	worldTimer = time
+end
+
+function mod:CHAT_MSG_RAID_BOSS_WHISPER(msg)
+	if msg:find("spell:145996") and self:AntiSpam(3, 4) then
+		specWarnSetToBlowYou:Show()
+		DBM.Flash:Shake(1, 0, 0)
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+--		countdownSetToBlow:Start()
+		timerSetToBlow:Start(15)
+		specWarnSetToBlow:Schedule(10)
+		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+		sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
+			self:Schedule(16, hideRangeFrame)
+		end
+		if self.Options.LTZD then
+			DBM:ShowLTSpecialWarning(145987, 1, 0, 0, 1, 145987, 15, 15)
 		end
 	end
 end

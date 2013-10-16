@@ -45,7 +45,7 @@ function ReforgeLite:GetConversion()
       result[self.STATS.SPIRIT] = {[self.STATS.HIT] = 1}
     end
   elseif class == "MAGE" then
-    result[self.STATS.EXP] = {[self.STATS.HIT] = 1}
+   result[self.STATS.EXP] = {[self.STATS.HIT] = 1}
   elseif class == "WARLOCK" then
     result[self.STATS.EXP] = {[self.STATS.HIT] = 1}
   elseif class == "DRUID" then
@@ -106,7 +106,7 @@ function ReforgeLite:GetStatMultipliers()
     local item = GetInventoryItemLink("player", v.slotId)
     if item then
       local id, iLvl = GetItemInfoUp(item)
-      if id and AmplificationItems[iLvl] then
+      if id and AmplificationItems[id] then
         local factor = 1 + 0.01 * math.floor(GetRandPropPoints(iLvl, 2) / 420 + 0.5)
         result[self.STATS.HASTE] = (result[self.STATS.HASTE] or 1) * factor
         result[self.STATS.MASTERY] = (result[self.STATS.MASTERY] or 1) * factor
@@ -213,7 +213,7 @@ function ReforgeLite:UpdateMethodStats (method)
     end
   end
   for s, f in pairs(mult) do
-    method.stats[s] = math.floor(method.stats[i] * f + 0.5)
+    method.stats[s] = math.floor(method.stats[s] * f + 0.5)
   end
   -- assume we don't have 2 conversions
   for src, c in pairs(conv) do

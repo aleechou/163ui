@@ -2,7 +2,7 @@
 # Title: _|cffCCCC88NPCScan|r.Overlay
 # Notes: Adds mob patrol paths to your map.
 ## Author: Saiket
-## Version: 5.0.0.3
+## Version: 5.4.0.4
 ## X-Date: 2012-10-15
 ## X-Category: Map
 ## X-License: GPLv3
@@ -16,6 +16,7 @@ Locales\Locale-enUS.lua
 Locales\Locale-zhCN.lua
 Locales\Locale-zhTW.lua
 
+_NPCScan.Templates.xml
 _NPCScan.Overlay.lua
 _NPCScan.Overlay.Config.lua
 _NPCScan.Overlay.Modules.lua
@@ -26,7 +27,7 @@ Modules\WorldMapTemplate.lua
 Modules\WorldMap.lua
 Modules\BattlefieldMinimap.lua
 Modules\Minimap.lua
-Modules\AlphaMap3.lua
+#Modules\AlphaMap3.lua
 Modules\Carbonite.lua
 
 ## Title: |cff880303[网易有爱]|r _NPCScan.Overlay

@@ -99,17 +99,19 @@ local function register(e)
 	return e
 end
 local linemaker
+local myweapon = false
+local sxnum = 0
 
 mod:AddBoolOption("InfoFrame", true, "sound")
+mod:AddBoolOption("LTFD", true, "sound")
 mod:AddDropdownOption("optCS", {"CSA", "CSB", "CSALL", "none"}, "none", "sound")
 
 for i = 1, 15 do
 	mod:AddDropdownOption("optCSKILL"..i, {"killdl", "killfd", "killjg", "killdc", "killnone"}, "killnone", "sound")
 end
 
-
 local function showspellinfo(weaponnum)
-	if mod.Options.InfoFrame then
+	if mod.Options.InfoFrame then		
 		DBM.InfoFrame:SetHeader(zp.."("..weaponnum..")")
 		if weaponnum == 1 or weaponnum == 2 or weaponnum == 4 or weaponnum == 10 or weaponnum == 13 then
 			DBM.InfoFrame:Show(1, "other", fd.." / "..jg, dl)
@@ -182,6 +184,7 @@ function mod:OnCombatStart(delay)
 --	laserCount = 0
 	shockwaveOvercharged = false
 	weapon = 0
+	myweapon = false
 	timerAutomatedShredderCD:Start(35-delay)
 end
 
@@ -296,7 +299,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dczd.mp3") --電磁震蕩
 	elseif args.spellId == 143856 and args:IsPlayer() and self:AntiSpam(2, 2) then  --BHFIX
 		specWarnSuperheated:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開		
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -326,17 +329,27 @@ end
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:143266") then--Target scanning works on this one, but is about 1 second slower than emote. emote is .2 seconds after SPELL_CAST_START, but target scanning can't grab right target until like 1.0 or 1.2 sec into cast
 		specWarnLaunchSawblade:Show()
+		DBM.Flash:Shake(1, 0, 0)
 		yellLaunchSawblade:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+		if mod.Options.LTFD then
+			DBM:ShowLTSpecialWarning(143266, 1, 0, 0, 1, 143266, 2)
+		end
 	--"<55.7 18:31:39> [RAID_BOSS_WHISPER] RAID_BOSS_WHISPER#|TInterface\\Icons\\Ability_Siege_Engineer_Detonate.blp:20|tA Crawler Mine has targeted you!#Crawler Mine#0#true", -- [4345]
 	elseif msg:find("Ability_Siege_Engineer_Detonate") then--Doesn't show in combat log at all (what else is new)
-		specWarnCrawlerMineFixate:Show()
-		yellCrawlerMineFixate:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dlsd.mp3") --地雷鎖定
+		if self:AntiSpam(5, 4) then
+			specWarnCrawlerMineFixate:Show()
+			yellCrawlerMineFixate:Yell()
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dlsd.mp3") --地雷鎖定
+		end
 	elseif msg:find("Ability_Siege_Engineer_Superheated") then
 		specWarnLaserFixate:Show()
+		DBM.Flash:Shake(1, 0, 0)
 		yellLaserFixate:Yell()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\laserrun.mp3") --快跑,激光點你
+		if mod.Options.LTFD then
+			DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
+		end
 	end
 end
 
@@ -366,8 +379,11 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddc.mp3") --打掉電磁鐵
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddc.mp3")
 			end
+			myweapon = true
+			sxnum = 0
+			self:Schedule(35, function() myweapon = false end)
 		end
-		showspellinfo(weapon)
+		showspellinfo(weapon)			
 	elseif msg == L.newShredder or msg:find(L.newShredder) then
 		warnAutomatedShredder:Show()
 		specWarnAutomatedShredder:Show()

@@ -8,10 +8,15 @@ local Overlay = select( 2, ... );
 local L = Overlay.L;
 local NS = Overlay.Modules.WorldMapTemplate.Embed( CreateFrame( "Frame", nil, WorldMapDetailFrame ) );
 
+local ShowKey = true;
+
 NS.KeyMinScale = 0.5; -- Minimum effective scale to render the key at
-NS.KeyMaxSize = 1 / 3; -- If the key takes up more than this fraction of the canvas, hide it
+NS.KeyMaxSize = 1; -- If the key takes up more than this fraction of the canvas, hide it
 
-
+function NS:OnHide ( ... )
+	--_NPCScanOverlayKeyParent:Hide();
+	return self.super.OnHide( self, ... );
+end
 
 
 do
@@ -29,26 +34,31 @@ do
 	--- Callback for ApplyZone to add an NPC's name to the key.
 	local function KeyAddLine ( self, PathData, FoundX, FoundY, R, G, B, NpcID )
 		Count = Count + 1;
-		local Line = self[ Count ];
-		if ( not Line ) then
-			Line = self.Body:CreateFontString( nil, "OVERLAY", self.Font:GetName() );
+		local Line = self[Count];
+		if not Line then
+			Line = CreateFrame("Frame" ,"ScannerOverlayMobKey"..Count, self.Body)
+			Line.Text = Line:CreateFontString( nil, "OVERLAY", self.Font:GetName() );
+			Line.Text:SetAllPoints()
 			Line:SetPoint( "RIGHT", -5, 0 );
 			if ( Count == 1 ) then
 				Line:SetPoint( "TOPLEFT", 5, -5 );
 			else
 				Line:SetPoint( "TOPLEFT", self[ Count - 1 ], "BOTTOMLEFT" );
 			end
-			self[ Count ] = Line;
+			self[Count] = Line;
 		else
 			Line:Show();
 		end
 
-		Line:SetText( L.MODULE_WORLDMAP_KEY_FORMAT:format( NS.AchievementNPCNames[ NpcID ] or L.NPCs[ NpcID ] or NpcID ) );
-		Line:SetTextColor( R, G, B );
-
-		Width = max( Width, Line:GetStringWidth() );
-		Height = Height + Line:GetStringHeight();
+		Line.Text:SetText(L.MODULE_WORLDMAP_KEY_FORMAT:format( NS.AchievementNPCNames[ NpcID ] or L.NPCs[ NpcID ] or NpcID ) );
+		Line.Text:SetTextColor( R, G, B );
+		Line:SetScript( "OnEnter", function() Overlay.FlashRoute(NpcID) end );
+		Line:SetScript( "OnLeave", function() Overlay.FlashStop(NpcID) end );
+		Line:SetHeight(Line.Text:GetStringHeight())
+		Width = max( Width, Line.Text:GetStringWidth() );
+		Height = Height + Line.Text:GetStringHeight();
 	end
+
 	--- Fills the key in when repainting a zone.
 	-- @param Map  AreaID to add names for.
 	function NS:KeyPaint ( Map )
@@ -126,6 +136,7 @@ function NS:ToggleOnClick ()
 	PlaySound( Enable and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff" );
 	Overlay.Modules[ Enable and "Enable" or "Disable" ]( "WorldMap" );
 end
+
 --- Adjusts the toggle button's display when changing state.
 function NS:ToggleSetChecked ()
 	local Enable = self:GetChecked();
@@ -142,7 +153,47 @@ function NS:ToggleSetChecked ()
 	self.Text:SetTextColor( Color.r, Color.g, Color.b );
 end
 
+function NS:KeyToggleSetChecked ()
+	local Enable = self:GetChecked();
+	self.Normal:SetDesaturated( not Enable );
+	self.Border:SetDesaturated( not Enable );
+	local Color;
+	if ( Enable ) then
+		self.Disabled:Hide();
+		Color = NORMAL_FONT_COLOR;
+	else
+		self.Disabled:Show();
+		Color = GRAY_FONT_COLOR;
+	end
+	self.Text:SetTextColor( Color.r, Color.g, Color.b );
+end
 
+--Toggles the display of id key frame NEW
+function NS:KeyToggleOnClick ()
+	local Enable = self:GetChecked();
+	PlaySound( Enable and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff" );
+
+	if ShowKey then
+		_NPCScanOverlayKeyParent:Hide()
+		ShowKey = false;
+	else
+		_NPCScanOverlayKeyParent:Show()
+		ShowKey = true;
+	end
+
+		local Enable = self:GetChecked();
+	self.Normal:SetDesaturated( not Enable );
+	self.Border:SetDesaturated( not Enable );
+	local Color;
+	if ( Enable ) then
+		self.Disabled:Hide();
+		Color = NORMAL_FONT_COLOR;
+	else
+		self.Disabled:Show();
+		Color = GRAY_FONT_COLOR;
+	end
+	self.Text:SetTextColor( Color.r, Color.g, Color.b );
+end
 
 
 --- @return True if Map has a visible path on it.
@@ -164,12 +215,18 @@ function NS:Paint ( Map, ... )
 	if ( MapHasNPCs( Map ) ) then
 		self.KeyPaint( self.KeyParent.Key, Map );
 		self.RangeRingPaint( self.RangeRing, Map );
+		if ShowKey then
+			_NPCScanOverlayKeyParent:Show()
+		else
+			_NPCScanOverlayKeyParent:Hide()
+		end
 	else
 		self.KeyParent.Key:Hide();
 		self.RangeRing:Hide();
 	end
 	return self.super.Paint( self, Map, ... );
 end
+
 
 function NS:OnEnable ( ... )
 	self.Toggle:SetChecked( true );
@@ -185,7 +242,8 @@ end
 --- Adds a custom key frame to the world map template.
 function NS:OnLoad ( ... )
 	-- Add key frame to map
-	local KeyParent = CreateFrame( "Frame", nil, WorldMapButton );
+	local KeyParent = CreateFrame( "Frame", nil, WorldMapButton )
+
 	self.KeyParent = KeyParent;
 	KeyParent:Hide();
 	KeyParent:SetAllPoints();
@@ -194,12 +252,15 @@ function NS:OnLoad ( ... )
 	local KeyContainer = CreateFrame( "Frame", nil, KeyParent );
 	KeyContainer:SetAllPoints();
 
-	local Key = CreateFrame( "Frame", nil, KeyContainer );
+	local Key = CreateFrame( "Frame", "_NPCScanOverlayKeyParent", KeyContainer );
 	KeyParent.Key = Key;
+	Key:SetFrameStrata("High");
 	Key.KeyParent, Key.Container = KeyParent, KeyContainer;
-	Key:SetScript( "OnEnter", self.KeyOnEnter );
+	--Key:SetScript( "OnEnter", self.KeyOnEnter );
 	Key:SetScript( "OnSizeChanged", NS.KeyOnSizeChanged );
 	self.KeyOnEnter( Key ); -- Initialize starting point
+	--self:ClearAllPoints();
+	--self:SetPoint( "BOTTOMRIGHT" );
 	Key:EnableMouse( true );
 	Key:SetBackdrop( { edgeFile = [[Interface\AchievementFrame\UI-Achievement-WoodBorder]]; edgeSize = 48; } );
 
@@ -212,12 +273,21 @@ function NS:OnLoad ( ... )
 	Key.Body:SetPoint( "TOPRIGHT", -10, -10 );
 	Key.Body:SetBackdrop( { edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]]; edgeSize = 16; } );
 	Key.Body:SetBackdropBorderColor( 0.8, 0.4, 0.2 ); -- Light brown
+
 	local Background = Key.Body:CreateTexture( nil, "BACKGROUND" );
 	Background:SetPoint( "TOPLEFT", 3, -3 );
 	Background:SetPoint( "BOTTOMRIGHT", -3, 3 );
 	Background:SetTexture( [[Interface\AchievementFrame\UI-Achievement-AchievementBackground]] );
 	Background:SetTexCoord( 0, 1, 0.5, 1 );
 	Background:SetVertexColor( 0.8, 0.8, 0.8 );
+
+	--Sets Key Frame as Moveable & Stores position
+	Key:SetMovable(true)
+	Key:RegisterForDrag("LeftButton")
+	Key:SetScript("OnDragStart", Key.StartMoving)
+	Key:SetScript("OnDragStop", Key.StopMovingOrSizing)
+	Key:SetClampedToScreen( true )
+	Key:SetUserPlaced(true)
 
 
 	-- Add range ring
@@ -243,7 +313,7 @@ function NS:OnLoad ( ... )
 	Texture:SetBlendMode( "ADD" );
 	Texture:SetVertexColor( Color.r, Color.g, Color.b );
 
-	NS.RangeRingSetTarget( PlayerArrowEffectFrame );
+	NS.RangeRingSetTarget( WorldMapPlayerUpper );
 
 
 	-- Add toggle button
@@ -292,6 +362,55 @@ function NS:OnLoad ( ... )
 	Disabled:SetAlpha( 0.75 );
 	Toggle:SetChecked( false ); -- Initialize button display
 
+-- Add Mob Key toggle button
+	--Toggles OptionsCharacter.	ShowMobKey
+	local KeyToggle = CreateFrame( "CheckButton", "NPCScanOverlayKeyToggle", WorldMapButton );
+	self.KeyToggle = KeyToggle;
+	KeyToggle:SetPoint( "TOPRIGHT" );
+	hooksecurefunc( KeyToggle, "SetChecked", NS.KeyToggleSetChecked );
+	KeyToggle:SetScript( "OnClick", NS.KeyToggleOnClick );
+	--KeyToggle:SetScript( "OnEnter", NS.KeyToggleOnEnter );
+	--KeyToggle:SetScript( "OnLeave", NS.KeyToggleOnLeave );
+	local KeyNormal = KeyToggle:CreateTexture();
+	KeyToggle.Normal = KeyNormal;
+	KeyNormal:SetTexture( [[Interface\AchievementFrame\UI-Achievement-Category-Background]] );
+	KeyNormal:SetTexCoord( 0, 0.65, 0.12, 0.75 );
+	KeyNormal:SetAllPoints();
+	KeyToggle:SetNormalTexture( KeyNormal );
+	local KeyHighlight = KeyToggle:CreateTexture( nil, "HIGHLIGHT" );
+	KeyHighlight:SetTexture( [[Interface\AchievementFrame\UI-Achievement-Category-Highlight]] );
+	KeyHighlight:SetTexCoord( 0, 0.65, 0.12, 0.75 );
+	KeyHighlight:SetAllPoints();
+	KeyToggle:SetHighlightTexture( KeyHighlight );
+	local KeyText = KeyToggle:CreateFontString( nil, "OVERLAY", "GameFontHighlightLarge" );
+	KeyToggle.Text = KeyText;
+	KeyToggle:SetFontString( KeyText );
+	--local DisabledPadding = 8; -- Room to leave left of text for disabled "X"
+	KeyText:ClearAllPoints()
+	KeyText:SetPoint( "TOPRIGHT" );
+	KeyText:SetPoint( "BOTTOMLEFT", DisabledPadding, 0 )
+	KeyText:SetText( L.MODULE_WORLDMAP_KEYTOGGLE );
+
+
+	local KeyWidth, KeyHeight = Text:GetStringWidth() + 16 + DisabledPadding, Text:GetStringHeight() + 16;
+	KeyToggle:SetSize( KeyWidth, KeyHeight );
+	local KeyBorder = KeyToggle:CreateTexture( nil, "BACKGROUND" );
+	KeyToggle.Border = KeyBorder;
+	KeyBorder:SetPoint( "TOPRIGHT" );
+	KeyBorder:SetPoint( "BOTTOMLEFT", -32, -32 );
+	KeyBorder:SetTexture( [[Interface\AchievementFrame\UI-Achievement-Alert-Background]] );
+	-- Keep bottom-right corner of border texture aligned with bottom-right of button
+	KeyBorder:SetTexCoord(  325 / 512,( 325 - ( Width + 32 ) ) / 512,
+		( 97 - ( Height + 32 ) ) / 128, 97 / 128 );
+	local KeyDisabled = KeyToggle:CreateTexture( nil, "OVERLAY" );
+	KeyToggle.Disabled = KeyDisabled;
+	KeyDisabled:SetPoint( "LEFT", -2, 0 );
+	local KeySize = KeyToggle:GetHeight() * 0.8;
+	KeyDisabled:SetSize( KeySize, KeySize );
+	KeyDisabled:SetTexture( [[Interface\RaidFrame\ReadyCheck-NotReady]] );
+	KeyDisabled:SetAlpha( 0.75 );
+	KeyToggle:SetChecked( true ); -- Initialize button display
+
 
 	-- Cache achievement NPC names
 	self.AchievementNPCNames = {};
@@ -304,12 +423,17 @@ function NS:OnLoad ( ... )
 		end
 	end
 
+		--WorldMapFrame:HookScript( "OnHide", WorldMapFrameOnHide );
+		--WorldMapFrame:HookScript( "OnShow", WorldMapFrameOnShow );
 	return self.super.OnLoad( self, ... );
 end
 function NS:OnUnload ( ... )
 	self.Toggle:Hide();
 	self.Toggle.SetChecked = nil;
 	self.Toggle:SetScript( "OnClick", nil );
+	self.KeyToggle:Hide();
+	self.KeyToggle.SetChecked = nil;
+	self.KeyToggle:SetScript( "OnClick", nil );
 	self.KeyParent:SetScript( "OnSizeChanged", nil );
 	self.KeyParent.Key:SetScript( "OnEnter", nil );
 	self.KeyParent.Key:SetScript( "OnSizeChanged", nil );
@@ -318,8 +442,6 @@ function NS:OnUnload ( ... )
 
 	return self.super.OnUnload( self, ... );
 end
-
-
 
 
 --- Enables the WorldMap range ring.
@@ -340,19 +462,18 @@ function NS.RangeRingSetEnabled ( Enable )
 		return true;
 	end
 end
+
 --- Synchronizes custom settings to options table.
 function NS:OnSynchronize ( OptionsExtra )
 	self.RangeRingSetEnabled( OptionsExtra.RangeRing ~= false );
 end
-
-
-
 
 Overlay.Modules.Register( "WorldMap", NS, L.MODULE_WORLDMAP );
 
 local Config = NS.Config;
 local Checkbox = CreateFrame( "CheckButton", "$parentRangeRing", Config, "InterfaceOptionsCheckButtonTemplate" );
 Config.RangeRing = Checkbox;
+
 --- Toggles the range ring when clicked.
 function Checkbox.setFunc ( Enable )
 	NS.RangeRingSetEnabled( Enable == "1" );

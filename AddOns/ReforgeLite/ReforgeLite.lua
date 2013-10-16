@@ -1,4 +1,4 @@
--- ReforgeLite v1.35 by d07.RiV (Iroared)
+-- ReforgeLite v1.37 by d07.RiV (Iroared)
 -- All rights reserved
 
 local function DeepCopy (t, cache)

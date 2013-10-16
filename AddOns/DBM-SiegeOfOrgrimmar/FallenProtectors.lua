@@ -41,7 +41,7 @@ local warnClash						= mod:NewSpellAnnounce(143027, 3)--No target scanning, no e
 local warnMiserySorrowGloom			= mod:NewSpellAnnounce(143955, 2)--Activation
 local warnCorruptionShock			= mod:NewSpellAnnounce(143958, 3)--Embodied Gloom (spammy if you do it wrong, but very important everyone sees. SOMEONE needs to interrupt it if it keeps going off)
 local warnDefiledGround				= mod:NewSpellAnnounce(143961, 3, nil, mod:IsTank())--Embodied Misery
-local warnInfernoStrike				= mod:NewSpellAnnounce(143962, 3)
+local warnInfernoStrike				= mod:NewTargetAnnounce(143962, 3)
 --He Softfoot
 local warnGouge						= mod:NewCastAnnounce(143330, 4, nil, nil, mod:IsTank())--The cast, so you can react and turn back to it and avoid stun.
 local warnGougeStun					= mod:NewTargetAnnounce(143301, 4, nil, mod:IsTank())--Failed, stunned. the success ID is 143331 (knockback)
@@ -81,6 +81,7 @@ local specWarnOC					= mod:NewSpecialWarningStack(144176, nil, 5)
 --Sun Tenderheart
 local specWarnShaShear				= mod:NewSpecialWarningInterrupt(143423)
 local specWarnShaShearYou			= mod:NewSpecialWarningYou(143423)
+local yellShaShear					= mod:NewYell(143423)
 local specWarnBane					= mod:NewSpecialWarningSpell(143446, mod:IsHealer())
 local specWarnBaneDisp				= mod:NewSpecialWarningDispel(143446, mod:IsHealer())
 local specWarnCalamity				= mod:NewSpecialWarningSpell(143491, nil, nil, nil, 2)
@@ -110,7 +111,6 @@ local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
 local strikeDebuff = GetSpellInfo(143962)--Cast spellid, Unconfirmed if debuff has same id or even name. Need to verify
-local previousStrike = nil
 
 local kicknum = 0
 
@@ -169,9 +169,14 @@ end
 
 function mod:InfernoStrikeTarget(targetname, uId)
 	if not targetname then return end
---	print("DBM DEBUG: Infero Strike on "..targetname.." ?")
+	warnInfernoStrike:Show(targetname)
+	if self.Options.SetIconOnStrike then
+		self:SetIcon(targetname, 7, 5)
+	end
 	if targetname == UnitName("player") then
-		
+--		specWarnInfernoStrike:Show()
+--		yellInfernoStrike:Yell()
+--		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3") --快回人群
 	end
 end
 
@@ -265,9 +270,8 @@ function mod:SPELL_CAST_START(args)
 		warnDefiledGround:Show()
 		timerDefiledGroundCD:Start()
 	elseif args.spellId == 143962 then
-		warnInfernoStrike:Show()
 		timerInfernoStrikeCD:Start()
---		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--This one is a pain, because boss looks at CORRECT target for a super split second, then stares at previous target for rest of time. Repeated scans don't fix it because you really can't tell good target from shit one
+		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--Must be single scan with correct timing. mob changes target a lot and can grab many bad targets if timing not perfect.
 	elseif args.spellId == 143497 then
 		warnBondGoldenLotus:Show()
 	elseif args.spellId == 144396 then
@@ -399,10 +403,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerCorruptedBrewCD:Start(12)
 		timerVengefulStrikesCD:Start(18)
 		timerClashCD:Start(46)
-		if previousStrike and self.Options.SetIconOnStrike then
-			SetRaidTarget(previousStrike, 0)
-			previousStrike = nil
-		end
 	elseif args.spellId == 143812 then--Mark of Anguish
 		timerGarroteCD:Start(12)--TODO, verify consistency in all difficulties
 		timerGougeCD:Start(23)--Seems to be either be exactly 23 or exactly 35. Not sure what causes it to switch.

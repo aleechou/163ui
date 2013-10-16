@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndGC		= mod:NewSound(nil, "SoundGC", mod:IsDps())
 
-mod:SetRevision(("$Revision: 10435 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10618 $"):sub(12, -3))
 mod:SetCreatureID(71865)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
@@ -25,7 +25,6 @@ mod:RegisterEventsInCombat(
 local warnDesecrate					= mod:NewTargetAnnounce(144748, 3)
 local warnHellscreamsWarsong		= mod:NewSpellAnnounce(144821, 3)
 local warnFireUnstableIronStar		= mod:NewSpellAnnounce(147047, 3)
---local warnKorkronWarbringer		= mod:NewSpellAnnounce("ej8292", 3)--unlike shaman which very conviniently cast 144585 the instant they join the fight, warbringers are going to need additional work
 local warnFarseerWolfRider			= mod:NewSpellAnnounce("ej8294", 3, 144585)
 local warnSiegeEngineer				= mod:NewSpellAnnounce("ej8298", 4, 144616)
 local warnChainHeal					= mod:NewSpellAnnounce(144583, 4)
@@ -41,6 +40,10 @@ local warnEmpTouchOfYShaarj			= mod:NewTargetAnnounce(145175, 3)
 local warnEmpDesecrate				= mod:NewSpellAnnounce(144749, 3)
 local warnGrippingDespair			= mod:NewStackAnnounce(145183, 2, nil, mod:IsTank())
 local warnEmpGrippingDespair		= mod:NewStackAnnounce(145195, 3, nil, mod:IsTank())--Distinction is not that important, may just remove for the tank warning.
+--Starge Three: MY WORLD
+local warnMalice					= mod:NewTargetAnnounce(147209, 2)
+local warnBombardment				= mod:NewSpellAnnounce(147120, 3)
+local warnManifestRage				= mod:NewSpellAnnounce(147011, 4)
 
 --Stage 1: The True Horde
 local specWarnDesecrate				= mod:NewSpecialWarningCount(144748, nil, nil, nil, 2)
@@ -48,7 +51,6 @@ local specWarnDesecrateYou			= mod:NewSpecialWarningYou(144748)
 local yellDesecrate					= mod:NewYell(144748)
 local specWarnHellscreamsWarsong	= mod:NewSpecialWarningSpell(144821, mod:IsTank() or mod:IsHealer())
 local specWarnFireUnstableIronStar	= mod:NewSpecialWarningSpell(147047, nil, nil, nil, 3)
---local specWarnKorkronWarbringer	= mod:NewSpecialWarningSwitch("ej8292", not mod:IsHealer())
 local specWarnFarseerWolfRider		= mod:NewSpecialWarningSwitch("ej8294", not mod:IsHealer())
 local specWarnSiegeEngineer			= mod:NewSpecialWarningSwitch("ej8298", false)--Only 1 person on 10 man and 2 on 25 needed, so should be off for most of raid
 local specWarnChainHeal				= mod:NewSpecialWarningInterrupt(144583)
@@ -62,11 +64,13 @@ local specWarnEmpDesecrate			= mod:NewSpecialWarningCount(144749, nil, nil, nil,
 local specWarnGrippingDespair		= mod:NewSpecialWarningStack(145183, mod:IsTank(), 3)--Unlike whirling and desecrate, doesn't need two options, distinction isn't important for tank swaps.
 local specWarnGrippingDespairOther	= mod:NewSpecialWarningTarget(145183, mod:IsTank())
 local specWarnTouchOfYShaarj		= mod:NewSpecialWarningSwitch(145071)
+--Starge Three: MY WORLD
+local specWarnMaliceYou				= mod:NewSpecialWarningYou(147209)
+local yellMalice					= mod:NewYell(147209)
 
 --Stage 1: A Cry in the Darkness
 local timerDesecrateCD				= mod:NewCDTimer(35, 144748)
 local timerHellscreamsWarsongCD		= mod:NewNextTimer(42.2, 144821, nil, mod:IsTank() or mod:IsHealer())
---local timerKorkronWarbringerCD	= mod:NewCDTimer(30, "ej8292")
 local timerFarseerWolfRiderCD		= mod:NewNextTimer(50, "ej8294", nil, nil, nil, 144585)--EJ says they come faster as phase progresses but all i saw was 3 spawn on any given pull and it was 30 50 50
 local timerSiegeEngineerCD			= mod:NewNextTimer(40, "ej8298", nil, nil, nil, 144616)
 local timerPowerIronStar			= mod:NewCastTimer(15, 144616)
@@ -78,6 +82,10 @@ local timerWhirlingCorruptionCD		= mod:NewCDCountTimer(51.5, 9633)--One bar for 
 local timerWhirlingCorruption		= mod:NewBuffActiveTimer(9, 9633)
 local timerTouchOfYShaarjCD			= mod:NewCDCountTimer(45, 15690)
 local timerGrippingDespair			= mod:NewTargetTimer(15, 145183, nil, mod:IsTank())
+--Starge Three: MY WORLD
+local timerMaliceCD					= mod:NewNextTimer(29.5, 147209)
+local timerBombardmentCD			= mod:NewNextTimer(55, 147120)
+local timerBombardment				= mod:NewBuffActiveTimer(13, 147120)
 
 --local soundWhirlingCorrpution		= mod:NewSound(144985, nil, false)--Depends on strat. common one on 25 man is to never run away from it
 --local countdownPowerIronStar		= mod:NewCountdown(15, 144616)
@@ -248,6 +256,10 @@ function mod:SPELL_CAST_START(args)
 				checknexttouchOfYShaarj("whirling")
 			end
 		end)]]
+	elseif args.spellId == 147120 then
+		warnBombardment:Show()
+		timerBombardment:Start()
+		timerBombardmentCD:Start()
 	end
 end
 
@@ -332,6 +344,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnShaman then
 			scanLimiter = 0
 			scanForMobs()
+		end
+	elseif args.spellId == 147209 then
+		warnMalice:CombinedShow(0.5, args.destName)
+		timerMaliceCD:DelayedStart(0.5)
+		if args:IsPlayer() then
+			specWarnMaliceYou:Show()
+			yellMalice:Yell()
 		end
 	end
 end
@@ -441,6 +460,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerWhirlingCorruptionCD:Start(47.5, 1)
 		sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
 --		countdownWhirlingCorruption:Start(47.5)
+	elseif spellId == 146984 then--Phase 4 trigger
+		phase = 4
+		timerMaliceCD:Start(30)
+		timerBombardmentCD:Start(69)
 	end
 end
 
@@ -464,5 +487,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		sndWOP:Schedule(16.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3") --鐵球快躲
 		warnFireUnstableIronStar:Schedule(16.5)
 		specWarnFireUnstableIronStar:Schedule(16.5)
+	elseif msg:find("spell:147011") then--may be need to change if we get combatlog.
+		warnManifestRage:Show()
 	end
 end

@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Author: d07.RiV (Iroared)
-## Version: 1.35
+## Version: 1.37
 ## SavedVariables: ReforgeLiteDB
 ## Dependencies: 
 ## X-Curse-Packaged-Version: v1.35

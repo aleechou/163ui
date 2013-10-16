@@ -45,7 +45,6 @@ DBM_CORE_SEC_FMT					= "%d sec"
 
 DBM_CORE_GENERIC_WARNING_OTHERS		= "and one other"
 DBM_CORE_GENERIC_WARNING_OTHERS2	= "and %d others"
-DBM_CORE_GENERIC_WARNING_DUPLICATE	= "One of the %s"
 DBM_CORE_GENERIC_WARNING_BERSERK	= "Berserk in %s %s"
 DBM_CORE_GENERIC_TIMER_BERSERK		= "Berserk"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Show timer for $spell:26662"
@@ -155,7 +154,7 @@ DBM_CORE_TIMER_BREAK				= "Break time!"
 DBM_CORE_ANNOUNCE_BREAK_OVER		= "Break time is over"
 
 DBM_CORE_TIMER_PULL					= "Pull in"
-DBM_CORE_ANNOUNCE_PULL				= "Pull in %d sec"
+DBM_CORE_ANNOUNCE_PULL				= "Pull in %d sec (Sent by %s)"
 DBM_CORE_ANNOUNCE_PULL_NOW			= "Pull now!"
 DBM_CORE_ANNOUNCE_PULL_CANCEL		= "Cancel Pull Countdown!"
 
@@ -315,10 +314,10 @@ DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "No recent DBM version installed: %s"
 DBM_INSTANCE_INFO_RESULTS			= "Instance ID scan results. Note that instances might show up more than once if there are players with localized WoW clients in your raid."
 DBM_INSTANCE_INFO_SHOW_RESULTS		= "Players yet to respond: %s\n|HDBM:showRaidIdResults|h|cff3588ff[Show results now]|r|h"
 
-DBM_CORE_LAG_CHECKING				= "Delayed check - 5 seconds later output results..."
-DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Delayed check"
-DBM_CORE_LAG_ENTRY					= "%s£ºWorld delay[%d ms] / Home delay[%d ms]"
-DBM_CORE_LAG_FOOTER					= "Without Member:%s"
+DBM_CORE_LAG_CHECKING				= "Checking raid Latency..."
+DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Latency Results"
+DBM_CORE_LAG_ENTRY					= "%s: World delay [%d ms] / Home delay [%d ms]"
+DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 DBM_CORE_SOUNDVER					= "Voice Enhanced"
 

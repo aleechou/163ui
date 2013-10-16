@@ -15,12 +15,15 @@ do
 	local MapCurrent;
 	--- Callback to draw a single NPC's paths for a zone.
 	local function PaintPath ( self, PathData, FoundX, FoundY, R, G, B, NpcID )
+		Overlay.CurrentTextureMob = NpcID;
 		Overlay.DrawPath( self, PathData, "ARTWORK", R, G, B );
-		if ( FoundX ) then
+
+	--Do Not remove.  Disabled to unclutter map untill good way to limit number can be found
+		--[[if ( FoundX ) then
 			Overlay.DrawFound( self, FoundX, FoundY,
 				Overlay.DetectionRadius / Overlay.GetMapSize( MapCurrent ),
-				"OVERLAY", R, G, B );
-		end
+				"OVERLAY", R, G, B ); 
+		end]]--
 	end
 	--- Draws paths for the given map on this canvas.
 	-- Must be viewing Map using the WorldMap API.

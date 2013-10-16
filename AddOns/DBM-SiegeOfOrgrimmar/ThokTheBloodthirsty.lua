@@ -3,7 +3,9 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndPX		= mod:NewSound(nil, "SoundPX", mod:IsManaUser())
 
-mod:SetRevision(("$Revision: 10305 $"):sub(12, -3))
+local LibRange = LibStub("LibRangeCheck-2.0")
+
+mod:SetRevision(("$Revision: 10597 $"):sub(12, -3))
 mod:SetCreatureID(71529)
 mod:SetZone()
 mod:SetUsedIcons(8)
@@ -29,6 +31,7 @@ local warnTailLash					= mod:NewSpellAnnounce(143428, 3, nil, false)--Hey, someo
 local warnBloodFrenzy				= mod:NewStackAnnounce(143442, 3)
 local warnFixate					= mod:NewTargetAnnounce(143445, 4)
 local warnEnrage					= mod:NewTargetAnnounce(145974, 3, nil, mod:IsTank() or mod:CanRemoveEnrage())
+local warnKey						= mod:NewTargetAnnounce(146589, 3)
 --Infusion of Acid
 local warnAcidPustules				= mod:NewSpellAnnounce(143971, 2)
 local warnAcidBreath				= mod:NewStackAnnounce(143780, 2, nil, mod:IsTank())
@@ -40,12 +43,12 @@ local warnFrozenSolid				= mod:NewTargetAnnounce(143777, 4)--This only thing wor
 --Infusion of Fire
 local warnFirePustules				= mod:NewSpellAnnounce(143970, 2)
 local warnScorchingBreath			= mod:NewStackAnnounce(143767, 2, nil, mod:IsTank())
-local warnBurningBloodBlood			= mod:NewTargetAnnounce(143783, 3)
+local warnBurningBlood				= mod:NewTargetAnnounce(143783, 3, nil, false, nil, nil, nil, nil, 2)
 
 --Stage 1: A Cry in the Darkness
 local specWarnFearsomeRoar			= mod:NewSpecialWarningStack(143766, mod:IsTank(), 2)
 local specWarnFearsomeRoarOther		= mod:NewSpecialWarningTarget(143766, mod:IsTank())
-local specWarnDeafeningScreech		= mod:NewSpecialWarningSpell(143343, nil, nil, nil, 2)--Too late to give a stop casting warning, so it's spell now.
+local specWarnDeafeningScreech		= mod:NewSpecialWarningSpell(143343, nil, nil, nil, 2)
 --Stage 2: Frenzy for Blood!
 local specWarnBloodFrenzy			= mod:NewSpecialWarningSpell(143440, nil, nil, nil, 2)
 local specWarnFixate				= mod:NewSpecialWarningRun(143445, nil, nil, nil, 3)
@@ -54,6 +57,7 @@ local specWarnEnrage				= mod:NewSpecialWarningTarget(145974, mod:IsTank() or mo
 --Infusion of Acid
 local specWarnAcidBreath			= mod:NewSpecialWarningStack(143780, mod:IsTank(), 2)
 local specWarnAcidBreathOther		= mod:NewSpecialWarningTarget(143780, mod:IsTank())
+local specWarnCorrosiveBlood		= mod:NewSpecialWarningDispel(143791)
 --Infusion of Frost
 local specWarnFrostBreath			= mod:NewSpecialWarningStack(143773, mod:IsTank(), 3)
 local specWarnFrostBreathOther		= mod:NewSpecialWarningTarget(143773, mod:IsTank())
@@ -99,36 +103,13 @@ mod:AddBoolOption("RangeFrame", true)
 mod:AddBoolOption("FixateIcon", true)
 
 local screechCount = 0
-local corrosiveBloodTargets = {}
-local burningBloodTargets = {}
-local frozenTargets = {}
 local UnitGUID = UnitGUID
+local bloodTargets = {}
+
+local phase = 1
+local dispnum = 0
 
 --this boss works similar to staghelm
---[[Old values, keeping them for now cause they may be used in LFR
-local screechTimers = {
-	[0] = 25,
-	[1] = 13.2,
-	[2] = 8.5,
-	[3] = 7.2,
-	[4] = 4.8,
-	[5] = 4.8,--in rare flukes this is 6.1
-	[6] = 4.8,
-	[7] = 3.6,--In rare cases you get a 4th 4.8
-	[8] = 3.6,--If you get 4 4.8s then second 3.6 becomes a 2.5
-	[9] = 3.6,
-	[10]= 2.4,
-	[11]= 2.4,
-	[12]= 2.4,
-	[13]= 2.4,
-	[14]= 2.4,
-	[15]= 2.4,
-	[16]= 2.4,
-	[17]= 2.4,
-	[18]= 1.2,--Anything 18 and beyond is 1.2 with rare 2.4 fluke at 19 sometimes
-}
---]]
-
 local screechTimers = {
 	[0] = 13.2,
 	[1] = 13.2,
@@ -156,28 +137,17 @@ local screechTimers = {
 	[23]= 1.2,--Anything 23 and beyond is 1.2 with rare 2.4 fluke sometimes
 }
 
-
-local function warnCorrosiveBloodTargets()
-	warnCorrosiveBlood:Show(table.concat(corrosiveBloodTargets, "<, >"))
-	timerCorrosiveBloodCD:Start()
-	table.wipe(corrosiveBloodTargets)
+local function clearBloodTargets()
+	table.wipe(bloodTargets)
 end
 
-local function warnBurningBloodTargets()
-	warnBurningBloodBlood:Show(table.concat(burningBloodTargets, "<, >"))
-	timerBurningBloodCD:Start()
-	table.wipe(burningBloodTargets)
-end
-
-local function warnFrozenargets()
-	warnFrozenSolid:Show(table.concat(frozenTargets, "<, >"))
-	table.wipe(frozenTargets)
-end
-
+mod:AddBoolOption("LTRange", true, "sound")
 mod:AddBoolOption("dr", true, "sound")
 for i = 1, 30 do
 	mod:AddBoolOption("dr"..i, false, "sound")
 end
+
+mod:AddDropdownOption("optDD", {"DD1", "DD2", "DD3", "nodd"}, "nodd", "sound")
 
 local function MyJS()
 	if mod.Options["dr"..screechCount] then
@@ -186,18 +156,45 @@ local function MyJS()
 	return false
 end
 
+local function checkbossrange()
+	if UnitExists("boss1") then
+		local minrange, maxrange = LibRange:getRange("boss1")
+		if minrange and maxrange then
+			if minrange < 40 then
+				DBM:ShowLTSpecialWarning(minrange.." - "..maxrange, 0, 1, 0)
+			else
+				DBM:ShowLTSpecialWarning(minrange.." - "..maxrange, 1, 0, 0)
+			end
+		end	
+	end
+	if phase == 2 then
+		mod:Schedule(0.2, checkbossrange)
+	else
+		DBM:HideLTSpecialWarning()
+	end
+end
+
 function mod:OnCombatStart(delay)
 	screechCount = 0
-	table.wipe(corrosiveBloodTargets)
-	table.wipe(burningBloodTargets)
+	phase = 1
+	dispnum = 0
+	table.wipe(bloodTargets)
 	timerFearsomeRoarCD:Start(-delay)
-	timerDeafeningScreechCD:Start(-delay, 1)
+	if self:IsDifficulty("lfr25") then
+		timerDeafeningScreechCD:Start(19-delay, 1)
+		sndPX:Schedule(16-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+		sndPX:Schedule(17-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Schedule(18-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Schedule(19-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+	else
+		timerDeafeningScreechCD:Start(-delay, 1)
+		sndPX:Schedule(10-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+		sndPX:Schedule(11-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Schedule(12-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Schedule(13-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+	end
 	berserkTimer:Start(-delay)
-	sndPX:Schedule(10-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
-	sndPX:Schedule(11-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-	sndPX:Schedule(12-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-	sndPX:Schedule(13-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-	if self.Options.RangeFrame then
+	if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 		if self:IsDifficulty("normal10", "heroic10") then
 			DBM.RangeCheck:Show(10, nil, nil, 4)
 		else
@@ -209,6 +206,9 @@ end
 function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+	if self.Options.LTRange then
+		DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -222,14 +222,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		timerDeafeningScreechCD:Start(screechTimers[screechCount] or 1.2, screechCount+1)
-		if screechTimers[screechCount] and screechTimers[screechCount] > 2.2 then
-			if screechTimers[screechCount] > 3.2 then
-				sndPX:Schedule(screechTimers[screechCount+1] - 3.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+		if self:IsDifficulty("lfr25") then
+			timerDeafeningScreechCD:Start(18, screechCount+1)
+			sndPX:Schedule(15-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+			sndPX:Schedule(16-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(17-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(18-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		else
+			timerDeafeningScreechCD:Start(screechTimers[screechCount] or 1.2, screechCount+1)
+			if screechTimers[screechCount] and screechTimers[screechCount] > 2.2 then
+				if screechTimers[screechCount] > 3.2 then
+					sndPX:Schedule(screechTimers[screechCount+1] - 3.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+				end
+				sndPX:Schedule(screechTimers[screechCount+1] - 2.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndPX:Schedule(screechTimers[screechCount+1] - 1.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndPX:Schedule(screechTimers[screechCount+1] - 0.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			end
-			sndPX:Schedule(screechTimers[screechCount+1] - 2.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndPX:Schedule(screechTimers[screechCount+1] - 1.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndPX:Schedule(screechTimers[screechCount+1] - 0.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	elseif args.spellId == 143428 then
 		warnTailLash:Show()
@@ -247,64 +255,82 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 143411 then
 		screechCount = args.amount or 1
 		warnAcceleration:Show(args.destName, screechCount)
+		if self.Options.LTRange then
+			DBM:ShowLTSpecialWarning(GetSpellInfo(143343)..":"..screechCount, 0, 1, 0)
+		end
 		if MyJS() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
 			sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 		end
 	elseif args.spellId == 143766 then
-		local amount = args.amount or 1
-		warnFearsomeRoar:Show(args.destName, amount)
-		timerFearsomeRoar:Start(args.destName)
 		timerFearsomeRoarCD:Start()
-		if amount >= 2 then
-			if args:IsPlayer() then
-				specWarnFearsomeRoar:Show(args.amount)
-			else
-				specWarnFearsomeRoarOther:Show(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if self:IsTanking(uId, "boss1") then
+			local amount = args.amount or 1
+			warnFearsomeRoar:Show(args.destName, amount)
+			timerFearsomeRoar:Start(args.destName)
+			if amount >= 2 then
+				if args:IsPlayer() then
+					specWarnFearsomeRoar:Show(args.amount)
+				else
+					specWarnFearsomeRoarOther:Show(args.destName)
+				end
 			end
 		end
 	elseif args.spellId == 143780 then
-		local amount = args.amount or 1
-		warnAcidBreath:Show(args.destName, amount)
-		timerAcidBreath:Start(args.destName)
 		timerAcidBreathCD:Start()
-		if amount >= 2 then
-			if args:IsPlayer() then
-				specWarnAcidBreath:Show(args.amount)
-			else
-				specWarnAcidBreathOther:Show(args.destName)
+		local amount = args.amount or 1
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if self:IsTanking(uId, "boss1") then
+			warnAcidBreath:Show(args.destName, amount)
+			timerAcidBreath:Start(args.destName)
+			timerAcidBreathCD:Start()
+			if amount >= 2 then
+				if args:IsPlayer() then
+					specWarnAcidBreath:Show(args.amount)
+				else
+					specWarnAcidBreathOther:Show(args.destName)
+				end
 			end
 		end
 	elseif args.spellId == 143773 then
-		local amount = args.amount or 1
-		warnFrostBreath:Show(args.destName, amount)
-		timerFrostBreath:Start(args.destName)
 		timerFrostBreathCD:Start()
-		if amount >= 3 then
-			if args:IsPlayer() then
-				specWarnFrostBreath:Show(args.amount)
-			else
-				specWarnFrostBreathOther:Show(args.destName)
+		local amount = args.amount or 1
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if self:IsTanking(uId, "boss1") then
+			warnFrostBreath:Show(args.destName, amount)
+			timerFrostBreath:Start(args.destName)
+			if amount >= 3 then
+				if args:IsPlayer() then
+					specWarnFrostBreath:Show(args.amount)
+				else
+					specWarnFrostBreathOther:Show(args.destName)
+				end
 			end
 		end
 	elseif args.spellId == 143767 then
-		local amount = args.amount or 1
-		warnScorchingBreath:Show(args.destName, amount)
-		timerScorchingBreath:Start(args.destName)
 		timerScorchingBreathCD:Start()
-		if amount >= 3 then
-			if args:IsPlayer() then
-				specWarnScorchingBreath:Show(args.amount)
-			else
-				specWarnScorchingBreathOther:Show(args.destName)
+		local amount = args.amount or 1
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if self:IsTanking(uId, "boss1") then
+			warnScorchingBreath:Show(args.destName, amount)
+			timerScorchingBreath:Start(args.destName)
+			if amount >= 3 then
+				if args:IsPlayer() then
+					specWarnScorchingBreath:Show(args.amount)
+				else
+					specWarnScorchingBreathOther:Show(args.destName)
+				end
 			end
 		end
 	elseif args.spellId == 143440 then
 		timerBloodFrenzyCD:Start()
 	elseif args.spellId == 143442 then
 		local amount = args.amount or 1
-		warnBloodFrenzy:Show(args.destName, amount)
 		timerBloodFrenzyCD:Start()
+		if amount % 2 == 0 then
+			warnBloodFrenzy:Show(args.destName, amount)
+		end
 	elseif args.spellId == 143445 then
 		warnFixate:Show(args.destName)
 		timerFixate:Start(args.destName)
@@ -322,9 +348,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	elseif args.spellId == 143791 then
-		corrosiveBloodTargets[#corrosiveBloodTargets + 1] = args.destName
-		self:Unschedule(warnCorrosiveBloodTargets)
-		self:Schedule(0.5, warnCorrosiveBloodTargets)
+		warnCorrosiveBlood:CombinedShow(0.5, args.destName)
+		timerCorrosiveBloodCD:DelayedStart(0.5)
+		if self:AntiSpam(2, 3) then
+			dispnum = dispnum + 1
+			if ((mod.Options.optDD == "DD1") and (dispnum == 1)) or ((mod.Options.optDD == "DD2") and (dispnum == 2)) or ((mod.Options.optDD == "DD3") and (dispnum == 3)) then
+				specWarnCorrosiveBlood:Show(">>"..dispnum.."<<")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
+			end
+			if dispnum == 3 then dispnum = 0 end
+		end
 	elseif args.spellId == 143800 and args:IsPlayer() then
 		local amount = args.amount or 1
 		if amount >= 3 then
@@ -334,9 +367,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args.spellId == 143777 then
-		frozenTargets[#frozenTargets + 1] = args.destName
-		self:Unschedule(warnFrozenargets)
-		self:Schedule(1, warnFrozenargets)--On 25 man, many targets get frozen and often at/near the same time. try to batch em up a bit
+		warnFrozenSolid:CombinedShow(1, args.destName)--On 25 man, many targets get frozen and often at/near the same time. try to batch em up a bit
 		if self:AntiSpam(3, 1) then
 			specWarnFrozenSolid:Show(args.destName)
 			if mod:IsDps() then
@@ -352,6 +383,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif mod:CanRemoveEnrage() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\trannow.mp3") -- 注意寧神
 		end
+	elseif args.spellId == 146589 then
+		warnKey:Show(args.destName)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -365,8 +398,29 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerFrostBreath:Cancel(args.destName)
 	elseif args.spellId == 143767 then
 		timerScorchingBreath:Cancel(args.destName)
-	elseif args.spellId == 143440  then
+	elseif args.spellId == 143440 then
 		timerBloodFrenzyCD:Cancel()
+		screechCount = 0
+		if self:IsDifficulty("lfr25") then
+			timerDeafeningScreechCD:Start(19, 1)
+			sndPX:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndPX:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		else
+			timerDeafeningScreechCD:Start(nil, 1)
+			sndPX:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndPX:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		end
+		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
+			if self:IsDifficulty("normal10", "heroic10") then
+				DBM.RangeCheck:Show(10, nil, nil, 4)
+			else
+				DBM.RangeCheck:Show(10, nil, nil, 14)
+			end
+		end
 	elseif args.spellId == 143445 then
 		timerFixate:Cancel(args.destName)
 		if self.Options.FixateIcon then
@@ -375,25 +429,17 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
 		end
-	elseif args.spellId == 143411 then
-		screechCount = 0
-		timerDeafeningScreechCD:Start(nil, 1)
-		if self.Options.RangeFrame then
-			if self:IsDifficulty("normal10", "heroic10") then
-				DBM.RangeCheck:Show(10, nil, nil, 4)
-			else
-				DBM.RangeCheck:Show(10, nil, nil, 14)
-			end
-		end
 	end
 end
 
 --High performance detection of burningBlood targets
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 143783 then--The actual target of the fire, has no cast event, just initial damage using THIS ID
-		burningBloodTargets[#burningBloodTargets + 1] = destName
-		self:Unschedule(warnBurningBloodTargets)
-		self:Schedule(0.5, warnBurningBloodTargets)
+	if spellId == 143783 and not bloodTargets[destGUID] then--The actual target of the fire, has no cast event, just initial damage using THIS ID
+		bloodTargets[destGUID] = true
+		warnBurningBlood:CombinedShow(0.5, destName)
+		timerBurningBloodCD:DelayedStart(0.5)
+		self:Unschedule(clearBloodTargets)
+		self:Schedule(3, clearBloodTargets)
 		if destGUID == UnitGUID("player") then
 			specWarnBurningBlood:Show()
 			yellBurningBlood:Yell()
@@ -421,12 +467,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerAcidBreathCD:Cancel()
 		timerFrostBreathCD:Cancel()
 		timerScorchingBreathCD:Cancel()
+		timerDeafeningScreechCD:Cancel()
 		timerTailLashCD:Cancel()
 		specWarnBloodFrenzy:Show()
 --DELETE	soundBloodFrenzy:Play()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段準備
-		if self.Options.RangeFrame then
+		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 			DBM.RangeCheck:Hide()
+		end
+		phase = 2
+		if self.Options.LTRange then
+			checkbossrange()
 		end
 	--He retains/casts "blood" abilities through Blood frenzy, and only stops them when he changes to different Pustles
 	--This is why we cancel Blood cds above
@@ -436,29 +487,20 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerCorrosiveBloodCD:Start(6)
 		timerAcidBreathCD:Start()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dyqh.mp3") --毒液恐龍
-		sndPX:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-		sndPX:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		phase = 1
 	elseif spellId == 143968 then
 		timerBurningBloodCD:Cancel()
 		timerCorrosiveBloodCD:Cancel()
 		warnFrostPustules:Show()
 		timerFrostBreathCD:Start(6)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bsqh.mp3") --冰霜恐龍
-		sndPX:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-		sndPX:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		phase = 1
 	elseif spellId == 143970 then
 		timerCorrosiveBloodCD:Cancel()
 		warnFirePustules:Show()
 		timerBurningBloodCD:Start(8)
 		timerScorchingBreathCD:Start()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lyqh.mp3") --烈焰恐龍
-		sndPX:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-		sndPX:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		phase = 1
 	end
 end

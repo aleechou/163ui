@@ -3,12 +3,13 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndPZ		= mod:NewSound(nil, "SoundPZD", false)
 
-mod:SetRevision(("$Revision: 10407 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10548 $"):sub(12, -3))
 mod:SetCreatureID(71543)--Doesn't die, will need kill detection
 mod:SetReCombatTime(45)--Lets just assume he has same bug as tsulong in advance and avoid problems
 mod:SetZone()
 
 mod:RegisterCombat("combat")
+mod:SetWipeTime(20)--Kill yell fires litte lately, prevent wipe.
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",

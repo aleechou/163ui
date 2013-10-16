@@ -258,8 +258,8 @@ do
 				if ( RotateMinimap ) then
 					FoundX, FoundY = FoundX * FacingCos - FoundY * FacingSin, FoundX * FacingSin + FoundY * FacingCos;
 				end
-
-				Overlay.DrawFound( self, FoundX + 0.5, FoundY + 0.5, Overlay.DetectionRadius / ( Radius * 2 ), "OVERLAY", R, G, B );
+				--Do Not remove.  Disabled to unclutter map untill good way to limit number can be fount
+				--Overlay.DrawFound( self, FoundX + 0.5, FoundY + 0.5, Overlay.DetectionRadius / ( Radius * 2 ), "OVERLAY", R, G, B );
 			end
 
 			local PointsOffset, LinesOffset, TrianglesOffset = Overlay.GetPathPrimitiveOffsets( PathData );

@@ -7,7 +7,11 @@
 _NPCScan = _NPCScan or {};
 local _NPCScan = _NPCScan;
 local AddOnName, NS = ...;
+local L = NS.L;
 _NPCScan.Overlay = NS;
+
+--local MiniMapIcon = LibStub("LibDBIcon-1.0")
+_NPCScanMiniMapIcon = {}
 
 NS.Version = GetAddOnMetadata( AddOnName, "Version" ):match( "^([%d.]+)" );
 
@@ -16,6 +20,7 @@ NS.Options = {
 	Modules = {};
 	ModulesAlpha = {};
 	ModulesExtra = {};
+	MiniMapIcon = {};
 };
 
 NS.OptionsDefault = {
@@ -23,9 +28,13 @@ NS.OptionsDefault = {
 	Modules = {};
 	ModulesAlpha = {};
 	ModulesExtra = {};
+	MiniMapIcon = {};
 	ShowAll = false;
 };
 
+NS.TextureTable = {};
+NS.CurrentTexture = nil;
+NS.CurrentTextureMob = nil;
 
 NS.NPCsEnabled = {};
 NS.NPCCounts = {}; -- Number of enabled NPCs that use this NPC path
@@ -43,11 +52,15 @@ NS.NPCAliases = { -- (Key) NPC shows (Value) NPC's path instead
 	[ 51404 ] = 50154; -- Madexx (Blue)
 };
 NS.Achievements = { -- Achievements whos criteria mobs are all mapped
-	[ 1312 ] = true; -- Bloody Rare (Outlands)
-	[ 2257 ] = true; -- Frostbitten (Northrend)
-	[ 7439 ] = true; -- Glorious! (Pandaria)
+		[ 1312 ] = true; -- Bloody Rare (Outlands)
+		[ 2257 ] = true; -- Frostbitten (Northrend)
+		[ 7317 ] = true; -- One Of Many
+		[ 7439 ] = true; -- Glorious! (Pandaria)
+		[ 8103 ] = true; -- Champions of Lei Shen
+		[ 8714 ] = true;  --Timeless Champion
 };
 
+--Color's used for the paths.  Need to revisit to replace the duplicated colors if possible
 NS.Colors = {
 	RAID_CLASS_COLORS.SHAMAN,
 	RAID_CLASS_COLORS.DEATHKNIGHT,
@@ -60,6 +73,59 @@ NS.Colors = {
 	UnitPopupButtons.RAID_TARGET_3.color,
 	RAID_CLASS_COLORS.MONK,
 	RAID_CLASS_COLORS.HUNTER,
+
+	RAID_CLASS_COLORS.SHAMAN,
+	RAID_CLASS_COLORS.DEATHKNIGHT,
+	GREEN_FONT_COLOR,
+	RAID_CLASS_COLORS.DRUID,
+	RAID_CLASS_COLORS.PALADIN,
+	UnitPopupButtons.RAID_TARGET_1.color,
+	UnitPopupButtons.RAID_TARGET_5.color,
+	UnitPopupButtons.RAID_TARGET_6.color,
+	UnitPopupButtons.RAID_TARGET_3.color,
+	RAID_CLASS_COLORS.MONK,
+	RAID_CLASS_COLORS.HUNTER,
+
+	RAID_CLASS_COLORS.SHAMAN,
+	RAID_CLASS_COLORS.DEATHKNIGHT,
+	GREEN_FONT_COLOR,
+	RAID_CLASS_COLORS.DRUID,
+	RAID_CLASS_COLORS.PALADIN,
+	UnitPopupButtons.RAID_TARGET_1.color,
+	UnitPopupButtons.RAID_TARGET_5.color,
+	UnitPopupButtons.RAID_TARGET_6.color,
+	UnitPopupButtons.RAID_TARGET_3.color,
+	RAID_CLASS_COLORS.MONK,
+	RAID_CLASS_COLORS.HUNTER,
+
+--[[
+	RAID_CLASS_COLORS.WARLOCK,	--Purple
+	RAID_CLASS_COLORS.PALADIN,	--Pink
+	RAID_CLASS_COLORS.MAGE,		--Blue
+	RAID_CLASS_COLORS.ROGUE,		--Yellow
+	NORMAL_FONT_COLOR,
+	RED_FONT_COLOR,			--Red
+	GRAY_FONT_COLOR,			--Grey
+	UnitPopupButtons.RAID_TARGET_4.color,
+	YELLOW_FONT_COLOR,			--Yellow
+	ORANGE_FONT_COLOR,			--Orange
+	PASSIVE_SPELL_FONT_COLOR,
+	BATTLENET_FONT_COLOR,					--Change
+	QuestDifficultyColors.trivial,
+	QuestDifficultyColors.header,
+	UnitPopupButtons.RAID_TARGET_1.color,
+	UnitPopupButtons.RAID_TARGET_2.color,
+	UnitPopupButtons.RAID_TARGET_5.color,
+	UnitPopupButtons.RAID_TARGET_6.color,
+	RAID_CLASS_COLORS.HUNTER,	-- Green
+	RAID_CLASS_COLORS.WARLOCK,	--Purple
+	RAID_CLASS_COLORS.PRIEST,	--White
+	RAID_CLASS_COLORS.PALADIN,	--Pink
+	RAID_CLASS_COLORS.MAGE,		--Blue
+	RAID_CLASS_COLORS.ROGUE,		--Yellow
+	RAID_CLASS_COLORS.DRUID,		--Orange
+	RAID_CLASS_COLORS.SHAMAN,	--??	
+	RAID_CLASS_COLORS.DEATHKNIGHT,--Dark Red ]]--	
 };
 
 NS.DetectionRadius = 100; -- yards
@@ -78,7 +144,9 @@ local MESSAGE_FOUND = "NpcOverlay_Found";
 --- Prepares an unused texture on the given frame.
 -- @param Layer  Draw layer for texture.
 -- @param ...  Color and optional alpha to set texture to.
+local TextureCount = 0;
 function NS:TextureCreate ( Layer, R, G, B, A )
+	TextureCount = TextureCount + 1;
 	local Texture = #TexturesUnused > 0 and TexturesUnused[ #TexturesUnused ];
 	if ( Texture ) then
 		TexturesUnused[ #TexturesUnused ] = nil;
@@ -87,7 +155,7 @@ function NS:TextureCreate ( Layer, R, G, B, A )
 		Texture:ClearAllPoints();
 		Texture:Show();
 	else
-		Texture = self:CreateTexture( nil, Layer );
+		Texture = self:CreateTexture( "ScannerOverlayMobTexture"..TextureCount, Layer );
 	end
 	Texture:SetVertexColor( R, G, B, A or 1 );
 	Texture:SetBlendMode( "BLEND" );
@@ -184,13 +252,15 @@ do
 		SinScaleX, SinScaleY = -Sin * ScaleX, Sin * ScaleY;
 		CosScaleX, CosScaleY =  Cos * ScaleX, Cos * ScaleY;
 
-		return ApplyTransform( Texture,
+		 ApplyTransform( Texture,
 			WindowX * CosScaleX,
 			WindowX * ( SinScaleY + CosScaleX * ShearFactor ),
 			WindowX * ( ( SinScaleY + CosScaleX * ( 1 + ShearFactor ) ) * BorderOffset + Bx - MinX ) / BorderScale,
 			WindowY * SinScaleX,
 			WindowY * ( CosScaleY + SinScaleX * ShearFactor ),
 			WindowY * ( ( CosScaleY + SinScaleX * ( 1 + ShearFactor ) ) * BorderOffset + By - MinY ) / BorderScale );
+		
+		return Texture;
 	end
 end
 --- Recycles all textures added to a frame using TextureCreate.
@@ -229,21 +299,42 @@ do
 		local PointsOffset, LinesOffset, TrianglesOffset = NS.GetPathPrimitiveOffsets( PathData );
 		for Index = TrianglesOffset, #PathData, BYTES_PER_TRIANGLE do
 			Ax1, Ax2, Ay1, Ay2, Bx1, Bx2, By1, By2, Cx1, Cx2, Cy1, Cy2 = PathData:byte( Index, Index + BYTES_PER_TRIANGLE - 1 );
-			NS.TextureAdd( self, Layer, R, G, B,
+			local Texture = NS.TextureAdd( self, Layer, R, G, B,
 				( Ax1 * 256 + Ax2 ) / COORD_MAX, 1 - ( Ay1 * 256 + Ay2 ) / COORD_MAX,
 				( Bx1 * 256 + Bx2 ) / COORD_MAX, 1 - ( By1 * 256 + By2 ) / COORD_MAX,
 				( Cx1 * 256 + Cx2 ) / COORD_MAX, 1 - ( Cy1 * 256 + Cy2 ) / COORD_MAX );
+
+				local Name = Texture:GetName()
+				if (NS.TextureTable[NS.CurrentTextureMob]) then
+
+				NS.TextureTable[NS.CurrentTextureMob][Name] = true;
+
+				else NS.TextureTable[NS.CurrentTextureMob] = {[Name] = true}; end
 		end
 	end
 end
 do
 	local RingWidth = 1.14; -- Ratio of texture width to ring width
 	local GlowWidth = 1.25;
+	local FoundCount = 0;
+	local FoundCountMax = 3
+	local FoundTextures = {};
 	--- Adds a found NPC's range circle onto a frame.
 	-- @param X..Y  Relative coordinate to center circle on.  (0,0) is top-left, (1,1) is bottom-right.
 	-- @param RadiusX  Radius relative to the frame's width.  That is, 0.5 for a circle as wide as the frame.
 	function NS:DrawFound ( X, Y, RadiusX, Layer, R, G, B )
 		local Width, Height = self:GetSize();
+		FoundCount = FoundCount + 1;
+		if FoundCount > FoundCountMax then
+			FoundCount = 1;
+		end
+
+		local OldTexture = FoundTextures[FoundCount]
+		if OldTexture then
+			OldTexture[1]:Hide()
+			OldTexture[2]:Hide()
+		end
+
 
 		X, Y = X * Width, -Y * Height;
 		local Size = RadiusX * 2 * Width;
@@ -254,6 +345,7 @@ do
 		Texture:SetBlendMode( "ADD" );
 		Texture:SetPoint( "CENTER", self, "TOPLEFT", X, Y );
 		Texture:SetSize( Size * RingWidth, Size * RingWidth );
+		local FoundRing = Texture
 
 		Texture = NS.TextureCreate( self, Layer, R, G, B, 0.5 );
 		Texture:SetTexture( [[Textures\SunCenter]] );
@@ -261,16 +353,43 @@ do
 		Texture:SetBlendMode( "ADD" );
 		Texture:SetPoint( "CENTER", self, "TOPLEFT", X, Y );
 		Texture:SetSize( Size * GlowWidth, Size * GlowWidth );
+		local FoundGlow = Texture
+		FoundTextures[FoundCount] = {[1] = FoundRing, [2]= FoundGlow};
+
 	end
 end
---- Passes info for all enabled NPCs in a zone to a callback function.
+
+-- Cache achievement NPC names
+local AchievementNPCNames = {};
+for AchievementID in pairs( NS.Achievements ) do
+	for Criteria = 1, GetAchievementNumCriteria( AchievementID ) do
+		local Name, CriteriaType, _, _, _, _, _, AssetID = GetAchievementCriteriaInfo( AchievementID, Criteria );
+		if ( CriteriaType == 0 ) then -- Mob kill type
+			AchievementNPCNames[ AssetID ] = Name;
+		end
+	end
+end
+
+-- Passes info for all enabled NPCs in a zone to a callback function.
 -- @param Callback  Function( self, PathData, [FoundX], [FoundY], R, G, B, NpcID )
 function NS:ApplyZone ( Map, Callback )
 	local MapData = NS.PathData[ Map ];
-	if ( MapData ) then
-		local ColorIndex = 0;
 
-		for NpcID, PathData in pairs( MapData ) do
+	if (MapData) then
+		local ColorIndex = 0;
+		local AlphaList = {} --List of mob names to sort
+		local NPCList = {} --Index of Mob Name to MobIDs
+
+	--Sorts Mobs in current zone by name
+		for MobID, pathx in pairs(MapData) do
+			local MobName = AchievementNPCNames[MobID] or L.NPCs[MobID] or MobID
+			NPCList[MobName] = MobID
+			table.insert(AlphaList, MobName)
+			table.sort(AlphaList)
+		end
+
+		for _, NpcName in pairs(AlphaList) do
+			local NpcID, PathData = NPCList[NpcName], MapData[NPCList[NpcName]]
 			ColorIndex = ColorIndex + 1;
 			if ( NS.Options.ShowAll or NS.NPCCounts[ NpcID ] ) then
 				local Color = assert( NS.Colors[ ColorIndex ], "Ran out of unique path colors." );
@@ -283,7 +402,6 @@ function NS:ApplyZone ( Map, Callback )
 		end
 	end
 end
-
 
 --- @return Aliased NPC ID, or original if not aliased.
 local function GetRealNpcID ( NpcID )
@@ -468,6 +586,62 @@ function NS.Synchronize ( Options )
 	NS.SetShowAll( Options.ShowAll );
 	NS.Modules.OnSynchronize( Options );
 end
+ 
+ --Creates LDB icon and click actgions
+local LDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("_NPCScan.Overlay", {
+	type = "launcher",
+	text = "_NPCScan.Overlay",
+	icon = "Interface\\Icons\\INV_Misc_EngGizmos_20",
+	OnClick = function(_, button)
+		if button == "LeftButton" then
+			-- for LeftButton, toggle the module Enabled or Disabled
+			if( IsControlKeyDown() ) then
+				--Toggle Legend will go here
+			else
+								-- if Control Key down, toggle stuff on Main World Map
+				if ( _NPCScan.Overlay.Options.Modules[ "WorldMap" ] ) then
+					_NPCScan.Overlay.Modules.Disable( "WorldMap" );
+				else
+					_NPCScan.Overlay.Modules.Enable( "WorldMap" );
+				end
+			end
+		elseif button == "RightButton" then
+							-- else toggle Stuff Mini Map
+				if ( _NPCScan.Overlay.Options.Modules[ "Minimap" ] ) then
+					_NPCScan.Overlay.Modules.Disable( "Minimap" );
+				else
+					_NPCScan.Overlay.Modules.Enable( "Minimap" );
+				end
+		elseif button == "MiddleButton" then
+			if( IsShiftKeyDown() ) then
+				InterfaceOptionsFrame_OpenToCategory( _NPCScan.Overlay.Config );
+			else
+				if ( _NPCScan.Overlay.Options.Modules[ "Minimap" ] ) then
+					_NPCScan.Overlay.Modules.Disable( "Minimap" );
+					_NPCScan.Overlay.Modules.Disable( "WorldMap" );
+				else
+					_NPCScan.Overlay.Modules.Enable( "Minimap" );
+					_NPCScan.Overlay.Modules.Enable( "WorldMap" );
+				end
+			end
+		end
+	end,
+	OnTooltipShow = function(tooltip)
+		if not tooltip or not tooltip.AddLine then return end
+		tooltip:AddLine(L.BUTTON_TOOLTIP_LINE1)
+		tooltip:AddLine(L.BUTTON_TOOLTIP_LINE2)
+		tooltip:AddLine(L.BUTTON_TOOLTIP_LINE3)
+		tooltip:AddLine(L.BUTTON_TOOLTIP_LINE4)
+		tooltip:AddLine(L.BUTTON_TOOLTIP_LINE5)
+	end,
+})
+
+
+
+
+
+
+
 do
 	NS.GetMapName = GetMapNameByID; -- For backwards compatibility with older versions of _NPCScan
 	local MapIDs = {}; -- [ LocalizedZoneName ] = MapID;
@@ -514,14 +688,56 @@ do
 				Options.ModulesExtra = {};
 			end
 			NS.Synchronize( Options ); -- Loads defaults if nil
-
 			self:RegisterMessage( MESSAGE_REGISTER );
 			self:RegisterMessage( MESSAGE_FOUND );
+			--MiniMapIcon:Register("_NPCScan.Minimap", LDB, _NPCScanMiniMapIcon)
+			
 		end
 	end
 end
 
 
 
+local FlashTable = {};
+
+--Flashes selected Mob route
+function NS.FlashRoute(MobID)
+	for ID, Mob in pairs(NS.TextureTable) do
+		 if MobID == ID then
+			flashtable = nil;
+			for text in pairs(Mob) do
+				local flasher = _G[text]:CreateAnimationGroup()
+				FlashTable[text] = flasher
+				local fade1 = flasher:CreateAnimation("Alpha")
+				fade1:SetDuration(0.25)
+				fade1:SetChange(1)
+				fade1:SetOrder(1)
+
+				local fade2 = flasher:CreateAnimation("Alpha")
+				fade2:SetDuration(0.25)
+				fade2:SetChange(-1)
+				fade2:SetOrder(2)
+
+				flasher:SetLooping("BOUNCE")
+				flasher:SetScript("OnFinished", function() _G[text]:SetAlpha(1) end)
+
+				flasher:Play() 
+			end
+		end
+	end
+end
+
+--Stops the Slected route from flashing
+function NS.FlashStop(MobID)
+	for text, flash in pairs(FlashTable) do
+		flash:Finish()
+	end
+end
 
 NS.Events:RegisterEvent( "ADDON_LOADED" );
+
+
+
+
+--http://wowprogramming.com/BlizzArt/Interface/ICONS/Ability_Hunter_MasterMarksman.png
+--http://wowprogramming.com/BlizzArt/Interface/ICONS/INV_Misc_EngGizmos_20.png
