@@ -50,10 +50,10 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10620 $"):sub(12, -3)),
-	DisplayVersion = "5.4.3 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
-	DisplayReleaseVersion = "5.4.2", -- Needed to work around bigwigs sending improper version information
-	ReleaseRevision = 10395 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 10665 $"):sub(12, -3)),
+	DisplayVersion = "5.4.4 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
+	DisplayReleaseVersion = "5.4.3", -- Needed to work around bigwigs sending improper version information
+	ReleaseRevision = 10638 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -91,6 +91,7 @@ DBM.DefaultOptions = {
 	},
 	Enabled = true,
 	ShowWarningsInChat = true,
+	ShowChatTime = true,
 	ShowFakedRaidWarnings = false,
 	WarningIconLeft = true,
 	WarningIconRight = true,
@@ -270,6 +271,7 @@ local ipairs, pairs, next = ipairs, pairs, next
 local tinsert, tremove, twipe = table.insert, table.remove, table.wipe
 local type = type
 local select = select
+local GetTime = GetTime
 local floor, mhuge, mmin, mmax = math.floor, math.huge, math.min, math.max
 local GetNumGroupMembers = GetNumGroupMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
@@ -662,7 +664,7 @@ do
 					args.extraSpellId, args.extraSpellName, args.extraSpellSchool = select(4, ...)
 				elseif event == "SPELL_EXTRA_ATTACKS" then
 					args.amount = select(4, ...)
-				elseif event == "SPELL_DISPEL" or event == "SPELL_DISPEL_FAILED" or event == "SPELL_AURA_STOLEN" then
+				elseif event == "SPELL_DISPEL" or event == "SPELL_DISPEL_FAILED" or event == "SPELL_AURA_STOLEN" or event == "SPELL_AURA_BROKEN" or event == "SPELL_AURA_BROKEN_SPELL" then
 					args.extraSpellId, args.extraSpellName, args.extraSpellSchool = select(4, ...)
 					args.auraType = select(7, ...)
 				elseif event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REMOVED" or event == "SPELL_AURA_REFRESH" then
@@ -1163,11 +1165,12 @@ SlashCmdList["DEADLYBOSSMODS"] = function(msg)
 			DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
 			return
 		end
+		DBM:Unschedule(SendChatMessage)
 		local timer = tonumber(cmd:sub(6)) or 5
+		if timer == 0 then return end--Allow /dbm break 0 to cancel it
 		local timer = timer * 60
 		local channel = (IsInRaid() and "RAID_WARNING") or "PARTY"
 		DBM:CreatePizzaTimer(timer, DBM_CORE_TIMER_BREAK, true)
-		DBM:Unschedule(SendChatMessage)
 		if IsInGroup() then
 			SendChatMessage(DBM_CORE_BREAK_START:format(timer/60), channel)
 			if timer/60 > 5 then DBM:Schedule(timer - 5*60, SendChatMessage, DBM_CORE_BREAK_MIN:format(5), channel) end
@@ -2210,7 +2213,7 @@ function DBM:ScenarioCheck()
 	if combatInfo[LastInstanceMapID] then
 		for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 			if (v.type == "scenario") and checkEntry(v.msgs, LastInstanceMapID) then
-				DBM:StartCombat(v.mod, 0, "LOADING_SCREEN_DIASBLED")
+				DBM:StartCombat(v.mod, 0, "LOADING_SCREEN_DISABLED")
 			end
 		end
 	end
@@ -2369,6 +2372,15 @@ do
 		if dbmRevision < 10481 then return end
 		if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then
 			DBM:StartCombat(mod, delay + lag, "SYNC from - "..sender, true, startHp)
+		end
+	end
+	
+	syncHandlers["HF"] = function(sender, mod, modRevision)
+		mod = DBM:GetModByName(mod or "")
+		modRevision = tonumber(modRevision or 0) or 0
+		if mod and (mod.revision < modRevision) then
+			--TODO, maybe require at least 2 senders? this doesn't disable mod or make a popup though, just warn in chat that mod may have invalid timers/warnings do to a blizzard hotfix
+			DBM:AddMsg(DBM_CORE_UPDATEREMINDER_HOTFIX)
 		end
 	end
 
@@ -3393,8 +3405,8 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 	if not checkEntry(inCombat, mod) then
 		if not mod.Options.Enabled then return end
 		-- HACK: makes sure that we don't detect a false pull if the event fires again when the boss dies...
-		if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) then return end
-		if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (mod.reCombatTime2 or 20) then return end
+		if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then return end
+		if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then return end
 		if not mod.combatInfo then return end
 		if mod.combatInfo.noCombatInVehicle and UnitInVehicle("player") then -- HACK
 			return
@@ -3537,6 +3549,9 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 			dummyMod.text:Cancel()
 			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL) 
 			TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
+		end
+		if mod.hotfixNoticeRev then
+			sendSync("HF", mod.id.."\t"..mod.hotfixNoticeRev)
 		end
 	end
 end
@@ -4342,7 +4357,11 @@ function DBM:AddMsg(text, prefix)
 	prefix = prefix or (self.localization and self.localization.general.name) or "Deadly Boss Mods"
 	local frame = _G[tostring(DBM.Options.ChatFrame)]
 	frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
-	frame:AddMessage(("|cffff7d0a<|r|cffffd200%s|r|cffff7d0a>|r %s"):format(tostring(prefix), tostring(text)), 0.41, 0.8, 0.94)
+	if DBM.Options.ShowChatTime then
+		frame:AddMessage(("|cffff7d0a%s|r|cffff7d0a[|r|cffffd200%s|r|cffff7d0a]|r %s"):format(date("%H:%M:%S"), tostring(prefix), tostring(text)), 0.41, 0.8, 0.94)
+	else
+		frame:AddMessage(("|cffff7d0a<|r|cffffd200%s|r|cffff7d0a>|r %s"):format(tostring(prefix), tostring(text)), 0.41, 0.8, 0.94)
+	end	
 end
 
 do
@@ -7196,6 +7215,10 @@ function bossModPrototype:SetMinSyncRevision(revision)
 	self.minSyncRevision = revision
 end
 
+function bossModPrototype:SetHotfixNoticeRev(revision)
+	self.hotfixNoticeRev = revision
+end
+
 
 -----------------
 --  Scheduler  --
@@ -7362,6 +7385,7 @@ end
 --  Localization  --
 --------------------
 function bossModPrototype:GetLocalizedStrings()
+	self.localization.miscStrings.name = self.localization.general.name
 	return self.localization.miscStrings
 end
 

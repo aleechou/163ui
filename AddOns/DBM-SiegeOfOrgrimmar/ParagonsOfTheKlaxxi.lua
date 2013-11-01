@@ -172,6 +172,9 @@ local berserkTimer					= mod:NewBerserkTimer(720)
 
 local twipe = table.wipe
 
+local chongnum = 0
+local dissectorlive = true
+
 mod:AddBoolOption("RangeFrame")
 mod:AddBoolOption("SetIconOnAim", true)--multi boss fight, will use star and avoid moving skull off a kill target
 mod:AddBoolOption("InfoFrame", true, "sound")
@@ -188,10 +191,8 @@ local RedMarkers={}
 local BlueMarkers={}
 local YellowMarkers={}
 local MZMarkers={}
-local CFMarkers={}
 
 local activatedTargets = {}--A table, for the 3 on pull
-local whirlingTargets = {}
 local mutateTargets = {}
 local activeBossGUIDS = {}
 local UnitDebuff = UnitDebuff
@@ -202,14 +203,7 @@ local calculatedColor = nil
 local calculatingDude = EJ_GetSectionInfo(8012)
 local readyToFight = GetSpellInfo(143542)
 
-local activenum = 0
-local deadnum = 0
-local bosstype = 0
-
 local bossspellinfo = {}
-
-local winderlive = false
-local locustlive = false
 
 local ResultTargets = {}
 local ResultMeleeTargets = {}
@@ -266,7 +260,6 @@ local function showspellinfo()
 		for k,v in pairs(bossspellinfo) do
 			bossnum = bossnum + 1
 		end
-		DBM.RangeCheck:Hide()
 		DBM.InfoFrame:SetHeader(L.BossSpellInfo)
 		local firstboss = 1
 		if not bossspellinfo[1] then firstboss = 2 end
@@ -293,11 +286,6 @@ local function warnActivatedTargets(vulnerable)
 		end
 	end
 	twipe(activatedTargets)
-end
-
-local function warnWhirlingTargets()
-	warnWhirling:Show(table.concat(whirlingTargets, "<, >"))
-	twipe(whirlingTargets)
 end
 
 local function warnMutatedTargets()
@@ -362,13 +350,6 @@ local function CheckBosses(GUID)
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lfz.mp3") --掠風者參戰
 				end
-				if activetime < 10 then bosstype = 1 end
-				if mod.Options.RangeFrame then
-					winderlive = true
-					if not locustlive then
-						DBM.RangeCheck:Show(5)
-					end
-				end
 			elseif cid == 71157 then--Xaril the Poisoned-Mind
 				if UnitDebuff("player", GetSpellInfo(142931)) then vulnerable = true end
 				if activetime >= 15 then
@@ -383,7 +364,6 @@ local function CheckBosses(GUID)
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zzz.mp3") --至尊者參戰
 				end
-				if activetime < 10 then bosstype = 3 end
 			elseif cid == 71160 then--Iyyokuk the Lucid
 				timerInsaneCalculationCD:Start()
 				if activetime >= 15 then
@@ -395,17 +375,12 @@ local function CheckBosses(GUID)
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bsh.mp3") --暴食蝗參戰
 				end
-				if mod.Options.RangeFrame then
-					locustlive = true
-					DBM.RangeCheck:Show(6)					
-				end
 			elseif cid == 71152 then--Skeer the Bloodseeker
 				timerBloodlettingCD:Start(9)
 				if UnitDebuff("player", GetSpellInfo(143279)) then vulnerable = true end
 				if activetime >= 15 then
 					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_nxz.mp3") --覓血者參戰
 				end
-				if activetime < 10 then bosstype = 5 end
 			elseif cid == 71158 then--Rik'kal the Dissector
 				timerInjectionCD:Start(14)
 				timerMutateCD:Start(34)
@@ -431,13 +406,11 @@ end
 function mod:OnCombatStart(delay)
 	twipe(activeBossGUIDS)
 	twipe(activatedTargets)
-	twipe(whirlingTargets)
 	twipe(mutateTargets)
 	twipe(RedMarkers)
 	twipe(BlueMarkers)
 	twipe(YellowMarkers)
 	twipe(MZMarkers)
-	twipe(CFMarkers)
 	
 	twipe(ResultTargets)
 	twipe(ResultMeleeTargets)
@@ -446,8 +419,8 @@ function mod:OnCombatStart(delay)
 	calculatedShape = nil
 	calculatedNumber = nil
 	calculatedColor = nil
-	activenum = 0
-	deadnum = 0
+	chongnum = 0
+	dissectorlive = true
 	self:RegisterShortTermEvents(
 		"INSTANCE_ENCOUNTER_ENGAGE_UNIT"--We register here to make sure we wipe variables on pull
 	)
@@ -594,16 +567,6 @@ function mod:SPELL_CAST_START(args)
 			DBM.RangeCheck:Show(6)--Range assumed, spell tooltips not informative enough
 			self:Schedule(5, hideRangeFrame)
 		end]]
---[[		if mod.Options.HudMAPCF then
-			for i = 1, DBM:GetNumGroupMembers() do
-				if UnitName("raid"..i) ~= UnitName("player") then
-					local _, class = UnitClass("raid"..i)
-					if (class == "DRUID" and UnitPowerMax("raid"..i) > 200000) or class == "HUNTER" or class == "PRIEST" or class == "MAGE" or class == "WARLOCK" or (class == "SHAMAN" and UnitPowerMax("raid"..i) > 200000) or (class == "PALADIN" and UnitPowerMax("raid"..i) > 200000) then
-						CFMarkers[UnitName("raid"..i)] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", UnitName("raid"..i), 6, 2, 1, 1 ,1 ,0.8):Appear():RegisterForAlerts())
-					end
-				end
-			end
-		end]]
 	elseif args.spellId == 143280 then
 		warnBloodletting:Show()
 		specWarnBloodletting:Show()
@@ -614,11 +577,12 @@ function mod:SPELL_CAST_START(args)
 		warnShieldBash:Show()
 		timerShieldBashCD:Start()
 	elseif args.spellId == 142315 then
-		for i = 1, 3 do
+		for i = 1, 5 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				warnCausticBlood:Show()
 				specWarnCausticBlood:Show()--So show tank warning
+				break
 			end
 		end
 	elseif args.spellId == 143243 then
@@ -626,8 +590,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnRapidFire:Show()
 		--timerRapidFireCD:Start()
 	elseif args.spellId == 143339 then
-		specWarnInjection:Show()
-		timerInjectionCD:Start()
+		for i = 1, 5 do
+			local bossUnitID = "boss"..i
+			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then
+				specWarnInjection:Show()
+				timerInjectionCD:Start()
+				break
+			end
+		end
 	end
 end
 
@@ -719,9 +689,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args.spellId == 143701 then
-		whirlingTargets[#whirlingTargets + 1] = args.destName
-		self:Unschedule(warnWhirlingTargets)
-		self:Schedule(0.5, warnWhirlingTargets)
+		warnWhirling:CombinedShow(0.5, args.destName)
 		if args.IsPlayer() then
 			specWarnWhirling:Show()
 			yellWhirling:Yell()
@@ -778,9 +746,9 @@ function mod:SPELL_AURA_APPLIED(args)
 				MZMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 10, 10, 1, 1 ,1 ,0.8):Appear():RegisterForAlerts():Rotate(360, 5.2))
 			end
 		end
---[[DELETE		if self.Options.RangeFrame then
+		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(5)
-		end]]
+		end
 		if self.Options.SetIconOnAim then
 			self:SetIcon(args.destName, 1)
 		end
@@ -810,6 +778,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if MZMarkers[args.destName] then
 			MZMarkers[args.destName] = free(MZMarkers[args.destName])
 		end
+	elseif args.spellId == 143339 then
+		if dissectorlive then
+			chongnum = chongnum + 8
+		end		
 	end
 end
 
@@ -828,12 +800,6 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 71161 then--Kil'ruk the Wind-Reaver
 		self:Unschedule(DFAScan)
-		if mod.Options.RangeFrame then
-			winderlive = false
-			if not locustlive then
-				DBM.RangeCheck:Hide()
-			end					
-		end
 	elseif cid == 71157 then--Xaril the Poisoned-Mind
 		timerToxicCatalystCD:Cancel()
 	elseif cid == 71156 then--Kaz'tik the Manipulator
@@ -847,21 +813,19 @@ function mod:UNIT_DIED(args)
 	elseif cid == 71154 then--Ka'roz the Locust
 		timerFlashCD:Cancel()
 		timerHurlAmberCD:Cancel()
-		if mod.Options.RangeFrame then
-			if not winderlive then
-				DBM.RangeCheck:Hide()
-			else
-				DBM.RangeCheck:Show(5)
-			end
-		end
 	elseif cid == 71152 then--Skeer the Bloodseeker
 		timerBloodlettingCD:Cancel()
 	elseif cid == 71158 then--Rik'kal the Dissector
 		timerMutateCD:Cancel()
 		timerInjectionCD:Cancel()
+		dissectorlive = false
 	elseif cid == 71153 then--Hisek the Swarmkeeper
 		timerAimCD:Cancel()
 		--timerRapidFireCD:Cancel()
+	elseif cid == 71578 then--chong
+		chongnum = chongnum - 1
+		if (not dissectorlive) and (chongnum == 0) then
+		end
 	end
 end
 

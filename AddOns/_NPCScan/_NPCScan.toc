@@ -1,5 +1,4 @@
 ## Interface: 50400
-## Title: _|cffCCCC88NPCScan|r
 ## Notes: Scans NPCs around you for rare ones.
 ## Notes-deDE: Scant NSCs in deiner Nähe nach seltenen.
 ## Notes-enCN: 搜索附近的 NPC 寻找稀有怪物。
@@ -14,7 +13,8 @@
 ## Notes-ruRU: Сканирует область вокруг вас на наличие редких НИПов.
 ## Notes-zhCN: 搜索附近的 NPC 寻找稀有怪物。
 ## Notes-zhTW: 搜尋出沒在你附近的稀有怪。
-## Author: Saiket
+## Author: Torhal, Saiket
+## X-Credits-Maintainer: SLOKnightfall
 ## X-Credits-deDE: Localization: Freydis88, DirtyHarryGermany
 ## X-Credits-enCN: Localization: digmouse, tss1398383123, ananhaid, redsaru, dh0000
 ## X-Credits-enTW: Localization: s8095324, pepper_ep, zhTW, laincat, alpha2009, machihchung
@@ -28,35 +28,37 @@
 ## X-Credits-ruRU: Localization: StingerSoft, Sarymian, KVVV, The_DimoK, ichik, Ant1dotE, tick095, dartraiden
 ## X-Credits-zhCN: Localization: digmouse, tss1398383123, ananhaid, redsaru, dh0000
 ## X-Credits-zhTW: Localization: s8095324, pepper_ep, zhTW, laincat, alpha2009, machihchung
-## Version: v5.1-1-g89a1c46
-## X-Date: 2013-10-01T01:35:28Z
+## Version: 5.4.0.8
+## X-Date: 2013-10-18T03:49:15Z
 ## X-Category: Miscellaneous
 ## X-License: GPLv3
 ## X-Email: jcallahan@curse.com
-## X-Website: http://sites.google.com/site/wowsaiket/Add-Ons/NPCScan
-## X-Feedback: http://code.google.com/p/wow-saiket/issues/list?can=1&q=AddOn:NPCScan
 ## X-WoWI-ID: 12995
-## X-Curse-Project-ID: npcscan
 ## X-Localizations: deDE, enCN, enTW, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
 ## X-CompatibleLocales: deDE, enCN, enTW, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## SavedVariables: _NPCScanOptions
+## SavedVariables: _NPCScanOptions, TESTPRO
 ## SavedVariablesPerCharacter: _NPCScanOptionsCharacter
 ## OptionalDeps: Ace3, LibTextTable-1.1, LibSharedMedia-3.0
+## X-Curse-Packaged-Version: 5.4.0.8
+## X-Curse-Project-Name: _NPCScan
+## X-Curse-Project-ID: npcscan
+## X-Curse-Repository-ID: wow/npcscan/mainline
 
 Libs\LibTextTable-1.1\Lib.xml
-# See http://wow.curseforge.com/addons/npcscan/localization/
+# See http://wow.wowace.com/addons/npcscan/localization/
 Locales\Locale-enUS.lua
 Locales\Locale-zhCN.lua
 Locales\Locale-zhTW.lua
 
-_NPCScan.NPCData.lua
+NPCData.lua
 
+Constants.lua
 _NPCScan.lua
-_NPCScan.Button.lua
-_NPCScan.Overlays.lua
-_NPCScan.TamableIDs.lua
-_NPCScan.Config.lua
-_NPCScan.Config.Search.lua
+TargetButton.lua
+MapOverlays.lua
+TamableIDs.lua
+Config.lua
+ConfigSearch.lua
 
 ## Title: |cff880303[网易有爱]|r _NPCScan
 ## X-Vendor: NetEase

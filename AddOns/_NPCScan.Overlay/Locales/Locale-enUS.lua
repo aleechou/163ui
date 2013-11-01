@@ -7,7 +7,7 @@
 -- See http://wow.curseforge.com/addons/npcscan-overlay/localization/enUS/
 select( 2, ... ).L = setmetatable( {
 	NPCs = { -- Note: Don't use a metatable default; Missing keys must return nil
-		[ 61 ] = "Thuros Lightfingers";
+[ 61 ] = "Thuros Lightfingers";
 		[ 62 ] = "Gug Fatcandle";
 		[ 79 ] = "Narg the Taskmaster";
 		[ 99 ] = "Morgaine the Sly";

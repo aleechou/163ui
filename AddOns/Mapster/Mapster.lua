@@ -89,6 +89,10 @@ function Mapster:OnInitialize()
 	self.UIHider:Hide()
 
 	self:SetupOptions()
+
+	-- hack: fix for taint errors when opening the map
+	-- come one Blizzard, fix that thing.
+	setfenv(WorldMapFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
 end
 
 local realZone
@@ -99,6 +103,10 @@ function Mapster:OnEnable()
 	if mini then
 		WorldMap_ToggleSizeUp()
 	end
+
+	-- ensure the map remains movable
+	SetCVar("lockedWorldMap", 0);
+	WORLDMAP_SETTINGS.locked = false
 
 	self:SetupMapButton()
 
@@ -129,9 +137,9 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetHeight(768)
 	WorldMapFrame:SetClampedToScreen(false)
 
-	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneMinimapDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	WorldMapContinentDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneMinimapDropDownButton:HookScript("OnClick", dropdownScaleFix)
 
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
@@ -149,6 +157,14 @@ function Mapster:OnEnable()
 	questOnlyBlobs:SetScript("OnClick", function(self)
 		db.questPanels = self:GetChecked() and 0 or 1
 		Mapster:WorldMapFrame_DisplayQuests()
+
+		-- force blob frames to recalculate
+		if db.questPanels == 1 then
+			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+			WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
+		end
 	end)
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
@@ -547,7 +563,6 @@ function wmfStopMoving(frame)
 end
 
 function dropdownScaleFix(self)
-	ToggleDropDownMenu(nil, nil, self:GetParent())
 	local uiScale = 1
 	local uiParentScale = UIParent:GetScale()
 	if GetCVar("useUIScale") == "1" then

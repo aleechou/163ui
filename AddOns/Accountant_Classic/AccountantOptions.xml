@@ -80,7 +80,7 @@ $Id: AccountantOptions.xml 69 2012-09-26 09:54:33Z arith $
 						AccountantSliderButtonPos:SetValueStep(1);
 					</OnLoad>
 					<OnValueChanged>
-						Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].buttonpos = AccountantSliderButtonPos:GetValue();
+						Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos = AccountantSliderButtonPos:GetValue();
 						AccountantButton_UpdatePosition();
 					</OnValueChanged>
 				</Scripts>

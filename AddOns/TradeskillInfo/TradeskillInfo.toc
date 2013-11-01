@@ -1,8 +1,11 @@
 ## Interface: 50400
+## Notes: Complete tradeskill information.
+## Notes-zhTW: 完整的商業技能百科
+## Notes-zhCN: 完整的商业技能百科
 ## Author: Ethan Centaurai
 ## Version: v2.2.10
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced
-## SavedVariables: TradeSkillInfoDB, TradeskillInfoDB, TradeskillInfoUIDB
+## SavedVariables: TradeSkillInfoDB, TradeskillInfoUIDB
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-Credits: Dys, wmrojer, Evenue, Fieroivan, Viruscamp, CMTitan
@@ -12,6 +15,7 @@
 ## X-Curse-Project-Name: TradeSkillInfo
 ## X-Curse-Project-ID: tradeskill-info
 ## X-Curse-Repository-ID: wow/tradeskill-info/mainline
+Libs\tekKonfig\tekKonfigAboutPanel.lua
 
 Locale\enUS.lua
 Locale\zhCN.lua
@@ -20,10 +24,10 @@ Locale\zhTW.lua
 TradeskillInfo.lua
 DataBroker.lua
 
+Data\Components.lua
 Data\Recipes.lua
 Data\SpecialCases.lua
 Data\TradeskillData.lua
-Data\TradeskillIdData.lua
 
 Data\Professions\Alchemy.lua
 Data\Professions\Blacksmithing.lua

@@ -31,7 +31,7 @@ local warnTailLash					= mod:NewSpellAnnounce(143428, 3, nil, false)--Hey, someo
 local warnBloodFrenzy				= mod:NewStackAnnounce(143442, 3)
 local warnFixate					= mod:NewTargetAnnounce(143445, 4)
 local warnEnrage					= mod:NewTargetAnnounce(145974, 3, nil, mod:IsTank() or mod:CanRemoveEnrage())
-local warnKey						= mod:NewTargetAnnounce(146589, 3)
+local warnKey						= mod:NewTargetAnnounce(146589, 2)
 --Infusion of Acid
 local warnAcidPustules				= mod:NewSpellAnnounce(143971, 2)
 local warnAcidBreath				= mod:NewStackAnnounce(143780, 2, nil, mod:IsTank())
@@ -224,10 +224,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self:IsDifficulty("lfr25") then
 			timerDeafeningScreechCD:Start(18, screechCount+1)
-			sndPX:Schedule(15-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
-			sndPX:Schedule(16-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndPX:Schedule(17-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndPX:Schedule(18-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndPX:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+			sndPX:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		else
 			timerDeafeningScreechCD:Start(screechTimers[screechCount] or 1.2, screechCount+1)
 			if screechTimers[screechCount] and screechTimers[screechCount] > 2.2 then

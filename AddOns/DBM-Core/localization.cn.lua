@@ -95,6 +95,7 @@ DBM_CORE_UPDATEREMINDER_FOOTER		= (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  "
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  "复制地址到剪切板。"
 DBM_CORE_UPDATEREMINDER_NOTAGAIN	= "检测到新版本后弹出提示框"
 DBM_CORE_UPDATEREMINDER_DISABLE		= "警告：你的DBM已经过时相当多的版本（%d个版本），它已被禁用，直到你更新。这是為了确保它不会导致你或其他团队成员出错。"
+DBM_CORE_UPDATEREMINDER_HOTFIX		= "你的DBM版本会在这首领战斗有不准确的计时器或警告。这问题已被修正在下次正式版更新，或可以更新至最新的alpha版本立即修正此问题。"
 
 DBM_CORE_MOVABLE_BAR				= "拖动我！"
 

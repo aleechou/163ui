@@ -15,7 +15,7 @@
 		</Size>
 		<Scripts>
 			<OnClick>
-				TradeskillInfoUI:SkillButton_OnClick(self, button, down);
+				TradeskillInfoUI:SkillButton_OnClick(self, button, down)
 			</OnClick>
 		</Scripts>
 		<NormalTexture urgency="5" file="Interface\Buttons\UI-MinusButton-UP">
@@ -73,20 +73,20 @@
 	<Button name="TradeskillInfoItemTemplate" inherits="QuestItemTemplate" virtual="true">
 		<Scripts>
 			<OnLoad>
-				self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+				self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 			</OnLoad>
 			<OnEnter>
-				TradeskillInfoUI:ShowReagentTooltip(self);
+				TradeskillInfoUI:ShowReagentTooltip(self)
 			</OnEnter>
 			<OnLeave>
-				GameTooltip:Hide();
-				ResetCursor();
+				GameTooltip:Hide()
+				ResetCursor()
 			</OnLeave>
 			<OnUpdate>
-				CursorOnUpdate(self);
+				CursorOnUpdate(self)
 			</OnUpdate>
 			<OnClick>
-				TradeskillInfoUI:ReagentIcon_OnClick(self, button);
+				TradeskillInfoUI:ReagentIcon_OnClick(self, button)
 			</OnClick>
 		</Scripts>
 	</Button>
@@ -101,16 +101,16 @@
 		<HighlightText inherits="GameFontHighlightSmall"/>
 		<Scripts>
 			<OnClick>
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound("igMainMenuOptionCheckBoxOn")
 			</OnClick>
 			<OnEnter>
 				if ( self.tooltipText ) then
-					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-					GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+					GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1)
 				end
 			</OnEnter>
 			<OnLeave>
-				GameTooltip:Hide();
+				GameTooltip:Hide()
 			</OnLeave>
 		</Scripts>
 	</Button>
@@ -192,27 +192,13 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				self.scrollBarHideable = 1;
-				ScrollFrame_OnLoad(self);
+				self.scrollBarHideable = 1
+				ScrollFrame_OnLoad(self)
 			</OnLoad>
 		</Scripts>
 	</ScrollFrame>
 
 	<Frame name="TradeskillInfoFrame" toplevel="true" frameStrata="LOW" movable="true" resizable="true" parent="UIParent" enableMouse="true" hidden="true">
-<!--
-		<TitleRegion>
-		  <Size>
-				<AbsDimension x="600" y="40" />
-			</Size>
-			<Anchors>
-				<Anchor point="TOP">
-					<Offset>
-						<AbsDimension x="0" y="20" />
-					</Offset>
-				</Anchor>
-			</Anchors>
-	  </TitleRegion>
--->
 		<Size>
 			<AbsDimension x="712" y="345"/>
 		</Size>
@@ -273,16 +259,6 @@
 						<Size>
 							<AbsDimension x="320" y="260"/>
 						</Size>
-
-		<!--				<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="false">
-							<BackgroundInsets>
-								<AbsInset left="0" right="0" top="0" bottom="0" />
-							</BackgroundInsets>
-							<EdgeSize>
-								<AbsValue val="1" />
-							</EdgeSize>
-						</Backdrop> -->
-
 						<Layers>
 							<Layer level="BACKGROUND">
 								<FontString name="TradeskillInfoSkillName" inherits="GameFontNormal" text="Skill Name" justifyH="LEFT">
@@ -304,7 +280,7 @@
 												<AbsDimension x="0" y="0"/>
 											</Offset>
 										</Anchor>
-									</Anchors>TradeskillInfoDetailFrame
+									</Anchors>
 								</FontString>
 								<FontString name="TradeskillInfoRequirementText" inherits="GameFontHighlightSmall" justifyV="TOP" justifyH="LEFT">
 									<Size>
@@ -356,7 +332,7 @@
 									</Anchors>
 								</FontString>
 
-								<FontString name="TradeskillInfoRecipe1" inherits="GameFontNormalSmall" justifyV="TOP" justifyH="LEFT" hidden="true">
+								<FontString name="TradeskillInfoRecipe1" hidden="true" inherits="GameFontNormalSmall" justifyV="TOP" justifyH="LEFT">
 									<Size>
 										<AbsDimension x="305" y="0"/>
 									</Size>
@@ -421,20 +397,20 @@
 								</Layers>
 								<Scripts>
 									<OnLoad>
-										self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+										self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 									</OnLoad>
 									<OnClick>
-										TradeskillInfoUI:ReagentIcon_OnClick(self, button);
+										TradeskillInfoUI:ReagentIcon_OnClick(self, button)
 									</OnClick>
 									<OnEnter>
-										TradeskillInfoUI:ShowReagentTooltip(self);
+										TradeskillInfoUI:ShowReagentTooltip(self)
 									</OnEnter>
 									<OnLeave>
-										GameTooltip:Hide();
-										ResetCursor();
+										GameTooltip:Hide()
+										ResetCursor()
 									</OnLeave>
 									<OnUpdate>
-										CursorOnUpdate(self);
+										CursorOnUpdate(self)
 									</OnUpdate>
 								</Scripts>
 							</Button>
@@ -464,7 +440,7 @@
 								</Anchors>
 								<FontString inherits="GameFontNormalSmall" justifyV="TOP" justifyH="LEFT"/>
 								<Scripts>
-									<OnHyperlinkClick>TradeskillInfoUI:RecipeSource_OnHyperlinkClick(self, link);</OnHyperlinkClick>
+									<OnHyperlinkClick>TradeskillInfoUI:RecipeSource_OnHyperlinkClick(self, link)</OnHyperlinkClick>
 								</Scripts>
 							</SimpleHTML>
 							<Button name="TradeskillInfoReagent1" inherits="TradeskillInfoItemTemplate" id="1">
@@ -540,13 +516,6 @@
 								</Anchors>
 							</Button>
 						</Frames>
-		<!--				<Scripts>
-							<OnLoad>
-								self:SetBackdropColor(.05,.05,.05,.8);
-								self:SetBackdropBorderColor(.4,.4,.4,1);
-								tinsert(UISpecialFrames,self:GetName());
-							</OnLoad>
-						</Scripts> -->
 					</Frame>
 				</ScrollChild>
 			</ScrollFrame>
@@ -564,8 +533,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TradeskillInfoInputBox:ClearFocus();
-						TradeskillInfoUI:Search_OnClick();
+						TradeskillInfoInputBox:ClearFocus()
+						TradeskillInfoUI:OnTradeskillInfoUpdate()
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -583,8 +552,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TradeskillInfoInputBox:ClearFocus();
-						TradeskillInfoUI:Reset_OnClick();
+						TradeskillInfoInputBox:ClearFocus()
+						TradeskillInfoUI:Reset_OnClick()
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -642,22 +611,17 @@
 				</Layers>
 				<Scripts>
 					<OnEnterPressed>
-						self:ClearFocus();
-						TradeskillInfoUI:Search_OnClick();
+						self:ClearFocus()
+						TradeskillInfoUI:OnTradeskillInfoUpdate()
 					</OnEnterPressed>
 					<OnEscapePressed>
-						self:ClearFocus();
+						self:ClearFocus()
 					</OnEscapePressed>
-					<OnTextChanged>
-						--if ( self:GetText() == "0" ) then
-						--	self:SetText("1");
-						--end
-					</OnTextChanged>
 					<OnEditFocusLost>
-						self:HighlightText(0, 0);
+						self:HighlightText(0, 0)
 					</OnEditFocusLost>
 					<OnEditFocusGained>
-						self:HighlightText();
+						self:HighlightText()
 					</OnEditFocusGained>
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
@@ -676,7 +640,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TradeskillInfoUI:ToggleButton(self, button);
+						TradeskillInfoUI:ToggleButton(self, button)
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -694,7 +658,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TradeskillInfoUI:ToggleButton(self, button);
+						TradeskillInfoUI:ToggleButton(self, button)
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -712,7 +676,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TradeskillInfoUI:ToggleButton(self, button);
+						TradeskillInfoUI:ToggleButton(self, button)
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -735,18 +699,8 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-<!--				<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="false">
-					<BackgroundInsets>
-						<AbsInset left="0" right="0" top="0" bottom="0" />
-					</BackgroundInsets>
-					<EdgeSize>
-						<AbsValue val="1" />
-					</EdgeSize>
-				</Backdrop> -->
 				<Frames>
-
-				<!-- Collapse All Button -->
-					<Button name="TradeskillInfoCollapseAllButton">
+					<Button name="TradeskillInfoCollapseAllButton" text="ALL">
 						<Size>
 							<AbsDimension x="40" y="22"/>
 						</Size>
@@ -807,9 +761,6 @@
 						<HighlightFont style="GameFontHighlightLeft"/>
 						<DisabledFont style="GameFontDisableLeft"/>
 						<Scripts>
-							<OnLoad>
-								_G[self:GetName()]:SetText(ALL)
-							</OnLoad>
 							<OnClick>
 								TradeskillInfoUI:CollapseAllButton_OnClick(self)
 							</OnClick>
@@ -860,18 +811,11 @@
 						</Anchors>
 						<Scripts>
 							<OnVerticalScroll>
-								FauxScrollFrame_OnVerticalScroll(self, offset, TradeskillInfoUI.cons.skillHeight, TradeskillInfoUI.Frame_Update);
+								FauxScrollFrame_OnVerticalScroll(self, offset, TradeskillInfoUI.cons.skillHeight, TradeskillInfoUI.Frame_Update)
 							</OnVerticalScroll>
 						</Scripts>
 					</ScrollFrame>
 				</Frames>
-<!--				<Scripts>
-					<OnLoad>
-						self:SetBackdropColor(.05,.05,.05,.8);
-						self:SetBackdropBorderColor(.4,.4,.4,1);
-						tinsert(UISpecialFrames,self:GetName());
-					</OnLoad>
-				</Scripts> -->
 			</Frame>
 
 			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
@@ -908,6 +852,7 @@
 						if button == "LeftButton" then
 							self:GetParent():StopMovingOrSizing()
 							self:GetParent().isResizing = false
+
 							TradeskillInfoUI:Frame_Update()
 							TradeskillInfoUI:SaveFramePosition()
 						end
@@ -936,10 +881,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TradeskillInfoUI:SortDropDown_OnLoad();
+						TradeskillInfoUI:SortDropDown_OnLoad()
 					</OnLoad>
 					<OnShow>
-						TradeskillInfoUI:SortDropDown_OnShow(self);
+						TradeskillInfoUI:SortDropDown_OnShow(self)
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -955,10 +900,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TradeskillInfoUI:TradeskillsDropDown_OnLoad();
+						TradeskillInfoUI:TradeskillsDropDown_OnLoad()
 					</OnLoad>
 					<OnShow>
-						TradeskillInfoUI:TradeskillsDropDown_OnShow(self);
+						TradeskillInfoUI:TradeskillsDropDown_OnShow(self)
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -974,38 +919,34 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						TradeskillInfoUI:AvailabilityDropDown_OnLoad();
+						TradeskillInfoUI:AvailabilityDropDown_OnLoad()
 					</OnLoad>
 					<OnShow>
-						TradeskillInfoUI:AvailabilityDropDown_OnShow(self);
+						TradeskillInfoUI:AvailabilityDropDown_OnShow(self)
 					</OnShow>
 				</Scripts>
 			</Frame>
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				self:SetBackdropColor(.05,.05,.05,.8);
-				self:SetBackdropBorderColor(.4,.4,.4,1);
-				tinsert(UISpecialFrames,self:GetName());
+				self:SetBackdropColor(.05,.05,.05,.8)
+				self:SetBackdropBorderColor(.4,.4,.4,1)
+				tinsert(UISpecialFrames,self:GetName())
 			</OnLoad>
 			<OnShow>
-				PlaySound("igCharacterInfoOpen");
+				TradeskillInfoUI:OnShow()
 			</OnShow>
 			<OnHide>
-			  --HideUIPanel(TradeskillInfoFrame);
-				PlaySound("igCharacterInfoClose");
+				PlaySound("igCharacterInfoClose")
 			</OnHide>
-			<OnMouseWheel>
-				return;
-			</OnMouseWheel>
 			<OnMouseDown>
 				if button == "LeftButton" then
-					self:StartMoving();
+					self:StartMoving()
 				end
 			</OnMouseDown>
 			<OnMouseUp>
 				if button == "LeftButton" then
-					self:StopMovingOrSizing();
+					self:StopMovingOrSizing()
 					self.isResizing = false
 					TradeskillInfoUI:Frame_Update()
 					TradeskillInfoUI:SaveFramePosition()

@@ -7957,6 +7957,7 @@ Locale_NxQuestCategory={
  ["Northern Stranglethorn"]="北荆棘谷",
  ["Firelands Invasion"]="火焰之地",
  ["Uncategorized"]="未分类",
+ ["Timeless Isle"]="永恒岛",
 }
 Locale_NxQuestName = {
   [2]="尖爪的爪子",
@@ -18324,6 +18325,14 @@ Locale_NxQuestName = {
   [32035]="有丝绸吗？",
   [32038]="雄鹿大师",
   [32045]="水的孩子",
+  [33156]="时光守护者凯诺兹",
+  [33160]="时光守护者凯诺兹",
+  [33229]="那一抹青铜色……",
+  [33230]="那一抹青铜色……",
+  [33231]="永恒岛之旅",
+  [33232]="永恒岛之旅",
+  [33337]="时光之景",
+  [33374]="迷雾行者之道",
 }
 Locale_NxQuestStartEnd={
  ["Senani Thunderheart"]="塞娜尼·雷心",
@@ -21651,6 +21660,13 @@ Locale_NxQuestStartEnd={
  ["Aska Mistrunner"]="阿丝卡·迷雾行者",
  ["Jaga"]="珈珈",
  ["Vin"]="蔚蔚",
+ ["Kairoz"]="凯诺兹",
+ ["Kairoz"]="凯诺兹",
+ ["Chromie"]="克罗米",
+ ["Chromie"]="克罗米",
+ ["Watcher Lara"]="观察者劳拉",
+ ["Watcher Alundra"]="观察者奥伦达拉",
+ ["Emperor Shaohao"]="皇帝少昊",
 }
 
 end

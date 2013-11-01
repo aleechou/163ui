@@ -183,11 +183,16 @@ function AtlasLootReverse:RebuildDatabase()
         ["PVP70SET"] = string.format(L["PvP %s Set"], "70"),
         ["PVP80SET"] = string.format(L["PvP %s Set"], "80"),
         ["PVP85SET"] = string.format(L["PvP %s Set"], "85"),
+        ["PVP90SET"] = string.format(L["PvP %s Set"], "90"),
         ["T456SET"] = string.format(L["Tier %s"], "4/5/6"),
         ["T7T8SET"] = string.format(L["Tier %s"], "7/8"),
         ["T9SET"] = string.format(L["Tier %s"], "9"),
         ["T10SET"] = string.format(L["Tier %s"], "10"),
-        ["T1112SET"] = string.format(L["Tier %s"], "11"),
+        ["T1112SET"] = string.format(L["Tier %s"], "11/12"),
+        ["T13SET"] = string.format(L["Tier %s"], "13"),
+        ["T14SET"] = string.format(L["Tier %s"], "14"),
+        ["T15SET"] = string.format(L["Tier %s"], "15"),
+        ["T16SET"] = string.format(L["Tier %s"], "16"),
     }
 
     local sourceMap = {}
@@ -201,12 +206,12 @@ function AtlasLootReverse:RebuildDatabase()
     end
 
     local _AL_loc = LibStub("AceLocale-3.0"):GetLocale("AtlasLoot")
-    local _AL_tier_type = {"Normal", "Heroic", "10 Man", "25 Man", "RaidFinder"} --标记套装类型的
-    for k, v in ipairs(_AL_tier_type) do _AL_tier_type[k] = v=="RaidFinder" and "随机团队" or _AL_loc[v] end
+    local _AL_tier_type = {"Normal", "Heroic", "10 Man", "25 Man", "RaidFinder", "Flexible"} --标记套装类型的
+    for k, v in ipairs(_AL_tier_type) do _AL_tier_type[k] = _AL_loc[v] end
 
     for _,itable in pairs(AtlasLoot_Data) do
         for k,v in pairs(itable) do
-            if string.find(k, "Normal") or string.find(k, "Heroic") or string.find(k, "25Man") or string.find(k, "RaidFinder") then  -- Doing a find because some are _A and some _H
+            if string.find(k, "Normal") or string.find(k, "Heroic") or string.find(k, "25Man") or string.find(k, "RaidFinder") or string.find(k, "Flexible") then  -- Doing a find because some are _A and some _H
                 for _, page in pairs(v) do
                     local type0
                     local bossName = itable.info.name
@@ -255,6 +260,10 @@ function AtlasLootReverse:RebuildDatabase()
                                 zone = strtrim(string.format(L["25 Man %s"], zone))
                             elseif k == "25ManHeroic" then
                                 zone = strtrim(string.format(L["25 Man Heroic %s"], zone))
+                            elseif k == "RaidFinder" then
+                                zone = strtrim(string.format(L["RaidFinder %s"], zone))
+                            elseif k == "Flexible" then
+                                zone = strtrim(string.format(L["Flexible %s"], zone))
                             end
                             if zone ~= "" then
                                 zone = " (" .. zone .. ")"

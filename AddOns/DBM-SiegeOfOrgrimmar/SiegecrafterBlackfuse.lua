@@ -4,6 +4,11 @@ local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndFMD	= mod:NewSound(nil, "SoundFMD", mod:IsRangedDps())
 local sndDL		= mod:NewSound(nil, "SoundDL", mod:IsRangedDps())
 local sndCZ		= mod:NewSound(nil, "SoundCZ", false)
+local sndCZ4	= mod:NewSound(nil, "SoundCZ4", false)
+local sndCZ5	= mod:NewSound(nil, "SoundCZ5", false)
+
+local sndCS1	= mod:NewSound(nil, "SoundCS1", false)
+local sndCS2	= mod:NewSound(nil, "SoundCS2", false)
 
 mod:SetRevision(("$Revision: 10387 $"):sub(12, -3))
 mod:SetCreatureID(71504)--71591 Automated Shredder
@@ -20,7 +25,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED",
 	"UNIT_DIED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"RAID_BOSS_WHISPER"
+	"SPELL_AURA_BROKEN",
+	"SPELL_AURA_BROKEN_SPELL",
+	"RAID_BOSS_WHISPER",
+	"UNIT_AURA player"
 )
 
 --Siegecrafter Blackfuse
@@ -40,6 +48,8 @@ local warnLaserFixate					= mod:NewTargetAnnounce(143828, 3, 143867)--Not in com
 local warnMagneticCrush					= mod:NewSpellAnnounce(144466, 3)--Unsure if correct ID, could be 143487 instead
 local warnCrawlerMine					= mod:NewSpellAnnounce("ej8212", 3, 144010)--Crawler Mine Spawning
 local warnReadyToGo						= mod:NewTargetAnnounce(145580, 4)--Crawler mine not dead fast enough
+local warnCC							= mod:NewAnnounce("warnCC", 4, 1499, nil, nil, true)
+local warnCSDps							= mod:NewTargetAnnounce("ej8202", 3, 85914)
 
 --Siegecrafter Blackfuse
 local specWarnLaunchSawblade			= mod:NewSpecialWarningYou(143265)
@@ -49,6 +59,7 @@ local specWarnOvercharge				= mod:NewSpecialWarningTarget(145774)
 --Automated Shredders
 local specWarnAutomatedShredder			= mod:NewSpecialWarningSpell("ej8199", mod:IsTank())--No sense in dps switching when spawn, has damage reduction. This for tank pickup
 local specWarnDeathFromAbove			= mod:NewSpecialWarningYou(144208)
+local specWarnDFANear					= mod:NewSpecialWarningClose(144208)
 local specWarnAutomatedShredderSwitch	= mod:NewSpecialWarningSwitch("ej8199", false)--Strat dependant, you may just ignore them and have tank kill them with laser pools
 --The Assembly Line
 local specWarnCrawlerMine				= mod:NewSpecialWarningSwitch("ej8212")
@@ -56,11 +67,12 @@ local specWarnAssemblyLine				= mod:NewSpecialWarningSpell("ej8202", mod:IsDps()
 local specWarnShockwaveMissileActive	= mod:NewSpecialWarningSpell("ej8204", nil, nil, nil, 2)
 local specWarnReadyToGo					= mod:NewSpecialWarningTarget(145580)
 local specWarnLaserFixate				= mod:NewSpecialWarningRun(143828)
+local specWarnLaserFixateNear			= mod:NewSpecialWarningClose(143828)
 local yellLaserFixate					= mod:NewYell(143828)
 local specWarnSuperheated				= mod:NewSpecialWarningMove(143856)--From lasers. Hard to see, this warning will help a ton
 local specWarnMagneticCrush				= mod:NewSpecialWarningSpell(144466, nil, nil, nil, 2)
 local specWarnCrawlerMineFixate			= mod:NewSpecialWarningRun("ej8212")
-local yellCrawlerMineFixate				= mod:NewYell("ej8212", nil, false)
+--local yellCrawlerMineFixate				= mod:NewYell("ej8212", nil, false)
 
 --Siegecrafter Blackfuse
 local timerProtectiveFrenzy				= mod:NewBuffActiveTimer(10, 145365, nil, mod:IsTank() or mod:IsHealer())
@@ -73,7 +85,7 @@ local timerDeathFromAboveDebuff			= mod:NewTargetTimer(5, 144210, nil, not mod:I
 local timerDeathFromAboveCD				= mod:NewNextTimer(40, 144208, nil, not mod:IsHealer())
 local timerOverloadCD					= mod:NewNextCountTimer(11, 145444)
 --The Assembly Line
-local timerAssemblyLineCD				= mod:NewNextTimer(40, "ej8202", nil, nil, nil, 59193)
+local timerAssemblyLineCD				= mod:NewNextCountTimer(40, "ej8202", nil, nil, nil, 59193)
 local timerPatternRecognition			= mod:NewBuffActiveTimer(60, 144236)
 --local timerDisintegrationLaserCD		= mod:NewNextCountTimer(10, 143867)
 --local timerShockwaveMissileActive		= mod:NewBuffActiveTimer(30, 143639)
@@ -99,11 +111,18 @@ local function register(e)
 	return e
 end
 local linemaker
+local lasermaker = {}
 local myweapon = false
-local sxnum = 0
+local DLneedshow = true
+local infire = false
 
 mod:AddBoolOption("InfoFrame", true, "sound")
+mod:AddBoolOption("HudMAP", true, "sound")
 mod:AddBoolOption("LTFD", true, "sound")
+mod:AddBoolOption("LTHX", true, "sound")
+
+mod:AddBoolOption("ShowDps", false, "sound")
+
 mod:AddDropdownOption("optCS", {"CSA", "CSB", "CSALL", "none"}, "none", "sound")
 
 for i = 1, 15 do
@@ -113,18 +132,24 @@ end
 local function showspellinfo(weaponnum)
 	if mod.Options.InfoFrame then		
 		DBM.InfoFrame:SetHeader(zp.."("..weaponnum..")")
-		if weaponnum == 1 or weaponnum == 2 or weaponnum == 4 or weaponnum == 10 or weaponnum == 13 then
+		if weaponnum == 1 or weaponnum == 2 or weaponnum == 4 then
 			DBM.InfoFrame:Show(1, "other", fd.." / "..jg, dl)
 		elseif weaponnum == 3 then
 			DBM.InfoFrame:Show(1, "other", fd.." / "..jg, dc)
-		elseif weaponnum == 5 or weaponnum == 7 or weaponnum == 8 then
+		elseif weaponnum == 5 then
 			DBM.InfoFrame:Show(1, "other", dc.." / "..fd, dl)
 		elseif weaponnum == 6 then
-			DBM.InfoFrame:Show(1, "other", dl.." / "..fd, dl)
+			DBM.InfoFrame:Show(1, "other", dl.." / "..jg, dl)
+		elseif weaponnum == 7 then
+			DBM.InfoFrame:Show(1, "other", jg.." / "..fd, dl)
+		elseif weaponnum == 8 then
+			DBM.InfoFrame:Show(1, "other", dl.." / "..dc, fd)
 		elseif weaponnum == 9 then
-			DBM.InfoFrame:Show(1, "other", jg.." / "..jg, dc)
+			DBM.InfoFrame:Show(1, "other", jg.." / "..dl, jg)
+		elseif weaponnum == 10 then
+			DBM.InfoFrame:Show(1, "other", dl.." / "..jg, fd)
 		elseif weaponnum == 11 then
-			DBM.InfoFrame:Show(1, "other", fd.." / "..fd, dc)
+			DBM.InfoFrame:Show(1, "other", fd.." / "..dc, fd)
 		elseif weaponnum == 12 then
 			DBM.InfoFrame:Show(1, "other", dc.." / "..jg, dl)
 		else
@@ -149,8 +174,29 @@ function mod:DeathFromAboveTarget(sGUID)
 	warnDeathFromAbove:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnDeathFromAbove:Show()
+	else
+		local uId = DBM:GetRaidUnitId(targetname)
+		if uId then
+			local x, y = GetPlayerMapPosition(uId)
+			if x == 0 and y == 0 then
+				SetMapToCurrentZone()
+				x, y = GetPlayerMapPosition(uId)
+			end
+			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			if inRange and inRange < 20 then
+				specWarnDFANear:Show(targetname)
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+			end
+		end
 	end
 end
+
+local FDDamagedplayer = {}
+local JGDamagedplayer = {}
+local DLDamagedplayer = {}
+local DCDamagedplayer = {}
+local Damagesort = {}
+local Petowner = {}
 
 --[[
 --like many important debuffs last tier and now this tier, APPLIED & REMOVED SPELL_CAST events are disabled, so we have to waste cpu to find them.
@@ -185,15 +231,21 @@ function mod:OnCombatStart(delay)
 	shockwaveOvercharged = false
 	weapon = 0
 	myweapon = false
+	DLneedshow = true
+	infire = false
 	timerAutomatedShredderCD:Start(35-delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.optCS ~= "none" then
+	self:UnregisterShortTermEvents()
+	if self.Options.optCS ~= "none" or self.Options.HudMAP then
 		DBMHudMap:FreeEncounterMarkers()
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
+	end
+	if self.Options.LTHX then
+		DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -238,8 +290,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args.spellId == 145444 then
 		OverloadCount = OverloadCount + 1
-		timerOverloadCD:Start(11, OverloadCount+1)
-		sndCZ:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
+		timerOverloadCD:Start(11, OverloadCount)
+		if OverloadCount == 3 then
+			sndCZ4:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_4cz.mp3") --超載4
+			sndCZ4:Schedule(7.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndCZ4:Schedule(8.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+		elseif OverloadCount == 4 then
+			sndCZ5:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_5cz.mp3") --超載5
+			sndCZ5:Schedule(7.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+			sndCZ5:Schedule(8.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+		else
+			sndCZ:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --準備AOE
+		end
 	end
 end
 
@@ -251,6 +313,9 @@ function mod:SPELL_SUMMON(args)
 			timerShockwaveMissileCD:Start(nil, missileCount+1)
 		end
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fdzb.mp3") --飛彈準備
+	end
+	if not Petowner[args.destGUID] then
+		Petowner[args.destGUID] = args.sourceName
 	end
 end
 
@@ -276,6 +341,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnCrawlerMine:Show()
 			specWarnCrawlerMine:Show()
 			sndDL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmine.mp3") --地雷快打
+			DLneedshow = true
 		end
 		timerBreakinPeriod:Start(args.destName, args.destGUID)
 	elseif args.spellId == 145580 then
@@ -323,8 +389,22 @@ function mod:UNIT_DIED(args)
 		OverloadCount = 0
 		timerOverloadCD:Cancel()
 		sndCZ:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+		sndCZ4:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_4cz.mp3")
+		sndCZ4:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+		sndCZ5:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_5cz.mp3")
+		sndCZ5:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 	end
 end
+
+function mod:SPELL_AURA_BROKEN(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 71788 and DLneedshow then
+		DLneedshow = false
+		local exspellname = args.extraSpellName or _G["MELEE_ATTACK"]
+		warnCC:Show(args.sourceName, exspellname, args.destName, args.spellName)
+	end
+end
+mod.SPELL_AURA_BROKEN_SPELL = mod.SPELL_AURA_BROKEN
 
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:143266") then--Target scanning works on this one, but is about 1 second slower than emote. emote is .2 seconds after SPELL_CAST_START, but target scanning can't grab right target until like 1.0 or 1.2 sec into cast
@@ -339,17 +419,32 @@ function mod:RAID_BOSS_WHISPER(msg)
 	elseif msg:find("Ability_Siege_Engineer_Detonate") then--Doesn't show in combat log at all (what else is new)
 		if self:AntiSpam(5, 4) then
 			specWarnCrawlerMineFixate:Show()
-			yellCrawlerMineFixate:Yell()
+--			yellCrawlerMineFixate:Yell()
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dlsd.mp3") --地雷鎖定
 		end
 	elseif msg:find("Ability_Siege_Engineer_Superheated") then
-		specWarnLaserFixate:Show()
-		DBM.Flash:Shake(1, 0, 0)
-		yellLaserFixate:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\laserrun.mp3") --快跑,激光點你
-		if mod.Options.LTFD then
-			DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
+		if self:AntiSpam(3, 10) then
+			specWarnLaserFixate:Show()
+			DBM.Flash:Shake(1, 0, 0)
+			yellLaserFixate:Yell()
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\laserrun.mp3") --快跑,激光點你
+			if mod.Options.LTFD then
+				DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
+			end
+			self:SendSync("LaserTarget", UnitGUID("player"))
 		end
+	end
+end
+
+local function showheroichx()
+	if myweapon then
+		local cdtext = ""
+		DBM:ShowLTSpecialWarning(cdtext, 0, 1, 0, nil, 143856, nil, 3)
+		mod:Schedule(3, function()
+			showheroichx()
+		end)
+	else
+		DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -357,11 +452,22 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 	if msg == L.newWeapons or msg:find(L.newWeapons) then
 		warnAssemblyLine:Show()
 		specWarnAssemblyLine:Show()
-		timerAssemblyLineCD:Start()
 		weapon = weapon + 1
-		if weapon == 1 then
+		timerAssemblyLineCD:Start(nil, weapon+1)
+		if weapon == 1 and (not mod.Options.SoundCS2) then
 			sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tenwq.mp3") --10秒後武器啟動
 		end
+		
+		if weapon % 2 == 1 then
+			sndCS2:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_2zu.mp3") --2組
+			sndCS2:Schedule(31, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_2zu.mp3")
+		end
+		
+		if weapon % 2 == 0 then
+			sndCS1:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_1zu.mp3") --1組
+			sndCS1:Schedule(31, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bh_1zu.mp3")
+		end
+		
 		if MyCS() or (mod.Options.optCS == "CSALL") then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_kqcs.mp3") --快去傳送帶
 			linemaker = register(DBMHudMap:AddEdge(0, 1, 0, 1, 10, "player", nil, nil, nil, 321, 258))
@@ -369,19 +475,89 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 			if mod.Options[weaponoption] == "killdl" then
 				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddl.mp3") --打掉地雷
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddl.mp3")
+				if mod.Options.ShowDps then
+					self:Schedule(40, function()
+						table.wipe(Damagesort)
+						for k, v in pairs(DLDamagedplayer) do
+							v = string.format("%.2f", v/10^6).."M"
+							Damagesort[#Damagesort + 1] = k..":"..v
+						end
+						warnCSDps:Show(table.concat(Damagesort, "<, >"))
+						table.wipe(Damagesort)
+						table.wipe(DLDamagedplayer)
+						self:UnregisterShortTermEvents()
+					end)
+				end
 			elseif mod.Options[weaponoption] == "killfd" then
 				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ddfd.mp3") --打掉飛彈
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ddfd.mp3")
+				if mod.Options.ShowDps then
+					self:Schedule(40, function()
+						table.wipe(Damagesort)
+						for k, v in pairs(FDDamagedplayer) do
+							v = string.format("%.2f", v/10^6).."M"
+							Damagesort[#Damagesort + 1] = k..":"..v
+						end
+						warnCSDps:Show(table.concat(Damagesort, "<, >"))
+						table.wipe(Damagesort)
+						table.wipe(FDDamagedplayer)
+						self:UnregisterShortTermEvents()
+					end)
+				end
 			elseif mod.Options[weaponoption] == "killjg" then
 				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ddjg.mp3") --打掉激光
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ddjg.mp3")
+				if mod.Options.ShowDps then
+					self:Schedule(40, function()
+						table.wipe(Damagesort)
+						for k, v in pairs(JGDamagedplayer) do
+							v = string.format("%.2f", v/10^6).."M"
+							Damagesort[#Damagesort + 1] = k..":"..v
+						end
+						warnCSDps:Show(table.concat(Damagesort, "<, >"))
+						table.wipe(Damagesort)
+						table.wipe(JGDamagedplayer)
+						self:UnregisterShortTermEvents()
+					end)
+				end
 			elseif mod.Options[weaponoption] == "killdc" then
 				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddc.mp3") --打掉電磁鐵
 				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dddc.mp3")
+				if mod.Options.ShowDps then
+					self:Schedule(40, function()
+						table.wipe(Damagesort)
+						for k, v in pairs(DCDamagedplayer) do
+							v = string.format("%.2f", v/10^6).."M"
+							Damagesort[#Damagesort + 1] = k..":"..v
+						end
+						warnCSDps:Show(table.concat(Damagesort, "<, >"))
+						table.wipe(Damagesort)
+						table.wipe(DCDamagedplayer)
+						self:UnregisterShortTermEvents()
+					end)
+				end
 			end
 			myweapon = true
-			sxnum = 0
 			self:Schedule(35, function() myweapon = false end)
+			if self.Options.LTHX and self:IsDifficulty("heroic10", "heroic25") then
+				self:Schedule(5, function()
+					showheroichx()					
+				end)
+			end
+			if self.Options.ShowDps then
+				self:Schedule(5, function()
+					table.wipe(FDDamagedplayer)
+					table.wipe(JGDamagedplayer)
+					table.wipe(DLDamagedplayer)
+					table.wipe(DCDamagedplayer)
+					self:RegisterShortTermEvents(
+						"SWING_DAMAGE",
+						"RANGE_DAMAGE",
+						"SPELL_DAMAGE",
+						"SPELL_PERIODIC_DAMAGE"
+					)
+				end)
+			end
 		end
 		showspellinfo(weapon)			
 	elseif msg == L.newShredder or msg:find(L.newShredder) then
@@ -392,5 +568,145 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		if mod:IsTank() or mod:IsHealer() then
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fmjc.mp3") --伐木機出現
 		end
+	end
+end
+
+function mod:OnSync(msg, guid)
+	if msg == "LaserTarget" and guid then		
+		local targetName = DBM:GetFullPlayerNameByGUID(guid)		
+		warnLaserFixate:Show(targetName)
+		if guid ~= UnitGUID("player") then
+			local uId = DBM:GetRaidUnitId(targetName)
+			if uId then
+				local x, y = GetPlayerMapPosition(uId)
+				if x == 0 and y == 0 then
+					SetMapToCurrentZone()
+					x, y = GetPlayerMapPosition(uId)
+				end
+				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				if inRange and inRange < 8 then
+					specWarnLaserFixateNear:Show(targetName)
+				end
+			end
+			if self.Options.HudMAP then
+				local spelltext = GetSpellInfo(143828)..":"..targetName
+				lasermaker[targetName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("targeting", targetName, 5, 5, 1, 0 ,0 ,1):SetLabel(spelltext))
+			end
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xxhx.mp3") --小心火線
+		end
+	end
+end
+
+function mod:SPELL_DAMAGE(sourceGUID, sourceName, _, _, destGUID, destName, _, _, spellId, _, _, spellDamage)
+	local cid = self:GetCIDFromGUID(destGUID)
+	if not UnitIsPlayer(sourceName) then
+		if Petowner[sourceGUID] then
+			sourceName = Petowner[sourceGUID]
+		else
+			for i = 1, DBM:GetNumGroupMembers() do
+				if UnitGUID("raid"..i.."pet") then
+					if UnitGUID("raid"..i.."pet") == sourceGUID then
+						sourceName = UnitName("raid"..i)
+						Petowner[UnitGUID("raid"..i.."pet")] = UnitName("raid"..i)
+						break
+					end
+				end
+			end
+		end
+	end
+	if spellDamage then
+		if cid == 71606 then --飛彈
+			if not FDDamagedplayer[sourceName] then
+				FDDamagedplayer[sourceName] = spellDamage
+			else
+				FDDamagedplayer[sourceName] = spellDamage + FDDamagedplayer[sourceName]
+			end
+		elseif cid == 71751 then --激光
+			if not JGDamagedplayer[sourceName] then
+				JGDamagedplayer[sourceName] = spellDamage
+			else
+				JGDamagedplayer[sourceName] = spellDamage + JGDamagedplayer[sourceName]
+			end
+		elseif cid == 71790 then --地雷
+			if not DLDamagedplayer[sourceName] then
+				DLDamagedplayer[sourceName] = spellDamage
+			else
+				DLDamagedplayer[sourceName] = spellDamage + DLDamagedplayer[sourceName]
+			end
+		elseif cid == 71694 then --電磁
+			if not DCDamagedplayer[sourceName] then
+				DCDamagedplayer[sourceName] = spellDamage
+			else
+				DCDamagedplayer[sourceName] = spellDamage + DCDamagedplayer[sourceName]
+			end
+		end
+	end
+end
+mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
+mod.RANGE_DAMAGE = mod.SPELL_DAMAGE
+
+function mod:SWING_DAMAGE(sourceGUID, sourceName, _, _, destGUID, destName, _, _, spellDamage)
+	local cid = self:GetCIDFromGUID(destGUID)
+	if not UnitIsPlayer(sourceName) then
+		if Petowner[sourceGUID] then
+			sourceName = Petowner[sourceGUID]
+		else
+			for i = 1, DBM:GetNumGroupMembers() do
+				if UnitGUID("raid"..i.."pet") then
+					if UnitGUID("raid"..i.."pet") == sourceGUID then
+						sourceName = UnitName("raid"..i)
+						Petowner[UnitGUID("raid"..i.."pet")] = UnitName("raid"..i)
+						break
+					end
+				end
+			end
+		end
+	end
+	if spellDamage then
+		if cid == 71606 then --飛彈
+			if not FDDamagedplayer[sourceName] then
+				FDDamagedplayer[sourceName] = spellDamage
+			else
+				FDDamagedplayer[sourceName] = spellDamage + FDDamagedplayer[sourceName]
+			end
+		elseif cid == 71751 then --激光
+			if not JGDamagedplayer[sourceName] then
+				JGDamagedplayer[sourceName] = spellDamage
+			else
+				JGDamagedplayer[sourceName] = spellDamage + JGDamagedplayer[sourceName]
+			end
+		elseif cid == 71790 then --地雷
+			if not DLDamagedplayer[sourceName] then
+				DLDamagedplayer[sourceName] = spellDamage
+			else
+				DLDamagedplayer[sourceName] = spellDamage + DLDamagedplayer[sourceName]
+			end
+		elseif cid == 71694 then --電磁
+			if not DCDamagedplayer[sourceName] then
+				DCDamagedplayer[sourceName] = spellDamage
+			else
+				DCDamagedplayer[sourceName] = spellDamage + DCDamagedplayer[sourceName]
+			end
+		end
+	end
+end
+
+function mod:UNIT_AURA(uId)
+	if UnitDebuff("player", GetSpellInfo(143828)) then
+		if not infire then
+			infire = true
+			if self:AntiSpam(3, 10) then
+				specWarnLaserFixate:Show()
+				DBM.Flash:Shake(1, 0, 0)
+				yellLaserFixate:Yell()
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\laserrun.mp3") --快跑,激光點你
+				if mod.Options.LTFD then
+					DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
+				end
+				self:SendSync("LaserTarget", UnitGUID("player"))
+			end
+		end		
+	else
+		infire = false
 	end
 end

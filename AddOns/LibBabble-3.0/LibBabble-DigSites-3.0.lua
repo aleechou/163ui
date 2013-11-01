@@ -1,6 +1,6 @@
 --[[
 Name: LibBabble-DigSites-3.0
-Revision: $Rev: 36 $
+Revision: $Rev: 44 $
 Maintainers: ckknight, nevcairiel, Ackis
 Website: http://www.wowace.com/projects/libbabble-digsites-3-0/
 Dependencies: None
@@ -8,7 +8,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibBabble-DigSites-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Rev: 36 $"):match("%d+"))
+local MINOR_VERSION = 90000 + tonumber(("$Rev: 44 $"):match("%d+"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
 local lib = LibStub("LibBabble-3.0"):New(MAJOR_VERSION, MINOR_VERSION)

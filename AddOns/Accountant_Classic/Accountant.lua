@@ -124,7 +124,7 @@ end
 function Accountant_OnLoad(self)
 
 	Accountant_Player = UnitName("player");
-	Accountant_Server = GetCVar("realmName");
+	Accountant_Server = GetRealmName();
 
 	-- Setup
 	Accountant_LoadData();

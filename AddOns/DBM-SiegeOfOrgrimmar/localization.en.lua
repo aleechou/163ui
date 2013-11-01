@@ -269,8 +269,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Module1 = "Module 1's all prepared for system reset.",
-	Victory	= "Module 2's all prepared for system reset"
+	wasteOfTime		= "Hey, we recording?  Yeah?  Okay.  Goblin-Titan control module starting up, please stand back.",
+	Module1 		= "Module 1's all prepared for system reset.",
+	Victory			= "Module 2's all prepared for system reset."
 })
 
 ---------------------------

@@ -293,8 +293,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Module1 = "模組一號已準備好系統重置。",
-	Victory	= "模組二號已準備好系統重置。"
+	wasteOfTime		= "我們在錄音嗎?有嗎?好。哥布林-泰坦控制模組開始運作，請後退。",
+	Module1 		= "模組一號已準備好系統重置。",
+	Victory			= "模組二號已準備好系統重置。"
 })
 
 ---------------------------
@@ -360,6 +361,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(865)
 
 L:SetWarningLocalization({
+	warnCC					= "%s的[%s]打破了%s的%s(首次破控)。"
 })
 
 L:SetOptionLocalization({
@@ -367,13 +369,21 @@ L:SetOptionLocalization({
 	SoundFMD				= "語音警告：$spell:144208前提示伐木機快打",
 	SoundDL					= "語音警告：地雷清理提示",
 	LTFD					= "長效特別警告：顯示$spell:143266和$spell:143828震動圖標提示",
-	SoundCZ					= "語音警告：伐木機$spell:145444AOE預警",
+	LTHX					= "長效特別警告：顯示火線變換計時",
+	HudMAP					= "高級定位監視(HUD)：$spell:143828",
+	SoundCZ					= "語音警告：伐木機$spell:145444AOE預警(1-3次)",
+	SoundCZ4				= "減傷提示：伐木機第四次$spell:145444 (3層buff)",
+	SoundCZ5				= "減傷提示：伐木機第五次$spell:145444 (4層buff)",
+	SoundCS1				= "語音警告：傳送帶一組提前10秒預警",
+	SoundCS2				= "語音警告：傳送帶二組提前10秒預警",
+	ShowDps					= "顯示你當前組別擊殺傳送帶武器的輸出數據",
+	warnCC					= "警告：地雷破控信息(只顯示每輪第一個破控)",
 	InfoFrame				= "資訊框：$journal:8202",
 	optCS					= "傳送帶啟動提示",
 	CSA						= "傳送帶一組",
 	CSB						= "傳送帶二組",
 	CSALL					= "總是提示",
-	none					= "我不去",
+	none					= "我不去",	
 	optCSKILL1				= "擊殺提示：第1輪",
 	optCSKILL2				= "第2輪",
 	optCSKILL3				= "第3輪",
@@ -465,6 +475,10 @@ L:SetOptionLocalization({
 	alldd					= "總是提示(如果你選他為目標或焦點)",
 	DD1						= "單數提示",
 	DD2						= "雙數提示",
+	DD1H					= "打斷1(英雄模式 包括閃電鏈)",
+	DD2H					= "打斷2(英雄模式 包括閃電鏈)",
+	DD3H					= "打斷3(英雄模式 包括閃電鏈)",
+	DD4H					= "打斷4(英雄模式 包括閃電鏈)",
 	nodd					= "不提示",
 	SetIconOnShaman			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej8294"),
 })

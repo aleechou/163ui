@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 local sndBD		= mod:NewSound(nil, "SoundBD", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10402 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10646 $"):sub(12, -3))
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetZone()
 mod:SetUsedIcons(7)
@@ -18,6 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED",
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
+	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
@@ -236,13 +237,6 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143330 then
 		warnGouge:Show()
 		timerGougeCD:Start()
-		for i = 1, 5 do
-			local bossUnitID = "boss"..i
-			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
-				specWarnGouge:Show()--So show tank warning
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\turnaway.mp3") --快轉身
-			end
-		end
 	elseif args.spellId == 143446 then
 		warnBane:Show()
 		specWarnBane:Show()
@@ -429,6 +423,13 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
+
+function mod:RAID_BOSS_WHISPER(msg)
+	if msg:find("spell:143330") then--Emote giving ONLY to the person tanking boss. Better than scanning boss 1-5 for this one which fails from time to time
+		specWarnGouge:Show()--So show tank warning
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\turnaway.mp3") --快轉身
+	end
+end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 143019 then--Does not show in combat log on normal

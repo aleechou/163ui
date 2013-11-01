@@ -174,10 +174,10 @@ function NS:KeyToggleOnClick ()
 	PlaySound( Enable and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff" );
 
 	if ShowKey then
-		_NPCScanOverlayKeyParent:Hide()
+		_NPCScanOverlayKey:Hide()
 		ShowKey = false;
 	else
-		_NPCScanOverlayKeyParent:Show()
+		_NPCScanOverlayKey:Show()
 		ShowKey = true;
 	end
 
@@ -216,9 +216,9 @@ function NS:Paint ( Map, ... )
 		self.KeyPaint( self.KeyParent.Key, Map );
 		self.RangeRingPaint( self.RangeRing, Map );
 		if ShowKey then
-			_NPCScanOverlayKeyParent:Show()
+			_NPCScanOverlayKey:Show()
 		else
-			_NPCScanOverlayKeyParent:Hide()
+			_NPCScanOverlayKey:Hide()
 		end
 	else
 		self.KeyParent.Key:Hide();
@@ -239,10 +239,29 @@ function NS:OnDisable ( ... )
 	self.RangeRing:Hide();
 	return self.super.OnDisable( self, ... );
 end
+
+
+local function FrameMove(self)
+  self:StartMoving()
+end
+
+
+local function FrameStop(self)
+self:StopMovingOrSizing()
+local parent = self:GetParent()
+  local x1, y1 = self:GetRight(), self:GetBottom()
+local x2, y2 = parent:GetRight(), parent:GetBottom()
+self:ClearAllPoints()
+self:SetPoint("BOTTOMRIGHT", self:GetParent(), "BOTTOMRIGHT", x1 - x2, y1 - y2)
+
+end
+
+
+
 --- Adds a custom key frame to the world map template.
 function NS:OnLoad ( ... )
 	-- Add key frame to map
-	local KeyParent = CreateFrame( "Frame", nil, WorldMapButton )
+	local KeyParent = CreateFrame( "Frame", "_NPCScanOverlayKeyParent", WorldMapButton )
 
 	self.KeyParent = KeyParent;
 	KeyParent:Hide();
@@ -252,15 +271,16 @@ function NS:OnLoad ( ... )
 	local KeyContainer = CreateFrame( "Frame", nil, KeyParent );
 	KeyContainer:SetAllPoints();
 
-	local Key = CreateFrame( "Frame", "_NPCScanOverlayKeyParent", KeyContainer );
+	local Key = CreateFrame( "Frame", "_NPCScanOverlayKey", KeyContainer );
 	KeyParent.Key = Key;
 	Key:SetFrameStrata("High");
 	Key.KeyParent, Key.Container = KeyParent, KeyContainer;
 	--Key:SetScript( "OnEnter", self.KeyOnEnter );
 	Key:SetScript( "OnSizeChanged", NS.KeyOnSizeChanged );
-	self.KeyOnEnter( Key ); -- Initialize starting point
-	--self:ClearAllPoints();
-	--self:SetPoint( "BOTTOMRIGHT" );
+	--self.KeyOnEnter( Key ); -- Initialize starting point
+	Key:ClearAllPoints();
+	Key:SetPoint( "BOTTOMRIGHT", KeyParent, "BOTTOMRIGHT" );
+
 	Key:EnableMouse( true );
 	Key:SetBackdrop( { edgeFile = [[Interface\AchievementFrame\UI-Achievement-WoodBorder]]; edgeSize = 48; } );
 
@@ -284,8 +304,8 @@ function NS:OnLoad ( ... )
 	--Sets Key Frame as Moveable & Stores position
 	Key:SetMovable(true)
 	Key:RegisterForDrag("LeftButton")
-	Key:SetScript("OnDragStart", Key.StartMoving)
-	Key:SetScript("OnDragStop", Key.StopMovingOrSizing)
+	Key:SetScript("OnMouseDown",FrameMove )
+	Key:SetScript("OnMouseUp", FrameStop )
 	Key:SetClampedToScreen( true )
 	Key:SetUserPlaced(true)
 

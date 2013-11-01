@@ -9594,6 +9594,7 @@
  [58891]={"?The Call of the World-Shaman%xx#ßΩQ", "/Óg 9œ4h", "+µ» >Å1P", },
  [58915]={"5Your Time Has Come%xx#¶’#", nil, "1Âg 90B‘", },
  [58917]={"5Your Time Has Come$xx#¶ÿ#", nil, "1Áw 9tJ¶", },
+ --[66759]={"9Path of the Mistwalker#}}$t4R", },
  --[[ [58839]={"##&$####"," (54567$ ;Ô1∏",},
   [58845]={"##'$####"," (54568$ 9«,≤",},
   [58847]={"##'$####"," (54568$ 9ƒ,≤",},
@@ -10414,7 +10415,9 @@ Nx.QuestCategory={
  "Northern Stranglethorn",
  "Firelands Invasion",
  "Uncategorized",
+ "Timeless Isle",
 }
+
 Nx.QuestStartEnd={
  "Senani Thunderheart",
  "Deputy Rainer",
@@ -13741,4 +13744,11 @@ Nx.QuestStartEnd={
  "Aska Mistrunner",
  "Jaga",
  "Vin",
+ "Kairoz",
+ "Kairoz",
+ "Chromie",
+ "Chromie",
+ "Watcher Lara",
+ "Watcher Alundra",
+ "Emperor Shaohao",
 }

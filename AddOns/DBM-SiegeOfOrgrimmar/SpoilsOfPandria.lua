@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(870, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10625 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10648 $"):sub(12, -3))
 mod:SetCreatureID(73720, 71512)
 mod:SetZone()
 
@@ -26,59 +26,70 @@ mod:RegisterEventsInCombat(
 	"UPDATE_WORLD_STATES"
 )
 
-local warnSuperNova				= mod:NewCastAnnounce(146815, 4)--Heroic
+mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
+)
+
+local warnSuperNova				= mod:NewCastAnnounce(146815, 4, nil, false, nil, nil, nil, nil, 2)--Heroic
 --Massive Crate of Goods
+----Mogu
 local warnReturnToStone			= mod:NewSpellAnnounce(145489, 2)
+----Mantid
 local warnSetToBlow				= mod:NewTargetAnnounce(145987, 4)--145996 is cast ID
 --Stout Crate of Goods
+----Mogu
 local warnForbiddenMagic		= mod:NewTargetAnnounce(145230, 2)
 local warnMatterScramble		= mod:NewSpellAnnounce(145288, 3)
-local warnCrimsonRecon			= mod:NewCastAnnounce(142947, 4)
+local warnCrimsonRecon			= mod:NewSpellAnnounce(142947, 4, nil, mod:IsTank(), nil, nil, nil, nil, 2)
 local warnEnergize				= mod:NewSpellAnnounce(145461, 3)--May be script spellid that doesn't show in combat log
 local warnTorment				= mod:NewSpellAnnounce(142934, 3, nil, mod:IsHealer())
+----Mantid
 local warnMantidSwarm			= mod:NewSpellAnnounce(142539, 3, nil, mod:IsTank())
 local warnResidue				= mod:NewCastAnnounce(145786, 4, nil, nil, mod:IsMagicDispeller())
 local warnRageoftheEmpress		= mod:NewCastAnnounce(145812, 4, nil, nil, mod:IsMagicDispeller())
-local warnWindStorm				= mod:NewSpellAnnounce(145286, 3)--Stunable?
+local warnWindStorm				= mod:NewSpellAnnounce(145286, 3)
+local warnEnrage				= mod:NewTargetAnnounce(145692, 3, nil, mod:IsTank() or mod:CanRemoveEnrage())--Do not have timer for this yet, add not alive long enough.
 --Lightweight Crate of Goods
+----Mogu
 local warnHardenFlesh			= mod:NewSpellAnnounce(144922, 2, nil, false)
 local warnEarthenShard			= mod:NewSpellAnnounce(144923, 2, nil, false)
 local warnSparkofLife			= mod:NewSpellAnnounce(142694, 3, nil, false)
-local warnBlazingCharge			= mod:NewTargetAnnounce(145712, 3)
-local warnEnrage				= mod:NewTargetAnnounce(145692, 3, nil, mod:IsTank() or mod:CanRemoveEnrage())--Do not have timer for this yet, add not alive long enough.
 --Crate of Pandaren Relics
 local warnBreathofFire			= mod:NewSpellAnnounce(146222, 3)--Do not have timer for this yet, add not alive long enough.
 local warnGustingCraneKick		= mod:NewSpellAnnounce(146180, 3)
-local warnPathofBlossoms		= mod:NewTargetAnnounce(146256, 3)
 
-local specWarnSuperNova			= mod:NewSpecialWarningSpell(146815, nil, nil, nil, 2)
+local specWarnSuperNova			= mod:NewSpecialWarningSpell(146815, false, nil, nil, 2, 2)
 --Massive Crate of Goods
 local specWarnSetToBlowYou		= mod:NewSpecialWarningYou(145987)
 local specWarnSetToBlow			= mod:NewSpecialWarningPreWarn(145996, nil, 4, nil, 3)
 --Stout Crate of Goods
+----Mogu
 local specWarnForbiddenMagic	= mod:NewSpecialWarningInterrupt(145230, mod:IsMelee())
 local specWarnMatterScramble	= mod:NewSpecialWarningSpell(145288, nil, nil, nil, 2)
-local specWarnCrimsonRecon		= mod:NewSpecialWarningMove(142947, mod:IsTank())
+local specWarnCrimsonRecon		= mod:NewSpecialWarningMove(142947, mod:IsTank(), nil, nil, 3)
 local specWarnTorment			= mod:NewSpecialWarningSpell(142934, mod:IsHealer())
+----Mantid
 local specWarnMantidSwarm		= mod:NewSpecialWarningSpell(142539, mod:IsTank())
 local specWarnResidue			= mod:NewSpecialWarningSpell(145786, mod:IsMagicDispeller())
 local specWarnRageoftheEmpress	= mod:NewSpecialWarningSpell(145812, mod:IsMagicDispeller())
+local specWarnEnrage			= mod:NewSpecialWarningDispel(145692, mod:CanRemoveEnrage())--Question is, do we want to dispel it? might make this off by default since kiting it may be more desired than dispeling it
 --Lightweight Crate of Goods
+----Mogu
 local specWarnHardenFlesh		= mod:NewSpecialWarningInterrupt(144922, false)
 local specWarnEarthenShard		= mod:NewSpecialWarningInterrupt(144923, false)
-local specWarnEnrage			= mod:NewSpecialWarningDispel(145692, mod:CanRemoveEnrage())--Question is, do we want to dispel it? might make this off by default since kiting it may be more desired than dispeling it
+----Mantid
 local specWarnBlazingCharge		= mod:NewSpecialWarningMove(145716)
 local specWarnBubblingAmber		= mod:NewSpecialWarningMove(145748)
 local specWarnPathOfBlossoms	= mod:NewSpecialWarningMove(146257)
 --Crate of Pandaren Relics
 local specWarnGustingCraneKick	= mod:NewSpecialWarningSpell(146180, nil, nil, nil, 2)
 
+local timerCombatStarts			= mod:NewCombatTimer(19)
 --Massive Crate of Goods
 local timerReturnToStoneCD		= mod:NewNextTimer(12, 145489)
 local timerSetToBlowCD			= mod:NewNextTimer(9.6, 145996)
 local timerSetToBlow			= mod:NewBuffFadesTimer(30, 145996)
 --Stout Crate of Goods
-local timerEnrage				= mod:NewTargetTimer(10, 145692)
 local timerMatterScrambleCD		= mod:NewCDTimer(18, 145288)--18-22 sec variation. most of time it's 20 exactly, unsure what causes the +-2 variations
 local timerCrimsonReconCD		= mod:NewNextTimer(15, 142947)
 local timerMantidSwarmCD		= mod:NewCDTimer(35, 142539)
@@ -88,6 +99,7 @@ local timerRageoftheEmpressCD	= mod:NewCDTimer(18, 145812, nil, mod:IsMagicDispe
 --Lightweight Crate of Goods
 ----Most of these timers are included simply because of how accurate they are. Predictable next timers. However, MANY of these adds up at once.
 ----They are off by default and a user elected choice to possibly pick one specific timer they are in charge of dispeling/interrupting or whatever
+local timerEnrage				= mod:NewTargetTimer(10, 145692)
 local timerHardenFleshCD		= mod:NewNextTimer(8, 144922, nil, false)
 local timerEarthenShardCD		= mod:NewNextTimer(10, 144923, nil, false)
 local timerBlazingChargeCD		= mod:NewNextTimer(12, 145712, nil, false)
@@ -96,18 +108,20 @@ local timerGustingCraneKickCD	= mod:NewCDTimer(18, 146180)
 local timerPathOfBlossomsCD		= mod:NewCDTimer(15, 146253)
 
 --local countdownSetToBlow		= mod:NewCountdownFades(29, 145996)
-local countdownArmageddon		= mod:NewCountdown(270, 145864, nil, nil, 10, nil, true)
 
-local berserkTimer				= mod:NewBerserkTimer(480)
+--Berserk Timer stuff
+local berserkTimer				= mod:NewTimer(480, DBM_CORE_GENERIC_TIMER_BERSERK, 28131, nil, "timer_berserk")
+local countdownBerserk			= mod:NewCountdown(20, 26662, nil, nil, 10, nil, true)
+local berserkWarning1			= mod:NewAnnounce(DBM_CORE_GENERIC_WARNING_BERSERK, 1, nil, "warning_berserk", false)
+local berserkWarning2			= mod:NewAnnounce(DBM_CORE_GENERIC_WARNING_BERSERK, 4, nil, "warning_berserk", false)
 
 mod:AddBoolOption("RangeFrame")
 mod:AddBoolOption("LTZD", true, "sound")
 mod:AddBoolOption("Filterarea", true, "sound")
 
-local activeBossGUIDS = {}
-local setToBlowTargets = {}
 local bossDamageTarget = {}
 local worldTimer = 0
+local maxTimer = 0
 
 local function checkTankDistance(guid)
 	local uId, _
@@ -149,27 +163,6 @@ local function warnspecmob(guid)
 	end
 end
 
-local function warnSetToBlowTargets()
-	warnSetToBlow:Show(table.concat(setToBlowTargets, "<, >"))
-	table.wipe(setToBlowTargets)
-end
-
-function mod:BlazingChargeTarget(targetname)
-	if not targetname then
-		print("DBM DEBUG: BlazingChargeTarget Scan failed")
-		return
-	end
-	warnBlazingCharge:Show(targetname)
-end
-
-function mod:PathofBlossomsTarget(targetname)
-	if not targetname then
-		print("DBM DEBUG: PathofBlossomsTarget Scan failed")
-		return
-	end
-	warnPathofBlossoms:Show(targetname)
-end
-
 local function hideRangeFrame()
 	if mod.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
@@ -177,9 +170,9 @@ local function hideRangeFrame()
 end
 
 function mod:OnCombatStart(delay)
-	table.wipe(activeBossGUIDS)
-	table.wipe(setToBlowTargets)
+	table.wipe(bossDamageTarget)
 	worldTimer = 0
+	maxTimer = 0
 end
 
 function mod:OnCombatEnd()
@@ -246,7 +239,7 @@ function mod:SPELL_CAST_START(args)
 		timerReturnToStoneCD:Start(args.sourceGUID)
 	elseif args.spellId == 142947 and checkTankDistance(args.sourceGUID) then--Pre warn more or less
 		warnCrimsonRecon:Show()
-	elseif args.spellId == 146815 then
+	elseif args.spellId == 146815 and self:AntiSpam(2, 4)  then--Will do more work on this later, not enough time before raid, but i have an idea for it
 		warnSuperNova:Show()
 		specWarnSuperNova:Show()
 	end
@@ -264,10 +257,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args.spellId == 145712 and checkTankDistance(args.sourceGUID) then
 		timerBlazingChargeCD:Start(args.sourceGUID)
-		self:BossTargetScanner(args.sourceGUID, "BlazingChargeTarget", 0.025, 12)
 	elseif args.spellId == 146253 and checkTankDistance(args.sourceGUID) then
 		timerPathOfBlossomsCD:Start(args.sourceGUID)
-		self:BossTargetScanner(args.sourceGUID, "PathofBlossomsTarget", 0.025, 12)
 	elseif args.spellId == 145230 and checkTankDistance(args.sourceGUID) then
 		local source = args.sourceName
 		warnForbiddenMagic:Show(args.destName)
@@ -294,10 +285,8 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 145987 and checkTankDistance(args.sourceGUID) then
-		setToBlowTargets[#setToBlowTargets + 1] = args.destName
-		self:Unschedule(warnSetToBlowTargets)
-		self:Schedule(0.5, warnSetToBlowTargets)
-		if args:IsPlayer() and self:AntiSpam(3, 4) then
+		warnSetToBlow:CombinedShow(0.5, args.destName)
+		if args:IsPlayer() and self:AntiSpam(3, 10) then
 			specWarnSetToBlowYou:Show()
 			DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
@@ -429,21 +418,49 @@ function mod:UNIT_DIED(args)
 	end
 end
 
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.wasteOfTime then
+		self:SendSync("prepull")
+	end
+end
+
 function mod:UPDATE_WORLD_STATES()
 	local text = select(4, GetWorldStateUIInfo(5))
 	local time = tonumber(string.match(text or "", "%d+"))
+	if not time then return end
 	if time > worldTimer then
-		local newTime = time - (time/100) - 1 -- bliz timer litte fast. wtf?
+		maxTimer = time
 		berserkTimer:Cancel()
-		countdownArmageddon:Cancel()
-		berserkTimer:Start(newTime)
-		countdownArmageddon:Start(newTime)
+		countdownBerserk:Cancel()
+		berserkTimer:Start(time+1)
+	end
+	if time % 10 == 0 then
+		berserkTimer:Update(maxTimer-time-1, maxTimer)
+		if time == 300 and self.Options["timer_berserk"] then
+			berserkWarning1:Show(5, DBM_CORE_MIN)
+		elseif time == 180 and self.Options["timer_berserk"] then
+			berserkWarning1:Show(3, DBM_CORE_MIN)
+		elseif time == 60 and self.Options["timer_berserk"] then
+			berserkWarning2:Show(1, DBM_CORE_MIN)
+		elseif time == 30 and self.Options["timer_berserk"] then
+			berserkWarning2:Show(30, DBM_CORE_SEC)
+		elseif time == 20 then
+			countdownBerserk:Start()
+		elseif time == 10 and self.Options["timer_berserk"] then
+			berserkWarning2:Show(10, DBM_CORE_SEC)
+		end
 	end
 	worldTimer = time
 end
 
+function mod:OnSync(msg)
+	if msg == "prepull" then
+		timerCombatStarts:Start()
+	end
+end
+
 function mod:CHAT_MSG_RAID_BOSS_WHISPER(msg)
-	if msg:find("spell:145996") and self:AntiSpam(3, 4) then
+	if msg:find("spell:145996") and self:AntiSpam(3, 10) then
 		specWarnSetToBlowYou:Show()
 		DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群

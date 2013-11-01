@@ -38,6 +38,7 @@ TradeskillInfo.vars.specialcases = {
 	[72104]	= "59,60",				-- Living Steel
 	[74250]	= "61,62",				-- Mysterious Essence
 	[12655] = "63,64",				-- Enchanted Thorium Bar
+	[98717] = "65,66",				-- Balanced Trillium Ingot
 }
 
 

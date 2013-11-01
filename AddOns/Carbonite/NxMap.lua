@@ -153,6 +153,7 @@ function Nx.Map:Init()
 	plFaction = strsub (plFaction, 1, 1)
 	self.PlFactionNum = plFaction == "A" and 0 or 1
 	self.PlFactionShort = plFaction == "A" and "Ally" or "Horde"
+	Nx.Map.Indoors = false
 
 	self.Maps = {}
 	self.Created = false
@@ -676,6 +677,8 @@ function Nx.Map:Create (index)
 	win:RegisterEvent ("WORLD_MAP_UPDATE", self.OnEvent)
 	win:RegisterEvent ("PLAYER_REGEN_DISABLED", self.OnEvent)
 	win:RegisterEvent ("PLAYER_REGEN_ENABLED", self.OnEvent)
+	win:RegisterEvent ("ZONE_CHANGED", self.OnEvent)
+	win:RegisterEvent ("ZONE_CHANGED_INDOORS", self.OnEvent)
 	f:SetScript ("OnMouseDown", self.OnMouseDown)
 	f:SetScript ("OnMouseUp", self.OnMouseUp)
 	f:SetScript ("OnMouseWheel", self.OnMouseWheel)
@@ -2628,7 +2631,7 @@ function Nx.Map:MinimapUpdate()
 
 	local al = lOpts.NXMMAlpha
 
-	local indoors = IsIndoors()
+	local indoors = IsIndoors() or Nx.Map.Indoors
 	local resting = IsResting()
 	local indoorChange = self.Indoors ~= indoors
 	self.Indoors = indoors
@@ -3826,6 +3829,10 @@ function Nx.Map:OnEvent (event, ...)
 	  self.QuestWin:SetParent(this.NxMap.TextScFrm:GetScrollChild())
 	  self.Arch:Show()
 	  self.QuestWin:Hide()
+	elseif event == "ZONE_CHANGED" then
+	  Nx.Map.Indoors = false
+	elseif event == "ZONE_CHANGED_INDOORS" then
+	  Nx.Map.Indoors = true
 	end
 end
 
@@ -4433,6 +4440,7 @@ function Nx.Map:UpdateWorld()
         dungeonLevel = dungeonLevel - 1;
     end
     if dungeonLevel>0 then texName = texName..dungeonLevel.."_" end
+	if winfo.MapBaseName then texName = winfo.MapBaseName end
 	for i = 1, 12 do
 		self.TileFrms[i].texture:SetTexture (texPath..texName..i)
 	end
@@ -4621,6 +4629,14 @@ function Nx.Map:Update (elapsed)
 		local x, y = self:GetWorldPos (rid, 0, 0)
 
 		local lvl = max (GetCurrentMapDungeonLevel(), 1)		-- 0 if no level
+
+		if GetCurrentMapAreaID() == 937 then
+			if GetCurrentMapDungeonLevel() == 0 then
+				lvl = 1
+			else
+				lvl = 2
+			end			
+		end
 
 		if not self.InstMapId then		-- Not showing instance?
 			plZX = 0
@@ -5314,6 +5330,10 @@ function Nx.Map:GetInstanceMapTextures(mapId)
 		if (areaId == 824) then
 		  levels = 7		  
 		  first = 1
+		end
+		if (areaId == 937) then
+			levels = 2
+			first = 0
 		end
         Nx.Map.InstanceInfo[mapId] = {}
         for i=first,max(first,first+levels-1) do
@@ -6793,10 +6813,13 @@ function Nx.Map:UpdateOverlay (mapId, bright, noUnexplored)
 
 		local lev = 0
 		local brt = bright
-
+		oName = txName
 		txName = path .. txName
 
 		local oX, oY, txW, txH, mode = strsplit (",", whxyStr)
+		if (oName == "dynamic") then
+			txName, txW, txH, oX, oY = GetMapOverlayInfo(1)					
+		end
 
 		txW = tonumber (txW)
 		txH = tonumber (txH)
@@ -8537,7 +8560,9 @@ end
 -- Get a map by index
 
 function Nx.Map:GetMap (mapIndex)
-	return self.Maps[mapIndex]
+	if self.Maps then
+		return self.Maps[mapIndex]
+	end
 end
 
 --------
@@ -9165,15 +9190,26 @@ function Nx.Map:GetRealMapId()
 	--Nx.prt ("RealMId %s %s #%s", GetRealZoneText(), GetSubZoneText(), GetCurrentMapDungeonLevel())
 
 	local zName = GetRealZoneText()	
-	local mapId = Nx.MapNameToId[zName] or 9000	
+	local mapId = Nx.MapNameToId[zName] or 9000
+	if GetCurrentMapAreaID() == 874 then
+		return 12874
+	end
+	if GetCurrentMapAreaID() == 919 then
+		return 13919
+	end	
 	local name, instanceType, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, mapID = GetInstanceInfo()
-	if (difficultyIndex == 1) then  		
+	--[[if (difficultyIndex == 1) then  		
 	    if IsInScenarioGroup() then
 			SetMapToCurrentZone()
 			local id = Nx.ID2Zone[GetCurrentMapAreaID()]
 			mapId = self:GetInstanceID(id)					
 			return mapId
 		end
+	end]]
+	if (difficultyIndex == 11) or (difficultyIndex == 12) then
+			local id = Nx.ID2Zone[GetCurrentMapAreaID()]
+			mapId = self:GetInstanceID(id)					
+			return mapId
 	end	
 	local subT = self.MapSubNames[zName]	-- Find subzone name
 
@@ -9699,7 +9735,9 @@ function Nx.Map:GetWorldPos (mapId, mapX, mapY)
 	if winfo then
 
 		local scale = winfo[1]
-
+		if not winfo[4] or not winfo[5] then
+			return 0,0
+		end
 		return	winfo[4] + mapX * scale,
 					winfo[5] + mapY * scale / 1.5
 

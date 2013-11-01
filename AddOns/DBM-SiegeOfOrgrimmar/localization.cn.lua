@@ -289,6 +289,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	wasteOfTime				= "录像开了吗？开了？很好。地精泰坦控制模块启动，请退后。",
 	Module1					= "1号模组准备完毕，可以系统重置。",
 	Victory					= "2号模组准备完毕，可以系统重置。"
 })
@@ -356,6 +357,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(865)
 
 L:SetWarningLocalization({
+	warnCC					= "%s的[%s]打破了%s的%s(首次破控)。"
 })
 
 L:SetOptionLocalization({
@@ -363,7 +365,15 @@ L:SetOptionLocalization({
 	SoundFMD				= "语音警告：$spell:144208前提示伐木机快打",
 	SoundDL					= "语音警告：地雷清理提示",
 	LTFD					= "长效特别警告：显示$spell:143266和$spell:143828震动图标提示",
-	SoundCZ					= "语音警告：伐木机$spell:145444AOE预警",
+	LTHX					= "长效特别警告：显示火线变换计时",
+	HudMAP					= "高级定位监视(HUD)：$spell:143828",
+	SoundCZ					= "语音警告：伐木机$spell:145444AOE预警(1-3次)",
+	SoundCZ4				= "减伤提示：伐木机第四次$spell:145444 (3层buff)",
+	SoundCZ5				= "减伤提示：伐木机第五次$spell:145444 (4层buff)",
+	SoundCS1				= "语音警告：传送带一组提前10秒预警",
+	SoundCS2				= "语音警告：传送带二组提前10秒预警",
+	ShowDps					= "显示你当前组别击杀传送带武器的输出数据",
+	warnCC					= "警告：地雷破控信息(只显示每轮第一个破控)",
 	InfoFrame				= "信息框：$journal:8202",
 	optCS					= "传送带启动提示",
 	CSA						= "传送带一组",
@@ -461,6 +471,10 @@ L:SetOptionLocalization({
 	alldd					= "总是提示(如果你选他為目标或焦点)",
 	DD1						= "单数提示",
 	DD2						= "双数提示",
+	DD1H					= "打断1(英雄模式 包括闪电链)",
+	DD2H					= "打断2(英雄模式 包括闪电链)",
+	DD3H					= "打断3(英雄模式 包括闪电链)",
+	DD4H					= "打断4(英雄模式 包括闪电链)",
 	nodd					= "不提示",
 	SetIconOnShaman			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej8294"),
 })

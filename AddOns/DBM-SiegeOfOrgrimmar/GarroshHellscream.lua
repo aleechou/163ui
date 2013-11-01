@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
 	"UNIT_DIED",
+	"SPELL_INTERRUPT",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"--I saw garrosh fire boss1 and boss3 events, so use all 5 to be safe
 )
@@ -141,8 +142,9 @@ local function scanForMobs()
 end
 
 local healcount = 0
+local shmddcount = 0
 
-mod:AddDropdownOption("optDD", {"alldd", "DD1", "DD2", "nodd"}, "alldd", "sound")
+mod:AddDropdownOption("optDD", {"alldd", "DD1", "DD2", "DD1H", "DD2H", "DD3H", "DD4H", "nodd"}, "alldd", "sound")
 
 local function checknexttouchOfYShaarj(spell)
 	local _, _, touchtime = timerTouchOfYShaarjCD:GetTime()
@@ -191,6 +193,7 @@ function mod:OnCombatStart(delay)
 	mindControlCount = 0
 	shamanAlive = 0
 	healcount = 0
+	shmddcount = 0
 	table.wipe(touchOfYShaarjTargets)
 	table.wipe(adds)
 	timerDesecrateCD:Start(10.5-delay, 1)
@@ -220,11 +223,21 @@ function mod:SPELL_CAST_START(args)
 			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 		if healcount == 2 then healcount = 0 end
+		shmddcount = shmddcount + 1
+		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
+			specWarnChainHeal:Show(source)
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+		end
 	elseif args.spellId == 144584 then
 		local source = args.sourceName
 		warnChainLightning:Show()
-		if source == UnitName("target") or source == UnitName("focus") then 
+--		if source == UnitName("target") or source == UnitName("focus") then 
+--			specWarnChainLightning:Show(source)
+--		end		
+		shmddcount = shmddcount + 1
+		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
 			specWarnChainLightning:Show(source)
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144969 then
 		warnAnnihilate:Show()
@@ -260,6 +273,15 @@ function mod:SPELL_CAST_START(args)
 		warnBombardment:Show()
 		timerBombardment:Start()
 		timerBombardmentCD:Start()
+	end
+end
+
+function mod:SPELL_INTERRUPT(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 71983 then
+		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 0)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 3))	then
+			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+		end
 	end
 end
 
@@ -338,8 +360,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3") --狼騎兵準備
 		end
 		healcount = 0
+		shmddcount = 0
 		if mod.Options.optDD == "DD1" then
 			sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+		end
+		if mod.Options.optDD == "DD1H" then
+			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 		if self.Options.SetIconOnShaman then
 			scanLimiter = 0
