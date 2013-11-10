@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 50400
 ## Title: Carbonite Items
 ## Version: 1.1
 ## Author: Carbon Based Creations, LLC
@@ -8,5 +8,5 @@
 
 CarboniteItems.lua
 
-## Title: |cff880303[ÍøÒ×ÓÐ°®]|r Carbonite Items
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r Carbonite Items
 ## X-Vendor: NetEase

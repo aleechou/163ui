@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 50400
 ## Title: Carbonite Transfer
 ## Version: 1.01
 ## Author: Carbon Based Creations, LLC
@@ -9,5 +9,5 @@
 
 CarboniteTransfer.lua
 
-## Title: |cff880303[ÍøÒ×ÓÐ°®]|r CarboniteTransfer
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r CarboniteTransfer
 ## X-Vendor: NetEase

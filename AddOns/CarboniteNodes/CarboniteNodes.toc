@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 50400
 ## Title: Carbonite Nodes
 ## Version: 1.02
 ## Author: Carbon Based Creations, LLC
@@ -8,5 +8,5 @@
 
 CarboniteNodes.lua
 
-## Title: |cff880303[ÍøÒ×ÓÐ°®]|r CarboniteNodes
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r CarboniteNodes
 ## X-Vendor: NetEase

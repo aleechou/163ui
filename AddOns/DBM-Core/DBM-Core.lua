@@ -50,10 +50,10 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10665 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 10705 $"):sub(12, -3)),
 	DisplayVersion = "5.4.4 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
-	DisplayReleaseVersion = "5.4.3", -- Needed to work around bigwigs sending improper version information
-	ReleaseRevision = 10638 -- the revision of the latest stable version that is available
+	DisplayReleaseVersion = "5.4.4", -- Needed to work around bigwigs sending improper version information
+	ReleaseRevision = 10680 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -5174,6 +5174,16 @@ function bossModPrototype:IsTank()
 	or (class == "MONK" and (GetSpecialization() == 1))
 end
 
+function bossModPrototype:IsSpellCaster(includePal)
+	return class == "MAGE"
+	or class == "WARLOCK"
+	or class == "PRIEST"
+	or (class == "MONK" and (GetSpecialization() == 2))
+    or (class == "SHAMAN" and (GetSpecialization() ~= 2))
+	or (class == "DRUID" and (GetSpecialization() == 1 or GetSpecialization() == 4))
+	or (class == "PALADIN" and (GetSpecialization() == 1 or (includePal or false)))
+end
+
 function bossModPrototype:IsTanking(unit, boss)
 	if not unit then return false end 
 	if GetPartyAssignment("MAINTANK", unit, 1) then
@@ -5636,6 +5646,7 @@ do
 			count = count or self.count or 5
 			if timer <= count then count = floor(timer) end
 			if DBM.Options.ShowCountdownText and not (self.textDisabled or self.alternateVoice) then
+				stopCountdown()
 				if timer >= count then 
 					DBM:Schedule(timer-count, showCountdown, count)
 				else

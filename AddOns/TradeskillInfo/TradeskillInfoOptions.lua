@@ -1,63 +1,35 @@
 ﻿
-local _
 local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo", true)
-local TradeskillInfo = TradeskillInfo
+
+
+-- upvalues, will be populated in :CreateConfig() at the bottom of the file
+local knownSelect = {} -- the multiselect array for "Known by", "Learnable by", "Will be learnable by"
+local db
+
 
 local function getOption(info)
-	local key = info.arg
-	return TradeskillInfo.db.profile[key]
+	return db[info.arg]
 end
 
 local function setOption(info, value)
-	local key = info.arg
-	TradeskillInfo.db.profile[key] = value
+	db[info.arg] = value
 end
 
 local function getColor(info)
-	local key = info.arg
-	return TradeskillInfo.db.profile[key].r, TradeskillInfo.db.profile[key].g, TradeskillInfo.db.profile[key].b
+	return db[info.arg].r, db[info.arg].g, db[info.arg].b
 end
 
 local function setColor(info, r, g, b)
-	local key = info.arg
-	TradeskillInfo.db.profile[key] = { r = r, g = g, b = b}
+	db[info.arg] = { r = r, g = g, b = b }
 end
 
-local function getSelect(info)
-	local key = info.arg
-	return TradeskillInfo.db.profile[key]
+local function getMultiSelect(info, key)
+	return db[info.arg][key]
 end
 
-local function setSelect(info, value)
-	local key = info.arg
-	TradeskillInfo.db.profile[key] = value
+local function setMultiSelect(info, key, state)
+	db[info.arg][key] = state
 end
-
-local function getMultiSelect(info, val)
-	local key = info.arg
-	return TradeskillInfo.db.profile[key][val]
-end
-
-local function setMultiSelect(info, val, state)
-	local key = info.arg
-	TradeskillInfo.db.profile[key][val] = state
-end
-
-local function getRange(info)
-	local key = info.arg
-	return TradeskillInfo.db.profile[key]
-end
-
-local function setRange(info, value)
-	local key = info.arg
-	TradeskillInfo.db.profile[key] = value
-end
-
--- The multiselect value for "Known by", "Learnable by", etc.
--- It is all the skills we know about, plus recipes.
-local knownSelect = {
-	R = L["Recipes"],
-}
 
 
 local tooltipOptions = {
@@ -74,102 +46,104 @@ local tooltipOptions = {
 			inline = true,
 			order = 1,
 			args = {
+				usedIn = {
+					name = L["Used in"],
+					desc = L["Show what tradeskill an item is used"],
+					type = "toggle",
+					arg = "TooltipUsedIn",
+					order = 1,
+				},
+				usableBy = {
+					name = L["Usable by"],
+					desc = L["Show who can use an item"],
+					type = "toggle",
+					arg = "TooltipUsableBy",
+					order = 2,
+				},
+				colorUsableBy = {
+					name = L["Color usable by"],
+					desc = L["Color the alt names in tooltip according to maximum combine difficulty"],
+					type = "toggle",
+					arg = "TooltipColorUsableBy",
+					disabled = function() return not db["TooltipUsableBy"] end,
+					order = 3,
+				},
 				source = {
 					name = L["Source"],
 					desc = L["Show the source of the item"],
 					type = "toggle",
 					arg = "TooltipSource",
+					order = 4,
 				},
-				usedin = {
-					name = L["Used in"],
-					desc = L["Show what tradeskill an item is used"],
+				recipeSource = {
+					name = L["Recipe Source"],
+					desc = L["Show the source of recipes"],
 					type = "toggle",
-					arg = "TooltipUsedIn",
+					arg = "TooltipRecipeSource",
+					order = 5,
 				},
-				usableby = {
-					name = L["Usable by"],
-					desc = L["Show who can use an item"],
+				recipePrice = {
+					name = L["Recipe Price"],
+					desc = L["Show the price of recipes sold by vendors"],
 					type = "toggle",
-					arg = "TooltipUsableBy",
-					order = 800,
+					arg = "TooltipRecipePrice",
+					order = 6,
 				},
-				colorusableby = {
-					name = L["Color usable by"],
-					desc = L["Color the alt names in tooltip according to maximum combine difficulty"],
+				itemID = {
+					name = L["ItemID"],
+					desc = L["Show the item's ID"],
 					type = "toggle",
-					arg = "TooltipColorUsableBy",
-					disabled = function() return not TradeskillInfo.db.profile["TooltipUsableBy"] end,
-					order = 801,
+					arg = "TooltipID",
+					order = 7,
 				},
-				sep1 = {
-					name = "",
-					type = "description",
-					order = 899,
+				stackSize = {
+					name = L["Stack Size"],
+					desc = L["Show the item's stack size"],
+					type = "toggle",
+					arg = "TooltipStack",
+					order = 8,
 				},
-				known = {
+				marketValue = {
+					name = L["Market Value"],
+					desc = L["Show the profit calculation from Auctioneer Market Value"],
+					type = "toggle",
+					arg = "TooltipMarketValue",
+					order = 9,
+				},
+				knownBy = {
 					name = L["Known by"],
 					desc = L["Show who knows a recipe"],
 					type = "multiselect",
 					control = "Dropdown",
 					values = knownSelect,
-					order = 900,
 					get = getMultiSelect,
 					set = setMultiSelect,
 					arg = "TooltipKnownBy",
+					order = 10,
 				},
-				learn = {
+				learnableBy = {
 					name = L["Learnable by"],
 					desc = L["Show who can learn a recipe"],
 					type = "multiselect",
 					control = "Dropdown",
 					values = knownSelect,
-					order = 910,
 					get = getMultiSelect,
 					set = setMultiSelect,
 					arg = "TooltipLearnableBy",
+					order = 11,
 				},
-				willbe = {
+				willBeLearnable = {
 					name = L["Will be able to learn"],
 					desc = L["Show who will be able to learn a recipe"],
 					type = "multiselect",
 					control = "Dropdown",
 					values = knownSelect,
-					order = 920,
 					get = getMultiSelect,
 					set = setMultiSelect,
 					arg = "TooltipAvailableTo",
+					order = 12,
 				},
-				itemid = {
-					name = L["ItemID"],
-					desc = L["Show the item's ID"],
-					type = "toggle",
-					arg = "TooltipID",
-				},
-				stacksize = {
-					name = L["Stack Size"],
-					desc = L["Show the item's stack size"],
-					type = "toggle",
-					arg = "TooltipStack",
-				},
-				marketvalue = {
-					name = L["Market Value"],
-					desc = L["Show the profit calculation from Auctioneer Market Value"],
-					type = "toggle",
-					arg = "TooltipMarketValue",
-				},
-				recipesource = {
-					name = L["Recipe Source"],
-					desc = L["Show the source of recipes"],
-					type = "toggle",
-					arg = "TooltipRecipeSource",
-				},
-				recipeprice = {
-					name = L["Recipe Price"],
-					desc = L["Show the price of recipes sold by vendors"],
-					type = "toggle",
-					arg = "TooltipRecipePrice",
-				},
-			}
+			},
 		},
 		colors = {
 			name = L["Colors"],
@@ -179,75 +153,88 @@ local tooltipOptions = {
 			inline = true,
 			order = 2,
 			args = {
+				usedIn = {
+					name = L["Used in"],
+					desc = L["Show what tradeskill an item is used"],
+					type = "color",
+					arg = "ColorSource",
+					order = 1,
+				},
+				usableBy = {
+					name = L["Usable by"],
+					desc = L["Show who can use an item"],
+					type = "color",
+					arg = "ColorUsableBy",
+					width = "double",
+					order = 2,
+				},
 				source = {
 					name = L["Source"],
 					desc = L["Show the source of the item"],
 					type = "color",
 					arg = "ColorSource",
+					order = 3,
 				},
-				usedin = {
-					name = L["Used in"],
-					desc = L["Show what tradeskill an item is used"],
-					type = "color",
-					arg = "ColorSource",
-				},
-				usableby = {
-					name = L["Usable by"],
-					desc = L["Show who can use an item"],
-					type = "color",
-					arg = "ColorUsableBy",
-				},
-				known = {
-					name = L["Known by"],
-					desc = L["Show who knows a recipe"],
-					type = "color",
-					arg = "ColorKnownBy",
-				},
-				learn = {
-					name = L["Learnable by"],
-					desc = L["Show who can learn a recipe"],
-					type = "color",
-					arg = "ColorLearnableBy",
-				},
-				willbe = {
-					name = L["Will be able to learn"],
-					desc = L["Show who will be able to learn a recipe"],
-					type = "color",
-					arg = "ColorAvailableTo",
-				},
-				itemid = {
-					name = L["ItemID"],
-					desc = L["Show the item's ID"],
-					type = "color",
-					arg = "ColorID",
-				},
-				stacksize = {
-					name = L["Stack Size"],
-					type = "color",
-					arg = "ColorStack",
-				},
-				marketvalue = {
-					name = L["Market Value"],
-					desc = L["Show the profit calculation from Auctioneer Market Value"],
-					type = "color",
-					arg = "ColorMarketValue",
-				},
-				recipesource = {
+				recipeSource = {
 					name = L["Recipe Source"],
 					desc = L["Show the source of recipes"],
 					type = "color",
 					arg = "ColorRecipeSource",
+					order = 4,
 				},
-				recipeprice = {
+				recipePrice = {
 					name = L["Recipe Price"],
 					desc = L["Show the price of recipes sold by vendors"],
 					type = "color",
 					arg = "ColorRecipePrice",
+					order = 5,
 				},
-			}
-		}
-	}
+				itemID = {
+					name = L["ItemID"],
+					desc = L["Show the item's ID"],
+					type = "color",
+					arg = "ColorID",
+					order = 6,
+				},
+				stackSize = {
+					name = L["Stack Size"],
+					type = "color",
+					arg = "ColorStack",
+					order = 7,
+				},
+				marketValue = {
+					name = L["Market Value"],
+					desc = L["Show the profit calculation from Auctioneer Market Value"],
+					type = "color",
+					arg = "ColorMarketValue",
+					order = 8,
+				},
+				knownBy = {
+					name = L["Known by"],
+					desc = L["Show who knows a recipe"],
+					type = "color",
+					arg = "ColorKnownBy",
+					order = 9,
+				},
+				learnableBy = {
+					name = L["Learnable by"],
+					desc = L["Show who can learn a recipe"],
+					type = "color",
+					arg = "ColorLearnableBy",
+					order = 10,
+				},
+				willBeLearnable = {
+					name = L["Will be able to learn"],
+					desc = L["Show who will be able to learn a recipe"],
+					type = "color",
+					arg = "ColorAvailableTo",
+					order = 11,
+				},
+			},
+		},
+	},
 }
+
 
 local tradeskillOptions = {
 	name = L["Trade Skill"],
@@ -257,47 +244,79 @@ local tradeskillOptions = {
 	get = getOption,
 	set = setOption,
 	args = {
-		skillreq = {
+		skillReq = {
 			name = L["Skill required"],
 			desc = L["Show skill required"],
 			type = "toggle",
 			arg = "ShowSkillLevel",
 			width = "full",
+			order = 1,
 		},
-		combinecost = {
+		combineCost = {
 			name = L["Combine cost"],
 			desc = L["Show combine cost"],
 			type = "toggle",
 			arg = "ShowSkillProfit",
 			width = "full",
-		}
-	}
+			order = 2,
+		},
+	},
 }
 
 
 local mouseSelect = {
 	[1] = L["Left Button"],
-	[2] = L["Right Button"]
+	[2] = L["Right Button"],
 }
 
 local modSelect = {
 	[1] = L["Shift"],
 	[2] = L["Control"],
-	[3] = L["Alt"]
+	[3] = L["Alt"],
 }
 
 local strataSelect = {
 	[1] = L["LOW"],
 	[2] = L["MEDIUM"],
-	[3] = L["HIGH"]
+	[3] = L["HIGH"],
 }
 
 local uiOptions = {
 	name = L["UI"],
 	desc = L["UI Options"],
 	type = "group",
-	order = 4,
+	order = 3,
 	args = {
+		saveFrame = {
+			name = L["Save Frame Position"],
+			desc = L["Remember TradeskillInfoUI frame position"],
+			type = "toggle",
+			arg = "SavePosition",
+			get = getOption,
+			set = setOption,
+			order = 1,
+		},
+		strata = {
+			name = L["Frame Strata"],
+			desc = L["Set TradeskillInfoUI frame strata"],
+			values = strataSelect,
+			type = "select",
+			get = getOption,
+			set = setOption,
+			arg = "FrameStrata",
+			order = 2,
+		},
+		scale = {
+			name = L["UI Scale"],
+			type = "range",
+			desc = L["Change scale of user interface"],
+			min = 0.5, max = 2, step = 0.05,
+			isPercent = false,
+			get = getOption,
+			set = setOption,
+			arg = "UIScale",
+			order = 3,
+		},
 		quickSearch = {
 			name = L["Quick Search"],
 			desc = L["Enable Quick Search"],
@@ -305,88 +324,42 @@ local uiOptions = {
 			arg = "QuickSearch",
 			get = getOption,
 			set = setOption,
-			order = 10
-		},
-		sep1 = {
-			name = "",
-			type = "description",
-			order = 19,
+			order = 4,
 		},
 		mouse = {
 			name = L["Search Mouse Button"],
 			desc = L["Mouse button that does a quick search"],
 			type  = "select",
 			values = mouseSelect,
-			get = getSelect,
-			set = setSelect,
+			get = getOption,
+			set = setOption,
 			arg = "SearchMouseButton",
-			disabled = function() return not TradeskillInfo.db.profile["QuickSearch"] end,
-			order = 30
+			disabled = function() return not db["QuickSearch"] end,
+			order = 5,
 		},
 		modifier = {
 			name = L["Search Modifier Key"],
 			desc = L["Modifier key to be held down for quick search"],
 			type  = "select",
 			values = modSelect,
-			get = getSelect,
-			set = setSelect,
-			arg = "SearchShiftKey",
-			disabled = function() return not TradeskillInfo.db.profile["QuickSearch"] end,
-			order = 20
-		},
-		saveframe = {
-			name = L["Save Frame Position"],
-			desc = L["Remember TradeskillInfoUI frame position"],
-			type = "toggle",
-			arg = "SavePosition",
 			get = getOption,
 			set = setOption,
-			order = 40
+			arg = "SearchShiftKey",
+			disabled = function() return not db["QuickSearch"] end,
+			order = 6,
 		},
-		sep2 = {
-			name = "",
-			type = "description",
-			order = 49,
-		},
-		strata = {
-			name = L["Frame Strata"],
-			desc = L["Set TradeskillInfoUI frame strata"],
-			values = strataSelect,
-			type = "select",
-			get = getSelect,
-			set = setSelect,
-			arg = "FrameStrata",
-			order = 50
-		},
-		scale = {
-			name = L["UI Scale"],
-			type = "range",
-			desc = L["Change scale of user interface"],
-			min = 0.5,
-			max = 2,
-			step = 0.05,
-			isPercent = false,
-			get = getRange,
-			set = setRange,
-			order = 60,
-			arg = "UIScale",
-		},
-	}
+	},
 }
+
 
 local ahOptions = {
 	name = L["Auction"],
 	desc = L["Auction House Options"],
 	type = "group",
-	order = 5,
+	order = 4,
 	get = getColor,
 	set = setColor,
 	args = {
-		ahdesc = {
-			name = L["Auction House related options"],
-			type = "description",
-			order = 1,
-		},
 		ahcolor = {
 			name = L["Color Recipes"],
 			desc =L["Color recipes in the Auction House"],
@@ -395,59 +368,64 @@ local ahOptions = {
 			get = getOption,
 			set = setOption,
 			width = "full",
-			order = 10,
+			order = 1,
 		},
-		playercan = {
+		playerCan = {
 			name = L["You can learn"],
 			type = "color",
 			arg = "AHColorLearnable",
 			width = "full",
-			disabled = function() return not TradeskillInfo.db.profile["ColorAHRecipes"] end,
-			order = 20,
+			disabled = function() return not db["ColorAHRecipes"] end,
+			order = 2,
 		},
-		altcan = {
+		altCan = {
 			name = L["An alt can learn"],
 			type = "color",
 			arg = "AHColorAltLearnable",
 			width = "full",
-			disabled = function() return not TradeskillInfo.db.profile["ColorAHRecipes"] end,
-			order = 30,
+			disabled = function() return not db["ColorAHRecipes"] end,
+			order = 3,
 		},
-		playerwill = {
+		playerWill = {
 			name = L["You will be able to learn"],
 			type = "color",
 			arg = "AHColorWillLearn",
 			width = "full",
-			disabled = function() return not TradeskillInfo.db.profile["ColorAHRecipes"] end,
-			order = 40,
+			disabled = function() return not db["ColorAHRecipes"] end,
+			order = 4,
 		},
-		altwill = {
+		altWill = {
 			name = L["An alt will be able to learn"],
 			type = "color",
 			arg = "AHColorAltWillLearn",
 			width = "full",
-			disabled = function() return not TradeskillInfo.db.profile["ColorAHRecipes"] end,
-			order = 50,
+			disabled = function() return not db["ColorAHRecipes"] end,
+			order = 5,
 		},
 		unavailable = {
 			name = L["Unavailable or already known"],
 			type = "color",
 			arg = "AHColorUnavailable",
 			width = "full",
-			disabled = function() return not TradeskillInfo.db.profile["ColorAHRecipes"] end,
-			order = 60,
-		}
-	}
+			disabled = function() return not db["ColorAHRecipes"] end,
+			order = 6,
+		},
+	},
 }
 
 
 function TradeskillInfo:CreateConfig()
+	-- do not use "self" in this function as it will be attributed
+	-- to AceConfig-3.0's namespace, not TradeSkillInfo's
+
+	db = TradeskillInfo.db.profile
+
 	for x, y in pairs(TradeskillInfo.vars.tradeskills) do
 		knownSelect[x] = y
 	end
 
 	local options = {
-		name = "TradeSkill Info",
+		name = "TradeSkillInfo",
 		type = "group",
 		childGroups = "tab",
 		args = {
@@ -462,13 +440,4 @@ function TradeskillInfo:CreateConfig()
 	TradeskillInfo.optionsLoaded = true
 
 	return options
-
-	--[[
-	TradeskillInfo.OptionsPanel = AceConfigDialog:AddToBlizOptions("TradeskillInfo", "TradeskillInfo", nil, "general")
-	AceConfigDialog:AddToBlizOptions("TradeskillInfo", L["Tooltip"], "TradeskillInfo", "tooltip")
-	AceConfigDialog:AddToBlizOptions("TradeskillInfo", L["Tradeskill"], "TradeskillInfo", "tradeskill")
-	AceConfigDialog:AddToBlizOptions("TradeskillInfo", L["UI"], "TradeskillInfo", "ui")
-	AceConfigDialog:AddToBlizOptions("TradeskillInfo", L["Auction House"], "TradeskillInfo", "auction")
-	AceConfigDialog:AddToBlizOptions("TradeskillInfo", L["Profile"], "TradeskillInfo", "profile")
-	]]--
 end

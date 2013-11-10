@@ -64,6 +64,21 @@ U1RegisterAddon("Dominos", {
     },
 
     {
+        type = 'radio',
+        var = 'showbutton',
+        default = 'STOR',
+        options = {'显示商城按钮', 'STOR', '显示帮助按钮', 'HELP'},
+        text = '选择商店按钮和帮助按钮',
+        secure = 1,
+        confirm = "注意：请重载界面来显示相应按钮",
+        tip = "说明`网易有爱默认显示商店按钮，可以在此修改显示设置。",
+        callback = function(cfg, v, loading)
+            if(loading) then return end
+			Dominos.db.profile['showButton'] = v
+        end
+    },
+
+    {
         text = "设置按钮皮肤",
         tip = "说明`临时切换到按钮美化插件的设置面板。",
         callback = function() UUI.OpenToAddon("masque") end,

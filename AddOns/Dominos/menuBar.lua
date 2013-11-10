@@ -20,8 +20,8 @@ local MICRO_BUTTONS = {
 	'EJMicroButton',
 	'CompanionsMicroButton',
 	'MainMenuMicroButton',
-	'HelpMicroButton'
-	--'StoreMicroButton'
+	--'HelpMicroButton',
+	'StoreMicroButton',
 }
 
 local MICRO_BUTTON_NAMES = {
@@ -110,6 +110,18 @@ function MenuBar:Create(frameId)
 end
 
 function MenuBar:LoadButtons()
+	-- XXX 163
+	local showButton = U1GetCfgValue('Dominos', 'showbutton')
+	if( showButton ~= 'STOR' and showButton ~= 'HELP' ) then
+		showButton = 'STOR'
+	end
+	
+	if showButton == 'HELP' then
+		tremove(MICRO_BUTTONS, 12)
+		tinsert(MICRO_BUTTONS, 'HelpMicroButton')
+	end
+	-- XXX 163 end
+	
 	for i, buttonName in ipairs(MICRO_BUTTONS) do
 		self:AddButton(i)
 	end
@@ -155,7 +167,7 @@ function MenuBar:GetDefaults()
 end
 
 function MenuBar:NumButtons()
-	return #self.activeButtons
+	return #MenuBar.activeButtons
 end
 
 function MenuBar:DisableMenuButton(button, disabled)
@@ -164,7 +176,7 @@ function MenuBar:DisableMenuButton(button, disabled)
 	disabledButtons[button:GetName()] = disabled or false	
 	self.sets.disabled = disabledButtons
 
-	self:Layout()	
+	self:Layout()
 end
 
 function MenuBar:IsMenuButtonDisabled(button)
@@ -267,7 +279,7 @@ function MenuBar:UpdateActiveButtons()
 	for i = 1, #self.activeButtons do self.activeButtons[i] = nil end
 	
 	for i, button in ipairs(self.buttons) do
-		if not self:IsMenuButtonDisabled(button) then
+		if not (self:IsMenuButtonDisabled(button)) then
 			table.insert(self.activeButtons, button)
 		end
 	end
@@ -336,12 +348,20 @@ end
 
 local MenuBarController = Dominos:NewModule('MenuBar')
 
-function MenuBarController:OnInitialize()
+--[[function MenuBarController:OnInitialize()
 	-- fixed blizzard nil bug
 	if not _G['AchievementMicroButton_Update'] then
 		_G['AchievementMicroButton_Update'] = function() end
 	end	
-end
+	
+	if GetBuildInfo() == '5.4.1' then
+		hooksecurefunc("StaticPopup_Show", function(self)
+		  if self == 'ADDON_ACTION_FORBIDDEN' then
+		  	StaticPopup_Hide(self)
+		  end
+		end)	
+	end
+end]]
 
 function MenuBarController:Load()
 	self.frame = MenuBar:New()
