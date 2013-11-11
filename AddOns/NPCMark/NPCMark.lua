@@ -167,7 +167,7 @@ function NPCM_ToggleEnable(switch)
 			--WorldMapFrame:HookScript("OnUpdate", NPCMark_WorldMapFrameOnUpdate);
 			NPCMark_Loaded = true;
 			if (WorldMapFrame:HasScript("OnShow")) then 
-				WorldMapFrame:HookScript("OnShow", NPCMark_WorldMapFrameOnShow); 
+				WorldMapFrame:HookScript("OnShow", NPCMark_WorldMapFrameOnShow);
 			else 
 				WorldMapFrame:SetScript("OnShow", NPCMark_WorldMapFrameOnShow);
 			end 
@@ -329,9 +329,12 @@ function NPCMark_WorldMapFrameOnShow()
 		InitConfig() 
 	end
 	
+	print("show")
 	UIDropDownMenu_Initialize(MapPlusDDList,MapMarkDDInit)
-	UIDropDownMenu_SetText(MapPlusDDList,MAPMARK_TITLE) 
-	MapPlusDDList:Show() 
+	UIDropDownMenu_SetText(MapPlusDDList,MAPMARK_TITLE)
+	MapPlusDDList:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 4)
+	MapMarkCheckButton:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 4)
+	MapPlusDDList:Show()
 	MapMarkCheckButton:Show() 
 end 
 
