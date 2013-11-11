@@ -167,7 +167,7 @@ function MenuBar:GetDefaults()
 end
 
 function MenuBar:NumButtons()
-	return #MenuBar.activeButtons
+	return #self.activeButtons
 end
 
 function MenuBar:DisableMenuButton(button, disabled)

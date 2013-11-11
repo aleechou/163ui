@@ -16,6 +16,7 @@ MAP_MARK_TEXTURE = {
 	[MAP_MARK_PROF_WARRIOR] = "^CLASS^WARRIOR",
 	[MAP_MARK_PROF_PALADIN] = "^CLASS^PALADIN",
 	[MAP_MARK_PROF_DEATHKNIGHT] = "^CLASS^DEATHKNIGHT",
+	[MAP_MARK_PROF_MONK] = "^CLASS^MONK",
 	[MAP_MARK_SKILL_ALCHE] = [[Interface\ICONS\Trade_Alchemy]],
 	[MAP_MARK_PROF_BLACKSMITH] = [[Interface\ICONS\Trade_BlackSmithing]], --[[Interface\CURSOR\Repair]]
 	[MAP_MARK_PROF_ENCHANTING] = [[Interface\ICONS\Trade_Engraving]],
@@ -35,7 +36,7 @@ MAP_MARK_TEXTURE = {
 	--[MAP_MARK_WEAPON] = "Interface\\AddOns\\NPCMark\\icon\\5",
 	[MAP_MARK_INN] = [[Interface\Minimap\Tracking\Innkeeper]],
 	[MAP_MARK_GLADIUS] = [[Interface\Minimap\Tracking\BattleMaster]],
-	--[MAP_MARK_FLY] = [[Interface\Minimap\Tracking\FlightMaster]],
+	[MAP_MARK_FLY] = [[Interface\Minimap\Tracking\FlightMaster]],
 	[MAP_MARK_PORTAL] = [[Interface\ICONS\Spell_Arcane_PortalStormWind]],
 	[MAP_MARK_AUCTION] = [[Interface\Minimap\Tracking\Auctioneer]],
 	[MAP_MARK_BANK] = [[Interface\Minimap\Tracking\Banker]],
@@ -76,7 +77,8 @@ MAP_MARK_MAPPING_TABLE = {
 	MAP_MARK_PROF_SHAMAN, 
 	MAP_MARK_PROF_WARRIOR, 
 	MAP_MARK_PROF_PALADIN,
-	MAP_MARK_PROF_DEATHKNIGHT,
+	MAP_MARK_PROF_DEATHKNIGHT, 
+	MAP_MARK_PROF_MONK,
 	MAP_MARK_SKILL_ALCHE, 
 	MAP_MARK_PROF_BLACKSMITH, 
 	MAP_MARK_PROF_ENCHANTING,
@@ -96,7 +98,7 @@ MAP_MARK_MAPPING_TABLE = {
 	--MAP_MARK_WEAPON,
 	MAP_MARK_INN, 
 	MAP_MARK_GLADIUS,
-	--MAP_MARK_FLY,
+	MAP_MARK_FLY,
 	MAP_MARK_PORTAL, 
 	MAP_MARK_AUCTION, 
 	MAP_MARK_BANK, 
@@ -115,17 +117,50 @@ NPCMARKMAPPINGDB = {
 	[MAP_MARK_DAIBI1] = MAP_MARK_DAIBI,
 	[MAP_MARK_DAIBI2] = MAP_MARK_DAIBI,
 	[MAP_MARK_DAIBI3] = MAP_MARK_DAIBI,
+	
+	[MAP_MARK_FLY1] = MAP_MARK_FLY, 
+	[MAP_MARK_FLY2] = MAP_MARK_FLY, 
+	[MAP_MARK_FLY3] = MAP_MARK_FLY, 
+	[MAP_MARK_FLY4] = MAP_MARK_FLY,
+	[MAP_MARK_FLY5] = MAP_MARK_FLY, 
+	[MAP_MARK_FLYING] = MAP_MARK_PROF_RIDING, 
+	[MAP_MARK_DAIBI1] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_DAIBI2] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_DAIBI3] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_DAIBI4] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_DAIBI5] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_DAIBI6] = MAP_MARK_ZHENFU, 
+	[MAP_MARK_GLADIUS]= MAP_MARK_ZHENFU, 
 } 
+local RaceToCamp = { 
+	["Orc"] = 1,
+	["Tauren"] = 1,
+	["Scourge"] = 1,
+	["BloodElf"] = 1,
+	["Troll"] = 1,
+	["Goblin"] = 1,
+	["Human"] = 2,
+	["NightElf"] = 2,
+	["Dwarf"] = 2,
+	["Gnome"] = 2,
+	["Draenei"] = 2,
+	["Worgen"] = 2,
+} 
+local function GetCampByRace(race) 
+	if race and RaceToCamp[race] then 
+		return RaceToCamp[race]; 
+	end 
+end 
 
 local function GetMappedType(_type) 
 	if NPCMARKMAPPINGDB[_type] then 
 		return NPCMARKMAPPINGDB[_type] 
 	end
-	if (engClass == "ROGUE") then
+	--[[if (engClass == "ROGUE") then
 		NPCMARKMAPPINGDB[MAP_MARK_POSION] = MAP_MARK_MATERIAL;
-	end
+	end]]
 	for _,val in pairs(MAP_MARK_MAPPING_TABLE) do 
-		if string.find(_type,val) then
+		if string.find(_type, val) or string.find(val, _type) then
 			NPCMARKMAPPINGDB[_type] =val
 			return val 
 		end 
@@ -135,6 +170,8 @@ end
 
 local function InitConfig()
 	NPCMarkDB = {}
+	NPCMarkDB.showMarks = true; 
+	NPCMarkDB.version = NPCMark_Version;
 	-- 職業訓練師
 	if _G["MAP_MARK_PROF_"..engClass] then
 		NPCMarkDB[_G["MAP_MARK_PROF_"..engClass]] = true
@@ -148,16 +185,17 @@ local function InitConfig()
 			NPCMarkDB[mapping] = true 
 		end
 	end
-	NPCMarkDB[MAP_MARK_DAIBI] = true
 	NPCMarkDB[MAP_MARK_ZHENFU] = true
 	NPCMarkDB[MAP_MARK_DUMMY] = true
 	NPCMarkDB[MAP_MARK_REFORGE] = true
 	NPCMarkDB[MAP_MARK_PROF_RIDING] = true
 	NPCMarkDB[MAP_MARK_INN] = true
-	--NPCMarkDB[MAP_MARK_FLY] = true
+	NPCMarkDB[MAP_MARK_FLY] = true
 	NPCMarkDB[MAP_MARK_AUCTION] = true
 	NPCMarkDB[MAP_MARK_BANK] = true 
 	NPCMarkDB[MAP_MARK_MATERIAL] = true 
+	NPCMarkDB[MAP_MARK_HUANHUA] = true 
+	NPCMarkDB[MAP_MARK_XUKONGYINHANG] = true 
 end 
 
 function NPCM_ToggleEnable(switch) 
@@ -176,7 +214,7 @@ function NPCM_ToggleEnable(switch)
 		NPCMark_Enable = 1; 
 	else 
 		NPCMark_Enable = nil; 
-    end
+	end
     NPCMark_WorldMapFrameOnUpdate()
 end 
 
@@ -193,6 +231,7 @@ local MapMarkDDTable = {
 		[MAP_MARK_PROF_WARRIOR] = {func = true}, 
 		[MAP_MARK_PROF_PALADIN] = {func = true}, 
 		[MAP_MARK_PROF_DEATHKNIGHT] = {func = true},
+		[MAP_MARK_PROF_MONK] = {func = true}, 
 	}, 
 	-- 技能训练师
 	[MAP_MARK_SKILL] = {
@@ -220,13 +259,15 @@ local MapMarkDDTable = {
 	[MAP_MARK_PROF_RIDING] = { func = true },
 	[MAP_MARK_INN] = { func = true }, 
 	[MAP_MARK_GLADIUS] = { func = true }, 
-	--[MAP_MARK_FLY] = { func = true },
+	[MAP_MARK_FLY] = { func = true },
 	[MAP_MARK_PORTAL] = { func = true }, 
 	[MAP_MARK_AUCTION] = { func = true }, 
 	[MAP_MARK_BANK] = { func = true }, 
 	[MAP_MARK_BARBER] = { func = true }, 
 	[MAP_MARK_MATERIAL] = { func = true },
-	[MAP_MARK_STABLE] = { func = true }, 
+	[MAP_MARK_STABLE] = { func = true },
+	[MAP_MARK_HUANHUA] = { func = true },
+	[MAP_MARK_XUKONGYINHANG] = { func = true },
 }
 
 local function menuClick(self, key)
@@ -329,7 +370,6 @@ function NPCMark_WorldMapFrameOnShow()
 		InitConfig() 
 	end
 	
-	print("show")
 	UIDropDownMenu_Initialize(MapPlusDDList,MapMarkDDInit)
 	UIDropDownMenu_SetText(MapPlusDDList,MAPMARK_TITLE)
 	MapPlusDDList:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 4)
@@ -393,6 +433,9 @@ local function getCurrentMapName()
 	local mapId = GetCurrentMapZone() 
 	if mapId >0 then
 		local currLevel = GetCurrentMapDungeonLevel();
+		if currLevel == 0 then 
+			currLevel = 1
+		end
 		return select(mapId,GetMapZones(GetCurrentMapContinent())), currLevel; 
 	end
 end 
@@ -424,10 +467,11 @@ function NPCMark_WorldMapFrameOnUpdate(self)
 	node_index = 1
 	if mapName and MapPlusNodeData[mapName] then
 		local nodes = MapPlusNodeData[mapName] 
-		local bHasLvl = checkLevel(nodes, currLevel);
+		--local bHasLvl = checkLevel(nodes, currLevel);
 		for _,_node in pairs(nodes) do 
-			if isSelected(_node[1]) and ((not bHasLvl and not _node[3]) or  (_node[3] and _node[3] == currLevel)) then
-				showNodes(_node[1],"",select(2,unpack(_node)))
+			--if isSelected(_node[1]) and ((not bHasLvl and not _node[4]) or  (_node[4] and _node[4] == currLevel)) then
+			if isSelected(_node[1]) and (_node[4] and _node[4] == currLevel) then
+				showNodes(_node[1],_node[2],select(3,unpack(_node)))
 			end 
 		end 
 	end
@@ -491,7 +535,7 @@ function IsAdjacent(dbTable, entry)
 	end 
 
 	for _,_coord in pairs(dbTable[GetMappedType(entry[1])]) do
-		if Distance(_coord,entry[2]) < MAP_ADJACENT_DISTANCE then
+		if Distance(_coord,entry[3]) < MAP_ADJACENT_DISTANCE then
 			return true 
 		end 
 	end 
@@ -500,12 +544,16 @@ end
 
 -- 縮小地圖標記數據
 function ReduceMap(_table) 
+	if type(_table) ~= "table" then 
+		return 
+	end
+	
 	local tempDB = {}
 	local outPut ={}
 	for _,_entry in pairs(_table) do
 		tempDB[GetMappedType(_entry[1])] = tempDB[GetMappedType(_entry[1])] or {}
-		if not IsAdjacent(tempDB, _entry) then 
-			tinsert(tempDB[GetMappedType(_entry[1])], _entry[2])
+		if not IsAdjacent(tempDB, _entry) and (_entry[5] and _entry[5] ~= GetCampByRace(select(2, UnitRace("player"))) or not _entry[5])  then 
+			tinsert(tempDB[GetMappedType(_entry[1])], _entry[3])
 			tinsert(outPut, _entry)
 		end
 	end

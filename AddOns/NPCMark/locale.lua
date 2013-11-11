@@ -12,6 +12,7 @@ if true or GetLocale() == 'zhCN' then
 	MAP_MARK_PROF_WARRIOR= "战士训练师"
 	MAP_MARK_PROF_PALADIN= "圣骑士训练师"
 	MAP_MARK_PROF_DEATHKNIGHT= "死亡骑士训练师"
+	MAP_MARK_PROF_MONK= "武僧训练师"
 	
 	NPCM_ALCHE = '炼金术'
 	NPCM_BLACKSMITH = '锻造'
@@ -51,24 +52,114 @@ if true or GetLocale() == 'zhCN' then
 	MAP_MARK_INN= "旅店老板"
 	MAP_MARK_GLADIUS= "竞技场商人"
 
+	MAP_MARK_FLY= "飞行管理员"
+	MAP_MARK_FLY1= "双足飞龙管理员"
+	MAP_MARK_FLY2= "蝙蝠管理员"
+	MAP_MARK_FLY3= "龙鹰管理员"
+	MAP_MARK_FLY4= "狮鹫管理员"
+	MAP_MARK_FLY5= "角鹰兽管理员"
+
 	MAP_MARK_PORTAL= "传送门训练师"
 	MAP_MARK_AUCTION= "拍卖师"
 	MAP_MARK_BANK= "银行职员"
 	MAP_MARK_BARBER= "理发师"
-	MAP_MARK_POSION = "毒药"
 	MAP_MARK_MATERIAL= "材料商"
 	MAP_MARK_STABLE= "兽栏管理员"
 
-	MAP_MARK_REFORGE = "装备幻化重铸"
+	MAP_MARK_REFORGE = "装备重铸"
 	MAP_MARK_DUMMY = "训练假人"
 	MAP_MARK_ZHENFU = "军需官"
 	MAP_MARK_DAIBI = "PvE代币兑换"
 	MAP_MARK_DAIBI1 = "正义点数商人"
 	MAP_MARK_DAIBI2 = "勇气点数商人"
 	MAP_MARK_DAIBI3 = "传家宝商人"
+	MAP_MARK_DAIBI4 = "正义传家宝"
+	MAP_MARK_DAIBI5 = "传家宝商人"
+	MAP_MARK_DAIBI6 = "古董和传家宝"
+	MAP_MARK_HUANHUA= "装备幻化"
+	MAP_MARK_XUKONGYINHANG= "虚空银行"
 
 	MAP_MARK_FLYING = "飞行训练师"
 
 	NPCMARK_UNKNOWN_NPC = "未知NPC"
+
+elseif GetLocale() =='zhTW' then
+	MAPMARK_TITLE = "NPC顯示"
+
+	MAP_MARK_PROF = "職業訓練師"
+	MAP_MARK_PROF_MAGE = "法師訓練師"
+	MAP_MARK_PROF_PRIEST = "牧師訓練師"
+	MAP_MARK_PROF_WARLOCK = "術士訓練師"
+	MAP_MARK_PROF_ROGUE= "盜賊訓練師"
+	MAP_MARK_PROF_DRUID= "德魯伊訓練師"
+	MAP_MARK_PROF_HUNTER= "獵人訓練師"
+	MAP_MARK_PROF_SHAMAN= "薩滿訓練師"
+	MAP_MARK_PROF_WARRIOR= "戰士訓練師"
+	MAP_MARK_PROF_PALADIN= "聖騎士訓練師"
+	MAP_MARK_PROF_DEATHKNIGHT= "死亡騎士訓練師"
+	MAP_MARK_PROF_MONK= "武僧訓練師"
+
+	NPCM_ALCHE = '鍊金術'
+	NPCM_BLACKSMITH = '鍛造'
+	NPCM_ENCHANTING = '附魔'
+	NPCM_ENGINEERING = '工程學'
+	NPCM_HERBALISM = '草藥學'
+	NPCM_INSCRIPTION = '銘文學'
+	NPCM_JEWEL = '珠寶設計'
+	NPCM_LEATHERWORKING = '製皮'
+	NPCM_MINING = '採礦'
+	NPCM_SKINNING = '剝皮'
+	NPCM_TAILORING = '裁縫'
+	NPCM_ARCHAEOLOGY = '考古學'
+	NPCM_COOKING = '烹飪'
+	NPCM_FIRSTAID = '急救'
+	NPCM_FISHING = '釣魚'
+	NPCM_RIDING = '騎術'
+
+	MAP_MARK_SKILL= "技能訓練師"
+	MAP_MARK_SKILL_ALCHE= "鍊金術訓練師"
+	MAP_MARK_PROF_BLACKSMITH= "鍛造訓練師"
+	MAP_MARK_PROF_ENCHANTING= "附魔訓練師"
+	MAP_MARK_PROF_ENGINEERING= "工程學訓練師"
+	MAP_MARK_PROF_HERBALISM= "草藥學訓練師"
+	MAP_MARK_PROF_INSCRIPTION= "銘文學訓練師"
+	MAP_MARK_PROF_JEWEL= "珠寶設計訓練師"
+	MAP_MARK_PROF_LEATHERWORKING= "製皮訓練師"
+	MAP_MARK_PROF_MINING= "採礦訓練師"
+	MAP_MARK_PROF_SKINNING= "剝皮訓練師"
+	MAP_MARK_PROF_TAILORING= "裁縫訓練師"
+	MAP_MARK_PROF_ARCHAEOLOGY = "考古學訓練師"
+	MAP_MARK_PROF_COOKING= "烹飪訓練師"
+	MAP_MARK_PROF_FIRSTAID= "急救訓練師"
+	MAP_MARK_PROF_FISHING= "釣魚訓練師"
+	MAP_MARK_PROF_RIDING= "騎術訓練師"
+	MAP_MARK_FLYING = "飛行訓練師"
+
+	MAP_MARK_FLY= "飛行管理員"
+	MAP_MARK_FLY1= "雙足飛龍管理員"
+	MAP_MARK_FLY2= "蝙蝠管理員"
+	MAP_MARK_FLY3= "龍鷹管理員"
+	MAP_MARK_FLY4= "獅鷲獸管理員"
+	MAP_MARK_FLY5= "角鷹獸管理員"
+
+	MAP_MARK_INN= "旅館老闆"
+	MAP_MARK_PORTAL= "傳送門訓練師"
+	MAP_MARK_AUCTION= "拍賣師"
+	MAP_MARK_BANK= "銀行職員"
+	MAP_MARK_BARBER= "美容師"
+	MAP_MARK_MATERIAL= "施法材料"
+	MAP_MARK_STABLE= "獸欄管理員"
+	MAP_MARK_REFORGE = "裝備重鑄師"
+	MAP_MARK_DUMMY = "訓練假人"
+	MAP_MARK_ZHENFU = "軍需官"
+	MAP_MARK_DAIBI1 = "正義點數商人"
+	MAP_MARK_DAIBI2 = "勇氣點數商人"
+	MAP_MARK_DAIBI3 = "勇氣軍需官"
+	MAP_MARK_DAIBI4 = "正義傳家寶"
+	MAP_MARK_DAIBI5 = "傳家寶商人"
+	MAP_MARK_DAIBI6 = "古董和傳家寶"
+	MAP_MARK_GLADIUS= "競技場商人"
+	MAP_MARK_HUANHUA= "幻化"
+	MAP_MARK_XUKONGYINHANG= "虚空银行"
 	
 end
