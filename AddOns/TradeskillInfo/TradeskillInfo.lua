@@ -1641,9 +1641,11 @@ end
 function TradeskillInfo:ScrollToConfig()
 	local buttons = InterfaceOptionsFrameAddOns.buttons
 	local offset = 0
-	local maxScroll = floor(select(2,InterfaceOptionsFrameAddOnsListScrollBar:GetMinMaxValues())/buttons[1]:GetHeight()+0.5)
+	local height = buttons[1]:GetHeight()
+	local maxScroll = floor(select(2,InterfaceOptionsFrameAddOns2ListScrollBar:GetMinMaxValues())/height+0.5)
+	if( maxScroll == 0 ) then return end
 	while offset <= maxScroll do
-		InterfaceOptionsFrameAddOnsListScrollBar:SetValue(offset*buttons[1]:GetHeight())
+		InterfaceOptionsFrameAddOns2ListScrollBar:SetValue(offset*height)
 		for i = 1, #buttons do
 			if buttons[i].element == self.OptionsPanel then
 				InterfaceOptionsFrame_OpenToCategory(self.OptionsPanel)

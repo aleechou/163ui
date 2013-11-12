@@ -432,8 +432,8 @@ FriendsMenuXP.lua
 ---------------------------------------------------------------]]
 FRIENDSMENU_MAXBUTTONS = 20;
 local FRIENDSMENU_NOW_LINK_PLAYER = {} --save current mouse over hyperlink
-tinsert(UIMenus, "FriendsMenuXP");
-tinsert(UIMenus, "FriendsMenuXPSecure");
+--tinsert(UIMenus, "FriendsMenuXP");
+--tinsert(UIMenus, "FriendsMenuXPSecure");
 
 function GetNameFromLink(link)
     --link is not |Hplayer:Warbaby:33|h[Warbaby]|h in 3.0, only player:Warbaby:33
@@ -603,6 +603,8 @@ function FriendsMenuXP_OnLoad(self)
     self:RegisterEvent("ADDON_LOADED"); -- for RaidUI
 
     if(FRIENDS_MENU_XP_LOADED) then DEFAULT_CHAT_FRAME:AddMessage(FRIENDS_MENU_XP_LOADED,1,1,0); end
+	-- 5.4.1, fix IsDisabledByParentalControls taint
+	--setfenv(MainMenuMicroButton:GetScript("OnMouseUp"), setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
 end
 
 function FriendsMenuXP_OnEvent(self, event, ...)
