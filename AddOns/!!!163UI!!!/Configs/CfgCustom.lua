@@ -1,4 +1,5 @@
 UI163_USER_MODE = 1 --这句必须写一次，影响一些默认值。单体版控制台已经写过了
+local _, engClass = UnitClass("player")
 U1RegisterAddon("BlinkHealthText", {
     title = "多玩简易状态",
     tags = {"COMBATINFO", "GOOD"},
@@ -43,6 +44,7 @@ U1RegisterAddon("BlinkHealthText", {
 	{
 		var = "enableRune",
 		text = "显示符文条(死骑可用)",
+		visible = (engClass == "DEATHKNIGHT"),
 		callback = function(cfg, v, loading)
 			if v then
 				SlashCmdList["BLINKHEALTH"]("runeon")
@@ -54,6 +56,7 @@ U1RegisterAddon("BlinkHealthText", {
 	{
 		var = "enableNumberHit",
 		text = "显示数字连击点数(盗贼和德鲁依可用)",
+		visible = (engClass == "ROGUE" or engClass == "DRUID"),
 		callback = function(cfg, v, loading)
 			if v then
 				SlashCmdList["BLINKHEALTH"]("hiton")

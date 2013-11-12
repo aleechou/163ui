@@ -3110,7 +3110,7 @@ function EventAlert_PlayerSpecPower_Update()
 		EA_SpecHasPower.HasDemonicFury = true;
 	-- 燃火餘燼: 毀滅術士
 	elseif (id == 267) then
-		EA_SpecHasPower.HasBurningEmbers = false;
+		EA_SpecHasPower.HasBurningEmbers = true;
 	end
 	
 	-- 日月蝕能: 鳥D

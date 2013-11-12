@@ -210,7 +210,9 @@ function CtlShowPage(addon, parent, anchor)
             --不能用IsAddOnLoaded，因为没load也可以设置选项
             local disabled = not U1IsAddonEnabled(addon) or (IsAddOnLoaded(addon) and cfg.disableOnLoad) or (not IsAddOnLoaded(addon) and not cfg.enableOnNotLoad) or (p and not U1IsAddonEnabled(p)) or (anchor and not anchor:GetChecked())
             if cfg.alwaysEnable then disabled = false end
-            deepShow(addon, cfg, parent, disabled); --如果子插件都不能点了(父插件关闭), 自然不显示
+			if (cfg.visible == nil or cfg.visible) then
+				deepShow(addon, cfg, parent, disabled); --如果子插件都不能点了(父插件关闭), 自然不显示
+			end
         end
     end
 

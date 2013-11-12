@@ -1766,19 +1766,6 @@ function FixFrame_OnEvent(this, event, arg1)
 		
 		if (arg1 == "Blizzard_PetJournal") then
 			setfenv(FriendsFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
-			
-			setfenv(MainMenuMicroButton:GetScript("OnMouseUp"), setmetatable({ UpdateMicroButtons = function()
-				if ( ( GameMenuFrame and GameMenuFrame:IsShown() ) 
-					or ( InterfaceOptionsFrame:IsShown()) 
-					or ( KeyBindingFrame and KeyBindingFrame:IsShown()) 
-					or ( MacroFrame and MacroFrame:IsShown()) ) then
-					MainMenuMicroButton:SetButtonState("PUSHED", 1);
-					MainMenuMicroButton_SetPushed();
-				else
-					MainMenuMicroButton:SetButtonState("NORMAL");
-					MainMenuMicroButton_SetNormal();
-				end
-			end }, { __index = _G }))
 
 			setfenv(PetJournalParent_OnShow, setmetatable({ UpdateMicroButtons=function()
 				if (PetJournalParent and PetJournalParent:IsShown()) then

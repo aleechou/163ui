@@ -1,3 +1,4 @@
+local _, engClass = UnitClass("player")
 U1RegisterAddon("EventAlertMod", {
     title = "技能特效报警",
     defaultEnable = 1,
@@ -20,6 +21,15 @@ U1RegisterAddon("EventAlertMod", {
         tip = "快捷命令`/eam opt",
         callback = function()
             return (SlashCmdList['EVENTALERTMOD'])'opt'
+        end,
+    },
+	
+	{
+        var = 'checkBE',
+		visible = (engClass == "WARLOCK"),
+        text = '监视爆燃灰烬',
+        callback = function(cfg, v, loading)
+            EA_SpecCheckPower.CheckBurningEmbers = v and true or false
         end,
     },
 
