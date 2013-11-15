@@ -44,3 +44,16 @@ end
 function PageBar:GetShowStates()
 	return '[novehicleui]show;hide'
 end
+
+local PageBarController = Dominos:NewModule('PageBar')
+
+function PageBarController:Load()
+	self.frame = PageBar:New()
+end
+
+function PageBarController:Unload()
+	if self.frame then
+		self.frame:Free()
+		self.frame = nil
+	end
+end

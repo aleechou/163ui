@@ -928,23 +928,40 @@ function Nx.Fav:ParseItem (item)
 end
 
 function Nx.Fav:ParseItemNote (data)
-
 	local iconI = strbyte (data, 1) - 35
-	local zone = tonumber (strsub (data, 2, 4), 16)
-	local id = Nx.NxzoneToMapId[zone]
-	local x = tonumber (strsub (data, 5, 7), 16) / 4090 * 100
-	local y = tonumber (strsub (data, 8, 10), 16) / 4090 * 100
-	local dLvl = (strbyte (data, 11) or 35) - 35
-	return iconI, id, x, y + dLvl * 100
+	local zone, id, x, y, dLvl
+	if(strlen(data) == 11) then
+		zone = tonumber (strsub (data, 2, 4), 16)
+		id = Nx.NxzoneToMapId[zone]
+		x = tonumber (strsub (data, 5, 7), 16) / 4090 * 100
+		y = tonumber (strsub (data, 8, 10), 16) / 4090 * 100
+		dLvl = (strbyte (data, 11) or 35) - 35
+	else
+		zone = tonumber (strsub (data, 2, 3), 16)
+		id = Nx.NxzoneToMapId[zone]
+		x = tonumber (strsub (data, 4, 6), 16) / 4090 * 100
+		y = tonumber (strsub (data, 7, 9), 16) / 4090 * 100
+		 dLvl = (strbyte (data, 10) or 35) - 35
+	end
+		return iconI, id, x, y + dLvl * 100
 end
 
 function Nx.Fav:ParseItemTarget (data)
+	local zone, id, x, y, dLvl
 
-	local zone = tonumber (strsub (data, 1, 3), 16)
-	local id = Nx.NxzoneToMapId[zone]
-	local x = tonumber (strsub (data, 4, 6), 16) / 4090 * 100
-	local y = tonumber (strsub (data, 7, 9), 16) / 4090 * 100
-	local dLvl = (strbyte (data, 10) or 35) - 35
+	if(strlen(data) == 9) then
+		zone = tonumber (strsub (data, 1, 2), 16)
+		id = Nx.NxzoneToMapId[zone]
+		x = tonumber (strsub (data, 3, 5), 16) / 4090 * 100
+		y = tonumber (strsub (data, 6, 8), 16) / 4090 * 100
+		dLvl = (strbyte (data, 9) or 35) - 35
+	else
+		local zone = tonumber (strsub (data, 1, 3), 16)
+		local id = Nx.NxzoneToMapId[zone]
+		local x = tonumber (strsub (data, 4, 6), 16) / 4090 * 100
+		local y = tonumber (strsub (data, 7, 9), 16) / 4090 * 100
+		local dLvl = (strbyte (data, 10) or 35) - 35
+	end
 	return id, x, y + dLvl * 100
 end
 

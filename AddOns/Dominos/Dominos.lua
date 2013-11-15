@@ -12,13 +12,13 @@ local CURRENT_VERSION = GetAddOnMetadata('Dominos', 'Version')
 
 function Dominos:OnInitialize()
 	--register database events
+	--register database events
 	--self.db = LibStub('AceDB-3.0'):New('DominosDB', self:GetDefaults(), UnitClass('player'))
 	-- XXX 163
 	self.db = LibStub('AceDB-3.0'):New('DominosDB', self:GetDefaults(),
 	'网易有爱-'..(GetRealmName())..'-'..(UnitName'player'))
-	--self:U1_InitPreset()
+	self:U1_InitPreset()
 	-- XXX 163 end
-
 	self.db.RegisterCallback(self, 'OnNewProfile')
 	self.db.RegisterCallback(self, 'OnProfileChanged')
 	self.db.RegisterCallback(self, 'OnProfileCopied')
@@ -50,14 +50,13 @@ function Dominos:OnInitialize()
 	local kb = LibStub('LibKeyBound-1.0')
 	kb.RegisterCallback(self, 'LIBKEYBOUND_ENABLED')
 	kb.RegisterCallback(self, 'LIBKEYBOUND_DISABLED')
-	
-	self:CreateDataBrokerPlugin()
 end
 
 function Dominos:OnEnable()
 	self:HideBlizzard()
-	-- self:CreateDataBrokerPlugin()
+	self:CreateDataBrokerPlugin()
 	self:Load()
+	self.MultiActionBarGridFixer:SetShowGrid(self:ShowGrid())
 end
 
 function Dominos:CreateDataBrokerPlugin()
@@ -139,7 +138,7 @@ end
 function Dominos:UpdateSettings(major, minor, bugfix)
 	--inject new roll bar defaults
 	if major == '5' and minor == '0' and bugfix < '14' then
-		for profile,sets in pairs(self.db.sv.profiles) do
+		for profile, sets in pairs(self.db.sv.profiles) do
 			if sets.frames then
 				local rollBarFrameSets = sets.frames['roll']
 				if rollBarFrameSets then
@@ -160,21 +159,18 @@ end
 
 --Load is called  when the addon is first enabled, and also whenever a profile is loaded
 function Dominos:Load()
-	for i,module in self:IterateModules() do
+	for i, module in self:IterateModules() do
 		module:Load()
 	end
 
-	--anchor everything
 	self.Frame:ForAll('Reanchor')
-
-	--minimap button
 	self:UpdateMinimapButton()
 end
 
 --unload is called when we're switching profiles
 function Dominos:Unload()
 	--unload any module stuff
-	for _,module in self:IterateModules() do
+	for i, module in self:IterateModules() do
 		module:Unload()
 	end
 end
@@ -184,74 +180,52 @@ end
 
 --shamelessly pulled from Bartender4
 function Dominos:HideBlizzard()
-	-- Hidden parent frame
-	local UIHider = CreateFrame('Frame', nil, UIParent, 'SecureFrameTemplate'); UIHider:Hide()
-	self.UIHider = UIHider
-	
-	--[[ disable multibars ]]--
+	local uiHider = CreateFrame('Frame', nil, _G['UIParent'], 'SecureFrameTemplate'); uiHider:Hide()
+	self.uiHider = uiHider
 
-	_G['MultiBarBottomLeft']:SetParent(UIHider)
-	_G['MultiBarBottomRight']:SetParent(UIHider)
-	_G['MultiBarLeft']:SetParent(UIHider)
-	_G['MultiBarRight']:SetParent(UIHider)
+	local disableFrame = function(frameName, unregisterEvents)
+		local frame = _G[frameName]
+		if not frame then
+			self:Print('Unknown Frame', frameName)
+		end
 
-	if MultiActionBar_UpdateGrid then
-		MultiActionBar_UpdateGrid = Multibar_EmptyFunc
+		frame:SetParent(uiHider) 
+		frame.ignoreFramePositionManager = true	
+
+		if unregisterEvents then
+			frame:UnregisterAllEvents()
+		end
 	end
 
-	--[[ disable menu bar ]]--
+	--[[ disable, but don't hide the menu bar ]]--
 
-	MainMenuBar:EnableMouse(false)
-
-	local animations = {MainMenuBar.slideOut:GetAnimations()}
-	animations[1]:SetOffset(0,0)
-
-	animations = {OverrideActionBar.slideOut:GetAnimations()}
-	animations[1]:SetOffset(0,0)
-
-	MainMenuBarArtFrame:Hide()
-	MainMenuBarArtFrame:SetParent(UIHider)
-
-	MainMenuExpBar:SetParent(UIHider)
-
-	MainMenuBarMaxLevelBar:Hide()
-	MainMenuBarMaxLevelBar:SetParent(UIHider)
-
-	ReputationWatchBar:SetParent(UIHider)
-
-
-	--[[ disable stance bar ]]--
-
-	local stanceBar = _G['StanceBarFrame']
-	-- stanceBar:UnregisterAllEvents()
-	stanceBar:SetParent(UIHider)
-
-
-	-- [[ disable possess bar ]]--
-
-	local possessBar = _G['PossessBarFrame']
-	possessBar:UnregisterAllEvents()
-	possessBar:SetParent(UIHider)
-
-
-	-- [[ disable pet action bar ]]--
-
-	local petActionBar = _G['PetActionBarFrame']
-	-- petActionBar:UnregisterAllEvents()
-	petActionBar:SetParent(UIHider)
-
-
-	--[[ disable ui position manager ]]--
-
-	_G['MultiBarBottomLeft'].ignoreFramePositionManager = true
-	_G['MultiBarRight'].ignoreFramePositionManager = true
+	_G['MainMenuBar']:EnableMouse(false)
 	_G['MainMenuBar'].ignoreFramePositionManager = true
-	_G['StanceBarFrame'].ignoreFramePositionManager = true
-	_G['PossessBarFrame'].ignoreFramePositionManager = true
-	_G['MultiCastActionBarFrame'].ignoreFramePositionManager = true
+
+	disableFrame('MultiBarBottomLeft')
+	disableFrame('MultiBarBottomRight')
+	disableFrame('MultiBarLeft')
+	disableFrame('MultiBarRight')
+	disableFrame('MainMenuBarArtFrame')
+	disableFrame('MainMenuExpBar')
+	disableFrame('MainMenuBarMaxLevelBar')
+	disableFrame('ReputationWatchBar')
+	disableFrame('StanceBarFrame')
+	disableFrame('PossessBarFrame')
+	disableFrame('PetActionBarFrame')
+	disableFrame('MultiCastActionBarFrame')
 	
 
-	--[[ disable the override ui, if we need to ]]
+	--[[ disable override bar transition animations ]]--
+
+	do
+		local animations = {_G['MainMenuBar'].slideOut:GetAnimations()}
+		animations[1]:SetOffset(0, 0)
+
+		animations = {_G['OverrideActionBar'].slideOut:GetAnimations()}
+		animations[1]:SetOffset(0, 0)	
+	end
+
 	self:UpdateUseOverrideUI()
 end
 
@@ -296,7 +270,6 @@ function Dominos:LIBKEYBOUND_DISABLED()
 		end
 	end
 end
-
 
 --[[ XXX 163ui ]]--
 do
@@ -452,8 +425,10 @@ do
 
         frames.cast = { x=0, y=200, point='BOTTOM', showText=true, }
         frames.roll = { x=0, y=0, point='CENTER', numButtons = NUM_GROUP_LOOT_FRAMES, spacing=2, columns=1, }
+        frames.page = { x=0, y=0, point='BOTTOMLEFT', spacing=-8, columns=1, anchor='1LC', scale=0.9, fadeAlpha=0.35, }
     end
 end
+
 
 --[[ Profile Functions ]]--
 
@@ -579,8 +554,9 @@ function Dominos:ShowOptions()
 	if InCombatLockdown() then
 		return
 	end
+
 	if LoadAddOn('Dominos_Config') then
-		InterfaceOptionsFrame_Show()
+		InterfaceOptionsFrame_Show()		
 		InterfaceOptionsFrame_OpenToCategory(self.Options)
 		return true
 	end
@@ -737,7 +713,7 @@ local function CreateConfigHelperDialog()
 	desc:SetJustifyV('TOP')
 	desc:SetJustifyH('LEFT')
 	desc:SetPoint('TOPLEFT', 18, -32)
-	desc:SetPoint('BOTTOMRIGHT', -18, 32) --48)
+	desc:SetPoint('BOTTOMRIGHT', -18, 48)
 	desc:SetText(L.ConfigModeHelp)
 
 	local exitConfig = CreateFrame('CheckButton', f:GetName() .. 'ExitConfig', f, 'OptionsButtonTemplate')
@@ -765,7 +741,9 @@ function Dominos:SetLock(enable)
 	if InCombatLockdown() then
 		return
 	end
+		
 	self.locked = enable or false
+
 	if self:Locked() then
 		self.Frame:ForAll('Lock')
 		self:HideConfigHelper()
@@ -898,6 +876,7 @@ end
 function Dominos:SetShowGrid(enable)
 	self.db.profile.showgrid = enable or false
 	self.ActionBar:ForAll('UpdateGrid')
+	self.MultiActionBarGridFixer:SetShowGrid(enable)
 end
 
 function Dominos:ShowGrid()
@@ -1100,12 +1079,3 @@ function Dominos:CreateClass(type, parentClass)
 
 	return class
 end
-
-if(DEBUG_MODE) then
-    function RESET_DOMINOS()
-        DominosDB = nil
-        DominosVersion = nil
-        ReloadUI()
-    end
-end
-

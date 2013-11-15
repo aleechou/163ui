@@ -79,7 +79,7 @@ function MenuBar:Create(frameId)
 		requestLayoutUpdate = function() f:Show() end
 	end
 
-	hooksecurefunc('UpdateMicroButtons', function() requestLayoutUpdate() end)	
+	hooksecurefunc('UpdateMicroButtons', requestLayoutUpdate)
 	
 	local petBattleFrame = _G['PetBattleFrame'].BottomFrame.MicroButtonFrame
 	

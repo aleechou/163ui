@@ -23,7 +23,8 @@ bagBar.lua
 menuBar.lua
 extraActionBar.lua
 vehicleBar.lua
-#pagebar.lua
+pagebar.lua
+multiActionBarFixer.lua
 
 ## Title: |cff880303[网易有爱]|r Dominos
 ## X-Vendor: NetEase
