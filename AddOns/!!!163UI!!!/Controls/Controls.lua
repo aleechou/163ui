@@ -170,9 +170,9 @@ local function deepShow(addon, cfg, parent, disabled)
             if cfg.var then
                 U1SaveDBValue(cfg, value);
             else
-				if not ctl:CtlLoadValue(value) then
-					print("ctl:CtlLoadValue(value) error")
-				end
+				--[[if not ctl:CtlLoadValue(value) then
+					print("ctl:CtlLoadValue(value) error ")
+				end]]
                 ctl:CtlLoadValue(value)
             end
         end

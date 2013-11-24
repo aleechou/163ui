@@ -4,8 +4,8 @@
 ## Notes-zhTW: PVP技能語音提示
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521
 ## SavedVariables: GladiatorlosSADB
-## Version: v2.0
-## X-Curse-Packaged-Version: 2.0.2
+## Version: 2.0
+## X-Curse-Packaged-Version: 2.0.5b
 ## X-Curse-Project-Name: GladiatorlosSA
 ## X-Curse-Project-ID: gladiatorlossa
 ## X-Curse-Repository-ID: wow/gladiatorlossa/mainline

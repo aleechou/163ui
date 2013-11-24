@@ -27,6 +27,8 @@ function EventAlert_Icon_Options_Frame_Init()
 	EA_Icon_Options_Frame_SpecFlag_Rage:SetChecked(EA_SpecCheckPower.CheckRage);
 	EA_Icon_Options_Frame_SpecFlag_Focus:SetChecked(EA_SpecCheckPower.CheckFocus);
 	EA_Icon_Options_Frame_SpecFlag_ShadowOrbs:SetChecked(EA_SpecCheckPower.CheckShadowOrbs);
+	EA_Icon_Options_Frame_SpecFlag_DemonicFury:SetChecked(EA_SpecCheckPower.CheckDemonicFury);
+	EA_Icon_Options_Frame_SpecFlag_BurningEmbers:SetChecked(EA_SpecCheckPower.CheckBurningEmbers);
 end
 
 function EventAlert_Icon_Options_Frame_ToggleAlertFrame()

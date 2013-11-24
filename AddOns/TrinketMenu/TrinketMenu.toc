@@ -1,6 +1,7 @@
 ## Interface: 50400
 ## Title: TrinketMenu
-## Author: Gello, Kiki, luyi7338
+## Version: 5.0.4
+## Author: Gello, Resike, luyi7338
 ## Notes: AddOn to manage trinkets
 ## SavedVariables: TrinketMenuOptions
 ## SavedVariablesPerCharacter: TrinketMenuPerOptions, TrinketMenuQueue

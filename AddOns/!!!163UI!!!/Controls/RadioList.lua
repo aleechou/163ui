@@ -165,6 +165,7 @@ function methods:CtlLoadValue(v)
     end
     self.selectedValue = v
     self:UpdateSelected()
+	return true
 end
 
 function methods:SelectValue(v)

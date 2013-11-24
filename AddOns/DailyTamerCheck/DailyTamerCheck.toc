@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: Daily Tamer Check
+## Author: Fluffies
+## Notes: Tracks the completion of pet tamer daily quests.
+## eMail: n_rhygar@yahoo.it
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariables: DailyTamerCheck_Options
+lib\LibStub.lua
+lib\CallbackHandler-1.0.lua
+lib\LibDataBroker-1.1.lua
+lib\LibDBIcon-1.0.lua
+DailyTamerCheck.lua

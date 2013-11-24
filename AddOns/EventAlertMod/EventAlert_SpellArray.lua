@@ -107,7 +107,7 @@ function EventAlert_LoadSpellArray()
 			[55078] = {enable=true, self=true,},    -- 血魄瘟疫
 			[81130] = {enable=true, self=true,},    -- 血色熱疫
 			[81326] = {enable=true, self=false},	-- 物理易傷
-			[115798] = {enable=true, self=false,},	-- 弱化攻擊
+			[115798] = {enable=true, self=false,},	-- 弱化攻擊	
 			[132726] = {enable=true, self=false,},	-- 成長
 		},
 		-- Spell Cooldown Alert / 本職業技能CD區

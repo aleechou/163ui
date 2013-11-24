@@ -7,6 +7,8 @@ local knownSelect = {} -- the multiselect array for "Known by", "Learnable by", 
 local db
 
 
+
+
 local function getOption(info)
 	return db[info.arg]
 end
@@ -437,7 +439,9 @@ function TradeskillInfo:CreateConfig()
 		},
 	}
 
+
 	TradeskillInfo.optionsLoaded = true
+
 
 	return options
 end

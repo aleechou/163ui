@@ -1,50 +1,62 @@
-local major = "DRData-1.0"
-local minor = 1017
+local major = "DRData-1.1"
+local minor = 1027
 assert(LibStub, string.format("%s requires LibStub.", major))
 
 local Data = LibStub:NewLibrary(major, minor)
 if( not Data ) then return end
 
 local L = {
-	["Banish"] = "Banish",
-	["Bind Elemental"] = "Bind Elemental",
-	["Charge"] = "Charge",
-	["Controlled roots"] = "Controlled roots",
-	["Controlled stuns"] = "Controlled stuns",
+	["Roots"] = "Roots",
+	["Stuns"] = "Stuns",
 	["Cyclone"] = "Cyclone",
 	["Disarms"] = "Disarms",
-	["Disorients"] = "Disorients",
-	["Dragon's Breath"] = "Dragon's Breath",
-	["Entrapment"] = "Entrapment",
+	["Mesmerizes"] = "Mesmerizes",
+	["Mesmerizes (short)"] = "Mesmerizes (short)",
 	["Fears"] = "Fears",
 	["Horrors"] = "Horrors",
-	["Ice Ward"] = "Ice Ward",
 	["Mind Control"] = "Mind Control",
-	["Random stuns"] = "Random stuns",
-	["Scatter Shot"] = "Scatter Shot",
+	["Stuns (short)"] = "Stuns (short)",
 	["Silences"] = "Silences",
 	["Taunts"] = "Taunts",
+	["Roots (short)"] = "Roots (short)",
+	["Knockbacks"] = "Knockbacks",
 }
 
-if GetLocale() == "frFR" then
-	L["Banish"] = "Bannissement"
-	L["Bind Elemental"] = "Lier un élémentaire"
-	L["Charge"] = "Charge"
-	L["Controlled roots"] = "Immobilisations"
-	L["Controlled stuns"] = "Etourdissements"
+local locale = GetLocale()
+if locale == "deDE" then
+	
+elseif locale == "esES" then
+	
+elseif locale == "esMX" then
+	
+elseif locale == "frFR" then
 	L["Cyclone"] = "Cyclone"
-	L["Disarms"] = "Désarmements"
-	L["Disorients"] = "Désorientations"
-	L["Dragon's Breath"] = "Souffle du dragon"
-	L["Entrapment"] = "Piège"
-	L["Fears"] = "Peurs"
-	L["Horrors"] = "Horreurs"
-	L["Ice Ward"] = "Garde glaciale"
-	L["Mind Control"] = "Contrôle mental"
-	L["Random stuns"] = "Etourdissemensts aléatoires"
-	L["Scatter Shot"] = "Flèche de dispersion"
-	L["Silences"] = "Silences"
-	L["Taunts"] = "Provocations"
+L["Disarms"] = "Désarmements"
+L["Fears"] = "Peurs"
+L["Horrors"] = "Horreurs"
+L["Knockbacks"] = "Projections"
+L["Mesmerizes"] = "Désorientations"
+L["Mesmerizes (short)"] = "Désorientations (courtes)"
+L["Mind Control"] = "Contrôle mental"
+L["Roots"] = "Immobilisations"
+L["Roots (short)"] = "Immobilisations (courtes)"
+L["Silences"] = "Silences"
+L["Stuns"] = "Etourdissements"
+L["Stuns (short)"] = "Etourdissements (courts)"
+L["Taunts"] = "Provocations"
+
+elseif locale == "itIT" then
+	
+elseif locale == "koKR" then
+	
+elseif locale == "ptBR" then
+	
+elseif locale == "ruRU" then
+	
+elseif locale == "zhCN" then
+	
+elseif locale == "zhTW" then
+	
 end
 
 -- How long before DR resets
@@ -73,18 +85,19 @@ Data.spells = {
 	[ 17735] = "taunt", -- Suffering (Voidwalker)
 	-- Warrior
 	[   355] = "taunt", -- Taunt
-	-- ???
-	[ 36213] = "taunt", -- Angered Earth -- FIXME: NPC ability ?
-	
+	-- Shaman
+	[ 36213] = "taunt", -- Angered Earth (Earth Elemental)
 
-	--[[ DISORIENTS ]]--
+	--[[ MESMERIZES ]]--
+	-- Note: reuse the previously-used "disorient" category to avoid breaking addons
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#4
+
 	-- Druid
 	[  2637] = "disorient", -- Hibernate
-	[    99] = "disorient", -- Disorienting Roar (talent)
-    -- Hunter
+	-- Hunter
 	[  3355] = "disorient", -- Freezing Trap
 	[ 19386] = "disorient", -- Wyvern Sting
-    -- Mage
+	-- Mage
 	[   118] = "disorient", -- Polymorph
 	[ 28272] = "disorient", -- Polymorph (pig)
 	[ 28271] = "disorient", -- Polymorph (turtle)
@@ -93,46 +106,64 @@ Data.spells = {
 	[ 61721] = "disorient", -- Polymorph (rabbit)
 	[ 61780] = "disorient", -- Polymorph (turkey)
 	[ 82691] = "disorient", -- Ring of Frost
-    -- Monk
+	-- Monk
 	[115078] = "disorient", -- Paralysis
-    -- Paladin
-	[105421] = "disorient", -- Blinding Light
+	-- Paladin
 	[ 20066] = "disorient", -- Repentance
-    -- Priest
+	-- Priest
 	[  9484] = "disorient", -- Shackle Undead
-    -- Rogue
+	-- Rogue
 	[  1776] = "disorient", -- Gouge
 	[  6770] = "disorient", -- Sap
-    -- Shaman
+	-- Shaman
+	[ 76780] = "disorient", -- Bind Elemental
 	[ 51514] = "disorient", -- Hex
-    -- Pandaren
+	-- Warlock
+	[   710] = "disorient", -- Banish
+	-- Pandaren
 	[107079] = "disorient", -- Quaking Palm
 
+	--[[ SHORT MESMERIZES ]]--
+	-- Note: this category does not share diminishing returns with the above Mesmerize category.
+	-- Called "Mesmerize". http://us.battle.net/wow/en/forum/topic/10195910192#4
+
+	-- Druid
+	[    99] = "shortdisorient", -- Disorienting Roar (talent)
+	-- Hunter
+	[ 19503] = "shortdisorient", -- Scatter Shot
+	-- Mage
+	[ 31661] = "shortdisorient", -- Dragon's Breath
+	-- Monk
+	[123394] = "shortdisorient", -- Breath of Fire (Glyphed) -- ID NEED CONFIRMATION
+	-- Priest
+	[ 88625] = "shortdisorient", -- Holy Word: Chastise
+
 	--[[ SILENCES ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#6
+
 	-- Death Knight
+	[108194] = "silence", -- Asphyxiate (if target is immune to stun)
 	[ 47476] = "silence", -- Strangulate
-    -- Druid
-	[ 78675] = "silence", -- Solar Beam -- FIXME: check id
-	[ 81261] = "silence", -- Solar Beam -- Definitely correct
-    -- Hunter
+	-- Druid
+	[114237] = "silence", -- Glyph of Fae Silence
+	-- Hunter
 	[ 34490] = "silence", -- Silencing Shot
-    -- Mage
-	[ 55021] = "silence", -- Improved Counterspell
-	[102051] = "silence", -- Frostjaw (talent)
-    -- Monk
+	-- Mage
+	[102051] = "silence", -- Frostjaw
+	[ 55021] = "silence", -- Counterspell
+	-- Monk
+	[137460] = "silence", -- Ring of Peace (Silence effect)
 	[116709] = "silence", -- Spear Hand Strike
-    -- Paladin
+	-- Paladin
 	[ 31935] = "silence", -- Avenger's Shield
-    -- Priest
+	-- Priest
 	[ 15487] = "silence", -- Silence
-    -- Rogue
+	-- Rogue
 	[  1330] = "silence", -- Garrote
-    -- Warlock
-	[ 24259] = "silence", -- Spell Lock (Felhunter)
+	-- Warlock
+	[ 24259] = "silence", -- Spell Lock (Fel Hunter)
 	[115782] = "silence", -- Optical Blast (Observer)
-    -- Warrior
-	[ 18498] = "silence", -- Glyph of Gag Order
-    -- Blood Elf
+	-- Blood Elf
 	[ 25046] = "silence", -- Arcane Torrent (Energy version)
 	[ 28730] = "silence", -- Arcane Torrent (Mana version)
 	[ 50613] = "silence", -- Arcane Torrent (Runic power version)
@@ -140,163 +171,217 @@ Data.spells = {
 	[ 80483] = "silence", -- Arcane Torrent (Focus version)
 
 	--[[ DISARMS ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#7
+
 	-- Hunter
-	[ 91644] = "disarm", -- Snatch (Bird of Prey)
-	[ 50541] = "disarm", -- Clench (Scorpid)
-    -- Monk
+	[ 50541] = "disarm", -- Clench (Scorpid pet)
+	[ 91644] = "disarm", -- Snatch (Bird of Prey pet)
+	-- Monk
 	[117368] = "disarm", -- Grapple Weapon
+	[126458] = "disarm", -- Grapple Weapon (Symbiosis)
+	[137461] = "disarm", -- Ring of Peace (Disarm effect)
 	-- Priest
 	[ 64058] = "disarm", -- Psychic Horror (Disarm effect)
-    -- Rogue
+	-- Rogue
 	[ 51722] = "disarm", -- Dismantle
-    -- Warlock
+	-- Warlock
 	[118093] = "disarm", -- Disarm (Voidwalker/Voidlord)
-    -- Warrior
+	-- Warrior
 	[   676] = "disarm", -- Disarm
 
 	--[[ FEARS ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#5
+
+	-- Druid
+	[113004] = "fear", -- Intimidating Roar (Symbiosis)
+	[113056] = "fear", -- Intimidating Roar (Symbiosis)
 	-- Hunter
 	[  1513] = "fear", -- Scare Beast
-    -- Paladin
+	-- Paladin
+	[105421] = "fear", -- Blinding Light
 	[ 10326] = "fear", -- Turn Evil
-    -- Priest
+	[145067] = "fear", -- Turn Evil (Evil is a Point of View)
+	-- Priest
 	[  8122] = "fear", -- Psychic Scream
 	[113792] = "fear", -- Psychic Terror (Psyfiend)
-    -- Rogue
+	-- Rogue
 	[  2094] = "fear", -- Blind
-    -- Warlock
+	-- Warlock
+	[  5782] = "fear", -- Fear
 	[118699] = "fear", -- Fear -- new SpellID in MoP, Blood Fear uses same ID
 	[  5484] = "fear", -- Howl of Terror
+	[115268] = "fear", -- Mesmerize (Shivarra)
 	[  6358] = "fear", -- Seduction (Succubus)
-	[115268] = "fear", -- Mesmerize (Shivarra) -- FIXME: verify this is the correct category
-	[104045] = "fear", -- Sleep (Metamorphosis) -- FIXME: verify this is the correct category
-    -- Warrior
+--	[104045] = "fear", -- Sleep (Metamorphosis) -- FIXME: verify this is the correct category
+	-- Warrior
 	[  5246] = "fear", -- Intimidating Shout (main target)
 	[ 20511] = "fear", -- Intimidating Shout (secondary targets)
 
-	--[[ CONTROL STUNS ]]--
+	--[[ STUNS ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#3
+
 	-- Death Knight
-	[108194] = "ctrlstun", -- Asphyxiate (talent)
+	[108194] = "ctrlstun", -- Asphyxiate
 	[ 91800] = "ctrlstun", -- Gnaw (Ghoul)
 	[ 91797] = "ctrlstun", -- Monstrous Blow (Dark Transformation Ghoul)
-    -- Druid
-	[ 22570] = "ctrlstun", -- Maim
-	[  9005] = "ctrlstun", -- Pounce
-	[  5211] = "ctrlstun", -- Mighty Bash (talent)
+	[115001] = "ctrlstun", -- Remorseless Winter
+	-- Druid
 	[102795] = "ctrlstun", -- Bear Hug
+	[ 22570] = "ctrlstun", -- Maim
+	[  5211] = "ctrlstun", -- Mighty Bash
+	[  9005] = "ctrlstun", -- Pounce
 	[113801] = "ctrlstun", -- Bash (treants in feral spec) (Bugged by blizzard - it instantly applies all 3 levels of DR right now, making any target instantly immune to ctrlstuns)
-    -- Hunter
+	-- Hunter
+	[117526] = "ctrlstun", -- Binding Shot
 	[ 24394] = "ctrlstun", -- Intimidation
-	[ 90337] = "ctrlstun", -- Bad Manner (Monkey)
-	[ 50519] = "ctrlstun", -- Sonic Blast (Bat)
-	-- [ 56626] = "ctrlstun", -- Sting (Wasp) --FIXME: this doesn't share with ctrlstun anymore. Unknown what it is right now, so watch for it on www.arenajunkies.com/topic/227748-mop-diminishing-returns-updating-the-list
-	[117526] = "ctrlstun", -- Binding Shot (talent)
-    -- Mage
+	[ 90337] = "ctrlstun", -- Bad Manner (Monkey pet)
+	[126246] = "ctrlstun", -- Lullaby (Crane pet) -- ID NEED CONFIRMATION
+	[126423] = "ctrlstun", -- Petrifying Gaze (Basilisk pet) -- ID NEED CONFIRMATION
+	[126355] = "ctrlstun", -- Quill (Porcupine pet) -- ID NEED CONFIRMATION
+	[ 56626] = "ctrlstun", -- Sting (Wasp pet)
+	[ 50519] = "ctrlstun", -- Sonic Blast (Bat pet)
+	[ 96201] = "ctrlstun", -- Web Wrap (Shale Spider pet)
+	-- Mage
+	[118271] = "ctrlstun", -- Combustion
 	[ 44572] = "ctrlstun", -- Deep Freeze
-	[118271] = "ctrlstun", -- Combustion Impact (Combustion; Fire)
-    -- Monk
-	[119392] = "ctrlstun", -- Charging Ox Wave (talent)
-	[119381] = "ctrlstun", -- Leg Sweep (talent)
-	[122242] = "ctrlstun", -- Clash (Brewmaster)
-	[120086] = "ctrlstun", -- Fists of Fury (Windwalker)
-    -- Paladin
+	-- Monk
+	[119392] = "ctrlstun", -- Charging Ox Wave
+	[122242] = "ctrlstun", -- Clash
+	[120086] = "ctrlstun", -- Fists of Fury
+	[119381] = "ctrlstun", -- Leg Sweep
+	-- Paladin
+	[115752] = "ctrlstun", -- Blinding Light (Glyphed)
 	[   853] = "ctrlstun", -- Hammer of Justice
-	[119072] = "ctrlstun", -- Holy Wrath (Protection)
-	[105593] = "ctrlstun", -- Fist of Justice (talent)
-    -- Priest
-	-- [ 88625] = "ctrlstun", -- Holy Word: Chastise --FIXME: this doesn't share with ctrlstun anymore. Unknown what it is right now, so watch for it on www.arenajunkies.com/topic/227748-mop-diminishing-returns-updating-the-list
-    -- Rogue
+	[110698] = "ctrlstun", -- Hammer of Justice (Symbiosis)
+	[119072] = "ctrlstun", -- Holy Wrath
+	[105593] = "ctrlstun", -- Fist of Justice
+	-- Rogue
 	[  1833] = "ctrlstun", -- Cheap Shot
 	[   408] = "ctrlstun", -- Kidney Shot
-    -- Shaman
+	-- Shaman
+	[118345] = "ctrlstun", -- Pulverize (Primal Earth Elemental)
 	[118905] = "ctrlstun", -- Static Charge (Capacitor Totem)
 	-- Warlock
-	[ 30283] = "ctrlstun", -- Shadowfury
 	[ 89766] = "ctrlstun", -- Axe Toss (Felguard)
-	[ 22703] = "ctrlstun", -- Infernal Awakening (Infernal)
-    -- Warrior
+	[ 30283] = "ctrlstun", -- Shadowfury
+	[ 22703] = "ctrlstun", -- Summon Infernal
+	-- Warrior
 	[132168] = "ctrlstun", -- Shockwave
-	[105771] = "ctrlstun", -- Warbringer (talent)
-    -- Tauren
+	[107570] = "ctrlstun", -- Storm Bolt
+	-- Tauren
 	[ 20549] = "ctrlstun", -- War Stomp
 
-	--[[ RANDOM STUNS ]]--
+	--[[ SHORT STUNS ]]--
+	-- cf.  http://us.battle.net/wow/en/forum/topic/10195910192#3
+	-- Notes: 1. this category does not share diminishing returns with the above Stuns category.
+	-- 2. Reuse the previously-used "rndstun" category to avoid breaking addons.
+
 	-- Rogue
-	[113953] = "rndstun", -- Paralysis (Paralytic Poison five stack stun)
-    -- Warrior
+	[113953] = "rndstun", -- Paralysis (stun effect of Paralytic Poison)
+	-- Warrior
 	[118895] = "rndstun", -- Dragon Roar (talent)
+	-- Shaman
+	[ 77505] = "rndstun", -- Earthquake
+	-- Warrior
+	[   100] = "rndstun", -- Charge
+	[118000] = "rndstun", -- Dragon Roar
 
 	--[[ ROOTS ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#2
+
 	-- Death Knight
 	[ 96294] = "ctrlroot", -- Chains of Ice (Chilblains Root)
 	-- Druid
 	[   339] = "ctrlroot", -- Entangling Roots
+	[113275] = "ctrlroot", -- Entangling Roots (Symbiosis)
 	[ 19975] = "ctrlroot", -- Nature's Grasp (Uses different spellIDs than Entangling Roots for the same spell)
 	[102359] = "ctrlroot", -- Mass Entanglement (talent)
-    -- Hunter
+	-- Hunter
+	[ 53148] = "ctrlroot", -- Charge (Tenacity pet)
 	[ 50245] = "ctrlroot", -- Pin (Crab)
 	[  4167] = "ctrlroot", -- Web (Spider)
 	[ 54706] = "ctrlroot", -- Venom Web Spray (Silithid)
 	[ 90327] = "ctrlroot", -- Lock Jaw (Dog)
 	[128405] = "ctrlroot", -- Narrow Escape (talent)
-    -- Mage
+	-- Mage
 	[   122] = "ctrlroot", -- Frost Nova
+	[110693] = "ctrlroot", -- Frost Nova (Symbiosis)
 	[ 33395] = "ctrlroot", -- Freeze (Water Elemental)
-    -- Monk
+	-- Monk
 	[116706] = "ctrlroot", -- Disable
-    -- Priest
+	-- Priest
+	[ 87194] = "ctrlroot", -- Glyph of Mind Blast
 	[114404] = "ctrlroot", -- Void Tendrils
-    -- Shaman
-	[ 64695] = "ctrlroot", -- Earthgrab
+	-- Rogue
+	[115197] = "ctrlroot", -- Partial Paralysis (Shiv effect with Paralytic Poison)
+	-- Shaman
 	[ 63685] = "ctrlroot", -- Freeze (Frozen Power talent)
-    -- Warrior
+	-- Warrior
 	[107566] = "ctrlroot", -- Staggering Shout (talent)
 
+	--[[ SHORT ROOTS ]]--
+	-- Note: this category does not share diminishing returns with the above Roots category.
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#2
+
+	-- Hunter
+	[ 64803] = "shortroot", -- Entrapment
+	-- Mage
+	[111264] = "shortroot", -- Ice Ward -- ID NEED CONFIRMATION
+	-- Monk
+	[115073] = "shortroot", -- Spinning Fire Blossom -- ID NEED CONFIRMATION
+	-- Shaman
+	[ 64695] = "shortroot", -- Earthgrab Totem
+
 	--[[ HORROR ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#5
 	-- Priest
-	[ 64044] = "horror", -- Psychic Horror (Horrify effect)
+	[ 64044] = "horror", -- Psychic Horror (Horror effect)
 	-- Warlock
+	[111397] = "horror", -- Blood Horror
 	[  6789] = "horror", -- Mortal Coil
 
 	--[[ MISC ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#9
 	-- Druid
 	[ 33786] = "cyclone",       -- Cyclone
-	-- Hunter
-	[ 19503] = "scatters",      -- Scatter Shot
-	[ 64803] = "entrapment",    -- Entrapment
-	-- Mage
-	[ 31661] = "dragons",       -- Dragon's Breath
-	[111340] = "iceward",       -- Ice Ward
+	[113506] = "cyclone",       -- Cyclone (Symbiosis)
 	-- Priest
 	[   605] = "mc",            -- Dominate Mind
+
+	--[[ KNOCKBACK ]]--
+	-- cf. http://us.battle.net/wow/en/forum/topic/10195910192#8
+
+	-- Death Knight
+	[108199] = "knockback", -- Gorefiend's Grasp
+	-- Druid
+	[102793] = "knockback", -- Ursol's Vortex
+	[132469] = "knockback", -- Typhoon
+	-- Hunter
+	[119403] = "knockback", -- Glyph of Explosive Trap
 	-- Shaman
-	[ 76780] = "bindelemental", -- Bind Elemental
+	[ 51490] = "knockback", -- Thunderstormo
 	-- Warlock
-	[   710] = "banish",        -- Banish
-	-- Warrior
-	[  7922] = "charge",        -- Charge
+	[  6360] = "knockback", -- Whiplash
+	[115770] = "knockback", -- Fellash
+
 }
 
 -- DR Category names
 Data.categoryNames = {
-	["banish"] = L["Banish"],
-	["bindelemental"] = L["Bind Elemental"],
-	["charge"] = L["Charge"],
-	["ctrlroot"] = L["Controlled roots"],
-	["ctrlstun"] = L["Controlled stuns"],
+	["ctrlroot"] = L["Roots"],
+	["shortroot"] = L["Roots (short)"],
+	["ctrlstun"] = L["Stuns"],
 	["cyclone"] = L["Cyclone"],
 	["disarm"] = L["Disarms"],
-	["disorient"] = L["Disorients"],
-	["dragons"] = L["Dragon's Breath"],
-	["entrapment"] = L["Entrapment"],
+	["disorient"] = L["Mesmerizes"],
+	["shortdisorient"] = L["Mesmerizes (short)"],
 	["fear"] = L["Fears"],
 	["horror"] = L["Horrors"],
-	["iceward"]= L["Ice Ward"],
 	["mc"] = L["Mind Control"],
-	["rndstun"] = L["Random stuns"],
-	["scatters"] = L["Scatter Shot"],
+	["rndstun"] = L["Stuns (short)"],
 	["silence"] = L["Silences"],
 	["taunt"] = L["Taunts"],
+	["knockback"] = L["Knockbacks"], -- NEEDS PROPER TESTING WITH DEPENDENT ADDONS
 }
 
 -- Categories that have DR in PvE as well as PvP

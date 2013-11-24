@@ -174,7 +174,8 @@ function EventAlert_OnLoad(self)
 	-- self:RegisterEvent("UNIT_SPELLCAST_CAST");
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("UNIT_DISPLAYPOWER");
-	self:RegisterEvent("ACTIVE_SPEC_GROUP_CHANGED");
+	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM");
+	-- self:RegisterEvent("ACTIVE_SPEC_GROUP_CHANGED");
 
 	self:RegisterEvent("UNIT_COMBO_POINTS");
 	self:RegisterEvent("UNIT_HEALTH");
@@ -310,7 +311,7 @@ function EventAlert_OnEvent(self, event, ...)
 			if EA_Pos[EA_CLASS_WARRIOR] == nil then EA_Pos[EA_CLASS_WARRIOR] = EA_Position end;
 			if EA_Pos[EA_CLASS_MONK] == nil then EA_Pos[EA_CLASS_MONK] = EA_Position end;
 
-			if (EA_Config.ShareSettings) then
+			if (not EA_Config.ShareSettings) then
 				EA_Position = EA_Pos[EA_playerClass];
 				if EA_Position.Tar_NewLine == nil then EA_Position.Tar_NewLine = true end;
 				if EA_Position.Execution == nil then EA_Position.Execution = 0 end;
@@ -376,7 +377,7 @@ function EventAlert_OnEvent(self, event, ...)
 			-- "/ea showc" will also display in this function
 			EventAlert_ScdBuffs_Update(surName, spellName, spellID); -- WOW 4.1 Change with spellID
 			local iUnitPower = UnitPower("player", 8);
-			if (EA_playerClass == EA_CLASS_DRUID and EA_SpecCheckPower.LifeBloom and iUnitPower == 0) then
+			if (EA_playerClass == EA_CLASS_DRUID and EA_SpecCheckPower.CheckLifeBloom and iUnitPower == 0) then
 				local EA_PlayerName = UnitName("player");
 				if (surName == EA_PlayerName and spellID == 33763 and dstName ~= nil) then
 					-- print ("tar="..arg8.." /spid="..arg10);
@@ -569,7 +570,7 @@ function EventAlert_OnEvent(self, event, ...)
 		end
 	end
 	
-	if ((event == "ACTIVE_TALENT_GROUP_CHANGED") or (event == "UNIT_DISPLAYPOWER")) then
+	if ((event == "ACTIVE_TALENT_GROUP_CHANGED") or (event == "UNIT_DISPLAYPOWER") or (event== "UPDATE_SHAPESHIFT_FORM")) then
 		-- 偵測目前角色的天賦及特殊能力
 		EventAlert_PlayerSpecPower_Update();
 	end
@@ -1196,7 +1197,7 @@ function EventAlert_OnTarUpdate(spellId)
 			--5.1修正:目標buff框架顯示
 			--eaf:SetCooldown(EA_currentTime, EA_timeLeft);
 
-			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_Items[EA_playerClass][spellId]);
+			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_TarItems[EA_playerClass][spellId]);
 
 			EAFun_SetCountdownStackText(eaf, EA_timeLeft, EA_count, SC_RedSecText);
 
@@ -2750,7 +2751,8 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 		EAFun_FireEventCheckHide(self);
 	else
 		--5.1修正"ACTIVE_TALENT_GROUP_CHANGED" -> "ACTIVE_SPEC_GROUP_CHANGED"
-		if (event == "ACTIVE_SPEC_GROUP_CHANGED") then
+		--5.3取消上述修正
+		if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
 			-- If the Active-Talent should be checked
 			--5.1修正:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			iActiveTalentGroup = GetActiveSpecGroup();
@@ -3023,7 +3025,7 @@ function EventAlert_PlayerSpecPower_Update()
 	EA_SpecHasPower.HasComboPoint		= false;
 	EA_SpecHasPower.HasLifeBloom		= false;
 	EA_SpecHasPower.HasBurningEmbers	= false;
-	EA_SpecHasPower.HasCheckDemonicFury	= false;
+	EA_SpecHasPower.HasDemonicFury		= false;
 	
 
 	-- 偵測目前啟用的天賦來設定可以監控的特殊能力

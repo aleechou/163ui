@@ -632,6 +632,64 @@
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
+			<CheckButton name="$parent_SpecFlag_DemonicFury" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ShadowOrbs" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="100" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_DEMONICFURY);
+					</OnLoad>
+					<OnClick>
+						if (self:GetChecked()) then
+							EA_SpecCheckPower.CheckDemonicFury  = true;
+						else
+							EA_SpecCheckPower.CheckDemonicFury  = false;
+						end
+						EventAlert_SpecialFrame_Update();
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_DEMONICFURY);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</CheckButton>			
+			<CheckButton name="$parent_SpecFlag_BurningEmbers" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ShadowOrbs" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_BURNINGEMBERS);
+					</OnLoad>
+					<OnClick>
+						if (self:GetChecked()) then
+							EA_SpecCheckPower.CheckBurningEmbers  = true;
+						else
+							EA_SpecCheckPower.CheckBurningEmbers  = false;
+						end
+						EventAlert_SpecialFrame_Update();
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</CheckButton>
 
 			<Button name="$parent_ToggleAlertFrame" inherits="OptionsButtonTemplate" text="">
 				<Size>

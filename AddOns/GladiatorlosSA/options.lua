@@ -35,20 +35,26 @@ local function getOption(info)
 	return gsadb[name]
 end
 local function spellOption(order, spellID, ...)
-	local spellname,_,icon = GetSpellInfo(spellID)				
+	local spellname, _, icon = GetSpellInfo(spellID)				
 	if (spellname ~= nil) then
 		return {
 			type = 'toggle',
-			name = "\124T"..icon..":24\124t"..spellname,							
+			name = "\124T" .. icon .. ":24\124t" .. spellname,							
 			desc = function () 
-			GameTooltip:SetHyperlink(GetSpellLink(spellID));
-			--GameTooltip:Show();
+				GameTooltip:SetHyperlink(GetSpellLink(spellID));
+				--GameTooltip:Show();
 			end,
 			descStyle = "custom",
 					order = order,
 		}
 	else
-		print("spell id: "..spellID.." is invalid")
+
+		GSA.log("spell id: " .. spellID .. " is invalid")
+		return {
+			type = 'toggle',
+			name = "unknown spell, id:" .. spellID,	
+			order = order,
+		}
 	end
 end
 
@@ -67,26 +73,33 @@ local function listOption(spellList, listType, ...)
 end
 
 function GSA:MakeCustomOption(key)
-	local keytemp = key
-	self.options.args.custom.args[key] = {
+
+	local options = self.options.args.custom.args
+	local db = gsadb.custom
+	options[key] = {
 		type = 'group',
-		name = gsadb.custom[key].name,
-		set = function(info, value) local name = info[#info] gsadb.custom[key][name] = value end,
-		get = function(info) local name = info[#info] return gsadb.custom[key][name] end,
-		order = gsadb.custom[key].order,
+		name = function() return db[key].name end,
+		set = function(info, value) local name = info[#info] db[key][name] = value end,
+		get = function(info) local name = info[#info] return db[key][name] end,
+		order = db[key].order,
 		args = {
 			name = {
 				name = L["name"],
 				type = 'input',
 				set = function(info, value)
-					if gsadb.custom[value] then log(L["same name already exists"]) return end
-					gsadb.custom[key].name = value
-					gsadb.custom[key].order = 100
-					gsadb.custom[key].soundfilepath = "Interface\\GSASound\\"..value..".ogg"
-					gsadb.custom[value] = gsadb.custom[key]
-					gsadb.custom[key] = nil
+					if db[value] then GSA.log(L["same name already exists"]) return end
+					db[value] = db[key]
+					db[value].name = value
+
+					db[value].order = #db + 1
+					db[value].soundfilepath = "Interface\\GSASound\\"..value..".ogg"
+
+
+					db[key] = nil
 					--makeoption(value)
-					self.options.args.custom.args[keytemp].name = value
+
+					options[value] = options[key]
+					options[key] = nil
 					key = value
 				end,
 				order = 10,
@@ -104,15 +117,17 @@ function GSA:MakeCustomOption(key)
 				confirm = true,
 				confirmText = L["Are you sure?"],
 				func = function() 
-					gsadb.custom[key] = nil
-					self.options.args.custom.args[keytemp] = nil
+
+
+					db[key] = nil
+					options[key] = nil
 				end,
 			},
 			test = {
 				type = 'execute',
 				order = 28,
 				name = L["Test"],
-				func = function() PlaySoundFile(gsadb.custom[key].soundfilepath, "Master") end,
+				func = function() PlaySoundFile(db[key].soundfilepath, "Master") end,
 			},
 			existingsound = {
 				name = L["Use existing sound"],
@@ -124,7 +139,7 @@ function GSA:MakeCustomOption(key)
 				type = 'select',
 				dialogControl = 'LSM30_Sound',
 				values =  LSM:HashTable("sound"),
-				disabled = function() return not gsadb.custom[key].existingsound end,
+				disabled = function() return not db[key].existingsound end,
 				order = 40,
 			},
 			NewLine3 = {
@@ -137,15 +152,15 @@ function GSA:MakeCustomOption(key)
 				type = 'input',
 				width = 'double',
 				order = 27,
-				disabled = function() return gsadb.custom[key].existingsound end,
+				disabled = function() return db[key].existingsound end,
 			},
 			eventtype = {
 				type = 'multiselect',
 				order = 50,
 				name = L["event type"],
 				values = self.GSA_EVENT,
-				get = function(info, k) return gsadb.custom[key].eventtype[k] end,
-				set = function(info, k, v) gsadb.custom[key].eventtype[k] = v end,
+				get = function(info, k) return db[key].eventtype[k] end,
+				set = function(info, k, v) db[key].eventtype[k] = v end,
 			},
 			sourceuidfilter = {
 				type = 'select',
@@ -163,7 +178,7 @@ function GSA:MakeCustomOption(key)
 				type= 'input',
 				order = 62,
 				name= L["Custom unit name"],
-				disabled = function() return not (gsadb.custom[key].sourceuidfilter == "custom") end,
+				disabled = function() return not (db[key].sourceuidfilter == "custom") end,
 			},
 			destuidfilter = {
 				type = 'select',
@@ -181,7 +196,7 @@ function GSA:MakeCustomOption(key)
 				type= 'input',
 				order = 68,
 				name = L["Custom unit name"],
-				disabled = function() return not (gsadb.custom[key].destuidfilter == "custom") end,
+				disabled = function() return not (db[key].destuidfilter == "custom") end,
 			},
 			--[[NewLine5 = {
 				type = 'header',
@@ -441,14 +456,14 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cff9482C9Warlock|r"],
 								order = 14,
-								args = listOption({108416,108503,119049,113858,113861,113860,104773},"auraApplied"),
+								args = listOption({108416,108503,113858,113861,113860,104773},"auraApplied"),
 							},
 							warrior	= {
 								type = 'group',
 								inline = true,
 								name = L["|cffC79C6EWarrior|r"],
 								order = 15,
-								args = listOption({55694,871,18499,23920,12328,46924,85730,12292,1719,114028,107574,114029,114030},"auraApplied"),	
+								args = listOption({55694,871,18499,23920,12328,46924,12292,1719,114028,107574,114029,114030},"auraApplied"),	
 							},
 						},
 					},
@@ -603,7 +618,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cffF58CBAPaladin|r"],
 								order = 8,
-								args = listOption({20066},"castStart"),
+								args = listOption({20066,115750},"castStart"),
 							},
 							preist	= {
 								type = 'group',
@@ -681,7 +696,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cffABD473Hunter|r"],
 								order = 7,
-								args = listOption({19386,19503,34490,23989,60192,1499,109248,109304,120657,120697,109259,126216,126215,126214,126213,122811,122809,122807,122806,122804,122802,121118,121818},"castSuccess"),
+								args = listOption({19386,19503,34490,147362,60192,1499,109248,109304,131894,120697,109259,126216,126215,126214,126213,122811,122809,122807,122806,122804,122802,121118,121818},"castSuccess"),
 							},
 							mage = {
 								type = 'group',
@@ -702,7 +717,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cffF58CBAPaladin|r"],
 								order = 10,
-								args = listOption({31821,96231,853,105593,115750,85499},"castSuccess"),
+								args = listOption({31821,96231,853,105593,85499},"castSuccess"),
 							},
 							preist	= {
 								type = 'group',

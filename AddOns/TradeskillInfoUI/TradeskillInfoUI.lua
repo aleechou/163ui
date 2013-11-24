@@ -1,6 +1,6 @@
-TRADESKILL_INFO = "商业技能库"
-TRADESKILLINFO_SEARCH = "查询";
-TRADESKILLINFO_RESET = "重置"
+锘縏RADESKILL_INFO = "鍟嗕笟鎶�鑳藉簱"
+TRADESKILLINFO_SEARCH = "鏌ヨ";
+TRADESKILLINFO_RESET = "閲嶇疆"
 
 local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
 
@@ -698,7 +698,8 @@ function TradeskillInfoUI:Item_OnClick(frame, button)
 		if accept then
 			local _,_,item = string.find(frame.tooltip,":(%d+):")
 			self:SetSearchText("id="..item.." "..frame.name)
-			self:Search_OnClick()
+			--self:Search_OnClick()
+			self:OnTradeskillInfoUpdate()
 			return true
 		end
 	end

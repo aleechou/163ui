@@ -1761,20 +1761,20 @@ fixFrame:RegisterEvent("ADDON_LOADED")
 fixFrame:SetScript("OnEvent", FixFrame_OnEvent)
 
 -- 5.4.1, fix IsDisabledByParentalControls taint
+
+setfenv(FriendsFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
+
 function FixFrame_OnEvent(this, event, arg1)
 	if event == "ADDON_LOADED" then
 		
 		if (arg1 == "Blizzard_PetJournal") then
-			setfenv(FriendsFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
-
-			setfenv(PetJournalParent_OnShow, setmetatable({ UpdateMicroButtons=function()
+			setfenv(PetJournalParent_OnShow, setmetatable({UpdateMicroButtons=function()
 				if (PetJournalParent and PetJournalParent:IsShown()) then
 					CompanionsMicroButton:Enable();
 					CompanionsMicroButton:SetButtonState("PUSHED", 1);
 				end
 			end }, { __index = _G}))
-		elseif (arg1 == "Blizzard_AchievementUI") then
-		
+		elseif (arg1 == "Blizzard_AchievementUI") then		
 			setfenv(AchievementFrame_OnShow, setmetatable({ UpdateMicroButtons = function() 
 				if (AchievementFrame and AchievementFrame:IsShown()) then 
 					AchievementMicroButton:SetButtonState("PUSHED", 1); 

@@ -68,7 +68,7 @@
 			[23920] = "spellReflection", -- 盾反
 			[12328] = "sweepingStrikes", -- 橫掃攻擊
 			[46924] = "bladestorm", -- 劍刃風暴
-			[85730] = "deadlyCalm", -- 沉著殺機
+			-- [85730] = "deadlyCalm", -- 沉著殺機 --removed in 5.2
 			[1719] = "recklessness", -- 魯莽
 				-- Mist of pandaria
 			[114029] = "safeguard",
@@ -134,7 +134,7 @@
 				-- Mist of pandaria
 			[108416] = "sacrificialPact",
 			[108503] = "grimoireOfSacrifice",
-			[119049] = "kjCunning",
+			-- [119049] = "kjCunning", -- removed in 5.2
 			[113858] = "darkSoul",
 			[113861] = "darkSoul",
 			[113860] = "darkSoul",
@@ -207,6 +207,7 @@
 			--paladin
 				-- Mist of pandaria
 			[20066] = "repentance", -- 懺悔
+			[115750] = "blindingLight", -- 盲目之光
 			--rogue
 			--warrior
 			--preist
@@ -305,7 +306,6 @@
 				-- Mist of pandaria
 			[105593] = "fistOfJustice", --
 			--[114158] = "lightsHammer", -- removed
-			[115750] = "blindingLight", --
 			[85499] = "speedOfLight",
 			--rogue
 				-- OLD
@@ -411,16 +411,17 @@
 			--hunter
 				-- old
 			[19386] = "wyvernSting", -- 翼龍釘刺
-			[23989] = "readiness", -- 準備就緒
-			--[51755] = "camouflage", -- 偽裝
+			-- [23989] = "readiness", -- 準備就緒 removed
+			-- [51755] = "camouflage", -- 偽裝
 			[19503] = "scattershot", -- 驅散射擊
 			[34490] = "silencingshot", -- 沉默射擊
+			[147362] = "counterShot", -- 反制射击 
 			[1499] = "freezingTrap",
 			[60192] = "freezingTrap2",
 				-- Mist of pandaria
 			[109248] = "bindingShot",
 			[109304] = "Exhilaration",
-			[120657] = "murderOfCrows",
+			[131894] = "murderOfCrows",
 			[126216] = "direBeast",
 			[126215] = "direBeast",
 			[126214] = "direBeast",
@@ -484,6 +485,8 @@
 			[57994] = "lockout", -- Wind Shear
 			[116705] = "lockout", -- Spear Hand Strike
 			[113287] = "lockout", -- Symbiosis Solar Beam
+			[147362] = "lockout", -- Counter Shot
+			[34490] = "lockout", -- Silencing Shot
 		},
 	}
 end
