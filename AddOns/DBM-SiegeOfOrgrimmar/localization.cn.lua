@@ -419,9 +419,19 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
-	InfoFrame				= "信息框：英杰技能提示",
+	LTchong					= "图形冷却警告：$spell:143339",
+	LTIP					= "震动图标警告：重要技能",
+	ShowGrouptarget				= "信息框：你队伍中的$spell:144095目标(英雄)",
+	dr						= "减伤提示：$spell:142416",
+	dr1						= "$spell:144095 1/6",
+	dr2						= "$spell:144095 2/6",
+	dr3						= "$spell:144095 3/6",
+	dr4						= "$spell:144095 4/6",
+	dr5						= "$spell:144095 5/6",
+	dr6						= "$spell:144095 6/6",
+	InfoFrame				= "信息框：首领技能(普通) / $spell:144286(英雄)",
 	HudMAP					= "高级定位监视(HUD)：$spell:142726 / $spell:142727",
-	HudMAPMZ				= "高级定位监视(HUD)：$journal:8073",
+	HudMAPMZ				= "高级定位监视(HUD)：$journal:8073 / $spell:142671 / $spell:142232",
 	warnToxicCatalyst			= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell:format("ej8036"),
 	specWarnToxicInjection			= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(142528),
 	specWarnToxicCatalyst			= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format("ej8036"),
@@ -467,6 +477,12 @@ L= DBM:GetModLocalization(869)
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
 	SoundGC					= "语音警告：$journal:8298相关提示",
+	SoundNL					= "语音警告：四阶段首领能量相关提示",
+	ANcount					= "=内场歼灭=减伤提示",
+	XFcount					= "=普通旋风=减伤提示",
+	EXFcount				= "=强化旋风=减伤提示",
+	TQcount					= "=钢铁之星=减伤提示",
+	LTIP					= "震动图标警告：$spell:147209",
 	optDD					= "先祖治疗链打断提示",
 	alldd					= "总是提示(如果你选他為目标或焦点)",
 	DD1						= "单数提示",
@@ -477,6 +493,10 @@ L:SetOptionLocalization({
 	DD4H					= "打断4(英雄模式 包括闪电链)",
 	nodd					= "不提示",
 	SetIconOnShaman			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej8294"),
+})
+
+L:SetMiscLocalization({
+	nameset				= "卡爾洛斯",
 })
 
 -------------

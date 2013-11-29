@@ -1,6 +1,6 @@
 -- Elsia: For delete on instance entry
 -- Deletes data whenever a new, not the same instance is entered. This should safe-guard against corpse-run-reenters and the like.
-local revision = tonumber(string.sub("$Revision: 1222 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1237 $", 12, -3))
 local Recount = _G.Recount
 if Recount.Version < revision then Recount.Version = revision end
 
@@ -18,7 +18,7 @@ function Recount:DetectInstanceChange() -- Elsia: With thanks to Loggerhead
 		self:ScheduleTimer("DetectInstanceChange",5)
 		return
 	end
-
+	
 	if UnitIsGhost(Recount.PlayerName) then
 		return
 	end
@@ -107,7 +107,7 @@ function Recount:PartyMembersChanged()
 		Recount.inGroup = false
 	end
 
-	if NumRaidMembers > 0 or UnitInRaid("player") then
+	if (NumRaidMembers > 0 or UnitInRaid("player"))and not IsInScenarioGroup() then
 		change = change or not Recount.inRaid
 	   Recount.inRaid = true
 	else
@@ -129,8 +129,8 @@ function Recount:InitPartyBasedDeletion()
 	Recount.inGroup = false
 	Recount.inRaid = false
 
-	if NumPartyMembers > 0 and NumRaidMembers == 0 then Recount.inGroup = true end
-	if NumRaidMembers > 0 then Recount.inRaid = true end
+	if (NumPartyMembers > 0 and (NumRaidMembers == 0 or IsInScenarioGroup())) then Recount.inGroup = true end
+	if NumRaidMembers > 0 and not IsInScenarioGroup() then Recount.inRaid = true end
 
 	Recount:RegisterEvent("GROUP_ROSTER_UPDATE","PartyMembersChanged")
 	Recount:UpdateZoneGroupFilter()

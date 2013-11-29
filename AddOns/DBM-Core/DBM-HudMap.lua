@@ -1065,7 +1065,7 @@ do
 				t.serial = self:Serial("Circle")
 				t.callbacks = CallbackHandler:New(t)
 				t.frame = CreateFrame("Frame", nil, mod.canvas)
-				t.frame:SetFrameStrata("MEDIUM")
+				t.frame:SetFrameStrata("LOW")
 				t.frame.owner = t
 				t.text = t.frame:CreateFontString()
 				t.text:SetFont(STANDARD_TEXT_FONT, 10, "")

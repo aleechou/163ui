@@ -8,3 +8,6 @@
 localization\localization.xml
 widgets\widgets.xml
 panels\panels.xml
+
+## Title: |cff880303[网易有爱]|r Bagnon_Config
+## X-Vendor: NetEase

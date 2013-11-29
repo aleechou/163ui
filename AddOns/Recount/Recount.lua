@@ -13,7 +13,7 @@ local FilterSize	= 20
 local RampUp		= 5
 local RampDown		= 10
       
-Recount.Version = tonumber(string.sub("$Revision: 1222 $", 12, -3))
+Recount.Version = tonumber(string.sub("$Revision: 1237 $", 12, -3))
 
 local UnitLevel = UnitLevel
 local UnitClass = UnitClass
@@ -411,6 +411,7 @@ local Default_Profile={
 			none=true, -- Elsia: These fields are named after what IsInInstance() returns for types.
 			pvp=true,
 			arena=true,
+			scenario=true,
 			party=true,
 			raid=true,
 		},

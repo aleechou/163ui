@@ -825,7 +825,7 @@ function me:SetupWindowOptions(parent)
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -58)
-	slider:SetScript("OnValueChanged",function(this) if not this._onsetting then this._onsetting=true; this:SetValue(this:GetValue()); value=this:GetValue(); this._onsetting=false else return end Recount.db.profile.Scaling=math.floor(this:GetValue()*100+0.5)/100;getglobal(this:GetName().."Text"):SetText(L["Window Scaling"]..": "..Recount.db.profile.Scaling);Recount:ScaleWindows(Recount.db.profile.Scaling) end)
+	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.Scaling=math.floor(this:GetValue()*100+0.5)/100;getglobal(this:GetName().."Text"):SetText(L["Window Scaling"]..": "..Recount.db.profile.Scaling);Recount:ScaleWindows(Recount.db.profile.Scaling) end)
 	slider:SetScript("OnMouseUp", function() me:ScaleConfigWindow(Recount.db.profile.Scaling) end)
 	getglobal(slider:GetName().."High"):SetText("1.5");
 	getglobal(slider:GetName().."Low"):SetText("0.5");
@@ -992,6 +992,7 @@ end
 local ZoneLabels = 
 {
 	["none"] = L["Outside Instances"],
+	["scenario"] = L["Scenario Instances"],
 	["party"] = L["Party Instances"],
 	["raid"] = L["Raid Instances"],
 	["pvp"] = L["Battlegrounds"],
@@ -1007,7 +1008,7 @@ local GroupLabels =
 
 local ZoneOrder = 
 {
-	"none", "party", "raid", "pvp", "arena"
+	"none", "scenario", "party", "raid", "pvp", "arena"
 }
 
 function me:SetupMiscOptions(parent)
@@ -1199,7 +1200,7 @@ function me:SetupButtonOptions(parent)
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -96-16) -- Elsia: TODO this number will need adjusting to accommodate the paging config change
-	slider:SetScript("OnValueChanged",function(this) if not this._onsetting then this._onsetting=true; this:SetValue(this:GetValue()); value=this:GetValue(); this._onsetting=false else return end getglobal(this:GetName().."Text"):SetText(L["Row Height"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowHeight=this:GetValue();Recount:BarsChanged() end)
+	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Height"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowHeight=this:GetValue();Recount:BarsChanged() end)
 	getglobal(slider:GetName().."High"):SetText("35");
 	getglobal(slider:GetName().."Low"):SetText("8");
 	getglobal(slider:GetName().."Text"):SetText(L["Row Height"]..": "..slider:GetValue())
@@ -1212,7 +1213,7 @@ function me:SetupButtonOptions(parent)
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -130-16)
-	slider:SetScript("OnValueChanged",function(this) if not this._onsetting then this._onsetting=true; this:SetValue(this:GetValue()); value=this:GetValue(); this._onsetting=false else return end getglobal(this:GetName().."Text"):SetText(L["Row Spacing"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowSpacing=this:GetValue();Recount:BarsChanged() end)
+	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Spacing"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowSpacing=this:GetValue();Recount:BarsChanged() end)
 	getglobal(slider:GetName().."High"):SetText("4");
 	getglobal(slider:GetName().."Low"):SetText("0");
 	getglobal(slider:GetName().."Text"):SetText(L["Row Spacing"]..": "..slider:GetValue())
@@ -1417,6 +1418,8 @@ function me:CreateConfigWindow()
 	me:CreateAppearanceOptions(theFrame)
 	me:CreateWindowOptions(theFrame)
 	me:CreateColorOptions(theFrame)
+	
+	theFrame:SetFrameStrata("DIALOG")
 	
 	--Need to add it to our window ordering system
 	Recount:AddWindow(theFrame)

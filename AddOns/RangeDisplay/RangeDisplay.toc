@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Author: mitch0
-## Version: v4.1.2
+## Version: v4.2.3
 ## SavedVariables: RangeDisplayDB3
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibRangeCheck-2.0, Ace3, LibSharedMedia-3.0, LibDualSpec-1.0
 

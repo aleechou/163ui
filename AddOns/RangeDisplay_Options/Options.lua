@@ -1,10 +1,10 @@
+local OptionsAppName = ...
 local RangeDisplay = RangeDisplay
 local ACR = LibStub("AceConfigRegistry-3.0")
 local AceDBOptions = LibStub("AceDBOptions-3.0")
 local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 local ACD = LibStub("AceConfigDialog-3.0")
-local L = LibStub("AceLocale-3.0"):GetLocale(RangeDisplay.OptionsAppName)
-local LL = LibStub("AceLocale-3.0"):GetLocale(RangeDisplay.AppName)
+local L = LibStub("AceLocale-3.0"):GetLocale(OptionsAppName)
 
 local MinFontSize = 5
 local MaxFontSize = 30
@@ -153,7 +153,7 @@ do
         type = 'group',
         childGroups = 'tab',
         inline = true,
-        name = L[RangeDisplay.AppName],
+        name = RangeDisplay.AppName,
         handler = RangeDisplay,
         get = "getOption",
         set = "setOption",
@@ -507,7 +507,7 @@ do
     local function registerSubOptions(name, opts)
         local appName = self.AppName .. "." .. name
         ACR:RegisterOptionsTable(appName, opts)
-        return ACD:AddToBlizOptions(appName, opts.name or name, L[self.AppName])
+        return ACD:AddToBlizOptions(appName, opts.name or name, self.AppName)
     end
 
     -- BEGIN
@@ -528,7 +528,7 @@ do
 
     addConfigFunctions(self.units)
     ACR:RegisterOptionsTable(self.AppName, mainOptions)
-    self.opts = ACD:AddToBlizOptions(self.AppName, L[self.AppName])
+    self.opts = ACD:AddToBlizOptions(self.AppName, self.AppName)
     for i, ud in ipairs(self.units) do
         local unitOpts = makeUnitOptions(ud)
         ud.opts = registerSubOptions(ud.unit, unitOpts)

@@ -1,12 +1,4 @@
 ﻿## Interface: 50400
-## Title: AtlasLoot_Loader
-## Title-deDE: AtlasLoot Loader
-## Title-zhCN: AtlasLoot Loader
-## Title-zhTW: AtlasLoot Loader
-## Notes: AtlasLoot Loader
-## Notes-deDE: AtlasLoot Loader
-## Notes-zhTW: AtlasLoot Loader
-## Notes-zhCN: AtlasLoot Loader
 ## OptionalDeps: Ace3, LibBabble-Boss-3.0, LibBabble-Inventory-3.0, LibBabble-ItemSet-3.0, LibDBIcon-1.0, LibDataBroker-1.1
 ## Author: Hegarol	
 ## Version: v7.06.00
@@ -20,10 +12,10 @@
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
 
-embeds.xml
 
 Locales\Locales.xml
 core.xml
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_Loader
 ## X-Vendor: NetEase
+## OptionalDeps: LibBabble-3.0

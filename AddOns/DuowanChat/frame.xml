@@ -59,8 +59,8 @@
 				if button=="LeftButton" then
 					DWC_SetChatType(self.chatTypeCmd or self.chatType, self.index)
 				end
-			</OnClick>					
-			<OnDragStart>				
+			</OnClick>
+			<OnDragStart>
 				if DWCChatFrame:IsMovable() then
 					DWCChatFrame:StartMoving();	
 				end

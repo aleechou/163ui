@@ -63,6 +63,8 @@ local extraPIndex
 local lowestFirst
 local lowestT
 local lowestF
+local lowestT2
+local lowestF2
 local tankIgnored
 local iconModifier
 local headerText = "DBM Info Frame"	-- this is only used if DBM.InfoFrame:SetHeader(text) is not called before :Show()
@@ -549,6 +551,10 @@ local function updateOther()
 		lines[lowestF]= lowestT
 		lines[4]= lowestF
 	end
+	if lowestF2 then
+		lines[lowestF2]= lowestT2
+		lines[5]= lowestF2
+	end
 	updateNotsortLines()
 end
 
@@ -779,6 +785,8 @@ function infoFrame:Show(maxLines, event, threshold, powerIndex, iconMod, extraPo
 	tankIgnored = ignoreTank
 	lowestT = select(1, ...)
 	lowestF = select(2, ...)
+	lowestT2 = select(3, ...)
+	lowestF2 = select(4, ...)
 	currentEvent = event
 	frame = frame or createFrame()
 
@@ -906,6 +914,8 @@ function infoFrame:Hide()
 	showtime = 0
 	lowestT = nil
 	lowestF = nil
+	lowestT2 = nil
+	lowestF2 = nil
 	if frame then
 		frame:Hide()
 	end

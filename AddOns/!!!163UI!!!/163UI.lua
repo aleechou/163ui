@@ -1766,7 +1766,6 @@ setfenv(FriendsFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end 
 
 function FixFrame_OnEvent(this, event, arg1)
 	if event == "ADDON_LOADED" then
-		
 		if (arg1 == "Blizzard_PetJournal") then
 			setfenv(PetJournalParent_OnShow, setmetatable({UpdateMicroButtons=function()
 				if (PetJournalParent and PetJournalParent:IsShown()) then
@@ -1774,11 +1773,11 @@ function FixFrame_OnEvent(this, event, arg1)
 					CompanionsMicroButton:SetButtonState("PUSHED", 1);
 				end
 			end }, { __index = _G}))
-		elseif (arg1 == "Blizzard_AchievementUI") then		
-			setfenv(AchievementFrame_OnShow, setmetatable({ UpdateMicroButtons = function() 
-				if (AchievementFrame and AchievementFrame:IsShown()) then 
-					AchievementMicroButton:SetButtonState("PUSHED", 1); 
-				end 
+		elseif (arg1 == "Blizzard_AchievementUI") then
+			setfenv(AchievementFrame_OnShow, setmetatable({ UpdateMicroButtons = function()
+				if (AchievementFrame and AchievementFrame:IsShown()) then
+					AchievementMicroButton:SetButtonState("PUSHED", 1);
+				end
 			end }, { __index = _G}))
 		end
 	end

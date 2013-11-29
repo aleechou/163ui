@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 Name: RangeDisplay
 Revision: $Revision: 343 $
 Author(s): mitch0
@@ -10,7 +10,7 @@ License: Public Domain
 
 local AppName, RangeDisplay = ...
 local OptionsAppName = AppName .. "_Options"
-local VERSION = AppName .. "-v4.1.2"
+local VERSION = AppName .. "-v4.2.3"
 --[===[@debug@
 local VERSION = AppName .. "-r" .. ("$Revision: 343 $"):match("%d+")
 --@end-debug@]===]
@@ -90,7 +90,6 @@ RangeDisplay:SetDefaultModuleState(false)
 
 RangeDisplay.version = VERSION
 RangeDisplay.AppName = AppName
-RangeDisplay.OptionsAppName = OptionsAppName
 RangeDisplay.Sections = Sections
 
 -- Default DB stuff
@@ -108,8 +107,8 @@ local defaults = {
         enableArena = true,
     },
     profile = {
-        locked = true,
-        mute = true,
+        locked = false,
+        mute = false,
         minimap = {},
         units = {
             ["**"] = {
@@ -117,7 +116,7 @@ local defaults = {
                 point = "CENTER",
                 relPoint = "CENTER",
                 x = 0,
-                y = -120,
+                y = -100,
                 font = DefaultFontName,
                 fontSize = 24,
                 fontOutline = "",
@@ -893,7 +892,7 @@ function RangeDisplay:setupDummyOptions()
         return
     end
     self.dummyOpts = CreateFrame("Frame", AppName .. "DummyOptions", UIParent)
-    self.dummyOpts.name = L[AppName]
+    self.dummyOpts.name = AppName
     self.dummyOpts:SetScript("OnShow", function(frame)
         if not self.optionsLoaded then
             if not InterfaceOptionsFrame:IsVisible() then
@@ -904,7 +903,7 @@ function RangeDisplay:setupDummyOptions()
             frame:Hide()
         end
     end)
-    --InterfaceOptions_AddCategory(self.dummyOpts)
+    InterfaceOptions_AddCategory(self.dummyOpts)
 end
 
 function RangeDisplay:loadOptions()

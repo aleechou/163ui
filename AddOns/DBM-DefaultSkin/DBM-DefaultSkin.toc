@@ -12,3 +12,5 @@
 Skin.lua
 TimerSkin.xml
 
+## Title: |cff880303[网易有爱]|r DBM-DefaultSkin
+## X-Vendor: NetEase

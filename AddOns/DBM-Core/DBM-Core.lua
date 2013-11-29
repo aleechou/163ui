@@ -50,10 +50,10 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10705 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 10745 $"):sub(12, -3)),
 	DisplayVersion = "5.4.4 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
-	DisplayReleaseVersion = "5.4.4", -- Needed to work around bigwigs sending improper version information
-	ReleaseRevision = 10680 -- the revision of the latest stable version that is available
+	DisplayReleaseVersion = "5.4.5", -- Needed to work around bigwigs sending improper version information
+	ReleaseRevision = 10737 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -281,6 +281,7 @@ local IsInInstance = IsInInstance
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitExists = UnitExists
 local UnitIsDead = UnitIsDead
+local UnitIsFriend = UnitIsFriend
 local GetSpellInfo = GetSpellInfo
 local EJ_GetSectionInfo = EJ_GetSectionInfo
 local GetInstanceInfo = GetInstanceInfo

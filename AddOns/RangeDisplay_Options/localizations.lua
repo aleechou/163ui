@@ -67,6 +67,7 @@ L["Warning Sound"] = "Warning Sound"
 L["Warning Sound Name"] = "Warning Sound Name"
 L["Width"] = "Width"
 
+-----------------------------------------------------------------------------
 
 L = AL:NewLocale(AppName, "zhCN")
 if L then

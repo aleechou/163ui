@@ -2,7 +2,7 @@ local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale( "Recount" )
 local me={}
 
-local revision = tonumber(string.sub("$Revision: 1226 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1240 $", 12, -3))
 local Recount = _G.Recount
 if Recount.Version < revision then Recount.Version = revision end
 
@@ -142,11 +142,6 @@ function me:CreateReportWindow()
 	theFrame.ReportButton:SetScript("OnClick",function() me:SendReport();theFrame:Hide() end)
 	theFrame.ReportButton:SetText(L["Report"])
 
-	local getSliderValue = function(frame)
-		local value = frame:GetValue()
-		value = value + 0.5 - (value + 0.5) % 1
-		return value
-	end
 	local slider = CreateFrame("Slider", "Recount_ReportWindow_Slider", theFrame,"OptionsSliderTemplate")
 	theFrame.slider=slider
 	slider:SetOrientation("HORIZONTAL")
@@ -156,17 +151,7 @@ function me:CreateReportWindow()
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -46)
-	--slider:SetScript("OnValueChanged",function(this) local sliderValue=getSliderValue(this); Recount.db.profile.ReportLines=sliderValue; getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..sliderValue) end)
-	slider:SetScript("OnValueChanged", function(self, value)
-		if not self._onsetting then
-			self._onsetting = true
-			self:SetValue(self:GetValue())
-			value = self:GetValue()   -- cant use original 'value' parameter
-			self._onsetting = false
-		else return end               -- ignore recursion for actual event handler
-		Recount.db.profile.ReportLines=value;
-		getglobal(self:GetName().."Text"):SetText(L["Report Top"]..": "..value)
-	end)
+	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.ReportLines=this:GetValue(); getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..this:GetValue()) end)
 	getglobal(slider:GetName().."High"):SetText("25");
 	getglobal(slider:GetName().."Low"):SetText("1");
 	getglobal(slider:GetName().."Text"):SetText(L["Report Top"]..": "..slider:GetValue())
@@ -177,7 +162,7 @@ function me:CreateReportWindow()
 	me.NumRows=0
 
 	theFrame:SetFrameStrata("DIALOG")
-
+	
 	--Need to add it to our window ordering system
 	Recount:AddWindow(theFrame)
 end

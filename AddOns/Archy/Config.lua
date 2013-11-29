@@ -1499,7 +1499,6 @@ function Archy:SetupOptions()
 	ACFG:RegisterOptionsTable("Archy Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db))
 
 	local ACD = LibStub("AceConfigDialog-3.0")
-	print((_G.GENERAL_LABEL or "nil") .. " " .. (_G.MINIMAP_LABEL) or "nil")
 	--ACD:AddToBlizOptions("Archy General", _G.GENERAL_LABEL, "Archy")
 	ACD:AddToBlizOptions("Archy General", "Archy")
 	ACD:AddToBlizOptions("Archy Artifacts", L["Artifacts"], "Archy")

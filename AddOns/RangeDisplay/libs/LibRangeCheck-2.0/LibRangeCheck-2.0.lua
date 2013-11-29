@@ -1,6 +1,6 @@
 --[[
 Name: LibRangeCheck-2.0
-Revision: $Revision: 127 $
+Revision: $Revision: 136 $
 Author(s): mitch0
 Website: http://www.wowace.com/projects/librangecheck-2-0/
 Description: A range checking library based on interact distances and spell ranges
@@ -41,7 +41,7 @@ License: Public Domain
 -- @class file
 -- @name LibRangeCheck-2.0
 local MAJOR_VERSION = "LibRangeCheck-2.0"
-local MINOR_VERSION = tonumber(("$Revision: 127 $"):match("%d+")) + 100000
+local MINOR_VERSION = tonumber(("$Revision: 136 $"):match("%d+")) + 100000
 
 local lib, oldminor = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then
@@ -90,7 +90,7 @@ HarmSpells["DRUID"] = {
     770, -- ["Faerie Fire"] -- 35 (Glyph of Faerie Fire: +10)
     339, -- ["Entangling Roots"], -- 35
     6795, -- ["Growl"], -- 30
-    16979, -- ["Feral Charge"], -- 8-25
+--    16979, -- ["Feral Charge"], -- 8-25
     33786, -- ["Cyclone"], -- 20 (Gale Winds: 22, 24)
     80964, -- ["Skull Bash"] -- 13
     5211, -- ["Bash"], -- 5
@@ -899,6 +899,10 @@ function lib:GLYPH_UPDATED()
     self:scheduleInit()
 end
 
+function lib:SPELLS_CHANGED()
+    self:scheduleInit()
+end
+
 function lib:UNIT_INVENTORY_CHANGED(event, unit)
     if self.initialized and unit == "player" and self.handSlotItem ~= GetInventoryItemLink("player", HandSlotId) then
         self:scheduleInit()
@@ -984,6 +988,7 @@ function lib:activate()
         frame:RegisterEvent("GLYPH_ADDED")
         frame:RegisterEvent("GLYPH_REMOVED")
         frame:RegisterEvent("GLYPH_UPDATED")
+        frame:RegisterEvent("SPELLS_CHANGED")
         local _, playerClass = UnitClass("player")
         if playerClass == "MAGE" or playerClass == "SHAMAN" then
             -- Mage and Shaman gladiator gloves modify spell ranges

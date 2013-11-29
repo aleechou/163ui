@@ -304,6 +304,7 @@ L["Runic Power Gained"] = true
 L["RunicPower Sources"] = true
 L["'s Absorbs"] = true
 L["Say"] = true
+L["Scenario Instances"] = true
 L["'s Dispels"] = true
 L["'s DOT Uptime"] = true
 L["'s DPS"] = true

@@ -127,6 +127,7 @@ L["LocalDefenseShort"]="本"
 L["WorldDefenseShort"]="世"
 L["GuildRecruitShort"]="招"
 L["DWLFG"] = "转"
+L["InstanceShort"] = "副"
 
 -- Capital Cities
 L["Shattrath City"] = "沙塔斯城"

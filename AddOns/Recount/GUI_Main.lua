@@ -5,7 +5,7 @@ local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale( "Recount" )
 local LD = LibStub("LibDropdown-1.0")
 
-local revision = tonumber(string.sub("$Revision: 1215 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1232 $", 12, -3))
 local Recount = _G.Recount
 if Recount.Version < revision then Recount.Version = revision end
 
@@ -21,7 +21,7 @@ local type = type
 local pairs = pairs
 local ipairs = ipairs
 local strsub = strsub
-
+ 
 local CreateFrame = CreateFrame
 
 -- Based on cck's numeric Short code in DogTag-3.0.
@@ -72,7 +72,9 @@ local function FadeMenu(self)
 	fadeInfo.timeToFade = 0.1
 	fadeInfo.finishedFunc = Faded
 	fadeInfo.finishedArg1 = self
-	UIFrameFade(self, fadeInfo);
+    -- XXX 163 prevent taint
+	-- UIFrameFade(self, fadeInfo);
+    UICoreFrameFade(self, fadeInfo)
 end
 
 function Recount:OpenBarDropDown(myframe)
@@ -1038,7 +1040,8 @@ function Recount:RefreshMainWindow(datarefresh)
 
 	if not MainWindow_Settings.HideTotalBar and MainWindow.CurRows > 0 and Total > 0 then
 		if TotalPerSec > 0 then
-			PerSec=string_format("%.1f", TotalPerSec)
+			PerSec=Recount:FormatLongNums(TotalPerSec)
+--			PerSec=string_format("%.1f", TotalPerSec)
 		else
 			PerSec=""
 		end
@@ -1079,7 +1082,8 @@ function Recount:RefreshMainWindow(datarefresh)
 			end
 			if v[5] then
 				if type(v[5])=="number" then
-					PerSec=string_format("%.1f",v[5])
+--					PerSec=string_format("%.1f",v[5])
+					PerSec=Recount:FormatLongNums(v[5])
 				else
 					PerSec=v[5]
 				end

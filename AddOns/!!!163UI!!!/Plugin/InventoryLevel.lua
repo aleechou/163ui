@@ -230,7 +230,7 @@ function U1GetInventoryLevel(unit, blizzard)
     avgLevel = avgLevel > 0 and tonumber(string.format("%.1f", avgLevel)) or 0
 
     local resilience = 0
-	local pvppower = 0
+    local pvppower = 0
     for i = 1, 19 do
         local link = itemLinks[i]
         if (link) then
@@ -243,7 +243,7 @@ function U1GetInventoryLevel(unit, blizzard)
             local upmod = uplvl and ilevel_spTable[uplvl]
 
             local resi = ItemStats.ITEM_MOD_RESILIENCE_RATING_SHORT or 0
-			local power = ItemStats.ITEM_MOD_PVP_POWER_SHORT or 0
+            local power = ItemStats.ITEM_MOD_PVP_POWER_SHORT or 0
             if (resi and uplvl ~= origlvl) then
                 local origmod = origlvl and ilevel_spTable[origlvl]
                 if(upmod and origmod) then
@@ -252,12 +252,13 @@ function U1GetInventoryLevel(unit, blizzard)
                 end
             end
             resilience = resilience + resi
-			pvppower = pvppower + power
+            pvppower = pvppower + power
         end
     end
 
-	resilience = resilience > 0 and tonumber(string.format("%.2f", resilience)) or 0
-	pvppower = pvppower > 0 and tonumber(string.format("%.2f", pvppower)) or 0
+    resilience = resilience > 0 and tonumber(string.format("%.2f", resilience)) or 0
+    pvppower = pvppower > 0 and tonumber(string.format("%.2f", pvppower)) or 0
+
     return avgLevel, color, resilience, totalLevel, count, slotCount, itemLinks, pvppower
 end
 

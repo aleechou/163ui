@@ -254,7 +254,7 @@
 				</Anchors>
 				<Frames>
 					<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate" parentKey="cooldown">
-						<Size x="28" y="24"/>
+						<Size><AbsDimension x="28" y="24"/></Size>
 						<Anchors>
 							<Anchor point="CENTER">
 								<Offset>
@@ -282,6 +282,14 @@
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="$parentSurveyButton" relativePoint="RIGHT" x="10" y="0" />
 				</Anchors>
+				<Frames>
+					<Frame name="$parentShine" parentKey="shine" inherits="AutoCastShineTemplate">
+						<Size><AbsDimension x="28" y="24"/></Size>
+						<Anchors>
+							<Anchor point="CENTER"/>
+						</Anchors>
+					</Frame>
+				</Frames>
 				<Scripts>
 					<OnLoad>
 						if not InCombatLockdown() then self:Disable() end 
@@ -309,6 +317,51 @@
 					</OnHide>
 				</Scripts>
 			</Button>
+			<Button name="$parentLorItemButton" parentKey="loritemButton" inherits="ActionButtonTemplate, SecureActionButtonTemplate">
+				<Size><AbsDimension x="28" y="24" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentCrateButton" relativePoint="RIGHT" x="10" y="0" />
+				</Anchors>
+				<Frames>
+					<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate" parentKey="cooldown">
+						<Size><AbsDimension x="28" y="24"/></Size>
+						<Anchors>
+							<Anchor point="CENTER">
+								<Offset>
+									<AbsDimension x="0" y="-1"/>
+								</Offset>
+							</Anchor>
+						</Anchors> 
+					</Cooldown>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						if not InCombatLockdown() then self:Disable() end 
+						self.icon:SetTexture("Interface\\Icons\\inv_misc_map08")
+						self.icon:SetDesaturated(1)
+						self:SetMotionScriptsWhileDisabled(true)
+						self.tooltip = BROWSE_NO_RESULTS
+						self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+					</OnLoad>
+					<OnEnter>
+						if self.tooltip then
+							GameTooltip:SetOwner(self,"ANCHOR_TOP")
+							if type(self.tooltip) == "string" then
+								GameTooltip:SetText(self.tooltip)
+							elseif type(self.tooltip) == "number" then
+								GameTooltip:SetItemByID(self.tooltip)
+							elseif type(self.tooltip) == "table" then
+								GameTooltip:SetItemByID(self.tooltip[1])
+								GameTooltip:AddLine(" ")
+								GameTooltip:AddDoubleLine(_G.HELPFRAME_REPORT_PLAYER_RIGHT_CLICK,self.tooltip[2],1.0,1.0,0, 0,0.8,1.0)
+							end
+							GameTooltip:Show()
+						end
+					</OnEnter>
+					<OnLeave>GameTooltip_Hide()</OnLeave>
+					<OnHide>GameTooltip_Hide()</OnHide>
+				</Scripts>
+			</Button>			
 		</Frames>
 		<Scripts>
 			<OnLoad>self:RegisterForDrag("LeftButton");</OnLoad>

@@ -70,6 +70,7 @@ L["GeneralShort"]="綜"
 L["TradeShort"]="交"
 L["LocalDefenseShort"]="本"
 L["WorldDefenseShort"]="世"
+L["InstanceShort"] = "副"
 
 -- Capital Cities
 L["Shattrath City"] = "撒塔斯城"

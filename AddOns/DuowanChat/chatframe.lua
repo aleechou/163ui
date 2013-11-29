@@ -71,6 +71,7 @@ local DWC_TABS={
 	{text=function() return L["Say"] end, chatType="SAY", show=function() return true end,  index=0}, 
 	{text=function() return L["PartyShort"] end, chatType="PARTY", show=function() return IsInGroup() end, index=0},
 	{text=function() return L["RaidShort"] end, chatType="RAID", show=function() return IsInRaid() end,  index=0},
+    {text=function() return L["InstanceShort"] end, chatType="INSTANCE_CHAT", chatTypeCmd='instance', show=function() return IsInInstance() end, index = 0},
 	{text=function() return L["BattleGroundShort"] end, chatType="INSTANCE_CHAT", chatTypeCmd='instance', show=function() return select(2, IsInInstance())=="pvp" end,  index=0},
 	{text=function() return L["GuildShort"] end, chatType="GUILD", show=function() return IsInGuild() end,  index=0},
 	{text=function() return L["YellShort"] end, chatType="YELL", show=function() return not IsInGroup() --[[GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0]] end,  index=0},
@@ -238,6 +239,7 @@ function DWChatFrame:Refresh()
 	for i, v in ipairs(DWC_TABS) do		
 		local tab = createChatTab( v.text, v.chatType, v.show, v.index, i);
 		if (tab) then
+            tab.chatTypeCmd = v.chatTypeCmd
 			tinsert(chatchannelframe, tab);
 		end
 	end

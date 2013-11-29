@@ -2191,16 +2191,16 @@ function Archy:ScanBags()
 		private.distance_indicator_frame.crateButton:Enable()
 		private.distance_indicator_frame.crateButton.icon:SetDesaturated(0)
 		private.distance_indicator_frame.crateButton.tooltip = private.crate_item_id
-		--private.distance_indicator_frame.crateButton.shine:Show()
-		--_G.AutoCastShine_AutoCastStart(private.distance_indicator_frame.crateButton.shine)
+		private.distance_indicator_frame.crateButton.shine:Show()
+		_G.AutoCastShine_AutoCastStart(private.distance_indicator_frame.crateButton.shine)
 		private.distance_indicator_frame.crateButton.shining = true
 	else
 		private.distance_indicator_frame.crateButton:Disable()
 		private.distance_indicator_frame.crateButton.icon:SetDesaturated(1)
 		private.distance_indicator_frame.crateButton.tooltip = _G.BROWSE_NO_RESULTS
-		--private.distance_indicator_frame.crateButton.shine:Hide()
+		private.distance_indicator_frame.crateButton.shine:Hide()
 		if private.distance_indicator_frame.crateButton.shining then
-			--_G.AutoCastShine_AutoCastStop(private.distance_indicator_frame.crateButton.shine)
+			_G.AutoCastShine_AutoCastStop(private.distance_indicator_frame.crateButton.shine)
 			private.distance_indicator_frame.crateButton.shining = nil
 		end
 	end
@@ -2231,11 +2231,11 @@ function Archy:ScanBags()
 			private.distance_indicator_frame.loritemButton.tooltip = {LOREWALKER_ITEMS.LODESTONE.id,_G.USE}
 		end
 	end
-	--[[if lorewalker_map_count == 0 and lorewalker_lode_count == 0 then
+	if lorewalker_map_count == 0 and lorewalker_lode_count == 0 then
 		private.distance_indicator_frame.loritemButton:Disable()
 		private.distance_indicator_frame.loritemButton.icon:SetDesaturated(1)
 		private.distance_indicator_frame.loritemButton.tooltip = _G.BROWSE_NO_RESULTS
-	end]]
+	end
 	
 end
 

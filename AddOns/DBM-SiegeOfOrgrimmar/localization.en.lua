@@ -10,7 +10,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
-	SoundPZD				= "Voice Warning: When $spell:117878 stacks more than 3 warn you to stop attack",
+	SoundPZD				= "Voice Warning: When $spell:143579 stacks more than 3 warn you to stop attack",
 	InfoFrame				= "Info Frame: Track how many puddles have been killed or purified",
 	dr						= "Defensive warning[Warning will be showed at $spell:143020, but you should use your defensive cooldowns before contact]",
 	dr1						= "$spell:143020 1",
@@ -92,7 +92,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	nameset		= "Norushen",
+	nameset				= "Norushen Test Realm Monitor",
 	wasteOfTime				= "Very well, I will create a field to keep your corruption quarantined."
 })
 
@@ -191,6 +191,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	SoundTL					= "Voice Warning: 10 sec pre-warning for $spell:144330 (Will warn even if it's not your $spell:144330, useful for healers)",
 	dr						= "Defensive Warning[4 seconds before the strike]",
 	dr1						= "$spell:143973 1/6",
 	dr2						= "$spell:143973 2/6",
@@ -219,7 +220,9 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
-	SoundTT					= "Voice Warning: Kill $spell:143474",
+	SoundDS					= "Voice Warning: Dispel $spell:143475",
+	SoundIFS				= "Voice Warning: Interrupt $journal:7923",
+	SoundISM				= "Voice Warning: Interrupt $journal:7925",
 	InfoFrame				= "Info Frame: Rage Monitor",	
 	SetIconOnAdds			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej7920"),
 	warnDefensiveStanceSoon			= "Pre-warning: $spell:143593 (5 seconds before)"
@@ -231,7 +234,11 @@ L:SetMiscLocalization({
 	newForces3				= "Rally the forces!",
 	newForces4				= "Kor'kron, at my side!",
 	newForces5				= "Next squad, to the front!",
-	allForces				= "All Kor'kron... under my command... kill them... NOW!"
+	allForces				= "All Kor'kron... under my command... kill them... NOW!",
+	Handslipped1			= "Sorry, my fingers slipped and hit the boss",
+	Handslipped2			= "ouch, slipped again",
+	Handslipped3			= "I guess my fingers are made with soap?",
+	Handslipped4			= "Please cut my evil fingers off! I forgot to stop dps at all!"
 })
 
 
@@ -245,6 +252,22 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	Malhelper				= "===Special: Enable $spell:142842 graph assist (/mal)===",
+	MalhelperSend			= "===Assist Graph: Enable manual adjust mode===",
+	LTshow					= "Long Term Special Warning: Show shield absorbing amount=",
+	dr						= "Defensive Warning: $spell:142986 (before explode)",
+	dr1						= "$spell:142986 1",
+	dr2						= "$spell:142986 2",
+	dr3						= "$spell:142986 3",
+	dr4						= "$spell:142986 4",
+	dr5						= "$spell:142986 5",
+	dr6						= "$spell:142986 6",
+	dr7						= "$spell:142986 7",
+	dr8						= "$spell:142986 8",
+	dr9						= "$spell:142986 9",
+	dr10					= "$spell:142986 10",
+	dr11					= "$spell:142986 11",
+	dr12					= "$spell:142986 12",
 	HudMAP					= "HUD MAP: $spell:142913",
 	SetIconOnDisplacedEnergy= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(142913),
 	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT_SHORT:format("8/5")
@@ -264,6 +287,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	LTZD					= "Long Term Special Warning: $spell:145987 on you",
 	RangeFrame	= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(10, 145987),
 	Filterarea				= "Other: Use stricter way to tell the area"
 })
@@ -283,12 +307,46 @@ L:SetWarningLocalization({
 	specWarnDevotion		= "%s used Devotion Aura"
 })
 
-L:SetTimerLocalization({
-})
-
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
 	SoundPX					= "Countdown: $spell:143343",
+	LTRange					= "Long Term Special Warning: P1 $spell:143343 stacks/P2 Boss Range",
+	optDD					= "$spell:143791 dispel chain",
+	DD1						= "Dispel 1",
+	DD2						= "Dispel 2",
+	DD3						= "Dispel 3",
+	nodd					= "No Dispel",
+	dr						= "Defensive Warning: $spell:143343 (reset each transition)",
+	dr1						= "$spell:143343 1",
+	dr2						= "$spell:143343 2",
+	dr3						= "$spell:143343 3",
+	dr4						= "$spell:143343 4",
+	dr5						= "$spell:143343 5",
+	dr6						= "$spell:143343 6",
+	dr7						= "$spell:143343 7",
+	dr8						= "$spell:143343 8",
+	dr9						= "$spell:143343 9",
+	dr10					= "$spell:143343 10",
+	dr11					= "$spell:143343 11",
+	dr12					= "$spell:143343 12",
+	dr13					= "$spell:143343 13",
+	dr14					= "$spell:143343 14",
+	dr15					= "$spell:143343 15",
+	dr16					= "$spell:143343 16",
+	dr17					= "$spell:143343 17",
+	dr18					= "$spell:143343 18",
+	dr19					= "$spell:143343 19",
+	dr20					= "$spell:143343 20",
+	dr21					= "$spell:143343 21",
+	dr22					= "$spell:143343 22",
+	dr23					= "$spell:143343 23",
+	dr24					= "$spell:143343 24",
+	dr25					= "$spell:143343 25",
+	dr26					= "$spell:143343 26",
+	dr27					= "$spell:143343 27",
+	dr28					= "$spell:143343 28",
+	dr29					= "$spell:143343 29",
+	dr30					= "$spell:143343 30",
 	specWarnDevotion		= "Special Warning: $spell:31821",
 	RangeFrame	= "Show dynamic range frame (10 yards)",
 	FixateIcon				= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143445)
@@ -303,15 +361,28 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(865)
 
 L:SetWarningLocalization({
+	warnCC					= "%s's [%s] has broken %s's %s(First CC broken)"
 })
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
 	SoundFMD				= "Voice Warning: Before $spell:144208 warn to attack Shredder",
+	SoundDL					= "Voice Warning: Mine sweeping",
+	LTFD					= "Long Term Special Warning: $spell:143266 and $spell:143828",
+	LTHX					= "Long Term Special Warning: Show fire beam timer",
+	HudMAP					= "HUD MAP: $spell:143828",
+	SoundCZ					= "Voice Warning: Shredders' $spell:145444 AOE pre-warning",
+	SoundCZ4				= "Defensive Warning: Shredder 4th $spell:145444 (3 stacks buff)",
+	SoundCZ5				= "Defensive Warning: Shredder 5th $spell:145444 (4 stacks buff)",
+	SoundCS1				= "Voice Warning: conveyor belt group one 10 sec pre-warning",
+	SoundCS2				= "Voice Warning: conveyor belt group two 10 sec pre-warning",
+	ShowDps					= "Show your current group's dps on conveyor belt",
+	warnCC					= "Warning: Show Crawler Mines' CC broken info(only 1st per round)",
 	InfoFrame				= "Info Frame: $journal:8202",
 	optCS					= "Conveyor belt warning",
 	CSA						= "Conveyor belt 1",
 	CSB						= "Conveyor belt 2",
+	CSALL					= "Always",
 	none					= "None",
 	optCSKILL1				= "Kill Warning: 1st round",
 	optCSKILL2				= "2nd round",
@@ -328,7 +399,7 @@ L:SetOptionLocalization({
 	optCSKILL13				= "13th round",
 	optCSKILL14				= "14th round",
 	optCSKILL15				= "15th round",
-	killdl					= "Mine",
+	killdl					= "Crawler Mines",
 	killfd					= "Missile",
 	killjg					= "Laser",
 	killdc					= "Magnet",
@@ -352,7 +423,17 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	SoundWOP				= "Voice Warning: Critical Ability",
+	LTchong					= "Graphic Cooldown Warning: $spell:143339",
+	LTIP					= "Icon Vibrate on Warning: Critical Ability",
+	dr						= "Defensive Warning: $spell:142416",
+	dr1						= "$spell:144095 1/6",
+	dr2						= "$spell:144095 2/6",
+	dr3						= "$spell:144095 3/6",
+	dr4						= "$spell:144095 4/6",
+	dr5						= "$spell:144095 5/6",
+	dr6						= "$spell:144095 6/6",
 	InfoFrame				= "Info Frame: Next Klaxxi Paragon",
+	HudMAPDF				= "HUD MAP: $spell:142232",
 	HudMAP					= "HUD MAP: $spell:142726 / $spell:142727",
 	HudMAPMZ				= "HUD MAP: $journal:8073",
 	warnToxicCatalyst				= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell:format("ej8036"),
@@ -404,6 +485,10 @@ L:SetOptionLocalization({
 	alldd					= "Always (If he's your target or focus)",
 	DD1						= "Odd number",
 	DD2						= "Even number",
+	DD1H					= "Interrupt 1(Heroic Mode, including chain lightning)",
+	DD2H					= "Interrupt 2(Heroic Mode, including chain lightning)",
+	DD3H					= "Interrupt 3(Heroic Mode, including chain lightning)",
+	DD4H					= "Interrupt 4(Heroic Mode, including chain lightning)",
 	nodd					= "None",
 	SetIconOnShaman			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej8294"),
 })

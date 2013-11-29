@@ -83,6 +83,7 @@ function me:CreateResetWindow()
 
 	theFrame:Hide()
 
+	theFrame:SetFrameStrata("DIALOG")
 
 	--Need to add it to our window ordering system
 	Recount:AddWindow(theFrame)

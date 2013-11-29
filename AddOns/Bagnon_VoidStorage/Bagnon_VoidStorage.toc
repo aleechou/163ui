@@ -8,3 +8,6 @@
 localization\localization.xml
 components\components.xml
 main.lua
+
+## Title: |cff880303[网易有爱]|r Bagnon_VoidStorage
+## X-Vendor: NetEase
