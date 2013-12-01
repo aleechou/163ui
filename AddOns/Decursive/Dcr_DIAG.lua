@@ -106,16 +106,8 @@ T._LoadOrderedFiles = { -- {{{
     "load.xml",
 
     "enUS.lua",
-    "deDE.lua",
-    "esES.lua",
-    "esMX.lua",
-    "frFR.lua",
-    "koKR.lua",
-    "ruRU.lua",
     "zhCN.lua",
     "zhTW.lua",
-    "ptBR.lua",
-    "itIT.lua",
     
     "DCR_init.lua",
     "Dcr_LDB.lua",

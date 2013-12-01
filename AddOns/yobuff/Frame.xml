@@ -1,0 +1,142 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Frame.lua" />
+	<Frame name="yobuffFrame" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="773" y="469" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset x="-92" y="-14" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<EditBox name="yobuffString" inherits="InputBoxTemplate">
+				<Size>
+					<AbsDimension x="450" y="70" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="69" y="-26" />
+					</Anchor>
+				</Anchors>
+			</EditBox>
+			<Button name="query" inherits="UIPanelButtonTemplate" text="解析">
+				<Size>
+					<AbsDimension x="89" y="37" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="530" y="-43" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>query_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="clear" inherits="UIPanelButtonTemplate" text="清除">
+				<Size>
+					<AbsDimension x="89" y="37" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="620" y="-43" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>clear_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="invite" inherits="UIPanelButtonTemplate" text="一键加好友">
+				<Size>
+					<AbsDimension x="89" y="37" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="530" y="-95" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>invite_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="inviteToGroup" inherits="UIPanelButtonTemplate" text="一键进组">
+				<Size>
+					<AbsDimension x="89" y="37" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="530" y="-140" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>inviteToGroup_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="remove" inherits="UIPanelButtonTemplate" text="一键删好友">
+				<Size>
+					<AbsDimension x="89" y="37" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="530" y="-185" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>remove_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+			
+			<ScrollFrame name="showInfo" virtual="true" inherits="UIPanelScrollFrameTemplate">
+				<Size>
+					<AbsDimension x="400" y="300" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="63" y="-90" />
+					</Anchor>
+				</Anchors>		
+				<Frames>
+					<Frame name="infoFrame">
+						<Size>
+							<AbsDimension x="480" y="270" />
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="3" y="-3" />
+							</Anchor>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</ScrollFrame>
+			<Button name="closeButton" inherits="UIPanelButtonTemplate" text="关闭">
+				<Size>
+					<AbsDimension x="113" y="32" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="623" y="-416" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>closeButton_OnClick();</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>self:RegisterForDrag("LeftButton");</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+	</Frame>
+</Ui>

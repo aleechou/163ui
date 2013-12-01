@@ -145,3 +145,17 @@ U1RegisterAddon("DailyTamerCheck", {
 		},
 	},
 })
+
+U1RegisterAddon("YOBUFF", {
+    title = "YOBUFF",
+    defaultEnable = 0,
+    tags = {"MANAGEMENT"},
+    icon = "Interface\\Icons\\Spell_ChargeNegative",
+    nopic = 1,
+	{
+		text = "配置插件",
+		callback = function()
+			SlashCmdList["YOBUFF"]()
+		end,
+	},
+})

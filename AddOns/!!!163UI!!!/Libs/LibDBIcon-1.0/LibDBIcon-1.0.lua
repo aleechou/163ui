@@ -122,6 +122,7 @@ do
 		["TRICORNER-BOTTOMRIGHT"] = {true, true, true, false},
 	}
 
+	local defaultPos = 185;
 	function updatePosition(button)
 		-- XXX 163 目的是为了防止没有默认值的按钮都迭在一起
         -- local angle = math.rad(button.db and button.db.minimapPos or button.minimapPos or 225)
