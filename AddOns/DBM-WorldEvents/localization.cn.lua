@@ -183,6 +183,25 @@ L:SetGeneralLocalization({
 	name = "暗月兔子"
 })
 
+-------------------------
+--  Darkmoon Moonfang  --
+-------------------------
+L = DBM:GetModLocalization("Moonfang")
+
+L:SetGeneralLocalization({
+	name = "月牙"
+})
+
+L:SetWarningLocalization({
+	specWarnCallPack		= "召唤狼群 - 离开首领40码!",
+	specWarnMoonfangCurse	= "月牙的诅咒 - 离开首领10码!"
+})
+
+L:SetOptionLocalization({
+	specWarnCallPack		= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(144602),
+	specWarnMoonfangCurse	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(144590)
+})
+
 --------------------------
 --  Plants Vs. Zombies  --
 --------------------------

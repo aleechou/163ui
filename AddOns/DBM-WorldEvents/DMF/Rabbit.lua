@@ -1,13 +1,12 @@
 local mod	= DBM:NewMod("Rabbit", "DBM-WorldEvents", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 8974 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10551 $"):sub(12, -3))
 mod:SetCreatureID(58336)
 mod:SetModelID(328)
 mod:SetZone()
 
-mod:RegisterCombat("combat")
-mod:SetWipeTime(180)--Not sure how to really handle the coprse cannoning this boss is. You pretty much die and run back repeatedly. Perhaps set this to infinite and end combat on zone change or death? or unit health reset on rabbit?
+mod:RegisterEventsInCombat("combat")
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED"

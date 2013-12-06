@@ -2,10 +2,11 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10466 $"):sub(12, -3))
 mod:SetCreatureID(71954)
 mod:SetReCombatTime(20)
-mod:SetMinSyncRevision(10162)
+mod:SetZone()
+mod:SetMinSyncRevision(10466)
 
 mod:RegisterCombat("combat")
 
@@ -51,7 +52,7 @@ function mod:SPELL_CAST_START(args)
 		warnHeadbutt:Show()
 		specWarnHeadbutt:Show()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 		end
 		timerHeadbuttCD:Start()
 	elseif args.spellId == 144611 then
@@ -59,15 +60,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnMassiveQuake:Show()
 		timerMassiveQuake:Start()
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\healall.mp3") --注意群療
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\healall.mp3") --注意群療
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --准备AOE
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --准备AOE
 		end
 		timerMassiveQuakeCD:Start()
 	elseif args.spellId == 144608 then
 		warnCharge:Show()
 		specWarnCharge:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\chargemove.mp3") --衝鋒快躲
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\chargemove.mp3") --衝鋒快躲
 	end
 end
 

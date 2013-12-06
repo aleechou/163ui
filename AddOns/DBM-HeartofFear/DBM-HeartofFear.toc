@@ -26,6 +26,3 @@ Meljarak.lua
 Unsok.lua
 Shekzeer.lua
 HoFTrash.lua
-
-## Title: |cff880303[网易有爱]|r DBM-HeartofFear
-## X-Vendor: NetEase

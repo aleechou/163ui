@@ -1,7 +1,7 @@
 U1RegisterAddon("DBM-Core", {
     title = "首领模块",
     defaultEnable = 0,
-    load = "LOGIN", --很奇怪的问题, DBM-Core.lua:1142
+    load = "NORMAL", --很奇怪的问题, DBM-Core.lua:1142
     minimap = "DBMMinimapButton",
     frames = {"DBMMinimapButton"},
 
@@ -44,10 +44,10 @@ U1RegisterAddon("DBM-Core", {
     --]]
 });
 
-U1RegisterAddon("DBM-LDB", {title = "DBM信息条按钮", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-RaidLeadTools", {title = "团长工具箱", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-GUI", {title = "配置选项模块", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-DefaultSkin", {title = "默认皮肤", protected = nil, hide = nil, });
+U1RegisterAddon("DBM-Sound-Yike", {title = "夏一可語音包", protected = nil, hide = nil, });
 
 U1RegisterAddon("DBM-PvP", {title = "PVP模块", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-WorldEvents", {title = "世界事件模块", protected = nil, hide = nil, });
@@ -60,6 +60,7 @@ U1RegisterAddon("DBM-Scenario-MoP", {title = '场景战役', protected = nil, hi
 U1RegisterAddon("DBM-TerraceofEndlessSpring", {title = '永春台', protected = nil, hide = nil, });
 U1RegisterAddon("DBM-Brawlers", {title = '搏击俱乐部', protected = nil, hide = nil, });
 U1RegisterAddon("DBM-ThroneofThunder", {title = "雷电王座", protected = nil, hide = nil, });
+U1RegisterAddon("DBM-SiegeOfOrgrimmar", {title = "决战奥格瑞玛", protected = nil, hide = nil, });
 
 -- U1RegisterAddon("DBM-", {title = "", protected = nil, hide = nil, });
 

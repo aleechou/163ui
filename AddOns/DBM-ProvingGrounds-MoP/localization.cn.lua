@@ -13,9 +13,9 @@ L:SetOptionLocalization({
 	count3				= "第三波",
 	count4				= "第四波",
 	count5				= "第五波",
-	count6				= "第六波"
-	count7				= "第七波"
-	count8				= "第八波"
-	count9				= "第九波"
+	count6				= "第六波",
+	count7				= "第七波",
+	count8				= "第八波",
+	count9				= "第九波",
 	count10				= "第十波"
 })

@@ -2,11 +2,11 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10466 $"):sub(12, -3))
 mod:SetCreatureID(71952)
 mod:SetReCombatTime(20)
 mod:SetZone()
-mod:SetMinSyncRevision(10162)
+mod:SetMinSyncRevision(10466)
 
 mod:RegisterCombat("combat")
 
@@ -53,7 +53,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnInspiringSong:Show(args.sourceName)
 		timerInspiringSongCD:Start()
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144471 then
 		warnBlazingSong:Show()

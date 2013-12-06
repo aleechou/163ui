@@ -2,10 +2,11 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10609 $"):sub(12, -3))
 mod:SetCreatureID(72057)
 mod:SetReCombatTime(20)
 mod:SetZone()
+mod:SetMinSyncRevision(10466)
 mod:SetUsedIcons(8, 7, 6)
 
 mod:RegisterCombat("combat")
@@ -21,6 +22,7 @@ mod:RegisterEvents(
 )
 
 local warnAncientFlame			= mod:NewSpellAnnounce(144695, 2)--probably add a move warning with right DAMAGE event
+local warnMagmaCrush			= mod:NewSpellAnnounce(144688, 3)
 local warnBurningSoul			= mod:NewTargetAnnounce(144689, 3)
 local warnEternalAgony			= mod:NewSpellAnnounce(144696, 4)
 
@@ -92,6 +94,8 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 144696 then
 		warnEternalAgony:Show()
 		specWarnEternalAgony:Show()
+	elseif args.spellId == 144688 then
+		warnMagmaCrush:Show()
 	elseif args.spellId == 144695 then
 		warnAncientFlame:Show()
 --		timerAncientFlameCD:Start()
@@ -108,8 +112,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --离开人群
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --离开人群
+			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 		end
 		if self.Options.HudMAP then
 			SoulMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 10, 10, 0, 1, 0, 0.4):Appear():RegisterForAlerts():Rotate(360, 10))
@@ -140,7 +144,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 144693 and args:IsPlayer() then
 		specWarnPoolOfFire:Show()--One warning is enough, because it honestly isn't worth moving for unless blizz buffs it.
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 
@@ -156,7 +160,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
 		end
 	end
 end

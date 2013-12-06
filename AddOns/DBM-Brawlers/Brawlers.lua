@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Brawlers", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10368 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10689 $"):sub(12, -3))
 --mod:SetCreatureID(60491)
 --mod:SetModelID(41448)
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
@@ -132,7 +132,7 @@ end
 function mod:UNIT_DIED(args)
 	if not args.destName then return end
 	--Another backup for when npc doesn't yell. This is a way to detect a wipe at least.
-	if currentFighter and currentFighter == args.destName then--They wiped.
+	if currentFighter and args.destName == currentFighter and args:IsDestTypePlayer() then--They wiped. Fix match ends when mage's mirror image died. 
 		self:SendSync("MatchEnd")
 	end
 end

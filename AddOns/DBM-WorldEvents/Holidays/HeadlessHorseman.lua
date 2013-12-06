@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d285", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10248 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10679 $"):sub(12, -3))
 mod:SetCreatureID(23682, 23775)
 --mod:SetModelID(22351)--Model doesn't work/render for some reason.
 mod:SetZone()
@@ -10,13 +10,13 @@ mod:SetReCombatTime(10)
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED",
-	"UNIT_SPELLCAST_SUCCEEDED target focus",
-	"CHAT_MSG_MONSTER_SAY",
 	"CHAT_MSG_SAY"
 )
 
 mod:RegisterEventsInCombat(
+	"SPELL_AURA_APPLIED",
+	"UNIT_SPELLCAST_SUCCEEDED target focus",
+	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_DIED"
 )
 

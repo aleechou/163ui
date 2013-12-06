@@ -328,11 +328,7 @@ DBM_CORE_GUILDAD_HEADER_GENERIC		= "黑手之鄉簡介"
 DBM_CORE_GUILDAD_GENERIC			= "        黑手之鄉成立于2007年10月17日，前身是國服三區雷斧堡壘的聯盟公會盟誓的二團。團長一直是阿爾貝裏希（在台服改名爲Aberich）。\n\n        2010年1月，黑手的骨幹十多名玩家一起轉戰台服pve服務器眾星之子，希望能在台服繼續我們的夢想。4.2國服同步後，由于團隊已經一部分本土化，團隊留在了台服並准備一直留下去。\n\n        公會現有25人團隊一支，從3.3至今所有版本25人H模式當前版本皆全通。5.1版本25人團排名臺服第八，並轉服至世界之樹，5.2版本和5.4版本25人團隊都拿到服務器首位刷屏。\n\n        公會活動時間：開荒期間周四五六 周一二三(也就是除了周日都有活動)，farm期間周五周六周一周二(或者更少)，晚上7:40開組，8:00開打，12:00左右結束。"
 DBM_CORE_GUILDAD_FOOTER_GENERIC		= "|h|cff3588ff重點招募\n盜賊             法師             戰士\n具體要求加QQ談   聯系QQ:313082736 注明wow和自己的職業|r|h"
 
-DBM_CORE_SOUNDGRIL_NAME_YIKE		= "夏一可"
-DBM_CORE_SOUNDGRIL_TEXT_YIKE		= "    夏一可，又名可可超人，女，真名不詳，《我叫MT》中法師和美屢的配音，魔獸世界知名解說，部落控。2009年進入西南科技大學。高三時因參加唱響艾澤拉斯而成名。"
-
-DBM_CORE_SOUNDGRIL_NAME_YUN			= "芷小芸"
-DBM_CORE_SOUNDGRIL_TEXT_YUN			= "    芷小芸，來自中國台灣省的魔獸世界美女玩家，現為台服世界之樹《黑手之鄉》公會人類死亡騎士。"
-
-DBM_CORE_SOUNDGRIL_NAME_SST			= "Iceoven"
-DBM_CORE_SOUNDGRIL_TEXT_SST			= "    All Voice generated via VoiceRss TTS (Text To Speech), API by Iceoven (Worgen Mage from Ancient Ones @ US-Dath'Remar)."
+DBM_CORE_SOUND_NOFILE		 		= "未發現語音文件"
+DBM_CORE_SOUND_NOFILEUSAGE		 	= "    DBM沒有發現已啟用的語音包，請檢查語音包是否正確並已啟用"
+DBM_CORE_SOUND_UNNAME		 		= "自定義語音"
+DBM_CORE_SOUND_UNUSAGE		 		= "    這是一份自定義的語音文件，但作者很懶，他沒有寫介紹。"

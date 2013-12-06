@@ -1,7 +1,7 @@
-﻿## Interface: 50400
+## Interface: 50400
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Party-MoP|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05队伍首领 (潘达利亚)|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0小队副本 (潘达利亚)|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05隊伍首領 (潘達利亞)|r
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

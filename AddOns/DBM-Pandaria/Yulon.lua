@@ -2,11 +2,11 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10466 $"):sub(12, -3))
 mod:SetCreatureID(71955)
 mod:SetReCombatTime(20)
 mod:SetZone()
-mod:SetMinSyncRevision(10162)
+mod:SetMinSyncRevision(10466)
 
 mod:RegisterCombat("combat")
 
@@ -57,7 +57,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnJadefireBreath:Show()
 		timerJadefireBreathCD:Start()
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3") --準備吐息
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3") --準備吐息
 		end
 	end
 end
@@ -65,7 +65,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 144538 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnJadefireBlaze:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -97,6 +97,6 @@ function mod:OnSync(msg)
 		warnJadefireWall:Show()
 		specWarnJadefireWall:Show()
 		timerJadefireWallCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firewall.mp3") --火牆
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firewall.mp3") --火牆
 	end
 end

@@ -26,6 +26,7 @@ L.TabCategory_CATA	 		= "大地的裂变"
 L.TabCategory_WOTLK 		= "巫妖王之怒"
 L.TabCategory_BC 			= "燃烧的远征"
 L.TabCategory_CLASSIC 		= "经典旧世"
+L.TabCategory_PVP 			= "PvP"
 L.TabCategory_OTHER    		= "其它"
 
 L.BossModLoaded 			= "%s状态"
@@ -51,9 +52,6 @@ L.NoSound					= "静音"
 
 L.IconsInUse				= "该模块使用到的团队标记"
 
-L.QuestComplete				= "本周已击杀."
-L.QuestIncomplete			= "本周未击杀(注意:如果你登录后曾重载界面则此信息不准确)"
-
 -- Tab: Boss Statistics
 L.BossStatistics			= "首领统计"
 L.Statistic_Kills			= "击杀："
@@ -69,7 +67,7 @@ L.SetPlayerRole				= "自动设置角色类型"
 L.UseMasterVolume			= "使用游戏总声道播放音频"
 L.DisableCinematics			= "在副本时自动跳过游戏内过场动画"
 L.DisableCinematicsOutside	= "在副本外时自动跳过游戏内过场动画"
-L.EnableReadyCheckSound		= "允许关闭音效后播放团队确认音"
+L.LFDEnhance			= "允许关闭音效后播放团队确认音"
 L.AutologBosses				= "自动开启战斗记录"
 L.AdvancedAutologBosses			= "自动开启战斗记录(使用Transcriptor插件)"
 L.LogOnlyRaidBosses			= "只记录首领战斗"
@@ -114,6 +112,7 @@ L.InfoRaidWarning			= [[你可以对团队警报的文本颜色及其位置进�
 在这里会显示诸如“玩家X受到了Y效果的影响”之类的信息。]]
 L.ColorResetted 			= "该颜色设置已重置"
 L.ShowWarningsInChat 		= "在聊天窗口中显示警报"
+L.ShowChatTime			 	= "聊天窗口警报信息前添加时间标签"
 L.ShowFakedRaidWarnings 	= "以伪装团队警报信息的方式显示警报内容"
 L.WarningIconLeft 			= "左侧显示图标"
 L.WarningIconRight 			= "右侧显示图标"
@@ -123,9 +122,9 @@ L.RaidWarnMessage 			= "感谢您使用Deadly Boss Mods"
 L.BarWhileMove 				= "可移动团队警报"
 L.RaidWarnSound				= "发出团队警报时播放声音"
 L.CountdownVoice			= "设置语音包"
-L.SpecialWarnSound			= "针对你或你的角色发出特殊警报时播放声音"
+L.SpecialWarnSound			= "针对你的角色发出特殊警报时播放声音"
 L.SpecialWarnSound2			= "针对所有人发出特殊警报时播放声音"
-L.SpecialWarnSound3			= "针对非常重要事件的特殊警报播放声音，这些事件若不注意往往会造成灭团"
+L.SpecialWarnSound3			= "针对毁灭性技能的特殊警报播放声音"
 
 -- Tab: Generalwarnings
 L.Tab_GeneralMessages 		= "综合信息"
@@ -167,7 +166,7 @@ L.ClickThrough				= "禁用鼠标点击事件（允许你点击计时条后面�
 L.Panel_SpecWarnFrame		= "特殊警报"
 L.Area_SpecWarn				= "特殊警报设置"
 L.SpecWarn_Enabled			= "显示首领技能特殊警报"
-L.SpecWarn_FlashFrame		= "特殊警报时屏幕边缘泛光"
+L.SpecWarn_FlashFrame		= "特殊警报屏幕边缘泛光"
 L.SpecWarn_ShakeFrame		= "为毁灭性的技能闪烁屏幕"
 L.SpecWarn_AdSound		= "启用特别警告高级声音选项（需要UI重载）"
 L.SpecWarn_FlashColor		= "泛光顏色 (%d)"
@@ -180,6 +179,13 @@ L.SpecWarn_FontSize			= "字体大小: %d"
 L.SpecWarn_FontColor		= "字体颜色"
 L.SpecWarn_FontType			= "选择字体"
 L.SpecWarn_ResetMe			= "重置"
+
+L.Panel_LTSpecWarnFrame		= "长效特殊警报"
+L.Area_LTSpecWarn			= "长效特殊警报设置"
+L.LTSpecWarn_Enabled		= "显示长效特殊警报"
+L.LTSpecWarn_Font			= "长效特殊警报字体"
+L.TestWarningEnd			= "范例只存在五秒，但真实的长效特别警告会长时间的存在於你的屏幕上直到触发取消事件"
+
 
 -- Tab: HealthFrame
 L.Panel_HPFrame				= "生命值框体"
@@ -210,6 +216,8 @@ L.DontShowPT					= "不显示开怪倒计时条"
 L.DontShowPTCountdownText		= "不显示开怪倒计时动画"
 L.DontPlayPTCountdown			= "不播放开怪倒计时语音"
 L.DontShowPTText				= "不显示开怪倒计时文字"
+L.DontShowPTNoID				= "不显示不同区域发送的倒计时"
+L.PT_Threshold					= "不显示高於%d秒的倒计时动画"
 
 L.Panel_HideBlizzard				= "隐藏暴雪框架"
 L.Area_HideBlizzard				= "隐藏暴雪框架选项"
@@ -222,7 +230,3 @@ L.Always					= "总是跳过"
 
 -- Misc
 L.FontHeight	= 20
-
-L.sst = "Iceoven(EN)"
-L.yike = "夏一可(CN)"
-L.yun =  "芷小芸(TW)"

@@ -102,7 +102,13 @@ CoreOnEvent("PLAYER_LOGIN", function()
     WithAllChatFrame(function(cf)
         CoreHookScript(cf, "OnMouseWheel", chatFrameOnMouseWheel, true)
         cf:SetMaxResize((UIParent:GetWidth() or 1024)-100, "800");
-        cf.editBox:SetAltArrowKeyMode(nil)
+        cf.editBox:SetAltArrowKeyMode(false)
+
+        --5.4聊天框历史记录
+        cf.editBox["historyIndex"] = 1;
+        hooksecurefunc(cf.editBox, "AddHistoryLine", U1_Chat_AddHistoryLine);
+        hooksecurefunc(cf.editBox, "ClearHistory", U1_Chat_ClearHistory);
+        cf.editBox:SetScript("OnArrowPressed", U1_Chat_OnArrowPressed);
     end);
     return true;
 end, true);
@@ -162,3 +168,66 @@ function U1_Chat_EnableChatColorNamesByClassGroup(toggle)
     end
 end
 
+--5.4聊天框历史记录
+local U1_ChatHistory = {}
+
+function U1_Chat_AddHistoryLine(self, text)
+    if not text or text == "" then
+        return;
+    end
+
+    local history = U1_ChatHistory;
+    local maxlines = self:GetHistoryLines() or 1;
+    local x = self["historyIndex"];
+
+    if ( x >= maxlines ) then
+        x = maxlines;
+        self["historyIndex"] = 1;
+    elseif ( x < 1 ) then
+        x = 1;
+        self["historyIndex"] = 2;
+    else
+        self["historyIndex"] = x + 1;
+    end
+    if (#history < maxlines) then
+        if (history[x] ~= text) then
+            tinsert(history, x, text);
+        end
+    else
+        history[x] = text;
+    end
+end
+
+function U1_Chat_ClearHistory(self)
+    U1_ChatHistory = {}
+end
+
+function U1_Chat_OnArrowPressed(self, key)
+	if ( key == "UP" ) then
+		return ChatHistory_FetchNext(self, true);
+	elseif ( key == "DOWN" ) then
+		return ChatHistory_FetchNext(self, false);
+	end
+end
+
+function ChatHistory_FetchNext(self, prev)
+    local history = U1_ChatHistory;
+    if ( (history == nil) or (#history == 0) ) then
+        return;
+    end
+
+    local maxlines = self:GetHistoryLines() or 1;
+    maxlines = #history < maxlines and #history or maxlines;
+    local i = self["historyIndex"] or (prev and 1 or maxlines);
+    if prev then
+        i = i - 2;
+    end
+    i = (i % maxlines) + 1;
+
+    self["historyIndex"] = i;
+
+    local s = history[i];
+    if ( s ) then
+        self:SetText(s);
+    end
+end

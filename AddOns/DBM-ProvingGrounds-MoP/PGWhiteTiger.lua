@@ -89,7 +89,7 @@ function mod:SPELL_CAST_START(args)
 		warnPowerfulSlam:Show()
 		specWarnPowerfulSlam:Show()
 		timerPowerfulSlamCD:Start(args.sourceGUID)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif args.spellId == 142189 then
 		warnAmberGlobule:Show()
 		specWarnAmberGlob:Show()
@@ -98,7 +98,7 @@ function mod:SPELL_CAST_START(args)
 		warnHealIllusion:Show()
 		specWarnHealIllusion:Show(args.sourceName)
 		timerHealIllusionCD:Start(args.sourceGUID)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 	elseif args.spellId == 145200 then
 		warnSonicBlast:Show()
 		specWarnSonicBlast:Show(args.sourceName)
@@ -109,7 +109,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 144383 and args:IsPlayer() and self:AntiSpam(1.5, 1) then
 		specWarnInvokeLavaSIS:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif args.spellId == 144404 then
 		warnEnrage:Show(args.destName)
 	elseif args.spellId == 145206 then

@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 50400
 ## X-Min-Interface: 50001
 ## Notes: Deadly Boss Mods
 ## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
@@ -13,7 +13,6 @@ Libs\LibChatAnims\LibChatAnims.xml
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
-extrasounds\other\other.lua
 DBT-Template.xml
 DBT.lua
 DBM-Core.lua

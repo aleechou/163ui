@@ -485,7 +485,7 @@ local function BuildFrame()
 	built = true
 	-- Setup frame
 	local f = frame
-	f:SetFrameStrata'DIALOG'
+	f:SetFrameStrata'HIGH'
 	f:SetFrameLevel(5)
 	f:SetMovable(1)
 	f:EnableMouse(1)
@@ -673,7 +673,7 @@ end
 
 local function Opened()
 	if GetNumLootItems() > 0 then
-			Update()
+		Update()
 		if not XLootFrame:IsShown() and IsFishingLoot() then
 			PlaySound"FISHING REEL IN"
 		end
@@ -683,20 +683,29 @@ local function Opened()
 end
 
 local function Cleared(slot)
-	-- Find the cleared slot
-	for k, v in ipairs(slots) do if v.slot == slot then slot = k end end
-	-- Get neighbors
-	local prev, next = slots[slot-1], slots[slot+1]
-	-- Reattach neighbors
-	if prev and next then
-		next:SetPoint('TOP', prev, 'BOTTOM', nil, skin.pad_outside)
-	elseif next then
-		next:SetPoint('TOP', 0, -10)
+	for id, row in ipairs(slots) do
+		-- Find the cleared slot
+		if row.slot == slot then
+			clear(row)
+			-- Get neighbors
+			local prev, next = slots[id - 1], slots[id + 1]
+			-- Reattach neighbors
+			if prev and next then
+				next:SetPoint('TOP', prev, 'BOTTOM', nil, skin.row_offset)
+			elseif next then
+				next:SetPoint('TOP', 0, -10)
+			end
+			table.remove(slots, id)
+			if row_height ~= nil then
+				frame:SetHeight(padding_bottom + #slots*row_height)
+			end
+		end
 	end
-	clear(slots[slot])
-	table.remove(slots, slot)
-	if row_height ~= nil then
-		frame:SetHeight(padding_bottom + #slots*row_height)
+end
+
+local function UpdateHeight(self)
+	if self.row_height then
+		self:SetHeight(((self.link:IsShown() or self.close:IsShown()) and 26 or 20) + #self.slots * self.row_height)
 	end
 end
 

@@ -31,7 +31,7 @@ local L = DBM_AutoInvite_Translations
 
 local default_settings = {
 	enabled = true,
-	keywords = {'invite', 'inv'},
+	keywords = {'invite', 'inv', '1'},
 	guildmates = true,
 	friends = true,
 	other = false,

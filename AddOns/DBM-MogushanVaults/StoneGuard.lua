@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10151 $"):sub(12, -3))
 mod:SetCreatureID(60051, 60043, 59915, 60047)--Cobalt: 60051, Jade: 60043, Jasper: 59915, Amethyst: 60047
 mod:SetZone()
 
@@ -66,7 +66,6 @@ local Overload = {
 	["Jasper"] = GetSpellInfo(115843),
 	["Amethyst"] = GetSpellInfo(115844)
 }
---local scansDone = 0
 local activePetrification = nil
 local playerHasChains = false
 local jasperChainsTargets = {}
@@ -133,10 +132,10 @@ function mod:ClobaltMineTarget(targetname)
 	warnCobaltMine:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCobaltMine:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		yellCobaltMine:Yell()
 		if activePetrification ~= "Cobalt" then
-			DBM.Flash:Show(1, 0, 0)
+			DBM.Flash:Shake(1, 0, 0)
 		end
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
@@ -150,9 +149,9 @@ function mod:ClobaltMineTarget(targetname)
 			if inRange and inRange < 8 then
 				specWarnCobaltMineNear:Show(targetname)
 				if activePetrification ~= "Cobalt" then
-					DBM.Flash:Show(1, 0, 0)
+					DBM.Flash:Shake(1, 0, 0)
 				end
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 			end
 		end
 	end
@@ -251,11 +250,14 @@ end
 
 function mod:OnCombatStart(delay)
 	activePetrification = nil
---	scansDone = 0
 	playerHasChains = false
 	table.wipe(jasperChainsTargets)
 	table.wipe(amethystPoolTargets)
-	berserkTimer:Start()--7 min berserk on heroic 10 and 25 at least, unsure about normal/LFR, since i've never seen a log reach 7 min yet in LFR or normal
+	if self:IsDifficulty("heroic10", "heroic25") then
+		berserkTimer:Start(-delay)
+	else
+		berserkTimer:Start(485-delay)
+	end
 	if self:IsDifficulty("normal25", "heroic25") then
 		timerCobaltMineCD:Start(-delay)
 		timerJadeShardsCD:Start(-delay)
@@ -317,16 +319,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			local uId = getBossuId(Jasper)
 			if uId and (UnitPower(uId) <= 80) and (activePetrification == "Jasper") then--Make sure his energy isn't already high, otherwise breaking chains when jasper will only be active for a few seconds is bad
 				specWarnBreakJasperChains:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_ldsl.mp3") --拉斷鎖鏈
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_ldsl.mp3") --拉斷鎖鏈
 				DBM.Arrow:Hide()
 			else
 				specWarnJasperChains:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lx.mp3")--連線快靠近
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lx.mp3")--連線快靠近
 			end
 		end
 	elseif args:IsSpellID(130774) and args:IsPlayer() then
 		specWarnAmethystPool:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	elseif args:IsSpellID(115745) then
 		if args.destName == Jasper then SDNOW["Rsdnow"] = true end
 		if args.destName == Jade then SDNOW["Gsdnow"] = true end
@@ -337,7 +339,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args.sourceGUID == UnitGUID("target") then
 			if mod:IsTank() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_mbsh.mp3")--目標石化
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_mbsh.mp3")--目標石化
 			end
 		end
 	end
@@ -399,7 +401,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		else
 			ChecknextOverload()
 		end
-	elseif args:IsSpellID(116223) then
+	elseif args.spellId == 116223 then
 		warnJadeShards:Show()
 		timerJadeShardsCD:Start()
 	elseif args:IsSpellID(116235, 130774) then--is 116235 still used? my logs show ONLY 130774 being used.
@@ -417,7 +419,7 @@ function mod:RAID_BOSS_EMOTE(msg, boss)
 	elseif msg:find("spell:116529") then
 		warnPowerDown:Show()
 		specWarnPowerDown:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_dzcz.mp3")--地磚重置
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_dzcz.mp3")--地磚重置
 	end
 end
 
@@ -426,13 +428,13 @@ function mod:OnSync(msg, boss)
 	if msg == "Overload" and self:AntiSpam(2, 6) then
 		specWarnOverloadSoon:Show(Overload[boss])
 		if boss == "Cobalt" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lscz.mp3") --藍色超載		
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lscz.mp3") --藍色超載		
 		elseif boss == "Jade" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lvscz.mp3") --綠色超載
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lvscz.mp3") --綠色超載
 		elseif boss == "Jasper" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_hscz.mp3") --紅色超載
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_hscz.mp3") --紅色超載
 		elseif boss == "Amethyst" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_zscz.mp3") --紫色超載
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zscz.mp3") --紫色超載
 		end
 		ChecknextOverload()
 	end
@@ -453,7 +455,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		activePetrification = "Cobalt"
 		timerPetrification:Start()
 		warnBSD:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lssh.mp3") --藍色石化
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lssh.mp3") --藍色石化
 		SDSTAT = L.SDBLUE		
 		ChecknextOverload()
 		if UnitName(getBossuId(Cobalt).."target") == UnitName("player") then
@@ -465,7 +467,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		activePetrification = "Jade"
 		timerPetrification:Start()
 		warnGSD:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lvssh.mp3") --綠色石化
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lvssh.mp3") --綠色石化
 		SDSTAT = L.SDGREEN
 		ChecknextOverload()
 		if UnitName(getBossuId(Jade).."target") == UnitName("player") then
@@ -477,7 +479,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		activePetrification = "Jasper"
 		timerPetrification:Start()
 		warnRSD:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_hssh.mp3") --紅色石化
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_hssh.mp3") --紅色石化
 		SDSTAT = L.SDRED
 		ChecknextOverload()
 		if UnitName(getBossuId(Jasper).."target") == UnitName("player") then
@@ -489,7 +491,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			local uId = getBossuId(Jasper)
 			if uId and (UnitPower(uId) <= 80) and (activePetrification == "Jasper") then
 				specWarnBreakJasperChains:Show()
-				sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_ldsl.mp3") --拉斷鎖鏈
+				sndWOP:Schedule(1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_ldsl.mp3") --拉斷鎖鏈
 				DBM.Arrow:Hide()
 			end
 		end
@@ -497,7 +499,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		activePetrification = "Amethyst"
 		timerPetrification:Start()
 		warnPSD:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_zssh.mp3") --紫色石化
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zssh.mp3") --紫色石化
 		SDSTAT = L.SDPURPLE
 		ChecknextOverload()
 		if UnitName(getBossuId(Amethyst).."target") == UnitName("player") then
