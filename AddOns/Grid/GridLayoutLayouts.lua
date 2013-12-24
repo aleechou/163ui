@@ -288,3 +288,30 @@ GridLayout:AddLayout(L["By Class 25 w/Pets"], {
 		maxColumns = 5,
 	},
 })
+
+GridLayout:AddLayout(L["By Class 40"], {
+	[1] = {
+		groupBy = "CLASS",
+		groupingOrder = "WARRIOR,DEATHKNIGHT,ROGUE,MONK,PALADIN,DRUID,SHAMAN,PRIEST,MAGE,WARLOCK,HUNTER",
+		unitsPerColumn = 5,
+		maxColumns = 5,
+	},
+})
+
+GridLayout:AddLayout(L["By Class 40 w/Pets"], {
+	[1] = {
+		groupFilter = "1,2,3,4,5,6,7,8",
+		groupBy = "CLASS",
+		groupingOrder = "WARRIOR,DEATHKNIGHT,ROGUE,MONK,PALADIN,DRUID,SHAMAN,PRIEST,MAGE,WARLOCK,HUNTER",
+		unitsPerColumn = 5,
+		maxColumns = 5,
+	},
+	[2] = {
+		groupFilter = "1,2,3,4,5,6,7,8",
+		isPetGroup = true,
+		groupBy = "CLASS",
+		groupingOrder = "HUNTER,WARLOCK,DEATHKNIGHT,PRIEST,MAGE,DRUID,SHAMAN,WARRIOR,ROGUE,PALADIN",
+		unitsPerColumn = 5,
+		maxColumns = 5,
+	},
+})

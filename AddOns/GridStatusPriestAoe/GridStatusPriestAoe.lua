@@ -678,7 +678,7 @@ function GridStatusPriestAoe:UpdateMapData(map, floor, w, h)
 	map_height = h
 
 	if w == 0 and h == 0 then
-		print("No map data available, status will be disabled. Installing the latest version of LibMapData-1.0 may fix this problem.")
+		--print("No map data available, status will be disabled. Installing the latest version of LibMapData-1.0 may fix this problem.")
 	end
 end
 

@@ -1,4 +1,4 @@
-﻿local L = Carbonite_Strings
+local L = Carbonite_Strings
 local function _NPC(s) if not NPC_Strings and Quest_Strings then return s end return NPC_Strings[s] or Quest_Strings[s] or s end 
 local function _TRANS(s) if not Carbonite_Strings then return s end return Carbonite_Strings[s] or s end 
 local function _Quest(s) if not Quest_Strings then return s end return Quest_Strings[s] or s end 
@@ -83,11 +83,15 @@ function Nx.Quest:Init()
 		return
 	end
 
+    --warbaby add to prevent UIParent manage
+    QuestLogFrame:SetAttribute("UIPanelLayout-defined",true)
+    QuestLogFrame:SetAttribute("UIPanelLayout-area",nil)
+    QuestLogFrame:SetAttribute("UIPanelLayout-pushable",nil)
+	
 	self.GOpts = opts
 
 	if opts["QWBlizzModify"] then
 --		if not GetCVarBool ("advancedWatchFrame") then
-
 --			SetCVar ("questFadingDisable", 1)	--V4 gone
 			SetCVar ("autoQuestProgress", 0)
 			SetCVar ("autoQuestWatch", 0)
@@ -968,6 +972,7 @@ function Nx.Quest:Init()
 
 	menu:AddItem (0, L["Track"], self.Menu_OnTrack, self)
 	menu:AddItem (0, L["Show Quest Log"], self.Menu_OnShowQuest, self)
+	menu:AddItem (0, L["Open Quest Map"], self.Menu_OpenQuestMap, self)
 	self.IconMenuIWatch = menu:AddItem (0, L["Watch"], self.Menu_OnWatch, self)
 
 	menu:AddItem (0, L["Add Note"], self.Map.Menu_OnAddNote, self.Map)
@@ -1165,6 +1170,11 @@ end
 
 --------
 -- Menu
+
+--warbaby added
+function Nx.Quest:Menu_OpenQuestMap()
+    Nx_WorldMap_OpenToQuest(self.IconMenuCur.QId)
+end
 
 function Nx.Quest:Menu_OnTrack()
 
@@ -1448,7 +1458,7 @@ function Nx.Quest:RecordQuestsLog()
 
 --				Nx.prt ("QD %s %s %s %s", title, qi, isHeader and "H1" or "H0", isComplete and "C1" or "C0")
 
-				if cur.Title == title then		-- Still matches?
+				if cur.Title == title or cur.Title == title.."*" then		-- Still matches? --warbaby from blizzard there will be *
 
 					local change
 
@@ -1848,6 +1858,7 @@ end
 --  GetNumTooltips()
 --  GetTooltipIndex (i)
 
+--scan blizzard quest data. If all quest are in db, this can be removed.
 function Nx.Quest:ScanBlizzQuestData()
 
 --	if Nx.Timer:IsActive ("QScanBlizz") then
@@ -1861,14 +1872,14 @@ function Nx.Quest:ScanBlizzQuestData()
 
 --	self.ScanBlizzChanged = false
 
-	self.ScanBlizzMapId = 1001
+	self.ScanBlizzMapId = {} --1001 --warbaby changed mechanism
 
 	-- Use delay or some quests won't be ready
 	Nx.Timer:Start ("QScanBlizz", 1.0, self, self.ScanBlizzQuestDataTimer)
 end
 
 function Nx.Quest:ScanBlizzQuestDataTimer()
-
+	if select(2, IsInInstance())=="pvp" then return end --warbaby fix battleground bug
 	WatchFrame:UnregisterEvent ("WORLD_MAP_UPDATE")		-- Map::ScanContinents can enable this again
 
 --	local tm = GetTime()
@@ -1876,6 +1887,31 @@ function Nx.Quest:ScanBlizzQuestDataTimer()
 	local Map = Nx.Map
 	local curMapId = Map:GetCurrentMapId()
 
+	WorldMapFrame.blockWorldMapUpdate = true;
+	self.CurQIds = self.CurQIds or {} --SeMapByID之后会导致CurQ的顺序改变, 所以必须事先记录
+	table.wipe(self.CurQIds)
+
+	for _, v in pairs(self.CurQ) do
+		table.insert(self.CurQIds, v.QId)
+	end
+
+	for _, QId in next, self.CurQIds do
+		local mapID, floorNumber = GetQuestWorldMapAreaID(QId);
+		if ( mapID ~= 0 and not self.ScanBlizzMapId[mapID*100+floorNumber] ) then
+			self.ScanBlizzMapId[mapID*100+floorNumber] = 1
+			SetMapByID(mapID);
+			if ( floorNumber ~= 0 ) then
+				SetDungeonMapLevel(floorNumber);
+			end
+		end
+	end
+
+	WorldMapFrame.blockWorldMapUpdate = nil;
+
+	WatchFrame:RegisterEvent("WORLD_MAP_UPDATE")
+	self:RecordQuestsLog()
+
+--[=[ --warbaby changed mechanism
 	local mapId = self.ScanBlizzMapId
 	local scanCnt = 0
 
@@ -1926,12 +1962,13 @@ function Nx.Quest:ScanBlizzQuestDataTimer()
 
 		self.ScanBlizzMapId = mapId
 	end
+--]=]
 
 	Map:SetCurrentMap (curMapId)
 
 --	Nx.prt ("%f secs", GetTime() - tm)
 
-	return 0
+	--return 0 --warbaby xxx only run once
 end
 
 --------
@@ -1947,6 +1984,7 @@ function Nx.Quest:MapChanged()
 	end
 end
 
+--warbaby get blizzard default poi
 function Nx.Quest:ScanBlizzQuestDataZone()
 
 	local num = QuestMapUpdateAllQuests()		-- Blizz calls these in this order
@@ -1966,22 +2004,24 @@ function Nx.Quest:ScanBlizzQuestDataZone()
 
 --		Nx.prt ("Id %s, %s", mapId, num)
 
-		for n = 1, num do			
+		for n = 1, num do
 			local id, qi = QuestPOIGetQuestIDByVisibleIndex (n)
 			if qi and qi > 0 then				
 				local title, level, tag, groupCnt, isHeader, isCollapsed, isComplete = GetQuestLogTitle (qi)
 				local lbCnt = GetNumQuestLeaderBoards (qi)
 
-				local quest = self.IdToQuest[id] or {}
-				local patch = self.IdToQuest[-id] or 0
-				local needEnd = isComplete and not quest[3]				
-				if patch > 0 or needEnd or (not isComplete and not quest[4]) then					
+				local quest = self.IdToQuest[id] --or {} --warbaby xxx
+				local patch = self.IdToQuest[-id] or 0  --scaned flag 0x10 is target, 0x01 is complete
+				local needEnd = quest and isComplete and not quest[3]
+				
+				if not quest or not quest[3] or patch > 0 or needEnd or (not isComplete and lbCnt > 0 and not quest[4]) then					
 					local _, x, y, objective = QuestPOIGetIconInfo (id)
 
 					if x then	-- Miner's Fortune was found in org, but x, y, obj were nil
 
 --						Nx.prt ("%s #%s %s %s %s %s", mapId, n, id, x or "nil", y or "nil", objective or "nil")
 
+						quest = quest or {}
 						if not quest[1] then
 
 --							self.ScanBlizzChanged = true
@@ -1991,21 +2031,34 @@ function Nx.Quest:ScanBlizzQuestDataZone()
 							self.IdToQuest[id] = quest
 
 							Nx.Quests[(id + 7) * 2 - 3] = quest
+
+							Nx.Quest:RecordQuestsLog()
 						end
 
 						x = x * 10000
 						y = y * 10000
 
-						if needEnd or bit.band (patch, 1) then
+						--if needEnd or bit.band (patch, 1) then --warbaby xxx, band mean the position is scaned before
+						if not quest[3] or bit.band (patch, 1) then
 
 							patch = bit.bor (patch, 1)		-- Flag as a patched quest
 
-							quest[3] = format ("##%c %c%c%c%c", zone + 35,
+							--quest[3] = format ("##%c %c%c%c%c", zone + 35,
+							--		floor (x / 221) + 35, x % 221 + 35, floor (y / 221) + 35, y % 221 + 35)
+							
+							local complete = GetQuestLogCompletionText(qi)
+							local zoneAndPos = format("%c %c%c%c%c", zone + 35,
 									floor (x / 221) + 35, x % 221 + 35, floor (y / 221) + 35, y % 221 + 35)
+							if complete then
+								quest[3] = format("!%c%s%s", complete:len() + 35, complete, zoneAndPos)
+							else
+								quest[3] = "##"..zoneAndPos
+							end
 						end
 
 						if not isComplete then
 
+							--one quest can only have one point, so set all target to that point
 							patch = bit.bor (patch, 2)
 
 							local s = title
@@ -2054,6 +2107,7 @@ end
 -- Set quests done
 
 function Nx.Quest:CurQSetPreviousDone()
+	if InCombatLockdown() then return 10 end --warbaby add, or reload in combat will cause serious lag because script ran too long
 
 --	local sTime = GetTime()
 
@@ -2127,8 +2181,10 @@ function Nx.Quest:GetHistoryTimer()
 --	if down > 2.5 then	-- Wait?
 --		return 2
 --	end
+
 	if not Nx.CurCharacter["QHAskedGet"] then
 		Nx.CurCharacter["QHAskedGet"] = true
+
 		local function func()
 			Nx.Timer:Start ("QHistQuery", .1, Nx.Quest, Nx.Quest.QuestQueryTimer)
 		end
@@ -2199,6 +2255,11 @@ function Nx.Quest:GetLogIdLevel (index)
 end
 
 function Nx.Quest:CreateLink (qId, realLevel, title)
+	--warbaby add use api
+	local Ind = GetQuestLogIndexByID(qId)
+	if Ind and Ind>0 then
+		return GetQuestLink(Ind)
+	end
 
 	if realLevel <= 0 then	-- Could be a 0
 		realLevel = -1
@@ -3022,7 +3083,8 @@ end
 -- Clear captured quests
 
 function Nx.Quest:ClearCaptured()
-	Nx:GetCap()["Q"] = {}
+	local t = Nx:GetCap() --warbaby for squish
+	t["Q"] = {}
 end
 
 --------
@@ -3226,7 +3288,7 @@ Nx.Quest.AlchemistsApprenticeData = {
 	["Withered Batwing"] = "4~3~3496~5153",
 }
 
-function	Nx.Quest:OnChat_msg_raid_boss_whisper (event, arg1)
+function Nx.Quest:OnChat_msg_raid_boss_whisper (event, arg1)
 
 	if arg1 then
 
@@ -3465,6 +3527,7 @@ function Nx.Quest.List:Open()
 	-- Create window
 
 	local win = Nx.Window:Create ("NxQuestList")
+	win:Show(false); --warbaby create and then close
 	self.Win = win
 
 	win:CreateButtons (true, true)
@@ -3480,6 +3543,7 @@ function Nx.Quest.List:Open()
 	win:RegisterEvent ("PLAYER_LOGIN", self.OnQuestUpdate)
 --	win:RegisterEvent ("PLAYER_LOGOUT", self.OnQuestUpdate)
 --	win:RegisterEvent ("PLAYER_LEAVING_WORLD", self.OnQuestUpdate)
+    win:RegisterEvent ("QUEST_ACCEPTED", self.OnQuestUpdate)
 	win:RegisterEvent ("QUEST_LOG_UPDATE", self.OnQuestUpdate)
 	win:RegisterEvent ("QUEST_WATCH_UPDATE", self.OnQuestUpdate)
 	win:RegisterEvent ("UPDATE_FACTION", self.OnQuestUpdate)
@@ -3564,6 +3628,12 @@ function Nx.Quest.List:Open()
 
 	local menui4 = {}
 	self.MenuItems4 = menui4
+
+	local item = menu:AddItem (0, L["Open Quest Map (or right click dot)"], self.Menu_OpenToQuest, self)
+	tinsert (menui1, item)
+    
+    local item = menu:AddItem (0, "")
+	tinsert (menui1, item)
 
 	local item = menu:AddItem (0, L["Toggle High Watch Priority"], self.Menu_OnHighPri, self)
 	tinsert (menui1, item)
@@ -3838,7 +3908,13 @@ function Nx.Quest:ShowUIPanel (frame)
 
 		frame:SetScale (1)
 
-		QuestLogFrame:SetAttribute ("UIPanelLayout-enabled", true)
+		--QuestLogFrame:SetAttribute ("UIPanelLayout-enabled", true)
+		local _, _, _, x, y = QuestLogFrame:GetPoint()
+		if x and floor(x + 0.5) == -999 then
+			QuestLogFrame:ClearAllPoints()
+			QuestLogFrame:SetPoint("TOPLEFT", 16, -116)
+		end
+
 		ShowUIPanel (frame)
 
 		if detailFrm then
@@ -3866,12 +3942,20 @@ function Nx.Quest:ShowUIPanel (frame)
 --			Nx.prt ("LevS2 "..wf:GetFrameLevel().." "..ff:GetFrameLevel())
 
 			frame:Show()
-			frame:SetScale (.1)
+			--frame:SetScale (.1)
+			frame:ClearAllPoints()
+			frame:SetClampedToScreen(false)
+			frame.__blizzMove = true
 			frame:SetPoint ("TOPLEFT", -999, 999)
+			frame.__blizzMove = nil
 
 			if detailFrm then
-				detailFrm:SetScale (.1)
+				--detailFrm:SetScale (.1)
+				detailFrm:ClearAllPoints()
+				detailFrm:SetClampedToScreen(false)
+				detailFrm.__blizzMove = true
 				detailFrm:SetPoint ("TOPLEFT", -999, 999)
+				detailFrm.__blizzMove = nil
 			end
 
 --			Nx.prt ("LevS3 "..wf:GetFrameLevel().." "..ff:GetFrameLevel())
@@ -4149,6 +4233,14 @@ function Nx.Quest.List:Menu_OnGoto (item)
 	end
 end
 
+function Nx.Quest.List:Menu_OpenToQuest()
+    local i = self.List:ItemGetData()
+	if i then
+		local qId = bit.rshift (i, 16)
+        Nx_WorldMap_OpenToQuest(qId)
+    end
+end
+
 function Nx.Quest.List:Menu_OnHighPri (item)
 
 	local cur = self:GetCurSelected()
@@ -4227,6 +4319,7 @@ function Nx.Quest.List:Menu_OnCompleted (item)
 		Nx:SetQuest (qId, qStatus, qTime)
 
 		self:Update()
+		Nx.Map:GetMap(1).Guide:UpdateGatherFolders()
 	end
 end
 
@@ -4519,8 +4612,13 @@ function Nx.Quest.List:OnListEvent (eventName, sel, val2, click)
 		end
 
 	elseif eventName == "button" then
+		--任务日志面板
 
-		if hdrCur then		-- Header?
+		if IsShiftKeyDown() and qId > 0 then
+			Nx.Quest:LinkChat(qId)
+		elseif (IsControlKeyDown() or click == "RightButton") and qId > 0 and GetQuestLogIndexByID(qId) > 0 then
+			Nx_WorldMap_OpenToQuest(qId)
+		elseif hdrCur then		-- Header?
 
 			local v
 			if not Quest.HeaderHide[hdrCur.Header] then
@@ -4634,13 +4732,14 @@ function Nx.Quest.List:MakeDescLink (cur, id, debug)
 
 	if quest then
 		local s
+		local _
 		s, _, realLevel = Quest:Unpack (quest[1])
 		title = title or s
 	end
 
 	local level = realLevel
 
-	if realLevel <= 0 then
+	if not realLevel or realLevel <= 0 then
 		level = UnitLevel ("player")
 	end
 
@@ -4651,6 +4750,10 @@ function Nx.Quest.List:MakeDescLink (cur, id, debug)
 	local opts = Nx:GetGlobalOpts()
 	if quest and opts["QShowLinkExtra"] then
 		local part = Quest:GetPartTitle (quest, cur)
+		local Ind = GetQuestLogIndexByID(qId)
+		if Ind and Ind > 0 then
+			level = select(2, Quest:GetLogIdLevel(Ind))
+		end
 		s = format (" [%s] %s%s", level, s, part)
 	else
 		s = format (" %s", s)
@@ -4669,7 +4772,7 @@ end
 --------
 -- On quest updates
 
-function Nx.Quest.List:OnQuestUpdate (event)
+function Nx.Quest.List:OnQuestUpdate (event, ...)
 
 --	Nx.prt ("OnQuestUpdate %s", event)
 
@@ -4735,6 +4838,16 @@ function Nx.Quest.List:OnQuestUpdate (event)
 		else
 
 			self:LogUpdate()
+		end
+
+	elseif eve=="QUEST_ACCEPTED" then --warbaby add for multi accept
+		local qIdx, qId = ...
+		if opts["QWAddNew"] and not Quest.DailyPVPIds[qId] and not Quest.DailyIds[qId] and not Quest.DailyDungeonIds[qId] then
+			local qStatus = Nx:GetQuest(qId)
+			if not qStatus or qStatus ~= "W" then
+				Nx:SetQuest(qId, "W")
+				Quest:PSS()
+			end
 		end
 	end
 
@@ -4809,6 +4922,7 @@ end
 --------
 -- Update list
 
+--warbaby quest database
 function Nx.Quest.List:Update_()
 
 	if not self.Win:IsShown() then
@@ -5394,8 +5508,8 @@ function Nx.Quest.List:Update_()
 					end
 
 					-- Objectives (max of 15)
-
-					for n = 1, 15 do
+					--warbaby quest objects, former is n=1,15
+					for n = 1, ((sName or eName) and 0 or 15) do
 
 						local obj = quest[n + 3]
 						if not obj then
@@ -5633,7 +5747,7 @@ function Nx.Quest:UpdateIcons (map)
 
 	local tracking = self.IconTracking
 
-	if Nx.Tick % 10 == 0 then
+	if map.Tick % 10 == 0 then --warbaby changed from Nx.Tick
 
 --		tracking = {}		-- garbage creator
 		wipe (tracking)
@@ -6492,14 +6606,17 @@ function Nx.Quest.Watch:Open()
 	self.ButShowOnMap:SetPressed (qopts.NXWShowOnMap)
 
 	local function func (self, but)
+		Nx.CharOpts["QuestWatchATrack"] = but:GetPressed()
 		if not but:GetPressed() and not IsShiftKeyDown() then
 			Nx.Quest.Tracking = {}	-- Kill all
 		end
 		self:Update()
 	end
 	self.ButATarget = Nx.Button:Create (self.ButMenu.Frm, "QuestWatchATrack", nil, nil, 43, 0, "CENTER", 1, 1, func, self)
+	self.ButATarget:SetPressed(Nx.CharOpts["QuestWatchATrack"])
 
 	local function func (self, but)
+		--print(but:GetState()); --warbaby quest givers 1 for none, 2 normal 3 daily
 		Nx.CharOpts["QMapShowQuestGivers3"] = but:GetState()
 		local map = Nx.Map:GetMap (1)
 		map.Guide:UpdateGatherFolders()
@@ -6604,6 +6721,18 @@ function Nx.Quest.Watch:Open()
 	local item = menu:AddItem (0, L["Quest Giver Higher Levels To Show"], func, self)
 	item:SetSlider (opts, 0, 90, 1, "QMapQuestGiversHighLevel")
 
+	local function func()
+		Nx.CurCharacter["QHAskedGet"] = true
+		Nx.Timer:Start ("QHistLogin", .1, Nx.Quest, Nx.Quest.QuestQueryTimer)
+	end
+	local item = menu:AddItem (0, "Get Completed From Server", func, self)
+
+    local function func()
+        Nx.Quest.Watch.GOpts["QWAchTrack"] = not Nx.Quest.Watch.GOpts["QWAchTrack"]
+        Nx.Quest.Watch:UpdateList();
+    end
+    local item=menu:AddItem(0, "Toggle achievements and default watch list", func, self)
+
 --	local item = menu:AddItem (0, "Group", update, self)
 --	item:SetSlider (qopts, -200, 200, 1, "NXWPriGroup")
 
@@ -6616,6 +6745,7 @@ function Nx.Quest.Watch:Open()
 	menu:AddItem (0, L["Link Quest (shift right click)"], self.Menu_OnLinkQuest, self)
 	menu:AddItem (0, L["Show Quest Log (alt right click)"], self.Menu_OnShowQuest, self)
 	menu:AddItem (0, L["Show On Map (shift left click)"], self.Menu_OnShowMap, self)
+	menu:AddItem (0, L["Open Quest Map (control left click)"], self.Menu_OpenToQuest, self)
 	menu:AddItem (0, L["Share"], self.Menu_OnShare, self)
 
 	menu:AddItem (0, "")
@@ -6629,6 +6759,21 @@ function Nx.Quest.Watch:Open()
 	--
 
 	self:SetSortMode (1)
+
+	--warbaby after show fullscreen map, watch list will be shown instantly.
+	local instantShow = function() if Nx.Quest.CurQ then Nx.Quest.Watch:UpdateList() end end
+	win.Frm:HookScript("OnShow", instantShow)
+	if CoreScheduleTimer then
+		CoreScheduleTimer(false, 0.1, instantShow) --warbaby xxx
+	end
+end
+
+function Nx.Quest.Watch:Menu_OpenToQuest()
+	if not self.MenuQIndex then return end
+	local qId = select(9, GetQuestLogTitle(self.MenuQIndex))
+	if qId and qId>0 and GetQuestLogIndexByID(qId)>0 then
+		Nx_WorldMap_OpenToQuest(qId)
+	end
 end
 
 --------

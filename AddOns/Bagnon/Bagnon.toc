@@ -5,7 +5,7 @@
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
 
-## Version: 5.4.3
+## Version: 5.3.6
 ## OptionalDeps: LibStub, Ace3, CustomSearch-1.0, LibItemSearch-1.2, LibItemCache-1.0, Unfit-1.0, BagBrother, ItemRack, Wardrobe, WoWUnit
 
 libs\libs.xml

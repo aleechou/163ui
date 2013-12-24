@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	Grid
 	Compact party and raid unit frames.
-	Copyright (c) 2006-2012 Kyle Smith (a.k.a. Pastamancer), A. Kinley (a.k.a. Phanx) <addons@phanx.net>
+	Copyright (c) 2006-2013 Kyle Smith (Pastamancer), A. Kinley (Phanx)
 	All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info5747-Grid.html
@@ -16,6 +16,7 @@ local GridRoster = Grid:GetModule("GridRoster")
 local media = LibStub("LibSharedMedia-3.0", true)
 
 local GridLayout = Grid:NewModule("GridLayout", "AceBucket-3.0", "AceTimer-3.0")
+GridLayout.LayoutList = {}
 
 local floor, next, pairs, select, tinsert, tonumber, tostring = floor, next, pairs, select, tinsert, tonumber, tostring
 
@@ -45,22 +46,22 @@ function GridLayout.prototype:Reset()
 	self:SetAttribute("showRaid", true)
 
 	self:SetAttribute("columnSpacing", nil)
-	self:SetAttributeByProxy("columnAnchorPoint", nil)
 	self:SetAttribute("groupBy", nil)
 	self:SetAttribute("groupFilter", nil)
 	self:SetAttribute("groupingOrder", nil)
 	self:SetAttribute("maxColumns", nil)
 	self:SetAttribute("nameList", nil)
-	self:SetAttributeByProxy("point", nil)
 	self:SetAttribute("sortDir", nil)
 	self:SetAttribute("sortMethod", "NAME")
 	self:SetAttribute("startingIndex", nil)
 	self:SetAttribute("strictFiltering", nil)
-	self:SetAttributeByProxy("unitsPerColumn", nil)
 	self:SetAttribute("xOffset", nil)
 	self:SetAttribute("yOffset", nil)
 
 	-- self:UnregisterEvent("UNIT_NAME_UPDATE")
+	self:SetAttributeByProxy("columnAnchorPoint", nil)
+	self:SetAttributeByProxy("point", nil)
+	self:SetAttributeByProxy("unitsPerColumn", nil)
 end
 
 function GridLayout.prototype:SetAttributeByProxy(name, value)
@@ -123,13 +124,12 @@ function GridLayout.prototype:GetVisibleUnitCount()
 	return count
 end
 
+function GridLayout.prototype:initialConfigFunction(...)
+	Grid:GetModule("GridFrame"):RegisterFrame(self[#self])
+end
 ------------------------------------------------------------------------
 
 local NUM_HEADERS = 0
-
-function GridLayout_InitialConfigFunction(frame)
-	Grid:GetModule("GridFrame").InitialConfigFunction(frame)
-end
 
 function GridLayout:CreateHeader(isPetGroup)
 	--self:Debug("CreateHeader")
@@ -150,12 +150,6 @@ function GridLayout:CreateHeader(isPetGroup)
 		header:SetAttribute("unitsuffix", "pet")
 	end
 
-	function header:Grid_InitialConfigFunction(...)
-		GridLayout_InitialConfigFunction(self[#self])
-	end
-
-	header.initialConfigFunction = GridLayout_InitialConfigFunction
-
 	header:SetAttribute("initialConfigFunction", [[
 		RegisterUnitWatch(self)
 
@@ -169,8 +163,12 @@ function GridLayout:CreateHeader(isPetGroup)
 			self:SetAttribute("useOwnerUnit", true)
 			self:SetAttribute("unitsuffix", "pet")
 		end
-
-		header:CallMethod("Grid_InitialConfigFunction")
+		local click = header:GetFrameRef("clickcast_header")
+		if click then
+			click:SetAttribute("clickcast_button", self)
+			click:RunAttribute("clickcast_register")
+		end
+		header:CallMethod("initialConfigFunction")
 	]])
 
 	header:Reset()
@@ -186,9 +184,11 @@ GridLayout.defaultDB = {
 		force = L["None"],
 		solo = L["By Group 5 w/Pets"],
 		party = L["By Group 5 w/Pets"],
-		arena = L["By Group 5"],
-		raid_25 = L["By Group 25"],
 		raid_10 = L["By Group 10"],
+		raid_25 = L["By Group 25"],
+		raid_40 = L["By Group 40"],
+		raid_outside = false,
+		arena = L["By Group 5"],
 		bg = L["By Group 40"],
 	},
 
@@ -196,19 +196,14 @@ GridLayout.defaultDB = {
 	clamp = true,
 	FrameLock = false,
 
-	PaddingX = 10,
+	PaddingX = 4,
 	PaddingY = 1,
-	Spacing = 5,
+	Spacing = 2,
 	ScaleSize = 1.0,
+	backgroundTexture = "Blizzard Tooltip",
+	backgroundColor = { r = 0.1, g = 0.1, b = 0.1, a = 0.65 },
 	borderTexture = "Blizzard Tooltip",
-	BorderR = .0,
-	BorderG = .0,
-	BorderB = .5,
-	BorderA = .5,
-	BackgroundR = .1,
-	BackgroundG = .1,
-	BackgroundB = .1,
-	BackgroundA = .2,
+	borderColor = { r = 0.5, g = 0.5, b = 0.5, a = 1 },
 
 	anchor = "TOPLEFT",
 	groupAnchor = "TOPLEFT",
@@ -227,113 +222,101 @@ GridLayout.options = {
 	name = L["Layout"],
 	desc = L["Options for GridLayout."],
 	disabled = InCombatLockdown,
+	order = 1,
 	type = "group",
+	get = function(t)
+		return GridLayout.db.profile[t[#t]]
+	end,
+	set = function(t, v)
+		GridLayout.db.profile[t[#t]] = v
+	end,
 	args = {
-		-- layouts for SOLO, PARTY, RAID, BG, ARENA
-		["forcelayout"] = {
-			name = L["Force Layout"],
-			desc = L["If this layout is set to any value but 'NONE', all other layout settings will not take effect."],
-			order = 9,
-			width = "double",
-			type = "select",
-			values = {},                        
-			get = function ()
-				return GridLayout.db.profile.layouts.force
+		["layouts"] = {
+			name = L["Layouts"],
+			order = 18,
+			type = "group",
+			dialogInline = true,
+			get = function(t)
+				return GridLayout.db.profile.layouts[t[#t]]
 			end,
-			set = function (_, v)
-				GridLayout.db.profile.layouts.force = v
+			set = function(t, v)
+				GridLayout.db.profile.layouts[t[#t]] = v
 				GridLayout:ReloadLayout()
 			end,
-		},
-		["sololayout"] = {
-			name = L["Solo Layout"],
-			desc = L["Select which layout to use when not in a party."],
-			order = 10,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.solo
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.solo = v
-				GridLayout:ReloadLayout()
-			end,
-		},
-		["partylayout"] = {
-			name = L["Party Layout"],
-			desc = L["Select which layout to use when in a party."],
-			order = 20,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.party
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.party = v
-				GridLayout:ReloadLayout()
-			end,
-		},
-		["raid_10layout"] = {
-			name = L["10 Player Raid Layout"],
-			desc = L["Select which layout to use when in a 10 player raid."],
-			order = 30,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.raid_10
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.raid_10 = v
-				GridLayout:ReloadLayout()
-			end,
-		},
-		["raid_25layout"] = {
-			name = L["25 Player Raid Layout"],
-			desc = L["Select which layout to use when in a 25 player raid."],
-			order = 40,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.raid_25
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.raid_25 = v
-				GridLayout:ReloadLayout()
-			end,
-		},
-		["bglayout"] = {
-			name = L["Battleground Layout"],
-			desc = L["Select which layout to use when in a battleground."],
-			order = 50,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.bg
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.bg = v
-				GridLayout:ReloadLayout()
-			end,
-		},
-		["arenalayout"] = {
-			name = L["Arena Layout"],
-			desc = L["Select which layout to use when in an arena."],
-			order = 60,
-			width = "double",
-			type = "select",
-			values = {},
-			get = function()
-				return GridLayout.db.profile.layouts.arena
-			end,
-			set = function(_, v)
-				GridLayout.db.profile.layouts.arena = v
-				GridLayout:ReloadLayout()
-			end,
+			args = {
+				-- layouts for SOLO, PARTY, RAID, BG, ARENA
+				["force"] = {
+					name = L["Force Layout"],
+					desc = L["If this layout is set to any value but 'NONE', all other layout settings will not take effect."],
+					order = 9,
+					width = "double",
+					type = "select",
+					values = {},
+				},
+				["solo"] = {
+					name = L["Solo Layout"],
+					desc = L["Select which layout to use when not in a party."],
+					order = 10,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				["party"] = {
+					name = L["Party Layout"],
+					desc = L["Select which layout to use when in a party."],
+					order = 20,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				["raid_10"] = {
+					name = L["10 Player Raid Layout"],
+					desc = L["Select which layout to use when in a 10 player raid."],
+					order = 30,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				["raid_25"] = {
+					name = L["25 Player Raid Layout"],
+					desc = L["Select which layout to use when in a 25 player raid."],
+					order = 40,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				["raid_40"] = {
+					name = L["40 Player Raid Layout"],
+					desc = L["Select which layout to use when in a 40 player raid."],
+					order = 50,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				raid_outside = {
+					name = L["World Raid as 40 Player"],
+					desc = L["Use the 40 Player Raid layout when in a raid group outside of a raid instance, instead of choosing a layout based on the current Raid Difficulty setting."],
+					order = 55,
+					type = "toggle",
+					width = "double",
+				},
+				["bg"] = {
+					name = L["Battleground Layout"],
+					desc = L["Select which layout to use when in a battleground."],
+					order = 60,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+				["arena"] = {
+					name = L["Arena Layout"],
+					desc = L["Select which layout to use when in an arena."],
+					order = 70,
+					width = "double",
+					type = "select",
+					values = GridLayout.LayoutList,
+				},
+			},
 		},
 		header1 = {
 			order = 65,
@@ -357,7 +340,7 @@ GridLayout.options = {
 		["layoutanchor"] = {
 			name = L["Layout Anchor"],
 			desc = L["Sets where Grid is anchored relative to the screen."],
-			order = 100,
+			order = 110,
 			width = "double",
 			type = "select",
 			values = { ["CENTER"] = L["Center"], ["TOP"] = L["Top"], ["BOTTOM"] = L["Bottom"], ["LEFT"] = L["Left"], ["RIGHT"] = L["Right"], ["TOPLEFT"] = L["Top Left"], ["TOPRIGHT"] = L["Top Right"], ["BOTTOMLEFT"] = L["Bottom Left"], ["BOTTOMRIGHT"] = L["Bottom Right"] },
@@ -371,7 +354,7 @@ GridLayout.options = {
 		["groupanchor"] = {
 			name = L["Group Anchor"],
 			desc = L["Sets where groups are anchored relative to the layout frame."],
-			order = 110,
+			order = 120,
 			width = "double",
 			type = "select",
 			values = { ["TOPLEFT"] = L["Top Left"], ["TOPRIGHT"] = L["Top Right"], ["BOTTOMLEFT"] = L["Bottom Left"], ["BOTTOMRIGHT"] = L["Bottom Right"] },
@@ -401,7 +384,7 @@ local more_options = {
 		["lock"] = {
 			name = L["Frame lock"],
 			desc = L["Locks/unlocks the grid for movement."],
-			order = 80,
+			order = 90,
 			width = "double",
 			type = "toggle",
 			get = function() return GridLayout.db.profile.FrameLock end,
@@ -413,7 +396,7 @@ local more_options = {
 		["clamp"] = {
 			name = L["Clamped to screen"],
 			desc = L["Toggle whether to permit movement out of screen."],
-			order = 90,
+			order = 100,
 			width = "double",
 			type = "toggle",
 			get = function()
@@ -439,7 +422,7 @@ local more_options = {
 		["paddingx"] = {
 			name = "横向"..L["Padding"],
 			desc = L["Adjust frame padding."],
-			order = 120,
+			order = 130,
 			width = "double",
 			type = "range", max = 30, min = 0, step = 1,
 			get = function()
@@ -453,7 +436,7 @@ local more_options = {
 		["paddingy"] = {
 			name = "纵向"..L["Padding"],
 			desc = L["Adjust frame padding."],
-			order = 121,
+			order = 131,
 			width = "double",
 			type = "range", max = 30, min = 0, step = 1,
 			get = function()
@@ -467,7 +450,7 @@ local more_options = {
 		["spacing"] = {
 			name = L["Spacing"],
 			desc = L["Adjust frame spacing."],
-			order = 130,
+			order = 140,
 			width = "double",
 			type = "range", min = 0, max = 25, step = 1,
 			get = function()
@@ -481,7 +464,7 @@ local more_options = {
 		["scale"] = {
 			name = L["Scale"],
 			desc = L["Adjust Grid scale."],
-			order = 140,
+			order = 150,
 			width = "double",
 			type = "range", min = 0.5, max = 2.0, step = 0.05, isPercent = true,
 			get = function()
@@ -495,32 +478,32 @@ local more_options = {
 		["border"] = {
 			name = L["Border color"],
 			desc = L["Adjust border color and alpha."],
-			order = 150,
+			order = 160,
 			width = "double",
 			type = "color", hasAlpha = true,
 			get = function()
-				local settings = GridLayout.db.profile
-				return settings.BorderR, settings.BorderG, settings.BorderB, settings.BorderA
+				local color = GridLayout.db.profile.borderColor
+				return color.r, color.g, color.b, color.a
 			end,
 			set = function(_, r, g, b, a)
-				local settings = GridLayout.db.profile
-				settings.BorderR, settings.BorderG, settings.BorderB, settings.BorderA = r, g, b, a
+				local color = GridLayout.db.profile.borderColor
+				color.r, color.g, color.b, color.a = r, g, b, a
 				GridLayout:UpdateColor()
 			end,
 		},
 		["background"] = {
 			name = L["Background color"],
 			desc = L["Adjust background color and alpha."],
-			order = 160,
+			order = 170,
 			width = "double",
 			type = "color", hasAlpha = true,
 			get = function()
-				local settings = GridLayout.db.profile
-				return settings.BackgroundR, settings.BackgroundG, settings.BackgroundB, settings.BackgroundA
+				local color = GridLayout.db.profile.backgroundColor
+				return color.r, color.g, color.b, color.a
 			end,
 			set = function(_, r, g, b, a)
-				local settings = GridLayout.db.profile
-				settings.BackgroundR, settings.BackgroundG, settings.BackgroundB, settings.BackgroundA = r, g, b, a
+				local color = GridLayout.db.profile.backgroundColor
+				color.r, color.g, color.b, color.a = r, g, b, a
 				GridLayout:UpdateColor()
 			end,
 		},
@@ -570,6 +553,25 @@ function GridLayout:PostInitialize()
 	self.layoutGroups = {}
 	self.layoutPetGroups = {}
 
+	local upgrades = {
+		-- Upgraded 2012 Dec 20
+		-- Remove 2013 Mar 20
+		BackgroundR = function(v) self.db.profile.backgroundColor.r = v end,
+		BackgroundG = function(v) self.db.profile.backgroundColor.g = v end,
+		BackgroundB = function(v) self.db.profile.backgroundColor.b = v end,
+		BackgroundA = function(v) self.db.profile.backgroundColor.a = v end,
+		BorderR = function(v) self.db.profile.borderColor.r = v end,
+		BorderG = function(v) self.db.profile.borderColor.g = v end,
+		BorderB = function(v) self.db.profile.borderColor.b = v end,
+		BorderA = function(v) self.db.profile.borderColor.a = v end,
+	}
+	for oldkey, upgrade in pairs(upgrades) do
+		local oldvalue = self.db.profile[oldkey]
+		if oldvalue ~= nil then
+			upgrade(oldvalue)
+			self.db.profile[oldkey] = nil
+		end
+	end
 	if not self.frame then
 		self:CreateFrames()
 	end
@@ -750,36 +752,47 @@ end
 
 function GridLayout:CreateFrames()
 	--self:Debug("CreateFrames")
-	-- create main frame to hold all our gui elements
-	local f = CreateFrame("Frame", "GridLayoutFrame", UIParent)
-	f:SetMovable(true)
-	f:SetClampedToScreen(self.db.profile.clamp)
-	f:SetPoint("CENTER", UIParent, "CENTER")
-	f:SetScript("OnMouseDown", GridLayout_OnMouseDown)
-	f:SetScript("OnMouseUp", GridLayout_OnMouseUp)
-	f:SetScript("OnHide", GridLayout_OnMouseUp)
-	f:SetFrameStrata("MEDIUM")
+	-- create pet battle hider
+	local hider = CreateFrame("Frame", "GridPetBattleFrameHider", UIParent, "SecureHandlerStateTemplate")
+	hider:SetAllPoints(true)
+	RegisterStateDriver(hider, "visibility", "[petbattle] hide; show")
 
-	-- create background
-	f:SetFrameLevel(0)
-	f:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground", tile = true, tileSize = 16,
+	-- create backdrop
+	local bg = CreateFrame("Frame", nil, hider)
+	bg:SetBackdrop({
+		bgFile = "Interface\\ChatFrame\\ChatFrameBackground", tile = false, tileSize = 16,
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
 		insets = {left = 4, right = 4, top = 4, bottom = 4},
 	})
+	bg:SetFrameLevel(0)
+
+	-- create main frame to hold all our gui elements
+	local f = CreateFrame("Frame", "GridLayoutFrame", hider)
+	f:SetPoint("CENTER")
+	f:SetMovable(true)
+	f:SetClampedToScreen(self.db.profile.clamp)
+	f:SetScript("OnMouseDown", GridLayout_OnMouseDown)
+	f:SetScript("OnMouseUp", GridLayout_OnMouseUp)
+	f:SetScript("OnHide", GridLayout_OnMouseUp)
+	f:SetFrameLevel(1)
+
+	-- attach backdrop to frame
+	bg:SetPoint("BOTTOMLEFT", f, -4, -4)
+	bg:SetPoint("TOPRIGHT", f, 4, 4)
+	f.backdrop = bg
 
 	-- create drag handle
-	f.tab = CreateFrame("Frame", nil, f)
+	f.tab = CreateFrame("Frame", "$parentTab", f)
 	f.tab:SetWidth(48)
 	f.tab:SetHeight(24)
 	f.tab:EnableMouse(true)
 	f.tab:RegisterForDrag("LeftButton")
-	f.tab:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 1, -4)
+	f.tab:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 1, 0)
 	f.tab:SetScript("OnMouseDown", GridLayout_OnMouseDown)
 	f.tab:SetScript("OnMouseUp", GridLayout_OnMouseUp)
 	f.tab:SetScript("OnEnter", GridLayout_OnEnter)
 	f.tab:SetScript("OnLeave", GridLayout_OnLeave)
-	f.tab:Hide()
+	--f.tab:Hide()
 
 	-- Tab Background
 	f.tabBgLeft = f.tab:CreateTexture(nil, "BACKGROUND")
@@ -877,14 +890,12 @@ end
 function GridLayout:AddLayout(layoutName, layout)
 	--self:Debug("AddLayout", layoutName)
 	self.layoutSettings[layoutName] = layout
-	for i = 1, #GridRoster.party_states do
-		local party_type_layout = GridRoster.party_states[i] .. "layout"
-	--	local options = self.options.args[party_type_layout]
-	--	if options then
-			self.options.args[party_type_layout].values[layoutName] = layoutName
-	--	end
-	end
-	self.options.args["force" .. "layout"].values[layoutName] = layoutName
+	--[[for i = 1, #GridRoster.party_states do
+		local party_type_layout = GridRoster.party_states[i]
+		self.options.args["layout"].args[party_type_layout].values[layoutName] = layoutName
+	end]]
+	self.options.args["layouts"].args["force"].values[layoutName] = layoutName
+	self.LayoutList[layoutName] = layoutName -- for options
 end
 
 function GridLayout:SetClamp()
@@ -894,10 +905,15 @@ end
 
 function GridLayout:ReloadLayout()
 	--self:Debug("ReloadLayout")
-	if self.db.profile.layouts.force and self.db.profile.layouts.force~= L["None"] then
+	if self.db.profile.layouts.force and self.db.profile.layouts.force ~= L["None"] then
 		self:LoadLayout(self.db.profile.layouts.force)
 	else
 		local party_type = GridRoster:GetPartyState()
+		-- Switch to 10 Player or 25 Player layout if World Raid support is not enabled
+		if party_type == "raid_40" and not self.db.profile.layouts.raid_outside and not IsInInstance() then
+			local difficulty = GetRaidDifficultyID()
+			party_type = difficulty % 2 == 0 and "raid_25" or "raid_10"
+		end
 		self:LoadLayout(self.db.profile.layouts[party_type])
 	end
 end
@@ -1054,9 +1070,9 @@ function GridLayout:UpdateVisibility()
 	--self:Debug("UpdateVisibility")
 	local party_type = GridRoster:GetPartyState()
 	if self.db.profile.layouts[party_type] == L["None"] then
-		self.frame:Hide()
+		self.frame.backdrop:Hide()
 	else
-		self.frame:Show()
+		self.frame.backdrop:Show()
 	end
 end
 
@@ -1114,14 +1130,14 @@ function GridLayout:UpdateColor()
 	local settings = self.db.profile
 
 	if media then
-		local texture = media:Fetch(media.MediaType.BORDER, settings.borderTexture)
-		local backdrop = self.frame:GetBackdrop()
-		backdrop.edgeFile = texture
-		self.frame:SetBackdrop(backdrop)
+		local backdrop = self.frame.backdrop:GetBackdrop()
+		backdrop.bgFile = media:Fetch(media.MediaType.BACKGROUND, settings.backgroundTexture)
+		backdrop.edgeFile = media:Fetch(media.MediaType.BORDER, settings.borderTexture)
+		self.frame.backdrop:SetBackdrop(backdrop)
 	end
 
-	self.frame:SetBackdropBorderColor(settings.BorderR, settings.BorderG, settings.BorderB, settings.BorderA)
-	self.frame:SetBackdropColor(settings.BackgroundR, settings.BackgroundG, settings.BackgroundB, settings.BackgroundA)
+	self.frame.backdrop:SetBackdropBorderColor(settings.borderColor.r, settings.borderColor.g, settings.borderColor.b, settings.borderColor.a)
+	self.frame.backdrop:SetBackdropColor(settings.backgroundColor.r, settings.backgroundColor.g, settings.backgroundColor.b, settings.backgroundColor.a)
 end
 
 function GridLayout:SavePosition()

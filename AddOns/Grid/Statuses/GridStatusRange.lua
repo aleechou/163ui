@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	Grid
 	Compact party and raid unit frames.
-	Copyright (c) 2006-2012 Kyle Smith (a.k.a. Pastamancer), A. Kinley (a.k.a. Phanx) <addons@phanx.net>
+	Copyright (c) 2006-2013 Kyle Smith (Pastamancer), A. Kinley (Phanx)
 	All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info5747-Grid.html
@@ -68,7 +68,8 @@ function GridStatusRange:PostInitialize()
 end
 
 function GridStatusRange:OnStatusEnable(status)
-	self:StartTimer("CheckRange", self.db.profile.alert_range.frequency, true)
+	self:RegisterMessage("Grid_PartyTransition", "PartyTransition")
+	self:PartyTransition("OnStatusEnable", GridRoster:GetPartyState())
 end
 
 function GridStatusRange:OnStatusDisable(status)
@@ -96,17 +97,33 @@ do
 	end
 end
 
-local IsSpellInRange, UnitInRange, UnitIsUnit = IsSpellInRange, UnitInRange, UnitIsUnit
+local IsSpellInRange, UnitIsDead, UnitInPhase, UnitInRange, UnitIsUnit
+    = IsSpellInRange, UnitIsDead, UnitInRange, UnitInPhase, UnitIsUnit
 
-function GridStatusRange:UnitInRange(unit)
+local function GroupRangeCheck(self, unit)
 	if UnitIsUnit(unit, "player") then
 		return true
+	elseif not UnitInPhase(unit) then
+		return false
 	elseif resSpell and UnitIsDead(unit) and not UnitIsDead("player") then
 		return IsSpellInRange(resSpell, unit) == 1
 	else
-		return UnitInRange(unit)
+		local inRange, checkedRange = UnitInRange(unit)
+		if checkedRange then
+			return inRange
+		else
+			return true
+		end
 	end
 end
+
+local function SoloRangeCheck(self, unit)
+	-- This is a workaround for the bug in WoW 5.0.4 in which UnitInRange
+	-- returns *false* for player/pet while solo.
+	return true
+end
+
+GridStatusRange.UnitInRange = GroupRangeCheck
 
 function GridStatusRange:CheckRange()
 	local settings = self.db.profile.alert_range
@@ -120,5 +137,17 @@ function GridStatusRange:CheckRange()
 				settings.color,
 				settings.text)
 		end
+	end
+end
+
+function GridStatusRange:PartyTransition(message, state, oldstate)
+	self:Debug("PartyTransition", message, state, oldstate)
+	if state == "solo" then
+		self:StopTimer("CheckRange")
+		self.UnitInRange = SoloRangeCheck
+		self.core:SendStatusLostAllUnits("alert_range")
+	else
+		self:StartTimer("CheckRange", self.db.profile.alert_range.frequency, true)
+		self.UnitInRange = GroupRangeCheck
 	end
 end

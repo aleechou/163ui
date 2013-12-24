@@ -147,9 +147,11 @@ Nx.OptsVars = {
 	["MapMMIScale"] = "~F~1~.01~10",
 	["MapMMMoveCapBars"] = "~B~T",
 	["MapMMNodeGD"] = "~F~.4~0~999999",
+	["MapMMNodeGD"] = "~F~0~0~999999",
 	["MapMMOwn"] = "~B",
 	["MapMMShowOldNameplate"] = "~B~T",
 	["MapMMSquare"] = "~B",
+	["MapPlayerColored"] = "~B~T",
 	["MapPlyrArrowSize"] = "~F~32~10~100",
 	["MapRestoreScaleAfterTrack"] = "~B~T",
 	["MapRouteTest"] = "",					-- Cause delete
@@ -288,6 +290,7 @@ Nx.OptsVars = {
 	["QSnd6"] = "~B",
 	["QSnd7"] = "~B",
 	["QSnd8"] = "~B",
+	["QuestWatchATrack"] = "~B~F",
 	["RouteGatherRadius"] = "~I~60",
 	["RouteMergeRadius"] = "~I~20",
 	["RouteRecycle"] = "~B",
@@ -683,6 +686,10 @@ Nx.OptsData = {
 		{
 			N = L["Icon scale minimum size. -1 disables scaling for Guide and Favorite Icons"],
 			V = "MapIconScaleMin",
+		},
+		{
+			N = L["Show party/raid members class color"],
+			V = "MapPlayerColored",
 		},
 		{
 			N = L["Icon health bar thickness (0 hides)"],
@@ -1914,6 +1921,7 @@ function Nx.Opts:NXCmdCamForceMaxDist()
 end
 
 function Nx.Opts:NXCmdGryphonsUpdate()
+    if(U1GetCfgValue) then return end -- XXX 163UI
 	if self.Opts["GryphonsHide"] then
 		MainMenuBarLeftEndCap:Hide()
 		MainMenuBarRightEndCap:Hide()
@@ -1995,12 +2003,33 @@ function Nx.Opts:NXCmdInfoWinUpdate()
 	end
 end
 
+--warbaby minimap dock no reload
 function Nx.Opts:NXCmdMMOwnChange (item, var)
 
 	self:SetVar ("MapMMShowOldNameplate", not var)		-- Nameplate is opposite of integration
 	self:SetVar ("MapMMButOwn", var)
 	self:Update()
-	self:NXCmdReload()
+
+    Nx.Map.Maps[1].MMOwn = var
+    if not var then
+        if MinimapZoom then MinimapZoom:Show() end
+        MinimapBackdrop:Show()
+        Minimap:SetParent(MinimapCluster)
+        Minimap:ClearAllPoints()
+        Minimap:SetPoint("CENTER", MinimapCluster, "TOP", 9, -92)
+        Minimap:SetSize(140,140)
+        Minimap:SetScale(1)
+        Minimap:SetAlpha(1)
+        Minimap:SetMaskTexture("textures\\MinimapMask")
+        Minimap:SetPlayerTexture("Interface\\Minimap\\MinimapArrow")
+        MinimapCluster:Show()
+        Nx.Map.Maps[1].MMMaskName = nil
+        Nx.Map.Maps[1].MMArrowName = nil
+    else
+        Nx.Map.Dock:Create(0.5)
+        Nx.Map.Maps[1]:MinimapOwnInit()
+    end
+	--self:NXCmdReload()
 end
 
 function Nx.Opts:NXCmdMMButUpdate()

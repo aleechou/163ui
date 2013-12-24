@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 50400
 ## Title: GridStatusPriestAoe
 ## Notes: Shows optimal target to use with priest area healing spells
 ## Dependencies: Grid

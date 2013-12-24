@@ -130,6 +130,10 @@ function ItemSlot:IsQuestItem()
 	return false
 end
 
+function ItemSlot:IsNew()
+	return false
+end
+
 function ItemSlot:IsCached()
 	return false
 end

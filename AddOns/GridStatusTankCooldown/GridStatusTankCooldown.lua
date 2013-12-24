@@ -32,12 +32,12 @@ local tankingbuffs = {
 		124769, -- Glyph of Frenzied Regeneration
 		102342, -- Ironbark
 		105737, -- Mass Regeneration (tier bonus)
+		106922, -- Might of Ursoc
 		132402, -- Savage Defense
 		61336,  -- Survival Instincts
 	},
 	["HUNTER"] = {
 		19263,  -- Deterrence
-		63087,  -- Glyph of Raptor Strike
 	},
 	["MAGE"] = {
 		45438,  -- Ice Block
@@ -137,6 +137,11 @@ GridStatusTankCooldown.defaultDB = {
 			871,	-- Shield Wall
 			61336,	-- Survival Instincts
 			115203, -- Fortifying Brew
+			98008,  -- Spirit Link Totem
+			31821,  -- Devotion Aura
+			81782,  -- Power Word: Barrier
+			106922, -- Might of Ursoc
+			116849, -- Life Cocoon
 		},
 		inactive_spellids = { -- used to remember priority of disabled spells
 		}

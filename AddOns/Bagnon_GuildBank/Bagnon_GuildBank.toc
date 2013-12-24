@@ -8,6 +8,3 @@
 localization\localization.xml
 components\components.xml
 main.lua
-
-## Title: |cff880303[网易有爱]|r Bagnon_GuildBank
-## X-Vendor: NetEase

@@ -5583,6 +5583,7 @@ function Nx.Map:UpdateGroup (plX, plY)
 	local combatX, combatY
 
 	local palsInfo = Nx.Com.PalsInfo
+    local partyColor = self.GOpts["MapPlayerColored"]
 
 	--SetMapToCurrentZone()
 	for i = 1, members do
@@ -5694,12 +5695,19 @@ function Nx.Map:UpdateGroup (plX, plY)
 					end
 				end
 
+				--warbaby partyColor
+				local pcolor
+
 				local txName = "IconPlyrP"
 
 				if pals[name] == false then
 					txName = "IconPlyrF"
 				elseif pals[name] == true then
 					txName = "IconPlyrG"
+				elseif partyColor then
+                    local _, cls = UnitClass(unit or "")
+                    pcolor = cls and RAID_CLASS_COLORS[cls]
+                    if pcolor then txName = "IconPlyrPColor" end
 				end
 
 				if inCombat then
@@ -5707,6 +5715,7 @@ function Nx.Map:UpdateGroup (plX, plY)
 				end
 
 				f1.texture:SetTexture ("Interface\\AddOns\\Carbonite\\Gfx\\Map\\"..txName)
+				if pcolor then f1.texture:SetVertexColor(pcolor.r, pcolor.g, pcolor.b) end
 
 --				Nx.prt ("#%d %.1f %.1f", i, pX, pY)
 

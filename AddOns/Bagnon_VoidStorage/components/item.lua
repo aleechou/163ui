@@ -108,6 +108,10 @@ function ItemSlot:IsQuestItem()
 	return false
 end
 
+function ItemSlot:IsNew()
+	return false
+end
+
 function ItemSlot:GetInfo()
 	local id, icon, locked = self:RetrieveInfo()
 	local link, quality

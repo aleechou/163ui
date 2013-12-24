@@ -103,6 +103,9 @@ function EditFrame:OnHide()
 	self:GetScrollChild():ClearFocus()
 end
 
+
+--[[ Update ]]--
+
 function EditFrame:Update()
 	local text = GetGuildBankText(GetCurrentGuildBankTab()) or ''
 	local edit = self:GetScrollChild()

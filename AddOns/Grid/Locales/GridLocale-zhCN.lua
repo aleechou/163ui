@@ -24,6 +24,8 @@ Grid.L = L
 
 L["Debug"] = "调试"
 L["Debugging"] = "调试"
+L["Module debugging menu."] = "调试模块功能表。"
+L["Show minimap icon"] = "显示迷你地图图标"
 L["Hide minimap icon"] = "隐藏迷你地图图标"
 L["Module debugging menu."] = "调试模块配置。"
 L["Toggle debugging for %s."] = "打开/关闭%s的调试。"
@@ -55,6 +57,7 @@ L["Color the healing bar using the active status color instead of the health bar
 L["Corner Size"] = "边角指示尺寸"
 L["Darken the text color to match the inverted bar."] = "文本颜色变暗以匹配反转条。"
 L["Enable Mouseover Highlight"] = "启用鼠标悬停高亮"
+L["Enable right-click menu"] = "启用右击菜单"
 L["Enable %s"] = "启用%s"
 L["Enable %s indicator"] = "启用%s指示"
 L["Font"] = "字体"
@@ -96,6 +99,7 @@ L["Orientation of Text"] = "文字方向"
 L["Set frame orientation."] = "设置框架方向。"
 L["Set frame text orientation."] = "设置文字方向。"
 L["Sets the opacity of the healing bar."] = "设置血条的透明度。"
+L["Show the standard unit menu when right-clicking on a frame."] = "右击框体显示标准单位菜单。"
 L["Show Tooltip"] = "显示提示信息"
 L["Show unit tooltip.  Choose 'Always', 'Never', or 'OOC'."] = "显示单位框架的鼠标信息。选择“一直”，“不显示”或“非战斗”。"
 L["Statuses"] = "状态"
@@ -126,6 +130,7 @@ L["Change the main frame options."] = "修改Grid默认界面样式, 包括单�
 
 L["10 Player Raid Layout"] = "10人团队布局"
 L["25 Player Raid Layout"] = "25人团队布局"
+L["40 Player Raid Layout"] = "40人团队布局"
 L["Adjust background color and alpha."] = "调整背景颜色和透明度。"
 L["Adjust border color and alpha."] = "调整外框的颜色和透明度。"
 L["Adjust frame padding."] = "调整每个按钮之间的间距。"
@@ -186,6 +191,7 @@ L["Right"] = "右侧"
 L["Scale"] = "大小比率"
 L["Select which layout to use when in a 10 player raid."] = "10人团队时所选择使用的布局。"
 L["Select which layout to use when in a 25 player raid."] = "25人团队时所选择使用的布局。"
+L["Select which layout to use when in a 40 player raid."] = "40人团队时所选择使用的布局。"
 L["Select which layout to use when in a battleground."] = "在战场时所选择使用的布局。"
 L["Select which layout to use when in an arena."] = "在竞技场时所选择使用的布局。"
 L["Select which layout to use when in a party."] = "在小队时所选择使用的布局。"
@@ -194,7 +200,9 @@ L["Sets where Grid is anchored relative to the screen."] = "设置屏幕中 Grid
 L["Sets where groups are anchored relative to the layout frame."] = "设置布局中队伍的锚点。"
 L["Set the coloring strategy of pet units."] = "设置宠物颜色策略。"
 L["Set the color of pet units."] = "设定宠物的颜色。"
+L["Show a tab for dragging when Grid is unlocked."] = "当未锁定 Grid 时显示标签。"
 L["Show Frame"] = "显示框架"
+L["Show tab"] = "显示标签"
 L["Solo Layout"] = "单人布局"
 L["Spacing"] = "外框距离"
 L["Switch between horizontal/vertical groups."] = "选择横向/竖向显示队伍。"
@@ -208,6 +216,7 @@ L["Undead"] = "亡灵"
 L["Unknown Pet"] = "未知宠物"
 L["Unknown Unit"] = "未知单位"
 L["Using Fallback color"] = "使用已知颜色"
+L["World Raid as 40 Player"] = "野外40人团队"
 
 ------------------------------------------------------------------------
 --	GridLayoutLayouts
@@ -235,6 +244,7 @@ L["If this layout is set to any value but 'NONE', all other layout settings will
 --	GridLDB
 
 L["Click to toggle the frame lock."] = "左键点击锁定/解锁框架。"
+L["Right-Click to open the options menu."] = "右击打开选项功能单。"
 L["Right-Click for more options."] = "右键点击打开设置界面。\n（战斗中需按住CTRL+ALT）"
 
 ------------------------------------------------------------------------
@@ -247,6 +257,7 @@ L["Right-Click for more options."] = "右键点击打开设置界面。\n（战�
 L["Color"] = "颜色"
 L["Color for %s"] = "%s的颜色"
 L["Enable"] = "启用"
+L["Options for %s."] = "%s的选项。"
 L["Options for GridStatus."] = "设置各种状态信息的选项，例如优先级，触发后的颜色、透明度等等"
 L["Options for %s."] = "%s状态的选项。"
 L["Priority"] = "优先度"
@@ -260,6 +271,12 @@ L["Status"] = "状态"
 L["Status: %s"] = "状态：%s"
 L["Text"] = "文字"
 L["Text to display on text indicators"] = "在文字提示器上显示文字"
+
+------------------------------------------------------------------------
+--	GridStatusAggro
+
+L["Absorbs"] = "吸收"
+L["Only show total absorbs greater than this percent of the unit's maximum health."] = "只有当吸收量大于该值时才显示吸收"
 
 ------------------------------------------------------------------------
 --	GridStatusAggro
@@ -351,7 +368,7 @@ L["Ignore heals cast by you."] = "忽略对自己施放的治疗。"
 L["Ignore Self"] = "忽略自己"
 L["Incoming heals"] = "正被治疗"
 L["Minimum Value"] = "最低值"
-L["Only show incoming heals greater than this amount."] = "只当治疗量大于该值时才显示正被治疗."
+L["Only show incoming heals greater than this percent of the unit's maximum health."] = "只当治疗量大于该值时才显示正被治疗."
 
 ------------------------------------------------------------------------
 --	GridStatusHealth

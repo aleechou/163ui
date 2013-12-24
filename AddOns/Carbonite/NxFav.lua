@@ -943,7 +943,7 @@ function Nx.Fav:ParseItemNote (data)
 		y = tonumber (strsub (data, 7, 9), 16) / 4090 * 100
 		 dLvl = (strbyte (data, 10) or 35) - 35
 	end
-		return iconI, id, x, y + dLvl * 100
+	return iconI, id, x, y + dLvl * 100
 end
 
 function Nx.Fav:ParseItemTarget (data)

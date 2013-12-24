@@ -21,9 +21,6 @@ GridRoster.defaultDB = {
 	party_state = "solo",
 }
 
--- local MoP = select(4, GetBuildInfo()) >= 50000
-local MoP = true
-
 ------------------------------------------------------------------------
 
 local UnitExists = UnitExists
@@ -205,12 +202,7 @@ do
 			units_to_remove[guid] = true
 		end
 
-		local units
-		if MoP then
-			units = IsInRaid() and raid_units or party_units
-		else
-			units = GetNumRaidMembers() == 0 and party_units or raid_units
-		end
+		local units = IsInRaid() and raid_units or party_units
 
 		for i = 1, #units do
 			local unit = units[i]
@@ -266,10 +258,11 @@ do
 	GridRoster.party_states = {
 		"solo",
 		"party",
-		"raid_25",
 		"raid_10",
-		"bg",
+		"raid_25",
+		"raid_40",
 		"arena",
+		"bg",
 	}
 
 	local function GetPartyState()
@@ -279,40 +272,20 @@ do
 			return "arena"
 		end
 
-		if instanceType == "pvp" then
+		if instanceType == "pvp" or (instanceType == "none" and GetZonePVPInfo() == "combat") then
 			return "bg"
 		end
 
-		if MoP then
-			if IsInRaid() then
-				if instanceType == "none" and GetZonePVPInfo() == "combat" then
-					return "bg"
-				end
-				if instanceType == "raid" then
-					local _, _, _, _, max_players = GetInstanceInfo()
-					return max_players > 10 and "raid_25" or "raid_10"
-				else
-					local raid_difficulty = GetRaidDifficultyID()
-					return (raid_difficulty == 4 or raid_difficulty == 6) and "raid_25" or "raid_10"
-				end
-			elseif IsInGroup() then
-				return "party"
+		if IsInRaid() then
+			if instanceType == "raid" then
+				local _, _, _, _, max_players = GetInstanceInfo()
+				return maxPlayers == 10 and "raid_10" or maxPlayers == 25 and "raid_25" or "raid_40"
+			else
+				local raid_difficulty = GetRaidDifficultyID()
+				return (raid_difficulty == 4 or raid_difficulty == 6) and "raid_25" or (raid_difficulty == 3 or raid_difficulty == 5) and "raid_10" or "raid_40"
 			end
-		else
-			if GetNumRaidMembers() > 0 then
-				if instanceType == "none" and GetZonePVPInfo() == "combat" then
-					return "bg"
-				end
-				if instanceType == "raid" then
-					local _, _, _, _, max_players = GetInstanceInfo()
-					return max_players > 10 and "raid_25" or "raid_10"
-				else
-					local raid_difficulty = GetRaidDifficultyID()
-					return (raid_difficulty == 4 or raid_difficulty == 6) and "raid_25" or "raid_10"
-				end
-			elseif GetNumPartyMembers() > 0 then
-				return "party"
-			end
+		elseif IsInGroup() then
+			return "party"
 		end
 
 		return "solo"

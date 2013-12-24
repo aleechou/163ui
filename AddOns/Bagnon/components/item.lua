@@ -8,7 +8,7 @@ local ItemSlot = Addon:NewClass('ItemSlot', 'Button')
 ItemSlot.nextID = 0
 ItemSlot.unused = {}
 
-local Cache = LibStub('LibItemCache-1.0')
+local Cache = LibStub('LibItemCache-1.1')
 local ItemSearch = LibStub('LibItemSearch-1.2')
 local Unfit = LibStub('Unfit-1.0')
 
@@ -152,10 +152,10 @@ function ItemSlot:TEXT_SEARCH_UPDATE()
 	self:UpdateSearch()
 end
 
-function ItemSlot:FLASH_SEARCH_UPDATE(event, item)
+function ItemSlot:FLASH_SEARCH_UPDATE(event, search)
 	self.flash:Stop()
 
-	if item == self:GetItem() then
+	if ItemSearch:Matches(self:GetItem(), search) then
 		self.flash:Play()
 	end
 end
@@ -368,6 +368,7 @@ function ItemSlot:UpdateBorder()
 			if isQuestItem then
 				return self:SetBorderColor(1, .82, .2)
 			end
+
 
 			if isQuestStarter then
 				self.questBorder:SetTexture(TEXTURE_ITEM_QUEST_BANG)

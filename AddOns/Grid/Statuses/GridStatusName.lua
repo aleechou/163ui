@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	Grid
 	Compact party and raid unit frames.
-	Copyright (c) 2006-2012 Kyle Smith (a.k.a. Pastamancer), A. Kinley (a.k.a. Phanx) <addons@phanx.net>
+	Copyright (c) 2006-2013 Kyle Smith (Pastamancer), A. Kinley (Phanx)
 	All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info5747-Grid.html
@@ -23,29 +23,39 @@ GridStatusName.options = false
 
 GridStatusName.defaultDB = {
 	unit_name = {
-		text = L["Unit Name"],
 		enable = true,
-		color = { r = 1, g = 1, b = 1, a = 1 },
 		priority = 1,
+		text = L["Unit Name"],
+		color = { r = 1, g = 1, b = 1, a = 1 },
 		class = true,
-		range = false,
 	},
 }
-
 
 local nameOptions = {
 	class = {
 		name = L["Use class color"],
 		desc = L["Color by class"],
 		type = "toggle", width = "double",
-		get = function() return GridStatusName.db.profile.unit_name.class end,
+		get = function()
+			return GridStatusName.db.profile.unit_name.class
+		end,
 		set = function()
 			GridStatusName.db.profile.unit_name.class = not GridStatusName.db.profile.unit_name.class
 			GridStatusName:UpdateAllUnits()
 		end,
-	},
-	range = false,
+	}
 }
+
+local classIconCoords = {}
+for class, t in pairs(CLASS_BUTTONS) do
+	local offset, left, right, bottom, top = 0.025, unpack(t)
+	classIconCoords[class] = {
+		left   = left   + offset,
+		right  = right  - offset,
+		bottom = bottom + offset,
+		top    = top    - offset,
+	}
+end
 
 function GridStatusName:PostInitialize()
 	self:RegisterStatus("unit_name", L["Unit Name"], nameOptions, true)
@@ -100,44 +110,39 @@ end
 
 function GridStatusName:UpdateUnit(event, unitid)
 	local guid = unitid and UnitGUID(unitid)
-    if guid then
-        self:UpdateGUID(event, guid)
-    end
+	if guid then
+		self:UpdateGUID(event, guid)
+	end
 end
 
 function GridStatusName:UpdateGUID(event, guid)
 	local settings = self.db.profile.unit_name
 
 	local name = GridRoster:GetNameByGUID(guid)
-
 	if not name or not settings.enable then return end
 
-	-- set text
-	local text = name
+	local unitid = GridRoster:GetUnitidByGUID(guid)
+	local _, class = UnitClass(unitid)
 
-	local show_owner_name = true
-	if show_owner_name then
-		local unitid = GridRoster:GetUnitidByGUID(guid)
-		local owner_unitid = GridRoster:GetOwnerUnitidByUnitid(unitid)
-
-		-- does this unit have an owner?
-		-- is the owner driving a vehicle?
-		if owner_unitid and UnitHasVehicleUI(owner_unitid) then
-			local owner_guid = UnitGUID(owner_unitid)
-			local owner_name = GridRoster:GetNameByGUID(owner_guid)
-
-			text = owner_name
-		end
+	-- show player name instead of vehicle name
+	local owner_unitid = GridRoster:GetOwnerUnitidByUnitid(unitid)
+	if owner_unitid and UnitHasVehicleUI(owner_unitid) then
+		local owner_guid = UnitGUID(owner_unitid)
+		name = GridRoster:GetNameByGUID(owner_guid)
 	end
-
-	-- set color
-	local color = settings.class and self.core:UnitColor(guid) or settings.color
 
 	self.core:SendStatusGained(guid, "unit_name",
 		settings.priority,
 		nil,
-		color,
-		text)
+		settings.class and self.core:UnitColor(guid) or settings.color,
+		name,
+		nil,
+		nil,
+		class and [[Interface\Glues\CharacterCreate\UI-CharacterCreate-Classes]] or nil,
+		nil,
+		nil,
+		nil,
+		class and classIconCoords[class] or nil)
 end
 
 function GridStatusName:UpdateAllUnits()

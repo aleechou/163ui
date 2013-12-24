@@ -1,4 +1,4 @@
-﻿local floor,n2s,f2s=floor,n2s,f2s
+local floor,n2s,f2s=floor,n2s,f2s
 --[[--------------------------------------------------------------------
 	GridStatusHots.lua
 ----------------------------------------------------------------------]]
@@ -34,11 +34,18 @@ spellNameCache.Regrowth = GetSpellInfo(8936);
 spellNameCache.Rejuvenation = GetSpellInfo(774);
 spellNameCache.WildGrowth = GetSpellInfo(48438);
 
+--Monk 新增
+spellNameCache.RenewingMist = GetSpellInfo(119611);
+spellNameCache.ZenSphere = GetSpellInfo(124081);
+spellNameCache.EnvelopingMist = GetSpellInfo(132120);
+
 --Paladin
 spellNameCache.BeaconofLight = GetSpellInfo(53563);
+spellNameCache.EternalFlame = GetSpellInfo(114163);					--永恒之火
+spellNameCache.SacredShield = GetSpellInfo(20925);					--圣洁护盾
 
 --Priest
-spellNameCache.Grace = GetSpellInfo(47517) -- 47930
+spellNameCache.Grace = GetSpellInfo(77613) -- 47930
 spellNameCache.PrayerofMending = GetSpellInfo(33076);
 spellNameCache.Renew = GetSpellInfo(139);
 spellNameCache.PowerWordShield = GetSpellInfo(17);
@@ -72,6 +79,7 @@ local IsPriest = PlayerClass == "PRIEST"
 local IsDruid = PlayerClass == "DRUID"
 local IsShaman = PlayerClass == "SHAMAN"
 local IsPaladin = PlayerClass == "PALADIN"
+local IsMonk = PlayerClass == "MONK"
 GridStatusHots.defaultDB = {
 	alert_tothots = {
 		text = L["Hots: Hot Count"],
@@ -85,9 +93,9 @@ GridStatusHots.defaultDB = {
 	--Druid
 	alert_lifebl = {
 		text = L["Hots: My Lifebloom"],
-		enable = IsDruid,
+		enable = false,
 		totshow = false,
-		decshow = true,
+		decshow = false,
 		priority = 99,
 		range = false,
 		threshold2 = 4,
@@ -100,7 +108,7 @@ GridStatusHots.defaultDB = {
 		text = L["Hots: My Lifebloom Stack Colored"],
 		enable = IsDruid,
 		totshow = false,
-		decshow = true,
+		decshow = false,
 		priority = 99,
 		range = false,
 		threshold2 = 4,
@@ -146,6 +154,43 @@ GridStatusHots.defaultDB = {
 		color3 = { r = 1, g = 0, b = 0, a = 1 },
 	},
 
+	--Monk
+	alert_rmist = {
+		text = L["Hots: My Renewing Mist"],
+		enable = IsMonk,
+		totshow = false,
+		priority = 98,
+		range = false,
+		threshold2 = 4,
+		threshold3 = 2,
+		color = { r = 0, g = 1, b = 0, a = 1 },
+		color2 = { r = 1, g = 1, b = 0, a = 1 },
+		color3 = { r = 1, g = 0, b = 0, a = 1 },
+	},
+	alert_zsphere = {
+		text = L["Hots: My Zen Sphere"],
+		enable = IsMonk,
+		totshow = false,
+		priority = 98,
+		range = false,
+		threshold2 = 4,
+		threshold3 = 2,
+		color = { r = 0, g = 1, b = 0, a = 1 },
+		color2 = { r = 1, g = 1, b = 0, a = 1 },
+		color3 = { r = 1, g = 0, b = 0, a = 1 },
+	},	
+	alert_emist = {
+		text = L["Hots: My Enveloping Mist"],
+		enable = IsMonk,
+		totshow = false,
+		priority = 98,
+		range = false,
+		threshold2 = 2,
+		threshold3 = 1,
+		color = { r = 0, g = 1, b = 0, a = 1 },
+		color2 = { r = 1, g = 1, b = 0, a = 1 },
+		color3 = { r = 1, g = 0, b = 0, a = 1 },
+	},
 	--Paladin
 	alert_beacon = {
 		text = L["Hots: My Beacon of Light"],
@@ -154,6 +199,28 @@ GridStatusHots.defaultDB = {
 		range = false,
 		threshold2 = 10,
 		threshold3 = 5,
+		color = { r = 0, g = 1, b = 0, a = 1 },
+		color2 = { r = 1, g = 1, b = 0, a = 1 },
+		color3 = { r = 1, g = 0, b = 0, a = 1 },
+	},
+	alert_eternal = {
+		text = L["Hots: My Eternal Flame"],
+		enable = IsPaladin,
+		priority = 98,
+		range = false,
+		threshold2 = 6,
+		threshold3 = 3,
+		color = { r = 0, g = 1, b = 0, a = 1 },
+		color2 = { r = 1, g = 1, b = 0, a = 1 },
+		color3 = { r = 1, g = 0, b = 0, a = 1 },
+	},
+	alert_sacred = {
+		text = L["Hots: My Sacred Shield"],
+		enable = IsPaladin,
+		priority = 95,
+		range = false,
+		threshold2 = 0,
+		threshold3 = 0,
 		color = { r = 0, g = 1, b = 0, a = 1 },
 		color2 = { r = 1, g = 1, b = 0, a = 1 },
 		color3 = { r = 1, g = 0, b = 0, a = 1 },
@@ -489,6 +556,216 @@ local rejuv_hotcolors = {
 		name = L["Show HoT-Counter"],
 		desc = L["Check, if you want to see the total of HoTs behind the countdown of your HoT(i.e. 13-5)"],
 		get = function () return GridStatusHots.db.profile.alert_rejuv.totshow end,
+		set = function (_, arg)
+			GridStatusHots.db.profile.alert_rejuv.totshow = arg
+		end,
+	},
+}
+--renewing mist
+local rmist_hotcolors = {
+	["threshold2"] = {
+		type = "range",
+		name = L["Threshold to activate color 2"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_rmist.threshold2
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_rmist.threshold2 = v
+		end,
+	},
+	["color2"] = {
+		type = "color",
+		name = L["Color 2"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_rmist.color2
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_rmist.color2
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["threshold3"] = {
+		type = "range",
+		name = L["Threshold to activate color 3"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_rmist.threshold3
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_rmist.threshold3 = v
+		end,
+	},
+	["color3"] = {
+		type = "color",
+		name = L["Color 3"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_rmist.color3
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_rmist.color3
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["totshow"] = {
+		type = "toggle",
+		name = L["Show HoT-Counter"],
+		desc = L["Check, if you want to see the total of HoTs behind the countdown of your HoT(i.e. 13-5)"],
+		get = function () return GridStatusHots.db.profile.alert_rejuv.totshow end,
+		set = function (_, arg)
+			GridStatusHots.db.profile.alert_rmist.totshow = arg
+		end,
+	},
+}
+--zen sphere
+local zsphere_hotcolors = {
+	["threshold2"] = {
+		type = "range",
+		name = L["Threshold to activate color 2"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_zsphere.threshold2
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_zsphere.threshold2 = v
+		end,
+	},
+	["color2"] = {
+		type = "color",
+		name = L["Color 2"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_zsphere.color2
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_zsphere.color2
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["threshold3"] = {
+		type = "range",
+		name = L["Threshold to activate color 3"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_zsphere.threshold3
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_zsphere.threshold3 = v
+		end,
+	},
+	["color3"] = {
+		type = "color",
+		name = L["Color 3"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_zsphere.color3
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_zsphere.color3
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["totshow"] = {
+		type = "toggle",
+		name = L["Show HoT-Counter"],
+		desc = L["Check, if you want to see the total of HoTs behind the countdown of your HoT(i.e. 13-5)"],
+		get = function () return GridStatusHots.db.profile.alert_zsphere.totshow end,
+		set = function (_, arg)
+			GridStatusHots.db.profile.alert_rejuv.totshow = arg
+		end,
+	},
+}
+--enveloping mist
+local emist_hotcolors = {
+	["threshold2"] = {
+		type = "range",
+		name = L["Threshold to activate color 2"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_emist.threshold2
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_emist.threshold2 = v
+		end,
+	},
+	["color2"] = {
+		type = "color",
+		name = L["Color 2"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_emist.color2
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_emist.color2
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["threshold3"] = {
+		type = "range",
+		name = L["Threshold to activate color 3"],
+		max = 10,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_emist.threshold3
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_emist.threshold3 = v
+		end,
+	},
+	["color3"] = {
+		type = "color",
+		name = L["Color 3"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_emist.color3
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_emist.color3
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["totshow"] = {
+		type = "toggle",
+		name = L["Show HoT-Counter"],
+		desc = L["Check, if you want to see the total of HoTs behind the countdown of your HoT(i.e. 13-5)"],
+		get = function () return GridStatusHots.db.profile.alert_emist.totshow end,
 		set = function (_, arg)
 			GridStatusHots.db.profile.alert_rejuv.totshow = arg
 		end,
@@ -1443,6 +1720,128 @@ local beacon_hotcolors = {
 		end,
 	},
 }
+--新增骑士
+local eternal_hotcolors = {
+	["threshold2"] = {
+		type = "range",
+		name = L["Threshold to activate color 2"],
+		max = 30,
+		min = 1,
+		step = .5,
+		get = function ()
+				return GridStatusHots.db.profile.alert_eternal.threshold2
+			end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_eternal.threshold2 = v
+		end,
+	},
+	["color2"] = {
+		type = "color",
+		name = L["Color 2"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_eternal.color2
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_eternal.color2
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["threshold3"] = {
+		type = "range",
+		name = L["Threshold to activate color 3"],
+		max = 30,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_eternal.threshold3
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_eternal.threshold3 = v
+		end,
+	},
+	["color3"] = {
+		type = "color",
+		name = L["Color 3"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_eternal.color3
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_eternal.color3
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+}
+
+local sacred_hotcolors = {
+	["threshold2"] = {
+		type = "range",
+		name = L["Threshold to activate color 2"],
+		max = 30,
+		min = 1,
+		step = .5,
+		get = function ()
+				return GridStatusHots.db.profile.alert_sacred.threshold2
+			end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_sacred.threshold2 = v
+		end,
+	},
+	["color2"] = {
+		type = "color",
+		name = L["Color 2"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_sacred.color2
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_sacred.color2
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+	["threshold3"] = {
+		type = "range",
+		name = L["Threshold to activate color 3"],
+		max = 30,
+		min = 1,
+		step = .5,
+		get = function ()
+			return GridStatusHots.db.profile.alert_sacred.threshold3
+		end,
+		set = function (_, v)
+			GridStatusHots.db.profile.alert_sacred.threshold3 = v
+		end,
+	},
+	["color3"] = {
+		type = "color",
+		name = L["Color 3"],
+		hasAlpha = true,
+		get = function ()
+			local color = GridStatusHots.db.profile.alert_sacred.color3
+			return color.r, color.g, color.b, color.a
+		end,
+		set = function (_, r, g, b, a)
+			local color = GridStatusHots.db.profile.alert_sacred.color3
+			color.r = r
+			color.g = g
+			color.b = b
+			color.a = a or 1
+		end,
+	},
+}
 
 local earthliving_hotcolors = {
 	["threshold2"] = {
@@ -1814,8 +2213,14 @@ function GridStatusHots:RegisterStatuses()
 	self:RegisterStatus("alert_lifebl", L["Hots: My Lifebloom"], lifebl_hotcolors)
 	self:RegisterStatus("alert_lifebl_stack", L["Hots: My Lifebloom Stack Colored"], lifebl_stack_hotcolors)
 	self:RegisterStatus("alert_wgrowth", L["Hots: My Wild Growth"], wgrowth_hotcolors)
+	-- Monk
+	self:RegisterStatus("alert_rmist", L["Hots: My Renewing Mist"], rmist_hotcolors)
+	self:RegisterStatus("alert_zsphere", L["Hots: My Zen Sphere"], zsphere_hotcolors)
+	self:RegisterStatus("alert_emist", L["Hots: My Enveloping Mist"], emist_hotcolors)
 	-- Paladin
 	self:RegisterStatus("alert_beacon", L["Hots: My Beacon of Light"], beacon_hotcolors)
+	self:RegisterStatus("alert_eternal", L["Hots: My Eternal Flame"], eternal_hotcolors)
+	self:RegisterStatus("alert_sacred", L["Hots: My Sacred Shield"], sacred_hotcolors)
 	-- Shaman
 	self:RegisterStatus("alert_riptide", L["Hots: My Riptide"], riptide_hotcolors)
 	self:RegisterStatus("alert_earthliving", L["Hots: My Earthliving"], earthliving_hotcolors)
@@ -1844,8 +2249,14 @@ function GridStatusHots:UnregisterStatuses()
 	self:UnregisterStatus("alert_lifebl")
 	self:UnregisterStatus("alert_lifebl_stack")
 	self:UnregisterStatus("alert_wgrowth")
+	--Monk
+	self:UnregisterStatus("alert_rmist")
+	self:UnregisterStatus("alert_zsphere")
+	self:UnregisterStatus("alert_emist")
 	-- Paladin
 	self:UnregisterStatus("alert_beacon")
+	self:UnregisterStatus("alert_eternal")
+	self:UnregisterStatus("alert_sacred")
 	-- Shaman
 	self:UnregisterStatus("alert_riptide")
 	self:UnregisterStatus("alert_earthliving")
@@ -1872,6 +2283,7 @@ local _renew_icon = select(3, GetSpellInfo(139))
 function GridStatusHots:UpdateUnit(guid, unitid)
 	local total_hots, lbstack, pomstack, mypomstack, grastack, esstack = 0, 0, 0, 0, 0, 0;
 	local retime,rjtime,rgtime,lbtime,wgtime,sltime,sstime,ritime,pomtime,mypomtime,pwstime,boltime,eltime,estime,gratime,gifttime,datime,insptime,forttime,vigtime
+	local rmisttime,emisttime,zspheretime,eternaltime,sacredtime		--新增5技能
 	local wstime
 
 	local now = GetTime()
@@ -1890,6 +2302,15 @@ function GridStatusHots:UpdateUnit(guid, unitid)
 		elseif bname == spellNameCache["Rejuvenation"] then
 			total_hots = total_hots + 1;
 			if (bismine == "player" and btime) then rjtime = btime end
+		elseif bname == spellNameCache["RenewingMist"] then
+			total_hots = total_hots + 1;
+			if (bismine == "player" and btime) then rmisttime = btime end
+		elseif bname == spellNameCache["ZenSphere"] then
+			total_hots = total_hots + 1;
+			if (bismine == "player" and btime) then zspheretime = btime end
+		elseif bname == spellNameCache["EnvelopingMist"] then
+			total_hots = total_hots + 1;
+			if (bismine == "player" and btime) then emisttime = btime end
 		elseif bname == spellNameCache["Lifebloom1"] or bname == spellNameCache["Lifebloom2"] then
 			if self.db.profile.alert_tothots.lbeach then
 				total_hots = total_hots + bcount;
@@ -1934,6 +2355,14 @@ function GridStatusHots:UpdateUnit(guid, unitid)
 			if (bismine == "player" and btime) then
 				estime = btime
 				esstack = bcount
+			end
+		elseif bname == spellNameCache["EternalFlame"] then
+			if btime then
+				eternaltime = btime
+			end
+		elseif bname == spellNameCache["SacredShield"] then
+			if btime then
+				sacredtime = btime
 			end
 		elseif bname == spellNameCache["AncestralFortitude"] and btexture == spellIconCache["AncestralFortitude"] then
 			if btime then
@@ -2066,6 +2495,87 @@ function GridStatusHots:UpdateUnit(guid, unitid)
 		if self.core:GetCachedStatus(guid, "alert_rejuv") then self.core:SendStatusLost(guid, "alert_rejuv") end
 	end
 
+	--Renewing Mist
+	if rmisttime and self.db.profile.alert_rmist.enable then
+		-- Add self thrown countdown and status
+		local settings = self.db.profile.alert_rmist
+		local hotcolor = settings.color
+		if rmisttime <= settings.threshold2 then hotcolor = settings.color2 end
+		if rmisttime <= settings.threshold3 then hotcolor = settings.color3 end
+		if settings.totshow then
+			self.core:SendStatusGained(guid, "alert_rmist",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(rmisttime+.5))..total_hots
+				--string.format("%d-%d", rmisttime, total_hots)
+			)
+		else
+			self.core:SendStatusGained(guid, "alert_rmist",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(rmisttime+.5))
+				--string.format("%d", rmisttime)
+			)
+		end
+	else
+		if self.core:GetCachedStatus(guid, "alert_rmist") then self.core:SendStatusLost(guid, "alert_rmist") end
+	end
+--Zen Sphere
+	if zspheretime and self.db.profile.alert_zsphere.enable then
+		-- Add self thrown countdown and status
+		local settings = self.db.profile.alert_zsphere
+		local hotcolor = settings.color
+		if zspheretime <= settings.threshold2 then hotcolor = settings.color2 end
+		if zspheretime <= settings.threshold3 then hotcolor = settings.color3 end
+		if settings.totshow then
+			self.core:SendStatusGained(guid, "alert_zsphere",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(zspheretime+.5))..total_hots
+				--string.format("%d-%d", zspheretime, total_hots)
+			)
+		else
+			self.core:SendStatusGained(guid, "alert_zsphere",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(zspheretime+.5))
+				--string.format("%d", zspheretime)
+			)
+		end
+	else
+		if self.core:GetCachedStatus(guid, "alert_zsphere") then self.core:SendStatusLost(guid, "alert_zsphere") end
+	end
+--Enveloping Mist
+	if emisttime and self.db.profile.alert_emist.enable then                                    -------------------------修复原版错误
+		-- Add self thrown countdown and status
+		local settings = self.db.profile.alert_emist
+		local hotcolor = settings.color
+		if emisttime <= settings.threshold2 then hotcolor = settings.color2 end
+		if emisttime <= settings.threshold3 then hotcolor = settings.color3 end
+		if settings.totshow then
+			self.core:SendStatusGained(guid, "alert_emist",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(emisttime+.5))..total_hots
+				--string.format("%d-%d", emisttime, total_hots)
+			)
+		else
+			self.core:SendStatusGained(guid, "alert_emist",
+				settings.priority,
+				(settings.range and 40),
+				hotcolor,
+				n2s(floor(emisttime+.5))
+				--string.format("%d", emisttime)
+			)
+		end
+	else
+		if self.core:GetCachedStatus(guid, "alert_emist") then self.core:SendStatusLost(guid, "alert_emist") end
+	end
 	--Lifebloom
 	if lbtime and self.db.profile.alert_lifebl_stack.enable then
 		-- Add self thrown countdown and status
@@ -2413,6 +2923,41 @@ function GridStatusHots:UpdateUnit(guid, unitid)
 		if self.core:GetCachedStatus(guid, "alert_beacon") then self.core:SendStatusLost(guid, "alert_beacon") end
 	end
 
+	--Eternal Flame
+	if eternaltime and self.db.profile.alert_eternal.enable then
+		-- Add self thrown countdown and status
+		local settings = self.db.profile.alert_eternal
+		local hotcolor = settings.color
+		if eternaltime <= settings.threshold2 then hotcolor = settings.color2 end
+		if eternaltime <= settings.threshold3 then hotcolor = settings.color3 end
+		self.core:SendStatusGained(guid, "alert_eternal",
+			settings.priority,
+			(settings.range and 40),
+			hotcolor,
+            n2s(floor(eternaltime+.5))
+			--string.format("%d", eternaltime)
+		)
+	else
+		if self.core:GetCachedStatus(guid, "alert_eternal") then self.core:SendStatusLost(guid, "alert_eternal") end
+	end
+
+	--Sacred Shield
+	if sacredtime and self.db.profile.alert_sacred.enable then
+		-- Add self thrown countdown and status
+		local settings = self.db.profile.alert_sacred
+		local hotcolor = settings.color
+		if sacredtime <= settings.threshold2 then hotcolor = settings.color2 end
+		if sacredtime <= settings.threshold3 then hotcolor = settings.color3 end
+		self.core:SendStatusGained(guid, "alert_sacred",
+			settings.priority,
+			(settings.range and 40),
+			hotcolor,
+            n2s(floor(sacredtime+.5))
+			--string.format("%d", sacredtime)
+		)
+	else
+		if self.core:GetCachedStatus(guid, "alert_sacred") then self.core:SendStatusLost(guid, "alert_sacred") end
+	end
 	--Earthliving
 	if eltime and self.db.profile.alert_earthliving.enable then
 		-- Add self thrown countdown and status

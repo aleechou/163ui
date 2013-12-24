@@ -194,6 +194,36 @@ Cataclysm
 768 = TheStonecore
 769 = TheVortexPinnacle
 773 = ThroneOfTheFourWinds
+
+775 = CoTMountHyjal
+776 = GruulsLair
+779 = MagtheridonsLair
+780 = CoilfangReservoir
+781 = ZulAman
+782 = TempestKeep
+789 = SunwellPlateau
+793 = ZulGurub
+795 = MoltenFront
+796 = BlackTemple
+797 = HellfireRamparts
+798 = MagistersTerrace
+799 = Karazhan
+800 = Firelands
+803 = TheNexusLegendary
+806 = TheJadeForest
+807 = ValleyoftheFourWinds
+808 = TheWanderingIsle
+809 = KunLaiSummit
+810 = TownlongWastes
+811 = ValeofEternalBlossoms
+813 = NetherstormArena
+816 = WellofEternity
+819 = HourofTwilight
+820 = EndTime
+823 = DarkmoonFaireIsland
+824 = DragonSoul
+851 = DustwallowMarshScenario
+
 --]]
 
 -- Local
