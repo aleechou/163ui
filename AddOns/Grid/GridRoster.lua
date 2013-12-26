@@ -281,8 +281,7 @@ do
 				local _, _, _, _, max_players = GetInstanceInfo()
 				return maxPlayers == 10 and "raid_10" or maxPlayers == 25 and "raid_25" or "raid_40"
 			else
-				local raid_difficulty = GetRaidDifficultyID()
-				return (raid_difficulty == 4 or raid_difficulty == 6) and "raid_25" or (raid_difficulty == 3 or raid_difficulty == 5) and "raid_10" or "raid_40"
+				return "raid_40"
 			end
 		elseif IsInGroup() then
 			return "party"
