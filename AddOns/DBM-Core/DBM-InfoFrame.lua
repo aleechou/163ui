@@ -676,6 +676,56 @@ local function updatePlayerTargets()
 	updateIcons()
 end
 
+local function updateByFunction()
+	table.wipe(lines)
+	local func = value[1]
+	local sortFunc = value[2]
+	local useIcon = value[3]
+	lines = func()
+	if sortFunc then
+		updateLinesCustomSort(sortFunc)
+	else
+		updateLines()
+	end
+	if useIcon then
+		updateIcons()
+	end
+end
+
+local function updateTest()
+	table.wipe(lines)
+	lines["Alpha"] = 1
+	lines["Beta"] = 10
+	lines["Gamma"] = 25
+	lines["Delta"] = 50
+	lines["Epsilon"] = 100
+	updateLines()
+end
+
+local events = {
+	["bossdebuffstacks"] = updateBossDebuffStacks,
+	["cobalypower"] = updateCobalyPower,
+	["enemypower"] = updateEnemyPower,
+	["function"] = updateByFunction,
+	["FPHealth"] = updateFallenProtectorsHealth,
+	["health"] = updateHealth,
+	["nazgrimpower"] = updateNazgrimPower,
+	["other"] = updateOther,
+	["playerpower"] = updatePlayerPower,
+	["playerbuff"] = updatePlayerBuffs,
+	["playergooddebuff"] = updateGoodPlayerDebuffs,
+	["playerbaddebuff"] = updateBadPlayerDebuffs,
+	["playeraggro"] = updatePlayerAggro,
+	["playerbuffstacks"] = updatePlayerBuffStacks,
+	["playerdebuffstacks"] = updatePlayerDebuffStacks,
+	["playerdebuffstackstime"] = updatePlayerDebuffStacksTime,
+	["playersomedebuffs"] = updateSomePlayerDebuffs,
+	["playertargets"] = updatePlayerTargets,
+	["reverseplayerbaddebuff"] = updateReverseBadPlayerDebuffs,
+	["test"] = updateTest,
+	["time"] = updateTime,
+}
+
 ----------------
 --  OnUpdate  --
 ----------------
@@ -686,44 +736,11 @@ function onUpdate(self, elapsed)
 	if headerText then
 		self:AddLine(headerText, 255, 255, 255, 0)
 	end
-	if currentEvent == "health" then
-		updateHealth()
-	elseif currentEvent == "playerpower" then
-		updatePlayerPower()
-	elseif currentEvent == "enemypower" then
-		updateEnemyPower()
-	elseif currentEvent == "playerbuff" then
-		updatePlayerBuffs()
-	elseif currentEvent == "playergooddebuff" then
-		updateGoodPlayerDebuffs()
-	elseif currentEvent == "playerbaddebuff" then
-		updateBadPlayerDebuffs()
-	elseif currentEvent == "reverseplayerbaddebuff" then
-		updateReverseBadPlayerDebuffs()
-	elseif currentEvent == "playeraggro" then
-		updatePlayerAggro()
-	elseif currentEvent == "playerbuffstacks" then
-		updatePlayerBuffStacks()
-	elseif currentEvent == "playerdebuffstacks" then
-		updatePlayerDebuffStacks()
-	elseif currentEvent == "playertargets" then
-		updatePlayerTargets()
-	elseif currentEvent == "cobalypower" then
-		updateCobalyPower()
-	elseif currentEvent == "nazgrimpower" then
-		updateNazgrimPower()
-	elseif currentEvent == "playerdebuffstackstime" then
-		updatePlayerDebuffStacksTime()
-	elseif currentEvent == "playersomedebuffs" then
-		updateSomePlayerDebuffs()
-	elseif currentEvent == "bossdebuffstacks" then
-		updateBossDebuffStacks()
-	elseif currentEvent == "other" then
-		updateOther()
-	elseif currentEvent == "time" then
-		updateTime()
-	elseif currentEvent == "FPHealth" then
-		updateFallenProtectorsHealth()
+	if events[currentEvent] then
+		events[currentEvent]()
+	else
+		self:Hide()
+		error("DBM-InfoFrame: Unsupported event", 2)
 	end
 --	updateIcons()
 	local linesShown = 0
@@ -790,58 +807,17 @@ function infoFrame:Show(maxLines, event, threshold, powerIndex, iconMod, extraPo
 	currentEvent = event
 	frame = frame or createFrame()
 
-	if lowestFirst then
-		sortingAsc = true
+	if lowestFirst or currentEvent == "health" or currentEvent == "nazgrimpower"  then
+		sortingAsc = true	-- event == "health": Person who misses the most HP to be at threshold is listed on top
 	end
-	if event == "health" then
-		sortingAsc = true	-- Person who misses the most HP to be at threshold is listed on top
-		updateHealth()
-	elseif event == "playerpower" then
-		updatePlayerPower()
-	elseif event == "enemypower" then
-		updateEnemyPower()
-	elseif event == "playerbuff" then
+	if currentEvent == "playerbuff" or currentEvent == "playergooddebuff" or currentEvent == "playerbaddebuff" or currentEvent == "reverseplayerbaddebuff" or currentEvent == "playerbuffstacks" or currentEvent == "playerdebuffstacks" then
 		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updatePlayerBuffs()
-	elseif event == "playergooddebuff" then
-		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updateGoodPlayerDebuffs()
-	elseif event == "playerbaddebuff" then
-		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updateBadPlayerDebuffs()
-	elseif currentEvent == "reverseplayerbaddebuff" then
-		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updateReverseBadPlayerDebuffs()
-	elseif currentEvent == "playeraggro" then
-		updatePlayerAggro()
-	elseif currentEvent == "playerbuffstacks" then
-		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updatePlayerBuffStacks()
-	elseif currentEvent == "playerdebuffstacks" then
-		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
-		updatePlayerDebuffStacks()
-	elseif currentEvent == "playertargets" then
-		updatePlayerTargets()
-	elseif currentEvent == "cobalypower" then
-		updateCobalyPower()
-	elseif currentEvent == "nazgrimpower" then
-		sortingAsc = true
-		updateNazgrimPower()
-	elseif currentEvent == "playerdebuffstackstime" then
-		updatePlayerDebuffStacksTime()
-	elseif currentEvent == "playersomedebuffs" then
-		updateSomePlayerDebuffs()
-	elseif currentEvent == "bossdebuffstacks" then
-		updateBossDebuffStacks()
-	elseif currentEvent == "other" then
-		updateOther()
-	elseif currentEvent == "time" then
-		updateTime()
-	elseif currentEvent == "FPHealth" then
-		updateFallenProtectorsHealth()
-	elseif currentEvent == "test" then
+	end
+	if events[currentEvent] == "health" then
+		events[currentEvent]()
 	else
 		error("DBM-InfoFrame: Unsupported event", 2)
+		return
 	end
 
 	frame:Show()
@@ -854,44 +830,8 @@ function infoFrame:RegisterCallback(cb)
 end
 
 function infoFrame:Update(event)
-	if event == "health" then
-		updateHealth()
-	elseif event == "playerpower" then
-		updatePlayerPower()
-	elseif event == "enemypower" then
-		updateEnemyPower()
-	elseif event == "playerbuff" then
-		updatePlayerBuffs()
-	elseif event == "playergooddebuff" then
-		updateGoodPlayerDebuffs()
-	elseif event == "playerbaddebuff" then
-		updateBadPlayerDebuffs()
-	elseif event == "reverseplayerbaddebuff" then
-		updateReverseBadPlayerDebuffs()
-	elseif event == "playeraggro" then
-		updatePlayerAggro()
-	elseif event == "playerbuffstacks" then
-		updatePlayerBuffStacks()
-	elseif event == "playerdebuffstacks" then
-		updatePlayerDebuffStacks()
-	elseif event == "playertargets" then
-		updatePlayerTargets()
-	elseif event == "cobalypower" then
-		updateCobalyPower()
-	elseif event == "nazgrimpower" then
-		updateNazgrimPower()
-	elseif event == "playerdebuffstackstime" then
-		updatePlayerDebuffStacksTime()
-	elseif event == "playersomedebuffs" then
-		updateSomePlayerDebuffs()
-	elseif event == "bossdebuffstacks" then
-		updateBossDebuffStacks()
-	elseif event == "other" then
-		updateOther()
-	elseif event == "time" then
-		updateTime()
-	elseif event == "FPHealth" then
-		updateFallenProtectorsHealth()
+	if events[event] then
+		events[event]()
 	else
 		error("DBM-InfoFrame: Unsupported event", 2)
 	end

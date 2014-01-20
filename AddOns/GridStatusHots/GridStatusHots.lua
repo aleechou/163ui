@@ -58,14 +58,20 @@ spellNameCache.Earthliving = GetSpellInfo(51945);
 spellNameCache.EarthShield = GetSpellInfo(974);
 spellNameCache.Riptide = GetSpellInfo(61295);
 spellNameCache.AncestralFortitude = GetSpellInfo(16236);
-local fort_name, fort_rank, fort_icon = GetSpellInfo(16236);
-spellIconCache.AncestralFortitude = fort_icon
 spellNameCache.AncestralVigor = GetSpellInfo(105284);
-local vigor_name, vigor_rank, vigor_icon = GetSpellInfo(105284);
-spellIconCache.AncestralVigor = vigor_icon
 
 --Draenei
 spellNameCache.GiftoftheNaaru = GetSpellInfo(28880);
+
+--Buff 重名
+--local fort_name, fort_rank, fort_icon = GetSpellInfo(16236);
+--spellIconCache.AncestralFortitude = fort_icon select(3, GetSpellInfo(139))
+--local vigor_name, vigor_rank, vigor_icon = GetSpellInfo(105284);
+--spellIconCache.AncestralVigor = vigor_icon
+spellIconCache.AncestralFortitude = select(3, GetSpellInfo(16236))
+spellIconCache.AncestralVigor = select(3, GetSpellInfo(105284))
+-- XXX 163 恢复 buff重名
+spellIconCache.Renew = select(3, GetSpellInfo(139))
 
 
 GridStatusHots.extraOptions = {
@@ -2278,8 +2284,6 @@ function GridStatusHots:UpdateAllUnits()
 	end
 end
 
--- XXX 163 恢复 buff重名
-local _renew_icon = select(3, GetSpellInfo(139))
 function GridStatusHots:UpdateUnit(guid, unitid)
 	local total_hots, lbstack, pomstack, mypomstack, grastack, esstack = 0, 0, 0, 0, 0, 0;
 	local retime,rjtime,rgtime,lbtime,wgtime,sltime,sstime,ritime,pomtime,mypomtime,pwstime,boltime,eltime,estime,gratime,gifttime,datime,insptime,forttime,vigtime

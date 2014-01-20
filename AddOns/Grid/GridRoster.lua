@@ -278,7 +278,7 @@ do
 
 		if IsInRaid() then
 			if instanceType == "raid" then
-				local _, _, _, _, max_players = GetInstanceInfo()
+				local _, _, _, _, maxPlayers = GetInstanceInfo()
 				return maxPlayers == 10 and "raid_10" or maxPlayers == 25 and "raid_25" or "raid_40"
 			else
 				return "raid_40"

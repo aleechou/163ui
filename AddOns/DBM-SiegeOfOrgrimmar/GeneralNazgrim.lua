@@ -148,6 +148,95 @@ local function scanForMobs()
 	end
 end
 
+local lines = {}
+
+local function sortInfoFrame(a, b)
+	local a = lines[a]
+	local b = lines[b]
+	if not tonumber(a) then a = -1 end
+	if not tonumber(b) then b = -1 end
+	if a > b then return true else return false end
+end
+
+local function updateInfoFrame()
+	local bossPower = 0
+	table.wipe(lines)
+	if UnitExists("boss1") then
+		bossPower = UnitPower("boss1")
+	end
+	if bossPower < 50 then
+		lines["|cFF088A08"..GetSpellInfo(143500).."|r"] = bossPower--Green
+		lines[GetSpellInfo(143536)] = 50
+		lines[GetSpellInfo(143503)] = 70
+		lines[GetSpellInfo(143872)] = 100
+	elseif bossPower < 70 then
+		lines[GetSpellInfo(143500)] = 25
+		lines["|cFF088A08"..GetSpellInfo(143536).."|r"] = bossPower--Green (Would yellow be too hard to see on this?)
+		lines[GetSpellInfo(143503)] = 70
+		lines[GetSpellInfo(143872)] = 100
+	elseif bossPower < 100 then
+		lines[GetSpellInfo(143500)] = 25
+		lines[GetSpellInfo(143536)] = 50
+		lines["|cFF088A08"..GetSpellInfo(143503).."|r"] = bossPower--Green (Maybe change to orange?)
+		lines[GetSpellInfo(143872)] = 100
+	elseif bossPower == 100 then
+		lines[GetSpellInfo(143500)] = 25
+		lines[GetSpellInfo(143536)] = 50
+		lines[GetSpellInfo(143503)] = 70
+		lines["|cFFFF0000"..GetSpellInfo(143872).."|r"] = bossPower--Red (definitely work making this one red, it's really the only critically bad one)
+	end
+	if mod:IsDifficulty("heroic10", "heroic25") then--Same on 10 heroic? TODO, get normal LFR and flex adds info verified
+		if mod.vb.addsCount == 0 then
+			lines[L.nextAdds] = L.mage..", "..L.rogue..", "..L.warrior
+		elseif mod.vb.addsCount == 1 then
+			lines[L.nextAdds] = L.shaman..", "..L.rogue..", "..L.hunter
+		elseif mod.vb.addsCount == 2 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman..", "..L.warrior
+		elseif mod.vb.addsCount == 3 then
+			lines[L.nextAdds] = L.mage..", "..L.rogue..", "..L.hunter
+		elseif mod.vb.addsCount == 4 then
+			lines[L.nextAdds] = L.shaman..", "..L.rogue..", "..L.warrior
+		elseif mod.vb.addsCount == 5 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman..", "..L.hunter
+		elseif mod.vb.addsCount == 6 then
+			lines[L.nextAdds] = L.rogue..", "..L.hunter..", "..L.warrior
+		elseif mod.vb.addsCount == 7 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman..", "..L.rogue
+		elseif mod.vb.addsCount == 8 then
+			lines[L.nextAdds] = L.shaman..", "..L.hunter..", "..L.warrior
+		elseif mod.vb.addsCount == 9 then
+			lines[L.nextAdds] = L.mage..", "..L.hunter..", "..L.warrior
+		else--Already had all 10 adds sets now we're just going to get no more adds (except for 10%)
+			lines[""] = ""
+		end
+	else--Not heroic
+		if mod.vb.addsCount == 0 then
+			lines[L.nextAdds] = L.mage..", "..L.warrior
+		elseif mod.vb.addsCount == 1 then
+			lines[L.nextAdds] = L.shaman..", "..L.rogue
+		elseif mod.vb.addsCount == 2 then
+			lines[L.nextAdds] = L.rogue..", "..L.warrior
+		elseif mod.vb.addsCount == 3 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman
+		elseif mod.vb.addsCount == 4 then
+			lines[L.nextAdds] = L.shaman..", "..L.warrior
+		elseif mod.vb.addsCount == 5 then
+			lines[L.nextAdds] = L.mage..", "..L.rogue
+		elseif mod.vb.addsCount == 6 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman..", "..L.rogue
+		elseif mod.vb.addsCount == 7 then
+			lines[L.nextAdds] = L.shaman..", "..L.rogue..", "..L.warrior
+		elseif mod.vb.addsCount == 8 then
+			lines[L.nextAdds] = L.mage..", "..L.shaman..", "..L.warrior
+		elseif mod.vb.addsCount == 9 then
+			lines[L.nextAdds] = L.mage..", "..L.rogue..", "..L.warrior
+		else--Already had all 10 adds sets now we're just going to get no more adds (except for 10%)
+			lines[""] = ""
+		end
+	end
+	return lines
+end
+
 function mod:OnCombatStart(delay)
 	addsCount = 0
 	table.wipe(adds)
@@ -238,7 +327,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zdzt.mp3") --戰鬥姿態
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(143589))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
+			DBM.InfoFrame:Show(5, "function", updateInfoFrame, sortInfoFrame)
 		end
 		timerBerserkerStanceCD:Start()
 	elseif args.spellId == 143594 then
@@ -247,7 +337,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_kbzt.mp3") --狂暴姿態
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(143594))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
+			DBM.InfoFrame:Show(5, "function", updateInfoFrame, sortInfoFrame)
 		end
 		timerDefensiveStanceCD:Start()
 		warnDefensiveStanceSoon:Schedule(55, 5)--Start pre warning with regular warnings only as you don't move at this point yet.
@@ -273,7 +364,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(143593))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
+			DBM.InfoFrame:Show(5, "function", updateInfoFrame, sortInfoFrame)
 		end
 		timerDefensiveStance:Start()
 	elseif args.spellId == 143536 then
