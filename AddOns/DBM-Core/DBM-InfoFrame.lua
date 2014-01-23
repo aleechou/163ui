@@ -678,9 +678,9 @@ end
 
 local function updateByFunction()
 	table.wipe(lines)
-	local func = value[1]
-	local sortFunc = value[2]
-	local useIcon = value[3]
+	local func = infoFrameThreshold
+	local sortFunc = pIndex
+	local useIcon = iconModifier
 	lines = func()
 	if sortFunc then
 		updateLinesCustomSort(sortFunc)
@@ -813,7 +813,7 @@ function infoFrame:Show(maxLines, event, threshold, powerIndex, iconMod, extraPo
 	if currentEvent == "playerbuff" or currentEvent == "playergooddebuff" or currentEvent == "playerbaddebuff" or currentEvent == "reverseplayerbaddebuff" or currentEvent == "playerbuffstacks" or currentEvent == "playerdebuffstacks" then
 		infoFrameSpellName = GetSpellInfo(infoFrameThreshold)
 	end
-	if events[currentEvent] == "health" then
+	if events[currentEvent] then
 		events[currentEvent]()
 	else
 		error("DBM-InfoFrame: Unsupported event", 2)
