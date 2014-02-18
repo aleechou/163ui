@@ -3,15 +3,14 @@
 ## Notes-zhTW: 完整的商業技能百科
 ## Notes-zhCN: 完整的商业技能百科
 ## Author: Ethan Centaurai
-## Version: v2.2.10
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced
+## Version: v2.2.14
 ## SavedVariables: TradeSkillInfoDB, TradeskillInfoUIDB
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-Credits: Dys, wmrojer, Evenue, Fieroivan, Viruscamp, CMTitan
 ## X-Icon: Interface\Icons\INV_Elemental_SpiritOfHarmony_2
 ## X-Category: Professions
-## X-Curse-Packaged-Version: v2.2.10
+## X-Curse-Packaged-Version: v2.2.14
 ## X-Curse-Project-Name: TradeSkillInfo
 ## X-Curse-Project-ID: tradeskill-info
 ## X-Curse-Repository-ID: wow/tradeskill-info/mainline
@@ -46,4 +45,4 @@ TradeskillInfoOptions.lua
 
 ## Title: |cff880303[网易有爱]|r TradeskillInfo
 ## X-Vendor: NetEase
-## OptionalDeps: LibBabble-3.0
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced

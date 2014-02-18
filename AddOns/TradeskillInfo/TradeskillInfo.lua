@@ -1,8 +1,6 @@
-﻿
-local _
 
 local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
-_G.TradeskillInfo = TradeskillInfo
+
 TradeskillInfo = LibStub("AceAddon-3.0"):NewAddon("TradeSkillInfo", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0")
 TradeskillInfo.version = GetAddOnMetadata("TradeSkillInfo", "Version")
 
@@ -88,7 +86,7 @@ function TradeskillInfo:OnInitialize()
 			TooltipUsedIn = true,
 			TooltipUsableBy = true,
 			TooltipColorUsableBy = true,
-			TooltipKnownBy = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
+			TooltipKnownBy     = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipLearnableBy = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipAvailableTo = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipMarketValue = true,
@@ -107,15 +105,15 @@ function TradeskillInfo:OnInitialize()
 			ColorStack			= { r = 1, g = 1, b = 1 },
 			ColorMarketValue	= { r = 0.8, g = 0.9, b = 0 },
 
-			QuickSearch = true,
+			QuickSearch = false,
 			SearchMouseButton = 2,
-			SearchShiftKey = 1,
+			SearchShiftKey = 2,
 			ColorAHRecipes = true,
-			AHColorLearnable = { r = 1, g = 1, b = 1 },
+			AHColorLearnable    = { r = 1, g = 1, b = 1 },
 			AHColorAltLearnable = { r = 0, g = 1, b = 0 },
-			AHColorWillLearn = { r = 1, g = 0.75, b = 0 },
+			AHColorWillLearn    = { r = 1, g = 0.75, b = 0 },
 			AHColorAltWillLearn = { r = 0, g = 0.75, b = 1 },
-			AHColorUnavailable = { r = 1, g = 0, b = 0 },
+			AHColorUnavailable  = { r = 1, g = 0, b = 0 },
 			SavePosition = true,
 			FrameStrata = 1,
 			UIScale = 1,
@@ -167,9 +165,6 @@ function TradeskillInfo:OnEnable()
 
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("TradeSkillInfo", TradeskillInfo.CreateConfig)
 	self.OptionsPanel = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TradeSkillInfo", "TradeSkillInfo")
-
-	-- local AboutPanel = LibStub("tekKonfig-AboutPanel", true)
-	-- if AboutPanel then AboutPanel.new("TradeSkill Info", "TradeSkillInfo") end
 
 	self:ScheduleTimer("OnSkillUpdate", 1)
 end
@@ -265,7 +260,7 @@ function TradeskillInfo:GetExtraItemDataText(itemId, showVendorProfit, showDiffi
 		if showAuctioneerProfit then
 			-- Insert item value and reagent costs from auctioneer
 			local value,cost,profit = self:GetCombineAuctioneerCost(itemId)
-			text = string.format("拍卖: %s - %s = %s",
+			text = string.format("A: %s - %s = %s",
 			                     self:GetMoneyString(value),
 			                     self:GetMoneyString(cost),
 			                     self:GetMoneyString(profit))
@@ -276,7 +271,7 @@ function TradeskillInfo:GetExtraItemDataText(itemId, showVendorProfit, showDiffi
 			local value,cost,profit = self:GetCombineCost(itemId)
 			if text then sep = "\n" else text = "" end
 			text = text .. sep ..
-			       string.format("卖店: %s - %s = %s",
+			       string.format("V: %s - %s = %s",
 			                     self:GetMoneyString(value),
 			                     self:GetMoneyString(cost),
 			                     self:GetMoneyString(profit))
@@ -369,11 +364,9 @@ function TradeskillInfo:GetSpecialCase(id,itemName)
 	return tonumber(id),itemName
 end
 
---local warnedThisSession = {}
 function TradeskillInfo:UpdateKnownTradeRecipes(startLine, endLine)
 	if CURRENT_TRADESKILL == "Runeforging" then return end
 
---	local newData = ""
 	local numSkills = GetNumTradeSkills()
 
 	if not startLine then
@@ -395,19 +388,8 @@ function TradeskillInfo:UpdateKnownTradeRecipes(startLine, endLine)
 			local id = self:MakeSpecialCase(getIdFromLink(GetTradeSkillItemLink(i)), spellId)
 
 			self.db.realm.userdata[self.vars.playername].knownRecipes[id] = self.vars.difficultyLevel[itemType]
-
---			if not self.vars.combines[id] then
---				newData = newData..id..", "
---			end
 		end
 	end
-
-	--[[if newData ~= "" and not warnedThisSession[CURRENT_TRADESKILL] then
-		self:Print("New data found for "..CURRENT_TRADESKILL..": "..newData)
-		self:Print("Please attach the above information to a support ticket at\nhttp://www.wowace.com/addons/tradeskill-info/tickets/")
-
-		warnedThisSession[CURRENT_TRADESKILL] = true
-	end]]
 end
 
 ----------------------------------------------------------------------
@@ -554,28 +536,29 @@ function TradeskillInfo:AuctionItemButton_OnClick(object, button)
 end
 
 function TradeskillInfo:Item_OnClick(button, link)
-	if self.db.profile.QuickSearch then
-		if button == self.vars.MouseButtons[self.db.profile.SearchMouseButton] then
-			local accept = true
-			for i, func in ipairs(self.vars.ShiftKeys) do
-				if i == self.db.profile.SearchShiftKey then
-					accept = accept and func()
-				else
-					accept = accept and not func()
-				end
-			end
+	if not self:LoadUI(true) then return end
+	if not self.db.profile.QuickSearch then return end
 
-			if accept then
-				local id = getIdFromLink(link)
-				if not self:ComponentExists(id) then return end
-				if self:LoadUI(true) then -- Have TradeskillInfoUI
-					local name = getNameFromLink(link)
-					TradeskillInfoUI:SetSearchText("id="..id.." "..name)
-					TradeskillInfoFrame:Show()
-				else
-					self:PrintWhereUsed(id)
-				end
+	if button == self.vars.MouseButtons[self.db.profile.SearchMouseButton] then
+		local accept = true
+
+		for i, func in ipairs(self.vars.ShiftKeys) do
+			if i == self.db.profile.SearchShiftKey then
+				accept = accept and func()
+			else
+				accept = accept and not func()
 			end
+		end
+
+		if accept then
+			local id = getIdFromLink(link)
+
+			if not self:ComponentExists(id) then return end
+
+			local name = getNameFromLink(link)
+
+			TradeskillInfoUI:SetSearchText("id="..id.." "..name)
+			TradeskillInfoFrame:Show()
 		end
 	end
 end
@@ -614,21 +597,26 @@ end
 
 function TradeskillInfo:GetCombine(id)
 	if not self:CombineExists(id) then return end
+
 	local combine = {}
-	local _, _, skill, spec, level, _, _, _, _, recipe, yield, item =
-		string.find(self.vars.combines[id], "-?%d*|?(%u)(%l*)(%d+)/?(%d*)/?(%d*)/?(%d*)|([^|]+)[|]?(%d*)[|]?([^|]*)[|]?(%d*)")
+	local _, _, skill, spec, level, _, _, _, _, recipe, yield, item = string.find(self.vars.combines[id], "-?%d*|?(%u)(%l*)(%d+)/?(%d*)/?(%d*)/?(%d*)|([^|]+)[|]?(%d*)[|]?([^|]*)[|]?(%d*)")
+
 	combine.skill = skill
 	combine.spec = spec
 	combine.level = tonumber(level)
+
 	if recipe ~= "" then combine.recipe = tonumber(recipe) end
 	if yield ~= "" then combine.yield = tonumber(yield) else combine.yield = 1 end
 	if item ~= "" then combine.item = tonumber(item) end
+
 	if combine.item then
 		combine.link, combine.quality, combine.itemString, combine.texture = getItemLink(combine.item)
 	else
 		combine.link, combine.quality, combine.itemString, combine.texture = getItemLink(id)
 	end
+
 	combine.name = self:GetCombineName(id)
+
 	return combine
 end
 
@@ -853,8 +841,8 @@ function TradeskillInfo:GetCombineAuctioneerCost(id)
 	if item then id = item end
 
 	if id > 0 then
-		_,_,_,value = self:GetComponent(id, false, true)
-        if(not value) then value = 0 end -- XXX 163
+		value = select(4, self:GetComponent(id, false, true))
+
 		if yield > 1 then
 			value = value * yield
 		end
@@ -865,20 +853,21 @@ function TradeskillInfo:GetCombineAuctioneerCost(id)
 	for _, c in ipairs(components) do
 		cost = cost + ((c.aucMvCost or 0) * c.num)
 	end
-	components = nil;
 
 	return value, cost, value - cost
 end
 
 function TradeskillInfo:PrintCombine(id)
 	if not self:CombineExists(id) then return end
+
 	local combine = self:GetCombine(id)
 	local text = string.format("%s : %s(%d) %s ", combine.link or combine.name, self.vars.tradeskills[combine.skill], combine.level, self.vars.specializations[combine.spec] or "" )
+
 	for _, c in ipairs(combine.components) do
 		text = text .. string.format("x%d*%s ", c.num, c.link or c.name)
 	end
-	combine = nil;
-	self:Print(text);
+
+	self:Print(text)
 end
 
 function TradeskillInfo:GetCombineFactionAvailable(id)
@@ -934,7 +923,7 @@ function TradeskillInfo:GetComponent(id, getVendorPrice, getAuctioneerPrice)
 		if AucAdvanced and AucAdvanced.API then
 			local itemLink = getItemLink(realId)
 
-			aucMvCost, aucMvSeen = AucAdvanced.API.GetMarketValue(itemLink, AucAdvanced.GetFaction())
+			aucMvCost, aucMvSeen = AucAdvanced.API.GetMarketValue(itemLink)
 
 			-- if auctioneer has no idea, plug in vendor sell value
 			if not aucMvCost then aucMvCost = cost end
@@ -982,32 +971,6 @@ end
 -- Where Used
 ----------------------------------------------------------------------
 
-function TradeskillInfo:PrintWhereUsed(id)
-	if not self.vars.whereUsed[id] then
-		self:Print("Not used in any know tradeskill")
-		return
-	end
-	local skills = {}
-	local num = 0
-	for s in string.gmatch(self.vars.whereUsed[id],"%S+") do
-		num = num + 1
-	local _,_,skill,item = string.find(s, "(%u+)([-]?%d+)")
-	if not skills[skill] then
-		skills[skill] = {}
-	end
-	table.insert(skills[skill],tonumber(item))
-	end
-	local name = self:GetComponent(id)
-	self:Print("Found "..name.." in "..num.." combines")
-	for n,s in pairs(skills) do
-		self:Print(table.getn(s).." "..self.vars.tradeskills[n].." combines")
-		for _,i in ipairs(s) do
-			self:PrintCombine(i)
-		end
-	end
-	skills = nil
-end
-
 function TradeskillInfo:GetUsedIn(id, tooltip)
 	if not self.vars.whereUsedOverview[id] then return end
 	local overview
@@ -1048,7 +1011,6 @@ function TradeskillInfo:BuildWhereUsed()
 				self.vars.whereUsed[c.id]=self.vars.whereUsed[c.id].." "..skill..tostring(i)
 			end
 		end
-		components = nil
 	end
 
 	self.vars.whereUsedOverview = {}
@@ -1641,11 +1603,9 @@ end
 function TradeskillInfo:ScrollToConfig()
 	local buttons = InterfaceOptionsFrameAddOns.buttons
 	local offset = 0
-	local height = buttons[1]:GetHeight()
-	local maxScroll = floor(select(2,InterfaceOptionsFrameAddOns2ListScrollBar:GetMinMaxValues())/height+0.5)
-	if( maxScroll == 0 ) then return end
+	local maxScroll = floor(select(2,InterfaceOptionsFrameAddOnsListScrollBar:GetMinMaxValues())/buttons[1]:GetHeight()+0.5)
 	while offset <= maxScroll do
-		InterfaceOptionsFrameAddOns2ListScrollBar:SetValue(offset*height)
+		InterfaceOptionsFrameAddOnsListScrollBar:SetValue(offset*buttons[1]:GetHeight())
 		for i = 1, #buttons do
 			if buttons[i].element == self.OptionsPanel then
 				InterfaceOptionsFrame_OpenToCategory(self.OptionsPanel)
@@ -1856,8 +1816,5 @@ function TradeskillInfo:PopulateProfessionNames()
 			self.vars.specializations[l] = name
 			self.vars.specializationnames[name] = l
 		end
-		-- We won't ever come here again until the UI is reloaded.
-		-- Free up a little memory
-		defaultNames = nil
 	end
 end

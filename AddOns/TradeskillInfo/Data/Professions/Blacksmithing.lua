@@ -605,6 +605,11 @@ C[71991] = "101929|B525/525/530/535|58480:4 52329:30 52078:2 71998:4|72014" -- P
 C[71992] = "101931|B525/525/530/535|58480:4 52325:30 52078:2 71998:4|72015" -- Plans: Bracers of Destructive Strength
 C[71993] = "101932|B525/525/530/535|58480:4 53039:10 52078:2 71998:4|72016" -- Plans: Titanguard Wristplates
 
+C[75118] = "76467|B510/520/522/525|52186:10 52326:10|66127" -- Vicious Ornate Pyrium Belt
+C[75123] = "76458|B510/520/522/525|52186:10 52325:10|66119" -- Vicious Pyrium Belt
+C[75124] = "76456|B500/510/512/515|52186:8 52325:10|66117" -- Vicious Pyrium Bracers
+C[75132] = "76468|B515/525/527/530|52186:12 52326:10|66128" -- Vicious Ornate Pyrium Boots
+
 	--blacksmithing
 C[-113263] = "B1/1/1/1|3466:4" -- Socket Bracer
 C[-114112] = "B1/1/1/1|3466:4" -- Socket Gloves
@@ -712,8 +717,8 @@ C[95356] = "139749|B86/121/121/121|72096:20"	-- Training Project: Ghost Iron Pok
 C[95357] = "139750|B121/136/136/136|72096:9"	-- Training Project: Ghost Iron Hook
 C[95358] = "139751|B136/151/151/151|72096:15"	-- Training Project: Ghost Iron Spatulas
 C[95359] = "139753|B151/186/186/186|72096:20"	-- Training Project: Decorative Spoons
-C[93561] = "139754|B186/199/199/199|72096:25"	-- Training Project: Ghost Iron Spade
-C[93562] = "139755|B199/206/206/206|72096"		-- Training Project: Ghost Iron Needles
+C[95361] = "139754|B186/199/199/199|72096:25"	-- Training Project: Ghost Iron Spade
+C[95362] = "139755|B199/206/206/206|72096"		-- Training Project: Ghost Iron Needles
 C[95363] = "139756|B206/231/231/231|72096:35"	-- Training Project: Ghost Iron Barrel
 C[95364] = "139757|B231/248/248/248|72096:30"	-- Training Project: Ghost Iron Saw
 C[95365] = "139759|B248/256/256/256|72096"		-- Training Project: Ghost Iron Wire
@@ -749,8 +754,15 @@ C[94591] = "138892|B600/605/610/615|94111:15 72104:6 76061:9 94589"	-- Blazefury
 C[94592] = "138893|B600/605/610/615|94111:15 72104:6 76061:9 94590"	-- Lionheart Executioner, Reborn
 
 -- Patch 5.4
-C[65] = "143225|B600/605/611/616|72095|||98717"        -- Balanced Trillium Ingot
-C[66] = "146921|B600/605/611/616|72095 102218|||98717" -- Accelerated Balanced Trillium Ingot
+C[65] = "143255|B600/610/605/616|72095||1|98717"        -- Balanced Trillium Ingot
+C[66] = "146921|B600/605/610/616|72095 102218||1|98717" -- Accelerated Balanced Trillium Ingot
+
+C[98602] = "142954|B600/605/611/618|98717:28" -- Blessed Trillium Greaves
+C[98606] = "142958|B600/605/611/618|98717:28" -- Protector's Trillium Legguards
+C[98607] = "142959|B600/605/611/618|98717:28" -- Avenger's Trillium Legplates
+C[98611] = "142963|B600/605/611/618|98717:21" -- Blessed Trillium Belt
+C[98615] = "142967|B600/605/611/618|98717:21" -- Protector's Trillium Waistguard
+C[98616] = "142968|B600/605/611/618|98717:21" -- Avenger's Trillium Waistplate
 
 C[98784] = "143163|B600/600/603/606|72096:20" -- Crafted Malevolent Gladiator's Dreadplate Chestpiece
 C[98785] = "143164|B600/600/603/606|72096:15" -- Crafted Malevolent Gladiator's Dreadplate Gauntlets

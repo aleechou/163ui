@@ -1,4 +1,4 @@
-﻿TRADESKILL_INFO = "商业技能库"
+TRADESKILL_INFO = "商业技能库"
 TRADESKILLINFO_SEARCH = "查询";
 TRADESKILLINFO_RESET = "重置"
 
@@ -698,7 +698,6 @@ function TradeskillInfoUI:Item_OnClick(frame, button)
 		if accept then
 			local _,_,item = string.find(frame.tooltip,":(%d+):")
 			self:SetSearchText("id="..item.." "..frame.name)
-			--self:Search_OnClick()
 			self:OnTradeskillInfoUpdate()
 			return true
 		end

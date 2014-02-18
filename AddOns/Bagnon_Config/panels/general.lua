@@ -5,81 +5,13 @@
 
 local Bagnon = LibStub('AceAddon-3.0'):GetAddon('Bagnon')
 local L = LibStub('AceLocale-3.0'):GetLocale('Bagnon-Config')
-
---a hack panel, this is designed to force open to the general options panel when clicked
-local BagnonOptions = Bagnon.OptionsPanel:New('Bagnon', nil, 'Bagnon')
-BagnonOptions:SetScript('OnShow', function(self)
-	InterfaceOptionsFrame_OpenToCategory(Bagnon.GeneralOptions)
-	self:Hide()
-end)
-
-local GeneralOptions = Bagnon.OptionsPanel:New('BagnonOptions_General', 'Bagnon', L.GeneralSettings, L.GeneralSettingsTitle)
-Bagnon.GeneralOptions = GeneralOptions
-
+local GeneralOptions = Bagnon.OptionsPanel:New('BagnonOptions', nil, 'Bagnon', L.GeneralSettingsTitle)
 local SPACING = 6
 
 
---[[
-	Startup
---]]
+--[[ Widgets ]]--
 
-function GeneralOptions:Load()
-	self:AddWidgets()
-	self:UpdateMessages()
-end
-
---[[
-	Frame Events
---]]
-
-function GeneralOptions:OnShow()
-	self:UpdateMessages()
-end
-
-function GeneralOptions:OnHide()
-	self:UpdateMessages()
-end
-
-
---[[
-	Messages
---]]
-
-function GeneralOptions:UpdateMessages()
-	if not self:IsVisible() then
-		self:UnregisterAllMessages()
-		return
-	end
-
-	self:RegisterMessage('SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE')
-	self:RegisterMessage('LOCK_FRAME_POSITIONS_UPDATE')
-	self:RegisterMessage('ENABLE_FRAME_UPDATE')
-	self:RegisterMessage('BLIZZARD_BAG_PASSTHROUGH_UPDATE')
-end
-
-function GeneralOptions:SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE(msg, enable)
-	self:GetEmptyItemSlotTextureCheckbox():UpdateChecked()
-end
-
-function GeneralOptions:LOCK_FRAME_POSITIONS_UPDATE(msg, enable)
-	self:GetLockFramePositionsCheckbox():UpdateChecked()
-end
-
-function GeneralOptions:ENABLE_FRAME_UPDATE(msg, frameID, enable)
-	self:GetEnableFrameCheckbox(frameID):UpdateChecked()
-end
-
-function GeneralOptions:BLIZZARD_BAG_PASSTHROUGH_UPDATE(msg, enable)
-	self:GetBlizzardBagPassThroughCheckbox():UpdateChecked()
-end
-
-
-
---[[
-	Widgets
---]]
-
-function GeneralOptions:AddWidgets()
+function GeneralOptions:OnStartup()
 	local enableInventory = self:CreateEnableFrameCheckbox('inventory')
 	enableInventory:SetPoint('TOPLEFT', self, 'TOPLEFT', 14, -72)
 	
@@ -104,27 +36,45 @@ function GeneralOptions:AddWidgets()
 	local enableFading = self:CreateFadingCheckbox()
 	enableFading:SetPoint('TOPLEFT', enableFlashFind, 'BOTTOMLEFT', 0, -SPACING)
 
-  local enableTipItemCount = self:CreateTipCountCheckbox()
-  enableTipItemCount:SetPoint('TOPLEFT', enableFading, 'BOTTOMLEFT', 0, -SPACING)
+	local enableTipItemCount = self:CreateTipCountCheckbox()
+  	enableTipItemCount:SetPoint('TOPLEFT', enableFading, 'BOTTOMLEFT', 0, -SPACING)
 end
 
-function GeneralOptions:UpdateWidgets()
-	if not self:IsVisible() then
-		return
-	end
-
+function GeneralOptions:OnActivate()
 	self:GetEnableFrameCheckbox('inventory'):UpdateChecked()
 	self:GetEnableFrameCheckbox('bank'):UpdateChecked()
 
+	self:GetLockFramePositionsCheckbox():UpdateChecked()
 	self:GetEmptyItemSlotTextureCheckbox():UpdateChecked()
-	self:GetHighlightItemsByQualityCheckbox():UpdateChecked()
-	self:GetHighlightQuestItemsCheckbox():UpdateChecked()
-	self:GetColorItemSlotsCheckbox():UpdateChecked()
 	self:GetDisableBagsCheckbox():UpdateChecked()
 	self:GetBlizzardBagPassThroughCheckbox():UpdateChecked()
 	self:GetFlashFindCheckbox():UpdateChecked()
 	self:GetFadingCheckbox():UpdateChecked()
 	self:GetTipCountCheckbox():UpdateChecked()
+
+	self:RegisterMessage('SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE')
+	self:RegisterMessage('LOCK_FRAME_POSITIONS_UPDATE')
+	self:RegisterMessage('ENABLE_FRAME_UPDATE')
+	self:RegisterMessage('BLIZZARD_BAG_PASSTHROUGH_UPDATE')
+end
+
+
+--[[ Messages ]]--
+
+function GeneralOptions:SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE(msg, enable)
+	self:GetEmptyItemSlotTextureCheckbox():UpdateChecked()
+end
+
+function GeneralOptions:LOCK_FRAME_POSITIONS_UPDATE(msg, enable)
+	self:GetLockFramePositionsCheckbox():UpdateChecked()
+end
+
+function GeneralOptions:ENABLE_FRAME_UPDATE(msg, frameID, enable)
+	self:GetEnableFrameCheckbox(frameID):UpdateChecked()
+end
+
+function GeneralOptions:BLIZZARD_BAG_PASSTHROUGH_UPDATE(msg, enable)
+	self:GetBlizzardBagPassThroughCheckbox():UpdateChecked()
 end
 
 
@@ -313,4 +263,5 @@ end
 
 --[[ Load the thing ]]--
 
-GeneralOptions:Load()
+Bagnon.GeneralOptions = GeneralOptions
+GeneralOptions:Startup()

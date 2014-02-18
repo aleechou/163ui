@@ -13,75 +13,27 @@ Bagnon.DisplayOptions = DisplayOptions
 local SPACING = 4
 
 
---[[
-	Startup
---]]
+--[[ Events ]]--
 
-function DisplayOptions:Load()
-	self:SetScript('OnShow', self.OnShow)
-	self:SetScript('OnHide', self.OnHide)
-	self:AddWidgets()
-	self:SetFrameID('inventory')
-end
-
-function DisplayOptions:ShowFrame(frameID)
-	self:SetFrameID(frameID)
-	InterfaceOptionsFrame_OpenToCategory(self)
-end
-
-
---[[
-	Messages
---]]
-
-function DisplayOptions:UpdateMessages()
-	if self:IsVisible() then
-		self:RegisterMessage('FRAME_DISPLAY_EVENT_UPDATE')
-	else
-		self:UnregisterMessage('FRAME_DISPLAY_EVENT_UPDATE')
-	end
-end
-
-function DisplayOptions:FRAME_DISPLAY_EVENT_UPDATE(msg, frameID, event, enable)
-	if self:GetFrameID() == frameID then
-		self:GetDisplayEventCheckbox(event):UpdateChecked()
-	end
-end
-
-
---[[
-	Frame Events
---]]
-
-function DisplayOptions:OnShow()
-	self:UpdateMessages()
-end
-
-function DisplayOptions:OnHide()
-	self:UpdateMessages()
-end
-
-
---[[
-	Components
---]]
-
-function DisplayOptions:AddWidgets()
+function DisplayOptions:OnStartup()
 	local displayEvents = {'bank', 'ah', 'trade', 'gems', 'craft', 'guildbank', 'player', 'vendor', 'combat', 'vehicle'}
-
 	for i, event in ipairs(displayEvents) do
 		self:AddDisplayEventCheckbox(event)
 	end
+
+	self:SetFrameID('inventory')
 end
 
-function DisplayOptions:UpdateWidgets()
-	if not self:IsVisible() then
-		return
-	end
-
+function DisplayOptions:OnActivate()
 	for i, button in self:GetDisplayEventCheckboxes() do
 		button:UpdateChecked()
 	end
+
+	self:RegisterMessage('FRAME_DISPLAY_EVENT_UPDATE')
+end
+
+function DisplayOptions:FRAME_DISPLAY_EVENT_UPDATE(msg, frameID, event, enable)
+	self:GetDisplayEventCheckbox(event):UpdateChecked()
 end
 
 
@@ -124,23 +76,6 @@ function DisplayOptions:GetDisplayEventCheckboxes()
 	return ipairs(self.displayEventCheckboxes)
 end
 
-
---[[
-	Update Methods
---]]
-
-function DisplayOptions:SetFrameID(frameID)
-	if self:GetFrameID() ~= frameID then
-		self.frameID = frameID
-		self:UpdateWidgets()
-	end
-end
-
-function DisplayOptions:GetFrameID()
-	return self.frameID
-end
-
-
 --[[ Load the thing ]]--
 
-DisplayOptions:Load()
+DisplayOptions:Startup()

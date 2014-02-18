@@ -1,12 +1,10 @@
-﻿
+
 local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo", true)
 
 
 -- upvalues, will be populated in :CreateConfig() at the bottom of the file
 local knownSelect = {} -- the multiselect array for "Known by", "Learnable by", "Will be learnable by"
 local db
-
-
 
 
 local function getOption(info)
@@ -439,9 +437,7 @@ function TradeskillInfo:CreateConfig()
 		},
 	}
 
-
 	TradeskillInfo.optionsLoaded = true
-
 
 	return options
 end

@@ -866,6 +866,19 @@ TradeskillInfo.vars.components = {
 	[72103] = "D",
 	[82441] = "D",
 	[82447] = "D",
+	[2595] = "V",
+	[79246] = "G",
+	[79250] = "G",
+	[94289] = "D",
+	[102218] = "Cn",
+	[102536] = "G",
+	[102537] = "G",
+	[102538] = "G",
+	[102539] = "V",
+	[102540] = "V",
+	[102541] = "D",
+	[102542] = "D",
+	[102543] = "D",
 }
 
 -- Skill Translation table. It is used for converting skill names

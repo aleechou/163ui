@@ -39,6 +39,8 @@ TradeskillInfo.vars.specialcases = {
 	[74250]	= "61,62",				-- Mysterious Essence
 	[12655] = "63,64",				-- Enchanted Thorium Bar
 	[98717] = "65,66",				-- Balanced Trillium Ingot
+	[98617] = "67,68",				-- Hardened Magnificent Hide
+	[98619] = "69,70",				-- Celestial Cloth
 }
 
 

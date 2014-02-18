@@ -1,6 +1,6 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("TradeskillInfo", "enUS", true)
+local L = LibStub("AceLocale-3.0"):NewLocale("TradeskillInfo", "enUS", true)
 if not L then return end
-L["TradeSkill Info"] = true
+
 -- The translations I pinched from Babble-Tradeskill-2.2
 L["Alchemy"]                    = true
 L["Blacksmithing"]              = true
@@ -11,21 +11,9 @@ L["Leatherworking"]             = true
 L["Tailoring"]                  = true
 L["Cooking"]                    = true
 L["First Aid"]                  = true
-L["Poisons"]                    = true
 L["Smelting"]                   = true
-L["Armorsmith"]                 = true
-L["Weaponsmith"]                = true
-L["Master Swordsmith"]          = true
-L["Master Hammersmith"]         = true
-L["Master Axesmith"]            = true
-L["Dragonscale Leatherworking"] = true
-L["Elemental Leatherworking"]   = true
-L["Tribal Leatherworking"]      = true
 L["Gnomish Engineer"]           = true
 L["Goblin Engineer"]            = true
-L["Spellfire Tailoring"]        = true
-L["Shadoweave Tailoring"]       = true
-L["Mooncloth Tailoring"]        = true
 L["Herbalism"]                  = true
 L["Disenchant"]                 = true
 L["Prospecting"]                = true

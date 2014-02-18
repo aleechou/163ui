@@ -172,7 +172,6 @@ function Frame:OnHide()
 end
 
 
-
 --[[
   Update Methods
 ]]--
@@ -349,17 +348,14 @@ function Frame:UpdateFrameLayer()
 end
 
 function Frame:SetFrameLayer(layer)
-	local strata, topLevel = nil, false
+	local topLevel, strata = true
 
 	if layer == 'TOPLEVEL' then
 		strata = 'HIGH'
-		topLevel = true
 	elseif layer == 'MEDIUMLOW' then
 		strata = 'LOW'
-		topLevel = true
 	elseif layer == 'MEDIUMHIGH' then
 		strata = 'MEDIUM'
-		topLevel = true
 	else
 		strata = layer
 		topLevel = false
@@ -394,15 +390,8 @@ function Frame:Layout()
 	width = width + w
 
 	local w, h = self:PlaceOptionsToggle()
-	--width = width + w + 24 --append spacing between close button and this
-    width = width + w -- XXX 163
+	width = width + w + 24 --append spacing between close button and this
 	height = height + 20
-
-    -- XXX 163
-    local w, h = self:PlaceJPackButton()
-    width = width + w + 24
-    height = height + 20
-    -- XXX 163
 
 	local w = self:PlaceTitleFrame()
 	width = width + w
@@ -543,9 +532,7 @@ function Frame:PlaceSearchFrame()
 		frame:SetPoint('TOPLEFT', self, 'TOPLEFT', 8, -8)
 	end
 
-	if self:GetJPackButton() then
-        frame:SetPoint('RIGHT', self:GetJPackButton(), 'LEFT', -2, 0)
-    elseif self:HasOptionsToggle() then
+	if self:HasOptionsToggle() then
 		frame:SetPoint('RIGHT', self:GetOptionsToggle(), 'LEFT', -2, 0)
 	else
 		frame:SetPoint('RIGHT', self:GetCloseButton(), 'LEFT', -2, 0)
@@ -671,10 +658,7 @@ function Frame:PlaceTitleFrame()
 		h = 20
 	end
 
-	-- XXX 163
-    if self:GetJPackButton() then
-        frame:SetPoint('RIGHT', self:GetJPackButton(), 'LEFT', -4, 0)
-    elseif self:HasOptionsToggle() then
+	if self:HasOptionsToggle() then
 		frame:SetPoint('RIGHT', self:GetOptionsToggle(), 'LEFT', -4, 0)
 	else
 		frame:SetPoint('RIGHT', self:GetCloseButton(), 'LEFT', -4, 0)
@@ -818,100 +802,6 @@ function Frame:CreateOptionsToggle()
 	local f = Bagnon.OptionsToggle:New(self:GetFrameID(), self)
 	self.optionsToggle = f
 	return f
-end
-
-function Frame:GetJPackButton()
-    return self.JPackButton
-end
-
-function Frame:CreateJPackButton()
-    local btn = CreateFrame("Button", nil, self)
-    btn:SetSize(20, 20)
-    btn.icon = btn:CreateTexture()
-    btn.icon:SetAllPoints()
-    btn.icon:SetTexture[[Interface\Icons\INV_Misc_Bag_10_Green]]
-
-    local DataBroker = LibStub'LibDataBroker-1.1'
-    local dataObj
-    local function getDataObj()
-        if(not dataObj) then
-            dataObj = DataBroker:GetDataObjectByName'JPack'
-        end
-        return dataObj
-    end
-
-    btn:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp")
-
-    btn:RegisterEvent'BANKFRAME_CLOSED'
-    btn:RegisterEvent'BANKFRAME_OPENED'
-    btn:SetScript('OnEvent', function(self, event)
-        if(event == 'BANKFRAME_CLOSED') then
-            self.bankFrameOpened = false
-        elseif event == 'BANKFRAME_OPENED' then
-            self.bankFrameOpened = true
-        end
-    end)
-
-    btn:SetScript('OnClick', function(self, button)
-        if(not getDataObj()) then return end
-        local frameID = self:GetParent().frameID
-        _G.JPACK_IGNORE_BAGS_NO_BANK = nil
-
-        if(JPack.bankOpened) then
-            local access, order = dataObj.clickOption(button)
-            if(frameID == 'bank') then
-                JPACK_IGNORE_BAGS_NO_BANK = dataObj.ignoreBag
-                return JPack:Pack(access, order)
-            else
-                dataObj.staticPopupData.access = access
-                dataObj.staticPopupData.order = order
-                return StaticPopup_Show("JPACK_CONFIRM_BANK", nil, nil, dataObj.staticPopupData)
-            end
-        else
-            dataObj.OnClick(self, button)
-        end
-    end)
-
-    btn:SetScript('OnEnter', function(self, ...)
-        if(not getDataObj()) then return end
-
-        if self:GetRight() > (GetScreenWidth() / 2) then
-            GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        else
-            GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-        end
-        GameTooltip:ClearLines()
-        dataObj.OnTooltipShow(GameTooltip)
-        GameTooltip:Show()
-    end)
-
-    btn:SetScript('OnLeave', function(self)
-        if GameTooltip:IsOwned(self) then
-            GameTooltip:Hide()
-        end
-    end)
-
-    self.JPackButton = btn
-    return btn
-end
-
-function Frame:PlaceJPackButton()
-    local hasJPack = select(2, GetAddOnInfo'JPack') ~= nil
-    local frameID = self:GetFrameID()
-    if(hasJPack and frameID == 'bank' or frameID == 'inventory') then
-        local button = self:GetJPackButton() or self:CreateJPackButton()
-        button:ClearAllPoints()
-        button:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -56, -8)
-        button:Show()
-
-        return button:GetWidth(), button:GetHeight()
-    else
-        local button = self:GetJPackButton()
-        if(button) then
-            button:Hide()
-        end
-        return 0, 0
-    end
 end
 
 function Frame:PlaceOptionsToggle()

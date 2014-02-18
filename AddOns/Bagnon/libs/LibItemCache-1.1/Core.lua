@@ -15,7 +15,7 @@ along with this library. If not, see <http://www.gnu.org/licenses/>.
 This file is part of LibItemCache.
 --]]
 
-local Lib = LibStub:NewLibrary('LibItemCache-1.1', 1)
+local Lib = LibStub:NewLibrary('LibItemCache-1.1', 4)
 if not Lib then
 	return
 end
@@ -46,7 +46,7 @@ Lib.Cache = {}
 --[[ Realms ]]--
 
 do 
-	local region = GetCVar('portal')
+	local region = (GetCVar('realmList') or ''):match('^(%a+)%.')
 	if region == 'us' then
 		region = {
 			{"Balnazzar", "Warsong"},
@@ -113,7 +113,7 @@ function Lib:GetPlayerMoney(player)
 end
 
 function Lib:GetPlayerAddress(player)
-	local player, realm = strsplit(' - ', player or self.PLAYER)
+	local player, _,_, realm = strsplit(' - ', player or self.PLAYER)
 	return realm or Lib.REALM, player
 end
 
@@ -170,7 +170,7 @@ end
 
 function Lib:GetBagType(player, bag)
 	local isVault = bag == 'vault'
-	local isBank = type(bag) == "number" and (bag == BANK_CONTAINER or bag > NUM_BAG_SLOTS)
+	local isBank = bag == BANK_CONTAINER or type(bag) == 'number' and bag > NUM_BAG_SLOTS
 	local isCached = self:IsPlayerCached(player) or (isBank and not self.atBank) or (isVault and not self.atVault)
 
 	return isCached, isBank, isVault

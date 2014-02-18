@@ -369,7 +369,6 @@ function ItemSlot:UpdateBorder()
 				return self:SetBorderColor(1, .82, .2)
 			end
 
-
 			if isQuestStarter then
 				self.questBorder:SetTexture(TEXTURE_ITEM_QUEST_BANG)
 				self.questBorder:Show()

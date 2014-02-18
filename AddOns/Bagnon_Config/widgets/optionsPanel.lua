@@ -7,8 +7,10 @@ local OptionsPanel = Bagnon:NewClass('OptionsPanel', 'Frame')
 
 function OptionsPanel:New(name, parent, title, subtitle, icon)
 	local f = self:Bind(CreateFrame('Frame', name))
-	f.name = title
+	f:SetScript('OnHide', f.Update)
+	f:SetScript('OnShow', f.Update)
 	f.parent = parent
+	f.name = title
 	
 	local text = f:CreateFontString(nil, 'ARTWORK', 'GameFontNormalLarge')
 	text:SetPoint('TOPLEFT', 16, -16)
@@ -28,6 +30,42 @@ function OptionsPanel:New(name, parent, title, subtitle, icon)
 	subtext:SetText(subtitle)
 	
 	InterfaceOptions_AddCategory(f, 'Bagnon')
-
 	return f
 end
+
+function OptionsPanel:Startup()
+	self:OnStartup()
+	self:Update()
+end
+
+function OptionsPanel:Update()
+	if self:IsVisible() then
+		self:OnActivate()
+	else
+		self:UnregisterAllMessages()
+	end
+end
+
+function OptionsPanel:ShowFrame(frameID)
+	self:SetFrameID(frameID)
+	InterfaceOptionsFrame_OpenToCategory(self)
+end
+
+function OptionsPanel:SetFrameID(frameID)
+	if self:GetFrameID() ~= frameID then
+		self.frameID = frameID
+		self:Update()
+	end
+end
+
+function OptionsPanel:GetFrameID()
+	return self.frameID
+end
+
+function OptionsPanel:GetSettings()
+	return Bagnon.FrameSettings:Get(self:GetFrameID())
+end
+
+
+OptionsPanel.OnStartup = function() end
+OptionsPanel.OnActivate = OptionsPanel.OnStartup
