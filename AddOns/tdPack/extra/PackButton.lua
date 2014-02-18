@@ -5,11 +5,55 @@ local L = tdPack:GetLocale()
 local PackButton = tdPack:NewModule('PackButton', CreateFrame('Button'))
 tdCore('GUI'):Embed(PackButton, 'UIObject')
 
+local staticPopupData = {}
+StaticPopupDialogs["TDPACK_CONFIRM_BANK"] = {preferredIndex = 3,
+    text = "是否同时整理背包和银行？",
+    button1 = "全部整理",
+    button2 = "仅整理背包",
+    OnAccept = function (self)
+        TDPACK_IGNORE_BAGS_NO_BANK = nil
+        tdPack:Pack()
+    end,
+    OnCancel = function(self)
+        TDPACK_IGNORE_BAGS_NO_BANK = true
+        tdPack:Pack()
+    end,
+    timeout = 0,
+    exclusive = 1,
+    hideOnEscape = 1,
+    noCancelOnEscape = 1,
+}
+
 function PackButton:New(parent)
     local obj = self:Bind(CreateFrame('Button', nil, parent))
     obj:RegisterForClicks('anyUp')
+	
+	obj:RegisterEvent'BANKFRAME_CLOSED'
+    obj:RegisterEvent'BANKFRAME_OPENED'
+	obj:SetScript('OnEvent', function(self, event)
+        if(event == 'BANKFRAME_CLOSED') then
+            self.bankFrameOpened = false
+        elseif event == 'BANKFRAME_OPENED' then
+            self.bankFrameOpened = true
+        end
+    end)
 
-    obj:SetScript('OnClick', self.OnClick)
+    obj:SetScript('OnClick', function(self, button)
+		local frameID = self:GetParent().frameID
+        _G.TDPACK_IGNORE_BAGS_NO_BANK = nil
+
+        if(tdPack:GetModule("Pack").isBankOpened) then
+            if(frameID == 'bank') then
+                TDPACK_IGNORE_BAGS = true
+                return tdPack:Pack()
+            else
+                return StaticPopup_Show("TDPACK_CONFIRM_BANK", nil, nil, staticPopupData)
+            end
+        else
+            self:OnClick(button)
+        end
+	end)
+
 	obj:SetScript('OnEnter', function(self)
 		local tooltip = GameTooltip
 		if not tooltip or not tooltip.AddLine then return end

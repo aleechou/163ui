@@ -85,7 +85,8 @@ local bags = {
 }
 
 function Pack:StackReady()
-    for _, bag in ipairs(self.isBankOpened and bags.bank or bags.bag) do
+	local ignored_bank = JPACK_IGNORE_BAGS_NO_BANK
+    for _, bag in ipairs(self.isBankOpened and not ignored_bank and bags.bank or bags.bag) do
         for slot = 1, tdPack:GetBagNumSlots(bag) do
             if not tdPack:IsBagSlotEmpty(bag, slot) and not tdPack:IsBagSlotFull(bag, slot) then
                 tinsert(self.slots, Slot:New(nil, bag, slot))
@@ -128,13 +129,19 @@ function Pack:PackReady()
     wipe(self.bags)
     
     local bag, bank
+	local ignored = TDPACK_IGNORE_BAGS
+	local ignored_bank = TDPACK_IGNORE_BAGS_NO_BANK
     
     bag = Bag:New('bag')
-    tinsert(self.bags, bag)
+	if not ignored then
+		tinsert(self.bags, bag)
+	end
     
     if self.isBankOpened then
         bank = Bag:New('bank')
-        tinsert(self.bags, bank)
+		if not ignored_bank then
+			tinsert(self.bags, bank)
+		end
         
         if tdPack:IsLoadToBag() and tdPack:IsSaveToBank() then
             local loadTo = bank:GetSwapItems()
@@ -172,6 +179,8 @@ end
 
 function Pack:PackFinish()
     wipe(self.bags)
+	TDPACK_IGNORE_BAGS = nil
+	TDPACK_IGNORE_BAGS_NO_BANK = nil
 end
 
 ------ status

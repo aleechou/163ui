@@ -34,30 +34,43 @@ function PackButton:Init()
     icon:SetTexture([[Interface\Icons\INV_Misc_Bag_10_Green]])
 end
 
-local orig_PlaceMenuButtons = Bagnon.Frame.PlaceMenuButtons
-function Bagnon.Frame:PlaceMenuButtons()
-    local width, height = orig_PlaceMenuButtons(self)
-    
-    local frameID = self:GetFrameID()
+local orig_PlaceOptionsToggle = Bagnon.Frame.PlaceOptionsToggle
+function Bagnon.Frame:PlaceOptionsToggle()
+	local width, height = orig_PlaceOptionsToggle(self)
+
+	local frameID = self:GetFrameID()
     if frameID == 'inventory' or frameID == 'bank' then
-        local packButton = PackButton:GetPackButton(self)
-        if self:HasSearchToggle() then
-            tinsert(self.menuButtons, #self.menuButtons, packButton)
-        else
-            tinsert(self.menuButtons, packButton)
-        end
-        
-        for i, button in ipairs(self.menuButtons) do
-            button:ClearAllPoints()
-            if i == 1 then
-                button:SetPoint('TOPLEFT', self, 'TOPLEFT', 8, -8)
-            else
-                button:SetPoint('TOPLEFT', self.menuButtons[i-1], 'TOPRIGHT', 4, 0)
-            end
-            button:Show()
-        end
-        width = width + packButton:GetWidth() + 4
-        height = packButton:GetHeight()
-    end
-    return width, height
+		local button = PackButton:GetPackButton(self)
+		button:ClearAllPoints()
+		button:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -56, -8)
+		button:Show()
+
+		width = width + button:GetWidth() + 4
+		height = button:GetHeight()
+	end
+	return width, height
+end
+
+local orig_PlaceTitleFrame = Bagnon.Frame.PlaceTitleFrame
+function Bagnon.Frame:PlaceTitleFrame()
+	local w, h = orig_PlaceTitleFrame(self)
+	local frame = self.titleFrame
+	
+	local packButton = PackButton:GetPackButton(self)
+	if packButton and frame then
+		frame:SetPoint('RIGHT', packButton, 'LEFT', -4, 0)
+	end
+	return w, h
+end
+
+local orig_PlaceSearchFrame = Bagnon.Frame.PlaceSearchFrame
+function Bagnon.Frame:PlaceSearchFrame()
+	local w, h = orig_PlaceSearchFrame(self)
+	local frame = self.searchFrame
+	
+	local packButton = PackButton:GetPackButton(self)
+	if packButton and frame then
+		frame:SetPoint('RIGHT', packButton, 'LEFT', -4, 0)
+	end
+	return w, h
 end
