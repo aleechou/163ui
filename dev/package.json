@@ -9,6 +9,8 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "q": "~1.0.1"
+    "q": "~1.0.1",
+    "easy-zip": "0.0.4",
+    "zip-dir": "~0.1.4"
   }
 }
