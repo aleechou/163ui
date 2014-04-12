@@ -97,6 +97,7 @@ fs.readdirSync(srcdir)
 })
 .then(function(md5v){
     indexjson.addonsIndex = "addons-index.zip"
+    indexjson.addonsIndexFilename = "addons-index.json"
     indexjson.addonsIndexMD5 = md5v
 })
 .then(function(){
