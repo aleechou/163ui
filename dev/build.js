@@ -78,7 +78,7 @@ fs.readdirSync(srcdir)
     return q.nbind(fs.unlink) (addonsIndexTar)
 })
 .then(function(){
-    console.log("compress addons-index.json file to addons-index.tar.gz ...")
+    console.log("compress addons-index.json file to addons-index.zip ...")
 
     var deferred = q.defer()
 
@@ -96,7 +96,7 @@ fs.readdirSync(srcdir)
     return q.nbind(md5file) (addonsIndexTar)
 })
 .then(function(md5v){
-    indexjson.addonsIndex = "addons-index.tar.gz"
+    indexjson.addonsIndex = "addons-index.zip"
     indexjson.addonsIndexMD5 = md5v
 })
 .then(function(){
