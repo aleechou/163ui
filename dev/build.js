@@ -64,10 +64,11 @@ fs.readdirSync(srcdir)
 	})
 	.then(function(md5){
 	    addon.pkgmd5 = md5
-	    return q.nbind(fs.stats) (tarpath)
+	    return q.nbind(fs.stat) (tarpath)
 	})
 	.then(function(stats){
 	    addon.pkglen = stats.size
+	    console.log(">",addon.pkgmd5,addon.pkglen)
 	})
 },q())
 
