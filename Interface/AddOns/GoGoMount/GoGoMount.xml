@@ -1,0 +1,73 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+	<Script file="GoGoMountData.lua"/>
+	<Script file="localization-enUS.lua"/>
+	<Script file="localization-deDE.lua"/>
+	<Script file="localization-esES.lua"/>
+	<Script file="localization-esMX.lua"/>
+	<Script file="localization-frFR.lua"/>
+	<Script file="localization-itIT.lua"/>
+	<Script file="localization-koKR.lua"/>
+	<Script file="localization-ptBR.lua"/>
+	<Script file="localization-ruRU.lua"/>
+	<Script file="localization-zhCN.lua"/>
+	<Script file="localization-zhTW.lua"/>
+	<Script file="localization.lua"/>
+	<Script file="GoGoMount.lua"/>
+	<Frame name="GoGoFrame">
+		<Scripts>
+			<OnLoad>
+				GoGo_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				GoGo_OnEvent(self, event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+	<Button name="GoGoButton" inherits="SecureActionButtonTemplate" parent="UIParent" frameStrata="LOW" hidden="false">
+		<Attributes>
+			<Attribute name="type" type="string" value="macro"/>
+		</Attributes>
+		<Scripts>
+			<PreClick>
+				if GoGo_Variables.Debug >= 10 then GoGo_DebugAddLine("BUTTON: Button 1 pressed.") end --if
+				GoGo_Variables.SelectPassengerMount = false
+				GoGo_Variables.SkipFlyingMount = nil
+				GoGo_PreClick(self)
+			</PreClick>
+		</Scripts>    
+	</Button>
+	<Button name="GoGoButton2" inherits="SecureActionButtonTemplate" parent="UIParent" frameStrata="LOW" hidden="false">
+		<Attributes>
+			<Attribute name="type" type="string" value="macro"/>
+		</Attributes>
+		<Scripts>
+			<PreClick>
+				if GoGo_Variables.Debug >= 10 then GoGo_DebugAddLine("BUTTON: Button 2 pressed.") end --if
+				GoGo_Variables.SelectPassengerMount = false
+				GoGo_Variables.SkipFlyingMount = true
+				GoGo_PreClick(self)
+			</PreClick>
+		</Scripts>    
+	</Button>
+	<Button name="GoGoButton3" inherits="SecureActionButtonTemplate" parent="UIParent" frameStrata="LOW" hidden="false">
+		<Attributes>
+			<Attribute name="type" type="string" value="macro"/>
+		</Attributes>
+		<Scripts>
+			<PreClick>
+				if GoGo_Variables.Debug >= 10 then GoGo_DebugAddLine("BUTTON: Button 3 pressed.") end --if
+				GoGo_Variables.SelectPassengerMount = true
+				GoGo_Variables.SkipFlyingMount = false
+				GoGo_PreClick(self)
+			</PreClick>
+		</Scripts>    
+	</Button>
+
+	<Frame name="GoGo_Panel">
+		<Scripts>
+			<OnLoad>
+				GoGo_Panel_OnLoad(self);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

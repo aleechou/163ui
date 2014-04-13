@@ -1,0 +1,11 @@
+## Interface: 40200
+## Title: Lib: UTF8
+## Notes: A library for manipulating UTF-8 strings
+## Author: Pastamancer
+## X-Curse-Packaged-Version: r4
+## X-Curse-Project-Name: UTF8
+## X-Curse-Project-ID: utf8
+## X-Curse-Repository-ID: wow/utf8/mainline
+
+utf8data.lua
+utf8.lua

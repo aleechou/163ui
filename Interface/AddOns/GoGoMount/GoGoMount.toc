@@ -1,0 +1,21 @@
+## Interface: 50400
+## X-BigfootType: 1
+## X-BigfootDesc: GoGoMount一键随机坐骑插件，根据你所在的区域，只需点击一个键就可以随机召唤在这个区域可召唤的速度最快的坐骑。支持圣骑士和术士的召唤坐骑，也支持德鲁伊和萨满的变身技能。
+## Title: GoGoMount
+## Version: 5.4.2
+## Notes: One-key solution for mounting/dismounting, supports spells, shapeshifting
+## Notes-enGB: One-key solution for mounting/dismounting, supports spells, shapeshifting
+## Notes-deDE: Ein-Tasten-Lösung für das Auf- und Absitzen von Reittieren, unterstützt auch Zaubersprüche und Gestaltwandlung
+## Notes-esES: Una clave para la solución de montaje / desmontaje, apoya hechizos, shapeshifting
+## Notes-esMX: Una clave para la solución de montaje / desmontaje, apoya hechizos, shapeshifting
+## Notes-frFR: Une solution clé pour le montage / démontage, soutient sorts, shapeshifting
+## Notes-ruRU: Одним из ключей решения для монтажа / демонтажа, поддерживает заклинаний, shapeshifting
+## Notes-zhTW: 一鍵上下馬，支援召喚和變形
+## Notes-koKR: 탈것의 타기/내리기를 위한 1 키 해결, 주문, 변신 지원
+## Author: Gadgets (Tiker) @ Bleeding Hollow
+## SavedVariablesPerCharacter: GoGo_Prefs GoGo_DebugLog
+## X-Curse-Packaged-Version: r415
+## X-Curse-Project-Name: GoGoMount
+## X-Curse-Project-ID: gogomount
+## X-Curse-Repository-ID: wow/gogomount/mainline
+GoGoMount.xml

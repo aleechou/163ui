@@ -1,9 +1,11 @@
-## Interface: 50400
-# Title: RatingBuster
+﻿## Interface: 50400
+## X-BigfootType: 1
+## X-BigfootDesc: 设置命令：/rabu win - 显示设置界面。将装备上的属性等级转换为直观的百分比并显示属性的具体收益。
+## Title: RatingBuster
 ## Notes: Item stat breakdown, analysis and comparison
 ## Notes-zhTW: 裝備數值解析與比較
 ## Author: Whitetooth
-## Version: r395
+## Version: r397
 ## X-eMail: hotdogee [at] gmail [dot] com
 ## SavedVariables: RatingBusterDB
 ## OptionalDeps: WoWUnit, Ace3, LibTipHooker-1.1, LibStatLogic-1.2, LibBabble-Inventory-3.0, LibDualSpec-1.0, TankPoints, UTF8
@@ -13,17 +15,15 @@
 ## X-RelSite-Curse: 4991
 ## X-License: GPL v2
 ## X-Encoding: UTF-8
-## X-Curse-Packaged-Version: r395
+## X-Curse-Packaged-Version: r397
 ## X-Curse-Project-Name: RatingBuster
 ## X-Curse-Project-ID: rating-buster
 ## X-Curse-Repository-ID: wow/rating-buster/mainline
 
-libs\LibTipHooker-1.1\lib.xml
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
 
 locales\locales.xml
 
 RatingBuster.lua
-
-## Title: |cff880303[网易有爱]|r RatingBuster
-## X-Vendor: NetEase
-## OptionalDeps: LibBabble-3.0, LibStatLogic-1.2

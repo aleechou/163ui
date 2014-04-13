@@ -128,6 +128,9 @@ local ORDERED_CURRENCIES = {
 	EPICUREANS_AWARD,
 	DARKMOON_PRIZE_TICKET,
 	MOGU_RUNE_OF_FATE,
+	WARFORGED_SEAL,
+	TIMELESS_COIN,
+	BLOODY_COIN,
 	DRAENEI_ARCHAEOLOGY_FRAGMENT,
 	DWARF_ARCHAEOLOGY_FRAGMENT,
 	FOSSIL_ARCHAEOLOGY_FRAGMENT,
@@ -143,9 +146,6 @@ local ORDERED_CURRENCIES = {
 	BREWFEST_PRIZE_TOKEN,
 	COIN_OF_ANCESTRY,
 	LOVE_TOKEN,
-	WARFORGED_SEAL,
-	TIMELESS_COIN,
-	BLOODY_COIN,
 }
 
 local NUM_CURRENCIES = #ORDERED_CURRENCIES
@@ -198,7 +198,6 @@ local function ShowOptionIcon(idnum)
 		return ("\124T" .. OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
 	end
 	return ("\124T" ..  OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
-	--return ("\124T" .. "Interface\\Icons\\" .. OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
 end
 local AceCfg = LibStub("AceConfig-3.0")
 local brokerOptions = LibStub("AceConfigRegistry-3.0"):GetOptionsTable("Broker", "dialog", "LibDataBroker-1.1")
@@ -830,10 +829,8 @@ Broker_Currency.ldb = LDB:NewDataObject("Broker Currency",
 	{
 		type = "data source",
 		label = _G.CURRENCY,
-        icon = [[Interface\Icons\INV_Misc_Coin_02]],
-        text = "请稍候...",
---		icon = "Interface\\MoneyFrame\\UI-GoldIcon",
---		text = "Initializing...",
+		icon = "Interface\\MoneyFrame\\UI-GoldIcon",
+		text = "Initializing...",
 		OnClick = function(clickedframe, button)
 			if button == "RightButton" then
 				_G.InterfaceOptionsFrame_OpenToCategory(Broker_Currency.menu)
@@ -877,17 +874,6 @@ do
 				summaryColorDark = { r = 0, g = 0, b = 0, a = 0 },
 				summaryColorLight = { r = 1, g = 1, b = 1, a = .3 },
 			}
-
-            -- XXX 163
-            for _, id in next, {
-                CONQUEST_POINTS,
-                HONOR_POINTS,
-                JUSTICE_POINTS,
-                VALOR_POINTS,
-            } do
-                Broker_CurrencyCharDB[GetKey(id, false)] = true
-            end
-            -- XXX 163 end
 		end
 
 		-------------------------------------------------------------------------------

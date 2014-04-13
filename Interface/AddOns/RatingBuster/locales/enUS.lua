@@ -5,10 +5,8 @@ Translated by:
 - Whitetooth (hotdogee [at] gmail [dot] com)
 ]]
 
-
 local L = LibStub("AceLocale-3.0"):NewLocale("RatingBuster", "enUS", true)
 if not L then return end
-local _, _NS = ...
 -- This file is coded in UTF-8
 -- If you don't have a editor that can save in UTF-8, I recommend NotePad++ or Ultraedit
 ----
@@ -646,7 +644,7 @@ SPELL_STAT3_NAME = "Stamina"
 SPELL_STAT4_NAME = "Intellect"
 SPELL_STAT5_NAME = "Spirit"
 --]]
-_NS.statList = {
+L["statList"] = {
 --Ive included the ex  They are formatted in the Blizzard globals as
 --"Increases your mastery by %s."  The gsum strips any 
 --gsub(ITEM_MOD_CRIT_RATING,"%s[%+%-]?%%.%.?","")

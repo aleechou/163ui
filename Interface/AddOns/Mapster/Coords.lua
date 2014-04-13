@@ -125,8 +125,8 @@ function Coords:UpdateMapsize(mini)
 		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 15, -2)
 		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -30, -2)
 	else
-		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 40, 10)
-		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -40, 10)
+		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 30, 10)
+		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -30, 10)
 	end
 end
 

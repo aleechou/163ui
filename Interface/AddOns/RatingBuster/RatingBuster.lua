@@ -1,12 +1,12 @@
---[[
+﻿--[[ 
 Name: RatingBuster
 Description: Converts combat ratings in tooltips into normal percentages.
-Revision: $Revision: 390 $
+Revision: $Revision: 394 $
 Author: Whitetooth
 Email: hotdogee [at] gmail [dot] com
-LastUpdate: $Date: 2012-10-14 09:11:44 +0000 (Sun, 14 Oct 2012) $
+LastUpdate: $Date: 2012-12-02 09:17:09 +0000 (Sun, 02 Dec 2012) $
 ]]
- 
+
 ---------------
 -- Libraries --
 ---------------
@@ -24,21 +24,10 @@ local BI = LibStub("LibBabble-Inventory-3.0"):GetLookupTable()
 -- AceAddon Setup --
 --------------------
 -- AceAddon Initialization
-local RatingBuster = LibStub("AceAddon-3.0"):NewAddon("RatingBuster", "AceConsole-3.0", "AceEvent-3.0")
+RatingBuster = LibStub("AceAddon-3.0"):NewAddon("RatingBuster", "AceConsole-3.0", "AceEvent-3.0")
 RatingBuster.version = "5.0.4 (r"..gsub("$Revision: 394 $", "$Revision: (%d+) %$", "%1")..")"
 RatingBuster.date = gsub("$Date: 2012-12-02 09:17:09 +0000 (Sun, 02 Dec 2012) $", "^.-(%d%d%d%d%-%d%d%-%d%d).-$", "%1")
 
--- speedup
-_G.RatingBuster = RatingBuster
-
--- because AceLocale doesn't allow read from the locale table when
--- registering non-default locales, I put `statList` table in `_NS`
-local _, _NS = ...
-
--- expose while debugging
-if(DEBUG_MODE) then
-    RatingBuster.statList = _NS.statList
-end
 
 -----------
 -- Cache --
@@ -118,7 +107,7 @@ local profileDefaults = {
 	detailedConversionText = false,
 	expBreakDown = false,
 	showStats = 0,
-	showSum = 3,
+	showSum = 0,
 	sumIgnoreUnused = true,
 	sumMinQuality = 2, -- uncommon
 	sumIgnoreCloth = true,
@@ -2290,13 +2279,7 @@ end
 -- Reforging UI --
 ------------------
 function RatingBuster:ADDON_LOADED(event, name)
-    -- XXX 163: in-game loading
-    if(name == 'Blizzard_ReforgingUI' or IsAddOnLoaded'Blizzard_ReforgingUI') then
-        self:UnregisterEvent'ADDON_LOADED'
-    else
-        return
-    end
-	--if name ~= "Blizzard_ReforgingUI" then return end
+	if name ~= "Blizzard_ReforgingUI" then return end
 	--print("Blizzard_ReforgingUI Loaded")
   local reforgeToRating = {
     [13] = CR_DODGE, -- Dodge Rating
@@ -2740,8 +2723,7 @@ function RatingBuster:ProcessText(text, tooltip)
 				value, partialtext = partialtext, value
 			end
 			-- Capture the stat name
-			-- for _, stat in ipairs(L["statList"]) do
-            for _, stat in ipairs(_NS.statList) do
+			for _, stat in ipairs(L["statList"]) do
 --print("//"..partialtext.."="..stat.pattern.."/")
 				if (not partialtext and strfind(lowerText, stat.pattern)) or (partialtext and strfind(partialtext, stat.pattern)) then
 					value = tonumber(value)

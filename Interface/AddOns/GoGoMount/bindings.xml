@@ -1,0 +1,8 @@
+<Bindings>
+	<Binding name="GOGOBINDING" header="GOGOHEADER">
+	</Binding>
+	<Binding name="GOGOBINDING2">
+	</Binding>
+	<Binding name="GOGOBINDING3">
+	</Binding>
+</Bindings>

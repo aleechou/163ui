@@ -1,0 +1,103 @@
+﻿-- http://wow.curseforge.com/addons/gogomount/localization/ptBR/
+if GetLocale() == "ptBR" then
+	BINDING_HEADER_GOGOHEADER = "GoGoMount"
+	BINDING_NAME_GOGOBINDING = "Montar / Desmontar" -- Needs review
+	BINDING_NAME_GOGOBINDING2 = "Montar / Desmontar (não voadora)" -- Needs review
+	BINDING_NAME_GOGOBINDING3 = "Montar / Desmontar Montaria de passageiros" -- Needs review
+	GoGo_Variables.Localize = {
+	Skill = {
+		Engineering = "Engenharia", -- Needs review
+		Riding = "Cavalgando", -- Needs review
+		Tailoring = "Alfaiataria", -- Needs review
+	},
+	String = {
+		AutomaticallyRemoveBuffs = "Automatically remove buffs that prevent mounting", -- Requires localization
+		AutoStartCrusaderAura = "Auto start Crusader Aura", -- Requires localization
+		AutoStartCrusaderAura_Long = "Automatically start Crusader Aura when using GoGoMount to mount.", -- Requires localization
+		Clear = "Clear", -- Requires localization
+		ClearGlobalFavoriteMounts = "Clear global favorite mounts", -- Requires localization
+		CurrentZone = "Current Zone", -- Requires localization
+		CurrentZoneDescription = "Mounts flagged here as zone favorites will be the only mounts GoGoMount will use in this zone.  All other mounts and shape forms will be ignored.  Clearing this list will allow GoGoMount to use all mounts (or global favorites if set).", -- Requires localization
+		CurrentZoneExclusions = "Current Zone Exclusions", -- Requires localization
+		CurrentZoneFavorites = "Zona favorita atual.", -- Needs review
+		DisableFlyingFromWater = "Disable flying from water", -- Requires localization
+		DisableInCombat = "Disable GoGoMount buttons in combat", -- Requires localization
+		DisableInCombat_Long = "This option disables GoGoMount buttons while in combat.  Useful for Druids who tank in bear form and accidently press their GoGoMount buttons.  Must be enabled or disabled before entering combat.", -- Requires localization
+		DisableUnknownMountNotices = "Desativar avisos de montaria desconhecida.", -- Needs review
+		DisableUpdateNotices = "Desativar avisos de atualização", -- Needs review
+		DruidFlightPreference = "Always use flight forms instead of when moving only", -- Requires localization
+		DruidOptions = "Druid Options", -- Requires localization
+		DruidSingleClick = "Único clique para mudar de forma em forma de viagens", -- Needs review
+		EnableAutoDismount = "Permitir desmontar automático", -- Needs review
+		ExtraPassengerMounts = "Extra Passenger Mounts", -- Requires localization
+		ExtraPassengerMountsDescription = "This list of passenger mounts is used to add passenger mounts to the random selection only when the Passenger Mount button is pressed.  This will allow you to set preferred mount lists excluding passenger mounts but still have them available when using the Passenger Mount button.  These mounts will not be used if they are marked as excluded mounts globally or for the current zone you are in.", -- Requires localization
+		Favorites = "Favorites", -- Requires localization
+		GlobalExclusions = "Global Exclusions", -- Requires localization
+		GlobalExclusionsDescription = "Mounts will always be ignored.  Even if mounts selected here are set as favorites, they will not be used.", -- Requires localization
+		GlobalFavorites = "Favoritos globais.", -- Needs review
+		GlobalPreferences = "Preferências globais", -- Needs review
+		GlobalZoneDescription = "Preferred mounts defined here will only take effect if there are no zone specific mount favorites set for the current zone you are in.", -- Requires localization
+		HunterOptions = "Hunter Options", -- Requires localization
+		NewVersionFound = "A versão mais recente do GoGoMount está disponível.", -- Needs review
+		NoShapeInRandom = "Do not randomize shape forms with mounts", -- Requires localization
+		PaladinOptions = "Paladin Options", -- Requires localization
+		RemoveBuffs = "Remove buffs that can prevent mounting", -- Requires localization
+		RemoveBuffs_Long = "GoGoMount will attempt to remove buffs and shapeforms that come from spells and items that prevent mounting.  This only works for known buffs and in some cases require 2 clicks of your GoGoMount button to mount.", -- Requires localization
+		ShamanOptions = "Shaman Options", -- Requires localization
+		ShamanSingleClick = "Single click mount from Ghost Wolf Form instead of dismounting", -- Requires localization
+		UnknownMountFound = "Uma montaria desconhecida foi encontrada em sua lista de montarias. Por favor, reporte isso para que ela possa ser adicionado para versões futuras do GoGoMount", -- Needs review
+		UseAspectOfThePackInstead = "Use Aspect Of The Pack instead of Aspect Of The Cheeta", -- Requires localization
+		UseAspectOfThePackInstead_Long = "When enabled, GoGoMount will cast Aspect of the Pack instead of Aspect of the Cheetah.  Local zone or global settings override this setting.  If this is set to use Aspect of the Pack and you have Aspect of the Cheetah as a zone favorite, Aspect of the Cheetah will be used.", -- Requires localization
+		ZoneExclusionsDescription = "Zone specific exclusions work the same as global exclusions but specific to this zone.  Any mount marked below as an exclusion for the zone you're currently in will never be summoned.", -- Requires localization
+	},
+	Talent = {
+		AncestralSwiftness = "Ancestral Swiftness", -- Requires localization
+		FeralSwiftness = "Feral Swiftness", -- Requires localization
+	},
+	Zone = {
+		AbyssalDepths = "Abyssal Depths", -- Requires localization
+		AmaniMountains = "Amani Mountains", -- Requires localization
+		AQ40 = "Ahn'Qiraj", -- Requires localization
+		AzuremystIsle = "Azuremyst Isle", -- Requires localization
+		BloodmystIsle = "Bloodmyst Isle", -- Requires localization
+		CrumblingDepths = "Crumbling Depths", -- Requires localization
+		Dalaran = "Dalaran", -- Needs review
+		DarkbreakCove = "Darkbreak Cove", -- Requires localization
+		Deepholm = "Deepholm", -- Requires localization
+		DireMaul = "Dire Maul", -- Requires localization
+		EversongWoods = "Eversong Woods", -- Requires localization
+		Ghostlands = "Ghostlands", -- Requires localization
+		Icecrown = "Coroa de Gelo", -- Needs review
+		Ironforge = "Ironforge", -- Requires localization
+		IsleOfQuelDanas = "Isle of Quel'Danas", -- Requires localization
+		KrasusLanding = "Krasus' Landing", -- Requires localization
+		LegionsRest = "Legion's Rest", -- Requires localization
+		Lghorek = "L'ghorek", -- Requires localization
+		Nespirah = "Nespirah", -- Requires localization
+		ShimmeringExpanse = "Shimmering Expanse", -- Requires localization
+		SholazarBasin = "Bacia Sholazar", -- Needs review
+		SilvermoonCity = "Silvermoon City", -- Requires localization
+		SilverTideHollow = "Silver Tide Hollow", -- Requires localization
+		TempleOfBethekk = "Temple of Bethekk", -- Requires localization
+		TempleOfEarth = "Temple of Earth", -- Requires localization
+		TenebrousCavern = "Tenebrous Cavern", -- Requires localization
+		ThalassianPass = "Thalassian Pass", -- Requires localization
+		ThalassianRange = "Thalassian Range", -- Requires localization
+		TheCerebrillum = "The Cerebrillum", -- Requires localization
+		TheExodar = "The Exodar", -- Requires localization
+		TheFrozenSea = "O Mar Congelado", -- Needs review
+		TheOculus = "The Oculus", -- Requires localization
+		TheStormPeaks = "Picos Tempestuosos", -- Needs review
+		TheTempleOfAtalHakkar = "The Temple of Atal'Hakkar", -- Requires localization
+		TheUnderbelly = "The Underbelly", -- Requires localization
+		TheVioletCitadel = "A Cidadela Violeta", -- Needs review
+		TheVortexPinnacle = "The Vortex Pinnacle", -- Requires localization
+		TolBarad = "Tol Barad", -- Requires localization
+		TolBaradPeninsula = "Tol Barad Peninsula", -- Requires localization
+		TwistingNether = "Twisting Nether", -- Requires localization
+		Vashjir = "Vashj'ir", -- Requires localization
+		Wintergrasp = "Invérnia", -- Needs review
+	},
+}
+
+end --if
