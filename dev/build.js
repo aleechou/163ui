@@ -60,11 +60,14 @@ fs.readdirSync(srcdir)
 	})
 	.then(function(){
 	    console.log("packed addon",addon.name)
-
 	    return q.nbind(md5file) (tarpath)
 	})
 	.then(function(md5){
-	    addon.pkgmd5 = md5 ;
+	    addon.pkgmd5 = md5
+	    return q.nbind(fs.stats) (tarpath)
+	})
+	.then(function(stats){
+	    addon.pkglen = stats.size
 	})
 },q())
 
