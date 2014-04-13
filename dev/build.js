@@ -172,7 +172,7 @@ function parseToc(addonName){
 function md5fileSync(filepath){
     return crypto.createHash('md5')
 	.update(
-	    fs.readFileSync(filepath).toString()
+	    fs.readFileSync(filepath)
 	)
 	.digest('hex') ;
 }
