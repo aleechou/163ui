@@ -1,0 +1,13 @@
+tag v3.8.7
+07d55c8e6d1f9e3eff3ef011ec70b1f6ea06388b
+Shadowed <shadowed.wow@gmail.com>
+2013-04-28 09:26:43 -0700
+
+Tagging as release 3.8.7
+
+
+--------------------
+
+Shadowed:
+	- Just keep the priest bar hidden rather than reparenting it
+	- Tweaks to default Blizzard UI hiding

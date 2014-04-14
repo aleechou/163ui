@@ -1,0 +1,22 @@
+## Interface: 50200
+## X-BigfootType: 1
+## X-BigfootDesc: |cFF4488FF此模块依赖于 ShadowedUnitFrames|r
+## Title: Shadowed UF (Options)
+## Notes: Configuration for Shadowed Unit Frames.
+## Author: Shadowed
+## LoadOnDemand: true
+## Dependencies: ShadowedUnitFrames
+## X-Curse-Packaged-Version: v3.8.7
+## X-Curse-Project-Name: Shadowed Unit Frames
+## X-Curse-Project-ID: shadowed-unit-frames
+## X-Curse-Repository-ID: wow/shadowed-unit-frames/mainline
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 2729
+#@no-lib-strip@
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
+#@end-no-lib-strip@
+
+config.lua

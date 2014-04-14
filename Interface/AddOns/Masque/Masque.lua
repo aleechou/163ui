@@ -18,7 +18,6 @@ local print = print
 
 local LibStub = assert(LibStub, "Masque requires LibStub.")
 local Masque = LibStub("AceAddon-3.0"):NewAddon(MASQUE)
-Masque.Core = Core
 
 Core.API = LibStub:NewLibrary(MASQUE, 40300)
 
@@ -58,14 +57,14 @@ function Masque:OnInitialize()
 					Inherit = true,
 					Disabled = false,
 					SkinID = "Blizzard",
-					Gloss = 0.35,
+					Gloss = 0,
 					Backdrop = false,
 					Colors = {},
 				},
 			},
 			LDB = {
 				hide = true,
-				minimapPos = 305,
+				minimapPos = 220,
 				radius = 80,
 			},
 		},

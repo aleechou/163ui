@@ -1,0 +1,68 @@
+## Interface: 50200
+## X-BigfootType: 1
+## X-BigfootDesc: 具有一定自定义性的简洁头像插件
+## Title: Shadowed Unit Frames
+## Notes: Now with 90% more shadows than the leading competitors
+## Author: Shadowed
+## Version: v3.8.7
+## SavedVariables: ShadowedUFDB
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Clique
+## X-Curse-Packaged-Version: v3.8.7
+## X-Curse-Project-Name: Shadowed Unit Frames
+## X-Curse-Project-ID: shadowed-unit-frames
+## X-Curse-Repository-ID: wow/shadowed-unit-frames/mainline
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 2729
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\LibSharedMedia-3.0\lib.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+#@end-no-lib-strip@
+
+localization\enUS.lua
+localization\deDE.lua
+localization\esES.lua
+localization\esMX.lua
+localization\frFR.lua
+localization\koKR.lua
+localization\ruRU.lua
+localization\zhCN.lua
+localization\zhTW.lua
+
+ShadowedUnitFrames.lua
+modules\units.lua
+modules\layout.lua
+modules\movers.lua
+modules\defaultlayout.lua
+modules\highlight.lua
+modules\tags.lua
+modules\health.lua
+modules\power.lua
+modules\portrait.lua
+modules\indicators.lua
+modules\xp.lua
+modules\cast.lua
+modules\auras.lua
+modules\combattext.lua
+modules\totems.lua
+modules\runes.lua
+modules\fader.lua
+modules\combopoints.lua
+modules\incheal.lua
+modules\incabsorb.lua
+modules\range.lua
+modules\empty.lua
+modules\druid.lua
+modules\eclipse.lua
+modules\soulshards.lua
+modules\holypower.lua
+modules\chi.lua
+modules\demonicfury.lua
+modules\burningembers.lua
+modules\altpower.lua
+modules\shadoworbs.lua
+modules\monk.lua
+modules\monkstagger.lua
+modules\aurapoints.lua
+

@@ -9,7 +9,11 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local MODNAME = "InstanceMaps"
 local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 
-local AceGUI = LibStub("AceGUI-3.0")
+local wowMoP
+do
+	local _, _, _, interface = GetBuildInfo()
+	wowMoP = (interface >= 50000)
+end
 
 -- Data mostly from http://www.wowwiki.com/API_SetMapByID
 local data = {
@@ -143,7 +147,6 @@ local data = {
 			["Mogu'shan Vaults"] = 896,
 			["Heart of Fear"] = 897,
 			["Throne of Thunder"] = 930,
-			["Siege of Orgrimmar"] = 953,
 		},
 	},
 	bgs = {
@@ -234,157 +237,163 @@ function Maps:OnInitialize()
 	data = nil
 end
 
-local function scaleFix(widget)
-	widget.pullout.frame:SetScale(Mapster.db.profile.scale)
-end
-
 function Maps:OnEnable()
-	if not self.continentDropDown then
-		self.continentDropDown = AceGUI:Create("Dropdown")
-		self.continentDropDown.frame:SetParent(WorldMapFrame)
-		self.continentDropDown.frame:Show()
-		self.continentDropDown:SetWidth(150)
-		self.continentDropDown:SetPulloutWidth(200)
-		self.continentDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOP", -65, -21)
-		self.continentDropDown:SetLabel(CONTINENT)
-		self.continentDropDown:SetCallback("OnValueChanged", self.ContinentSelectionChanged)
-		self.continentDropDown:SetCallback("OnOpened", scaleFix)
+	self:SecureHook("WorldMapContinentsDropDown_Update")
+	self:SecureHook("WorldMapFrame_LoadContinents")
 
-		self.zoneDropDown = AceGUI:Create("Dropdown")
-		self.zoneDropDown.frame:SetParent(WorldMapFrame)
-		self.zoneDropDown.frame:Show()
-		self.zoneDropDown:SetWidth(150)
-		self.zoneDropDown:SetPulloutWidth(200)
-		self.zoneDropDown:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -55, -21)
-		self.zoneDropDown:SetLabel(ZONE)
-		self.zoneDropDown:SetCallback("OnValueChanged", self.ZoneSelectionChanged)
-		self.zoneDropDown:SetCallback("OnOpened", scaleFix)
-	end
-
-	self:UpdateMapsize(Mapster.miniMap)
-
+	self:SecureHook("WorldMapZoneDropDown_Update")
+	self:RawHook("WorldMapZoneDropDown_Initialize", true)
+	
 	self:SecureHook("SetMapZoom")
 	self:SecureHook("SetMapToCurrentZone", "SetMapZoom")
-	self:SecureHook("SetMapByID", "SetMapZoom")
-	self:SecureHook("ZoomOut", "SetMapZoom")
-	self:SecureHook("WorldMapContinentsDropDown_Update", "UpdateContinents")
-	self:SecureHook("WorldMapZoneDropDown_Update", "UpdateZones")
-
-	self:UpdateContinents()
-	self:UpdateZones()
 end
 
 function Maps:OnDisable()
 	self:UnhookAll()
-	self.mapCont, self.mapZone = nil, nil
-	if not Mapster.miniMap then
-		WorldMapContinentDropDown:Show()
-		WorldMapZoneDropDown:Show()
-	end
-	self.continentDropDown.frame:Hide()
-	self.zoneDropDown.frame:Hide()
-end
-
-function Maps:UpdateMapsize(mini)
-	WorldMapContinentDropDown:Hide()
-	WorldMapZoneDropDown:Hide()
-
-	if mini then
-		self.continentDropDown.frame:Hide()
-		self.zoneDropDown.frame:Hide()
-	else
-		self.continentDropDown.frame:Show()
-		self.zoneDropDown.frame:Show()
-	end
+	self.mapCont, self.mapContId, self.mapZone = nil, nil, nil
+	WorldMapContinentsDropDown_Update()
+	WorldMapZoneDropDown_Update()
 end
 
 function Maps:GetZoneData()
 	return self.zone_data[self.mapCont][self.mapZone]
 end
 
-function Maps:UpdateContinents()
-	self.continentDropDown:SetList({GetMapContinents()})
-
-	self.continentDropDown:AddItem("instances|classic",   L["Classic Instances"])
-	self.continentDropDown:AddItem("raids|classic",       L["Classic Raids"])
-	self.continentDropDown:AddItem("instances|bc",        L["Burning Crusade Instances"])
-	self.continentDropDown:AddItem("raids|bc",            L["Burning Crusade Raids"])
-	self.continentDropDown:AddItem("instances|wrath",     L["Wrath Instances"])
-	self.continentDropDown:AddItem("raids|wrath",         L["Wrath Raids"])
-	self.continentDropDown:AddItem("instances|cataclysm", L["Cataclysm Instances"])
-	self.continentDropDown:AddItem("raids|cataclysm",     L["Cataclysm Raids"])
-	self.continentDropDown:AddItem("instances|pandaria",  L["Pandaria Instances"])
-	self.continentDropDown:AddItem("raids|pandaria",      L["Pandaria Raids"])
-	self.continentDropDown:AddItem("bgs|all",             L["Battlegrounds"])
-
-	self:UpdateCurrentContinent()
-end
-
-function Maps:UpdateCurrentContinent()
+function Maps:WorldMapContinentsDropDown_Update()
 	if self.mapCont then
-		self.continentDropDown:SetValue(self.mapCont)
-	elseif (GetCurrentMapContinent() == WORLDMAP_WORLD_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
-		self.continentDropDown:SetValue(0)
-	else
-		self.continentDropDown:SetValue(GetCurrentMapContinent())
+		UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, self.mapContId)
 	end
 end
 
+local function MapsterContinentButton_OnClick(frame)
+	UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, frame:GetID())
+	Maps.mapCont = frame.arg1
+	Maps.mapContId = frame:GetID()
+	zoomOverride = true
+	SetMapZoom(-1)
+	zoomOverride = nil
+end
+
+function Maps:WorldMapFrame_LoadContinents()
+	local info = UIDropDownMenu_CreateInfo()
+	info.text =  L["Classic Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|classic"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Classic Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|classic"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Burning Crusade Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|bc"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Burning Crusade Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|bc"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Wrath Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|wrath"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Wrath Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|wrath"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Cataclysm Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|cataclysm"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Cataclysm Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|cataclysm"
+	UIDropDownMenu_AddButton(info)
+
+if wowMoP then
+	info.text =  L["Pandaria Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|pandaria"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Pandaria Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|pandaria"
+	UIDropDownMenu_AddButton(info)
+end
+
+	info.text =  L["Battlegrounds"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "bgs|all"
+	UIDropDownMenu_AddButton(info)
+end
+
+function Maps:WorldMapZoneDropDown_Update()
+	if self.mapZone then
+		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, self.mapZone)
+	end
+end
+
+local function MapsterZoneButton_OnClick(frame)
+	UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, frame:GetID())
+	Maps.mapZone = frame:GetID()
+	SetMapByID(Maps:GetZoneData())
+end
+
 do
+	local function Mapster_LoadCustomZones(data)
+		local info = UIDropDownMenu_CreateInfo()
+		for i=1, #data, 1 do
+			info.text = data[i]
+			info.func = MapsterZoneButton_OnClick
+			info.checked = nil
+			UIDropDownMenu_AddButton(info)
+		end
+	end
+
+	local function Mapster_LoadDefaultZones(data)
+		local info = UIDropDownMenu_CreateInfo()
+		for i=1, #data, 1 do
+			info.text = data[i]
+			info.func = WorldMapZoneButton_OnClick
+			info.checked = nil
+			UIDropDownMenu_AddButton(info)
+		end
+	end
+
 	local defaultZoneCache = setmetatable({}, {__index = function(t, k)
 		rawset(t, k, {GetMapZones(k)})
 		return t[k]
 	end})
 
-	function Maps:UpdateZones()
-		if not self.mapCont then
-			self.zoneDropDown:SetList(defaultZoneCache[GetCurrentMapContinent()])
-		else
-			self.zoneDropDown:SetList(self.zone_names[self.mapCont])
-		end
-
+	function Maps:WorldMapZoneDropDown_Initialize()
 		if self.mapCont then
-			if self.mapZone then
-				self.zoneDropDown:SetValue(self.mapZone)
-			else
-				self.zoneDropDown:SetValue(0)
-			end
-		elseif (GetCurrentMapContinent() == WORLDMAP_WORLD_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
-			self.zoneDropDown:SetValue(0)
+			Mapster_LoadCustomZones(self.zone_names[self.mapCont])
 		else
-			self.zoneDropDown:SetValue(GetCurrentMapZone())
+			Mapster_LoadDefaultZones(defaultZoneCache[GetCurrentMapContinent()])
 		end
-	end
-end
-
-function Maps.ContinentSelectionChanged(widget, event, value)
-	Maps.mapCont, Maps.mapZone = nil, nil
-	if tonumber(value) then
-		SetMapZoom(value)
-	else
-		Maps.mapCont = value
-		zoomOverride = true
-		SetMapZoom(-1)
-		zoomOverride = nil
-	end
-end
-
-function Maps.ZoneSelectionChanged(widget, event, value)
-	if Maps.mapCont then
-		Maps.mapZone = value
-		zoomOverride = true
-		SetMapByID(Maps:GetZoneData())
-		zoomOverride = nil
-	else
-		Maps.mapZone = nil
-		SetMapZoom(GetCurrentMapContinent(), value)
 	end
 end
 
 function Maps:SetMapZoom()
-	if not zoomOverride and self.mapCont then
-		self.mapCont, self.mapZone = nil, nil
-		Maps:UpdateCurrentContinent()
-		Maps:UpdateZones()
+	if not zoomOverride then
+		self.mapCont, self.mapContId, self.mapZone = nil, nil, nil
 	end
 end
