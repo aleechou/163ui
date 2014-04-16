@@ -1,0 +1,15 @@
+tag 1.5.5
+e64361bdd8e0ea46f61e21c77649bb15a1ec5bdb
+Hendrik Leppkes <h.leppkes@gmail.com>
+2013-09-14 11:59:04 +0200
+
+Tag as 1.5.5
+
+
+--------------------
+
+Hendrik Leppkes:
+	- Fix anchoring of the blob frames when restoring them after combat.
+	- Tweak coordinate positions
+	- Update TOC for 5.4
+	- Fix EJ Boss Button visibility

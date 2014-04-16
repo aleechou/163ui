@@ -1,0 +1,15 @@
+## Interface: 50400
+## Author: p3lim
+## Version: 50200.21-Release
+## Title: Broker Equipment
+## Notes: LDB Equipment Manager plug-in
+## X-Curse-Packaged-Version: 50200.21-Release
+## X-Curse-Project-Name: Broker_Equipment
+## X-Curse-Project-ID: broker_equipment
+## X-Curse-Repository-ID: wow/broker_equipment/mainline
+
+libs\LibStub.lua
+libs\CallbackHandler-1.0.lua
+libs\LibDataBroker-1.1.lua
+
+Broker_Equipment.lua

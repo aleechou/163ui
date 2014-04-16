@@ -14,8 +14,6 @@ local mod, floor, ceil = math.fmod, math.floor, math.ceil
 local strlower, format = string.lower, string.format
 local wipe, tinsert, pairs = table.wipe, table.insert, pairs
 
-local FOGCLEAR_VERSION = 1
-
 local errata = {
 	-- Eastern Kingdoms
 	["Arathi"] = {
@@ -1411,10 +1409,6 @@ local defaults = {
 	},
 }
 
-local function clearFogClearData()
-	for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end
-end
-
 local options
 
 local function getOptions()
@@ -1455,7 +1449,7 @@ local function getOptions()
 					type = "execute",
 					name = L["Reset FogClear Data"],
 					desc = L["FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."],
-					func = function() clearFogClearData() end,
+					func = function() for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end end,
 				},
 				debug = {
 					order = 6,
@@ -1485,11 +1479,6 @@ function FogClear:OnInitialize()
 
 	self.overlays["IsleoftheThunderKing"] = false
 	self.overlays["IsleoftheThunderKingScenario"] = false
-
-	if db.version == nil or db.version < FOGCLEAR_VERSION then
-		db.version = FOGCLEAR_VERSION
-		clearFogClearData()
-	end
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])

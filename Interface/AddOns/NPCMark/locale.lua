@@ -1,4 +1,4 @@
-if true or GetLocale() == 'zhCN' then
+if GetLocale() == 'zhCN' then
 	MAPMARK_TITLE = "NPC显示"
 
 	MAP_MARK_PROF = "职业训练师"
@@ -12,8 +12,7 @@ if true or GetLocale() == 'zhCN' then
 	MAP_MARK_PROF_WARRIOR= "战士训练师"
 	MAP_MARK_PROF_PALADIN= "圣骑士训练师"
 	MAP_MARK_PROF_DEATHKNIGHT= "死亡骑士训练师"
-	MAP_MARK_PROF_MONK= "武僧训练师"
-	
+
 	NPCM_ALCHE = '炼金术'
 	NPCM_BLACKSMITH = '锻造'
 	NPCM_ENCHANTING = '附魔'
@@ -30,7 +29,7 @@ if true or GetLocale() == 'zhCN' then
 	NPCM_FIRSTAID = '急救'
 	NPCM_FISHING = '钓鱼'
 	NPCM_RIDING = '骑术'
-	
+
 	MAP_MARK_SKILL= "技能训练师"
 	MAP_MARK_SKILL_ALCHE= "炼金术训练师"
 	MAP_MARK_PROF_BLACKSMITH= "锻造训练师"
@@ -48,9 +47,7 @@ if true or GetLocale() == 'zhCN' then
 	MAP_MARK_PROF_FIRSTAID= "急救训练师"
 	MAP_MARK_PROF_FISHING= "钓鱼训练师"
 	MAP_MARK_PROF_RIDING= "骑术训练师"
-	MAP_MARK_WEAPON= "武器大师"
-	MAP_MARK_INN= "旅店老板"
-	MAP_MARK_GLADIUS= "竞技场商人"
+	MAP_MARK_FLYING = "飞行训练师"
 
 	MAP_MARK_FLY= "飞行管理员"
 	MAP_MARK_FLY1= "双足飞龙管理员"
@@ -59,29 +56,25 @@ if true or GetLocale() == 'zhCN' then
 	MAP_MARK_FLY4= "狮鹫管理员"
 	MAP_MARK_FLY5= "角鹰兽管理员"
 
+	MAP_MARK_INN= "旅店老板"
 	MAP_MARK_PORTAL= "传送门训练师"
 	MAP_MARK_AUCTION= "拍卖师"
 	MAP_MARK_BANK= "银行职员"
 	MAP_MARK_BARBER= "理发师"
 	MAP_MARK_MATERIAL= "材料商"
 	MAP_MARK_STABLE= "兽栏管理员"
-
-	MAP_MARK_REFORGE = "装备重铸"
+	MAP_MARK_REFORGE = "重铸"
 	MAP_MARK_DUMMY = "训练假人"
 	MAP_MARK_ZHENFU = "军需官"
-	MAP_MARK_DAIBI = "PvE代币兑换"
-	MAP_MARK_DAIBI1 = "正义点数商人"
-	MAP_MARK_DAIBI2 = "勇气点数商人"
-	MAP_MARK_DAIBI3 = "传家宝商人"
+	MAP_MARK_DAIBI1 = "正义商人"
+	MAP_MARK_DAIBI2 = "正义军需官"
+	MAP_MARK_DAIBI3 = "勇气军需官"
 	MAP_MARK_DAIBI4 = "正义传家宝"
 	MAP_MARK_DAIBI5 = "传家宝商人"
 	MAP_MARK_DAIBI6 = "古董和传家宝"
-	MAP_MARK_HUANHUA= "装备幻化"
+	MAP_MARK_GLADIUS= "竞技场商人"
+	MAP_MARK_HUANHUA= "幻化"
 	MAP_MARK_XUKONGYINHANG= "虚空银行"
-
-	MAP_MARK_FLYING = "飞行训练师"
-
-	NPCMARK_UNKNOWN_NPC = "未知NPC"
 
 elseif GetLocale() =='zhTW' then
 	MAPMARK_TITLE = "NPC顯示"
@@ -97,7 +90,6 @@ elseif GetLocale() =='zhTW' then
 	MAP_MARK_PROF_WARRIOR= "戰士訓練師"
 	MAP_MARK_PROF_PALADIN= "聖騎士訓練師"
 	MAP_MARK_PROF_DEATHKNIGHT= "死亡騎士訓練師"
-	MAP_MARK_PROF_MONK= "武僧訓練師"
 
 	NPCM_ALCHE = '鍊金術'
 	NPCM_BLACKSMITH = '鍛造'
@@ -123,7 +115,7 @@ elseif GetLocale() =='zhTW' then
 	MAP_MARK_PROF_ENGINEERING= "工程學訓練師"
 	MAP_MARK_PROF_HERBALISM= "草藥學訓練師"
 	MAP_MARK_PROF_INSCRIPTION= "銘文學訓練師"
-	MAP_MARK_PROF_JEWEL= "珠寶設計訓練師"
+	MAP_MARK_PROF_JEWEL= "珠寶加工訓練師"
 	MAP_MARK_PROF_LEATHERWORKING= "製皮訓練師"
 	MAP_MARK_PROF_MINING= "採礦訓練師"
 	MAP_MARK_PROF_SKINNING= "剝皮訓練師"
@@ -161,5 +153,5 @@ elseif GetLocale() =='zhTW' then
 	MAP_MARK_GLADIUS= "競技場商人"
 	MAP_MARK_HUANHUA= "幻化"
 	MAP_MARK_XUKONGYINHANG= "虚空银行"
-	
+
 end
