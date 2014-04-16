@@ -10,6 +10,7 @@ var EasyZip = require('easy-zip').EasyZip
 
 
 
+
 var srcdir = __dirname+"/../Interface/AddOns"
 var workdir = __dirname+"/workdir"
 var packagesdir = workdir + "/packages"
@@ -29,7 +30,7 @@ if( !fs.existsSync(packagesdir) ){
     console.log("create packages dir",packagesdir)
 }
 
-var indexjson = {}
+var indexjson = require("./index.json") ;
 var addonsJson = {
     addons: []
 }
