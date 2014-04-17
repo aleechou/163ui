@@ -1,4 +1,4 @@
-U1RegisterAddon("WhisperPop", {
+﻿U1RegisterAddon("WhisperPop", {
     title = "密语记录",
     defaultEnable = 1,
     optionsAfterVar = 1,

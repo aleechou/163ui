@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## X-BigfootType: 9
 ## X-BigfootDesc: 小巧但功能齐全的地图增强。
 ## Notes: Simple Map Mod
@@ -46,3 +46,6 @@ BattleMap.lua
 FogClear.lua
 InstanceMaps.lua
 Scaling.lua
+
+## Title: |cff880303[网易有爱]|r Mapster
+## X-Vendor: NetEase
