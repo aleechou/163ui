@@ -1,12 +1,12 @@
-## Interface: 50100
-## X-BigfootType: 3
-## X-BigfootDesc: |cFF4488FF此模块依赖于 |r
+﻿## Interface: 50400
 ## Title: |cffe1a500w|cff69ccf0Marker
 ## Notes: I'm going to to get my engineers to invent a combustible lemon that burns your house down!
 ## Author: Waky
 ## Dependencies: 
 ## Version: 2.5.2
 ## SavedVariablesPerCharacter: wMarkerDB, wFlaresDB
+## Title: |cff880303[网易有爱]|r wMarker
+## X-Vendor: NetEase
 
 Localization\enUS.lua
 Localization\esES.lua
@@ -22,3 +22,6 @@ Localization\itIT.lua
 wMarker.lua
 config.lua
 Bindings.xml
+
+## Title: |cff880303[网易有爱]|r wMarker
+## X-Vendor: NetEase

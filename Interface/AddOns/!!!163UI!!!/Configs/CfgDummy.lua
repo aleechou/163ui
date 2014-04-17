@@ -1,4 +1,4 @@
---[[------------------------------------------------------------
+﻿--[[------------------------------------------------------------
 Dummy的插件默认值：
 - defaultEnable = 1
 - desc = "此项功能为一系列小插件的组合……"
@@ -12,6 +12,14 @@ U1RegisterAddon("!!Forwarder", { dummy = 1,
     defaultEnable = 0,
 
     children = {"LFGForwarder", "TradeForwarder"},
+})
+
+U1RegisterAddon("GoGoMount", { dummy = 1,
+    title = "牛逼的施法条", 
+    tags = {"我的插件"}, 
+    icon = "Interface\\Icons\\Spell_ChargeNegative", 
+    author = "作者名字", 
+    desc = "我自己的插件说明，如果没有desc属性，则会自动取插件toc文件里的说明。", 
 })
 
 U1RegisterAddon("!!UnitFrames", { dummy = 1,

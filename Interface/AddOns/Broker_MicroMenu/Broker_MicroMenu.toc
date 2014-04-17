@@ -25,3 +25,6 @@ localization.lua
 LibDataBroker-1.1.lua
 Broker_MicroMenu.lua
 Options.lua
+
+## Title: |cff880303[ЭјвзгаАЎ]|r Broker_MicroMenu
+## X-Vendor: NetEase

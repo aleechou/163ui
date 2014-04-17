@@ -46,3 +46,6 @@ Skins\Zoomed.lua
 Core\Button.lua
 Core\Groups.lua
 Core\Options.lua
+
+## Title: |cff880303[网易有爱]|r Masque
+## X-Vendor: NetEase
