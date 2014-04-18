@@ -1,33 +1,5 @@
-.DS_Store
+/*
+!/Interface/
+!/dev
 
-BlizzardError.exe            
-Cache/                        
-Data/                         
-Errors/                       
-Fonts/                        
-Interface                    
-Interface.obsoleted/          
-Launcher.db                  
-Logs/                         
-Microsoft.VC80.CRT.manifest  
-MovieProxy.exe               
-Original.dll     
-Original1.dll    
-Scan.dll         
-Scan.dll.new     
-Screenshots/      
-SetupWin.mpq     
-SystemSurvey.exe 
-Updates/          
-Utils/            
-WTF/
-WoW.mfil
-WoW.pfil
-WoW.tfil
-World of Warcraft Launcher.exe
-Wow-64.exe
-Wow.exe
-dbghelp.dll
-dev
-divxdecoder.dll
-wow-patch.mpq
+.DS_Store
