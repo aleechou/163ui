@@ -1,12 +1,18 @@
+/*
+!.gitignore
+!/Interface/
+!/dev/
+
 
 .DS_Store
 
+.agent.db
+.patch.result
 BlizzardError.exe            
 Cache/                        
 Data/                         
 Errors/                       
-Fonts/                        
-Interface                    
+Fonts/                                       
 Interface.obsoleted/          
 Launcher.db                  
 Logs/                         
@@ -29,6 +35,5 @@ World of Warcraft Launcher.exe
 Wow-64.exe
 Wow.exe
 dbghelp.dll
-dev
 divxdecoder.dll
 wow-patch.mpq
