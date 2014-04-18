@@ -1,0 +1,12 @@
+{
+    "deprecative": [
+	"foo" ,
+	"bar" ,
+	"baz"
+    ]
+
+    , "conflictive": {
+	"foo": ["bar","baz"] ,
+	"qux": ["quux","corge"]
+    }
+}

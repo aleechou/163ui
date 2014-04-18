@@ -30,10 +30,9 @@ if( !fs.existsSync(packagesdir) ){
     console.log("create packages dir",packagesdir)
 }
 
-var indexjson = require("./index.json") ;
-var addonsJson = {
-    addons: []
-}
+var indexjson = require("./index.json") 
+var addonsJson = require("./addons-index.json")
+addonsJson.addons = []
 
 fs.readdirSync(srcdir)
 .reduce(function(addons,filename){
