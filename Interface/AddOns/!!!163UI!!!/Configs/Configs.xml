@@ -21,7 +21,7 @@
     <Include file="..\..\BlizzMove\CfgBlizzMove.lua"/>
     <Include file="..\..\Carbonite\CfgCarbonite.lua"/>
     <Include file="..\..\CastDelayBar\CfgCastDelayBar.lua"/>
-    <Include file="..\..\ChannelClean\CfgChannelClean.lua"/>
+    <Include file="..\..\ChatFilter\CfgChatFilter.lua"/>
     <Include file="..\..\ChocolateBar\CfgChocolateBar.lua"/>
     <Include file="..\..\ComboPoints\CfgComboPoints.lua"/>
     <Include file="..\..\CoolLine\CfgCoolLine.lua"/>
@@ -32,7 +32,7 @@
     <Include file="..\..\DuowanChat\CfgDuowanChat.lua"/>
     <Include file="..\..\DynRepBar\CfgDynRepBar.lua"/>
     <Include file="..\..\EN_UnitFrames\CfgEN_UnitFrames.lua"/>
-    <Include file="..\..\EasyMount\CfgEasyMount.lua"/>
+    <Include file="..\..\GoGoMount\CfgGoGoMount.lua"/>
     <Include file="..\..\Ellipsis\CfgEllipsis.lua"/>
     <Include file="..\..\EnhancedTradeSkillUI\CfgEnhancedTradeSkillUI.lua"/>
     <Include file="..\..\ErrorFilter\CfgErrorFilter.lua"/>
@@ -70,7 +70,7 @@
     <Include file="..\..\SwingBar\CfgSwingBar.lua"/>
     <Include file="..\..\TOTxp\CfgTOTxp.lua"/>
     <Include file="..\..\TargetButton\CfgTargetButton.lua"/>
-    <Include file="..\..\TargetCharms\CfgTargetCharms.lua"/>
+    <Include file="..\..\wMarker\CfgwMarker.lua"/>
     <Include file="..\..\TheBurningTrade\CfgTheBurningTrade.lua"/>
     <Include file="..\..\TinyTip\CfgTinyTip.lua"/>
     <Include file="..\..\TradeForwarder\CfgTradeForwarder.lua"/>

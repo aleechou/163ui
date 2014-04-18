@@ -13,3 +13,6 @@ libs\CallbackHandler-1.0.lua
 libs\LibDataBroker-1.1.lua
 
 Broker_Equipment.lua
+
+## Title: |cff880303[ЭјвзгаАЎ]|r Broker_Equipment
+## X-Vendor: NetEase

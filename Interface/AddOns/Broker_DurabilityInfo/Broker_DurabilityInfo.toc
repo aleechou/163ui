@@ -33,3 +33,6 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 Broker_DurabilityInfo.lua
+
+## Title: |cff880303[网易有爱]|r Broker_DurabilityInfo
+## X-Vendor: NetEase

@@ -12,3 +12,6 @@
 NPCMark.xml
 
 ##X-Modified: paldier
+
+## Title: |cff880303[网易有爱]|r NPCMark
+## X-Vendor: NetEase
