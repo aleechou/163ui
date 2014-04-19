@@ -16,5 +16,19 @@ nopic= 1,
         end 
     }, 
 
+{ 
+        type = 'button', 
+        text = '打开区域收藏', 
+        callback = function() 
+            InterfaceOptionsFrame_OpenToCategory(GoGo_ZoneFavorites_Panel)
+        end 
+    }, 
+
+{ 
+        type='text',
+        text = '首次配置可能需要点击多次', 
+        
+    }, 
+
 });
 
