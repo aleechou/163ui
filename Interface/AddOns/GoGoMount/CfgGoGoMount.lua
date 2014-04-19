@@ -8,5 +8,27 @@ nopic= 1,
     icon = [[Interface\Icons\ability_mount_dreadsteed]],
     optionsAfterVar = 1,
 
+{ 
+        type = 'button', 
+        text = '打开全局收藏', 
+        callback = function() 
+            InterfaceOptionsFrame_OpenToCategory(GoGo_GlobalFavorites_Panel)
+        end 
+    }, 
+
+{ 
+        type = 'button', 
+        text = '打开区域收藏', 
+        callback = function() 
+            InterfaceOptionsFrame_OpenToCategory(GoGo_ZoneFavorites_Panel)
+        end 
+    }, 
+
+{ 
+        type='text',
+        text = '首次配置可能需要点击多次', 
+        
+    }, 
+
 });
 
