@@ -8,5 +8,13 @@ nopic= 1,
     icon = [[Interface\Icons\ability_mount_dreadsteed]],
     optionsAfterVar = 1,
 
+{ 
+        type = 'button', 
+        text = '打开全局收藏', 
+        callback = function() 
+            InterfaceOptionsFrame_OpenToCategory(GoGo_GlobalFavorites_Panel)
+        end 
+    }, 
+
 });
 

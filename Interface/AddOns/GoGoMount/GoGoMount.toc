@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: GoGoMount
 ## Version: 5.4.7
 ## Notes: One-key solution for mounting/dismounting, supports spells, shapeshifting
@@ -17,3 +17,5 @@
 ## X-Curse-Project-ID: gogomount
 ## X-Curse-Repository-ID: wow/gogomount/mainline
 GoGoMount.xml
+## Title: |cff880303[网易有爱]|r GoGoMount
+## X-Vendor: NetEase
