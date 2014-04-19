@@ -59,12 +59,21 @@ function GoGo_OnEvent(self, event, ...)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		for i, button in ipairs({GoGoButton, GoGoButton2, GoGoButton3}) do
 			if GoGo_Variables.Player.Class == "SHAMAN" then
+				if GoGo_Variables.Debug >= 10 then 
+					GoGo_DebugAddLine("GoGo_OnEvent: Shaman entering combat.  Setting macro.")
+				end --if
 				GoGo_FillButton(button, GoGo_InBook(GOGO_SPELLS["SHAMAN"]))
 			elseif GoGo_Variables.Player.Class == "DRUID" then
 				if not GoGo_Prefs.DruidDisableInCombat then
 					GoGo_ZoneCheck()  -- Checking to see what we can and can not do in zones
 					GoGo_FillButton(button, GoGo_InBook(GOGO_SPELLS["DRUID"]))
+					if GoGo_Variables.Debug >= 10 then 
+						GoGo_DebugAddLine("GoGo_OnEvent: Druid entering combat.  Setting macro.")
+					end --if
 				else
+					if GoGo_Variables.Debug >= 10 then 
+						GoGo_DebugAddLine("GoGo_OnEvent: Druid entering combat.  Clearing macro because of set option.")
+					end --if
 					GoGo_FillButton(button)
 				end --if
 			end --if
@@ -1272,8 +1281,14 @@ function GoGo_GetIDName(itemid)
 		local GoGo_TempMount = {}
 		table.insert(GoGo_TempMount, itemid)
 		if (table.getn(GoGo_FilterMountsIn(GoGo_TempMount, 50000)) == 1) then
+			if GoGo_Variables.Debug >= 10 then
+				GoGo_DebugAddLine("GoGo_GetIDName: GetItemID for " .. itemid .. " " .. GetItemInfo(GoGo_Variables.MountDB[itemid][50000]))
+			end --if
 			return GetItemInfo(GoGo_Variables.MountDB[itemid][50000]) or "Unknown Mount"
 		else
+			if GoGo_Variables.Debug >= 10 then
+				GoGo_DebugAddLine("GoGo_GetIDName: GetSpellID for " .. itemid .. " " .. (GetSpellInfo(itemid) or "Unknown Mount"))
+			end --if
 			return GetSpellInfo(itemid) or "Unknown Mount"
 		end --if
 	elseif type(itemid) == "table" then
@@ -1328,7 +1343,14 @@ end --function
 ---------
 function GoGo_FillButton(button, mount)
 ---------
-	if mount then
+	if InCombatLockdown() then
+		-- do nothing - macro should be filled already with available options
+		-- need to exclude calling :SetAttribute while in combat due to some bug collecting
+		-- mods flagging this as an error
+		if GoGo_Variables.Debug >= 10 then 
+			GoGo_DebugAddLine("GoGo_FillButton: In combat.  Casting pre-assigned mount")
+		end --if
+	elseif mount then
 		if GoGo_Variables.Debug >= 10 then 
 			GoGo_DebugAddLine("GoGo_FillButton: Casting " .. mount)
 		end --if
@@ -2020,6 +2042,11 @@ function GoGo_ZoneCheck()
 		else
 			GoGo_Variables.ZoneExclude.CanFly = false
 		end --if
+	elseif GoGo_Variables.Player.ZoneID == 544 then
+		if GoGo_Variables.Debug >= 10 then
+			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for The Lost Isles")
+		end --if
+		GoGo_Variables.ZoneExclude.CanFly = false
 	elseif GoGo_Variables.Player.ZoneID == 604 then
 		if GoGo_Variables.Debug >= 10 then
 			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for Icecrown Citadel (25 player instance)")
@@ -2664,6 +2691,20 @@ function GoGo_ZoneCheck()
 		if GoGo_InBook(GoGo_Variables.Localize.FlightMastersLicense) then
 			GoGo_Variables.ZoneExclude.CanFly = true
 		end --if
+	elseif GoGo_Variables.Player.ZoneID == 891 then
+		if GoGo_Variables.Debug >= 10 then
+			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for Echo Isles")
+		end --if
+		if GoGo_InBook(GoGo_Variables.Localize.FlightMastersLicense) then
+			GoGo_Variables.ZoneExclude.CanFly = true  -- to verify
+		end --if
+	elseif GoGo_Variables.Player.ZoneID == 893 then
+		if GoGo_Variables.Debug >= 10 then
+			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for Sunstrider Isle")
+		end --if
+		if GoGo_InBook(GoGo_Variables.Localize.FlightMastersLicense) then
+			GoGo_Variables.ZoneExclude.CanFly = true  -- to verify
+		end --if
 	elseif GoGo_Variables.Player.ZoneID == 895 then
 		if GoGo_Variables.Debug >= 10 then
 			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for New Tinkertown")
@@ -2721,6 +2762,12 @@ function GoGo_ZoneCheck()
 	elseif GoGo_Variables.Player.ZoneID == 922 then
 		if GoGo_Variables.Debug >= 10 then
 			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for Deeprun Tram")
+		end --if
+		GoGo_Variables.ZoneExclude.CanFly = false
+		-- can ride = false
+	elseif GoGo_Variables.Player.ZoneID == 925 then
+		if GoGo_Variables.Debug >= 10 then
+			GoGo_DebugAddLine("GoGo_ZoneCheck: Setting up for Brawl'gar Arena")
 		end --if
 		GoGo_Variables.ZoneExclude.CanFly = false
 		-- can ride = false
@@ -3121,7 +3168,7 @@ function GoGo_UpdateMountData()
 		GoGo_Variables.MountDB[GoGo_Variables.Localize.TravelForm][10002] = 161
 		GoGo_TableAddUnique(GoGo_Variables.GroundSpeed, 161)
 		if GoGo_Variables.Debug >= 10 then
-			GoGo_DebugAddLine("GoGo_UpdateMountData: We're a Druid with Feral Swiftness.  Modifying shape form speed data.")
+			GoGo_DebugAddLine("GoGo_UpdateMountData: We're a Druid with Feline Swiftness.  Modifying shape form speed data.")
 		end --if
 	end --if
 
@@ -3399,7 +3446,7 @@ GOGO_COMMANDS = {
 		GoGo_Msg("druidflightform")
 	end, --function
 	["options"] = function()
-		InterfaceOptionsFrame_OpenToCategory(GoGo_Panel_Options)
+		InterfaceOptionsFrame_OpenToCategory(GoGo_Panel)
 	end, --function
 }
 
@@ -3722,22 +3769,12 @@ function GoGo_Hunter_Panel()
 	GoGo_Hunter_Panel_AspectOfPack:SetPoint("TOPLEFT", 16, -16)
 	GoGo_Hunter_Panel_AspectOfPackText:SetText(GoGo_Variables.Localize.String.UseAspectOfThePackInstead)
 	GoGo_Hunter_Panel_AspectOfPack.tooltipText = GoGo_Variables.Localize.String.UseAspectOfThePackInstead_Long
+	if GoGo_Prefs.AspectPack then
+		GoGo_Hunter_Panel_AspectOfPack:SetChecked(1)
+	end --if
 	GoGo_Hunter_Panel_AspectOfPack:SetScript("OnClick",
 		function(self)
-			if GoGo_Hunter_Panel_AspectOfPack:GetChecked() then
-				GoGo_Prefs.AspectPack = true
-			else
-				GoGo_Prefs.AspectPack = false
-			end --if
-		end --function
-	)
-	GoGo_Hunter_Panel_AspectOfPack:SetScript("OnShow",
-		function(self)
-			if GoGo_Prefs.AspectPack then
-				GoGo_Hunter_Panel_AspectOfPack:SetChecked(1)
-			else
-				GoGo_Hunter_Panel_AspectOfPack:SetChecked(0)
-			end --if
+			GoGo_SetPref("AspectPack", GoGo_Hunter_Panel_AspectOfPack:GetChecked())
 		end --function
 	)
 end --function
@@ -3997,6 +4034,9 @@ function GoGo_SetPref(strPref, intValue)
 	elseif strPref == "RemoveBuffs" then
 		GoGo_Prefs.RemoveBuffs = intValue
 		GoGo_Panel_RemoveBuffs:SetChecked(intValue)
+	elseif strPref == "AspectPack" then
+		GoGo_Prefs.AspectPack = intValue
+		GoGo_Hunter_Panel_AspectOfPack:SetChecked(intValue)
 	
 	end --if
 
@@ -4013,7 +4053,7 @@ function GoGo_Settings_Default(Class)
 		GoGo_SetPref("DruidDisableInCombat", false)
 		InterfaceOptionsFrame_OpenToCategory(GoGo_Druid_Panel)
 	elseif Class == "HUNTER" then
-		GoGo_Prefs.AspectPack = false
+		GoGo_SetPref("AspectPack", false)
 		InterfaceOptionsFrame_OpenToCategory(GoGo_Hunter_Panel)
 	elseif Class == "SHAMAN" then
 		GoGo_SetPref("ShamanClickForm", false)
@@ -4041,7 +4081,7 @@ function GoGo_Settings_Default(Class)
 		GoGo_Prefs.UnknownMounts = {}
 		GoGo_Prefs.GlobalPrefMounts = {}
 		GoGo_Prefs.GlobalPrefMount = false
-		GoGo_Prefs.AspectPack = false
+		GoGo_SetPref("AspectPack", false)
 		GoGo_SetPref("DruidFormNotRandomize", false)
 		GoGo_Prefs.DisableWaterFlight = true
 		GoGo_SetPref("RemoveBuffs", true)
@@ -4233,6 +4273,8 @@ end --function
 function GoGo_DebugCollectInformation()
 ---------
 	GoGo_DebugAddLine("Information: GoGoMount Version " .. GetAddOnMetadata("GoGoMount", "Version"))
+--	GoGo_DebugAddLine("Information: GoGoMount build version:  " ..  GetAddOnMetadata("GoGoMount", "Interface"))
+	GoGo_DebugAddLine("Information: World of Warcraft build version:  " .. select(4, _G.GetBuildInfo()))
 	if GoGo_Variables.ExpansionAccount == 0 then
 		GoGo_DebugAddLine("Information: Account - World of Warcraft (Classic) enabled.")
 	elseif GoGo_Variables.ExpansionAccount == 1 then

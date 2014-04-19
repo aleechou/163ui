@@ -1,7 +1,6 @@
-﻿## Interface: 50400
-## Title: |cff880303[网易有爱]|r GoGoMount
-## X-Vendor: NetEase
-## Version: 5.4.2
+## Interface: 50400
+## Title: GoGoMount
+## Version: 5.4.7
 ## Notes: One-key solution for mounting/dismounting, supports spells, shapeshifting
 ## Notes-enGB: One-key solution for mounting/dismounting, supports spells, shapeshifting
 ## Notes-deDE: Ein-Tasten-Lösung für das Auf- und Absitzen von Reittieren, unterstützt auch Zaubersprüche und Gestaltwandlung
@@ -13,11 +12,8 @@
 ## Notes-koKR: 탈것의 타기/내리기를 위한 1 키 해결, 주문, 변신 지원
 ## Author: Gadgets (Tiker) @ Bleeding Hollow
 ## SavedVariablesPerCharacter: GoGo_Prefs GoGo_DebugLog
-## X-Curse-Packaged-Version: r415
+## X-Curse-Packaged-Version: 5.4.7
 ## X-Curse-Project-Name: GoGoMount
 ## X-Curse-Project-ID: gogomount
 ## X-Curse-Repository-ID: wow/gogomount/mainline
 GoGoMount.xml
-
-## Title: |cff880303[网易有爱]|r GoGoMount
-## X-Vendor: NetEase

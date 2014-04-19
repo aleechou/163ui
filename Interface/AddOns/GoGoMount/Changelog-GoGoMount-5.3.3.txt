@@ -1,0 +1,98 @@
+------------------------------------------------------------------------
+r403 | tiker | 2013-05-27 13:20:39 +0000 (Mon, 27 May 2013) | 1 line
+Changed paths:
+   A /tags/5.3.3 (from /trunk:402)
+
+Tagging as 5.3.3
+------------------------------------------------------------------------
+r402 | tiker | 2013-05-25 18:58:57 +0000 (Sat, 25 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Removed debug message that appeared when mounting in watter
+------------------------------------------------------------------------
+r401 | tiker | 2013-05-24 22:32:18 +0000 (Fri, 24 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Fixed error for people running GoGoMount for the first time (709)
+------------------------------------------------------------------------
+r399 | tiker | 2013-05-21 22:31:44 +0000 (Tue, 21 May 2013) | 3 lines
+Changed paths:
+   M /trunk/GoGoMount.toc
+   M /trunk/GoGoMountData.lua
+
+- TOC updated for 5.3.0 patch
+- Added support for Brawler's Burly Mushan Beast
+- Added support for Hearthsteed
+------------------------------------------------------------------------
+r398 | tiker | 2013-05-08 23:43:40 +0000 (Wed, 08 May 2013) | 2 lines
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+   M /trunk/GoGoMountData.lua
+
+- First test of faster water surface mount support
+- Misc. optimizations
+------------------------------------------------------------------------
+r396 | tiker | 2013-05-07 22:28:01 +0000 (Tue, 07 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMountData.lua
+
+- Cleared test flag for release build
+------------------------------------------------------------------------
+r395 | tiker | 2013-05-06 02:14:11 +0000 (Mon, 06 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Allow flying in Shadowglen
+------------------------------------------------------------------------
+r394 | tiker | 2013-05-04 12:59:30 +0000 (Sat, 04 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- fixed error when disabling auto dismount option
+------------------------------------------------------------------------
+r393 | tiker | 2013-05-04 12:54:08 +0000 (Sat, 04 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Fixed auto-dismount functionality in GoGoMount
+------------------------------------------------------------------------
+r392 | tiker | 2013-05-04 12:10:57 +0000 (Sat, 04 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Monks with Zen Flight will now auto-dismount when attempting to cast something otherwise blocked when on the ground
+------------------------------------------------------------------------
+r391 | tiker | 2013-05-03 16:27:38 +0000 (Fri, 03 May 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+
+- Added support for Shaman single click to mount from Ghost Wolf form option
+------------------------------------------------------------------------
+r389 | tiker | 2013-04-28 13:53:40 +0000 (Sun, 28 Apr 2013) | 3 lines
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+   M /trunk/GoGoMountData.lua
+
+- Added support for Armored Red Dragonhawk
+- Added support for Armored Blue Dragonhawk
+- Added support for Enchanted Fey Dragon
+------------------------------------------------------------------------
+r388 | tiker | 2013-04-12 15:23:07 +0000 (Fri, 12 Apr 2013) | 1 line
+Changed paths:
+   M /trunk/GoGoMount.lua
+   M /trunk/GoGoMount.toc
+   M /trunk/GoGoMountData.lua
+
+- added some new zone ids for recognition
+------------------------------------------------------------------------
