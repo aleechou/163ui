@@ -478,7 +478,11 @@ function U1RegisterAddon(name, infoReg)
     if infoReg.dummy then
         --dummy的如果没有任何子插件就隐藏
         local hasOne;
-        for _, v in ipairs(infoReg.children) do if U1IsAddonInstalled(v) then hasOne = true break; end end
+        if infoReg.children then
+            for _, v in ipairs(infoReg.children) do if U1IsAddonInstalled(v) then hasOne = true break; end end
+        else
+            print("addon:",infoReg.title," cfg 缺少 children 属性")
+        end
         if not hasOne then return end
     end
     if infoRaw and not infoRaw.vendor and (not UI163_USER_MODE and not infoReg.alwaysRegister and not infoReg.parent) then return end
