@@ -1,0 +1,5 @@
+<Bindings>
+    <Binding name="RAIDBUILDER_TOGGLE" header="RAIDBUILDER" default="ALT-I">
+        LibStub('AceAddon-3.0'):GetAddon('RaidBuilder'):ToggleModule('MainPanel')
+    </Binding>
+</Bindings>
