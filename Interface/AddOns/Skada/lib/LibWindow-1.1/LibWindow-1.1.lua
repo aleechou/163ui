@@ -180,7 +180,7 @@ function lib.RestorePosition(frame)
 	end
 	
 	if not x or not y then		-- nothing stored in config yet, smack it in the center
-		x=0; y=0; point="CENTER"
+		x=0; y=-110; point="RIGHT"
 	end
 
 	x = x/s
