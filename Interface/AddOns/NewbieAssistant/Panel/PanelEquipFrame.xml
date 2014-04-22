@@ -1,0 +1,185 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="PanelEquipFrame.lua" />
+	<Button name="NewbieAssistantPanelEquipItemIconTemplate" inherits="ItemButtonTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+				GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+				GameTooltip:SetHyperlink(self.link)
+				GameTooltip:Show()
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				NewbieAssistantPanelEquipItemIconTemplate_OnClick(self)
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Frame name="NewbieAssistantPanelEquipFrame" hidden="true" frameStrata="HIGH">
+		<Size>
+			<AbsDimension x="341" y="495" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="NewbieAssistantPannelFrame" relativePoint="TOPLEFT" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-skill-border" tile="true">
+			<BackgroundInsets left="15" right="16" top="16" bottom="17" />
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-curve">
+					<Size x="128" y="39" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="17" y="-17" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.609375" />
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-curve">
+					<Size x="128" y="39" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset x="-17" y="17" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="1" right="0" top="0.609375" bottom="0" />
+				</Texture>
+				<Texture file="Interface\ICONS\INV_Chest_Plate03">
+					<Size x="20" y="20" />
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset x="-79" y="-30" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="1" />
+				</Texture>
+				<FontString inherits="GameFontNormal" parentKey="Title" text="装备" justifyH="LEFT">
+					<Size x="53" y="20" />
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset x="-20" y="-32" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="EquipName" text="        优秀品质装备在等你！" justifyH="LEFT">
+					<Size x="280" y="33" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="33" y="-58" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="获取方式：" justifyV="TOP" justifyH="LEFT">
+					<Size x="85" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-368" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="GetEquip" text="" justifyV="TOP" justifyH="LEFT">
+					<Size x="258" y="64" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="47" y="-394" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="selectionCheck">
+				<Layers>
+					<Layer>
+						<Texture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD">
+							<Size x="37" y="37" />
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Button inherits="UIPanelCloseButton" parentKey="btnClose">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-6" y="-6" />
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon1">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="31" y="-104" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon2">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="105" y="-104" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon3">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="179" y="-104" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon4">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="253" y="-104" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon5">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="31" y="-147" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon6">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="105" y="-147" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon7">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="179" y="-147" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelEquipItemIconTemplate" parentKey="Icon8">
+				<Size x="37" y="37" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="253" y="-147" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				NewbieAssistantPanelEquipFrame_OnLoad(self)
+			</OnLoad>
+			<OnShow>
+				NewbieAssistantPanelEquipFrame_OnShow(self)
+			</OnShow>
+			<OnHide>
+				ItemRefCloseButton:Show()
+				HideUIPanel(ItemRefTooltip)
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

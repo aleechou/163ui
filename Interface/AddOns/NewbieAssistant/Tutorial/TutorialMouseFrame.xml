@@ -1,0 +1,124 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TutorialMouseFrame.lua" />
+	<Frame name="NewbieAssistantToturialMouseFrame" hidden="true" enableMouse="true">
+		<Size x="330" y="220" />
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="0" />
+		</Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="$parentLeftButton" parentKey="LeftButton" file="Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME">
+					<Size x="100" y="139" />
+					<Anchors>
+						<Anchor point="CENTER" x="-100" />
+					</Anchors>
+					<TexCoords left="0.009765625" right="0.140625" top="0.43359375" bottom="0.6152344" />
+				</Texture>
+				<Texture name="$parentRightButton" parentKey="RightButton" file="Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME">
+					<Size x="100" y="139" />
+					<Anchors>
+						<Anchor point="CENTER" x="100" />
+					</Anchors>
+					<TexCoords left="0.162109375" right="0.29296875" top="0.43359375" bottom="0.6152344" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="LeftButtonText" font="Fonts\ARKai_T.ttf" text="FontString12">
+					<Size x="200" y="60" />
+					<Anchors>
+						<Anchor point="TOP" relativeTo="NewbieAssistantToturialMouseFrameLeftButton" relativePoint="BOTTOM" />
+					</Anchors>
+					<FontHeight val="18" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+				<FontString parentKey="RightButtonText" font="Fonts\ARKai_T.ttf" text="FontString13">
+					<Size x="200" y="60" />
+					<Anchors>
+						<Anchor point="TOP" relativeTo="NewbieAssistantToturialMouseFrameRightButton" relativePoint="BOTTOM" />
+					</Anchors>
+					<FontHeight val="18" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnMouseDown>
+				NewbieAssistantToturialMouseFrame_OnMouseDown(self, button)
+			</OnMouseDown>
+			<OnShow>
+				NewbieAssistantToturialMouseFrame_OnShow(self)
+			</OnShow>
+			<OnHide>
+				NewbieAssistantToturialMouseFrame_OnHide(self)
+			</OnHide>
+		</Scripts>
+	</Frame>
+	<Frame name="NewbieAssistantToturialMouseWheelFrame" hidden="true">
+		<Size x="427" y="468" />
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="0" />
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME">
+					<Size x="100" y="139" />
+					<Anchors>
+						<Anchor point="CENTER" />
+					</Anchors>
+					<TexCoords left="0.009765625" right="0.140625" top="0.232421875" bottom="0.41015625" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentUpArrow" parentKey="UpArrow" file="Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME">
+					<Size x="68" y="89" />
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset y="83" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.1542969" right="0.2851563" top="0.6269531" bottom="0.7988281" />
+				</Texture>
+				<Texture name="$parentDownArrow" hidden="true" parentKey="DownArrow" file="Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME">
+					<Size x="68" y="89" />
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset y="-34" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.1542969" right="0.2851563" top="0.7988281" bottom="0.6269531" />
+				</Texture>
+				<FontString parentKey="UpButtonText" font="Fonts\ARKai_T.ttf">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor point="BOTTOM" relativeTo="NewbieAssistantToturialMouseWheelFrameUpArrow" relativePoint="TOP">
+							<Offset y="17" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="18" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+				<FontString parentKey="DownButtonText" hidden="true" font="Fonts\ARKai_T.ttf">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor point="TOP" relativeTo="NewbieAssistantToturialMouseWheelFrameDownArrow" relativePoint="BOTTOM">
+							<Offset y="-16" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="18" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				NewbieAssistantToturialMouseWheelFrame_OnShow(self)
+			</OnShow>
+			<OnMouseWheel>
+				NewbieAssistantToturialMouseWheelFrame_OnMouseWheel(self, delta)
+			</OnMouseWheel>
+			<OnHide>
+				NewbieAssistantToturialMouseWheelFrame_OnHide(self)
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

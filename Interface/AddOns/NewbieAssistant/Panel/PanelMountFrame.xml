@@ -1,0 +1,183 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="PanelMountFrame.lua" />
+	<Frame name="NewbieAssistantPanelMountFrame" hidden="true" frameStrata="DIALOG">
+		<Size>
+			<AbsDimension x="674" y="513" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="NewbieAssistantPannelFrame" relativePoint="TOPLEFT" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-skill-border" tile="true">
+			<BackgroundInsets left="15" right="16" top="16" bottom="17" />
+		</Backdrop>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture parentKey="mount-border" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-mount-border.blp">
+					<Size x="355" y="240" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="287" y="-211" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.68359375" />
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-mount-circle-pic.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOPLEFT" x="25" y="-25" />
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-mount-circle.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOPLEFT" x="20" y="-20" />
+					</Anchors>
+				</Texture>
+				<Texture parentKey="corner-decoration-right" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-16" y="-17" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="0" bottom="1" />
+				</Texture>
+				<Texture parentKey="corner-decoration--bottom-left" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="16" y="17" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+				<Texture parentKey="corner-decoration--bottom-right" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-16" y="17" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="1" bottom="0" />
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelCloseButton" parentKey="btnClose">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-6" y="-6" />
+				</Anchors>
+			</Button>
+			<Frame inherits="NewbieAssistantPanelMountLargeIconTemplate" parentKey="largeIcon">
+				<Size x="64" y="64" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset x="60" y="-52" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" parentKey="getTitle" justifyH="LEFT">
+							<Size x="150" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="95" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString parentKey="getDescript" font="Fonts\ARKai_T.ttf" justifyV="TOP" justifyH="LEFT">
+							<Size x="239" y="124" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="105" y="-25" />
+							</Anchors>
+							<FontHeight val="15" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="bgTitle" justifyH="LEFT">
+							<Size x="100" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-10" y="-160" />
+							</Anchors>
+						</FontString>
+						<FontString parentKey="bgDescription" font="Fonts\ARKai_T.ttf" justifyV="TOP" justifyH="LEFT">
+							<Size x="220" y="228" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-4" y="-197" />
+							</Anchors>
+							<FontHeight val="15" />
+						</FontString>
+						<Texture parentKey="bgPic">
+							<Size x="348" y="233" />
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT">
+									<Offset x="167" y="-100" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="1" top="0" bottom="0.6875" />
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon1">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="266" y="-52" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon2">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="212" y="-52" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon3">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="158" y="-52" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon4">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="104" y="-52" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon5">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="266" y="-106" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon6">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="212" y="-106" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon7">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="158" y="-106" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="NewbieAssistantPanelMountMiddleIconTemplate" parentKey="Icon8">
+				<Anchors>
+					<Anchor point="TOP">
+						<Offset x="104" y="-105" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:SetScale(.8)
+			</OnLoad>
+			<OnShow>
+				NewbieAssistantPanelMountFrame_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+</Ui>

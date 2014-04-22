@@ -1,0 +1,32 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="Env\Env.lua" />
+    <Script file="LibStub\LibStub.lua" />
+    <Include file="CallbackHandler-1.0\CallbackHandler-1.0.xml" />
+    <Include file="AceAddon-3.0\AceAddon-3.0.xml" />
+    <Include file="AceEvent-3.0\AceEvent-3.0.xml" />
+    <Include file="AceTimer-3.0\AceTimer-3.0.xml" />
+    <Include file="AceBucket-3.0\AceBucket-3.0.xml" />
+    <Include file="AceHook-3.0\AceHook-3.0.xml" />
+    <Include file="AceDB-3.0\AceDB-3.0.xml" />
+    <Include file="AceLocale-3.0\AceLocale-3.0.xml" />
+    <Include file="AceComm-3.0\AceComm-3.0.xml" />
+    <Include file="AceSerializer-3.0\AceSerializer-3.0.xml" />
+    
+    <Include file="LibClass-1.0\LibClass-1.0.xml" />
+    <Include file="LibBase64-1.0\LibBase64-1.0.xml" />
+    <Include file="LibModule-1.0\LibModule-1.0.xml" />
+    <Include file="NetEaseBroad-1.0\NetEaseBroad-1.0.xml" />
+    <Include file="NetEaseSocket-1.0\NetEaseSocket-1.0.xml" />
+    <Include file="NetEaseSocketClient-1.0\NetEaseSocketClient-1.0.xml" />
+    <Include file="NetEaseSocketRepeater-1.0\NetEaseSocketRepeater-1.0.xml" />
+    <Include file="NetEaseTextFilter-1.0\NetEaseTextFilter-1.0.xml" />
+
+    <Include file="NetEaseGUI-1.0\NetEaseGUI-1.0.xml" />
+    <Include file="NetEaseGUI-DropMenu-1.0\NetEaseGUI-DropMenu-1.0.xml" />
+
+    <Script file="crc32\crc32.lua" />
+    
+    <Script file="LibDataBroker-1.1\LibDataBroker-1.1.lua" />
+    <Script file="LibDBIcon-1.0\LibDBIcon-1.0.lua" />
+</Ui>

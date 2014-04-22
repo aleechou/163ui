@@ -1,0 +1,104 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Script file="TutorialSmallMsgFrame.lua" />
+	<Frame name="TutorialSmallMsgFrameTemplate" inherits="GlowBoxTemplate" virtual="true" hidden="true" frameStrata="DIALOG">
+		<Size>
+			<AbsDimension x="220" y="100" />
+		</Size>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowUP" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowUP" parentKey="ArrowGlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowRIGHT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowLEFT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowUP" hidden="true">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowUP" parentKey="ArrowDOWN" hidden="true">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowRIGHT" hidden="true">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowLEFT" hidden="true">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString font="Fonts\ARKai_T.ttf" parentKey="Text" justifyH="LEFT">
+					<Size x="200" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="15" y="-15" />
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="CallOutFrame" hidden="true">
+				<Animations>
+					<AnimationGroup parentKey="Anim" looping="BOUNCE">
+						<Alpha duration="0.75" change="-0.7" />
+					</AnimationGroup>
+				</Animations>
+				<Anchors>
+					<Anchor point="CENTER" />
+				</Anchors>
+				<Backdrop edgeFile="Interface\TutorialFrame\UI-TutorialFrame-CalloutGlow" alphaMode="ADD">
+					<EdgeSize>
+						<AbsValue val="16" />
+					</EdgeSize>
+				</Backdrop>
+				<Scripts>
+					<OnShow>
+						local width,height = self:GetParent():GetSize()
+						self:SetSize(width+20,height+20)
+						self.Anim:Play()
+					</OnShow>
+					<OnHide>
+						self.Anim:Stop()
+					</OnHide>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.Text:SetSpacing(4)
+				SetClampedTextureRotation(self.ArrowLEFT, 270)
+				SetClampedTextureRotation(self.ArrowRIGHT, 90)
+				SetClampedTextureRotation(self.ArrowGlowLEFT, 270)
+				SetClampedTextureRotation(self.ArrowGlowRIGHT, 90)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

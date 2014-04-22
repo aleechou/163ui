@@ -1,0 +1,11 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="Event.lua" />
+    <Script file="EventCache.lua" />
+    <Script file="Member.lua" />
+    <Script file="MemberCache.lua" />
+    <Script file="AppliedCache.lua" />
+    <Script file="Log.lua" />
+    <Script file="DataCache.lua" />
+    <Script file="GroupCache.lua" />
+</Ui>

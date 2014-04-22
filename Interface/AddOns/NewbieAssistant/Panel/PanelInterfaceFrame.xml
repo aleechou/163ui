@@ -1,0 +1,259 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="PanelInterfaceFrame.lua" />
+	<Frame name="PanelInterfaceFrame" hidden="true" parent="UIParent" frameStrata="FULLSCREEN" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="823" y="622" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Interface\main-bg">
+					<Size x="800" y="600" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="12" y="-10" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.7607421875" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString font="Fonts\ARKai_T.ttf" text="好友、聊天频道及团队列表" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="30" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="28" y="-377" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="人物头像" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-103" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="构成：头像、等级、血条、法力（能量、怒气等根据职业）、宠物" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="35" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-115" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="目标头像" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="185" y="-103" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="构成：头像、等级、血条、法力（能量、怒气等根据目标职业）" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="35" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="185" y="-115" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="人物已获得的增益状态（如增加角色伤害、护甲等）" justifyV="TOP" justifyH="LEFT">
+					<Size x="118" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="468" y="-24" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="战斗宠物头像（如果有）" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-149" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="人物已获得的减益状态（如减速、中毒等）" justifyV="TOP" justifyH="LEFT">
+					<Size x="118" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="468" y="-77" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="小地图，可以使用“+”与“-”进行缩放。" justifyV="TOP" justifyH="LEFT">
+					<Size x="135" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="468" y="-135" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="背包（B）：打开/关闭背包" justifyV="TOP" justifyH="LEFT">
+					<Size x="121" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="639" y="-526" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="任务达成目标" justifyV="TOP" justifyH="LEFT">
+					<Size x="114" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="694" y="-233" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="工具栏" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="484" y="-512" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="点击可以召唤出人物、天赋、坐骑等常用界面" justifyV="TOP" justifyH="LEFT">
+					<Size x="117" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="484" y="-525" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="主要动作条" justifyV="TOP" justifyH="LEFT">
+					<Size x="123" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="431" y="-444" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="您可将已学会的技能拖拽到动作条上" justifyV="TOP" justifyH="LEFT">
+					<Size x="117" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="431" y="-457" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="经验条，位于动作条上方。" justifyV="TOP" justifyH="LEFT">
+					<Size x="133" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="328" y="-373" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="当您获取经验值后，经验条进度会增加。" justifyV="TOP" justifyH="LEFT">
+					<Size x="120" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="328" y="-387" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="宠物技能栏" justifyV="TOP" justifyH="LEFT">
+					<Size x="133" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="183" y="-367" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="当您的角色召唤战斗宠物后会显示" justifyV="TOP" justifyH="LEFT">
+					<Size x="112" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="183" y="-379" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="查看前瞻内容" justifyV="TOP" justifyH="LEFT">
+					<Size x="69" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="702" y="-308" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="10" />
+					<Color r="1" g="0.82" b="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelCloseButton" text="Button1">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-10" y="-10" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnLoad>
+				self:SetScale(1.3)
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

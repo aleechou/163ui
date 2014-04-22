@@ -1,0 +1,77 @@
+﻿## Author: 网易
+## Interface: 50400
+## Title: World of Warcraft Newbie Assistant
+## Title-zhCN: 《魔兽世界》新兵助手插件
+## Notes: Newbie Assistant
+## Notes-zhCN: 新手辅助插件
+## Version: 1.1.0
+## SavedVariablesPerCharacter: NewbieAssistantDB_Char
+Core\api.lua
+Core\Class\Timer.lua
+Core\middleclass.lua
+Tutorial\Template.xml
+Tutorial\Tutorial.xml
+Tutorial\api.lua
+Tutorial\Localization\Localization.zhCN.lua
+Tutorial\Tutorial.Logic.lua
+Tutorial\TutorialKeyboardFrame.xml
+Tutorial\TutorialMouseFrame.xml
+Tutorial\ToturialLargeMsgFrame.xml
+Tutorial\TutorialMiniFrame.xml
+Tutorial\TutorialSmallMsgFrame.xml
+Tutorial\TutorialTinyMsgFrame.xml
+Tutorial\TutorialQuestObjPicFrame.xml
+Tutorial\DisplayData\Script.Function.lua
+Tutorial\DisplayData\Script.Human.lua
+Tutorial\DisplayData\Script.Dwarf.lua
+Tutorial\DisplayData\Script.NightElf.lua
+Tutorial\DisplayData\Script.Gnome.lua
+Tutorial\DisplayData\Script.Draenei.lua
+Tutorial\DisplayData\Script.BloodElf.lua
+Tutorial\DisplayData\Script.Goblin.lua
+Tutorial\DisplayData\Script.Orc.lua
+Tutorial\DisplayData\Script.Scourge.lua
+Tutorial\DisplayData\Script.Tauren.lua
+Tutorial\DisplayData\Script.Troll.lua
+Tutorial\DisplayData\Script.Worgen.lua
+Tutorial\DisplayData\Script.Pandaren.lua
+Tutorial\DisplayData\Coord.Data.lua
+TrialTip\TrialTip.xml
+TrialTip\api.lua
+TrialTip\Localization\Localization.zhCN.lua
+TrialTip\TrialTip.Script.lua
+Navigation\Navigation.xml
+Navigation\astar.lua
+Navigation\handle.lua
+Navigation\api.lua
+Navigation\data\Coordinates.lua
+Panel\api.lua
+Panel\Template.xml
+Panel\Panel.Script.lua
+Panel\Data\Panel.Data.lua
+Panel\Data\Panel.Item.lua
+Panel\Panel.xml
+Panel\PannelSkillFrame.xml
+Panel\PanelFrame.xml
+Panel\PanelSkillFrame.xml
+Panel\PanelMountFrame.xml
+Panel\PanelDungeonFrame.xml
+Panel\PannelTalentFrame.xml
+Panel\PanelPatBattleFrame.xml
+Panel\PanelEquipFrame.xml
+Panel\PanelQuestFrame.xml
+Panel\PanelInterfaceFrame.xml
+Panel\PanelBattlegroundFrame.xml
+Panel\PanelKeyboardFrame.xml
+Panel\PanelMouseFrame.xml
+Panel\PanelPaymentFrame.xml
+Elfintip\api.lua
+Elfintip\Template.xml
+Elfintip\Localization\Localization.zhCN.lua
+Elfintip\Elfintip.xml
+Other\api.lua
+Other\Localization\Localization.zhCN.lua
+Other\Other.Script.lua
+Other\Other.Lowhp.lua
+## Title: |cff880303[网易有爱]|r 魔兽新兵助手
+## X-Vendor: NetEase

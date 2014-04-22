@@ -1,0 +1,268 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="PannelTalentFrame.lua" />
+	<Frame name="NewbieAssistantPanelTalentFrame" hidden="true" frameStrata="DIALOG">
+		<Size>
+			<AbsDimension x="674" y="513" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="NewbieAssistantPannelFrame" relativePoint="TOPLEFT" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-skill-border" tile="true">
+			<BackgroundInsets left="15" right="16" top="16" bottom="17" />
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-mount-circle-pic.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOPLEFT" x="25" y="-25" />
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-mount-circle.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOPLEFT" x="20" y="-20" />
+					</Anchors>
+				</Texture>
+				<Texture parentKey="corner-decoration-right" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-16" y="-17" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="0" bottom="1" />
+				</Texture>
+				<Texture parentKey="corner-decoration--bottom-left" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="16" y="17" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+				<Texture parentKey="corner-decoration--bottom-right" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\NA-UI1-corner-decoration.blp">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-16" y="17" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="1" bottom="0" />
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\10">
+					<Size x="35" y="33" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="68" y="-21" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.546875" top="0" bottom="0.515625" />
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\image">
+					<Size x="162" y="218" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="40" y="-53" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.6328125" top="0" bottom="0.8515625" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" text="       当您到达10级，您将可以根据自己的喜好来选择自己的天赋专精，她将让您的探险之路更加轻松。" justifyV="TOP" justifyH="LEFT" maxLines="5">
+					<Size x="213" y="126" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="412" y="-123" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="等级：" justifyH="LEFT">
+					<Size x="56" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="25" y="-33" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelCloseButton" parentKey="btnClose">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-6" y="-6" />
+				</Anchors>
+			</Button>
+			<Frame>
+				<Size x="447" y="196" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="193" y="-73" />
+					</Anchor>
+				</Anchors>
+				<Backdrop edgeFile="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\border" tile="true">
+					<BackgroundInsets />
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize val="24" />
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\nameplate">
+							<Size x="208" y="43" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="37" y="10" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.8125" top="0" bottom="0.671875" />
+						</Texture>
+						<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\talentbutton">
+							<Size x="196" y="88" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="15" y="-50" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.765625" top="0" bottom="0.6875" />
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" text="释放天赋能力">
+							<Size x="107" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="86" y="5" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame>
+				<Size x="612" y="196" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="28" y="-290" />
+					</Anchor>
+				</Anchors>
+				<Backdrop edgeFile="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\border" tile="true">
+					<BackgroundInsets />
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize val="24" />
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\nameplate">
+							<Size x="208" y="43" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="202" y="10" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.8125" top="0" bottom="0.671875" />
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" text="三系职业专精">
+							<Size x="107" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="252" y="5" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="SpecParentFrame">
+				<Size x="612" y="196" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="28" y="-290" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<Texture parentKey="SpecTexture1" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\spec-priest-1">
+							<Size x="165" y="57" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="23" y="-39" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.64453125" top="0" bottom="0.890625" />
+						</Texture>
+						<Texture parentKey="SpecTexture2" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\spec-priest-2">
+							<Size x="165" y="57" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="226" y="-39" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.64453125" top="0" bottom="0.890625" />
+						</Texture>
+						<Texture parentKey="SpecTexture3" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\spec-priest-3">
+							<Size x="165" y="57" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="428" y="-39" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.64453125" top="0" bottom="0.890625" />
+						</Texture>
+						<Texture parentKey="SpecTexture4" hidden="true" file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Talent\spec-priest-3">
+							<Size x="165" y="57" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="630" y="-39" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.64453125" top="0" bottom="0.890625" />
+						</Texture>
+						<FontString inherits="GameFontNormal" parentKey="TEXT1" text="使用魔法护盾保护盟友不受伤害，也能及时治愈他们的伤口。" justifyV="TOP" justifyH="LEFT">
+							<Size x="164" y="69" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="23" y="-106" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="TEXT2" text="使用邪恶的暗影魔法彻底根除敌人，尤其擅长持续伤害法术。" justifyV="TOP" justifyH="LEFT">
+							<Size x="164" y="69" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="226" y="-106" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="TEXT3" text="多才多艺的治疗者，能够单体治疗也能照顾到整个团队，甚至能在牺牲后继续治疗。" justifyV="TOP" justifyH="LEFT">
+							<Size x="184" y="69" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="428" y="-106" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="TEXT4" hidden="true" text="多才多艺的治疗者，能够单体治疗也能照顾到整个团队，甚至能在牺牲后继续治疗。" justifyV="TOP" justifyH="LEFT">
+							<Size x="184" y="69" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="630" y="-106" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:SetScale(.8)
+			</OnLoad>
+			<OnShow>
+				NewbieAssistantPanelTalentFrame_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+</Ui>
