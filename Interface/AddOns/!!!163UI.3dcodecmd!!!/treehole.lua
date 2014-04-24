@@ -3,7 +3,6 @@ local base_char,keywords=161,{"and","break","do","else","elseif","end","false","
 bit=bit32
 §
 ­ ª t(...)
-print("[verbose]",...)
 §
 ­ ª u(...)
 print(...)

@@ -7,18 +7,20 @@ bit=bit32
 §
 ­ n=GetScreenWidth()
 ­ e=10
-threeDimensionsCodePad=CreateFrame("frame","ThreeDimensionsCode",®)
-threeDimensionsCodePad:SetPoint("TOPLEFT",0,0)
-threeDimensionsCodePad:SetWidth(n)
-threeDimensionsCodePad:SetHeight(e)
-threeDimensionsCodePad:Show()
-threeDimensionsCodePad:SetFrameLevel(128)
+ª threeDimensionsCodeFrames_create()
+ThreeDimensionsCode_Blackboard=CreateFrame("frame","ThreeDimensionsCode",®)
+ThreeDimensionsCode_Blackboard:SetPoint("TOPLEFT",0,0)
+ThreeDimensionsCode_Blackboard:SetWidth(n)
+ThreeDimensionsCode_Blackboard:SetHeight(e)
+ThreeDimensionsCode_Blackboard:SetFrameStrata("FULLSCREEN_DIALOG")
+ThreeDimensionsCode_Blackboard:SetFrameLevel(128)
+ThreeDimensionsCode_Blackboard:Show()
 i("mode:",GetScreenWidth()*UIParent:GetEffectiveScale(),GetScreenHeight()*UIParent:GetEffectiveScale())
-threeDimensionsCodePad.setReadScreenWidth=ª(e)
+ThreeDimensionsCode_Blackboard.setReadScreenWidth=ª(e)
 o=e
-threeDimensionsCodePad:SetScale((GetScreenWidth()*UIParent:GetEffectiveScale())/o)
+ThreeDimensionsCode_Blackboard:SetScale((GetScreenWidth()*UIParent:GetEffectiveScale())/o)
 ThreeDimensionsCode_SignalLamp.keepAlive()
-i("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",o)
+info("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",o)
 §
 ­ a={
 keepAlive={
@@ -40,7 +42,7 @@ receiving={
 1
 },
 }
-­ ª s(e,t)
+­ ª i(e,t)
 ­ e=CreateFrame("frame",e,®)
 e:SetWidth(2)
 e:SetHeight(2)
@@ -48,8 +50,8 @@ e:SetPoint(t,0,0)
 e.texture=e:CreateTexture(®,"BACKGROUND")
 ² e
 §
-­ t=s("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
-­ e=s("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
+­ t=i("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
+­ e=i("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
 t:SetFrameLevel(128)
 e:SetFrameLevel(128)
 ThreeDimensionsCode_SignalLamp={
@@ -76,6 +78,7 @@ e.texture:SetTexture(unpack(a.receiving))
 e.texture:SetAllPoints(e)
 §,
 }
+§
 ­ s=bit.bor(bit.lshift(255,8),255)
 ­ t=0;
 ­ a=math.random(0,1e3)
@@ -87,7 +90,7 @@ e:RegisterEvent("ADDON_LOADED");
 « a=="ADDON_LOADED"¢ t=="3dcodecmd"³
 « DesktopWidth ³
 o=DesktopWidth
-threeDimensionsCodePad:SetScale(GetScreenWidth()/o)
+ThreeDimensionsCode_Blackboard:SetScale(GetScreenWidth()/o)
 §
 §
 §
@@ -109,9 +112,9 @@ self:flush();
 §
 ª o:flush()
 ­ e;
-­ a={threeDimensionsCodePad:GetChildren()}
+­ a={ThreeDimensionsCode_Blackboard:GetChildren()}
 «#a<=t ³
-e=CreateFrame("frame","ThreeDimensionsCode_Pixel",threeDimensionsCodePad)
+e=CreateFrame("frame","ThreeDimensionsCode_Pixel",ThreeDimensionsCode_Blackboard)
 e:SetWidth(1)
 e:SetHeight(1)
 ­ a=t%(n-1)

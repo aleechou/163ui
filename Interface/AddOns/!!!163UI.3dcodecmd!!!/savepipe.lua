@@ -7,7 +7,6 @@ bitfunc=bit
 ¤ ¡ c(...)
 ž
 ¤ ¡ u(...)
-print("[info]",...)
 ž
 ¤ ¡ e(...)
 print("[ERROR]",...)
@@ -105,7 +104,9 @@ newsize=¡(t)
 ¤ e=t:sub(1,e-1)
 e=tonumber(e)
 ¢ e ª
-threeDimensionsCodePad.setReadScreenWidth(e)
+¢ ThreeDimensionsCode_Blackboard ª
+ThreeDimensionsCode_Blackboard.setReadScreenWidth(e)
+ž
 ž
 ž
 ž

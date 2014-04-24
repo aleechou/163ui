@@ -1,5 +1,5 @@
 ## Title: 3dcodecmd
-## Version: 1.0
+## Version: 1.0.0
 ## Author: alee
 ## Interface: 50400
 
