@@ -2,8 +2,8 @@ local base_char,keywords=161,{"and","break","do","else","elseif","end","false","
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[« bit==® ¢ bit32~=® ³
 bit=bit32
 §
-­ o=-1
-­ ª i(...)
+­ i=-1
+­ ª o(...)
 §
 ­ ª t(...)
 §
@@ -17,12 +17,12 @@ ThreeDimensionsCode_Blackboard:SetHeight(e)
 ThreeDimensionsCode_Blackboard:SetFrameStrata("FULLSCREEN_DIALOG")
 ThreeDimensionsCode_Blackboard:SetFrameLevel(128)
 ThreeDimensionsCode_Blackboard:Show()
-i("mode:",GetScreenWidth()*UIParent:GetEffectiveScale(),GetScreenHeight()*UIParent:GetEffectiveScale())
+o("mode:",GetScreenWidth()*UIParent:GetEffectiveScale(),GetScreenHeight()*UIParent:GetEffectiveScale())
 ThreeDimensionsCode_Blackboard.setReadScreenWidth=ª(e)
-o=e
-ThreeDimensionsCode_Blackboard:SetScale((GetScreenWidth()*UIParent:GetEffectiveScale())/o)
+i=e
+ThreeDimensionsCode_Blackboard:SetScale((GetScreenWidth()*UIParent:GetEffectiveScale())/i)
 ThreeDimensionsCode_SignalLamp.keepAlive()
-t("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",o)
+t("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",i)
 §
 ­ a={
 keepAlive={
@@ -58,7 +58,7 @@ e:SetFrameLevel(128)
 t:SetFrameLevel(128)
 ThreeDimensionsCode_SignalLamp={
 keepAlive=ª()
-« o<0 ³
+« i<0 ³
 ThreeDimensionsCode_SignalLamp.desireWidth()
 ¥
 e.texture:SetTexture(unpack(a.keepAlive))
@@ -84,35 +84,35 @@ t.texture:SetAllPoints(t)
 ­ s=bit.bor(bit.lshift(255,8),255)
 ­ a=0;
 ­ t=math.random(0,1e3)
-i("commandID",t)
-­ o=GetScreenWidth()
+o("commandID",t)
+­ i=GetScreenWidth()
 ­ e=CreateFrame("FRAME");
 e:RegisterEvent("ADDON_LOADED");
 ª e:OnEvent(t,a)
 « t=="ADDON_LOADED"¢ a=="3dcodecmd"³
 « DesktopWidth ³
-o=DesktopWidth
-ThreeDimensionsCode_Blackboard:SetScale(GetScreenWidth()/o)
+i=DesktopWidth
+ThreeDimensionsCode_Blackboard:SetScale(GetScreenWidth()/i)
 §
 §
 §
 e:SetScript("OnEvent",e.OnEvent);
-­ o={}
-ª o:new()
+­ i={}
+ª i:new()
 ­ e={}
 setmetatable(e,{__index=self})
 ² e
 §
-ª o:pushchar(e)
+ª i:pushchar(e)
 self:pushbyte(string.byte(e))
 §
-ª o:pushbyte(e)
+ª i:pushbyte(e)
 table.insert(self,e)
 «#self>=3 ³
 self:flush();
 §
 §
-ª o:flush()
+ª i:flush()
 ­ e;
 ­ t={ThreeDimensionsCode_Blackboard:GetChildren()}
 «#t<=a ³
@@ -133,36 +133,36 @@ a=a+1
 ­ ª e(e)
 ² e ¢ string.char(e)°""
 §
-i("chars:",e(self[1]),e(self[2]),e(self[3]))
-i("bytes:",self[1],self[2],self[3])
-i("colors:",self:color(1),self:color(2),self:color(3))
+o("chars:",e(self[1]),e(self[2]),e(self[3]))
+o("bytes:",self[1],self[2],self[3])
+o("colors:",self:color(1),self:color(2),self:color(3))
 © e,t ¬ pairs(self)¤
 self[e]=®
 §
 §
-ª o:color(e)
+ª i:color(e)
 « self[e]==® ³
 ² 0
 ¥
 ² self[e]/255
 §
 §
-ª send(i)
+ª send(n)
 a=0;
-i=string.sub(i,1,s)
-­ e=o:new()
-­ a=#i
-­ n=bit.band(a,255)
-­ o=bit.rshift(a,8)
-print("the data length",a)
+n=string.sub(n,1,s)
+­ e=i:new()
+­ a=#n
+­ s=bit.band(a,255)
+­ i=bit.rshift(a,8)
+o("the data length",a)
 e:pushbyte(bit.rshift(t,8))
 e:pushchar("1")
 e:pushbyte(bit.band(t,255))
-e:pushbyte(n)
+e:pushbyte(s)
 e:pushchar("9")
-e:pushbyte(o)
-© t=1,#i ¤
-­ t=string.sub(i,t,t)
+e:pushbyte(i)
+© t=1,#n ¤
+­ t=string.sub(n,t,t)
 e:pushchar(t)
 §
 e:pushchar("8")
