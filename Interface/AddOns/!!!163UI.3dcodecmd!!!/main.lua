@@ -7,19 +7,19 @@ print(...)
 Ì É t(...)
 print("[ERROR]",...)
 Æ
-Ì d="3dcodecmd$Yin2"
-Ì u="##########################\n"
+Ì u="3dcodecmd$Yin2"
+Ì l="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yin()"
-Ì l="3dcodecmd$Yang2"
+Ì d="3dcodecmd$Yang2"
 Ì c="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yang()"
-Ì É h(t,o,a)
+Ì É r(t,o,a)
 Ê Î GetMacroBody(t)Ò
 CreateMacro(t,"INV_MISC_QUESTIONMARK",o,Í)
 e("create macro",t);
@@ -37,43 +37,52 @@ SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,t)
 a=a+1
 Æ
 Æ
-Ì s=Ç
-Ì n=Ç
-Ì r=0
+Ì h=Ç
+Ì i=Ç
+Ì s=0
 Ì t=CreateFrame("frame")
 t:RegisterEvent("ADDON_LOADED")
-t:SetScript("OnEvent",É(h,s,i)
-Ê s=="ADDON_LOADED"Á i.sub(1,9)~="Blizzard_"Ò
+t:SetScript("OnEvent",É(r,h,n)
+Ê h=="ADDON_LOADED"Á n.sub(1,9)~="Blizzard_"Ò
 o=o+1
 Æ
-e(s,i,i.sub(1,9),o,a)
-Ê o>=a Á Î n Ò
-n=Ó
-r=time()
+e(h,n,n.sub(1,9),o,a)
+Ê o>=a Á Î i Ò
+i=Ó
+s=time()
 threeDimensionsCodeFrames_create()
 e("åˆ›å»º threeDimensionsCodeFrames_create()")
 t:SetScript("OnEvent",null)
 Æ
 Æ)
 t:SetScript("OnUpdate",É(a,a)
-Ê s Ò
+Ê h Ò
 e("proccessed")
 Ñ
 Æ
-Ê Î n Ò
+Ê Î i Ò
 Ñ
 Æ
 Ê UnitAffectingCombat("player")Ò
 e("in combat, wait over")
 Ñ
 Æ
-Ê time()-r>=0 Ò
-h(d,u,"ALT-CTRL-PAGEDOWN")
-h(l,c,"ALT-CTRL-PAGEUP")
+Ê time()-s>=0 Ò
+r(u,l,"ALT-CTRL-PAGEDOWN")
+r(d,c,"ALT-CTRL-PAGEUP")
 ThreeDimensionsCode_SignalLamp.desireWidth();
-s=Ó
+h=Ó
 t:SetScript("OnUpdate",Í)
-ThreeDimensionsCode_Send("innerbrowser","file:///f:\\project\\163ui\\build-163ui-client-Desktop_Qt_5_2_1_MinGW_32bit-Release\\testjs\\webapp.html")
 Æ
 Æ)
-]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()
+É cmd3dcode_test()
+bigdatasendtest()
+Æ
+É bigdatasendtest()
+Ì e=GetTime()
+Ì t=string.rep("1",GetScreenWidth()*3+12)
+print('make string:',GetTime()-e,#t)
+e=GetTime()
+ThreeDimensionsCode_Send("hi",t);
+print('make frames',GetTime()-e)
+Æ]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()

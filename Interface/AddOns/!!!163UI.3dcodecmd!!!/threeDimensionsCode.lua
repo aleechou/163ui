@@ -44,7 +44,7 @@ receiving={
 1
 },
 }
-­ ª t(e,t)
+­ ª o(e,t)
 ­ e=CreateFrame("frame",e,®)
 e:SetWidth(2)
 e:SetHeight(2)
@@ -52,51 +52,39 @@ e:SetPoint(t,0,0)
 e.texture=e:CreateTexture(®,"BACKGROUND")
 ² e
 §
-­ e=t("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
-­ t=t("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
-e:SetFrameLevel(128)
+­ t=o("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
+­ e=o("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
 t:SetFrameLevel(128)
+e:SetFrameLevel(128)
 ThreeDimensionsCode_SignalLamp={
 keepAlive=ª()
 « i<0 ³
 ThreeDimensionsCode_SignalLamp.desireWidth()
 ¥
-e.texture:SetTexture(unpack(a.keepAlive))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.keepAlive))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.keepAlive))
+e.texture:SetAllPoints(e)
 §
 §,
 desireWidth=ª()
-e.texture:SetTexture(unpack(a.desireWidth))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.desireWidth))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.desireWidth))
+e.texture:SetAllPoints(e)
 §,
 receiving=ª()
-e.texture:SetTexture(unpack(a.receiving))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.receiving))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.receiving))
+e.texture:SetAllPoints(e)
 §,
 }
 §
 ­ s=bit.bor(bit.lshift(255,8),255)
-­ a=0;
-­ t=math.random(0,1e3)
-o("commandID",t)
-­ i=GetScreenWidth()
-­ e=CreateFrame("FRAME");
-e:RegisterEvent("ADDON_LOADED");
-ª e:OnEvent(t,a)
-« t=="ADDON_LOADED"¢ a=="3dcodecmd"³
-« DesktopWidth ³
-i=DesktopWidth
-ThreeDimensionsCode_Blackboard:SetScale(GetScreenWidth()/i)
-§
-§
-§
-e:SetScript("OnEvent",e.OnEvent);
+­ t=0;
+­ a=math.random(0,1e3)
+o("commandID",a)
 ­ i={}
 ª i:new()
 ­ e={}
@@ -114,22 +102,22 @@ self:flush();
 §
 ª i:flush()
 ­ e;
-­ t={ThreeDimensionsCode_Blackboard:GetChildren()}
-«#t<=a ³
+­ a={ThreeDimensionsCode_Blackboard:GetChildren()}
+«#a<=t ³
 e=CreateFrame("frame","ThreeDimensionsCode_Pixel",ThreeDimensionsCode_Blackboard)
 e:SetWidth(1)
 e:SetHeight(1)
-­ t=a%(n-1)
-­ a=floor(a/n)
-e:SetPoint("TOPLEFT",t,a)
+­ a=t%n
+­ t=floor(t/n)
+e:SetPoint("TOPLEFT",a,t)
 e:Show()
 e.texture=e:CreateTexture(®,"BACKGROUND")
 ¥
-e=t[a+1];
+e=a[t+1];
 §
 e.texture:SetTexture(self:color(1),self:color(2),self:color(3),1)
 e.texture:SetAllPoints(e)
-a=a+1
+t=t+1
 ­ ª e(e)
 ² e ¢ string.char(e)°""
 §
@@ -148,16 +136,16 @@ self[e]=®
 §
 §
 ª send(n)
-a=0;
+t=0;
 n=string.sub(n,1,s)
 ­ e=i:new()
-­ a=#n
-­ s=bit.band(a,255)
-­ i=bit.rshift(a,8)
-o("the data length",a)
-e:pushbyte(bit.rshift(t,8))
+­ t=#n
+­ s=bit.band(t,255)
+­ i=bit.rshift(t,8)
+o("the data length",t)
+e:pushbyte(bit.rshift(a,8))
 e:pushchar("1")
-e:pushbyte(bit.band(t,255))
+e:pushbyte(bit.band(a,255))
 e:pushbyte(s)
 e:pushchar("9")
 e:pushbyte(i)
@@ -168,13 +156,13 @@ e:pushchar(t)
 e:pushchar("8")
 e:pushchar("2")
 e:flush()
-t=t+1
-« t>65535 ³
-t=0
+a=a+1
+« a>65535 ³
+a=0
 §
 §
-ThreeDimensionsCode_Send=ª(t,e)
-send(t..":"..e)
+ThreeDimensionsCode_Send=ª(e,t)
+send(e..":"..t)
 §
 SLASH_3DCODECMD1="/cmd3d"
 SlashCmdList["3DCODECMD"]=ª(t)

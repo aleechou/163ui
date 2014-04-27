@@ -4,104 +4,104 @@ bitfunc=bit32
 œ
 bitfunc=bit
 ž
-¤ ¡ c(...)
-ž
 ¤ ¡ u(...)
+ž
+¤ ¡ c(...)
 ž
 ¤ ¡ e(...)
 print("[ERROR]",...)
 ž
-¤ f=3
+¤ w=3
 ¤ e=""
-¤ d=-1
 ¤ r=-1
-¤ l=-1
+¤ s=-1
+¤ n=-1
 ¤ t=0
+¤ a=0
 ¤ i=0
 ¤ o=0
-¤ a=0
 ¤ h=0
-¤ n=0
+¤ l=0
 ¤ ¡ m()
-o=0
-a=0
-ž
-¤ ¡ s()
-e=""
-d=-1
-r=-1
-l=-1
-t=0
 i=0
-n=0
+o=0
+ž
+¤ ¡ d()
+e=""
+r=-1
+s=-1
+n=-1
+t=0
+a=0
+l=0
 h=0
 m()
 ž
-s()
-¤ ¡ w(a)
-c("receive",(i+1).."/"..t,"byte",a,string.char(a))
-¢ d<0 ª
-d=a
+d()
+¤ ¡ f(o)
+u("receive",(a+1).."/"..t,"byte",o,string.char(o))
+¢ r<0 ª
+r=o
 ©
- r<0 ª
-r=a
-l=d
-t=r
-u("cmd id",l,"data len",t)
+ s<0 ª
+s=o
+n=r
+t=s
+c("cmd id",n,"data len",t)
 ¢ t<1 ª
-s()
+d()
 ž
 ©
 ž
-e=e..string.char(a)
-i=i+1
-¢ i>=t ª
+e=e..string.char(o)
+a=a+1
+¢ a>=t ª
 ¤ t=e:find(":")
 ¢ t ª
 ¤ a=e:sub(1,t-1)
 ¢ ThreeDimensionsCode_SafePipe_CmdHandles[a]ª
-ThreeDimensionsCode_SafePipe_CmdHandles[a](e:sub(t+1))
+ThreeDimensionsCode_SafePipe_CmdHandles[a](n,e:sub(t+1))
 ž
 ž
-u("receive over, time",GetTime()-h,"cmd id",l)
-u(e)
-s()
+c("receive over, time",GetTime()-h,"cmd id",n)
+c(e)
+d()
 ©
 ž
 ž
-¤ ¡ i(t)
+¤ ¡ a(t)
 ¤ e=GetTime()
-¢ n==0 ª
+¢ l==0 ª
 h=e
-c("first bit come in")
+u("first bit come in")
 œ
-¢ e-n>f ª
-c("safe pipe è¶…æ—¶å…³é—­")
-s()
+¢ e-l>w ª
+u("safe pipe è¶…æ—¶å…³é—­")
+d()
 h=e
 ž
 ž
-n=e
+l=e
 ¢ t>0 ª
-o=bitfunc.bor(o,bitfunc.lshift(t,7-a))
+i=bitfunc.bor(i,bitfunc.lshift(t,7-o))
 ž
-a=a+1
-¢ a>=8 ª
-w(o)
-m(o)
+o=o+1
+¢ o>=8 ª
+f(i)
+m(i)
 ž
 ž
 ¡ ThreeDimensionsCode_Savepipe_Yin()
-i(0)
+a(0)
 ž
 ¡ ThreeDimensionsCode_Savepipe_Yang()
-i(1)
+a(1)
 ž
 ThreeDimensionsCode_SafePipe_CmdHandles={
-newsize=¡(t)
-¤ e=t:find("x")
-¢ e ª
-¤ e=t:sub(1,e-1)
+newsize=¡(t,e)
+¤ t=e:find("x")
+¢ t ª
+¤ e=e:sub(1,t-1)
 e=tonumber(e)
 ¢ e ª
 ¢ ThreeDimensionsCode_Blackboard ª
@@ -109,6 +109,11 @@ ThreeDimensionsCode_Blackboard.setReadScreenWidth(e)
 ž
 ž
 ž
+ž,
+ping=¡(e)
+ž,
+script=¡(t,e)
+loadstring(e)()
 ž
 }
 ]===], '@../!!!163UI.3dcodecmd!!!/savepipe.lua'))()
