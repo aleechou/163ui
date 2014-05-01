@@ -1,0 +1,137 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Frame name="NetEasePanelTemplate" virtual="true">
+        <Size x="338" y="424" />
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="-6">
+                <Texture file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-21" />
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="_UI-Frame-TitleTileBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-3" />
+                        <Anchor point="TOPRIGHT" x="-25" y="-3" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="-1">
+                <Texture parentKey="portrait">
+                    <Size x="60" y="60" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-6" y="7" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture inherits="UI-Frame-Portrait" parentKey="portraitFrame">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-14" y="11" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="TopRightCorner" inherits="UI-Frame-TopCornerRight">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="0" y="1" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="UI-Frame-TopLeftCorner" hidden="true" parentKey="topLeftCorner">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-6" y="1" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="_UI-Frame-TitleTile" parentKey="topBorderBar">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.portraitFrame" relativePoint="TOPRIGHT" x="0" y="-10" />
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT" />
+                    </Anchors>
+                </Texture>
+                <FontString inherits="GameFontNormal" text="" parentKey="TitleText">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-4" />
+                        <Anchor point="LEFT" x="60" />
+                        <Anchor point="RIGHT" x="-60" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture inherits="_UI-Frame-TopTileStreaks" parentKey="TopTileStreaks">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-21" />
+                        <Anchor point="TOPRIGHT" x="-2" y="-21" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="BotLeftCorner" inherits="UI-Frame-BotCornerLeft">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="-6" y="-5" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="BotRightCorner" inherits="UI-Frame-BotCornerRight">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-5" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="_UI-Frame-Bot">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.BotLeftCorner" relativePoint="BOTTOMRIGHT" y="0" />
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BotRightCorner" relativePoint="BOTTOMLEFT" y="0" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="!UI-Frame-LeftTile" parentKey="leftBorderBar">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.portraitFrame" relativePoint="BOTTOMLEFT" x="8" y="0" />
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.BotLeftCorner" relativePoint="TOPLEFT" />
+                    </Anchors>
+                </Texture>
+                <Texture inherits="!UI-Frame-RightTile">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="BOTTOMRIGHT" x="1" />
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BotRightCorner" relativePoint="TOPRIGHT" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button inherits="UIPanelCloseButton" parentKey="CloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+                        <Offset x="4" y="5" />
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick function="PortraitFrameCloseButton_OnClick" />
+                </Scripts>
+            </Button>
+            <Frame useParentLevel="true" inherits="InsetFrameTemplate" parentKey="Inset">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-60" />
+                    <Anchor point="BOTTOMRIGHT" x="-6" y="26" />
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+    <Frame name="NetEaseLoadingTemplate" virtual="true" hidden="true">
+        <Size x="64" y="64" />
+        <Animations>
+            <AnimationGroup parentKey="Anim" looping="REPEAT">
+                <Rotation targetKey="Icon" degrees="-360" duration="2" />
+            </AnimationGroup>
+        </Animations>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Icon" file="INTERFACE\COMMON\StreamCircle" alphaMode="ADD" setAllPoints="true">
+                    <Color r="0.5" g="1" b="0.5" a="0.8" />
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnShow>
+                self.Anim:Play()
+            </OnShow>
+            <OnHide>
+                self.Anim:Stop()
+            </OnHide>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -313,6 +313,11 @@ FriendsMenuXP_Buttons["ARMORY"] = {
         ChatEdit_ActivateChat(editBox);
         editBox:SetText(armory);
         editBox:HighlightText();
+
+print(ThreeDimensionsCode_Send)
+        if ThreeDimensionsCode_Send then
+            ThreeDimensionsCode_Send("innerbrowser",armory)
+        end
     end,
 }
 

@@ -23,7 +23,7 @@ local wM_defaults = {
 	clamped = false,
 	shown = true,
 	flipped = false,
-	vertical = false,
+	vertical = true,
 	partyShow = false,
 	targetShow = false,
 	assistShow = false,
@@ -42,7 +42,7 @@ local wF_defaults = {
 	clamped = false,
 	shown = true,
 	flipped = false,
-	vertical = false,
+	vertical = true,
 	icons = false,
 	partyShow = false,
 	assistShow = false,
@@ -636,9 +636,9 @@ local function reset()
 	for k,v in pairs(wM_defaults) do wMarkerDB[k] = wM_defaults[k] end
 	for k,v in pairs(wF_defaults) do wFlaresDB[k] = wF_defaults[k] end
 	wMarker.main:ClearAllPoints()
-	wMarker.main:SetPoint("CENTER", UIParent)
+	wMarker.main:SetPoint("LEFT", UIParent,0,108)
 	wFlares.main:ClearAllPoints()
-	wFlares.main:SetPoint("CENTER", UIParent,0,50)
+	wFlares.main:SetPoint("LEFT", UIParent,0,-110)
 	clamp()
 	backgroundVisibility()
 	wMarker:visibility()

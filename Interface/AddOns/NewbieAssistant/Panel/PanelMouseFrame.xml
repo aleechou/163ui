@@ -1,0 +1,141 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="PanelMouseFrame.lua" />
+	<Frame name="PanelMouseFrame" parent="UIParent" hidden="true" frameStrata="FULLSCREEN">
+		<Size x="535" y="360" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\DialogFrame\UI-DialogBox-Border">
+			<EdgeSize val="16" />
+		</Backdrop>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Mouse\background">
+					<Size x="527" y="351" />
+					<Anchors>
+						<Anchor point="CENTER" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.66796875" />
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Keyboard\title-bg">
+					<Size x="170" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="330" y="-28" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.828125" top="0" bottom="0.78125" />
+				</Texture>
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Mouse\mouse">
+					<Size x="247" y="275" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="139" y="-81" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.8984375" top="0" bottom="1" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\AddOns\NewbieAssistant\Media\Textures\Panel\Mouse\title-text">
+					<Size x="75" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="379" y="-33" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.5859375" top="0" bottom="0.59375" />
+				</Texture>
+				<FontString font="Fonts\ARKai_T.ttf" text="点击鼠标滚轮：自动行走" justifyV="TOP" justifyH="LEFT">
+					<Size x="193" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="86" y="-29" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="向上滑动滚轮：拉近镜头" justifyV="TOP" justifyH="LEFT">
+					<Size x="193" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="86" y="-55" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="向下滑动滚轮：拉远镜头" justifyV="TOP" justifyH="LEFT">
+					<Size x="193" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="86" y="-81" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="按下：改变人物方向" justifyV="TOP" justifyH="LEFT">
+					<Size x="148" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="361" y="-156" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="单击：攻击" justifyV="TOP" justifyH="LEFT">
+					<Size x="148" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="361" y="-130" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="按下：改变人物视角" justifyV="TOP" justifyH="LEFT">
+					<Size x="173" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="32" y="-156" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+				<FontString font="Fonts\ARKai_T.ttf" text="单击：选中目标" justifyV="TOP" justifyH="LEFT">
+					<Size x="141" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="32" y="-130" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="15" />
+					<Color r="0" g="0" b="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelCloseButton" text="Button1">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-10" y="-10" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnHide>
+				if not ToolTip_Logic:IsEventRegistered("QUEST_ACCEPTED") then
+				ToolTip_Logic:TutorialStart()
+				end
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

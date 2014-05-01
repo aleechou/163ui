@@ -1,4 +1,4 @@
-
+﻿
 local LDB = LibStub and LibStub'LibDataBroker-1.1'
 local tinsert = table.insert
 
@@ -104,7 +104,7 @@ U1RegisterAddon("ChocolateBar", {
     defaultEnable = 0,
     load = "LOGIN",
 
-    tags = { TAG_INTERFACE, TAG_MANAGEMENT, TAG_GOOD, TAG_BIG, },
+    tags = { TAG_INTERFACE, TAG_MANAGEMENT, TAG_BIG, },
     icon = [[Interface\Icons\Item_elementiumbar]],
     desc = "一个轻量的信息条插件，占用很小功能齐全。支持各种DataBroker数据源，其中网易有爱精选了一些常用的，如世界战场、内存延迟等，用户也可自行添加。`按住信息条上的内容并拖动，可以调整左中右位置及具体顺序，拖到下面的禁用图标里可以关闭此内容。`右键点击信息条可以打开设置界面（此功能可配置）。可修改背景材质、高度、字体等选项，并可以创建新的动作条。在插件栏目里可以调整特定信息的图标大小、偏移等。",
 

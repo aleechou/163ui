@@ -1,0 +1,5 @@
+<Bindings>
+    <Binding name="NECLOUD_TOGGLE" header="NECLOUD">
+        LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI'):GetModule('DataBroker'):Toggle()
+    </Binding>
+</Bindings>

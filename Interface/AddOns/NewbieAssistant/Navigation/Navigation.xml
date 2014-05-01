@@ -1,0 +1,16 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Script file="Navigation.lua" />
+	<Frame name="NewbieAssistantNavigationFrame" parent="WorldMapDetailFrame" frameStrata="DIALOG">
+		<Scripts>
+			<OnShow>
+				NewbieAssistantNavigationFrame_OnShow(self)
+			</OnShow>
+			<OnLoad>
+				NewbieAssistantNavigationFrame_OnLoad(self)
+			</OnLoad>
+			<OnEvent>
+				NewbieAssistantNavigationFrame_OnEvent(self, event, ...)
+			</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>

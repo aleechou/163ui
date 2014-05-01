@@ -1,4 +1,4 @@
-U1RegisterAddon("Dominos", {
+﻿U1RegisterAddon("Dominos", {
     title = "多米诺动作条",
     optdeps = {"Masque"},
     --desc = "",
@@ -6,7 +6,7 @@ U1RegisterAddon("Dominos", {
     load = "LOGIN",
     -- minimap = "LibDBIcon10_Dominos",
 
-    tags = { TAG_INTERFACE, TAG_GOOD, TAG_BIG, },
+    tags = { TAG_INTERFACE, TAG_BIG, },
     icon = 'Interface\\Addons\\Dominos\\Dominos',
 
     modifier = "|cffcd1a1c[网易]|r",

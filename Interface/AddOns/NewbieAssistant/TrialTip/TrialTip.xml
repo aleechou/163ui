@@ -1,0 +1,204 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TrialTip.lua" />
+	<Frame name="TrialTipFrame" inherits="GlowBoxTemplate" hidden="true" parent="UIParent" frameStrata="FULLSCREEN_DIALOG" frameLevel="2">
+		<Size>
+			<AbsDimension x="220" y="100" />
+		</Size>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowUP" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowUP" parentKey="ArrowGlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowRIGHT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowLEFT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowUP" hidden="true">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowUP" parentKey="ArrowDOWN" hidden="true">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowRIGHT" hidden="true">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowLEFT" hidden="true">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" parentKey="Text">
+					<Size x="200" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="15" y="-15" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.Text:SetSpacing(4)
+				SetClampedTextureRotation(self.ArrowLEFT, 270)
+				SetClampedTextureRotation(self.ArrowRIGHT, 90)
+				SetClampedTextureRotation(self.ArrowGlowLEFT, 270)
+				SetClampedTextureRotation(self.ArrowGlowRIGHT, 90)
+			</OnLoad>
+			<OnShow>
+				self:SetHeight(self.Text:GetHeight()+30)
+			</OnShow>
+			<OnEnter>
+				TrialTipFrame:OnEnter()
+			</OnEnter>
+			<OnLeave>
+				TrialTipFrame:OnLeave()
+			</OnLeave>
+		</Scripts>
+	</Frame>
+	<Frame name="TrialTipFrame_CallOut" hidden="true" parent="UIParent" frameStrata="TOOLTIP">
+		<Animations>
+			<AnimationGroup looping="BOUNCE">
+				<Alpha name="$parentPulser" duration="0.75" change="-0.7" />
+			</AnimationGroup>
+		</Animations>
+		<Backdrop edgeFile="Interface\TutorialFrame\UI-TutorialFrame-CalloutGlow" alphaMode="ADD">
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Scripts>
+			<OnHide>
+				self:Hide()
+			</OnHide>
+		</Scripts>
+	</Frame>
+	<Frame name="TrialTip_GameToolTip" inherits="GlowBoxTemplate" hidden="true" parent="UIParent" frameStrata="FULLSCREEN_DIALOG" frameLevel="2">
+		<Size x="220" y="100" />
+		<Layers>
+			<Layer level="BORDER">
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowUP" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowUP" parentKey="ArrowGlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowRIGHT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrow-GlowDOWN" parentKey="ArrowGlowLEFT" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21" />
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowUP" hidden="true">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowUP" parentKey="ArrowDOWN" hidden="true">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowRIGHT" hidden="true">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0" />
+					</Anchors>
+				</Texture>
+				<Texture inherits="HelpPlateArrowDOWN" parentKey="ArrowLEFT" hidden="true">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontHighlightLeft" parentKey="Text">
+					<Size x="200" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="15" y="-15" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.Text:SetSpacing(4)
+			</OnLoad>
+			<OnShow>
+				self:SetHeight(self.Text:GetHeight()+30)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Button name="NewbieAssistantPaytip" hidden="true" parent="UIParent" text="充值指引">
+		<Size x="107" y="42" />
+		<Anchors>
+			<Anchor point="TOP" relativeTo="UIParent" relativePoint="TOP" x="100" y="0" />
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentBorder" file="Interface\Glues\AccountUpgrade\golden-main">
+					<Size x="117" y="57" />
+					<Anchors>
+						<Anchor point="CENTER" />
+					</Anchors>
+					<TexCoords left="0.1484375" right="0.9609375" top="0.00390625" bottom="0.28515625" />
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				if IsTrialAccount() then
+				self:Show()
+				end
+			</OnLoad>
+			<OnClick>
+				ShowUIPanel(NewbieAssistantPanelPaymentFrame)
+				NewbieAssistantPanelPaymentFrameButton_OnClick(NewbieAssistantPanelPaymentFrameMenu.HowButton)
+			</OnClick>
+		</Scripts>
+		<NormalTexture inherits="UIPanelButtonUpTexture" />
+		<PushedTexture inherits="UIPanelButtonDownTexture" />
+		<HighlightTexture inherits="UIPanelButtonHighlightTexture" />
+		<ButtonText name="$parentText" />
+		<NormalFont style="GameFontNormalLarge" />
+		<HighlightFont style="GameFontHighlightLarge" />
+	</Button>
+</Ui>

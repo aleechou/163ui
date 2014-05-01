@@ -209,8 +209,8 @@ GridLayout.defaultDB = {
 	groupAnchor = "TOPLEFT",
 	hideTab = false,
 
-	PosX = 500,
-	PosY = -400,
+	PosX = 0,
+	PosY = -540,
 }
 
 ------------------------------------------------------------------------
