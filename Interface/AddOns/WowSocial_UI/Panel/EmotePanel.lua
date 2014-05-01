@@ -1,8 +1,9 @@
 --[[
-	SmilePanel.lua
+	EmotePanel.lua
 	send smile icon
-	ver		1.0.0
-	author	s1172
+	ver     1.0.0
+    author  Jai
+    email   814683@qq.com
 	edit	2013-10-14 15:02:26
 	change	
 ]]--

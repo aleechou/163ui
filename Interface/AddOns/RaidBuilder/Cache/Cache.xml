@@ -8,4 +8,6 @@
     <Script file="Log.lua" />
     <Script file="DataCache.lua" />
     <Script file="GroupCache.lua" />
+    <Script file="WebEvent.lua" />
+    <Script file="WebEventCache.lua" />
 </Ui>

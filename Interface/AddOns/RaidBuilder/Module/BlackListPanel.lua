@@ -7,7 +7,7 @@ local BROAD_HEADER = {
     {
         key = 'B-Tag',
         text = L['战网昵称'],
-        width = 150,
+        width = 200,
         style = 'LEFT',
         showHandler = function(data)
             return data.btag
@@ -16,7 +16,7 @@ local BROAD_HEADER = {
     {
         key = 'Time',
         text = L['屏蔽日期'],
-        width = 150,
+        width = 200,
         style = 'LEFT',
         showHandler = function(data)
             return date('%Y-%m-%d %H:%M', data.recordDate)
@@ -25,7 +25,7 @@ local BROAD_HEADER = {
     {
         key = 'Reason',
         text = L['注释'],
-        width = 460,
+        width = 408,
         style = 'LEFT',
         showHandler = function(data)
             return data.reason
@@ -39,26 +39,26 @@ function BlackListPanel:OnInitialize()
     OptionPanel:RegisterPanel(L['黑名单'], self, 0)
 
     self:ClearAllPoints()
-    self:SetPoint('TOPLEFT', 0, -60)
+    self:SetPoint('TOPLEFT', 0, -25)
     self:SetPoint('BOTTOMRIGHT')
 
-    local lineLeft = self:CreateTexture(nil, 'OVERLAY')
-    lineLeft:SetSize(32, 16)
-    lineLeft:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
-    lineLeft:SetTexCoord(0, 0.125, 0, 0.5)
-    lineLeft:SetPoint('LEFT', self, 'TOPLEFT', 0, -1)
+    -- local lineLeft = self:CreateTexture(nil, 'OVERLAY')
+    -- lineLeft:SetSize(32, 16)
+    -- lineLeft:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
+    -- lineLeft:SetTexCoord(0, 0.125, 0, 0.5)
+    -- lineLeft:SetPoint('LEFT', self, 'TOPLEFT', 0, -1)
 
-    local lineRight = self:CreateTexture(nil, 'OVERLAY')
-    lineRight:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
-    lineRight:SetTexCoord(0.62890625, 0.75390625, 0, 0.5)
-    lineRight:SetSize(32, 16)
-    lineRight:SetPoint('RIGHT', self, 'TOPRIGHT', 0, -1)
+    -- local lineRight = self:CreateTexture(nil, 'OVERLAY')
+    -- lineRight:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
+    -- lineRight:SetTexCoord(0.62890625, 0.75390625, 0, 0.5)
+    -- lineRight:SetSize(32, 16)
+    -- lineRight:SetPoint('RIGHT', self, 'TOPRIGHT', 0, -1)
 
-    local lineMid = self:CreateTexture(nil, 'OVERLAY')
-    lineMid:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
-    lineMid:SetTexCoord(0.125, 0.62890625, 0, 0.5)
-    lineMid:SetPoint('TOPLEFT', lineLeft, 'TOPRIGHT')
-    lineMid:SetPoint('BOTTOMRIGHT', lineRight, 'BOTTOMLEFT')
+    -- local lineMid = self:CreateTexture(nil, 'OVERLAY')
+    -- lineMid:SetTexture([[Interface\DialogFrame\UI-DialogBox-Divider]])
+    -- lineMid:SetTexCoord(0.125, 0.62890625, 0, 0.5)
+    -- lineMid:SetPoint('TOPLEFT', lineLeft, 'TOPRIGHT')
+    -- lineMid:SetPoint('BOTTOMRIGHT', lineRight, 'BOTTOMLEFT')
 
     local DelButton = GUI:GetClass('ClearButton'):New(self)
     DelButton:SetScript('OnClick', function(DelButton)
@@ -67,13 +67,13 @@ function BlackListPanel:OnInitialize()
     GUI:SetTooltip(DelButton, L['解除屏蔽'])
 
     local BlackList = GUI:GetClass('DataGridView'):New(self)
-    BlackList:SetPoint('TOPLEFT', 8, -8)
+    BlackList:SetPoint('TOPLEFT', 8, 0)
     BlackList:SetPoint('BOTTOMRIGHT', -8, 8)
     BlackList:SetItemHeight(30)
     BlackList:SetItemSpacing(3)
     BlackList:SetItemClass(RaidBuilder:GetClass('BrowseItem'))
     BlackList:InitHeader(BROAD_HEADER)
-    BlackList:SetHeaderPoint('BOTTOMLEFT', BlackList, 'TOPLEFT', 0, 10)
+    BlackList:SetHeaderPoint('BOTTOMLEFT', BlackList, 'TOPLEFT', 0, 0)
     BlackList:SetSortHandler(function(data)
         return - data.recordDate
     end)
@@ -92,9 +92,9 @@ function BlackListPanel:OnInitialize()
     end)
 
     local Tips = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
-    -- Tips:SetPoint('BOTTOMRIGHT', self:GetOwner():GetOwner(), -7, 7)
+    Tips:SetPoint('BOTTOMRIGHT', self:GetOwner():GetOwner(), -7, 7)
     Tips:SetText(L['|cffff0000注意：黑名单仅储存在本地配置中|r'])
-    Tips:SetPoint('TOPRIGHT', -7, 45)
+    -- Tips:SetPoint('TOPRIGHT', -7, 45)
 
     self:RegisterMessage('RAIDBUILDER_BLACKLIST_UPDATE', 'Refresh')
     self:SetScript('OnShow', self.Refresh)
@@ -111,6 +111,10 @@ function BlackListPanel:Update()
 
     BlackList:SetItemList(list)
     BlackList:Refresh()
+
+    for i, v in ipairs(BlackList.sortButtons) do
+        v:SetShown(not(#list == 0))
+    end
 end
 
 function BlackListPanel:Add(btag, callback)

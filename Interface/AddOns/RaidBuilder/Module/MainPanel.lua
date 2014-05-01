@@ -7,7 +7,7 @@ local addonName = ...
 
 function MainPanel:OnInitialize()
     self:SetSize(832, 447)
-    self:SetText(L['魔兽友团'])
+    self:SetText(L['魔兽友团'] .. ' Beta')
     self:SetIcon([[INTERFACE\ICONS\INV_Misc_GroupNeedMore]])
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -18,43 +18,60 @@ function MainPanel:OnInitialize()
     self:SetScript('OnDragStop', self.StopMovingOrSizing)
 
     if IsAddOnLoaded('WowSocial_UI') then
-        local function MakeButton(texture, ...)
-            local button = CreateFrame('Button', nil, self)
-            button:SetSize(16, 16)
-            button:SetNormalTexture(texture)
-            button:SetHighlightTexture([[INTERFACE\Challenges\challenges-metalglow]], 'ADD')
-            button:GetHighlightTexture():SetTexCoord(0.25, 0.75, 0.25, 0.75)
-            GUI:SetTooltip(button, 'ANCHOR_RIGHT', ...)
-            return button
-        end
-
-        local Feedback = MakeButton([[INTERFACE\FriendsFrame\InformationIcon]], L['意见建议'])
-        local AnnButton = MakeButton([[INTERFACE\GossipFrame\DailyQuestIcon]], L['公告'])
-        local SocialButton = MakeButton([[INTERFACE\CHATFRAME\UI-ChatWhisperIcon]], L['友团聊天'])
-
-        Feedback:SetPoint('TOPRIGHT', -30, -3)
-        AnnButton:SetPoint('RIGHT', Feedback, 'LEFT', -1, 0)
-        SocialButton:SetPoint('RIGHT', AnnButton, 'LEFT', -1, 0)
-
-        Feedback:SetScript('OnClick', function()
-            local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-            if CloudUI then
-                CloudUI.Feedback:Open(addonName, GetAddOnMetadata(addonName, 'Version'))
+        self:CreateTitleButton{
+            title = L['意见建议'],
+            texture = [[INTERFACE\FriendsFrame\InformationIcon]],
+            callback = function()
+                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
+                if CloudUI then
+                    CloudUI.Feedback:Open(addonName, GetAddOnMetadata(addonName, 'Version'))
+                end
             end
-        end)
-        AnnButton:SetScript('OnClick', function(self)
-            local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-            if CloudUI then
-                CloudUI:ToggleModule('AnnPanel')
+        }
+
+        local AnnButton = self:CreateTitleButton{
+            title = L['公告'],
+            texture = [[INTERFACE\GossipFrame\DailyQuestIcon]],
+            callback = function()
+                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
+                if CloudUI then
+                    CloudUI:ToggleModule('AnnPanel')
+                end
             end
-        end)
-        SocialButton:SetScript('OnClick', function(self)
-            local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-            if CloudUI then
-                CloudUI:GetModule('DataBroker'):Toggle()
+        }
+
+        self:CreateTitleButton{
+            title = L['友团聊天'],
+            texture = [[Interface\AddOns\RaidBuilder\Media\DataBroker]],
+            coords = {0.75, 1, 0, 1},
+            callback = function()
+                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
+                if CloudUI then
+                    CloudUI:GetModule('DataBroker'):Toggle()
+                end
+            end
+        }
+
+        self:RegisterMessage('NECLOUD_ANNOUNCEMENT_UPDATE', function(_, hasUnread)
+            if hasUnread then
+                AnnButton:PlayAnimation()
+            else
+                AnnButton:StopAnimation()
             end
         end)
     end
+
+    self:CreateTitleButton{
+        title = L['分享插件'],
+        texture = [[INTERFACE\BUTTONS\UI-GuildButton-MOTD-Up]],
+        coords = {0.05, 0.95, 0.05, 0.95},
+        callback = function()
+            RaidBuilder:ShowModule('SharePanel',
+                L['分享插件'],
+                L.ADDON_SHARE_CONTENT,
+                true)
+        end
+    }
 
     self:RegisterBucketEvent({'PLAYER_LOGIN', 'BN_CONNECTED', 'BN_DISCONNECTED'}, 1, 'UpdateBlocker')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')

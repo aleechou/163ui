@@ -381,6 +381,22 @@ function GetAnnInfo(index)
     end
 end
 
+function SetAnnRead(index)
+    local list = GetAnnList()
+    if list and list[index] then
+        list[index].unread = nil
+    end
+
+    local hasUnread = false
+    for i, v in ipairs(list) do
+        if v.unread then
+            hasUnread = true
+            break
+        end
+    end
+    Logic:SendMessage('NECLOUD_ANNOUNCEMENT_UPDATE', hasUnread)
+end
+
 function _G.GetOwnChatGroupList(fullName)
     local list = GetChatGroupList()
     local result = {}

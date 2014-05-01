@@ -12,7 +12,7 @@ local AceSerializer = assert(LibStub('AceSerializer-3.0', true), 'NetEaseSocketC
 local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'NetEaseSocketClient-1.0 requires CallbackHandler-1.0')
 local CTL = assert(ChatThrottleLib, "NetEaseSocketClient-1.0 requires ChatThrottleLib")
 
-local MAJOR, MINOR = 'SocketClient-1.0', 5
+local MAJOR, MINOR = 'SocketClient-1.0', 6
 local SocketClient,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not SocketClient then return end
 
@@ -72,13 +72,15 @@ function SocketClient:DealPacket(target, ok, cmd, ...)
             self:Fire('SOCKET_CONNECTED')
 
             if not self.noUserInfo then
-                local faction = UnitFactionGroup('player')
-                local guid = UnitGUID('player')
-                local class = select(2, UnitClass('player'))
-                local level = UnitLevel('player')
-                local race = select(2, UnitRace('player'))
-                local battleTag = select(2, BNGetInfo())
-                local msg = self:Serialize('<NETEASE>', 'UserInfo', faction, guid, level, class, race, battleTag)
+                
+                local msg = self:Serialize('<NETEASE>',
+                    'UserInfo:' .. (self.prefix or ''),
+                    (UnitFactionGroup('player')),
+                    (UnitGUID('player')),
+                    (UnitLevel('player')),
+                    (select(2, UnitClass('player'))),
+                    (select(2, UnitRace('player'))),
+                    (select(2, BNGetInfo())))
 
                 CTL:SendChatMessage('NORMAL', cmd, msg, 'WHISPER', nil, target, cmd)
             end

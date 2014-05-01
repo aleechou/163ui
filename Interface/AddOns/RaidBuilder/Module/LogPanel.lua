@@ -60,6 +60,10 @@ function LogPanel:OnInitialize()
         self:ClearLogs()
     end)
 
+    local Tips = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
+    Tips:SetPoint('BOTTOMRIGHT', self:GetOwner():GetOwner(), -7, 7)
+    Tips:SetText(L['|cffff0000注意：该记录仅储存在本地配置中|r'])
+
     self.LogFrame = LogFrame
 
     self:SetScript('OnUpdate', self.OnUpdate)

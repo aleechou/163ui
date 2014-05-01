@@ -14,7 +14,7 @@ function CreatePanel:OnInitialize()
 
     local Filter = GUI:GetClass('Dropdown'):New(self)
     Filter:SetPoint('LEFT', FilterLabel, 'RIGHT', 10, 0)
-    Filter:SetSize(200, 26)
+    Filter:SetSize(170, 26)
     Filter:SetMenuTable(EVENT_CREATE_MENUTABLE)
     Filter:SetDefaultText(L['请选择活动类型'])
 
@@ -24,47 +24,35 @@ function CreatePanel:OnInitialize()
 
     local Mode = GUI:GetClass('Dropdown'):New(self)
     Mode:SetPoint('LEFT', ModeLabel, 'RIGHT', 10, 0)
-    Mode:SetSize(200, 26)
+    Mode:SetSize(150, 26)
     Mode:SetMenuTable(EVENT_MODE_MENUTABLE)
     Mode:SetDefaultText(L['请选择活动形式'])
 
-    local YiXinButton = CreateFrame('Button', nil, self)
+    local YiXinButton = Button:New(self)
     YiXinButton:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -80, 20)
-    YiXinButton:SetSize(36, 36)
-    YiXinButton:SetHighlightTexture([[INTERFACE\BUTTONS\ButtonHilight-Square]], 'ADD')
-    YiXinButton:SetBackdrop{
-        edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
-        insets = { left = 2, right = 2, top = 2, bottom = 2 },
-        tileSize = 16, edgeSize = 16, tile=true
-    }
-    YiXinButton:SetBackdropBorderColor(0.8, 0.8, 0.8, 0.8)
-    YiXinButton:SetMotionScriptsWhileDisabled(true)
-    local YiXinButtonText = YiXinButton:CreateFontString(nil, 'OVERLAY')
-    YiXinButtonText:SetPoint('LEFT', YiXinButton, 'RIGHT', 5, 0)
-    YiXinButton:SetFontString(YiXinButtonText)
-    YiXinButton:SetNormalFontObject('GameFontNormalSmallLeft')
-    YiXinButton:SetHighlightFontObject('GameFontHighlightSmallLeft')
-    YiXinButton:SetDisabledFontObject('GameFontDisableSmallLeft')
     YiXinButton:SetText(L['易信推送'])
-    YiXinButton:SetHitRectInsets(0, - YiXinButtonText:GetWidth(), 0, 0)
-    
-    local texture = YiXinButton:CreateTexture(nil, 'BACKGROUND')
-    texture:SetTexture([[Interface\AddOns\RaidBuilder\Media\YiXin]])
-    texture:SetPoint('TOPLEFT', 3, -3)
-    texture:SetPoint('BOTTOMRIGHT', -3, 3)
-
-    GUI:SetTooltip(YiXinButton,
+    YiXinButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\YiXin]])
+    YiXinButton:SetTooltip(
         L['易信通知'],
         L['你每天有3次机会向关注你的玩家发送活动通知。']
     )
-
-    local function onStatusChanged()
-        texture:SetDesaturated(not YiXinButton:IsEnabled())
-    end
-    YiXinButton:SetScript('OnEnable', onStatusChanged)
-    YiXinButton:SetScript('OnDisable', onStatusChanged)
     YiXinButton:SetScript('OnClick', function()
         RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+    end)
+
+    local ShareButton = Button:New(self)
+    ShareButton:SetPoint('RIGHT', YiXinButton, 'LEFT', -80, 0)
+    ShareButton:SetText(L['活动通告'])
+    ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\Share]])
+    ShareButton:SetTooltip(L['活动通告'])
+    ShareButton:SetScript('OnClick', function()
+        local event = EventCache:GetCurrentEvent()
+        if not event then
+            return
+        end
+        RaidBuilder:ShowModule('SharePanel',
+            L['活动通告'],
+            L.EVENT_ANNOUNCEMENT_CONTENT:format(event:GetEventName(), event:GetSummary()))
     end)
 
     local RoleWidget = GUI:GetClass('TitleWidget'):New(self)
@@ -170,7 +158,7 @@ function CreatePanel:OnInitialize()
     local ForceVerify = GUI:GetClass('CheckBox'):New(MiscWidget)
     ForceVerify:SetPoint('TOPLEFT', CrossRealm, 'BOTTOMLEFT', 0, -10)
     ForceVerify:SetSize(26, 26)
-    ForceVerify:SetText(L['必须符合要求'])
+    ForceVerify:SetText(L['装备等级和PVP等级必须符合要求'])
 
     self:RegisterInputBox(TankBox:GetInputBox())
     self:RegisterInputBox(HealerBox:GetInputBox())
@@ -225,6 +213,7 @@ function CreatePanel:OnInitialize()
     self.SummaryBox = SummaryBox
     self.Password = Password
 
+    self.ShareButton = ShareButton
     self.YiXinButton = YiXinButton
     self.Blocker = Blocker
     self.BlockerText = BlockerText
@@ -258,6 +247,7 @@ function CreatePanel:OnShow()
         self.CrossRealm:Disable()
         self.Filter:Disable()
         self.YiXinButton:Enable()
+        self.ShareButton:Enable()
     else
         self.Filter:SetValue(nil)
         self.Mode:SetValue(nil)
@@ -266,6 +256,7 @@ function CreatePanel:OnShow()
         self.CrossRealm:Enable()
         self.Filter:Enable()
         self.YiXinButton:Disable()
+        self.ShareButton:Disable()
     end
     self:Refresh()
 end

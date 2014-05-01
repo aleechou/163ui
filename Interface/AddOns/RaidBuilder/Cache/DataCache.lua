@@ -23,6 +23,14 @@ function Data:SetData(data)
     self:Fire('OnDataChanged', data)
 end
 
+function Data:SetCache(cache)
+    self.cache = cache
+end
+
+function Data:GetCache()
+    return self.cache or {}
+end
+
 DataCache = RaidBuilder:NewModule('DataCache', 'AceSerializer-3.0')
 
 function DataCache:OnInitialize()

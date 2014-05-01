@@ -1,24 +1,13 @@
 
 BuildEnv(...)
 
-BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0')
+BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
 local function IsLeaderInLeaderboard(name)
-    local weekScore = DataCache:GetObject('LeaderScore'):GetData()
-    
-    if not weekScore then
-        return 1
-    end
-
     local fullName = GetFullName(name)
-    
-    for i, v in ipairs(weekScore) do
-        if v.name == fullName then
-            return -1
-        end
-    end
-
-    return 1
+    local IsInTotal = DataCache:GetObject('LeaderScoreTotal'):GetCache()[fullName]
+    local IsInMonth = DataCache:GetObject('LeaderScore'):GetCache()[fullName]
+    return IsInTotal and -2 or IsInMonth and -1 or 1
 end
 
 local function _NormalSortHandler(event)
@@ -132,7 +121,7 @@ local BROWSE_HEADER = {
         width = 130,
         showHandler = function(event)
             local icon = IsLeaderInLeaderboard(event:GetLeader())
-            icon = icon == -1 and [[|TINTERFACE\Challenges\ChallengeMode_Medal_Platinum:16|t]] or icon == -2 and [[|TINTERFACE\Challenges\ChallengeMode_Medal_Gold:16|t]] or ''
+            icon = icon == -1 and [[|TINTERFACE\Challenges\challenges-plat-sm:20:20:0:-2:64:64:16:48:16:48|t]] or icon == -2 and [[|TINTERFACE\Challenges\challenges-gold-sm:20:20:0:-2:64:64:16:48:16:48|t]] or ''
             return icon .. event:GetLeaderText()
         end,
         sortHandler = function(event)
@@ -272,9 +261,10 @@ function BrowsePanel:OnInitialize()
         RaidBuilder:HideModule('RolePanel')
     end)
 
-    self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
-    self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
-    self:RegisterEvent('GROUP_ROSTER_UPDATE', 'Refresh')
+    -- self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
+    -- self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
+    self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1, 'Refresh')
+    self:RegisterBucketMessage({'RAIDBUILDER_APPLIED_UPDATE', 'RAIDBUILDER_EVENT_LIST_UPDATE'}, 1, 'Refresh')
 end
 
 function BrowsePanel:Refresh()

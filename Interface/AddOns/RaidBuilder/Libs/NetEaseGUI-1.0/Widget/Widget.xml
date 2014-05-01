@@ -31,4 +31,5 @@
     <Script file="DataGridViewGridItem.lua" />
     <Script file="SummaryHtml.lua" />
     <Script file="InTabPanel.lua" />
+    <Script file="TitleButton.lua" />
 </Ui>

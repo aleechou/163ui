@@ -1,13 +1,14 @@
 --[[
 	EditBox.lua
 	Create a EditBox with a scroll bar
-	ver		1.0.0
-	author	s1172
+	ver     1.0.0
+    author  Jai
+    email   814683@qq.com
 	edit	2013-10-16 12:26:15
 	change	
 ]]--
 
-local WIDGET, VERSION = 'EditBox', 1
+local WIDGET, VERSION = 'EditBox', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local EditBox = GUI:NewClass(WIDGET, 'Frame', VERSION)
@@ -201,11 +202,14 @@ function EditBox:OnEditUpdate(elapsed)
 end
 
 function EditBox:OnTextChanged()
-	self:GetParent():GetParent().OnEditUpdate(self)
-	self:GetChildren():SetShown(not (self:GetText() ~= ''))
+	local parent = self:GetParent():GetParent()
+	parent.OnEditUpdate(self)
+	parent.Prompt:SetShown(not (self:GetText() ~= ''))
 
-	if self:GetParent().isTop and not self:HasFocus() then
-		self:GetParent():SetVerticalScroll(0)
+	parent:Fire('OnTextChanged', self:GetText())
+
+	if parent.ScrollFrame.isTop and not self:HasFocus() then
+		parent.ScrollFrame:SetVerticalScroll(0)
 	end
 end
 
@@ -315,4 +319,12 @@ end
 
 function EditBox:ClearCopy()
 	self.FocusButton:SetScript('OnDoubleClick', nil)
+end
+
+function EditBox:SetMaxLetters(maxLetters)
+	self:GetEditBox():SetMaxLetters(maxLetters)
+end
+
+function EditBox:SetMaxBytes(maxBytes)
+	self:GetEditBox():SetMaxBytes(maxBytes)
 end

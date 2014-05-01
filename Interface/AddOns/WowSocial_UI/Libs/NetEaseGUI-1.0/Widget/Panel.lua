@@ -357,3 +357,29 @@ function Panel:GetSelectedPanel()
     local index = self:GetSelectedTab()
     return self.PanelList[index] and self.PanelList[index].panel
 end
+
+local function unpack(t, ...)
+    if type(t) == 'table' then
+        return _G.unpack(t, ...)
+    else
+        return t, ...
+    end
+end
+
+function Panel:CreateTitleButton(t)
+    self.titleButtons = self.titleButtons or {}
+
+    local button = GUI:GetClass('TitleButton'):New(self)
+    button:SetScript('OnClick', t.callback or t.onClick)
+    button:SetTexture(t.texture, unpack(t.coords))
+    button:SetTooltip(t.title or t.text, unpack(t.notes))
+
+    if #self.titleButtons == 0 then
+        button:SetPoint('TOPRIGHT', -30, -3)
+    else
+        button:SetPoint('RIGHT', self.titleButtons[#self.titleButtons], 'LEFT', -1, 0)
+    end
+
+    tinsert(self.titleButtons, button)
+    return button
+end

@@ -10,20 +10,27 @@ function DataBroker:OnInitialize()
     local Object = LibStub('LibDataBroker-1.1'):NewDataObject('WowSocial_UI', {
         type = 'data source',
         text = L['正在登陆...'],
+        loading = true,
         icon = ADDON_LOGO,
+        iconCoords = {0.75, 1, 0, 1},
         OnClick = function()
             self:Toggle()
         end,
-        OnEnter = function(anchor)
+        OnEnter = function(owner)
+            local anchor = owner:GetBottom() < GetScreenHeight() / 2 and 'ANCHOR_TOP' or 'ANCHOR_BOTTOM'
             if #GetUnreadList() == 0 and #GetJoinList() == 0 then
-                GameTooltip:SetOwner(anchor, 'ANCHOR_LEFT')
+                GameTooltip:SetOwner(owner, anchor)
                 GameTooltip:SetText(ADDON_NAME)
                 GameTooltip:Show()
             else
                 local frame = CloudUI:GetModule('MessageBox')
-                frame:SetOwner(anchor)
+                frame:SetOwner(owner)
                 frame:ClearAllPoints()
-                frame:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT')
+                if anchor == 'ANCHOR_BOTTOM' then
+                    frame:SetPoint('TOP', owner, 'BOTTOM')
+                else
+                    frame:SetPoint('BOTTOM', owner, 'TOP')
+                end
                 frame:Show()
             end
         end,
@@ -34,34 +41,22 @@ function DataBroker:OnInitialize()
     local Minimap = LibStub('LibDBIcon-1.0'):GetMinimapButton('WowSocial_UI')
     Minimap:SetParent(UIParent)
 
-    local Loading = CreateFrame('Frame', nil, Minimap, 'NetEaseLoadingTemplate')
-    Loading:SetSize(48, 48)
-    Loading:SetPoint('CENTER')
-    Loading:Show()
+    LibStub('NetEaseMinimap-1.0'):Register('WowSocial_UI')
+    LibStub('NetEaseMinimap-1.0'):RegisterKeyData('WowSocial_UI', 'slient', {
+        MakeMinimap = function(button)
+            local Slient = button:CreateTexture(nil, 'OVERLAY', nil, 7)
+            Slient:SetSize(16, 16)
+            Slient:SetPoint('BOTTOMLEFT', 2, 2)
+            Slient:SetTexture([[INTERFACE\FriendsFrame\StatusIcon-DnD]])
+            return Slient
+        end,
+        Set = function(widget, value)
+            widget:SetShown(value)
+        end
+    })
 
-    local Flash = CreateFrame('Frame', nil, Minimap, 'WowSocialCallOutTemplate')
-    Flash:SetSize(48, 48)
-    Flash:SetPoint('CENTER')
-    Flash:SetBackdrop(nil)
-    Flash.BG:ClearAllPoints()
-    Flash.BG:SetPoint('CENTER')
-    Flash.BG:SetSize(36, 36)
-    Flash.BG:SetTexture([[INTERFACE\Calendar\EventNotificationGlow]])
-    Flash.BG:Show()
-    Flash:Hide()
-
-    local Slient = Minimap:CreateTexture(nil, 'OVERLAY', nil, 7)
-    Slient:SetSize(16, 16)
-    Slient:SetPoint('BOTTOMLEFT', 2, 2)
-    Slient:SetTexture([[INTERFACE\FriendsFrame\StatusIcon-DnD]])
-    Slient:Hide()
 
     self.notReady = true
-
-    self.Slient = Slient
-    self.Minimap = Minimap
-    self.Loading = Loading
-    self.Flash = Flash
     self.Object = Object
 
     self:RegisterMessage('NECLOUD_NEWVERSION')
@@ -74,8 +69,8 @@ end
 
 function DataBroker:NECLOUD_NEWVERSION(event, version, url, isCompat)
     if not isCompat then
-        self.Loading:Hide()
         self.Object.text = L['发现新版本']
+        self.Object.loading = nil
 
         self.notCompat = not isCompat
         self.url = url
@@ -87,13 +82,13 @@ end
 function DataBroker:NECLOUD_SERVER_OFFLINE()
     self.notReady = true
     self.Object.text = L['正在登陆...']
-    self.Loading:Show()
+    self.Object.loading = true
 end
 
 function DataBroker:NECLOUD_READY()
     self.notReady = nil
     self.Object.text = L['友团聊天']
-    self.Loading:Hide()
+    self.Object.loading = nil
     self:Refresh()
 end
 
@@ -103,23 +98,26 @@ end
 
 function DataBroker:Refresh()
     if CloudUI:IsSlientMode() then
-        self.Flash:Hide()
-        self.Slient:Show()
         self.Object.icon = ADDON_LOGO
+        self.Object.iconCoords = {0.75, 1, 0, 1}
         self.Object.text = L['友团聊天']
+        self.Object.flash = nil
+        self.Object.slient = true
     else
         local unread = #GetUnreadList()
         local join = #GetJoinList()
 
-        self.Slient:Hide()
-        self.Flash:SetShown(unread > 0 or join > 0)
+        self.Object.slient = nil
+        self.Object.flash = unread > 0 or join > 0 or nil
 
         if unread > 0 then
             local data = GetUnreadList()[1]
             self.Object.icon = GetChatIcon(data.chatType, data.target)
+            self.Object.iconCoords = nil
             self.Object.text = L['友团聊天'] .. ' ' .. (unread + join)
         else
             self.Object.icon = ADDON_LOGO
+            self.Object.iconCoords = {0.75, 1, 0, 1}
             self.Object.text = L['友团聊天']
         end
     end

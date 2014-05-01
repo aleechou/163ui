@@ -12,6 +12,7 @@
     <Include file="..\..\Skada\CfgSkada.lua"/>
     <Include file="..\..\NewbieAssistant\CfgNewbieAssistant.lua"/>
     <Include file="..\..\Accountant_Classic\CfgAccountant_Classic.lua"/>
+    <Include file="..\..\AdiBags\CfgAdiBags.lua"/>
     <Include file="..\..\WowSocial\CfgWowSocial.lua"/>
     <Include file="..\..\RaidBuilder\CfgRaidBuilder.lua"/>
     <Include file="..\..\Archy\CfgArchy.lua"/>

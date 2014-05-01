@@ -48,7 +48,10 @@ function AnnPanel:OnInitialize()
         button:SetText(data.title)
     end)
     AnnList:SetCallback('OnSelectChanged', function(frame, index, data)
-        self:SetAnn(data.title, data.content)
+        if data then
+            self:SetAnn(data.title, data.content)
+            SetAnnRead(index)
+        end
     end)
     AnnList:SetScript('OnShow', function(frame)
         frame:SetSelected(1)

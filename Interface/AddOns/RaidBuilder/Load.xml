@@ -19,4 +19,5 @@
     <Script file="System.lua" />
     <Script file="Invite.lua" />
     <Script file="DataBroker.lua" />
+    <Script file="TeamNotice.lua" />
 </Ui>

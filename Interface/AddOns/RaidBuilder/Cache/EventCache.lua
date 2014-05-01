@@ -86,6 +86,14 @@ function EventCache:IterateEvents()
     return pairs(self.eventCache)
 end
 
+function EventCache:GetEventCount()
+    local count = 0
+    for _ in pairs(self.eventCache) do
+        count = count + 1
+    end
+    return count
+end
+
 function EventCache:CheckEventList()
     local now = time()
     for leader, event in pairs(self.eventCache) do

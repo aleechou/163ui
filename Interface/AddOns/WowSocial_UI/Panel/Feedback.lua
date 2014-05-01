@@ -1,8 +1,9 @@
 --[[
-    Calendar.lua
-    Calendar Assistant
-    ver        1.0.0
-    author    s1172
+    Feedback.lua
+    Feedback panel
+    ver     1.0.0
+    author  Jai
+    email   814683@qq.com
     edit    2013-10-25 11:15:23
     change    
 ]]--

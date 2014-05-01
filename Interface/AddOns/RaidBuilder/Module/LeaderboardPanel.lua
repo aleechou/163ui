@@ -74,8 +74,8 @@ function LeaderboardPanel:OnInitialize()
 
     MainPanel:RegisterPanel(L['排行榜'], self, 6)
 
-    local scoreData = DataCache:NewObject('LeaderScore')
-    scoreData:SetCallback('OnCacheChanged', function(self, cache)
+    local MonthData = DataCache:NewObject('LeaderScore')
+    MonthData:SetCallback('OnCacheChanged', function(self, cache)
         local data = {}
         for k, v in pairs(cache) do
             tinsert(data, {
@@ -90,8 +90,31 @@ function LeaderboardPanel:OnInitialize()
             v.rank = i
         end
         self:SetData(data)
+        self:SetCache(cache)
     end)
-    scoreData:SetCallback('OnDataChanged', function(_, data)
+    MonthData:SetCallback('OnDataChanged', function(_, data)
+        self.IsTotalList:Enable()
+    end)
+
+    local TotalData = DataCache:NewObject('LeaderScoreTotal')
+    TotalData:SetCallback('OnCacheChanged', function(self, cache)
+        local data = {}
+        for k, v in pairs(cache) do
+            tinsert(data, {
+                name = k,
+                score = v,
+            })
+        end
+        sort(data, function(a, b)
+            return a.score > b.score
+        end)
+        for i, v in ipairs(data) do
+            v.rank = i
+        end
+        self:SetData(data)
+        self:SetCache(cache)
+    end)
+    TotalData:SetCallback('OnDataChanged', function(_, data)
         MainPanel:EnablePanel(self)
         self.BroadList:SetItemList(data)
         self.BroadList:Refresh()
@@ -106,7 +129,7 @@ function LeaderboardPanel:OnInitialize()
 
     local TitleLabel = self:CreateFontString(nil, 'ARTWORK', 'GameFontNormalHuge')
     TitleLabel:SetPoint('TOPLEFT', TitleTex, 'TOPRIGHT', -20, -10)
-    TitleLabel:SetText(L['团长积分榜'])
+    TitleLabel:SetText(L['团长积分总榜'])
 
     local url = GUI:GetClass('SummaryHtml'):New(self)
     url:SetSize(250, 20)
@@ -143,7 +166,22 @@ function LeaderboardPanel:OnInitialize()
     BroadList:SetItemHeight(30)
     BroadList:SetItemSpacing(3)
 
+    local function Refresh()
+        TitleLabel:SetText(self.IsTotalList:GetChecked() and L['团长积分总榜'] or L['团长积分月榜'])
+        BroadList:SetItemList(self.IsTotalList:GetChecked() and TotalData:GetData() or MonthData:GetData())
+        BroadList:Refresh()
+    end
+
+    local IsTotalList = GUI:GetClass('CheckBox'):New(self)
+    IsTotalList:SetPoint('BOTTOMRIGHT', self:GetOwner(), -75, 3)
+    IsTotalList:SetSize(20, 20)
+    IsTotalList:SetText(L['查看总榜'])
+    IsTotalList:SetChecked(true)
+    IsTotalList:Disable()
+    IsTotalList:SetScript('OnClick', Refresh)
+
     self.BroadList = BroadList
+    self.IsTotalList = IsTotalList
 
     self:SetScript('OnShow', self.OnShow)
 end

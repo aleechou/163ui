@@ -26,7 +26,19 @@ function RaidBuilder:OnInitialize()
             },
             minimap = {
                 minimapPos = 243,
-            }
+            },
+            settings = {
+                minimap = true,
+                minimapPack = false,
+                panel = UnitFactionGroup('player') ~= 'Neutral',
+                panelLock = false,
+                storage = { point = 'TOP', x = 0, y = -20},
+                teamNotice = true,
+            },
+            inviteQueue = {},
+            invitedBTags = {},
+            invitedNames = {},
+            webInvite = {},
         }
     }
 
@@ -34,6 +46,22 @@ function RaidBuilder:OnInitialize()
 
     self:RawHook('PromoteToLeader', 'PromoteToLeader', true)
     self:RawHook('LeaveParty', 'LeaveParty', true)
+
+    self:RegisterEvent('PLAYER_LOGIN', function()
+        self:UnregisterEvent('PLAYER_LOGIN')
+
+        local settings = {
+            'minimap',
+            'minimapPack',
+            'panel',
+            'panelLock',
+            'teamNotice',
+        }
+
+        for _, key in ipairs(settings) do
+            self:SendMessage('RAIDBUILDER_SETTING_CHANGED', key, self.db.profile.settings[key])
+        end
+    end)
 end
 
 function RaidBuilder:PromoteToLeader(...)

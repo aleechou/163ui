@@ -4,11 +4,12 @@ BuildEnv(...)
 Invite = RaidBuilder:NewModule('Invite', 'AceEvent-3.0', 'AceBucket-3.0', 'AceSerializer-3.0', 'AceTimer-3.0')
 
 function Invite:OnInitialize()
-    self.invitedBTags = {}
-    self.invitedNames = {}
-    self.accepted = {}
+    self.db = RaidBuilder:GetDB()
 
-    self.inviteQueue = {}
+    self.inviteQueue = self.db.profile.inviteQueue
+    self.invitedBTags = self.db.profile.invitedBTags
+    self.invitedNames = self.db.profile.invitedNames
+    self.accepted = {}
     self.bnToons = {}
 
     self:RegisterEvent('PLAYER_LOGIN')
@@ -17,26 +18,30 @@ function Invite:OnInitialize()
     self:RegisterEvent('CHAT_MSG_BN_INLINE_TOAST_ALERT')
     self:RegisterEvent('GROUP_ROSTER_UPDATE')
     self:RegisterBucketEvent('BN_FRIEND_INFO_CHANGED', 1)
+
+    self.btagCheckTimer = self:ScheduleRepeatingTimer('CheckBattleTagTimeout', 60)
 end
 
 function Invite:GROUP_ROSTER_UPDATE()
-    if not UnitIsGroupLeader('player') then
-        return
-    end
-    local event = EventCache:GetCurrentEvent()
-    if not event then
-        return
-    end
-    local total = event:GetRoleTotalAll()
-    if total > 5 then
-        if IsInGroup() and not IsInRaid() then
-            ConvertToRaid()
-        end
-    else
-        if IsInRaid() then
-            ConvertToParty()
-        end
-    end
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
+
+    -- if not UnitIsGroupLeader('player') then
+    --     return
+    -- end
+    -- local event = EventCache:GetCurrentEvent()
+    -- if not event then
+    --     return
+    -- end
+    -- local total = event:GetRoleTotalAll()
+    -- if total > 5 then
+    --     if IsInGroup() and not IsInRaid() then
+    --         ConvertToRaid()
+    --     end
+    -- else
+    --     if IsInRaid() then
+    --         ConvertToParty()
+    --     end
+    -- end
 end
 
 function Invite:PLAYER_LOGIN()
@@ -53,6 +58,7 @@ function Invite:PLAYER_LOGIN()
 
     self:ClearBNet()
     self:CacheBNetTonns()
+    self:StartInvite()
 end
 
 function Invite:BN_FRIEND_INFO_CHANGED()
@@ -75,7 +81,7 @@ end
 function Invite:CheckInvitedBTags()
     for i, v in ipairs(self.invitedBTags) do
         if v.battleTag == self:GetBattleTagByName(v.name) then
-            self:Invite(v.name)
+            self:StartInvite(v.name)
         end
     end
 end
@@ -150,7 +156,7 @@ local _MEMBER_ERRORS = {
 function Invite:CheckMemberError(msg)
     for k, v in pairs(_MEMBER_ERRORS) do
         local name = msg:match(k)
-        if self.invitedNames[name] then
+        if self:IsNameRegistered(name) then
             return name, v
         end
     end
@@ -164,9 +170,14 @@ function Invite:CHAT_MSG_SYSTEM(_, msg)
             errorType == 'JOINED' or
             errorType == 'OFFLINE' then
 
-            self.invitedNames[name] = nil
+            local battleTag = self:GetBattleTagByName(name)
+            if battleTag then
+                self:UnregisterBattleTag(battleTag, name)
+            end
+
+            self:UnregisterName(name)
             MemberCache:RemoveMember(name)
-            self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
+
         elseif errorType == 'INVITING' then
             local battleTag = self:GetBattleTagByName(name)
             if battleTag and self:IsBattleTagRegistered(battleTag) then
@@ -185,23 +196,40 @@ function Invite:IsSameRealm(name)
     return self.realms[realm]
 end
 
-function Invite:InviteMember(member)
-    local name = member:GetName()
-    local battleTag = member:GetBattleTag()
-
-    member:SetInviting(true)
-
-    if self:IsSameRealm(name) or self:GetBattleTagByName(name) then
-        self:Invite(name)
-    else
-        self:RegisterBattleTag(battleTag, name)
+function Invite:InviteMember(name, battleTag, isWeb)
+    if not self:IsInGroup(name) then
+        if self:IsSameRealm(name) or self:GetBattleTagByName(name) then
+            self:StartInvite(name)
+        else
+            self:RegisterBattleTag(battleTag, name, isWeb)
+        end
     end
-    self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
 end
 
-function Invite:Invite(name)
-    self.inviteQueue[name] = true
+function Invite:IsInGroup(name)
+    name = Ambiguate(name, 'none')
 
+    return UnitInRaid(name) or UnitInParty(name)
+end
+
+function Invite:GetMemberStatus(name, battleTag)
+    if self:IsInGroup(name) then
+        return INVITE_STATUS_JOINED
+    elseif self:IsNameRegistered(name) then
+        return INVITE_STATUS_INVITING
+    elseif self:IsInQueue(name) then
+        return INVITE_STATUS_QUEUE
+    elseif self:IsBattleTagRegistered(battleTag) then
+        return INVITE_STATUS_BNETTING
+    else
+        return INVITE_STATUS_UNKNOWN
+    end
+end
+
+function Invite:StartInvite(name)
+    if name then
+        self:InsertQueue(name)
+    end
     if not self.inviteTimer then
         self.inviteTimer = self:ScheduleRepeatingTimer('DoInvite', 1)
     end
@@ -215,8 +243,19 @@ function Invite:DoInvite()
         return
     end
 
-    self.inviteQueue[name] = nil
-    self.invitedNames[name] = true
+    local timeStamp = self.inviteQueue[name]
+    if time() - timeStamp > 900 then
+        self:RemoveQueue(name)
+        return
+    end
+
+    if GetNumGroupMembers() >= 5 and not IsInRaid(LE_PARTY_CATEGORY_HOME) then
+        ConvertToRaid()
+        return
+    end
+
+    self:RemoveQueue(name)
+    self:RegisterName(name)
     InviteUnit(name)
 end
 
@@ -227,41 +266,65 @@ function Invite:AddBNetFriendTimeout(battleTag, name)
     self:UnregisterBattleTag(battleTag, name)
 end
 
-function Invite:RegisterBattleTag(battleTag, name)
+function Invite:RegisterBattleTag(battleTag, name, isWeb)
+    self:RemoveBattleTag(battleTag, name)
+
     local data = self:Serialize(
-        'RaidBuilder',
+        isWeb and 'RaidBuilder-Web' or 'RaidBuilder',
         select(2, BNGetInfo()),
         UnitFullName('player'),
         name)
-
-
+    
     BNSendFriendInvite(battleTag, data)
 
     tinsert(self.invitedBTags, {
         battleTag = battleTag,
         name = name,
+        time = time(),
+        isWeb = isWeb,
     })
 
-    self:ScheduleTimer('AddBNetFriendTimeout', 10, battleTag, name)
+    if not isWeb then
+        self:ScheduleTimer('AddBNetFriendTimeout', 10, battleTag, name)
+    else
+        self:CancelTimer(self.btagCheckTimer)
+        self.btagCheckTimer = self:ScheduleRepeatingTimer('CheckBattleTagTimeout', 60)
+    end
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
 end
 
-function Invite:UnregisterBattleTag(battleTag, name)
+function Invite:CheckBattleTagTimeout()
+    local now = time()
+    for i = #self.invitedBTags, 1, -1 do
+        local v = self.invitedBTags[i]
+        if now - (v.time or 0) > 900 then
+            self:UnregisterBattleTag(v.battleTag, v.name)
+        end
+    end
+end
+
+function Invite:RemoveBattleTag(battleTag, name)
     for i, v in ipairs(self.invitedBTags) do
         if v.battleTag == battleTag and v.name == v.name then
             tremove(self.invitedBTags, i)
             break
         end
     end
+end
+
+function Invite:UnregisterBattleTag(battleTag, name)
+    self:RemoveBattleTag(battleTag, name)
 
     if not self:IsBattleTagRegistered(battleTag) then
         for i = 1, BNGetNumFriends() do
             local id, _, bTag = BNGetFriendInfo(i)
             if battleTag == bTag then
                 BNRemoveFriend(id)
-                return
+                break
             end
         end
     end
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
 end
 
 function Invite:IsBattleTagRegistered(battleTag)
@@ -270,4 +333,32 @@ function Invite:IsBattleTagRegistered(battleTag)
             return true
         end
     end
+end
+
+function Invite:RegisterName(name)
+    self.invitedNames[name] = true
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
+end
+
+function Invite:UnregisterName(name)
+    self.invitedNames[name] = nil
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
+end
+
+function Invite:IsNameRegistered(name)
+    return self.invitedNames[name]
+end
+
+function Invite:InsertQueue(name)
+    self.inviteQueue[name] = time()
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
+end
+
+function Invite:RemoveQueue(name)
+    self.inviteQueue[name] = nil
+    self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
+end
+
+function Invite:IsInQueue(name)
+    return self.inviteQueue[name]
 end

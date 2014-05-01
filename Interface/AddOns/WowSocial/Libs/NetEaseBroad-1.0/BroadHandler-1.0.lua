@@ -13,7 +13,7 @@ local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandl
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
 local Base64 = assert(LibStub('LibBase64-1.0', true), 'BroadHandler-1,0 requires LibBase64-1.0')
 
-local MAJOR, MINOR = 'BroadHandler-1.0', 5
+local MAJOR, MINOR = 'BroadHandler-1.0', 6
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not BroadHandler then return end
 
@@ -139,7 +139,7 @@ function BroadHandler:Connect(chatType, channel, password, onlySend)
 
         self:JoinChannel(channel, password)
     else
-        if chatType == 'BNCONVERSATION' then
+        if chatType == 'BNCONVERSATION' or chatType == 'WHISPER' then
             self.channelId = self.channel
         end
         self:Fire('BROAD_CONNECTED')

@@ -22,6 +22,15 @@ local tobin = setmetatable({}, {__index = function(o, x)
     return r
 end})
 
+local debin = setmetatable({
+    ['='] = '',
+}, {__index = function(o, x)
+    local r,f='',(BASE64_KEY:find(x)-1)
+    for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+    o[x]=r
+    return r
+end})
+
 local tonum = setmetatable({}, {__index = function(o, x)
     o[x] = #x ~= 8 and '' or strchar(tonumber(x, 2))
     return o[x]

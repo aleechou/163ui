@@ -238,16 +238,26 @@ function Logic:NEBROAD_GROUP_USERJOIN(cmd, gid, count)
 end
 
 function Logic:COMM_ANNOUNCEMENT(event, title, content)
+    local hasUnread = false
+    local data
+
     for i, v in ipairs(self.db.annList) do
+        if v.unread then
+            hasUnread = true
+        end
         if v.title == title and v.content == content then
-            tremove(self.db.annList, i)
-            break
+            data = tremove(self.db.annList, i)
         end
     end
-    tinsert(self.db.annList, 1, {
+    if not data then
+        hasUnread = true
+    end
+
+    tinsert(self.db.annList, 1, data or {
         title = title,
         content = content,
+        unread = true,
     })
 
-    self:SendMessage('NECLOUD_ANNOUNCEMENT_UPDATE')
+    self:SendMessage('NECLOUD_ANNOUNCEMENT_UPDATE', hasUnread)
 end

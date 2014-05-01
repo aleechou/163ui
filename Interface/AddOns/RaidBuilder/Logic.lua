@@ -18,6 +18,7 @@ function Logic:OnInitialize()
 
     self:RegisterBroad('BEI', 'BROAD_EVENT_INFO')
     self:RegisterBroad('BED', 'BROAD_EVENT_DISBAND')
+    self:RegisterBroad('BWEI', 'BROAD_WEBEVENT_INFO')
 
     self:RegisterBroad('BDV', 'BROAD_DATA_VALUE')
 
@@ -32,6 +33,7 @@ function Logic:OnInitialize()
     self:RegisterServer('SOCKET_CONNECTED')
     self:RegisterServer('SEI', 'SOCKET_EVENT_INFO')
     self:RegisterServer('SED', 'SOCKET_EVENT_DISBAND')
+    self:RegisterServer('SWEI', 'SOCKET_WEBEVENT_INFO')
     self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
     self:RegisterServer('SDH', 'SOCKET_DATA_HASH')
     self:RegisterServer('SVERSION', 'SOCKET_VERSION')
@@ -119,6 +121,10 @@ function Logic:BROAD_EVENT_INFO(event, sender, leader, ...)
     end
 end
 
+function Logic:BROAD_WEBEVENT_INFO(event, sender, ...)
+    WebEventCache:CacheEvent(...)
+end
+
 function Logic:BROAD_EVENT_DISBAND(event, sender, leader)
     local leader = Ambiguate(leader or sender, 'none')
     EventCache:RemoveEvent(leader)
@@ -147,6 +153,11 @@ end
 function Logic:SOCKET_EVENT_INFO(_, ...)
     self:SendBroadMessage('BEI', ...)
     self:BROAD_EVENT_INFO(nil, nil, ...)
+end
+
+function Logic:SOCKET_WEBEVENT_INFO(_, ...)
+    self:SendBroadMessage('BWEI', ...)
+    self:BROAD_WEBEVENT_INFO(nil, nil, ...)
 end
 
 function Logic:SOCKET_EVENT_DISBAND(_, ...)
@@ -374,7 +385,8 @@ function Logic:LeaveAllEvents()
 end
 
 function Logic:AcceptEventMember(member)
-    Invite:InviteMember(member)
+    member:SetInviting(true)
+    Invite:InviteMember(member:GetName(), member:GetBattleTag())
 end
 
 function Logic:RefuseEventMember(member)

@@ -6,5 +6,6 @@
     <Script file="RadioButton.lua" />
     <Script file="MemberRoleGrid.lua" />
     <Script file="OperationGrid.lua" />
-    <Script file="ModeItem.lua" />
+    <Script file="ModelItem.lua" />
+    <Script file="Button.lua" />
 </Ui>

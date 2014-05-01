@@ -1,0 +1,12 @@
+tag v1.6.15
+a9702d09361cd371e2b2807ebb772f4cb5875388
+Adirelle <adirelle@gmail.com>
+2014-01-03 12:49:39 +0100
+
+Tagging as v1.6.15.
+
+
+--------------------
+
+Adirelle:
+	- Fixed "new items not showing" in bank.

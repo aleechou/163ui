@@ -2,4 +2,5 @@
 ..\FrameXML\UI.xsd">
     <Script file="RolePanel.lua" />
     <Script file="RoleTip.lua" />
+    <Script file="SharePanel.lua" />
 </Ui>

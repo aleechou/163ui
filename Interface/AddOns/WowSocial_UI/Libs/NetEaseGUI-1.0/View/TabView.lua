@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'TabView', 1
+local WIDGET, VERSION = 'TabView', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local TabView = GUI:NewClass(WIDGET, 'Frame', VERSION, 'Refresh', 'View')
@@ -30,9 +30,9 @@ function TabView:Update()
     if self.menu then
         self.menu:Hide()
     end
-    for _, button in pairs(self.buttons) do
-        button:Hide()
-    end
+    -- for _, button in pairs(self.buttons) do
+    --     button:Hide()
+    -- end
     self:UpdateItems()
 end
 
@@ -102,6 +102,11 @@ function TabView:UpdateItems()
             break
         end
         self.shownCount = i
+    end
+
+    for i = self.shownCount + 1, #self.buttons do
+        local button = self.buttons[i]
+        button:Hide()
     end
 
     if self.noMenu then

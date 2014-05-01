@@ -168,6 +168,7 @@ function WaitPanel:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_MEMBER_LIST_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_INVITE_STATUS_UPDATE', 'Refresh')
 end
 
 function WaitPanel:Refresh()

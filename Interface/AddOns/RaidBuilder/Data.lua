@@ -19,8 +19,22 @@ EVENT_TYPE_ARENA    = 0x100000
 EVENT_TYPE_RECOMMEND= 0x200000
 EVENT_TYPE_MISC     = 0x400000
 
+INVITE_STATUS_QUEUE     = 1
+INVITE_STATUS_BNETTING  = 2
+INVITE_STATUS_INVITING  = 3
+INVITE_STATUS_JOINED    = 4
+INVITE_STATUS_UNKNOWN   = 5
+
+INVITE_STATUS_NAMES = {
+    [INVITE_STATUS_QUEUE]       = L['队列中'],
+    [INVITE_STATUS_BNETTING]    = L['好友申请中'],
+    [INVITE_STATUS_INVITING]    = L['邀请组队中'],
+    [INVITE_STATUS_JOINED]      = L['已加入'],
+    [INVITE_STATUS_UNKNOWN]     = L['未组队'],
+}
+
 EVENT_NAMES = setmetatable({
-    
+
     [EVENT_TYPE_RAID]       = L['团队副本'],
     [EVENT_TYPE_DUNGEON]    = L['地下城'],
     [EVENT_TYPE_SCENARIO]   = L['场景战役'],
@@ -267,7 +281,7 @@ RECOMMEND_NAMES = {
     [14] = '赞加沼泽双塔#58#40#0,0,0,40',
     [15] = '纳格兰抢夺哈兰#58#40#0,0,0,40',
     [16] = '决战蓝天伐木场#68#40#0,0,0,40',
-    [17] = '勇斗冬泳湖#68#40#0,0,0,40',
+    [17] = '勇斗冬拥湖#68#40#0,0,0,40',
     [18] = '智斗托尔巴拉德#85#40#0,0,0,40',
     [19] = '决战荆棘谷：格罗姆高营地/反抗军营地#1#40#0,0,0,40',
     [20] = '决战阿拉希：蛮锤要塞VS避难谷地#1#40#0,0,0,40',

@@ -8,7 +8,6 @@ function RolePanel:OnInitialize()
     self:EnableMouse(true)
     self:SetSize(320, 240)
     self:SetFrameStrata('DIALOG')
-    self:EnableMouse(true)
     self:SetBackdrop{
         bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
         edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],

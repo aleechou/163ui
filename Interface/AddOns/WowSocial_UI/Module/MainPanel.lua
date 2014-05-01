@@ -230,21 +230,24 @@ function MainPanel:InitControl()
         return button
     end
     
-    local Feedback = MakeButton([[INTERFACE\FriendsFrame\InformationIcon]], L['意见建议'])
-    local RaidBuilder = MakeButton([[INTERFACE\CHATFRAME\UI-ChatConversationIcon]], L['友团组团'])
-
-    Feedback:SetPoint('TOPRIGHT', -30, -3)
-    RaidBuilder:SetPoint('RIGHT', Feedback, 'LEFT', -1, 0)
-
-    Feedback:SetScript('OnClick', function()
-        CloudUI.Feedback:Open('WowSocial_UI', GetAddOnMetadata('WowSocial', 'Version'))
-    end)
-    RaidBuilder:SetScript('OnClick', function()
-        local RaidBuilder = LibStub('AceAddon-3.0'):GetAddon('RaidBuilder')
-        if RaidBuilder then
-            RaidBuilder:ToggleModule('MainPanel')
+    self:CreateTitleButton{
+        title = L['意见建议'],
+        texture = [[INTERFACE\FriendsFrame\InformationIcon]],
+        callback = function()
+            CloudUI.Feedback:Open('WowSocial_UI', GetAddOnMetadata('WowSocial', 'Version'))
         end
-    end)
+    }
+    self:CreateTitleButton{
+        title = L['友团组团'],
+        texture = [[Interface\AddOns\WowSocial_UI\Media\DataBroker]],
+        coords = {0, 0.25, 0, 1},
+        callback = function()
+            local RaidBuilder = LibStub('AceAddon-3.0'):GetAddon('RaidBuilder')
+            if RaidBuilder then
+                RaidBuilder:ToggleModule('MainPanel')
+            end
+        end
+    }
 
     self.AnnText = AnnText
     self.UnitList = UnitList
