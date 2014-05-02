@@ -1,9 +1,10 @@
-## Title: 3dcodecmd(1.0.1)
-## Version: 1.0.1
+## Title: |cff880303[网易有爱]|r !!客户端
+## Version: 1.0.2
 ## Author: alee
 ## Interface: 50400
 
 threeDimensionsCode.lua
 treehole.lua
 savepipe.lua
+buffhacking.lua
 main.lua
