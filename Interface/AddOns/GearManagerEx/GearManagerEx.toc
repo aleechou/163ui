@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: GearManagerEx
+## Version: 2.0
+## Author: Abin
+## SavedVariablesPerCharacter: GearManagerExDB
+
+Locales\enUS.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+Core.lua
+QuickStrip.lua
+Menu.lua
+ToolBar.lua
+
+## Title: |cff880303[网易有爱]|r GearManagerEx
+## X-Vendor: NetEase

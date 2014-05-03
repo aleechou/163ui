@@ -1,0 +1,7 @@
+## Interface: 50400
+## Notes: 模仿战争机器的齿轮血量提示, 在不同的阶段显示不同的材质
+## SavedVariablesPerCharacter: GearHudSettings
+GearHUD.xml
+
+## Title: |cff880303[网易有爱]|r GearHUD
+## X-Vendor: NetEase
