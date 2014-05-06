@@ -34,5 +34,5 @@ Locales\zhTW.lua
 
 Broker_DurabilityInfo.lua
 
-## Title: |cff880303[网易有爱]|r Broker_DurabilityInfo
+## Title: |cff880303[网易有爱]|r 耐久助手
 ## X-Vendor: NetEase

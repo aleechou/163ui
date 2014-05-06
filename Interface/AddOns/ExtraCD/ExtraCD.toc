@@ -18,3 +18,6 @@ overlay.xml
 ExtraCD.lua
 data.lua
 options.lua
+
+## Title: |cff880303[网易有爱]|r ExtraCD
+## X-Vendor: NetEase

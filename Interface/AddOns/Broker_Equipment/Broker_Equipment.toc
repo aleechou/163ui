@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Author: p3lim
 ## Version: 50200.21-Release
-## Title: Broker Equipment
+## Title: Broker:Equipment
 ## Notes: LDB Equipment Manager plug-in
 ## X-Curse-Packaged-Version: 50200.21-Release
 ## X-Curse-Project-Name: Broker_Equipment
@@ -14,5 +14,5 @@ libs\LibDataBroker-1.1.lua
 
 Broker_Equipment.lua
 
-## Title: |cff880303[网易有爱]|r Broker_Equipment
+## Title: |cff880303[网易有爱]|r 装备管理
 ## X-Vendor: NetEase
