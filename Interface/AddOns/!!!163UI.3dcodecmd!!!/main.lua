@@ -85,4 +85,5 @@ print('make string:',GetTime()-e,#t)
 e=GetTime()
 ThreeDimensionsCode_Send("hi",t);
 print('make frames',GetTime()-e)
-Æ]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()
+Æ
+]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()

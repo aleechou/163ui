@@ -110,8 +110,6 @@ ThreeDimensionsCode_Blackboard.setReadScreenWidth(e)
 ž
 ž
 ž,
-ping=¡(e)
-ž,
 script=¡(t,e)
 loadstring(e)()
 ž
