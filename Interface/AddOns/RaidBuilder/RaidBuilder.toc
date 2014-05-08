@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: Raid Builder
 ## Title-zhCN: |cffff565e[友团]|r 组团模块
 ## Notes-zhCN: 帮助您更好的组建队伍
@@ -8,3 +8,6 @@
 ## SavedVariablesPerCharacter: RAIDBUILDER_CHARACTER_DB
 
 Load.xml
+
+## Title: |cff880303[网易有爱]|r 友团组团
+## X-Vendor: NetEase
