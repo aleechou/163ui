@@ -1,0 +1,11 @@
+## Interface: 50400
+## Title: Combuctor Config
+## Author: Tuller and Jaliborc (João Cardoso)
+## Notes: An options menu for Combuctor
+## Dependencies: Combuctor
+## LoadOnDemand: 1
+
+panel.lua
+main.lua
+general.lua
+sets.lua
