@@ -1,0 +1,12 @@
+## Interface: 50400
+## Title: BagBrother
+## Notes: Stores your characters inventory, bank, and vault, so that you may view them from anywhere.
+## Author: Jaliborc (João Cardoso)
+## SavedVariables: BrotherBags
+
+Startup.lua
+Events.lua
+API.lua
+
+## Title: |cff880303[网易有爱]|r BagBrother
+## X-Vendor: NetEase

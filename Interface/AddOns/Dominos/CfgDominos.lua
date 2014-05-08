@@ -5,7 +5,7 @@
     defaultEnable = 0,
     load = "LOGIN",
     -- minimap = "LibDBIcon10_Dominos",
-
+minimap = "LibDBIcon10_Dominos",
     tags = { TAG_INTERFACE, TAG_BIG, },
     icon = 'Interface\\Addons\\Dominos\\Dominos',
 

@@ -3,7 +3,7 @@ U1RegisterAddon("163UI_TeamStats", {
     defaultEnable = 0,
     --minimap = "LibDBIcon10_TeamStats",
     frames = {"TeamStatsFrame"}, --需要保存位置的框体
-
+minimap = "LibDBIcon10_TeamStats",
     tags = { TAG_RAID, TAG_MANAGEMENT },
     icon = "Interface\\Icons\\Spell_Deathknight_UnholyPresence",
     desc = "自动获取全团成员的平均装备等级/韧性/副本击杀次数统计,以列表的方式集中呈现。`- 战斗外可以点击人名选为目标`- 可选中团员发布到聊天频道`- 具有观察间隔保护机制`- 每条玩家记录约占1K内存`- 记录保留两天,可以强制清除",
