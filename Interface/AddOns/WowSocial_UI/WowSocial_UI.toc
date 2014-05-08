@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: WoW Social UI
 ## Title-zhCN: |cffff565e[友团]|r 聊天群界面模块
 ## Notes-zhCN: 魔兽社交插件的群组界面
@@ -6,3 +6,5 @@
 ## SavedVariables: WOWSOCIAL_DB_UI
 
 Load.xml
+## Title: |cff880303[网易有爱]|r 友团群聊
+## X-Vendor: NetEase

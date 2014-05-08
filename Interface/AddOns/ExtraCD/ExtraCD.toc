@@ -19,5 +19,5 @@ ExtraCD.lua
 data.lua
 options.lua
 
-## Title: |cff880303[网易有爱]|r ExtraCD
+## Title: |cff880303[网易有爱]|r 内置CD监控
 ## X-Vendor: NetEase
