@@ -16,7 +16,7 @@
 ## X-Website: http://www.wowace.com/addons/grid/
 
 ## OptionalDeps: Ace3, LibDBIcon-1.0, LibDualSpec-1.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, AceGUI-3.0-Spell-EditBox, UTF8, Clique, SharedMedia
-## SavedVariables: GridDB
+## SavedVariables: GridDB,UIGridFlag
 
 ..\LibBabble-3.0\LibBabble-3.0.lua
 ..\LibBabble-3.0\LibBabble-Zone-3.0.lua

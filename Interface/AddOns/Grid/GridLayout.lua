@@ -209,8 +209,8 @@ GridLayout.defaultDB = {
 	groupAnchor = "TOPLEFT",
 	hideTab = false,
 
-	PosX = 0,
-	PosY = -540,
+	PosX = 500,
+	PosY = -400,
 }
 
 ------------------------------------------------------------------------
@@ -603,13 +603,6 @@ function GridLayout:PostEnable()
 		self:LoadLayout(self.db.profile.layout or self.db.profile.layouts["raid_25"])
 	end
 	-- position and scale frame
-	
-	if not self.db.profile.Type or self.db.profile.Type ~=  'UI' then
-		self.db.profile.PosX = 0
-		self.db.profile.PosY = -540
-		self.db.profile.anchorRel = 'TOPLEFT'
-	end
-	
 	self:RestorePosition()
 	self:Scale()
 
@@ -1223,7 +1216,6 @@ function GridLayout:RestorePosition()
 	local x = self.db.profile.PosX
 	local y = self.db.profile.PosY
 	local point = self.db.profile.anchor
-	self.db.profile.Type = "UI"
 	self:Debug("Loaded position", point, x, y)
 	x, y = floor(x / s + 0.5), floor(y / s + 0.5)
 	f:ClearAllPoints()

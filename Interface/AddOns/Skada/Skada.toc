@@ -8,7 +8,7 @@
 ## Notes-zhCN: 伤害统计
 ## Author: Zarnivoop
 ## Version: r516
-## SavedVariables: SkadaDB
+## SavedVariables: SkadaDB,UISkadaFlag
 ## SavedVariablesPerCharacter: SkadaPerCharDB
 ## X-Curse-Packaged-Version: r516
 ## X-Curse-Project-Name: Skada Damage Meter
