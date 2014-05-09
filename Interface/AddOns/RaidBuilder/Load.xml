@@ -7,6 +7,7 @@
     <Script file="API.lua" />
     <Script file="MenuTable.lua" />
     <Script file="Main.lua" />
+    <Script file="Profile.lua" />
 
     <Include file="Cache\Cache.xml" />
 
@@ -14,10 +15,10 @@
     <Include file="Module\Module.xml" />
     <Include file="Panel\Panel.xml" />
     
-    <Script file="Profile.lua" />
     <Script file="Logic.lua" />
     <Script file="System.lua" />
     <Script file="Invite.lua" />
     <Script file="DataBroker.lua" />
     <Script file="TeamNotice.lua" />
+    <Script file="WebSupport.lua" />
 </Ui>

@@ -128,6 +128,7 @@ end
 
 function ModelItem:UpdateRoleIcon()
     local role = self:GetUnitRole()
+
     local tex, coords = GetRoleIconSmall(role)
     local icon = self.RoleIcon
     icon:SetTexture(tex)
@@ -153,18 +154,11 @@ function ModelItem:UpdateUnitState()
 end
 
 function ModelItem:GetUnitRole()
-    local unitId = self:GetUnitId()
-    if UnitIsUnit('player', unitId) then
-        if EventCache:GetCurrentEvent() then
-            return MemberCache:GetMemberRole(UnitName('player'))
-        elseif UnitInRaid('player') or UnitInParty('player') then
-            return UnitGroupRolesAssigned('player')
-        else
-            return select(6, GetSpecializationInfo(GetSpecialization() or 0)) or UnitGroupRolesAssigned(unitId)
-        end
-    else
-        return UnitGroupRolesAssigned(unitId)
-    end
+    local unit = self:GetUnitId()
+    local name = UnitName(unit)
+
+    local role = GroupCache:GetUnitRole(name)
+    return role or UnitGroupRolesAssigned(unit) or 'NONE'
 end
 
 function ModelItem:Clear()

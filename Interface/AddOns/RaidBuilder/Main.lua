@@ -15,8 +15,8 @@ function RaidBuilder:OnInitialize()
             eventCache = {},
             memberList = {},
             memberCache = {},
-            memberRoles = {},
             appliedCache = {},
+            appliedRoles = {},
             otherMemberRoles = {},
             logs = {},
             serverDatas = {},
@@ -36,9 +36,14 @@ function RaidBuilder:OnInitialize()
                 teamNotice = true,
             },
             inviteQueue = {},
-            invitedBTags = {},
-            invitedNames = {},
+            inviteBNets = {},
             webInvite = {},
+            sharecontent = false,
+
+            groupCacheProfile = {
+                unitCache = {},
+                unitRoles = {},
+            },
         }
     }
 

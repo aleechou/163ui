@@ -10,10 +10,10 @@ local WAIT_HEADER = {
         width = 140,
         style = 'LEFT',
         showHandler = function(member)
-            return member:GetNameText()
+            return member:GetMemberLogoTexture() .. member:GetNameText()
         end,
         sortHandler = function(member)
-            return member:GetName()
+            return format('%04d%s', member:GetMemberLogoIndex(), member:GetName())
         end
     },
     {
@@ -101,8 +101,7 @@ local WAIT_HEADER = {
         width = 170,
         class = RaidBuilder:GetClass('OperationGrid'),
         formatHandler = function(grid, member)
-            grid.AcceptButton:SetEnabled(PlayerIsGroupLeader() and not member:GetInviting())
-            grid.RefuseButton:SetEnabled(not member:GetInviting())
+            grid:SetMember(member)
         end
     }
 }
@@ -133,10 +132,10 @@ function WaitPanel:OnInitialize()
         Logic:RefuseEventMember(member)
     end)
     WaitList:SetCallback('OnItemEnter', function(_, _, member)
-        self:OpenWaitTooltip(member)
+        MainPanel:OpenWaitTooltip(member)
     end)
     WaitList:SetCallback('OnItemLeave', function()
-        self:CloseWaitTooltip()
+        MainPanel:CloseTooltip()
     end)
     WaitList:SetCallback('OnItemBan', function(_, _, member)
         RaidBuilder:GetModule('BlackListPanel'):Add(member:GetBattleTag(), function()
@@ -204,62 +203,4 @@ function WaitPanel:Refresh()
     else
         MainPanel:SetPanelText(self, L['申请列表'] .. ('|cff00ffff(%d)|r'):format(count))
     end
-end
-
-local MEMBER_INFO_TOOLTIP_ORDER = {
-    { text = L['战网昵称：'],  method = 'GetBattleTagText', },
-    { text = L['职业：'],      method = 'GetClassText', },
-    { text = L['等级：'],      method = 'GetLevel', },
-    { text = L['装等：'],      method = 'GetItemLevel', },
-    { text = L['PVP：'],       method = 'GetPVPRating', },
-    { text = L['易信关注度：'],method = 'GetFans', },
-}
-
-function WaitPanel:OpenWaitTooltip(member)
-    if not member then
-        return
-    end
-    
-    GameTooltip:SetOwner(self, 'ANCHOR_NONE')
-    GameTooltip:SetPoint('TOPLEFT', self:GetOwner(), 'TOPRIGHT', 1, -10)
-
-    GameTooltip:SetText(member:GetNameText())
-
-    for i, v in ipairs(MEMBER_INFO_TOOLTIP_ORDER) do
-        if not v.method or not member[v.method] then
-            GameTooltip:AddLine(v.text, 1, 1, 1, true)
-        else
-            local value = member[v.method](member, unpack(v))
-            if value then
-                GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
-            end
-        end
-    end
-    
-    if type(member:GetStats()) == 'table' then
-        GameTooltip:AddLine(' ')
-        for i, v in ipairs(STAT_LIST) do
-            if member:GetStatInfo(v) then
-                GameTooltip:AddLine(STAT_NAMES[v] .. member:GetStatInfo(v), 1, 1, 1)
-            end
-        end
-    end
-    local eventCode = GroupCache:GetCurrentEventCode()
-    if eventCode and type(member:GetProgression()) == 'table' then
-        local progessionTitle = FormatProgressionTitle(member:GetProgression())
-        if progessionTitle then
-            GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(L['副本经验'], progessionTitle)
-
-            for i, v in ipairs(GetRaidBossNames(eventCode)) do
-                GameTooltip:AddDoubleLine(v, FormatProgressionText(member:GetProgression(), i), 1, 1, 1)
-            end
-        end
-    end
-
-    GameTooltip:Show()
-end
-
-function WaitPanel:CloseWaitTooltip()
-    GameTooltip:Hide()
 end

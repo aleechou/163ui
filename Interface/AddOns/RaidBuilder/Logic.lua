@@ -43,13 +43,10 @@ function Logic:OnInitialize()
 
     self:RegisterEvent('PARTY_INVITE_REQUEST')
     self:RegisterEvent('GROUP_JOINED')
+
+    self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 10, 'RefreshCurrentEvent')
     self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'RefreshCurrentEvent')
-    self:RegisterBucketEvent('UNIT_OTHER_PARTY_CHANGED', 5, 'RefreshCurrentEvent')
-    self:RegisterMessage('RAIDBUILDER_MEMBER_ROLE_UPDATE', 'GROUP_ROSTER_UPDATE')
-    self:RegisterBucketEvent({
-        'GROUP_ROSTER_UPDATE',
-        'PLAYER_REGEN_ENABLED',
-        'UNIT_OTHER_PARTY_CHANGED'}, 10, 'GROUP_ROSTER_UPDATE')
+    self:RegisterMessage('RAIDBUILDER_CURRENT_ROLE_UPDATE', 'RefreshCurrentEvent')
 end
 
 function Logic:Connect()
@@ -64,38 +61,10 @@ end
 
 ---- Event
 
-function Logic:GROUP_ROSTER_UPDATE()
-    if InCombatLockdown() then
-        return
-    end
-    if not EventCache:GetCurrentEvent() then
-        return
-    end
-    if not PlayerIsGroupLeader() then
-        return
-    end
-    local roleChancged = false
-    for _, unit in ipairs(GetGroupUnitList()) do
-        if InCombatLockdown() then
-            return
-        end
-        if UnitExists(unit) then
-            local name = UnitName(unit)
-            local role = MemberCache:GetMemberRole(name)
-
-            if UnitGroupRolesAssigned(unit) ~= role then
-                UnitSetRole(unit, role)
-                roleChancged = true
-            end
-        end
-    end
-    if roleChancged then
-        self:RefreshCurrentEvent()
-    end
-end
-
 function Logic:PARTY_INVITE_REQUEST(_, sender)
     sender = Ambiguate(sender:gsub('%s+', ''), 'none')
+
+    GroupCache:SetCurrentRole(AppliedCache:GetAppliedRole(sender))
     AppliedCache:DeleteApplied(sender)
 end
 
@@ -182,6 +151,11 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
         return
     end
 
+    if level < 10 and event:GetRoleTotalAll() > 5 then
+        self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_LEVEL')
+        return
+    end
+
     if event:GetForceVerify() and role ~= 'NONE' then
         if level < event:GetMinLevel() or level > event:GetMaxLevel() then
             self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_LEVEL')
@@ -198,7 +172,7 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
     end
 
     MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression)
-
+    GroupCache:SetUnitRole(sender, role)
     self:SendSocket(sender, 'SEJT')
 end
 
@@ -208,9 +182,10 @@ function Logic:SOCKET_EVENT_JOIN_RESULT(_, sender, info)
             EventCache:RemoveEvent(sender)
         end
         System:Logf(L['申请加入|cffffd100%s|r的活动失败，%s'], sender, L[info])
+        AppliedCache:DeleteApplied(sender)
     else
-        AppliedCache:AddApplied(sender)
         System:Logf(L['已提交申请加入|cffffd100%s|r的活动。'], sender)
+        AppliedCache:AddApplied(sender, nil, true)
     end
 end
 
@@ -233,7 +208,7 @@ function Logic:SOCKET_FANS(_, count)
 end
 
 function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
-    if UnitIsGroupLeader(sender) then
+    if UnitIsGroupLeader(sender) and not UnitIsUnit('player', sender) then
         GroupCache:SetCurrentEventCode(eventCode)
     end
     if eventCode ~= GroupCache:GetCurrentEventCode() then
@@ -249,7 +224,7 @@ local function _GetGroupRoles()
     
     for _, unit in ipairs(GetGroupUnitList()) do
         if UnitExists(unit) then
-            local role = MemberCache:GetMemberRole(UnitName(unit))
+            local role = GroupCache:GetUnitRole(UnitName(unit)) or 'NONE'
             roles[role] = (roles[role] or 0) + 1
         end
     end
@@ -270,7 +245,6 @@ function Logic:RefreshCurrentEvent()
         end
         if not EventCache:IsCurrentEventPaused() and event:IsMemberFull() then
             EventCache:PauseCurrentEvent()
-            -- System:Log('|cffff0000' .. L['你创建的活动已满员，已暂停招募。'] .. '|c')
             System:Log(L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，可以点击申请列表内的恢复活动|r'])
         end
     end
@@ -333,7 +307,8 @@ function Logic:CreateEvent(...)
         leaderPVPRating,
         nil,
         leaderProgression,
-        self.fans or 0)
+        self.fans or 0,
+        GroupCache:GetCurrentRole())
 
     self:RefreshCurrentEvent()
 
@@ -366,6 +341,8 @@ function Logic:JoinEvent(event, role, password)
         GetPlayerPVPRating(event:GetEventCode()),
         GetPlayerStats(role),
         GetPlayerRaidProgression(event:GetEventCode()))
+
+    AppliedCache:AddApplied(event:GetLeader(), role, false)
 end
 
 function Logic:LeaveEvent(event)
@@ -385,7 +362,6 @@ function Logic:LeaveAllEvents()
 end
 
 function Logic:AcceptEventMember(member)
-    member:SetInviting(true)
     Invite:InviteMember(member:GetName(), member:GetBattleTag())
 end
 
@@ -409,55 +385,13 @@ function Logic:SendYiXinNotify()
     System:Logf(L['%s 开始推送易信（若超过推送次数上限将无法发送）'], event:GetEventName())
 end
 
--- local function _IsSameRealm(target)
---     local realm = target:match('%-([^%-]+)$')
---     if not realm then
---         return true
---     end
---     local realms = GetAutoCompleteRealms()
---     if realms then
---         for i, v in ipairs(realms) do
---             if v == realm then
---                 return true
---             end
---         end
---     end
---     return false
--- end
-
--- function Logic:MakeChatEvent(event, ...)
---     for i = 1, NUM_CHAT_WINDOWS do
---         local frame = _G['ChatFrame' .. i]
---         if frame and frame:IsEventRegistered(event) then
---             local script = frame:GetScript('OnEvent')
---             if script then
---                 script(frame, event, ...)
---             end
---         end
---     end
--- end
-
--- function Logic:SOCKET_WHISPER(_, sender, text)
---     self:MakeChatEvent('CHAT_MSG_WHISPER', text, sender, '', '', nil, '', 0, 0, nil, nil, 0, '')
--- end
-
--- local orig_SendChatMessage = SendChatMessage
--- function _G.SendChatMessage(text, chatType, language, channel)
---     if chatType == 'WHISPER' and not _IsSameRealm(channel) then
---         Logic:SendSocket(channel, 'WHI', text)
---         Logic:MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, '', 0, 0, nil, nil, 0, '')
---     else
---         orig_SendChatMessage(text, chatType, language, channel)
---     end
--- end
-
 function Logic:BroadPlayerInfo()
     local eventCode = GroupCache:GetCurrentEventCode()
     if not eventCode then
         return
     end
 
-    local role = UnitGroupRolesAssigned('player')
+    local role = GroupCache:GetCurrentRole() or UnitGroupRolesAssigned('player')
     local stat = GetPlayerStats(role)
     local class = select(2, UnitClass('player'))
     local level = UnitLevel('player')
@@ -466,9 +400,31 @@ function Logic:BroadPlayerInfo()
     local progression = GetPlayerRaidProgression(eventCode)
     local battleTag = select(2, BNGetInfo())
 
-    self:SendSocket('@GROUP', 'GUI', eventCode, battleTag, class, level, itemLevel, pvpRating, stat, progression, self.fans or 0)
+    self:SendSocket('@GROUP', 'GUI',
+        eventCode,
+        battleTag,
+        class,
+        level,
+        itemLevel,
+        pvpRating,
+        stat,
+        progression,
+        self.fans or 0,
+        role)
 end
 
 function Logic:GetPlayerFans()
     return self.fans or 0
+end
+
+function Logic:SignIn()
+    local btag = select(2, BNGetInfo())
+    self:SendServer('SIGNIN', UnitGUID('player'), btag)
+    Profile:SetSignIn()
+end
+
+function Logic:Referenced(target)
+    local btag = select(2, BNGetInfo())
+    self:SendServer('REFERENCE', UnitGUID('player'), btag, target)
+    Profile:SetReferenced(target)
 end

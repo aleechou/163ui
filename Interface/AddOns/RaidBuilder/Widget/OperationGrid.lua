@@ -28,6 +28,30 @@ function OperationGrid:Constructor()
     BanButton:SetScript('OnClick', ButtonOnClick)
     BanButton.Handler = 'OnItemBan'
 
+    local StatusText = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
+    StatusText:SetPoint('LEFT', AcceptButton, 'LEFT')
+
     self.AcceptButton = AcceptButton
     self.RefuseButton = RefuseButton
+    self.BanButton = BanButton
+    self.StatusText = StatusText
+end
+
+function OperationGrid:SetMember(member)
+    local status = Invite:GetMemberStatus(member:GetName())
+
+    if status == INVITE_STATUS_UNKNOWN then
+        self.AcceptButton:Show()
+        self.RefuseButton:Show()
+        self.BanButton:Show()
+        self.StatusText:Hide()
+        self.AcceptButton:SetEnabled(PlayerIsGroupLeader())
+    else
+        self.AcceptButton:Hide()
+        self.RefuseButton:Hide()
+        self.BanButton:Hide()
+        self.StatusText:Show()
+
+        self.StatusText:SetText(INVITE_STATUS_NAMES[status])
+    end
 end

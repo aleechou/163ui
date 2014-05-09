@@ -8,6 +8,7 @@ function OptionPanel:OnInitialize()
     self.TabFrame:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 60, 0)
 
     MainPanel:RegisterPanel(L['设置'], self, 0, 70)
+
 end
 
 SettingPanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, OptionPanel), 'SettingPanel', 'AceEvent-3.0')
@@ -105,4 +106,42 @@ function SettingPanel:OnInitialize()
     end)
 
     LibStub('AceConfigRegistry-3.0'):RegisterOptionsTable('RaidBuilder', options)
+    -- LibStub('AceConfigDialog-3.0'):Open('RaidBuilder', group)
+    
+    -- for k, v in pairs(group.children[1].children) do
+    --     if v.type == 'Keybinding' then
+    --         v.msgframe.msg:SetText(L['点击按键以绑定命令->友团组团，点击ESC或者再次点击按钮取消设置。'])
+    --     end
+    -- end
+
+    local SignInButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    SignInButton:SetPoint('TOPRIGHT', -20, -20)
+    SignInButton:SetSize(100, 20)
+    SignInButton:SetText(Profile:IsSignIn() and L['今日已签到'] or L['签到'])
+    SignInButton:SetEnabled(not Profile:IsSignIn())
+    SignInButton:SetScript('OnClick', function(self)
+        Logic:SignIn()
+        self:Disable()
+        self:SetText(L['今日已签到'])
+        System:Message(L['今日签到成功'])
+    end)
+    SignInButton:Hide()
+
+    local ReferenceButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    ReferenceButton:SetPoint('TOPRIGHT', SignInButton, 'BOTTOMRIGHT', 0, -10)
+    ReferenceButton:SetSize(100, 20)
+    ReferenceButton:SetText(Profile:GetReferenced() and L['已填写推荐'] or L['推荐人'])
+    ReferenceButton:SetEnabled(not Profile:GetReferenced())
+    ReferenceButton:SetScript('OnClick', function(self)
+        GUI:CallInputDialog(format(L['请输入邀请人的角色名和服务器，格式如下：|cffffd100%s-%s|r'], UnitName('player'), GetRealmName()), function(result, text)
+            if result then
+                Logic:Referenced(text)
+                self:Disable()
+                self:SetText(L['已填写推荐'])
+                System:Message(L['推荐人填写成功'])
+            end
+        end, nil, nil, 255)
+    end)
+    ReferenceButton:Hide()
 end
+

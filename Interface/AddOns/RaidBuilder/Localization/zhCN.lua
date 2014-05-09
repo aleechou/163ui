@@ -22,7 +22,7 @@ L.EVENT_ANNOUNCEMENT_CONTENT = '我在<' .. ADDON_TITLE .. '>创建了活动<%s-
 L.ADDON_SHARE_CONTENT = '我正在用跨服组团神器<' .. ADDON_TITLE .. '>，小伙伴们快来用啊！'
 L.TEAM_NOTICE_CONTENT = '<友团插件>欢迎加入本团队(%s)，体验便捷的跨服组队，畅游WOW。'
 
-L['按键已绑定到|cffffd100%s|r，你确定要覆盖吗？'] = true
+L['点击按键以绑定命令->友团组团，点击ESC或者再次点击按钮取消设置。'] = true
 L['%s 开始推送易信（若超过推送次数上限将无法发送）'] = true
 L['%s拒绝了你的活动申请'] = true
 L['1.下载易信并关注公众号“|cffffd100友团插件|r”'] = true
@@ -45,14 +45,17 @@ L['|cffff0000注意：黑名单仅储存在本地配置中|r'] = true
 L['|cffffd100        亲爱的朋友，还在苦恼没人一起陪你畅游艾泽拉斯吗？那就快来这里吧，每天从扭曲虚空会发布三个主题活动来到艾泽拉斯，您可以快速的创建或加入指定的活动，与同样喜欢这些活动的玩家一起活动，希望能给大家带来不同的游戏感受！|r'] = true
 L['|cffffd100%d|r'] = true
 L['|cffffd100全部主题活动|r'] = true
+L['世界Boss一波流'] = true
 L['主题活动'] = true
 L['人员已满'] = true
 L['人数'] = true
 L['今天投过了'] = true
 L['今天活动'] = true
+L['今日已签到'] = true
 L['今日已达发送上限'] = true
 L['今日活动'] = true
 L['今日热门主题活动'] = true
+L['今日签到成功'] = true
 L['位置'] = true
 L['你不是团长，不能邀请成员'] = true
 L['你不是队长，不能创建活动'] = true
@@ -109,10 +112,10 @@ L['发送'] = true
 L['发送通知'] = true
 L['取消申请'] = true
 L['吉尔尼斯之战'] = true
-L['同时创建游戏内团队'] = true
 L['名单信息错误'] = true
 L['命中'] = true
 L['命中：'] = true
+L['四大天神'] = true
 L['团长'] = true
 L['团长副本经验'] = true
 L['团长可以使用网站上的组队代码实现一键组队'] = true
@@ -131,6 +134,7 @@ L['在团'] = true
 L['地下城'] = true
 L['场景战役'] = true
 L['坦克'] = true
+L['大于5人的活动，最低等级不能低于10级'] = true
 L['大地的裂变'] = true
 L['奥杜尔'] = true
 L['奥特兰克山谷'] = true
@@ -145,6 +149,7 @@ L['巨龙之魂'] = true
 L['巫妖王之怒'] = true
 L['已加入'] = true
 L['已取消申请加入%s的活动。'] = true
+L['已填写推荐'] = true
 L['已拒绝'] = true
 L['已提交申请加入%s的活动。'] = true
 L['已提交申请加入|cffffd100%s|r的活动。'] = true
@@ -180,6 +185,7 @@ L['意见建议'] = true
 L['感谢参与'] = true
 L['成就'] = true
 L['成就团'] = true
+L['我的'] = true
 L['我的队伍'] = true
 L['战场'] = true
 L['战歌峡谷'] = true
@@ -195,13 +201,17 @@ L['找团'] = true
 L['护甲：'] = true
 L['拒绝'] = true
 L['招架：'] = true
+L['按键已绑定到|cffffd100%s|r，你确定要覆盖吗？'] = true
 L['挑战'] = true
 L['排名'] = true
 L['排行榜'] = true
+L['推荐人'] = true
+L['推荐人填写成功'] = true
 L['提交'] = true
 L['操作'] = true
 L['操作记录'] = true
 L['攻强：'] = true
+L['斡耳朵斯'] = true
 L['易信下载二维码'] = true
 L['易信关注度：'] = true
 L['易信推送'] = true
@@ -226,6 +236,7 @@ L['正在招募'] = true
 L['正在邀请'] = true
 L['每个群每周有五次发送活动通知的机会'] = true
 L['每日活动'] = true
+L['每日签到'] = true
 L['永恒之眼'] = true
 L['永春台'] = true
 L['没有密码'] = true
@@ -250,6 +261,7 @@ L['牛'] = true
 L['玩家名称'] = true
 L['申请'] = true
 L['申请中 %d/%d 活动总数 %d/%d'] = true
+L['申请中'] = true
 L['申请中活动'] = true
 L['申请人数'] = true
 L['申请列表'] = true
@@ -269,6 +281,7 @@ L['等级最高不能超过90'] = true
 L['等级范围'] = true
 L['等级范围错误'] = true
 L['等级：'] = true
+L['签到'] = true
 L['精准：'] = true
 L['精通'] = true
 L['精通：'] = true
@@ -277,7 +290,7 @@ L['组队代码有误，请重试！'] = true
 L['组队插件'] = true
 L['组队码错误'] = true
 L['组队码验证失败'] = true
-L['网站活动'] = true
+L['网站活动'] = '集合石'
 L['职业'] = true
 L['职业：'] = true
 L['职责总人数不能小于1或大于%d'] = true
@@ -299,6 +312,7 @@ L['解散活动 %s'] = true
 L['解散活动'] = true
 L['解除屏蔽'] = true
 L['设置'] = true
+L['设置友团职责'] = true
 L['评级战场'] = true
 L['该职责已满，不能选择该职责。'] = true
 L['说明'] = true
@@ -310,10 +324,12 @@ L['请搜索“|cff00ff00%d|r”打开插件使用指南'] = true
 L['请搜索“|cff00ff002528|r”，查看如何创建战网昵称。'] = true
 L['请确定每个职责的人数：'] = true
 L['请输入密码'] = true
+L['请输入邀请人的角色名和服务器，格式如下：|cffffd100%s-%s|r'] = true
 L['请选择你的职责：'] = true
 L['请选择活动形式'] = true
 L['请选择活动类型'] = true
 L['请选择活动类型及活动形式'] = true
+L['跳转到创建活动页面创建游戏内团队'] = true
 L['躲闪：'] = true
 L['输出'] = true
 L['这个活动等级最低不能低于%d'] = true
@@ -323,7 +339,7 @@ L['退出队伍'] = true
 L['邀请'] = true
 L['邀请状态'] = true
 L['邀请组队中'] = true
-L['金团'] = '壕团'
+L['金团'] = '带新'
 L['金币：'] = true
 L['锁定悬浮窗'] = true
 L['队列中'] = true
@@ -380,7 +396,7 @@ L.MissBattleTagSummary = [[
 <p>如果您无法解决这个问题，请尝试重新登录或前往论坛寻求帮助。</p>
 <br/>
 <h1>论坛：</h1>
-<p>|Hurl:http://bbs.game.163.com/forum-325-1.html|h|cff00ffff[http://bbs.game.163.com/forum-325-1.html]|r|h</p>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
 <br/>
 <h1>如何创建战网昵称？</h1>
 <p>|Hurl:https://www.battlenet.com.cn/support/zh/article/如何创建战网昵称？|h|cff00ffff[https://www.battlenet.com.cn/support/zh/article/如何创建战网昵称？]|r|h</p>
@@ -399,7 +415,7 @@ L.NeutralDisabled = [[
 <p>如果您无法解决这个问题，请尝试重新登录或前往论坛寻求帮助。</p>
 <br/>
 <h1>论坛：</h1>
-<p>|Hurl:http://bbs.game.163.com/forum-325-1.html|h|cff00ffff[http://bbs.game.163.com/forum-325-1.html]|r|h</p>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
 <br/>
 </body>
 </html>
@@ -416,9 +432,21 @@ L.LeaderboardUrl = [[
 L.WebInviteEventSummary = [[
 <html>
 <body>
-<h1>副本名称: %s |Hurl:http://www.aaa.com/%d|h|cff00ffff[来源]|r|h</h1>
+<h1>%s %s |Hurl:%s|h|cff00ffff[来源]|r|h</h1>
 </body>
 </html>
 ]]
 
 L.WebInviteSummaryHtml = '团长可以在 http://www.网址.com 上复制组队代码，粘贴在下面的对话框中快速组队。'
+
+L.EmptySummary = [[
+<html>
+<body>
+<h3>团队数据收集中...</h3>
+<br/>
+<p>如果您刚上线，将在五分钟内收集到全部活动数据。</p>
+<br/>
+<p>团长若未解散活动下线，将在十五分钟后清除活动数据。</p>
+</body>
+</html>
+]]

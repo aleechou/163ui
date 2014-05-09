@@ -144,7 +144,7 @@ function GUI:CallInputDialog(text, callback, key, default, maxBytes, ...)
     t.button1 = OKAY
     t.button2 = CANCEL
     t.hasEditBox = true
-    t.maxLetters = 32
+    t.maxLetters = maxBytes or 32
     t.maxBytes = maxBytes or 255
 
     local args = {...}

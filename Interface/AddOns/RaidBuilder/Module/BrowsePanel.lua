@@ -3,19 +3,12 @@ BuildEnv(...)
 
 BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
-local function IsLeaderInLeaderboard(name)
-    local fullName = GetFullName(name)
-    local IsInTotal = DataCache:GetObject('LeaderScoreTotal'):GetCache()[fullName]
-    local IsInMonth = DataCache:GetObject('LeaderScore'):GetCache()[fullName]
-    return IsInTotal and -2 or IsInMonth and -1 or 1
-end
-
 local function _NormalSortHandler(event)
     local typeId = bit.band(event:GetEventCode(), TYPE_MATCH)
     local diffId = bit.band(event:GetEventCode(), DIFF_MATCH)
     local nameId = bit.band(event:GetEventCode(), NAME_MATCH)
 
-    return (bit.lshift(typeId, 8) + bit.lshift(0xFFFF - nameId, 8) + bit.rshift(diffId, 24)) * IsLeaderInLeaderboard(event:GetLeader())
+    return bit.lshift(typeId, 8) + bit.lshift(0xFFFF - nameId, 8) + bit.rshift(diffId, 24)
 end
 
 local BROWSE_HEADER = {
@@ -26,13 +19,13 @@ local BROWSE_HEADER = {
         width = 25,
         showHandler = function(event)
             if event:IsSelf() then
-                return nil, nil, nil, nil, [[INTERFACE\GROUPFRAME\UI-Group-LeaderIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 128/256, 160/256, 0, 1 -- [[INTERFACE\GROUPFRAME\UI-Group-LeaderIcon]]
             elseif event:IsInEvent() then
-                return nil, nil, nil, nil, [[INTERFACE\CHATFRAME\UI-ChatConversationIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 32/256, 64/256, 0, 1 -- [[INTERFACE\CHATFRAME\UI-ChatConversationIcon]]
             elseif event:IsApplied() then
-                return nil, nil, nil, nil, [[INTERFACE\HELPFRAME\HelpIcon-ReportLag]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 160/256, 192/256, 0, 1 -- [[INTERFACE\HELPFRAME\HelpIcon-ReportLag]]
             elseif event:GetHasPassword() then
-                return nil, nil, nil, nil, [[INTERFACE\PetBattles\PetBattle-LockIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 192/256, 224/256, 0, 1 -- [[INTERFACE\PetBattles\PetBattle-LockIcon]]
             end
         end,
         sortHandler = function(event)
@@ -67,7 +60,7 @@ local BROWSE_HEADER = {
         width = 145,
         class = RaidBuilder:GetClass('MemberRoleGrid'),
         sortHandler = function(event)
-            return event:GetMemberRole()
+            return event:GetRoleCurrentAll() - event:GetRoleTotalAll()
         end,
         formatHandler = function(grid, event)
             grid:SetEvent(event)
@@ -120,12 +113,10 @@ local BROWSE_HEADER = {
         style = 'LEFT',
         width = 130,
         showHandler = function(event)
-            local icon = IsLeaderInLeaderboard(event:GetLeader())
-            icon = icon == -1 and [[|TINTERFACE\Challenges\challenges-plat-sm:20:20:0:-2:64:64:16:48:16:48|t]] or icon == -2 and [[|TINTERFACE\Challenges\challenges-gold-sm:20:20:0:-2:64:64:16:48:16:48|t]] or ''
-            return icon .. event:GetLeaderText()
+            return event:GetLeaderLogoTexture() .. event:GetLeaderText()
         end,
         sortHandler = function(event)
-            return event:GetLeader()
+            return format('%04d%s', event:GetLeaderLogoIndex(), event:GetLeader())
         end
     },
     {
@@ -200,7 +191,8 @@ function BrowsePanel:OnInitialize()
             RoleTip:Open(grid, event)
         else
             if grid:GetTextWidth() > grid:GetWidth() then
-                GameTooltip:SetOwner(grid, 'ANCHOR_TOP')
+                GameTooltip:SetOwner(grid, 'ANCHOR_NONE')
+                GameTooltip:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT')
                 GameTooltip:SetText(grid:GetText())
                 GameTooltip:Show()
             end
@@ -220,16 +212,25 @@ function BrowsePanel:OnInitialize()
         if not BanButton:IsMouseOver() then
             BanButton:Hide()
         end
+        MainPanel:CloseTooltip()
     end)
     EventList:SetCallback('OnSelectChanged', function(_, index, event)
         self:UpdateSelecttedEvent(event)
     end)
     EventList:SetCallback('OnItemEnter', function(_, index, event)
-        self:OpenEventTooltip(event)
+        MainPanel:OpenEventTooltip(event)
+    end)
+    EventList:SetCallback('OnRefresh', function(frame)
+        self.EmptySummary:SetShown(frame:GetItemCount() == 0)
     end)
 
     EventList:InitHeader(BROWSE_HEADER)
     EventList:SetHeaderPoint('BOTTOMLEFT', EventList, 'TOPLEFT', -2, 2)
+
+    local EmptySummary = GUI:GetClass('SummaryHtml'):New(EventList)
+    EmptySummary:SetPoint('CENTER')
+    EmptySummary:SetSize(300, 180)
+    EmptySummary:SetText(L.EmptySummary)
 
     local JoinButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     JoinButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
@@ -243,10 +244,12 @@ function BrowsePanel:OnInitialize()
     TotalEvents:SetPoint('BOTTOMRIGHT', self:GetOwner(), -7, 7)
 
     local IconSummary = self:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmallLeft')
-    IconSummary:SetPoint('BOTTOMLEFT', self:GetOwner(), 15, 5)
+    IconSummary:SetPoint('BOTTOMLEFT', self:GetOwner(), 10, 3)
     IconSummary:SetFormattedText(
-        '|TINTERFACE\\GROUPFRAME\\UI-Group-LeaderIcon:15|t %s |TINTERFACE\\CHATFRAME\\UI-ChatConversationIcon:15|t %s |TINTERFACE\\HELPFRAME\\HelpIcon-ReportLag:15|t %s |TINTERFACE\\PetBattles\\PetBattle-LockIcon:15|t %s', 
-        L['团长'], L['在团'], L['申请'], L['加密'])
+        -- '|TINTERFACE\\GROUPFRAME\\UI-Group-LeaderIcon:15|t %s |TINTERFACE\\CHATFRAME\\UI-ChatConversationIcon:15|t %s |TINTERFACE\\HELPFRAME\\HelpIcon-ReportLag:15|t %s |TINTERFACE\\PetBattles\\PetBattle-LockIcon:15|t %s', 
+        -- L['团长'], L['在团'], L['申请'], L['加密'])
+        '|TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:128:160:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:32:64:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:160:192:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:192:224:0:32|t %s', 
+        L['我的'], L['已加入'], L['申请中'], L['加密'])
 
     self.JoinButton = JoinButton
     self.Filter = Filter
@@ -255,6 +258,7 @@ function BrowsePanel:OnInitialize()
     self.TotalEvents = TotalEvents
     self.Encrypt = Encrypt
     self.LeaderInput = LeaderInput
+    self.EmptySummary = EmptySummary
 
     self:SetScript('OnShow', self.Refresh)
     self:SetScript('OnHide', function()
@@ -336,55 +340,6 @@ function BrowsePanel:JoinEvent()
             end, event)
         end
     end
-end
-
-local EVENT_INFO_TOOLTIP_ORDER = {
-    { text = L['战网昵称：'],  method = 'GetLeaderBTag', },
-    { text = L['团长：'],      method = 'GetLeaderText', true },
-    { text = L['职业：'],      method = 'GetLeaderClassText', },
-    { text = L['等级：'],      method = 'GetLeaderLevel', },
-    { text = L['装等：'],      method = 'GetLeaderItemLevel', },
-    { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
-    { text = L['易信关注度：'],method = 'GetLeaderFans', },
-    { text = ' ', },
-    { text = L['形式：'],      method = 'GetEventModeText', },
-    { text = L['说明：'],      method = 'GetSummary', },
-}
-
-function BrowsePanel:OpenEventTooltip(event)
-    if not event then
-        return
-    end
-    
-    GameTooltip:SetOwner(self, 'ANCHOR_NONE')
-    GameTooltip:SetPoint('TOPLEFT', self:GetOwner(), 'TOPRIGHT', 1, -10)
-    GameTooltip:SetText(event:GetEventName())
-
-    for i, v in ipairs(EVENT_INFO_TOOLTIP_ORDER) do
-        if not v.method or not event[v.method] then
-            GameTooltip:AddLine(v.text, 1, 1, 1, true)
-        else
-            local value = event[v.method](event, unpack(v))
-            if value then
-                GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
-            end
-        end
-    end
-
-    local progessionTitle = FormatProgressionTitle(event:GetLeaderProgression())
-    if progessionTitle then
-        GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(L['团长副本经验'], progessionTitle)
-
-        for i, v in ipairs(GetRaidBossNames(event:GetEventCode())) do
-            GameTooltip:AddDoubleLine(v, FormatProgressionText(event:GetLeaderProgression(), i), 1, 1, 1)
-        end
-    end
-    GameTooltip:Show()
-end
-
-function BrowsePanel:CloseEventTooltip()
-    GameTooltip:Hide()
 end
 
 function BrowsePanel:QuickToggle(code)

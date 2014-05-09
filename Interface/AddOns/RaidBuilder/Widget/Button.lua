@@ -64,3 +64,7 @@ end
 function Button:SetIcon(icon)
     self.Icon:SetTexture(icon)
 end
+
+function Button:SetIconTexCoord(left, right, top, bottom)
+    self.Icon:SetTexCoord(left, right, top, bottom)
+end

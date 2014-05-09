@@ -8,7 +8,7 @@
 	change	
 ]]--
 
-local WIDGET, VERSION = 'EditBox', 2
+local WIDGET, VERSION = 'EditBox', 3
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local EditBox = GUI:NewClass(WIDGET, 'Frame', VERSION)
@@ -201,15 +201,17 @@ function EditBox:OnEditUpdate(elapsed)
 	end
 end
 
-function EditBox:OnTextChanged()
+function EditBox:OnTextChanged(userinput)
 	local parent = self:GetParent():GetParent()
 	parent.OnEditUpdate(self)
 	parent.Prompt:SetShown(not (self:GetText() ~= ''))
 
-	parent:Fire('OnTextChanged', self:GetText())
-
 	if parent.ScrollFrame.isTop and not self:HasFocus() then
 		parent.ScrollFrame:SetVerticalScroll(0)
+	end
+
+	if userinput then
+		parent:Fire('OnTextChanged', self:GetText())
 	end
 end
 

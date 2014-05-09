@@ -30,41 +30,57 @@ tinsert(raidTargetItem, {
         SetRaidTarget(button:GetUnitId(), 0)
     end})
 
-local function CreateMenuTable()
+local function _UnitSetRole(unit, role)
+    if role == GroupCache:GetUnitRole(UnitName(unit)) then
+        return
+    end
+    if UnitGroupRolesAssigned(unit) == role then
+        UnitSetRole(unit, 'NONE')
+    end
+    UnitSetRole(unit, role)
+end
+
+local function _UnitGetRole(unit)
+    return GroupCache:GetUnitRole(UnitName(unit)) or UnitGroupRolesAssigned(unit) or 'NONE'
+end
+
+local function CreateMenuTable(unit)
+    local role = GroupCache:GetUnitRole(UnitName(unit)) or UnitGroupRolesAssigned(unit) or 'NONE'
+    local isCanSetRole = UnitIsGroupLeader('player') and not InCombatLockdown() and UnitInGroup(unit)
 
     local menuTable =
         {
             {
                 text = function(button)
-                    return UnitName(button:GetUnitId())
+                    return UnitName(unit)
                 end,
                 isTitle = true,
             },
             {
                 text = WHISPER,
                 disabled = function(data, button)
-                    return UnitIsUnit('player', button:GetUnitId())
+                    return UnitIsUnit('player', unit)
                 end,
                 func = function(button)
-                    ChatFrame_SendTell(UnitName(button:GetUnitId()), ChatFrame1)
+                    ChatFrame_SendTell(UnitName(unit), ChatFrame1)
                 end,
             },
             {
                 text = INSPECT,
                 disabled = function(data, button)
-                    return UnitIsUnit('player', button:GetUnitId())
+                    return UnitIsUnit('player', unit)
                 end,
                 func = function(button)
-                    InspectUnit(button:GetUnitId())
+                    InspectUnit(unit)
                 end,
             },
             {
                 text = PARTY_UNINVITE,
                 disabled = function(data, button)
-                    return not UnitIsGroupLeader('player') or UnitIsUnit('player', button:GetUnitId())
+                    return not UnitIsGroupLeader('player') or UnitIsUnit('player', unit)
                 end,
                 func = function(button)
-                    UninviteUnit(button:GetUnitId())
+                    UninviteUnit(unit)
                 end,
             },
             {
@@ -76,67 +92,55 @@ local function CreateMenuTable()
                 menuTable = raidTargetItem,
             },
             {
-                text = SET_ROLE,
+                text = L['设置友团职责'],
                 hasArrow = true,
                 disabled = function(data, button)
-                    return (not UnitInRaid(button:GetUnitId()) and not UnitInParty(button:GetUnitId())) or not UnitIsGroupLeader('player')
+                    return (not UnitInRaid(unit) and not UnitInParty(unit)) or not UnitIsGroupLeader('player')
                 end,
                 menuTable =
                 {
                     {
                         text = INLINE_TANK_ICON..' '..TANK,
                         checkable = true,
-                        checked = function(data, button)
-                            return UnitGroupRolesAssigned(button:GetUnitId()) == 'TANK'
+                        checked = function()
+                            return _UnitGetRole(unit) == 'TANK'
                         end,
-                        disabled = function(data, button)
-                            return not UnitGetAvailableRoles(button:GetUnitId()) or InCombatLockdown() or (not UnitInRaid(button:GetUnitId()) and not UnitInParty(button:GetUnitId())) or not UnitIsGroupLeader('player')
-                        end,
+                        disabled = not isCanSetRole or not UnitGetAvailableRoles(unit),
                         func = function(button)
-                            -- MemberCache:SetMemberRole(button:GetName(), 'TANK')
-                            UnitSetRole(button:GetUnitId(), 'TANK')
+                            _UnitSetRole(unit, 'TANK')
                         end,
                     },
                     {
                         text = INLINE_HEALER_ICON..' '..HEALER,
                         checkable = true,
-                        checked = function(data, button)
-                            return UnitGroupRolesAssigned(button:GetUnitId()) == 'HEALER'
+                        checked = function()
+                            return _UnitGetRole(unit) == 'HEALER'
                         end,
-                        disabled = function(data, button)
-                            return not select(2, UnitGetAvailableRoles(button:GetUnitId())) or InCombatLockdown() or (not UnitInRaid(button:GetUnitId()) and not UnitInParty(button:GetUnitId())) or not UnitIsGroupLeader('player')
-                        end,
+                        disabled = not isCanSetRole or not select(2, UnitGetAvailableRoles(unit)),
                         func = function(button)
-                            -- MemberCache:SetMemberRole(button:GetName(), 'HEALER')
-                            UnitSetRole(button:GetUnitId(), 'HEALER')
+                            _UnitSetRole(unit, 'HEALER')
                         end,
                     },
                     {
                         text = INLINE_DAMAGER_ICON..' '..DAMAGER,
                         checkable = true,
-                        checked = function(data, button)
-                            return UnitGroupRolesAssigned(button:GetUnitId()) == 'DAMAGER'
+                        checked = function()
+                            return _UnitGetRole(unit) == 'DAMAGER'
                         end,
-                        disabled = function(data, button)
-                            return not select(3, UnitGetAvailableRoles(button:GetUnitId())) or InCombatLockdown() or (not UnitInRaid(button:GetUnitId()) and not UnitInParty(button:GetUnitId())) or not UnitIsGroupLeader('player')
-                        end,
+                        disabled = not isCanSetRole or not select(3, UnitGetAvailableRoles(unit)),
                         func = function(button)
-                            -- MemberCache:SetMemberRole(button:GetName(), 'DAMAGER')
-                            UnitSetRole(button:GetUnitId(), 'DAMAGER')
+                            _UnitSetRole(unit, 'DAMAGER')
                         end,
                     },
                     {
                         text = '|TInterface\\AddOns\\RaidBuilder\\Media\\RoleNone:16:16:0:0:64:64:0:38:0.5:40|t ' .. L['其他'],
                         checkable = true,
-                        checked = function(data, button)
-                            return UnitGroupRolesAssigned(button:GetUnitId()) == 'NONE'
+                        checked = function()
+                            return _UnitGetRole(unit) == 'NONE'
                         end,
-                        disabled = function(data, button)
-                            return InCombatLockdown() or (not UnitInRaid(button:GetUnitId()) and not UnitInParty(button:GetUnitId())) or not UnitIsGroupLeader('player')
-                        end,
+                        disabled = not isCanSetRole,
                         func = function(button)
-                            -- MemberCache:SetMemberRole(button:GetName(), 'NONE')
-                            UnitSetRole(button:GetUnitId(), 'NONE')
+                            _UnitSetRole(unit, 'NONE')
                         end,
                     },
                 },
@@ -144,13 +148,13 @@ local function CreateMenuTable()
             {
                 text = L['加入黑名单'],
                 disabled = function(data, button)
-                    local unit = GroupCache:GetUnitInfo(UnitName(button:GetUnitId()))
-                    return not unit or not unit:GetBattleTag() or UnitIsUnit('player', button:GetUnitId())
+                    local member = GroupCache:GetUnitInfo(UnitName(unit))
+                    return not member or not member:GetBattleTag() or UnitIsUnit('player', unit)
                 end,
                 func = function(button)
-                    local unit = GroupCache:GetUnitInfo(UnitName(button:GetUnitId()))
-                    if unit then
-                        BlackListPanel:Add(unit:GetBattleTag())
+                    local member = GroupCache:GetUnitInfo(UnitName(unit))
+                    if member then
+                        BlackListPanel:Add(member:GetBattleTag())
                     end
                 end,
             },
@@ -166,7 +170,7 @@ local function CreateMenuTable()
                 text = L['|cff33ff99邀请入群|r'],
                 hasArrow = true,
                 disabled = function(data, button)
-                    return UnitIsUnit(button:GetUnitId(), 'player')
+                    return UnitIsUnit(unit, 'player')
                 end,
                 menuTable = {},
             }
@@ -175,10 +179,10 @@ local function CreateMenuTable()
                         text = v.text,
                         value = v.target,
                         disabled = function(data, button)
-                            return UnitIsUnit(button:GetUnitId(), 'player')
+                            return UnitIsUnit(unit, 'player')
                         end,
                         func = function(button, data)
-                            InviteChatGroup(data.value, UnitFullName(button:GetUnitId()))
+                            InviteChatGroup(data.value, UnitFullName(unit))
                         end,
                     })
             end
@@ -226,6 +230,7 @@ function CurrentPanel:OnInitialize()
 
     local TitleLabel = self:CreateFontString(nil, 'ARTWORK', 'GameFontNormalHuge')
     TitleLabel:SetPoint('TOPLEFT', TitleTex, 'TOPRIGHT', -20, -10)
+    TitleLabel:SetText(L['当前没有活动'])
 
     local YiXinButton = Button:New(self)
     YiXinButton:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -80, 20)
@@ -243,8 +248,10 @@ function CurrentPanel:OnInitialize()
     local ShareButton = Button:New(self)
     ShareButton:SetPoint('RIGHT', YiXinButton, 'LEFT', -80, 0)
     ShareButton:SetText(L['活动通告'])
-    ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\Share]])
+    ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]])
+    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 1)
     ShareButton:SetTooltip(L['活动通告'])
+    ShareButton:Disable()
     ShareButton:SetScript('OnClick', function()
         local event = EventCache:GetCurrentEvent()
         if not event then
@@ -281,7 +288,7 @@ function CurrentPanel:OnInitialize()
                 return
             end
 
-            self:ToggleMenu(button, CreateMenuTable(), true)
+            self:ToggleMenu(button, CreateMenuTable(button:GetUnitId()), true)
         end)
 
     MemberList:SetCallback('OnItemEnter',
@@ -293,13 +300,13 @@ function CurrentPanel:OnInitialize()
             local member = GroupCache:GetUnitInfo(UnitName(data or 'none'))
 
             if member then
-                self:OpenWaitTooltip(member)
+                MainPanel:OpenWaitTooltip(member)
             end
         end)
 
     MemberList:SetCallback('OnItemLeave',
         function(MemberList, button, data)
-            self:CloseWaitTooltip()
+            MainPanel:CloseTooltip()
         end)
 
     local DisbandGroupButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
@@ -370,11 +377,15 @@ function CurrentPanel:OnInitialize()
 
     self:RegisterBucketEvent({'PLAYER_LOGIN', 'GROUP_ROSTER_UPDATE'}, 1, 'UpdateGroup')
     self:RegisterEvent('RAID_TARGET_UPDATE', 'UpdateRaidTarget')
-    self:RegisterMessage('RAIDBUILDER_CURRENTEVENT_UPDATE', 'RefreshButton')
+    self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'RefreshButton')
-    self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroupItemLevel')
-    self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateMemberRole')
+    self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroup')
     self:ScheduleRepeatingTimer('OnTimer', 5)
+end
+
+function CurrentPanel:RAIDBUILDER_UNIT_INFO_UPDATE()
+    self:UpdateGroupItemLevel()
+    self:UpdateMemberRole()
 end
 
 -- 横转纵
@@ -472,13 +483,12 @@ function CurrentPanel:UpdateGroupItemLevel()
 end
 
 function CurrentPanel:UpdateMemberRole()
-    local list = self.MemberList.buttons or {}
     local roles = {}
 
-    for i, v in ipairs(list) do
-        local unitId = v:GetUnitId()
-        if unitId then
-            local role = v:GetUnitRole()
+    for i, unit in ipairs(GetGroupUnitList()) do
+        if UnitExists(unit) then
+            local role = GroupCache:GetUnitRole(UnitName(unit)) or UnitGroupRolesAssigned(unit) or 'NONE'
+
             roles[role] = (roles[role] or 0) + 1
         end
     end
@@ -524,151 +534,3 @@ end
 function CurrentPanel:GetInviteButtonStatus()
     return self.inviteButtonStatus
 end
-
-function CurrentPanel:OpenWaitTooltip(member)
-    WaitPanel:OpenWaitTooltip(member)
-end
-
-function CurrentPanel:CloseWaitTooltip()
-    GameTooltip:Hide()
-end
-
--- -- 取itemlink
--- local getLink = CreateFrame('GameTooltip', 'RaidBuilderCurrentPanelGetLink', UIParent, 'GameTooltipTemplate')
--- local function GetItemLink(unitId, slotId)
---     getLink:SetOwner(WorldFrame)
---     getLink:SetInventoryItem(unitId, slotId)
---     local _, link = getLink:GetItem()
---     getLink:Hide()
---     return link
--- end
-
--- -- 根据GUID取队员unitId
--- local function GetUnitByGUID(unitGUID)
---     if UnitGUID('player') == unitGUID then
---         return 'player'
---     end
---     for i = 1, 4 do
---         if UnitGUID('party'..i) == unitGUID then return 'party'..i end
---     end
---     for i = 1, 40 do
---         if UnitGUID('raid'..i) == unitGUID then return 'raid'..i end
---     end
--- end
-
--- -- 装备升级次数对照表
--- local levelAdjust={ -- 11th item:id field and level adjustment
---    [0]		=	0,	-- 0
---    [1]		=	8,	-- 1/1
---    [373]	=	4,	-- 1/2
---    [374]	=	8,	-- 2/2
---    [375]	=	4,	-- 1/3
---    [376]	=	4,	-- 2/3
---    [377]	=	4,	-- 3/3
---    [379]	=	4,	-- 1/2
---    [380]	=	4,	-- 2/2
---    [445]	=	0,	-- 0/2
---    [446]	=	4,	-- 1/2
---    [447]	=	8,	-- 2/2
---    [451]	=	0,	-- 0/1
---    [452]	=	8,	-- 1/1
---    [453]	=	0,	-- 0/2
---    [454]	=	4,	-- 1/2
---    [455]	=	8,	-- 2/2
---    [456]	=	0,	-- 0/1
---    [457]	=	8,	-- 1/1
---    [458]	=	0,	-- 0/4
---    [459]	=	4,	-- 1/4
---    [460]	=	8,	-- 2/4
---    [461]	=	12,	-- 3/4
---    [462]	=	16,	-- 4/4
---    [465]	=	0,	-- 0/2
---    [468]	=	0,	-- 0/2
---    [470]	=	8,	-- 2/4
---    [471]	=	12,	-- 3/4
---    [472]	=	16,	-- 4/4
---    [476]	=	0,	-- 0/4
---    [477]	=	4,	-- 1/4
---    [478]	=	8,	-- 2/4
---    [479]	=	0,	-- 0/4
---    [480]	=	8,	-- 2/4
---    [491]	=	0,	-- 0/4
---    [492]	=	4,	-- 1/4
---    [493]	=	8,	-- 2/4
---    [494]	=	0,	-- 0/4
---    [495]	=	4,	-- 1/4
---    [496]	=	8,	-- 2/4
---    [497]	=	12,	-- 3/4
---    [498]	=	16,	-- 4/4
--- }
-
--- -- 取装备真实等级
--- local function HGetItemLevel(link)
---     local baseLevel = select(4, GetItemInfo(link)) or 0
---     local upgrade = tonumber(string.match(link, ':(%d+)\124h%['))
---     return baseLevel + (levelAdjust[upgrade] or 0)
--- end
-
--- -- 计算table内数字和
--- local function TableSum(table)
---     local retVal = 0
-
---     for _, n in ipairs(table) do
---         retVal = retVal + n
---     end
-
---     return retVal
--- end
-
--- -- 取队员装等
--- local function GetUnitItemLevelGUID(unitGUID)
---     local unit = GetUnitByGUID(unitGUID)
---     local totaliLevel, totalItem = 0, 15
-
---     if unit then
---         for i = 1, 17 do
---             if i ~= 4 then
---                 local link = GetItemLink(unit, i)
-
---                 if link then
---                     if i == 17 then
---                         totalItem = totalItem + 1
---                     end
-
---                     local itemLevel = HGetItemLevel(link)
-
---                     if itemLevel > 0 then
---                         totaliLevel = totaliLevel + itemLevel
---                     end
---                 end
---             end
---         end
---     end
-
---     return floor(totaliLevel/totalItem)
--- end
-
--- -- 使用INSPECT_READY事件获取队员装等
--- function CurrentPanel:SetGroupItemLevel(list)
---     self.itemResult = {}
---     self.itemIndex = 1
---     self.itemTarget = list
-
---     self:RegisterEvent('INSPECT_READY')
---     NotifyInspect(list[self.itemIndex])
--- end
-
--- function CurrentPanel:INSPECT_READY(event, guid)
---     local list = self.itemTarget
---     local result = self.itemResult
---     self.itemIndex = self.itemIndex + 1
-
---     tinsert(self.itemResult, GetUnitItemLevelGUID(guid))
-
---     if list[self.itemIndex] then
---         NotifyInspect(list[self.itemIndex])
---     else
---         self:UnregisterEvent('INSPECT_READY')
---         self.GroupInfo:SetFormattedText(L['共 %d 名成员，平均装等 %d'], self.TotalMember, TableSum(result)/#result)
---     end
--- end

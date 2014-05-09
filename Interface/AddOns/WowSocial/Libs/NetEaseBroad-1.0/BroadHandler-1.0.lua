@@ -13,7 +13,7 @@ local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandl
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
 local Base64 = assert(LibStub('LibBase64-1.0', true), 'BroadHandler-1,0 requires LibBase64-1.0')
 
-local MAJOR, MINOR = 'BroadHandler-1.0', 6
+local MAJOR, MINOR = 'BroadHandler-1.0', 7
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not BroadHandler then return end
 
@@ -41,17 +41,6 @@ local CHANNEL_EVENTS = {
     BNCONVERSATION = 'CHAT_MSG_BN_CONVERSATION',
     WHISPER = 'CHAT_MSG_WHISPER',
 }
-
-for i, v in ipairs({'BigFoot', 'Duowan', 'BFChannel'}) do
-    if select(4, GetAddOnInfo(v)) then
-        tinsert(BroadHandler.joinChannelQueue, {
-            channel = '大脚世界频道',
-            handler = BroadHandler,
-            fg = true,
-        })
-        break
-    end
-end
 
 function BroadHandler:OnChannelReady()
     if self.channelReady then

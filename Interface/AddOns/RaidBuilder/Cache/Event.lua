@@ -302,3 +302,18 @@ function Event:GetRoleTotalAll()
             self:GetRoleTotal('DAMAGER') +
             self:GetRoleTotal('NONE')
 end
+
+function Event:GetRoleCurrentAll()
+    return  self:GetRoleCurrent('TANK') +
+            self:GetRoleCurrent('HEALER') + 
+            self:GetRoleCurrent('DAMAGER') +
+            self:GetRoleCurrent('NONE')
+end
+
+function Event:GetLeaderLogoTexture()
+    return GetUnitLogoTexture(self:GetLeader(), self:GetLeaderBattleTag())
+end
+
+function Event:GetLeaderLogoIndex()
+    return GetUnitLogoIndex(self:GetLeader(), self:GetLeaderBattleTag())
+end

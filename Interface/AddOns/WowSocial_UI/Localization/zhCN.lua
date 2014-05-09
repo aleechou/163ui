@@ -271,7 +271,7 @@ L.FeedbackSummary = [[
 <p>您的支持就是我们最大的动力！</p>
 <br />
 <h1>论坛地址：</h1>
-<p>|Hurl:http://bbs.game.163.com/forum-325-1.html|h|cff00ffff[http://bbs.game.163.com/forum-325-1.html]|r|h</p>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
 <h1>专题：</h1>
 <p>|Hurl:http://w.163.com/special/wowsocial/|h|cff00ffff[http://w.163.com/special/wowsocial/]|r|h</p>
 </body>

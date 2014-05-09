@@ -10,4 +10,5 @@
     <Script file="GroupCache.lua" />
     <Script file="WebEvent.lua" />
     <Script file="WebEventCache.lua" />
+    <Script file="RemoteDataCache.lua" />
 </Ui>

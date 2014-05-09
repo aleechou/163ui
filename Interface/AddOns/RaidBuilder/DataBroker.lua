@@ -10,7 +10,8 @@ local LDB = LibStub('LibDataBroker-1.1')
 local ICON1 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:0:32:0:32|t]]
 local ICON2 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:32:65:0:32|t]]
 local ICON3 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:64:95:0:32|t]]
-local DATA_BROKER_FORMAT = ('%s%%d   %s%%d   %s%%d'):format(ICON1, ICON2, ICON3)
+-- local DATA_BROKER_FORMAT = ('%s%%d   %s%%d   %s%%d'):format(ICON1, ICON2, ICON3)
+local DATA_BROKER_FORMAT = ('%s%%d      %s%%d'):format(ICON1, ICON2)
 
 function DataBroker:OnInitialize()
     self.db = RaidBuilder:GetDB()
@@ -18,8 +19,7 @@ function DataBroker:OnInitialize()
     local BrokerObject = LDB:NewDataObject('RaidBuilder', {
         type = 'data source',
         text = ADDON_NAME,
-        icon = [[Interface\AddOns\RaidBuilder\Media\DataBroker]],
-        iconCoords = {0, 0.25, 0, 1},
+        icon = [[Interface\AddOns\RaidBuilder\Media\Icon]],
 
         OnEnter = function(owner)
             local isLeader = EventCache:GetCurrentEvent()
@@ -104,6 +104,7 @@ function DataBroker:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_NEW_VERSION')
     self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED')
+    self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE')
 
     self.BrokerObject = BrokerObject
     self.BrokerPanel = BrokerPanel
@@ -175,6 +176,10 @@ function DataBroker:RAIDBUILDER_SETTING_CHANGED(_, key, value, onUser)
             self.BrokerPanel:MakeDraggable()
         end
     end
+end
+
+function DataBroker:RAIDBUILDER_WEBSUPPORT_UPDATE(_, isWorking)
+    self.BrokerObject.icon = isWorking and [[Interface\Addons\RaidBuilder\Media\WebEvent]] or [[Interface\Addons\RaidBuilder\Media\Icon]]
 end
 
 function DataBroker:ShowNewVersion(url)

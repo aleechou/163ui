@@ -74,7 +74,10 @@ function WebInvitePanel:OnInitialize()
     WebCode:SetPrompt(L['请将网页上复制的组队代码粘贴在此'])
     WebCode:SetMaxLetters(nil)
     WebCode:SetCallback('OnTextChanged', function(_, text)
-        self:DeserializeCode(text)
+        self:OnCodeChanged(text)
+    end)
+    WebCode:SetScript('OnShow', function(WebCode)
+        WebCode:SetText(WebSupport:GetWebCode())
     end)
 
     local MemberList = GUI:GetClass('DataGridView'):New(self)
@@ -96,7 +99,7 @@ function WebInvitePanel:OnInitialize()
     local InGameButton = GUI:GetClass('CheckBox'):New(self)
     InGameButton:SetSize(20, 20)
     InGameButton:SetPoint('BOTTOMLEFT', 20, 40)
-    InGameButton:SetText(L['同时创建游戏内团队'])
+    InGameButton:SetText(L['跳转到创建活动页面创建游戏内团队'])
     InGameButton:SetChecked(true)
 
     local Total = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
@@ -106,7 +109,7 @@ function WebInvitePanel:OnInitialize()
     StartButton:SetPoint('BOTTOM', 0, 12)
     StartButton:SetSize(120, 22)
     StartButton:SetText(L['开始邀请'])
-    StartButton:Disable()
+    -- StartButton:Disable()
     StartButton:SetScript('OnClick', function()
         self:StartInvite()
     end)
@@ -117,153 +120,61 @@ function WebInvitePanel:OnInitialize()
     self.Total = Total
     self.EventSummary = EventSummary
     self.WebCode = WebCode
-    self.db = RaidBuilder:GetDB().profile.webInvite
 
     self:RegisterMessage('RAIDBUILDER_INVITE_STATUS_UPDATE', 'Refresh')
-
-    if self:GetWebCode() and time() - self:GetWebCode().record < 3600 then
-        self.WebCode:SetText(self:GetWebCode().code)
-    else
-        self.db.webCode = nil
-    end
+    self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE', 'Refresh')
 end
 
-function WebInvitePanel:OnShow()
-    local webCode = self:GetWebCode()
-    if webCode and webCode ~= self.cache then
-        self.WebCode:SetText(webCode)
-    end
-end
-
-function WebInvitePanel:EnableButton(isEnable, text, clear)
+function WebInvitePanel:EnableButton(isEnable, text)
     local StartButton = self.StartButton
     
     StartButton:SetEnabled(isEnable and not self.disableTimer)
     StartButton:SetText(text)
-    if clear and self:GetList() then
-        wipe(self:GetList())
-        self:Refresh()
-    end
 end
 
-function WebInvitePanel:GetCount()
-    return self:GetList() and #self:GetList() or 0
-end
+function WebInvitePanel:OnCodeChanged(text)
+    local ok, text, list, eventCode, eventId, eventSource, eventTime = WebSupport:SetInviteCode(text)
 
-function WebInvitePanel:DeserializeCode(text)
-    if text == '' then
-        self:EnableButton(false, L['开始邀请'], true)
-        return
-    end
-
-    if text == self.cache and self:GetCount() > 0 then
-        self:EnableButton(true, L['开始邀请'])
-        return
-    end
-
-    self.cache = text
-
-    local crc, base64 = text:match('^%s*([^%s]+)%s+([^%s]+)%s*$')
-
-    if not (crc or base64) then
-        self:EnableButton(false, L['组队码错误'], true)
-        return
-    end
-
-    local data = LibStub('LibBase64-1.0'):DeCode(base64)
-
-    if tonumber(crc, 16) ~= crc32(data) then
-        self:EnableButton(false, L['组队码验证失败'], true)
-        return
-    end
-
-    local lines = {('\r\n'):split(data)}
-
-    if #lines < 2 then
-        self:EnableButton(false, L['名单信息错误'], true)
-        return
-    end
-
-    local eventid, eventcode = (','):split(lines[1])
-
-    local list = {}
-    local newbie = {}
-
-    for i = 2, #lines do
-        local info = {(','):split(lines[i])}
-        if #info >= 3 then
-            local data = {
-                btag    = info[1],
-                name    = info[2],
-                realm   = info[3],
-            }
-
-            if info[4] then
-                tinsert(newbie, data)
-            end
-
-            tinsert(list, data)
-        end
-    end
-
-    self:SetEventId(tonumber(eventid))
-    self:SetEventCode(tonumber(eventcode))
-    self:SetNewbie(newbie)
-    self:EnableButton(true, L['开始邀请'])
-    self:SetList(list)
-    self:SetWebCode(text)
-end
-
-function WebInvitePanel:SetWebCode(text)
-    self.db.webCode = {code = text, record = time()}
-end
-
-function WebInvitePanel:GetWebCode()
-    return self.db.webCode
-end
-
-function WebInvitePanel:SetNewbie(newbie)
-    self.newbie = newbie
-end
-
-function WebInvitePanel:GetNewbie()
-    return self.newbie
+    self:SetEventInfo(eventCode, eventId, eventSource, eventTime)
+    self:EnableButton(ok, text)
 end
 
 function WebInvitePanel:GetList()
     return self.MemberList:GetItemList()
 end
 
-function WebInvitePanel:SetEventId(id)
-    self.db.eventID = id
-end
-
 function WebInvitePanel:GetEventId()
-    return self.db.eventID
-end
-
-function WebInvitePanel:SetEventCode(code)
-    self.db.eventCode = code
-
-    local name = EVENT_NAMES[code]
-    local text = name ~= UNKNOWN and format(L.WebInviteEventSummary, name, self:GetEventId()) or nil
-    self.EventSummary:SetText(text)
-    self.InGameButton:SetChecked(text)
-    self.InGameButton:SetEnabled(text)
+    return self.eventId
 end
 
 function WebInvitePanel:GetEventCode()
-    return self.db.eventCode
+    return self.eventCode
 end
 
-function WebInvitePanel:SetList(list)
-    self.MemberList:SetItemList(list)
-    self:Refresh()
+function WebInvitePanel:SetEventInfo(eventCode, eventId, eventSource, eventTime)
+    self.eventCode = eventCode
+    self.eventId = eventId
+    self.eventSource = eventSource
+    self.eventTime = eventTime
+
+    self.InGameButton:SetChecked(eventId)
+    self.InGameButton:SetEnabled(eventId)
+
+    if not eventId then
+        self.EventSummary:SetText('')
+    else
+        self.EventSummary:SetText(L.WebInviteEventSummary:format(
+            EVENT_NAMES[eventCode],
+            date('%Y-%m-%d %H:%M', eventTime),
+            GetWebEventUrl(eventId, eventSource)
+        ))
+    end
 end
 
 function WebInvitePanel:Refresh()
-    local num = self:GetList() and #self:GetList() or 0
-    self.Total:SetText(format(L['共 %d 人'], num))
+    local list = WebSupport:GetInviteList() or {}
+    self.Total:SetText(format(L['共 %d 人'], #list))
+    self.MemberList:SetItemList(list)
     self.MemberList:Refresh()
 end
 
@@ -275,29 +186,20 @@ function WebInvitePanel:StartInvite()
         return System:Error(L['组队代码有误，请重试！'])
     end
 
-    if ingame and EVENT_NAMES[self:GetEventCode()] ~= UNKNOWN then
+    local eventCode = self:GetEventCode()
+    if ingame and EVENT_NAMES[eventCode] ~= UNKNOWN then
         local CreatePanel = RaidBuilder:GetModule('CreatePanel')
         MainPanel:SelectPanel(CreatePanel)
-        CreatePanel:QuickToggle(self.code, 1)
+        CreatePanel:QuickToggle(self:GetEventCode(), 1)
     end
 
     self:Invite()
 end
 
-function WebInvitePanel:OnDisableTimer()
-    self.disableTimer = nil
-    self:EnableButton(true, L['开始邀请'])
-end
-
 function WebInvitePanel:Invite()
-    self:EnableButton(false, L['正在邀请'])
-    self.disableTimer = self:ScheduleTimer('OnDisableTimer', 60)
-
     for i, v in ipairs(self:GetList()) do
         if v.status ~= INVITE_STATUS_JOINED then
             Invite:InviteMember(GetFullName(v.name, v.realm), v.btag, true)
         end
     end
-
-    self.MemberList:Refresh()
 end

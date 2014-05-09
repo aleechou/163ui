@@ -232,15 +232,15 @@ function MainPanel:InitControl()
     
     self:CreateTitleButton{
         title = L['意见建议'],
-        texture = [[INTERFACE\FriendsFrame\InformationIcon]],
+        texture = [[Interface\AddOns\WowSocial_UI\Media\feedback]],
         callback = function()
             CloudUI.Feedback:Open('WowSocial_UI', GetAddOnMetadata('WowSocial', 'Version'))
         end
     }
+    
     self:CreateTitleButton{
         title = L['友团组团'],
-        texture = [[Interface\AddOns\WowSocial_UI\Media\DataBroker]],
-        coords = {0, 0.25, 0, 1},
+        texture = [[Interface\AddOns\RaidBuilder\Media\Icon]],
         callback = function()
             local RaidBuilder = LibStub('AceAddon-3.0'):GetAddon('RaidBuilder')
             if RaidBuilder then

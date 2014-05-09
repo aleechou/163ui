@@ -4,7 +4,7 @@ BuildEnv(...)
 Member = RaidBuilder:NewClass('Member')
 
 function Member:Constructor(proxy)
-    self.proxy = proxy
+    self.proxy = proxy or {}
 end
 
 function Member:GetProxy()
@@ -26,7 +26,6 @@ local attr = {
     'Stats',
     'Progression',
     'ApplyTime',
-    'Inviting',
     'Fans',
 }
 
@@ -64,4 +63,12 @@ end
 
 function Member:GetBattleTagText()
     return FormatBattleTag(self:GetBattleTag())
+end
+
+function Member:GetMemberLogoTexture()
+    return GetUnitLogoTexture(self:GetName(), self:GetBattleTag())
+end
+
+function Member:GetMemberLogoIndex()
+    return GetUnitLogoIndex(self:GetName(), self:GetBattleTag())
 end

@@ -373,11 +373,15 @@ function Panel:CreateTitleButton(t)
     button:SetScript('OnClick', t.callback or t.onClick)
     button:SetTexture(t.texture, unpack(t.coords))
     button:SetTooltip(t.title or t.text, unpack(t.notes))
+    
+    if t.size then
+        button:SetSize(unpack(t.size))
+    end
 
     if #self.titleButtons == 0 then
         button:SetPoint('TOPRIGHT', -30, -3)
     else
-        button:SetPoint('RIGHT', self.titleButtons[#self.titleButtons], 'LEFT', -1, 0)
+        button:SetPoint('RIGHT', self.titleButtons[#self.titleButtons], 'LEFT', -2, 0)
     end
 
     tinsert(self.titleButtons, button)

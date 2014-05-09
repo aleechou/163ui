@@ -36,7 +36,9 @@ end
 
 local function buildNameSpace(name)
     if not getNameSpace(name) then
-        _NSList[name] = setmetatable({}, _Meta)
+        local _ENV = setmetatable({}, _Meta)
+        _ENV._ENV = _ENV
+        _NSList[name] = _ENV
     end
     return _NSList[name]
 end

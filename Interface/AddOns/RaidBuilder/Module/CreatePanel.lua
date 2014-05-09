@@ -43,7 +43,8 @@ function CreatePanel:OnInitialize()
     local ShareButton = Button:New(self)
     ShareButton:SetPoint('RIGHT', YiXinButton, 'LEFT', -80, 0)
     ShareButton:SetText(L['活动通告'])
-    ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\Share]])
+    ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]])
+    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 1)
     ShareButton:SetTooltip(L['活动通告'])
     ShareButton:SetScript('OnClick', function()
         local event = EventCache:GetCurrentEvent()
@@ -286,7 +287,7 @@ function CreatePanel:Update()
         self.PVPRating:SetNumber(0)
         self.Password:SetText('')
         self.SummaryBox:SetText('')
-        self.CrossRealm:SetChecked(false)
+        self.CrossRealm:SetChecked(true)
         self.ForceVerify:SetChecked(false)
         self.TankNumber:SetNumber(tank)
         self.HealerNumber:SetNumber(healer)
@@ -391,8 +392,12 @@ function CreatePanel:CreateEvent()
     event:SetMinLevel(minLevel)
     event:SetMaxLevel(maxLevel)
 
+    if event:GetRoleTotalAll() > 5 and minLevel < 10 then
+        return System:Error(L['大于5人的活动，最低等级不能低于10级'])
+    end
+
     RaidBuilder:ShowModule('RolePanel', function(role)
-        MemberCache:SetMemberRole(UnitName('player'), role)
+        GroupCache:SetCurrentRole(role)
         Logic:CreateEvent(
             eventCode,
             eventMode,

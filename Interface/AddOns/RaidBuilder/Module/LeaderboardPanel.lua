@@ -73,53 +73,6 @@ function LeaderboardPanel:OnInitialize()
     GUI:Embed(self, 'Owner', 'Tab', 'Refresh')
 
     MainPanel:RegisterPanel(L['排行榜'], self, 6)
-
-    local MonthData = DataCache:NewObject('LeaderScore')
-    MonthData:SetCallback('OnCacheChanged', function(self, cache)
-        local data = {}
-        for k, v in pairs(cache) do
-            tinsert(data, {
-                name = k,
-                score = v,
-            })
-        end
-        sort(data, function(a, b)
-            return a.score > b.score
-        end)
-        for i, v in ipairs(data) do
-            v.rank = i
-        end
-        self:SetData(data)
-        self:SetCache(cache)
-    end)
-    MonthData:SetCallback('OnDataChanged', function(_, data)
-        self.IsTotalList:Enable()
-    end)
-
-    local TotalData = DataCache:NewObject('LeaderScoreTotal')
-    TotalData:SetCallback('OnCacheChanged', function(self, cache)
-        local data = {}
-        for k, v in pairs(cache) do
-            tinsert(data, {
-                name = k,
-                score = v,
-            })
-        end
-        sort(data, function(a, b)
-            return a.score > b.score
-        end)
-        for i, v in ipairs(data) do
-            v.rank = i
-        end
-        self:SetData(data)
-        self:SetCache(cache)
-    end)
-    TotalData:SetCallback('OnDataChanged', function(_, data)
-        MainPanel:EnablePanel(self)
-        self.BroadList:SetItemList(data)
-        self.BroadList:Refresh()
-    end)
-
     MainPanel:DisablePanel(self)
 
     local TitleTex = self:CreateTexture(nil, 'ARTWORK')
@@ -140,18 +93,6 @@ function LeaderboardPanel:OnInitialize()
     LeftTex:SetTexture([[Interface\AddOns\RaidBuilder\Media\Leaderboard]])
     LeftTex:SetSize(256, 512)
     LeftTex:SetPoint('TOPLEFT', -2, 3)
-    -- LeftTex:Hide()
-
-    -- local LeftModel = CreateFrame('PlayerModel', nil, self)
-    -- LeftModel:SetPoint('CENTER', LeftTex, 'CENTER', 0, 50)
-    -- LeftModel:SetSize(300, 300)
-    -- -- LeftModel:SetDisplayInfo(29514)
-    -- -- LeftModel:SetFacing(math.pi/8)
-    -- LeftModel:SetModel([[world\expansion02\doodads\generic\argentcrusade\banners\tournament_banner_human02.m2]])
-    -- LeftModel:SetModelScale(0.5)
-    -- LeftModel:SetPosition(0, 0, 2)
-
-    -- _G.MO = LeftModel
 
     local BroadList = GUI:GetClass('DataGridView'):New(self)
     BroadList:SetPoint('TOPLEFT', LeftTex, 'TOPRIGHT', -5, 0)
@@ -162,30 +103,45 @@ function LeaderboardPanel:OnInitialize()
     BroadList:SetSortHandler(function(data)
         return data.rank
     end)
-    BroadList:SetItemList(listdata)
     BroadList:SetItemHeight(30)
     BroadList:SetItemSpacing(3)
 
-    local function Refresh()
-        TitleLabel:SetText(self.IsTotalList:GetChecked() and L['团长积分总榜'] or L['团长积分月榜'])
-        BroadList:SetItemList(self.IsTotalList:GetChecked() and TotalData:GetData() or MonthData:GetData())
-        BroadList:Refresh()
-    end
+    local SwitchList = GUI:GetClass('CheckBox'):New(self)
+    SwitchList:SetPoint('BOTTOMRIGHT', self:GetOwner(), -75, 3)
+    SwitchList:SetSize(20, 20)
+    SwitchList:SetText(L['查看总榜'])
+    SwitchList:SetChecked(true)
+    SwitchList:Disable()
+    SwitchList:SetScript('OnClick', function()
+        local IsChecked = self.SwitchList:GetChecked()
+        self.TitleLabel:SetText(IsChecked and L['团长积分总榜'] or L['团长积分月榜'])
+        self.BroadList:SetItemList(IsChecked and self.TotalData or self.MonthData)
+        self.BroadList:Refresh()
+    end)
 
-    local IsTotalList = GUI:GetClass('CheckBox'):New(self)
-    IsTotalList:SetPoint('BOTTOMRIGHT', self:GetOwner(), -75, 3)
-    IsTotalList:SetSize(20, 20)
-    IsTotalList:SetText(L['查看总榜'])
-    IsTotalList:SetChecked(true)
-    IsTotalList:Disable()
-    IsTotalList:SetScript('OnClick', Refresh)
-
+    self.TitleLabel = TitleLabel
     self.BroadList = BroadList
-    self.IsTotalList = IsTotalList
+    self.SwitchList = SwitchList
 
     self:SetScript('OnShow', self.OnShow)
+
+    self:RegisterMessage('RAIDBUILDER_LEADERBOARD_MONTHDATA_CHANGED', 'UpdateMonthData')
+    self:RegisterMessage('RAIDBUILDER_LEADERBOARD_TOTALDATA_CHANGED', 'UpdateTotalData')
 end
 
 function LeaderboardPanel:OnShow()
     self.BroadList:Refresh()
 end
+
+function LeaderboardPanel:UpdateMonthData(_, data)
+    self.SwitchList:Enable()
+    self.MonthData = data
+end
+
+function LeaderboardPanel:UpdateTotalData(_, data)
+    self.TotalData = data
+    MainPanel:EnablePanel(self)
+    self.BroadList:SetItemList(self.TotalData)
+    self.BroadList:Refresh()
+end
+

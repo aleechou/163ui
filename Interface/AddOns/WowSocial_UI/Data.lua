@@ -3,7 +3,7 @@ BuildEnv(...)
 
 local L = LibStub('AceLocale-3.0'):GetLocale('WowSocial_UI')
 
-ADDON_LOGO = [[Interface\AddOns\WowSocial_UI\Media\DataBroker]]
+ADDON_LOGO = [[Interface\AddOns\WowSocial_UI\Media\Icon]]
 
 ClassData = {}
 RaceData = {

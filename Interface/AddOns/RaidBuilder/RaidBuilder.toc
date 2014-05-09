@@ -2,12 +2,10 @@
 ## Title: Raid Builder
 ## Title-zhCN: |cffff565e[友团]|r 组团模块
 ## Notes-zhCN: 帮助您更好的组建队伍
-## Version: 50400.11
+## Version: 50400.13
 ## OptionalDeps: WowSocial_UI
 ## SavedVariables: RAIDBUILDER_UI_DB
 ## SavedVariablesPerCharacter: RAIDBUILDER_CHARACTER_DB
-
+## X-WoWBox-Ver: 1
 Load.xml
-
-## Title: |cff880303[网易有爱]|r 友团组团
 ## X-Vendor: NetEase

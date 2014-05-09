@@ -271,13 +271,7 @@ end
 
 local function FormatProgressionTex(value, bossIndex)
     local killed = bit.band(value, bit.lshift(1, bossIndex-1)) > 0
-    -- local color = killed and GREEN_FONT_COLOR or GRAY_FONT_COLOR
-
-    -- return ([[|TInterface\BUTTONS\WHITE8X8:8:8:0:0:8:8:0:1:0:1:%d:%d:%d|t]]):format(
-    --     color.r * 0xff,
-    --     color.g * 0xff,
-    --     color.b * 0xff)
-
+    
     return killed and [[|TINTERFACE\FriendsFrame\StatusIcon-Online:16|t]] or [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
 end
 
@@ -394,4 +388,40 @@ end
 
 function GetEventModeMenuTable(eventCode)
     return EVENT_MODE_MENUTABLE[bit.band(eventCode, TYPE_MATCH)]
+end
+
+function GetUnitLogoIndex(name, btag)
+    local fullName = GetFullName(name)
+
+    local servercache = RemoteDataCache:GetLogoIndex(fullName, btag)
+    if servercache then
+        return servercache
+    end
+
+    local localdata = UNIT_LOGO_LIST[btag] or UNIT_LOGO_LIST[fullName]
+    if localdata then
+        return localdata
+    end
+
+    local leaderboard = RemoteDataCache:GetLeaderBoardIndex(fullName)
+    if leaderboard then
+        return leaderboard
+    end
+    
+    return UNIT_LOGO_NONE
+end
+
+function GetUnitLogoTexture(name, btag)
+    local index = GetUnitLogoIndex(name, btag)
+    return UNIT_LOGO_TEXTURE[index]
+end
+
+function GetWebEventUrl(eventId, eventSource)
+    if eventSource == 1 then
+        return ([[http://127.0.0.1/%d]]):format(eventId)
+    end
+end
+
+function UnitInGroup(unit)
+    return UnitInRaid(unit) or UnitInParty(unit)
 end

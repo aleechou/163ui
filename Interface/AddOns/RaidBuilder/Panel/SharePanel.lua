@@ -73,6 +73,16 @@ function SharePanel:OnInitialize()
     ShareContent:SetPoint('TOPRIGHT', ShareList, 'BOTTOMRIGHT', 0, -10)
     ShareContent:SetHeight(50)
     ShareContent:SetMaxBytes(255)
+    ShareContent:SetCallback('OnTextChanged', function(ShareContent, text)
+        if not self.isRecord then
+            return
+        end
+        -- if text ~= '' and not text:find(format('<%s>', ADDON_TITLE)) then
+        --     text = format('<%s>%s', ADDON_TITLE, text)
+        --     ShareContent:SetText(text)
+        -- end
+        self.db.sharecontent = text
+    end)
 
     local ShareButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     ShareButton:SetPoint('BOTTOMRIGHT', self, 'BOTTOM', 0, 20)
@@ -93,6 +103,7 @@ function SharePanel:OnInitialize()
     self.ShareButton = ShareButton
     self.ShareList = ShareList
     self.ShareContent = ShareContent
+    self.db = RaidBuilder:GetDB().profile
 end
 
 function SharePanel:Share()
@@ -114,7 +125,7 @@ function SharePanel:Share()
     end
 end
 
-function SharePanel:SetArguments(titel, content)
+function SharePanel:SetArguments(titel, content, isRecord)
     local list = {}
 
     if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
@@ -153,6 +164,7 @@ function SharePanel:SetArguments(titel, content)
 
     self.ShareButton:Disable()
 
-    self.ShareContent:SetText(content)
+    self.isRecord = isRecord
+    self.ShareContent:SetText(isRecord and self.db.sharecontent ~= '' and self.db.sharecontent or content)
     StaticPopupSpecial_Show(self)
 end

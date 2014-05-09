@@ -12,7 +12,6 @@ function MemberCache:OnInitialize()
     self.memberCache = {}
     self.memberList = {}
 
-    self:RegisterEvent('ROLE_CHANGED_INFORM')
     self:RegisterMessage('RAIDBUILDER_EVENT_LOADED')
     self:ScheduleRepeatingTimer('CheckMemberList', CHECK_INTERVAL)
 end
@@ -36,10 +35,6 @@ function MemberCache:RAIDBUILDER_EVENT_LOADED()
     else
         self:RefreshMemberList()
     end
-end
-
-function MemberCache:ROLE_CHANGED_INFORM(_, target, _, _, role)
-    self:SetMemberRole(target, role)
 end
 
 function MemberCache:RefreshMemberList()
@@ -70,7 +65,6 @@ function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel,
     tinsert(self.db.profile.memberList, target)
 
     self.db.profile.memberCache[target] = proxy
-    self.db.profile.memberRoles[target] = role
 
     self:RefreshMemberList()
 end
@@ -106,15 +100,4 @@ function MemberCache:GetMemberInfo(target)
     self.memberCache[target] = self.memberCache[target] or Member:New(proxy)
     self.memberCache[target]:SetProxy(proxy)
     return self.memberCache[target]
-end
-
-function MemberCache:GetMemberRole(target)
-    return self.db.profile.memberRoles[target] or 'NONE'
-end
-
-function MemberCache:SetMemberRole(target, role)
-    if role ~= self:GetMemberRole(target) then
-        self.db.profile.memberRoles[target] = role
-        self:SendMessage('RAIDBUILDER_MEMBER_ROLE_UPDATE')
-    end
 end

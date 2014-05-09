@@ -12,7 +12,6 @@ function DataBroker:OnInitialize()
         text = L['正在登陆...'],
         loading = true,
         icon = ADDON_LOGO,
-        iconCoords = {0.75, 1, 0, 1},
         OnClick = function()
             self:Toggle()
         end,
@@ -99,7 +98,6 @@ end
 function DataBroker:Refresh()
     if CloudUI:IsSlientMode() then
         self.Object.icon = ADDON_LOGO
-        self.Object.iconCoords = {0.75, 1, 0, 1}
         self.Object.text = L['友团聊天']
         self.Object.flash = nil
         self.Object.slient = true
@@ -113,11 +111,9 @@ function DataBroker:Refresh()
         if unread > 0 then
             local data = GetUnreadList()[1]
             self.Object.icon = GetChatIcon(data.chatType, data.target)
-            self.Object.iconCoords = nil
             self.Object.text = L['友团聊天'] .. ' ' .. (unread + join)
         else
             self.Object.icon = ADDON_LOGO
-            self.Object.iconCoords = {0.75, 1, 0, 1}
             self.Object.text = L['友团聊天']
         end
     end

@@ -10,6 +10,7 @@ function Profile:OnInitialize()
         },
         global = {
             blackList = {},
+            setting = {},
         }
     }
 
@@ -62,4 +63,20 @@ end
 
 function Profile:GetBlackList()
     return self.db.global.blackList
+end
+
+function Profile:GetReferenced()
+    return self.db.global.setting.reference
+end
+
+function Profile:SetReferenced(result)
+    self.db.global.setting.reference = result
+end
+
+function Profile:IsSignIn()
+    return self.db.global.setting.signin == date('%Y-%m-%d')
+end
+
+function Profile:SetSignIn()
+    self.db.global.setting.signin = date('%Y-%m-%d')
 end
