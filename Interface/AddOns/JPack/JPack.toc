@@ -30,3 +30,6 @@ JPackConfig.lua
 ## X-Vendor: NetEase
 JPack_Ex.lua
 JPack_Broker.lua
+
+## Title: |cff880303[网易有爱]|r 背包整理
+## X-Vendor: NetEase

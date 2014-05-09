@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: GridStatusPriestAoe
 ## Notes: Shows optimal target to use with priest area healing spells
 ## Dependencies: Grid
@@ -17,3 +17,6 @@ libs\LibMapData-1.0\library.lua
 #@end-no-lib-strip@
 
 GridStatusPriestAoe.lua
+
+## Title: |cff880303[网易有爱]|r GridStatusPriestAoe
+## X-Vendor: NetEase

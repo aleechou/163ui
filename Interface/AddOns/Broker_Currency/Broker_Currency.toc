@@ -37,3 +37,6 @@ embeds.xml
 #@end-no-lib-strip@
 
 Broker_Currency.lua
+
+## Title: |cff880303[网易有爱]|r Broker信息条核心
+## X-Vendor: NetEase
