@@ -1,8 +1,8 @@
 local Skada163ui = LibStub("AceAddon-3.0"):NewAddon("Skada163ui", "AceTimer-3.0")
 function Skada163ui:OnInitialize()
-	if not UI_Flag then
+	if not UISkadaFlag then
 		if not SkadaDB then SkadaDB = {} end
-		UI_Flag = true
+		UISkadaFlag = true
 		SkadaDB.profiles = {
 			["Default"] = {
 				["windows"] = {

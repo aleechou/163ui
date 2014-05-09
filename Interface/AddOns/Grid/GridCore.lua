@@ -9,6 +9,30 @@
 	http://www.curse.com/addons/wow/grid
 ----------------------------------------------------------------------]]
 
+
+
+
+local Grid163ui = LibStub("AceAddon-3.0"):NewAddon("Grid163ui", "AceTimer-3.0")
+function Grid163ui:OnInitialize()
+	if not UIGridFlag then
+		if not GridDB then GridDB = {} end
+		GridDB.namespaces = {
+			["GridLayout"] = {
+				["profiles"] = {
+					["Default"] = {
+						["anchorRel"] = "TOPLEFT",
+						["PosY"] = -540,
+						["PosX"] = 0,
+					},
+				},
+			},
+		}		
+		UIGridFlag = true
+	end
+end
+
+
+
 local _, Grid = ...
 
 if not Grid.L then Grid.L = { } end
