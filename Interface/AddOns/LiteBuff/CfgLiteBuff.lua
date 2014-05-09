@@ -7,7 +7,7 @@ local db, list
 U1RegisterAddon("LiteBuff", {
     title = "职业快捷按钮",
     defaultEnable = 1,
-    tags = { TAG_GOOD, TAG_COMBATINFO },
+    tags = {TAG_COMBATINFO },
     frames = { 'LiteBuffFrame' },
     optionsAfterVar = 1,
     load = "LOGIN",

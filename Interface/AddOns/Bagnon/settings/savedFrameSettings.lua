@@ -413,7 +413,7 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		},
 
 		--frame
-		frameColor = {0, 0, 0, 0.5},
+		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
 		frameBorderColor = {1, 1, 1, 1},
 		scale = 1,
 		opacity = 1,
@@ -430,7 +430,7 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		--optional components
 		hasMoneyFrame = true,
 		hasBagFrame = true,
-		hasDBOFrame = true,
+		hasDBOFrame = false,
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
 
@@ -462,7 +462,7 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		},
 
 		--frame
-		frameColor = {0, 0, 0, 0.5},
+		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
 		frameBorderColor = {1, 1, 0, 1},
 		scale = 1,
 		opacity = 1,
@@ -472,7 +472,7 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		frameLayer = 'HIGH',
 
 		--itemFrame
-		itemFrameColumns = 10,
+		itemFrameColumns = 14,
 		itemFrameSpacing = 2,
 		bagBreak = false,
 

@@ -1,4 +1,4 @@
-## Title: |cff880303[网易有爱]|r !!客户端
+﻿## Title: |cff880303[网易有爱]|r !!客户端
 ## Version: 1.0.3
 ## Author: alee
 ## Interface: 50400
@@ -8,3 +8,4 @@ treehole.lua
 savepipe.lua
 buffhacking.lua
 main.lua
+## X-Vendor: NetEase

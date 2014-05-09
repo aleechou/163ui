@@ -1,6 +1,15 @@
 --[[
-  Bagnon Config Localization: Chinese Traditional
-		Credits: 狂飆@cwdg, yleaf@cwdg, Seraveegd@鬼霧峰
+THIS FILE IS ENCODED IN UTF-8
+
+Bagnon Config Localization Information: Chinese Traditional
+2008/12/01 by yleaf@cwdg(yaroot@gmail.com)
+2009/06/19 by 狂飆@cwdg(networm@qq.com)
+2011/07/06 by Seraveegd@鬼霧峰
+2011/08/30 by Seraveegd@鬼霧峰
+2012/01/24 by Seraveegd@鬼霧峰
+
+Last Update: 2012/01/24 by Seraveegd@鬼霧峰
+
 --]]
 
 local L = LibStub('AceLocale-3.0'):NewLocale('Bagnon-Config', 'zhTW')
@@ -18,7 +27,7 @@ L.LockFramePositions = '鎖定位置'
 L.ShowEmptyItemSlotBackground = '顯示空的物品槽的背景'
 L.HighlightItemsByQuality = '按物品品質高亮物品'
 L.HighlightUnusableItems = '高亮無法使用的物品'
-L.HighlightSetItems = '高亮裝備設定的物品'
+L.HighlightSetItems = '高亮已設定套裝裝備'
 L.HighlightQuestItems = '高亮任務物品'
 L.ReverseSlotOrdering = '反向排列'
 L.ColorItemSlotsByBagType = '按背包類型對空的物品槽上色'
@@ -42,7 +51,7 @@ L.EnableAutoDisplay_guildbank = '開啟公會銀行時顯示背包'
 L.EnableAutoDisplay_player = '開啟角色資訊時顯示背包'
 L.EnableAutoDisplay_combat = '進入戰鬥時關閉背包'
 L.EnableAutoDisplay_vehicle = '進入載具時關閉背包'
-L.EnableAutoDisplay_gems = '鑲崁物品時顯示背包'
+L.EnableAutoDisplay_gems = '開啟寶石鑲嵌時顯示背包'
 
 L.DisplaySettings = '自動顯示'
 L.DisplaySettingsTitle = '自動顯示視窗設定'

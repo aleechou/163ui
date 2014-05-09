@@ -6,7 +6,7 @@
 local Bagnon = LibStub('AceAddon-3.0'):GetAddon('Bagnon')
 local MoneyFrame = Bagnon:NewClass('MoneyFrame', 'Frame')
 local L = LibStub('AceLocale-3.0'):GetLocale('Bagnon')
-local Cache = LibStub('LibItemCache-1.1')
+local ItemCache = LibStub('LibItemCache-1.0')
 
 
 --[[ Constructor ]]--
@@ -62,14 +62,14 @@ function MoneyFrame:OnClick()
 end
 
 function MoneyFrame:OnEnter()
-	if not Cache:HasCache() then
+	if not ItemCache:HasCache() then
     	return
   	end
 
 	-- Total
 	local total = 0
-	for i, player in Cache:IteratePlayers() do
-		total = total + Cache:GetPlayerMoney(player)
+	for i, player in ItemCache:IteratePlayers() do
+		total = total + ItemCache:GetMoney(player)
 	end
 
 	GameTooltip:SetOwner(self, 'ANCHOR_BOTTOM')
@@ -77,8 +77,8 @@ function MoneyFrame:OnEnter()
 	GameTooltip:AddLine(' ')
 	
 	-- Each player
-	for i, player in Cache:IteratePlayers() do
-		local money = Cache:GetPlayerMoney(player)
+	for i, player in ItemCache:IteratePlayers() do
+		local money = ItemCache:GetMoney(player)
 		if money > 0 then
 			local color = Bagnon:GetPlayerColor(player)
 			local coins = self:GetCoinsText(money)
@@ -139,7 +139,7 @@ function MoneyFrame:GetFrameID()
 end
 
 function MoneyFrame:GetMoney()
-	return Cache:GetPlayerMoney(self:GetPlayer())
+	return ItemCache:GetMoney(self:GetPlayer())
 end
 
 

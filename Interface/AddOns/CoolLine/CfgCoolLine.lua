@@ -1,7 +1,7 @@
 U1RegisterAddon("CoolLine", {
     title = "线性冷却条",
     defaultEnable  = 1,
-    -- load = "LOGIN", --LATER会导致屏幕大闪
+    load = "LOGIN", 
 
     tags = {TAG_COMBATINFO,},
     icon = [[Interface\Icons\inv_misc_pocketwatch_02]],

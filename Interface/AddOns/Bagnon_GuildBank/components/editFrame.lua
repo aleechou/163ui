@@ -44,7 +44,7 @@ function EditFrame:New(frameID, parent)
 end
 
 
---[[ Game Events ]]--
+--[[ Events ]]--
 
 function EditFrame:GUILDBANK_UPDATE_TEXT (tab)
 	if tab == GetCurrentGuildBankTab() then
@@ -59,11 +59,11 @@ function EditFrame:GUILDBANK_TEXT_CHANGED (tab)
 end
 
 function EditFrame:PLAYER_LOGOUT ()
-	self.OnEditFocusLost(self:GetScrollChild()) -- save on logout
+	self:OnEditFocusLost() -- save on logout
 end
 
 
---[[ Editbox Events ]]--
+--[[ Handlers ]]--
 
 function EditFrame:OnUpdate(elapsed)
 	ScrollingEdit_OnUpdate(self, elapsed, self:GetParent())
@@ -89,9 +89,6 @@ function EditFrame:OnEditFocusLost()
 	end
 end
 
-
---[[ Frame Events ]]--
-
 function EditFrame:OnShow()
 	QueryGuildBankText(GetCurrentGuildBankTab())
 	self:RegisterMessage('GUILD_BANK_TAB_CHANGE')
@@ -102,6 +99,9 @@ function EditFrame:OnHide()
 	self:UnregisterMessage('GUILD_BANK_TAB_CHANGE')
 	self:GetScrollChild():ClearFocus()
 end
+
+
+--[[ Update ]]--
 
 function EditFrame:Update()
 	local text = GetGuildBankText(GetCurrentGuildBankTab()) or ''

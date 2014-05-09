@@ -187,6 +187,9 @@ U1RegisterAddon('Broker_CPU', {title = '数据源：内存帧数延迟', parent 
 U1RegisterAddon('picoEXP', {title = '数据源：升级经验统计', parent = 'ChocolateBar'})
 U1RegisterAddon('Broker_Group', {title = '数据源：组队与掷骰', parent = 'ChocolateBar'})
 U1RegisterAddon('Broker_Raidsave', {title = '数据源：副本进度', parent = 'ChocolateBar'})
+U1RegisterAddon('Broker_DurabilityInfo', {title = '数据源：装备耐久', parent = 'ChocolateBar'})
+U1RegisterAddon('Broker_Equipment', {title = '数据源：装备管理', parent = 'ChocolateBar'})
+U1RegisterAddon('Broker_MicroMenu', {title = '数据源：微菜单', parent = 'ChocolateBar'})
 U1RegisterAddon('Broker_Currency', {title = '数据源：金钱货币显示', parent = 'ChocolateBar',
     {
         text = "选择显示货币",

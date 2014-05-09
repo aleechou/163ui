@@ -14,5 +14,5 @@ libs\LibDataBroker-1.1.lua
 
 Broker_Equipment.lua
 
-## Title: |cff880303[网易有爱]|r 装备管理
+## Title: |cff880303[缃戞槗鏈夌埍]|r 瑁呭绠＄悊
 ## X-Vendor: NetEase

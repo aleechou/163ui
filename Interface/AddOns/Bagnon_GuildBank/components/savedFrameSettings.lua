@@ -9,7 +9,7 @@ local SavedFrameSettings = Bagnon.SavedFrameSettings
 function SavedFrameSettings:GetDefaultGuildBankSettings()
 	local defaults = SavedFrameSettings.guildBankDefaults or {
 		--frame
-		frameColor = {0, 0, 0, 0.5},
+		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
 		frameBorderColor = {0, 1, 0, 1},
 		scale = 1,
 		opacity = 1,

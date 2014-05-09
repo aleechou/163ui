@@ -18,7 +18,7 @@ along with the library. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of CustomSearch.
 --]]
 
-local Lib = LibStub:NewLibrary('CustomSearch-1.0', 2)
+local Lib = LibStub:NewLibrary('CustomSearch-1.0', 4)
 if not Lib then
 	return
 end
@@ -61,26 +61,37 @@ function Lib:Match(search)
 	end
 
 	local words = search:gmatch('%S+')
+	local failed
+
 	for word in words do
-		local negate, operator = 1
+		if word == self.OR then
+			if failed then
+				failed = false
+			else
+				break
+			end
 
-		if word:find(self.NOT_MATCH) or word:find('^[!~]=*$') then
-			negate = -1
-			word = words() or ''
-		end
+		else
+			local negate, operator = 1
 
-		if word:find('^=*[<>]=*$') then
-			operator = word
-			word = words()
-		end
+			if word == self.NOT_MATCH or word:find('^[!~]=*$') then
+				negate = -1
+				word = words() or ''
+			end
 
-		local result = self:Filter(tag, operator, word) and 1 or -1
-		if result * negate ~= 1 then
-			return
+			if word:find('^=*[<>]=*$') then
+				operator = word
+				word = words()
+			end
+
+			local result = self:Filter(tag, operator, word) and 1 or -1
+			if result * negate ~= 1 then
+				failed = true
+			end
 		end
 	end
 
-	return true
+	return not failed
 end
 
 
@@ -163,15 +174,14 @@ end
 --[[ Localization ]]--
 
 do
-	local no = {
-		enUS = 'Not',
-		frFR = 'Pas'
-	}
-
+	local no = {enUS = 'Not', frFR = 'Pas'}
 	local accents = {
 		a = {'à','â','ã','å'},
-		e = {'è','é','ê','â','ë'},
-		o = {'ó','ò','ô','õ'}
+		e = {'è','é','ê','ê','ë'},
+		i = {'ì', 'í', 'î', 'ï'},
+		o = {'ó','ò','ô','õ'},
+		u = {'ù', 'ú', 'û', 'ü'},
+		c = {'ç'}, n = {'ñ'}
 	}
 
 	Lib.ACCENTS = {}
@@ -181,8 +191,9 @@ do
 		end
 	end
 
+	Lib.OR = Lib:Clean(JUST_OR)
 	Lib.NOT = no[GetLocale()] or NO
-	Lib.NOT_MATCH = '^' .. Lib:Clean(Lib.NOT) .. '$'
+	Lib.NOT_MATCH = Lib:Clean(Lib.NOT)
 	setmetatable(Lib, {__call = Lib.Matches})
 end
 

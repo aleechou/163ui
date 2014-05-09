@@ -1,4 +1,4 @@
-## Interface: 50400
+ï»¿## Interface: 50400
 ## Title: Broker: MicroMenu
 ## Version: v1.3.6
 ## Notes: Shows the mirco menu and game menu in a clickable broker tooltip.
@@ -26,5 +26,5 @@ LibDataBroker-1.1.lua
 Broker_MicroMenu.lua
 Options.lua
 
-## Title: |cff880303[ÍøÒ×ÓĞ°®]|r Î¢²Ëµ¥
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å¾®å‹èœå•
 ## X-Vendor: NetEase

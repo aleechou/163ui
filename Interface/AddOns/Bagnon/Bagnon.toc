@@ -1,12 +1,14 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: Bagnon
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Single window displays for your inventory and bank
+## Title-zhTW: |cFF2DA267[背包]|r |cFF99FF66[Bagnon]|r 背包整合
+## Notes-zhTW: 功能強大的整合背包。
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
 
-## Version: 5.4.9
-## OptionalDeps: LibStub, Ace3, BagBrother, ItemRack, Wardrobe, WoWUnit
+## OptionalDeps: BagBrother, ItemRack, Wardrobe, WoWUnit
+## Version: 5.4.2
 
 libs\libs.xml
 localization\localization.xml

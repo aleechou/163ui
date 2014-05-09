@@ -21,9 +21,74 @@ sort(SLOT_COLOR_TYPES)
 tinsert(SLOT_COLOR_TYPES, 1, 'normal')
 
 
---[[ Events ]]--
+--[[
+	Startup
+--]]
 
-function ColorOptions:OnStartup()
+function ColorOptions:Load()
+	self:SetScript('OnShow', self.OnShow)
+	self:SetScript('OnHide', self.OnHide)
+	self:AddWidgets()
+end
+
+function ColorOptions:ShowFrame(frameID)
+	self:SetFrameID(frameID)
+	InterfaceOptionsFrame_OpenToCategory(self)
+end
+
+
+--[[
+	Messages
+--]]
+
+function ColorOptions:UpdateMessages()
+	if not self:IsVisible() then
+		self:UnregisterAllMessages()
+		return
+	end
+	
+	self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE')
+	self:RegisterMessage('ITEM_SLOT_COLOR_ENABLED_UPDATE')
+	self:RegisterMessage('ITEM_SLOT_COLOR_UPDATE')
+	self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE')
+end
+
+function ColorOptions:ITEM_HIGHLIGHT_UPDATE()
+	self.highlightItemsByQualityCheckbox:UpdateChecked()
+	self.highlightUnusableItemsCheckbox:UpdateChecked()
+	self.highlightQuestItemsCheckbox:UpdateChecked()
+	self.highlightSetItemsCheckbox:UpdateChecked()
+	self.highlightOpacitySlider:UpdateValue()
+end
+
+function ColorOptions:ITEM_SLOT_COLOR_ENABLED_UPDATE()
+	self:GetColorItemSlotsCheckbox():UpdateChecked()
+end
+
+function ColorOptions:ITEM_SLOT_COLOR_UPDATE(msg, type, r, g, b)
+	self:GetItemSlotColorSelector(type):SetColor(r, g, b, a)
+end
+
+
+
+--[[
+	Frame Events
+--]]
+
+function ColorOptions:OnShow()
+	self:UpdateMessages()
+end
+
+function ColorOptions:OnHide()
+	self:UpdateMessages()
+end
+
+
+--[[
+	Components
+--]]
+
+function ColorOptions:AddWidgets()
 	local colorItemSlots = self:CreateColorItemSlotsCheckbox()
 	colorItemSlots:SetPoint('TOPLEFT', self, 'TOPLEFT', 14, -72)
 
@@ -56,45 +121,25 @@ function ColorOptions:OnStartup()
 	end
 end
 
-function ColorOptions:OnActivate()
-	self.highlightItemsByQualityCheckbox:UpdateChecked()
-	self.highlightUnusableItemsCheckbox:UpdateChecked()
-	self.highlightQuestItemsCheckbox:UpdateChecked()
-	self.highlightSetItemsCheckbox:UpdateChecked()
-	self.highlightOpacitySlider:UpdateValue()
+function ColorOptions:UpdateWidgets()
+	if not self:IsVisible() then
+		return
+	end
+
+	self:GetHighlightItemsByQualityCheckbox():UpdateChecked()
+	self:GetHighlightQuestItemsCheckbox():UpdateChecked()
+	self:GetColorItemSlotsCheckbox():UpdateChecked()
+	
+	self:GetHighlightOpacitySlider():UpdateValue()
 	
 	for i, type in self:GetColorTypes() do
 		local selector = self:GetItemSlotColorSelector(type)
 		selector:UpdateColor()
 	end
-	
-	self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE')
-	self:RegisterMessage('ITEM_SLOT_COLOR_ENABLED_UPDATE')
-	self:RegisterMessage('ITEM_SLOT_COLOR_UPDATE')
-	self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE')
 end
 
 function ColorOptions:GetColorTypes()
 	return pairs(SLOT_COLOR_TYPES)
-end
-
-
---[[ Messages ]]--
-
-function ColorOptions:ITEM_HIGHLIGHT_UPDATE()
-	self.highlightItemsByQualityCheckbox:UpdateChecked()
-	self.highlightUnusableItemsCheckbox:UpdateChecked()
-	self.highlightQuestItemsCheckbox:UpdateChecked()
-	self.highlightSetItemsCheckbox:UpdateChecked()
-	self.highlightOpacitySlider:UpdateValue()
-end
-
-function ColorOptions:ITEM_SLOT_COLOR_ENABLED_UPDATE()
-	self.colorItemSlotsCheckbox:UpdateChecked()
-end
-
-function ColorOptions:ITEM_SLOT_COLOR_UPDATE(msg, type, r, g, b)
-	self:GetItemSlotColorSelector(type):SetColor(r, g, b, a)
 end
 
 
@@ -176,6 +221,10 @@ function ColorOptions:CreateColorItemSlotsCheckbox()
 	return button
 end
 
+function ColorOptions:GetColorItemSlotsCheckbox()
+	return self.colorItemSlotsCheckbox
+end
+
 
 --[[ Sliders ]]--
 
@@ -225,6 +274,22 @@ function ColorOptions:GetItemSlotColorSelector(type)
 end
 
 
+--[[
+	Update Methods
+--]]
+
+function ColorOptions:SetFrameID(frameID)
+	if self:GetFrameID() ~= frameID then
+		self.frameID = frameID
+		self:UpdateWidgets()
+	end
+end
+
+function ColorOptions:GetFrameID()
+	return self.frameID
+end
+
+
 --[[ Load the thing ]]--
 
-ColorOptions:Startup()
+ColorOptions:Load()

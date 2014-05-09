@@ -1,6 +1,0 @@
-## Interface: 50400
-## Title: Combuctor Basic Sets
-## Author: Tuller and Jaliborc (João Cardoso)
-## Notes: Basic sets for Combuctor
-## Dependencies: Combuctor
-sets.lua

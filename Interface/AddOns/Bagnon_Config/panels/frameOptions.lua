@@ -13,95 +13,32 @@ Bagnon.FrameOptions = FrameOptions
 local CHECK_BUTTON_SPACING = 4
 
 
---[[ Events ]]--
+--[[
+	Startup
+--]]
 
-function FrameOptions:OnStartup()
+function FrameOptions:Load()
 	self:SetFrameID('inventory')
-	local frameSelector = self:CreateFrameSelector()
-	frameSelector:SetPoint('TOPLEFT', self, 'TOPLEFT', -4, -64)
-
-
-	-- Checkboxes
-	local toggleBagFrame = self:CreateToggleBagFrameCheckbox()
-	toggleBagFrame:SetPoint('TOPLEFT', frameSelector, 'BOTTOMLEFT', 16, -4)
-
-	local toggleMoneyFrame = self:CreateToggleMoneyFrameCheckbox()
-	toggleMoneyFrame:SetPoint('TOPLEFT', toggleBagFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-
-	local toggleDBOFrame = self:CreateToggleDBOFrameCheckbox()
-	toggleDBOFrame:SetPoint('TOPLEFT', toggleMoneyFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-
-	local toggleSearchFrame = self:CreateToggleSearchFrameCheckbox()
-	toggleSearchFrame:SetPoint('TOPLEFT', toggleDBOFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-	
-	local toggleOptionsFrame = self:CreateToggleOptionsCheckbox()
-	toggleOptionsFrame:SetPoint('TOPLEFT', toggleSearchFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-
-	local reverseSlotOrdering = self:CreateReverseSlotOrderCheckbox()
-	reverseSlotOrdering:SetPoint('TOPLEFT', toggleOptionsFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-	
-	local bagBreak = self:CreateBagBreakCheckbox()
-	bagBreak:SetPoint('TOPLEFT', reverseSlotOrdering, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
-
-
-	-- Color Selectors
-	local frameColor = self:CreateColorSelector()
-	frameColor:SetPoint('TOPLEFT', frameSelector, 'BOTTOMRIGHT', -28, -6)
-
-	local frameBorderColor = self:CreateBorderColorSelector()
-	frameBorderColor:SetPoint('TOPLEFT', frameColor, 'BOTTOMLEFT', 0, -8)
-
-
-	-- Sliders
-	local opacity = self:CreateOpacitySlider()
-	opacity:SetWidth(180)
-	opacity:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -16, 10)
-
-	local scale = self:CreateScaleSlider()
-	scale:SetPoint('BOTTOMLEFT', opacity, 'TOPLEFT', 0, 20)
-	scale:SetPoint('BOTTOMRIGHT', opacity, 'TOPRIGHT', 0, 20)
-
-	local spacing = self:CreateSpacingSlider()
-	spacing:SetPoint('BOTTOMLEFT', scale, 'TOPLEFT', 0, 20)
-	spacing:SetPoint('BOTTOMRIGHT', scale, 'TOPRIGHT', 0, 20)
-
-	local cols = self:CreateColumnsSlider()
-	cols:SetPoint('BOTTOMLEFT', spacing, 'TOPLEFT', 0, 20)
-	cols:SetPoint('BOTTOMRIGHT', spacing, 'TOPRIGHT', 0, 20)
-
-	local layer = self:CreateLayerSlider()
-	layer:SetPoint('BOTTOMLEFT', cols, 'TOPLEFT', 0, 20)
-	layer:SetPoint('BOTTOMRIGHT', cols, 'TOPRIGHT', 0, 20)
+	self:SetScript('OnShow', self.OnShow)
+	self:SetScript('OnHide', self.OnHide)
+	self:AddWidgets()
 end
 
-function FrameOptions:OnActivate()
-	local settings = self:GetSettings()
-	local frameID = self:GetFrameID()
-	local isSingleBag = frameID == 'guildbank' or frameID == 'voidstorage'
+function FrameOptions:ShowFrame(frameID)
+	self:SetFrameID(frameID)
+	InterfaceOptionsFrame_OpenToCategory(self)
+end
 
-	self:GetColorSelector():SetColor(settings:GetColor())
-	self:GetBorderColorSelector():SetColor(settings:GetBorderColor())
 
-	self:GetColumnsSlider():UpdateValue()
-	self:GetSpacingSlider():UpdateValue()
+--[[
+	Messages
+--]]
 
-	self:GetScaleSlider():UpdateValue()
-	self:GetOpacitySlider():UpdateValue()
-	self:GetLayerSlider():UpdateValue()
-
-	self:GetToggleBagFrameCheckbox():UpdateChecked()
-	self:GetToggleBagFrameCheckbox():SetDisabled(isSingleBag)
-
-	self:GetToggleMoneyFrameCheckbox():UpdateChecked()
-	self:GetToggleDBOFrameCheckbox():UpdateChecked()
-	self:GetToggleSearchFrameCheckbox():UpdateChecked()
-	self:GetToggleOptionsCheckbox():UpdateChecked()
-	
-	self:GetReverseSlotOrderCheckbox():UpdateChecked()
-	self:GetReverseSlotOrderCheckbox():SetDisabled(isSingleBag)
-	
-	self:GetBagBreakCheckbox():UpdateChecked()
-	self:GetBagBreakCheckbox():SetDisabled(isSingleBag)
+function FrameOptions:UpdateMessages()
+	if not self:IsVisible() then
+		self:UnregisterAllMessages()
+		return
+	end
 
 	self:RegisterMessage('FRAME_LAYER_UPDATE')
 	self:RegisterMessage('FRAME_SCALE_UPDATE')
@@ -118,9 +55,6 @@ function FrameOptions:OnActivate()
 	self:RegisterMessage('SLOT_ORDER_UPDATE')
 	self:RegisterMessage('OPTIONS_TOGGLE_ENABLE_UPDATE')
 end
-
-
---[[ Messages ]]--
 
 function FrameOptions:FRAME_LAYER_UPDATE(msg, frameID, layer)
 	if self:GetFrameID() == frameID then
@@ -204,6 +138,126 @@ function FrameOptions:OPTIONS_TOGGLE_ENABLE_UPDATE(msg, frameID, enable)
 	if self:GetFrameID() == frameID then
 		self:GetToggleOptionsCheckbox():UpdateChecked()
 	end
+end
+
+
+--[[
+	Frame Events
+--]]
+
+function FrameOptions:OnShow()
+	self:UpdateMessages()
+	self:UpdateWidgets()
+end
+
+function FrameOptions:OnHide()
+	self:UpdateMessages()
+end
+
+
+--[[
+	Components
+--]]
+
+function FrameOptions:AddWidgets()
+	--[[ Dropdowns ]]--
+
+	--add frame selector
+	local frameSelector = self:CreateFrameSelector()
+	frameSelector:SetPoint('TOPLEFT', self, 'TOPLEFT', -4, -64)
+
+
+	--[[ Checkboxes ]]--
+
+	local toggleBagFrame = self:CreateToggleBagFrameCheckbox()
+	toggleBagFrame:SetPoint('TOPLEFT', frameSelector, 'BOTTOMLEFT', 16, -4)
+
+	local toggleMoneyFrame = self:CreateToggleMoneyFrameCheckbox()
+	toggleMoneyFrame:SetPoint('TOPLEFT', toggleBagFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+
+	local toggleDBOFrame = self:CreateToggleDBOFrameCheckbox()
+	toggleDBOFrame:SetPoint('TOPLEFT', toggleMoneyFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+
+	local toggleSearchFrame = self:CreateToggleSearchFrameCheckbox()
+	toggleSearchFrame:SetPoint('TOPLEFT', toggleDBOFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+	
+	local toggleOptionsFrame = self:CreateToggleOptionsCheckbox()
+	toggleOptionsFrame:SetPoint('TOPLEFT', toggleSearchFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+
+	local reverseSlotOrdering = self:CreateReverseSlotOrderCheckbox()
+	reverseSlotOrdering:SetPoint('TOPLEFT', toggleOptionsFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+	
+	local bagBreak = self:CreateBagBreakCheckbox()
+	bagBreak:SetPoint('TOPLEFT', reverseSlotOrdering, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+
+
+	--[[ Color Selectors ]]--
+
+	--add color selector
+	local frameColor = self:CreateColorSelector()
+	frameColor:SetPoint('TOPLEFT', frameSelector, 'BOTTOMRIGHT', -28, -6)
+
+	--add border colors selector
+	local frameBorderColor = self:CreateBorderColorSelector()
+	frameBorderColor:SetPoint('TOPLEFT', frameColor, 'BOTTOMLEFT', 0, -8)
+
+
+	--[[ Sliders ]]--
+
+	--add opacity slider
+	local opacity = self:CreateOpacitySlider()
+	opacity:SetWidth(180)
+	opacity:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -16, 10)
+
+	local scale = self:CreateScaleSlider()
+	scale:SetPoint('BOTTOMLEFT', opacity, 'TOPLEFT', 0, 20)
+	scale:SetPoint('BOTTOMRIGHT', opacity, 'TOPRIGHT', 0, 20)
+
+	local spacing = self:CreateSpacingSlider()
+	spacing:SetPoint('BOTTOMLEFT', scale, 'TOPLEFT', 0, 20)
+	spacing:SetPoint('BOTTOMRIGHT', scale, 'TOPRIGHT', 0, 20)
+
+	local cols = self:CreateColumnsSlider()
+	cols:SetPoint('BOTTOMLEFT', spacing, 'TOPLEFT', 0, 20)
+	cols:SetPoint('BOTTOMRIGHT', spacing, 'TOPRIGHT', 0, 20)
+
+	local layer = self:CreateLayerSlider()
+	layer:SetPoint('BOTTOMLEFT', cols, 'TOPLEFT', 0, 20)
+	layer:SetPoint('BOTTOMRIGHT', cols, 'TOPRIGHT', 0, 20)
+end
+
+function FrameOptions:UpdateWidgets()
+	if not self:IsVisible() then
+		return
+	end
+
+	local settings = self:GetSettings()
+	local frameID = self:GetFrameID()
+	local isSingleBag = frameID == 'guildbank' or frameID == 'voidstorage'
+
+	self:GetColorSelector():SetColor(settings:GetColor())
+	self:GetBorderColorSelector():SetColor(settings:GetBorderColor())
+
+	self:GetColumnsSlider():UpdateValue()
+	self:GetSpacingSlider():UpdateValue()
+
+	self:GetScaleSlider():UpdateValue()
+	self:GetOpacitySlider():UpdateValue()
+	self:GetLayerSlider():UpdateValue()
+
+	self:GetToggleBagFrameCheckbox():UpdateChecked()
+	self:GetToggleBagFrameCheckbox():SetDisabled(isSingleBag)
+
+	self:GetToggleMoneyFrameCheckbox():UpdateChecked()
+	self:GetToggleDBOFrameCheckbox():UpdateChecked()
+	self:GetToggleSearchFrameCheckbox():UpdateChecked()
+	self:GetToggleOptionsCheckbox():UpdateChecked()
+	
+	self:GetReverseSlotOrderCheckbox():UpdateChecked()
+	self:GetReverseSlotOrderCheckbox():SetDisabled(isSingleBag)
+	
+	self:GetBagBreakCheckbox():UpdateChecked()
+	self:GetBagBreakCheckbox():SetDisabled(isSingleBag)
 end
 
 
@@ -379,16 +433,17 @@ end
 
 --layer
 function FrameOptions:CreateLayerSlider()
-	local layers = self:GetSettings():GetAvailableLayers()
-	local slider = Bagnon.OptionsSlider:New(L.FrameLayer, self, 1, #layers, 1)
+	local availableLayers = self:GetSettings():GetAvailableLayers()
+	local slider = Bagnon.OptionsSlider:New(L.FrameLayer, self, 1, #availableLayers, 1)
+	slider.layers = availableLayers
 
 	slider.SetSavedValue = function(self, value)
-		self:GetParent():GetSettings():SetLayer(layers[floor(value)])
+		self:GetParent():GetSettings():SetLayer(self.layers[value])
 	end
 
 	slider.GetSavedValue = function(self)
 		local layer = self:GetParent():GetSettings():GetLayer()
-		for k, v in pairs(layers) do
+		for k, v in pairs(self.layers) do
 			if v == layer then
 				return k
 			end
@@ -397,7 +452,7 @@ function FrameOptions:CreateLayerSlider()
 	end
 
 	slider.GetFormattedText = function(self, value)
-		return layers[value]
+		return self.layers[value]
 	end
 
 	self.layerSlider = slider
@@ -558,6 +613,26 @@ function FrameOptions:GetBagBreakCheckbox()
 end
 
 
+--[[
+	Update Methods
+--]]
+
+function FrameOptions:SetFrameID(frameID)
+	if self:GetFrameID() ~= frameID then
+		self.frameID = frameID
+		self:UpdateWidgets()
+	end
+end
+
+function FrameOptions:GetFrameID()
+	return self.frameID
+end
+
+function FrameOptions:GetSettings()
+	return Bagnon.FrameSettings:Get(self:GetFrameID())
+end
+
+
 --[[ Load the thing ]]--
 
-FrameOptions:Startup()
+FrameOptions:Load()

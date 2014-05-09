@@ -72,7 +72,7 @@ end
 
 function SearchFrame:OnShow()
 	self:SetSearch(self:GetLastSearch())
-	--self:UpdateText()
+	self:UpdateText()
 	self:UpdateEvents()
 	self:HighlightText()
 	self:SetFocus()
@@ -103,11 +103,10 @@ function SearchFrame:UpdateEvents()
 	self:UnregisterAllMessages()
 	self:RegisterMessage('TEXT_SEARCH_ENABLE')
 	self:RegisterMessage('TEXT_SEARCH_DISABLE')
---[[	
-	if self:IsVisible() then
-		self:RegisterMessage('TEXT_SEARCH_UPDATE')
-	end
-]]--
+--fix by Miliart
+--	if self:IsVisible() then
+--		self:RegisterMessage('TEXT_SEARCH_UPDATE')
+--	end
 end
 
 function SearchFrame:UpdateShown()

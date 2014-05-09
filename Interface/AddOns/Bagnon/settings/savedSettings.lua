@@ -65,8 +65,8 @@ function SavedSettings:GetDefaultSettings()
 	self.defaults = self.defaults or {
 		highlightItemsByQuality = true,
 		highlightQuestItems = true,
-		highlightSetItems = true,
-		showEmptyItemSlotTexture = true,
+		highlightSetItems = false,
+		showEmptyItemSlotTexture = false,
 		lockFramePositions = false,
 		colorBagSlots = true,
 		enableFlashFind = true,
@@ -107,7 +107,7 @@ function SavedSettings:GetDefaultSettings()
 			normal = {1, 1, 1},
 		},
 		
-		highlightOpacity = 0.5,
+		highlightOpacity = 0.8,
 	}
 	
 	return self.defaults
