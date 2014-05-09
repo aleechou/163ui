@@ -13,16 +13,18 @@ nopic = 1,
 		text = "团队标记",
 		type = "checklist",
 		cols = 2,
-		options = {"显示框体", 'shown', "垂直显示", 'vertical',},
+		options = {"显示框体", 'shown', "垂直显示", 'vertical','单独时隐藏','alone'},
 		
         getvalue = function()
             raid = {}
             raid['shown'] = wMarkerDB.shown;
+			raid['alone'] = wMarkerDB.partyShow;
 			raid['vertical'] = wMarkerDB.vertical;
             return raid
         end,
 		
 		callback = function(cfg, v,loading)
+			wMarkerDB.partyShow = v.alone;
 			wMarkerDB.shown = v.shown;
 			wMarker:visibility()
 			
@@ -35,17 +37,19 @@ nopic = 1,
 		text = "世界标记",
 		type = "checklist",
 		cols = 2,
-		options = {"显示框体", 'shown', "垂直显示", 'vertical',},
+		options = {"显示框体", 'shown', "垂直显示", 'vertical','单独时隐藏','alone'},
 		
         getvalue = function()
             raid = {}
             raid['shown'] = wFlaresDB.shown;
+			raid['alone'] = wFlaresDB.partyShow;
 			raid['vertical'] = wFlaresDB.vertical;
             return raid
         end,
 		
 		callback = function(cfg, v,loading)
 			wFlaresDB.shown = v.shown;
+			wFlaresDB.partyShow = v.alone;
 			wMarker:visibility()
 			
 			wFlaresDB.vertical = v.vertical;
