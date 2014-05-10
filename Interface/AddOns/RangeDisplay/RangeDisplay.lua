@@ -8,6 +8,26 @@ Description: RangeDisplay displays the estimated range to the current target bas
 License: Public Domain
 ]]
 
+
+
+local RangeDisplay163ui = LibStub("AceAddon-3.0"):NewAddon("RangeDisplay163ui", "AceTimer-3.0")
+function RangeDisplay163ui:OnInitialize()
+	if not UIRangeDisplayFlag then
+		if not RangeDisplayDB3 then RangeDisplayDB3 = {} end
+		UIRangeDisplayFlag = true
+		RangeDisplayDB3.profiles = {
+			["Default"] = {
+				["locked"] = true,
+			},
+		}
+	end
+end
+
+
+
+
+
+
 local AppName, RangeDisplay = ...
 local OptionsAppName = AppName .. "_Options"
 local VERSION = AppName .. "-v4.2.3"

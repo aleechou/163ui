@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Author: mitch0
 ## Version: v4.2.3
-## SavedVariables: RangeDisplayDB3
+## SavedVariables: RangeDisplayDB3,UIRangeDisplayFlag
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibRangeCheck-2.0, Ace3, LibSharedMedia-3.0, LibDualSpec-1.0
 
 libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
