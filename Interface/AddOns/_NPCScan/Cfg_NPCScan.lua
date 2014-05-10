@@ -34,4 +34,4 @@ U1RegisterAddon("_NPCScan", {
     },
 });
 
-U1RegisterAddon("_NPCScan.Overlay", {title = "稀有精英路径", desc = "在地图上标记出稀有精英的活动范围", parent="_NPCScan", defaultEnable = 0, protected = nil, hide = nil, });
+U1RegisterAddon("_NPCScan.Overlay", {title = "稀有精英路径", desc = "在地图上标记出稀有精英的活动范围", parent="_NPCScan", defaultEnable = 1, protected = 1, hide = 1, });
