@@ -30,7 +30,7 @@ L["Enable channel buttons move"]="解锁频道快捷栏(可移动)"
 L["Fast chat channel provides you easy access to different channels"] = "提供快速切换至不同聊天频道的按钮，并可以自定义快捷键"
 L["this function allows you to use emtion icons in your chat, and others who has this addon enabled can see your emtion icons"]="为使用者提供可在聊天中使用的表情图标，并且其他有此插件的人可以看到这些图标"
 L["Press Ctrl-C to Copy the text"]="使用Ctrl+C来复制文字"
-L["Chat Channel"] = "聊天通道"
+L["Chat Channel"] = "个人"
 
 -- 属性
 L["HEAD"] = "";
@@ -107,7 +107,7 @@ L["GuildTooltip"] = "公会发言"
 L["YellTooltip"] = "大喊"
 L["WhisperTooltip"] = "密语"
 L["OfficerTooltip"] = "官员频道"
-L["BigFootTooltip"] = "大脚世界频道"
+L["BigFootTooltip"] = "世界频道"
 L["LFG"] = "寻求组队"
 L["GuildRecruit"]="公会招募"
 

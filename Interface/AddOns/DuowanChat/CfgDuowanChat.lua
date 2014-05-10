@@ -39,9 +39,9 @@ U1RegisterAddon("DuowanChat", {
         callback = function(cfg, v, loading) DuowanChat.db.profile.enablesubgroup = not not v end,
     },
     {
-        text="创建聊天通道窗口",
+        text="创建个人聊天窗口",
         var = "channel",
-        tip = "说明`创建一个窗口显示仅和自己相关的信息，排除公共频道。",
+        tip = "说明`创建一个窗口显示仅和自己相关的信息，排除公共频道，避免信息爆炸。",
         getvalue = function() return DuowanChat.db.profile.enablechatchannel end,
         callback = function(cfg, v, loading)
             DuowanChat.db.profile.enablechatchannel = not not v
