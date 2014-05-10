@@ -224,3 +224,7 @@ L.Always						= "總是"
 
 -- Misc
 L.FontHeight	= 18
+
+L.sst = "Iceoven(EN)"
+L.yike = "夏一可(CN)"
+L.yun =  "芷小芸(TW)"

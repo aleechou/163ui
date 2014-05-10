@@ -146,7 +146,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Kill		= "只要你们心中的暴虐不除……我……就会……回来的……",
+	Kill		= "只要你们心中的暴虐不除……我……就会……回来的……"
 })
 
 -----------------------
@@ -332,7 +332,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	PlayerDebuffs	= "未获得骨甲"
+	PlayerDebuffs	= "没有骨甲"
 })
 
 -----------------------

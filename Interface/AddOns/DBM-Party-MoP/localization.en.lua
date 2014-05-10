@@ -18,13 +18,13 @@ L:SetOptionLocalization({
 -----------------------
 L= DBM:GetModLocalization(664)
 
-L:SetWarningLocalization({
-	SpecWarnIntensity	= "%s on %s (%d)"
-})
-
 L:SetOptionLocalization({
 	SoundWOP 		= "voice warning: important skills",
 	SpecWarnIntensity	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(6, 113315)
+})
+
+L:SetWarningLocalization({
+	SpecWarnIntensity	= "%s on %s (%d)"
 })
 
 -----------------------
@@ -66,20 +66,23 @@ L:SetOptionLocalization({
 	SoundWOP 		= "voice warning: important skills"
 })
 
+L:SetMiscLocalization({
+	Tuzi				= "Hoptallus lets out a loud screech! The virmen are coming!"
+})
+
 -----------------------
 -- Yan Zhu the Uncasked --
 -----------------------
 L= DBM:GetModLocalization(670)
 
-L:SetWarningLocalization({
-	SpecWarnFizzyBubbles	= "Get Fizzy Bubble and fly"
-})
-
 L:SetOptionLocalization({
+	SoundWOP 				= "voice warning: important skills",
 	SpecWarnFizzyBubbles	= "Show special warning when you are missing $spell:114459 debuff",
 	RangeFrame				= "Show range frame (10) for $spell:106546",
-	SoundWOP 				= "voice warning: important skills",
-	RangeFrame				= "RangeFrame: $spell:106546"
+})
+
+L:SetWarningLocalization({
+	SpecWarnFizzyBubbles	= "Get Fizzy Bubble and fly"
 })
 
 -----------------------
@@ -145,7 +148,6 @@ L:SetOptionLocalization({
 -----------------------
 -- <<<The Gate of the Setting Sun>>> --
 -----------------------
-
 ---------------------
 -- Kiptilak --
 ---------------------
@@ -177,7 +179,6 @@ L= DBM:GetModLocalization(676)
 L:SetOptionLocalization({
 	SoundWOP 		= "voice warning: important skills"
 })
-
 
 -----------------------------
 -- Raigonn --
@@ -259,7 +260,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	WaveStart	= "Fools! Attacking the might of the mantid head on?  Your deaths will be swift."
+	WaveStart	= "Fools! Attacking the might of the mantid head on?  Your deaths will be swift.",
+	Mob			= "joins the battle"
 })
 
 -----------------------
@@ -411,6 +413,7 @@ L:SetOptionLocalization({
 -- Durand/High Inquisitor Whitemane --
 -----------------------
 L= DBM:GetModLocalization(674)
+
 
 L:SetOptionLocalization({
 	SoundWOP 		= "voice warning: important skills"

@@ -56,7 +56,7 @@ function mod:SPELL_CAST_START(args)
 		timerTorrentCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnTorrent:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 		end
 	end
 end

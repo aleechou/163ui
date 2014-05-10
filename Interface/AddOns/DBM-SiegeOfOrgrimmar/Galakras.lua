@@ -137,18 +137,18 @@ function mod:SPELL_CAST_START(args)
 		warnArcingSmash:Show()
 		specWarnArcingSmash:Show()
 		if self:AntiSpam(10, 4) then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\carefly.mp3")--小心击飞
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\carefly.mp3")--小心击飞
 		end
 	elseif args.spellId == 146757 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		local source = args.sourceName
 		warnChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnChainheal:Show(source)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 146848 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		specWarnSkullCracker:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_sfzd.mp3")--旋風斬
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_sfzd.mp3")--旋風斬
 	end
 end
 
@@ -166,7 +166,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 146753 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
-		sndTT:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
+		sndTT:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ttkd.mp3") --圖騰快打
 	end
 end
 
@@ -179,7 +179,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFlamesofGalakrondYou:Show()
 			yellFlamesofGalakrond:Yell()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 		else
 			specWarnFlamesofGalakrond:Show(flamesCount)
 		end
@@ -187,31 +187,31 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8)
 		end
 		if MyJS() then
-			sndWOP:Schedule(3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
 		end
 	elseif args.spellId == 147328 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnWarBanner:Show()
-		sndZQ:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zqkd.mp3")--战旗快打
+		sndZQ:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zqkd.mp3")--战旗快打
 		specWarnWarBanner:Show()
 	elseif args.spellId == 146899 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnFracture:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFractureYou:Show()
 			yellFracture:Yell()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\chargemove.mp3")--冲锋快躲
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\chargemove.mp3")--冲锋快躲
 		else
 			specWarnFracture:Show(args.destName)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_sgcf.mp3")--碎骨冲锋
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_sgcf.mp3")--碎骨冲锋
 		end
 	elseif args.spellId == 147705 then
 		if args:IsPlayer() and self:AntiSpam(2, 1) then
 			specWarnPoisonCloud:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 		end
 	elseif args.spellId == 147711 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnCurseVenom:Show()
 		specWarnCurseVenom:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_dskd.mp3")--毒蛇快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dskd.mp3")--毒蛇快打
 	end
 end
 
@@ -252,7 +252,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 147705 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnPoisonCloud:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -262,7 +262,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	--	specWarnFlameArrow:Show()
 	elseif spellId == 146872 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShadowAttack:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -282,7 +282,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerAddsCD:Cancel()
 		timerProtoCD:Cancel()
 		warnPhase2:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") -- 2階段
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") -- 2階段
 		timerFlamesofGalakrondCD:Start(18.6, 1)--TODO, verify consistency since this timing may depend on where drake lands and time it takes to get picked up.
 	end
 end
@@ -306,9 +306,9 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("cFFFF0404") then--They fixed epiccenter bug (figured they would). Color code should be usuable though. It's only emote on encounter that uses it.
 		warnDemolisher:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tscd.mp3") --投石车快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tscd.mp3") --投石车快打
 	elseif msg:find(L.tower) then
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_ptkf.mp3") --炮塔攻破
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ptkf.mp3") --炮塔攻破
 		timerDemolisherCD:Start()
 	end
 end

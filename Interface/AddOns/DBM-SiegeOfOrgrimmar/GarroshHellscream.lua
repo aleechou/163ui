@@ -307,14 +307,14 @@ function mod:OnCombatStart(delay)
 	table.wipe(Touchcount)
 	timerDesecrateCD:Start(10.5-delay, 1)
 	timerSiegeEngineerCD:Start(20-delay)
-	sndGC:Schedule(15, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3") --攻城師準備
+	sndGC:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3") --攻城師準備
 	timerHellscreamsWarsongCD:Start(22-delay)
 	if not mod:IsDps() then
-		sndWOP:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3") --戰歌準備
+		sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3") --戰歌準備
 	end
 	timerFarseerWolfRiderCD:Start(30-delay)
 	if not mod:IsHealer() then
-		sndWOP:Schedule(25, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3") --狼騎兵準備
+		sndWOP:Schedule(25, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3") --狼騎兵準備
 	end
 end
 
@@ -332,17 +332,17 @@ function mod:SPELL_CAST_START(args)
 		healcount = healcount + 1
 		if ((mod.Options.optDD == "DD1") and (healcount == 1)) or ((mod.Options.optDD == "DD2") and (healcount == 2)) or ((mod.Options.optDD == "alldd") and (source == UnitName("target") or source == UnitName("focus"))) then
 			specWarnChainHeal:Show(source)
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 		if ((mod.Options.optDD == "DD1") and (healcount == 2)) or ((mod.Options.optDD == "DD2") and (healcount == 1)) then
-			sndWOP:Schedule(7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 		if healcount == 2 then healcount = 0 end
 		shmddcount = shmddcount + 1
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
 			specWarnChainHeal:Show(source)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144584 then
 		local source = args.sourceName
@@ -353,15 +353,15 @@ function mod:SPELL_CAST_START(args)
 		shmddcount = shmddcount + 1
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
 			specWarnChainLightning:Show(source)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144969 then
 		Ancount = Ancount + 1
 		warnAnnihilate:Show()
 		specWarnAnnihilate:Show()
 		if MyJS("AN") then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
-			sndWOP:Schedule(0.7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 		end
 	elseif args:IsSpellID(144985, 145037) then
 		whirlCount = whirlCount + 1
@@ -370,27 +370,27 @@ function mod:SPELL_CAST_START(args)
 			specWarnWhirlingCorruption:Show(whirlCount)
 			Xfcount = Xfcount + 1
 			if MyJS("XF") then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
-				sndWOP:Schedule(0.7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+				sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 			end
 		else
 			warnEmpWhirlingCorruption:Show(whirlCount)
 			specWarnEmpWhirlingCorruption:Show(whirlCount)
 			EXfcount = EXfcount + 1
 			if MyJS("EXF") then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
-				sndWOP:Schedule(0.7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+				sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 			end
 		end
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxkd.mp3") --漩渦快躲
-		sndWOP:Schedule(47, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
-		sndWOP:Schedule(48, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(49, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(50, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxkd.mp3") --漩渦快躲
+		sndWOP:Schedule(47, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
+		sndWOP:Schedule(48, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(49, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(50, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerWhirlingCorruption:Start()
 		timerWhirlingCorruptionCD:Start(nil, whirlCount+1)
 		--countdownWhirlingCorruption:Start()
@@ -404,28 +404,28 @@ function mod:SPELL_CAST_START(args)
 		Bombcount = Bombcount + 1
 		warnBombardment:Show()
 		specWarnBombardment:Show(Bombcount)
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\watchstep.mp3") --注意腳下
-		sndWOP:Schedule(8, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-		sndWOP:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Schedule(13, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\gather.mp3")--快集合
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\watchstep.mp3") --注意腳下
+		sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+		sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\gather.mp3")--快集合
 		timerBombardment:Start()
 		if Bombcount == 1 then
 			timerBombardmentCD:Start()
-			sndWOP:Schedule(50, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3") --準備轟炸
-			sndWOP:Schedule(51, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-			sndWOP:Schedule(52, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(53, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(54, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(50, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3") --準備轟炸
+			sndWOP:Schedule(51, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndWOP:Schedule(52, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(53, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(54, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		else
 			timerBombardmentCD:Start(40)
-			sndWOP:Schedule(35, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3")
-			sndWOP:Schedule(36, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-			sndWOP:Schedule(37, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(38, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(39, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(35, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3")
+			sndWOP:Schedule(36, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndWOP:Schedule(37, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(38, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	elseif args.spellId == 147011 then
 		warnManifestRage:Show()
@@ -445,7 +445,7 @@ function mod:SPELL_INTERRUPT(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 71983 then
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 0)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 3))	then
-			sndWOP:Schedule(0.1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+			sndWOP:Schedule(0.1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 	end
 end
@@ -470,7 +470,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(145065, 145171) then
 		mindControlCount = mindControlCount + 1
 		specWarnTouchOfYShaarj:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xkkd.mp3") --心控快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xkkd.mp3") --心控快打
 		if phase == 3 then
 			if mindControlCount == 1 then--First one in phase is shorter than rest (well that or rest are delayed because of whirling)
 				timerTouchOfYShaarjCD:Start(35, mindControlCount+1)
@@ -511,7 +511,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				specWarnGrippingDespairOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦
+					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦
 				end
 			end
 		end
@@ -521,17 +521,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnFarseerWolfRider:Show()
 		timerFarseerWolfRiderCD:Start()
 		if not mod:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3")
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lqcx.mp3") --狼騎兵出現
-			sndWOP:Schedule(45, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3") --狼騎兵準備
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqcx.mp3") --狼騎兵出現
+			sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3") --狼騎兵準備
 		end
 		healcount = 0
 		shmddcount = 0
 		if mod.Options.optDD == "DD1" then
-			sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+			sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 		if mod.Options.optDD == "DD1H" then
-			sndWOP:Schedule(2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
+			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
 		end
 		if self.Options.SetIconOnShaman then
 			scanLimiter = 0
@@ -547,24 +547,24 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMaliceYou:Show()
 			DBM.Flash:Shake(1, 0, 0)
 			yellMalice:Yell()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_eydn.mp3") --惡意點你
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_eydn.mp3") --惡意點你
 			if self.Options.LTIP then
 				DBM:ShowLTSpecialWarning(GetSpellInfo(147209).."("..EYcount..")", 1, 0, 0, 1, 147209, 15, 15)
 			end
 		else
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_ey.mp3") --惡意
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_ey.mp3") --惡意
 			if EYcount == 1 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			elseif EYcount == 2 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 			elseif EYcount == 3 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 			elseif EYcount == 4 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
 			elseif EYcount == 5 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
 			elseif EYcount == 6 then
-				sndWOP:Schedule(0.4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
+				sndWOP:Schedule(0.4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
 			end
 		end
 	elseif args.spellId == 147235 then
@@ -581,7 +581,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					DBM:ShowLTSpecialWarning(GetSpellInfo(147235).."("..amount..")", 1, 0, 0, 1, 147235, 3, 3)
 				end
 				needwarnin = true
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
 			end
 		end
 	elseif args.spellId == 147665 then
@@ -598,7 +598,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(145183, 145195) then
 		timerGrippingDespair:Cancel(args.destName)
 	elseif args.spellId == 144585 then
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
 	elseif args.spellId == 147209 then
 		if args:IsPlayer() then
 			if self.Options.LTIP then
@@ -609,7 +609,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			if needwarnin then
 				needwarnin = false
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3") --快回人群
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3") --快回人群
 			end
 		end
 	end
@@ -624,9 +624,9 @@ function mod:UNIT_DIED(args)
 			specWarnFireUnstableIronStar:Cancel()
 			timerPowerIronStar:Cancel()
 --			countdownPowerIronStar:Cancel()
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3")
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3")
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqch.mp3") --鐵球摧毀
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqch.mp3") --鐵球摧毀
 		end
 	elseif cid == 71983 then--Farseer Wolf Rider
 		shamanAlive = shamanAlive - 1
@@ -639,40 +639,40 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnHellscreamsWarsong:Show()
 		timerHellscreamsWarsongCD:Start()
 		if not mod:IsDps() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zg.mp3") --戰歌
-			sndWOP:Schedule(39, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3") --戰歌準備
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zg.mp3") --戰歌
+			sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3") --戰歌準備
 		end
 	elseif spellId == 145235 then--Throw Axe At Heart
 		timerSiegeEngineerCD:Cancel()
-		sndGC:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3")
+		sndGC:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3")
 		timerFarseerWolfRiderCD:Cancel()
 		timerDesecrateCD:Cancel()
 		timerHellscreamsWarsongCD:Cancel()
 		if not mod:IsDps() then
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zgzb.mp3")
 		end
 		timerEnterRealm:Start(25)
 		if not mod:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lqzb.mp3")
 		end
 	elseif spellId == 144866 then--Enter Realm of Y'Shaarj
 		timerPowerIronStar:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3")
 --		countdownPowerIronStar:Cancel()
 		timerDesecrateCD:Cancel()
 		timerTouchOfYShaarjCD:Cancel()
 --		countdownTouchOfYShaarj:Cancel()
 		timerWhirlingCorruptionCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 --		countdownWhirlingCorruption:Cancel()
 	elseif spellId == 144956 then--Jump To Ground (intermission ending)
 		if phase == 1 then
 			warnPhase2:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段
 		else
 			timerEnterRealm:Start()
 		end
@@ -685,10 +685,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 --		countdownTouchOfYShaarj:Start(15)
 		timerWhirlingCorruptionCD:Start(30, 1)
 --		countdownWhirlingCorruption:Start(30)			
-		sndWOP:Schedule(26, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
-		sndWOP:Schedule(27.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(28.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(29.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(26, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
+		sndWOP:Schedule(27.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(28.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(29.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 --		timerEnterRealm:Start()
 	--"<556.9 21:41:56> [UNIT_SPELLCAST_SUCCEEDED] Garrosh Hellscream [[boss1:Realm of Y'Shaarj::0:145647]]", -- [169886]
 	elseif spellId == 145647 then--Phase 3 trigger
@@ -703,16 +703,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerWhirlingCorruptionCD:Cancel()
 --		countdownTouchOfYShaarj:Cancel()
 --		countdownWhirlingCorruption:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\pthree.mp3") --P3
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\pthree.mp3") --P3
 		timerDesecrateCD:Start(21, 1)
 		timerTouchOfYShaarjCD:Start(30, 1)
 --		countdownTouchOfYShaarj:Start(30)
 		timerWhirlingCorruptionCD:Start(47.5, 1)
-		sndWOP:Schedule(45, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
+		sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3") --漩渦準備
 --		countdownWhirlingCorruption:Start(47.5)
 	elseif spellId == 146984 then--Phase 4 trigger
 		phase = 4
@@ -721,18 +721,18 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTouchOfYShaarjCD:Cancel()
 		timerWhirlingCorruptionCD:Cancel()
 		warnPhase4:Show()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hxzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
 		timerMaliceCD:Start(30)
 		timerBombardmentCD:Start(70)
-		sndWOP:Schedule(65, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3") --準備轟炸
-		sndWOP:Schedule(66, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(67, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(68, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(69, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(65, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbhz.mp3") --準備轟炸
+		sndWOP:Schedule(66, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		self:RegisterShortTermEvents(
 			"UNIT_POWER_FREQUENT boss1"--Do not want this one persisting out of combat even after a wipe, in case you go somewhere else.
 		)
@@ -744,62 +744,62 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		engineerDied = 0
 		warnSiegeEngineer:Show()
 		specWarnSiegeEngineer:Show()
-		sndGC:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_gckd.mp3") --攻城師快打
+		sndGC:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gckd.mp3") --攻城師快打
 		if not firstIronStar then
 			firstIronStar = true
 			timerSiegeEngineerCD:Start(45)
-			sndGC:Schedule(40, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3") --攻城師準備
+			sndGC:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3") --攻城師準備
 		else
 			timerSiegeEngineerCD:Start()
-			sndGC:Schedule(35, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3")
+			sndGC:Schedule(35, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_gczb.mp3")
 		end
 		timerPowerIronStar:Start()
 --		countdownPowerIronStar:Start()
 		Tqcount = Tqcount + 1
-		sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3") --鐵球準備
+		sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3") --鐵球準備
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			warnFireUnstableIronStar:Schedule(12)
 			specWarnFireUnstableIronStar:Schedule(12)
 			if MyJS("TQ") then
-				sndWOP:Schedule(17.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
-				sndWOP:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-				sndWOP:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(21, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndWOP:Schedule(17.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+				sndWOP:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+				sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(21, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			end
 		else
 			warnFireUnstableIronStar:Schedule(16.5)
 			specWarnFireUnstableIronStar:Schedule(16.5)
-			sndWOP:Schedule(16.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3") --鐵球快躲
+			sndWOP:Schedule(16.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqkd.mp3") --鐵球快躲
 		end
 	elseif msg:find("spell:147047") then
 		warnFireUnstableIronStar:Show()
 		specWarnFireUnstableIronStar:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3") --鐵球準備
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tqzb.mp3") --鐵球準備
 	end
 end
 
 function mod:UNIT_POWER_FREQUENT(uId)
 	local power = UnitPower(uId)
 	if power == 93 and self:AntiSpam(10, 2) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\energyhigh.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\energyhigh.mp3")
 	end
 	if power == 95 and self:AntiSpam(10, 2) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\count95.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\count95.mp3")
 	end
 	if power == 96 and self:AntiSpam(10, 3) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\count96.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\count96.mp3")
 	end
 	if power == 97 and self:AntiSpam(10, 4) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\count97.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\count97.mp3")
 	end
 	if power == 98 and self:AntiSpam(10, 5) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\count98.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\count98.mp3")
 	end
 	if power == 99 and self:AntiSpam(10, 6) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\count99.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\count99.mp3")
 	end
 	if power == 100 and self:AntiSpam(10, 7) then
-		sndNL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
+		sndNL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 	end
 end

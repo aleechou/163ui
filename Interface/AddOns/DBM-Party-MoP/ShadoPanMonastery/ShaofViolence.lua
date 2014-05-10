@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10172 $"):sub(12, -3))
 mod:SetCreatureID(56719)
 mod:SetZone()
 
@@ -20,16 +20,30 @@ local warnShaSpike				= mod:NewTargetAnnounce(106877, 3)
 local warnEnrage				= mod:NewSpellAnnounce(38166, 4)
 
 local specWarnShaSpike			= mod:NewSpecialWarningMove(106877)
+local specWarnShaSpikeNear		= mod:NewSpecialWarningClose(106877)
 
 local timerDisorientingSmashCD	= mod:NewCDTimer(13, 106872)--variables. not confirmed
 local timerShaSpikeCD			= mod:NewNextTimer(9, 106877)
 
-function mod:ShaSpikeTarget(targetname)
+function mod:ShaSpikeTarget(targetname, uId)
 	if not targetname then return end
 	warnShaSpike:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnShaSpike:Show()
 		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+	else
+		if uId then
+			local x, y = GetPlayerMapPosition(uId)
+			if x == 0 and y == 0 then
+				SetMapToCurrentZone()
+				x, y = GetPlayerMapPosition(uId)
+			end
+			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			if inRange and inRange < 6 then
+				specWarnShaSpikeNear:Show(targetname)
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			end
+		end
 	end
 end
 

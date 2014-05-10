@@ -1,0 +1,24 @@
+﻿## Interface: 50400
+## X-BigfootType: 7
+## X-BigfootDesc: |cFF4488FF此模块依赖于 SellOMatic2|r
+## X-Compatible-with: 50200
+## Title: Sell-O-Matic2 |cff7fff7fItem|r
+## Notes: Sell-O-Matic2 module for selling all items.
+## Author: Silmano
+## Version: a052
+## OptionalDeps: Ace3, LibGratuity-3.0
+## LoadOnDemand: 1
+## Dependencies: SellOMatic2
+## DefaultState: disabled
+## X-Category: Tradeskill
+## LoadManagers: AddonLoader
+## X-LoadOn-Slash: /som, /sellomatic
+## X-LoadOn-Merchant: true
+## X-Curse-Packaged-Version: a052
+## X-Curse-Project-Name: Sell-O-Matic2
+## X-Curse-Project-ID: sell-o-matic-2
+## X-Curse-Repository-ID: wow/sell-o-matic-2/mainline
+
+SOM_item.lua
+## Title: |cff880303[网易有爱]|r 自动售卖助手[物品管理]
+## X-Vendor: NetEase

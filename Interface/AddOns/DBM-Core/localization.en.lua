@@ -97,7 +97,8 @@ DBM_PIZZA_CONFIRM_IGNORE			= "Do you really want to ignore DBM timers from %s fo
 DBM_PIZZA_ERROR_USAGE				= "Usage: /dbm [broadcast] timer <time> <text>"
 
 DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
-DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+click or right-click to move\nAlt+shift+click for free drag and drop"
+--DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+click or right-click to move\nAlt+shift+click for free drag and drop"
+DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Click on detailed configuration"
 
 DBM_CORE_RANGECHECK_HEADER			= "Range Check (%d yd)"
 DBM_CORE_RANGECHECK_SETRANGE		= "Set range"
@@ -298,7 +299,7 @@ DBM_ARROW_ERROR_USAGE	= {
 
 DBM_SPEED_KILL_TIMER_TEXT	= "Record Victory"
 DBM_SPEED_KILL_TIMER_OPTION	= "Show a timer to beat your fastest victory"
-DBM_SPEED_CLEAR_TIMER_TEXT	= "Best Clear"
+DBM_SPEED_CLEAR_TIMER_TEXT	= "Record Clear"
 
 
 DBM_REQ_INSTANCE_ID_PERMISSION		= "%s requested to see your current instance IDs and progress.\nDo you want to send this information to %s? He or she will be able to request this information during your current session (i. e. until you relog)."
@@ -322,8 +323,11 @@ DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 DBM_CORE_SOUNDVER					= "Voice Enhanced"
 
+DBM_CORE_SOUNDGRIL_NAME_YIKE		= "Yike Xia"
+DBM_CORE_SOUNDGRIL_TEXT_YIKE		= "    Yike Xia, nickname coco-superwoman, girl, realname unknown. Dubbed as the female mage Mei Lv in <My name is MT>. Well known WOW narrator, Horde obsessed. Southwest University of Science and Technology China, 2009. She made her name in senior high with Sing Azeroth."
 
-DBM_CORE_SOUND_NOFILE		 		= "Voice File not found"
-DBM_CORE_SOUND_NOFILEUSAGE		 	= "    DBM did not find a voice-enabled package, please check whether the correct voice packets and enabled"
-DBM_CORE_SOUND_UNNAME		 		= "Custom Voice"
-DBM_CORE_SOUND_UNUSAGE		 		= "    This is a custom voice files, but the author is lazy, he did not write the introduction."
+DBM_CORE_SOUNDGRIL_NAME_YUN			= "Xiaoyun Zhi"
+DBM_CORE_SOUNDGRIL_TEXT_YUN			= "    Xiaoyun Zhi, WOW player from Taiwan, beautiful girl. Human DK from Black Hand Village @ TW-World Tree"
+
+DBM_CORE_SOUNDGRIL_NAME_SST			= "Iceoven"
+DBM_CORE_SOUNDGRIL_TEXT_SST			= "    All Voice generated via VoiceRss TTS (Text To Speech), API by Iceoven (Worgen Mage from Ancient Ones @ US-Dath'Remar)."

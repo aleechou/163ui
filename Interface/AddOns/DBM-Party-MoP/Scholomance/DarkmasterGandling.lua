@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10296 $"):sub(12, -3))
 mod:SetCreatureID(59080)
 mod:SetZone()
 
@@ -35,7 +35,7 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)--Just until there is a better way
 	if msg:find("spell:113395") then
-		warnLesson:Show(DBM:GetFullNameByShortName(target))
+		warnLesson:Show(DBM:GetUnitFullName(target))
 		timerLessonCD:Start()
 		sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\telesoon.mp3")--準備傳送
 	end

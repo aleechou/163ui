@@ -146,19 +146,19 @@ local function warnspecmob(guid)
 	local cid = mod:GetCIDFromGUID(guid)
 	if cid == 71382 then
 		if mod:IsDps() or mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hpkd.mp3") --花瓶快打
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hpkd.mp3") --花瓶快打
 		end
 	elseif cid == 71395 then
 		if mod:IsDps() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_mxkd.mp3") --魔像快打
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_mxkd.mp3") --魔像快打
 		else
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_mxcx.mp3") --魔像出现
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_mxcx.mp3") --魔像出现
 		end
 	elseif cid == 71385 then
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_tdsd.mp3") --投彈手快打
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_tdsd.mp3") --投彈手快打
 	elseif cid == 71388 then
 		if mod:IsDps() or mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_hupd.mp3") --琥珀快打
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_hupd.mp3") --琥珀快打
 		end
 	end
 end
@@ -192,22 +192,22 @@ function mod:SPELL_CAST_START(args)
 		warnMatterScramble:Show()
 		specWarnMatterScramble:Show()
 		timerMatterScrambleCD:Start(args.sourceGUID)
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stepring.mp3") --注意踩圈
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stepring.mp3") --注意踩圈
 	elseif args.spellId == 145461 and checkTankDistance(args.sourceGUID) then
 		warnEnergize:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_llfw.mp3") --力量符文
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_llfw.mp3") --力量符文
 	elseif args.spellId == 142934 and checkTankDistance(args.sourceGUID) then
 		warnTorment:Show()
 		specWarnTorment:Show()
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zmcx.mp3") --折磨出現
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zmcx.mp3") --折磨出現
 		end
 	elseif args.spellId == 142539 and checkTankDistance(args.sourceGUID) then
 		warnMantidSwarm:Show()
 		specWarnMantidSwarm:Show()
 		timerMantidSwarmCD:Start(args.sourceGUID)
 		if mod:IsDps() or mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zhcq.mp3") --召喚蟲群
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zhcq.mp3") --召喚蟲群
 		end
 	elseif args.spellId == 145816 and checkTankDistance(args.sourceGUID) then
 		warnWindStorm:Show()
@@ -218,7 +218,7 @@ function mod:SPELL_CAST_START(args)
 		timerHardenFleshCD:Start(args.sourceGUID)
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnHardenFlesh:Show(source)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144923 and checkTankDistance(args.sourceGUID) then
 		local source = args.sourceName
@@ -233,7 +233,7 @@ function mod:SPELL_CAST_START(args)
 		warnGustingCraneKick:Show()
 		specWarnGustingCraneKick:Show()
 		timerGustingCraneKickCD:Start(args.sourceGUID)
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xft.mp3") --旋風準備
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xft.mp3") --旋風準備
 	elseif args.spellId == 145489 and checkTankDistance(args.sourceGUID) then
 		warnReturnToStone:Show()
 		timerReturnToStoneCD:Start(args.sourceGUID)
@@ -253,7 +253,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnCrimsonRecon:Show()--Done here because we want to warn when we need to move mobs, not on cast start (when we can do nothing)
 		timerCrimsonReconCD:Start(args.sourceGUID)
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bossout.mp3") --拉開BOSS
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bossout.mp3") --拉開BOSS
 		end
 	elseif args.spellId == 145712 and checkTankDistance(args.sourceGUID) then
 		timerBlazingChargeCD:Start(args.sourceGUID)
@@ -264,21 +264,21 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnForbiddenMagic:Show(args.destName)
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnForbiddenMagic:Show(source)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 145786 and checkTankDistance(args.sourceGUID) then
 		warnResidue:Show()
 		timerResidueCD:Start(args.sourceGUID)
 		specWarnResidue:Show()
 		if mod:IsMagicDispeller() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
 		end
 	elseif args.spellId == 145812 and checkTankDistance(args.sourceGUID) then
 		warnRageoftheEmpress:Show()
 		specWarnRageoftheEmpress:Show()
 		timerRageoftheEmpressCD:Start(args.sourceGUID)
 		if mod:IsMagicDispeller() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
 		end
 	end
 end
@@ -289,15 +289,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:AntiSpam(3, 10) then
 			specWarnSetToBlowYou:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
 --			countdownSetToBlow:Start()
 			timerSetToBlow:Start(15)
 			specWarnSetToBlow:Schedule(10)
-			sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
-			sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-			sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(13, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(14, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+			sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
 				self:Schedule(16, hideRangeFrame)
@@ -313,9 +313,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if mod:IsTank() or mod:CanRemoveEnrage() then
 			local source = args.sourceName
 			if (source == UnitName("target") or source == UnitName("focus")) and mod:IsTank() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\enrage.mp3") -- 激怒
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\enrage.mp3") -- 激怒
 			elseif mod:CanRemoveEnrage() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\trannow.mp3") -- 注意寧神
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\trannow.mp3") -- 注意寧神
 			end
 		end
 	elseif args.spellId == 145998 and checkTankDistance(args.sourceGUID) then--This is a massive crate mogu spawning
@@ -328,11 +328,11 @@ function mod:SPELL_AURA_REMOVED(args)
 --		countdownSetToBlow:Cancel()
 		timerSetToBlow:Cancel()
 		specWarnSetToBlow:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self.Options.LTZD then
 			DBM:HideLTSpecialWarning()
 		end
@@ -344,13 +344,13 @@ end
 function mod:SPELL_DAMAGE(sourceGUID, sourceName, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 145716 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnBlazingCharge:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif spellId == 145748 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnBubblingAmber:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif spellId == 146257 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then
 		specWarnPathOfBlossoms:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 	if self.Options.Filterarea then
 		if (not bossDamageTarget[sourceGUID]) then
@@ -463,15 +463,15 @@ function mod:CHAT_MSG_RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:145996") and self:AntiSpam(3, 10) then
 		specWarnSetToBlowYou:Show()
 		DBM.Flash:Shake(1, 0, 0)
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
 --		countdownSetToBlow:Start()
 		timerSetToBlow:Start(15)
 		specWarnSetToBlow:Schedule(10)
-		sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
-		sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(13, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(14, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombnow.mp3") --準備爆炸
+		sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)--Range assumed, spell tooltips not informative enough
 			self:Schedule(16, hideRangeFrame)

@@ -230,3 +230,7 @@ L.Always					= "总是跳过"
 
 -- Misc
 L.FontHeight	= 20
+
+L.sst = "Iceoven(EN)"
+L.yike = "夏一可(CN)"
+L.yun =  "芷小芸(TW)"

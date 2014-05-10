@@ -38,7 +38,7 @@ function mod:SPELL_CAST_START(args)
 		warnChainLightning:Show()
 		timerChainLightningCD:Start()
 		if brawlersMod:PlayerFighting() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 			specWarnChainLightning:Show(args.sourceName)
 		end
 	end
@@ -61,7 +61,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if brawlersMod:PlayerFighting() then
 			specWarnShadowStrikes:Show(args.destName)
 			if mod:IsMagicDispeller() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			end
 		end
 	end

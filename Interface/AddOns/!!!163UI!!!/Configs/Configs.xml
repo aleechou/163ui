@@ -3,6 +3,7 @@
 
     <Include file="..\..\!BaudErrorFrame\Cfg!BaudErrorFrame.lua"/>
     <Include file="..\..\!tdDropDown\Cfg!tdDropDown.lua"/>
+	<Include file="..\..\SellOMatic2\CfgSellOMatic2.lua"/>
     <Include file="..\..\163UI_BossGuide\Cfg163UI_BossGuide.lua"/>
     <Include file="..\..\163UI_Buff\Cfg163UI_Buff.lua"/>
     <Include file="..\..\163UI_ChatHistory\Cfg163UI_ChatHistory.lua"/>

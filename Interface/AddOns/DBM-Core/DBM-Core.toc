@@ -1,18 +1,20 @@
-## Interface: 50400
-## X-Min-Interface: 50001
-## Notes: Deadly Boss Mods
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFCore|r
+## Title-zhCN: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF核心|r
+## Title-zhTW: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF核心|r
+## Notes: |cffbc8f8fDeadly Boss Mods.|r
+## Notes-zhCN: |cff00ff00DBM-Core|r                                             |cffbc8f8f首领报警。|r
+## Notes-zhTW: |cff00ff00DBM-Core|r                                             |cffbc8f8f首領報警。|r
 ## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
-## LoadOnDemand: 0
-## DefaultState: enabled
+## LoadOnDemand: 1
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
-
-embeds.xml
-Libs\LibChatAnims\LibChatAnims.xml
 
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
+
+extrasounds\other\other.lua
 DBT-Template.xml
 DBT.lua
 DBM-Core.lua
@@ -23,6 +25,4 @@ DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
 DBM-HudMap.lua
-
-## Title: |cff880303[网易有爱]|r DBM-Core
 ## X-Vendor: NetEase

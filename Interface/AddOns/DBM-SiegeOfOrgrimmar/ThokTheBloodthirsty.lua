@@ -182,16 +182,16 @@ function mod:OnCombatStart(delay)
 	timerFearsomeRoarCD:Start(-delay)
 	if self:IsDifficulty("lfr25") then
 		timerDeafeningScreechCD:Start(19-delay, 1)
-		sndPX:Schedule(16-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
-		sndPX:Schedule(17-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Schedule(18-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Schedule(19-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndPX:Schedule(16-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+		sndPX:Schedule(17-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Schedule(18-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Schedule(19-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	else
 		timerDeafeningScreechCD:Start(-delay, 1)
-		sndPX:Schedule(10-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
-		sndPX:Schedule(11-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Schedule(12-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Schedule(13-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndPX:Schedule(10-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+		sndPX:Schedule(11-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Schedule(12-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Schedule(13-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	end
 	berserkTimer:Start(-delay)
 	if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
@@ -218,25 +218,25 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnDeafeningScreech:Show()
 		end
 		timerDeafeningScreechCD:Cancel()
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self:IsDifficulty("lfr25") then
 			timerDeafeningScreechCD:Start(18, screechCount+1)
-			sndPX:Schedule(15, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
-			sndPX:Schedule(16, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndPX:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndPX:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndPX:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")	
+			sndPX:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		else
 			timerDeafeningScreechCD:Start(screechTimers[screechCount] or 1.2, screechCount+1)
 			if screechTimers[screechCount] and screechTimers[screechCount] > 2.2 then
 				if screechTimers[screechCount] > 3.2 then
-					sndPX:Schedule(screechTimers[screechCount+1] - 3.2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+					sndPX:Schedule(screechTimers[screechCount+1] - 3.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 				end
-				sndPX:Schedule(screechTimers[screechCount+1] - 2.2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndPX:Schedule(screechTimers[screechCount+1] - 1.2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndPX:Schedule(screechTimers[screechCount+1] - 0.2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndPX:Schedule(screechTimers[screechCount+1] - 2.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndPX:Schedule(screechTimers[screechCount+1] - 1.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndPX:Schedule(screechTimers[screechCount+1] - 0.2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			end
 		end
 	elseif args.spellId == 143428 then
@@ -246,7 +246,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnDevotion:Show(args.sourceName)
 		timerDevotion:Start()
 		if mod:IsManaUser() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_qcgh.mp3") --虔誠光環
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_qcgh.mp3") --虔誠光環
 		end
 	end
 end
@@ -259,8 +259,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM:ShowLTSpecialWarning(GetSpellInfo(143343)..":"..screechCount, 0, 1, 0)
 		end
 		if MyJS() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
-			sndWOP:Schedule(0.7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3")
 		end
 	elseif args.spellId == 143766 then
 		timerFearsomeRoarCD:Start()
@@ -338,15 +338,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFixate:Show()
 			yellFixate:Yell()
 --DELETE		soundFixate:Play()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 		end
 		if self.Options.FixateIcon then
 			self:SetIcon(args.destName, 8)
 		end
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndPX:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndPX:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	elseif args.spellId == 143791 then
 		warnCorrosiveBlood:CombinedShow(0.5, args.destName)
 		timerCorrosiveBloodCD:DelayedStart(0.5)
@@ -354,7 +354,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			dispnum = dispnum + 1
 			if ((mod.Options.optDD == "DD1") and (dispnum == 1)) or ((mod.Options.optDD == "DD2") and (dispnum == 2)) or ((mod.Options.optDD == "DD3") and (dispnum == 3)) then
 				specWarnCorrosiveBlood:Show(">>"..dispnum.."<<")
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3") --快驅散
 			end
 			if dispnum == 3 then dispnum = 0 end
 		end
@@ -363,7 +363,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then
 			specWarnIcyBlood:Show(amount)
 			if amount == 4 then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zybd.mp3") --注意冰凍
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zybd.mp3") --注意冰凍
 			end
 		end
 	elseif args.spellId == 143777 then
@@ -371,7 +371,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(3, 1) then
 			specWarnFrozenSolid:Show(args.destName)
 			if mod:IsDps() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_bmkd.mp3") -- 冰墓快打
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bmkd.mp3") -- 冰墓快打
 			end
 		end
 	elseif args.spellId == 145974 then
@@ -379,9 +379,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnEnrage:Show(args.destName)
 		local source = args.sourceName
 		if (source == UnitName("target") or source == UnitName("focus")) and mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\enrage.mp3") -- 激怒
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\enrage.mp3") -- 激怒
 		elseif mod:CanRemoveEnrage() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\trannow.mp3") -- 注意寧神
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\trannow.mp3") -- 注意寧神
 		end
 	elseif args.spellId == 146589 then
 		warnKey:Show(args.destName)
@@ -403,16 +403,16 @@ function mod:SPELL_AURA_REMOVED(args)
 		screechCount = 0
 		if self:IsDifficulty("lfr25") then
 			timerDeafeningScreechCD:Start(19, 1)
-			sndPX:Schedule(16, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-			sndPX:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndPX:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndPX:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndPX:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndPX:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		else
 			timerDeafeningScreechCD:Start(nil, 1)
-			sndPX:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
-			sndPX:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndPX:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndPX:Schedule(13, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndPX:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndPX:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndPX:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndPX:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 			if self:IsDifficulty("normal10", "heroic10") then
@@ -427,7 +427,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
 		end
 	end
 end
@@ -443,7 +443,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 		if destGUID == UnitGUID("player") then
 			specWarnBurningBlood:Show()
 			yellBurningBlood:Yell()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 		end
 	end
 end
@@ -452,7 +452,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 143784 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 2) then--Different from abobe ID, this is ID that fires for standing in fire on ground (even if you weren't target the fire spawned under)
 		specWarnBurningBloodMove:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -471,7 +471,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTailLashCD:Cancel()
 		specWarnBloodFrenzy:Show()
 --DELETE	soundBloodFrenzy:Play()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段準備
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3") --2階段準備
 		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 			DBM.RangeCheck:Hide()
 		end
@@ -486,21 +486,21 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnAcidPustules:Show()
 		timerCorrosiveBloodCD:Start(6)
 		timerAcidBreathCD:Start()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_dyqh.mp3") --毒液恐龍
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_dyqh.mp3") --毒液恐龍
 		phase = 1
 	elseif spellId == 143968 then
 		timerBurningBloodCD:Cancel()
 		timerCorrosiveBloodCD:Cancel()
 		warnFrostPustules:Show()
 		timerFrostBreathCD:Start(6)
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_bsqh.mp3") --冰霜恐龍
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_bsqh.mp3") --冰霜恐龍
 		phase = 1
 	elseif spellId == 143970 then
 		timerCorrosiveBloodCD:Cancel()
 		warnFirePustules:Show()
 		timerBurningBloodCD:Start(8)
 		timerScorchingBreathCD:Start()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_lyqh.mp3") --烈焰恐龍
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_lyqh.mp3") --烈焰恐龍
 		phase = 1
 	end
 end

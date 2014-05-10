@@ -1,14 +1,17 @@
 ﻿## Interface: 50400
-## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM Skin|r|cffffe00a>|r |cff69ccf0Classic Timer Skin|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM皮肤|r|cffffe00a>|r |cff69ccf0经典计时条|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM外觀|r|cffffe00a>|r |cff69ccf0傳統計時器|r
-## LoadOnDemand: 1
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0经典计时条皮肤|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0經典計時器皮膚|r
+## Notes-zhCN: |cff00ff00DBM-DefaultSkin|r
+## Notes-zhTW: |cff00ff00DBM-DefaultSkin|r
 ## RequiredDeps: DBM-Core
+## X-Revision: BigFoot
+## LoadOnDemand: 1
 ## X-DBM-Timer-Skin: 1
 ## X-DBM-Timer-Skin-Name: Classic
 ## X-DBM-Timer-Skin-Textures: Interface\AddOns\DBM-DefaultSkin\textures\default.tga
 ## X-DBM-Timer-Skin-Texture-Names: Default
+
 Skin.lua
 TimerSkin.xml
 

@@ -1,0 +1,7 @@
+**a052:**
+
+* Updated TOC.
+* Updated locales.
+* Removed Class Module until I can fix it.
+
+----

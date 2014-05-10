@@ -468,7 +468,7 @@
 						if DBM:GetRaidRank() == 0 then
 							return DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
 						end
-						if DBM:GetGroupMembers() == 0 then
+						if GetNumGroupMembers() == 0 then		--bf@178.com
 							return DBM:AddMsg(DBM_ERROR_NO_RAID)
 						end
 						DBM:RequestInstanceInfo()

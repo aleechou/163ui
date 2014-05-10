@@ -38,14 +38,14 @@ function mod:SPELL_CAST_START(args)
 		timerFirewallCD:Start()--First one is 5 seconds after combat start
 		if brawlersMod:PlayerFighting() then
 			specWarnFireWall:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firewall.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firewall.mp3")
 		end
 	elseif args.spellId == 134777 then
 		warnDevastatingThrust:Show()
 		timerDevastatingThrustCD:Start()--First one is 7-8 seconds after combat start
 		if brawlersMod:PlayerFighting() then
 			specWarnDevastatingThrust:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	elseif args.spellId == 133302 then--Blat splitting
 		blatGUID = args.sourceGUID

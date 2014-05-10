@@ -86,10 +86,10 @@ function mod:OnCombatStart(delay)
 	cleancount = 0
 	timerBreathCD:Start(10-delay)
 	timerSwirlCD:Start(20-delay)
-	sndWOP:Schedule(16-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
-	sndWOP:Schedule(17-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-	sndWOP:Schedule(18-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-	sndWOP:Schedule(19-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+	sndWOP:Schedule(16-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
+	sndWOP:Schedule(17-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+	sndWOP:Schedule(18-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+	sndWOP:Schedule(19-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	berserkTimer:Start(-delay)
 	self:RegisterShortTermEvents(
 		"UNIT_POWER_FREQUENT boss1"--Do not want this one persisting out of combat even after a wipe, in case you go somewhere else.
@@ -111,22 +111,22 @@ function mod:SPELL_CAST_START(args)
 		warnBreath:Show()
 		specWarnBreath:Show()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zbcj.mp3") --準備衝擊
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_zbcj.mp3") --準備衝擊
 		end
 		timerBreathCD:Start()
 	elseif args.spellId == 143309 then
 		warnSwirl:Show()
 		specWarnSwirl:Show()
 		timerSwirl:Start()
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xw.mp3") --漩渦
-		sndWOP:Schedule(44, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
-		sndWOP:Schedule(45, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(46, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(47, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xw.mp3") --漩渦
+		sndWOP:Schedule(44, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
+		sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(46, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(47, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerSwirlCD:Show()
 	end
 end
@@ -138,7 +138,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPurifiedResidue:Start()
 	elseif args.spellId == 143297 and args:IsPlayer() and self:AntiSpam(2, 1) then
 		specWarnShaSplash:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif args.spellId == 143523 then
 		cleancount = cleancount + 1
 		updateInfoFrame()
@@ -150,7 +150,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if (args.amount or 1) >= 3 then
 			needwarnsafe = true
 			specWarnSwellingCorruption:Show(args.amount)
-			sndPZ:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3") --注意停手
+			sndPZ:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3") --注意停手
 		end
 	end
 end
@@ -162,7 +162,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerPurifiedResidue:Cancel()
 	elseif args:IsSpellID(143579) and args:IsPlayer() then
 		if needwarnsafe then
-			sndPZ:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
+			sndPZ:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
 			needwarnsafe = false
 		end
 	end
@@ -171,7 +171,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 143297 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShaSplash:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -181,9 +181,9 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
 		if needwarndr then
 			needwarndr = false
 			if MyJS() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
 			else
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 			end
 		end
 	end
@@ -197,7 +197,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 143578 then--Swelling Corruption
 		warnSwellingCorruptionCast:Show()
 		timerSwellingCorruptionCD:Start()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_pz.mp3") --膨脹
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_pz.mp3") --膨脹
 	end
 end
 
@@ -215,13 +215,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg:find("spell:143469") then--Reforms
 		warnReform:Show()
 		needwarndr = false
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_fljs.mp3") --分裂結束
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fljs.mp3") --分裂結束
 		timerBreathCD:Start(14)
 		timerSwirlCD:Start(24)
-		sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
-		sndWOP:Schedule(21, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(23, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")--漩渦準備
+		sndWOP:Schedule(21, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(23, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerSwellingCorruptionCD:Start(17)
 		end
@@ -229,11 +229,11 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		splitcount = splitcount + 1
 		warnSplit:Show()
 		specWarnSplit:Show(splitcount)
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_fl.mp3") --分裂開始
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_xwzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_so_fl.mp3") --分裂開始
 		timerBreathCD:Cancel()
 		timerSwirlCD:Cancel()
 		timerShaBoltCD:Cancel()

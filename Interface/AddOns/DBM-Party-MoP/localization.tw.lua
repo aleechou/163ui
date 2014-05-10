@@ -133,7 +133,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Kill		= "只要你們心中還存有暴力，我就..會回來...",
+	Kill			= "只要你們心中還存有暴力，我就..會回來..."
 })
 
 -----------------------

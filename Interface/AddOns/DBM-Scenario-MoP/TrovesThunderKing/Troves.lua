@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d620", "DBM-Scenario-MoP")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 9883 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10370 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterCombat("scenario", 1135)
@@ -59,7 +59,6 @@ function mod:UNIT_AURA(uId)
 		timerStarted = false
 		timerEvent:Cancel()
 		countdownEvent:Cancel()
---		DBM:EndCombat(self)--Maybe consider it a victory if you do a loot run and not boss run?
---		Or maybe just only declare it a victory when you defeat end boss and reach end and fire scenario completed event?
+		DBM:EndCombat(self)--Consider as a victory if you do a loot run.
 	end
 end

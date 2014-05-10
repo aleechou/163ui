@@ -50,10 +50,10 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 10746 $"):sub(12, -3)),
-	DisplayVersion = "5.4.4 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
-	DisplayReleaseVersion = "5.4.5", -- Needed to work around bigwigs sending improper version information
-	ReleaseRevision = 10737 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 11061 $"):sub(12, -3)),
+	DisplayVersion = "5.4.10 "..DBM_CORE_SOUNDVER, -- the string that is shown as version
+	DisplayReleaseVersion = "5.4.10", -- Needed to work around old versions of BW sending improper version information
+	ReleaseRevision = 11061 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -81,7 +81,7 @@ DBM.DefaultOptions = {
 	SpecialWarningSound3 = "Sound\\Spells\\PVPFlagTaken.ogg",
 	ModelSoundValue = "Short",
 	ChallengeBest = "Realm",
-	CountdownVoice = "DBM-Sound-Yike\\yike",
+	CountdownVoice = "Mosh",
 	CountdownVoice2 = "yun",
 	ShowCountdownText = false,
 	RaidWarningPosition = {
@@ -108,7 +108,7 @@ DBM.DefaultOptions = {
 	WhisperStats = false,
 	HideBossEmoteFrame = true,
 	SpamBlockBossWhispers = false,
-	ShowMinimapButton = false,
+	ShowMinimapButton = true,					--bf@178.com
 	BlockVersionUpdateNotice = false,
 	ShowSpecialWarnings = true,
 	ShowFlashFrame = true,
@@ -201,7 +201,6 @@ DBM.DefaultOptions = {
 
 DBM.Bars = DBT:New()
 DBM.Mods = {}
-DBM.Soundfile = {}
 
 ------------------------
 -- Global Identifiers --
@@ -299,6 +298,7 @@ local InCombatLockdown = InCombatLockdown
 local GetAddOnInfo = GetAddOnInfo
 local PlaySoundFile = PlaySoundFile
 local PlaySound = PlaySound
+local Ambiguate = Ambiguate
 
 -- for Phanx' Class Colors
 local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
@@ -399,7 +399,7 @@ do
 	local argsMT = {__index = {}}
 	local args = setmetatable({}, argsMT)
 
-	function argsMT.__index:IsSpellID(a1, a2, a3, a4, a5)
+	function argsMT.__index:IsSpellID(a1, a2, a3, a4, a5)		--旧事模块依赖函数 bf@178.com
 		local v = self.spellId
 		return v == a1 or v == a2 or v == a3 or v == a4 or v == a5
 	end
@@ -523,7 +523,7 @@ do
 		end
 
 	end
-
+	
 
 	-- UNIT_* events are special: they can take 'parameters' like this: "UNIT_HEALTH boss1 boss" which only trigger the event for the given unit ids
 	function DBM:RegisterEvents(...)
@@ -557,11 +557,11 @@ do
 			end
 		end
 	end
-
+	
 	local function unregisterEvent(mod, event)
 		if event:sub(0, 5) == "UNIT_" and event ~= "UNIT_DIED" and event ~= "UNIT_DESTROYED" then
 			local event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", event)
-			if event:sub(event:len() - 10) == "_UNFILTERED" then
+			if event:sub(event:len() - 10) == "_UNFILTERED" then 
 				mainFrame:UnregisterEvent(event:sub(0, -12))
 			else
 				unregisterUnitEvent(mod, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
@@ -640,11 +640,41 @@ do
 		SPELL_DRAIN = true,
 		SPELL_LEECH = true
 	}
+
+	local bf_igzones = {		--兼容老DBM模块
+		[615] = true,
+		[724] = true,
+		[649] = true,
+		[616] = true,
+		[631] = true,
+		[533] = true,
+		[249] = true,
+		[619] = true,
+		[601] = true,
+		[595] = true,
+		[600] = true,
+		[604] = true,
+		[602] = true,
+		[599] = true,
+		[576] = true,
+		[578] = true,
+		[574] = true,
+		[575] = true,
+		[608] = true,
+		[658] = true,
+		[632] = true,
+		[668] = true,
+		[650] = true,
+		[603] = true,
+		[624] = true,
+		[-1] = false,
+	}
+
 	function DBM:COMBAT_LOG_EVENT_UNFILTERED(timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
 		if not registeredEvents[event] then return end
 		-- process some high volume events without building the whole table which is somewhat faster
 		-- this prevents work-around with mods that used to have their own event handler to prevent this overhead
-		if noArgTableEvents[event] then
+		if noArgTableEvents[event] and ( not bf_igzones[LastInstanceMapID] ) then
 			return handleEvent(nil, event, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
 		else
 			twipe(args)
@@ -659,9 +689,55 @@ do
 			args.destFlags = destFlags
 			args.destRaidFlags = destRaidFlags
 			-- taken from Blizzard_CombatLog.lua
-			if event:sub(0, 6) == "SPELL_" then
+			if event == "SWING_DAMAGE" then
+				args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = select(1, ...)
+			elseif event == "SWING_MISSED" then
+				args.spellName = ACTION_SWING
+				args.missType = select(1, ...)
+			elseif event:sub(1, 5) == "RANGE" then
 				args.spellId, args.spellName, args.spellSchool = select(1, ...)
-				if event == "SPELL_INTERRUPT" then
+				if event == "RANGE_DAMAGE" then
+					args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = select(4, ...)
+				elseif event == "RANGE_MISSED" then
+					args.missType = select(4, ...)
+				end
+			elseif event:sub(0, 6) == "SPELL_" then
+					args.spellId, args.spellName, args.spellSchool = select(1, ...)
+				if event == "SPELL_DAMAGE" or event == "SPELL_BUILDING_DAMAGE" then -- SPELL_BUILDING_DAMAGE args guessed
+					args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = select(4, ...)
+				elseif event == "SPELL_MISSED" then
+					args.missType, args.amountMissed = select(4, ...)
+				elseif event == "SPELL_HEAL" then
+					args.amount, args.overheal, args.absorbed, args.critical = select(4, ...)
+					args.school = args.spellSchool
+				elseif event == "SPELL_ENERGIZE" then
+					args.valueType = 2
+					args.amount, args.powerType = select(4, ...)
+				elseif event:sub(1, 14) == "SPELL_PERIODIC" then
+					if event == "SPELL_PERIODIC_MISSED" then
+						args.missType = select(4, ...)
+					elseif event == "SPELL_PERIODIC_DAMAGE" then
+						args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = select(4, ...)
+					elseif event == "SPELL_PERIODIC_HEAL" then
+						args.amount, args.overheal, args.absorbed, args.critical = select(4, ...)
+						args.school = args.spellSchool
+					elseif event == "SPELL_PERIODIC_DRAIN" then
+						args.amount, args.powerType, args.extraAmount = select(4, ...)
+						args.valueType = 2
+					elseif event == "SPELL_PERIODIC_LEECH" then
+						args.amount, args.powerType, args.extraAmount = select(4, ...)
+						args.valueType = 2
+					elseif event == "SPELL_PERIODIC_ENERGIZE" then
+						args.amount, args.powerType = select(4, ...)
+						args.valueType = 2
+					end
+				elseif event == "SPELL_DRAIN" then
+					args.amount, args.powerType, args.extraAmount = select(4, ...)
+					args.valueType = 2
+				elseif event == "SPELL_LEECH" then
+					args.amount, args.powerType, args.extraAmount = select(4, ...)
+					args.valueType = 2
+				elseif event == "SPELL_INTERRUPT" then
 					args.extraSpellId, args.extraSpellName, args.extraSpellSchool = select(4, ...)
 				elseif event == "SPELL_EXTRA_ATTACKS" then
 					args.amount = select(4, ...)
@@ -717,10 +793,10 @@ end
 --  OnLoad  --
 --------------
 do
-
+	
 	local isLoaded = false
 	local onLoadCallbacks = {}
-
+	
 	-- register a callback that will be executed once the addon is fully loaded (ADDON_LOADED fired, saved vars are available)
 	function DBM:RegisterOnLoadCallback(cb)
 		if isLoaded then
@@ -729,7 +805,7 @@ do
 			onLoadCallbacks[#onLoadCallbacks + 1] = cb
 		end
 	end
-
+	
 	local function showOldVerWarning()
 		local popup = CreateFrame("Frame", nil, UIParent)
 		popup:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
@@ -838,15 +914,6 @@ do
 							end
 						end
 					end
-				elseif GetAddOnMetadata(i, "X-DBM-Mod-SoundFile") and enabled then
-					tinsert(DBM.Soundfile, {
-						Addon			= GetAddOnInfo(i),
-						Tag				= GetAddOnMetadata(i, "X-DBM-Mod-SoundFile"),
-						Path			= GetAddOnInfo(i).."\\"..GetAddOnMetadata(i, "X-DBM-Mod-SoundFile"),
-						Name			= GetAddOnMetadata(i, "X-DBM-Mod-SoundFileName") or DBM_CORE_SOUND_UNNAME,						
-						Usage			= GetAddOnMetadata(i, "X-DBM-Mod-SoundFileUsage") or DBM_CORE_SOUND_UNUSAGE,
-						hasPic			= tonumber(GetAddOnMetadata(i, "X-DBM-Mod-SoundFilePIC") or 0) == 1,
-					})
 				end
 			end
 			table.sort(self.AddOns, function(v1, v2) return v1.sort < v2.sort end)
@@ -856,6 +923,7 @@ do
 				"UNIT_NAME_UPDATE_UNFILTERED",
 				--"INSTANCE_GROUP_SIZE_CHANGED",
 				"CHAT_MSG_ADDON",
+				"BN_CHAT_MSG_ADDON",
 				"PLAYER_REGEN_DISABLED",
 				"PLAYER_REGEN_ENABLED",
 				"INSTANCE_ENCOUNTER_ENGAGE_UNIT",
@@ -1273,7 +1341,7 @@ end
 
 do
 	local sortMe = {}
-
+	
 	local function sort(v1, v2)
 		if v1.revision and not v2.revision then
 			return true
@@ -1450,14 +1518,14 @@ do
 			ignore = link:match(":([^:]+)$")
 			showPopupConfirmIgnore(ignore, cancel)
 		elseif arg1 == "update" then
-			DBM:ShowUpdateReminder(arg2, arg3) -- displayVersion, revision
+			-- DBM:ShowUpdateReminder(arg2, arg3) -- displayVersion, revision	--bf@178.com
 		elseif arg1 == "forums" then
 			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG)
 		elseif arg1 == "showRaidIdResults" then
 			DBM:ShowRaidIDRequestResults()
 		end
 	end
-
+	
 	DEFAULT_CHAT_FRAME:HookScript("OnHyperlinkClick", linkHook) -- handles the weird case that the default chat frame is not one of the normal chat frames (3rd party chat frames or whatever causes this)
 	local i = 1
 	while _G["ChatFrame" .. i] do
@@ -1566,7 +1634,8 @@ do
 		DBM:LoadGUI()
 	end)
 	button:SetScript("OnEnter", function(self)
-		GameTooltip_SetDefaultAnchor(GameTooltip, self)
+		-- GameTooltip_SetDefaultAnchor(GameTooltip, self)
+		GameTooltip:SetOwner(self,"TOPLEFT",30,-110)		--bf@178.com
 		GameTooltip:SetText(DBM_CORE_MINIMAP_TOOLTIP_HEADER, 1, 1, 1)
 		GameTooltip:AddLine(ver, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1)
 		GameTooltip:AddLine(" ")
@@ -1596,10 +1665,10 @@ end
 -------------------------------------------------
 do
 	local inRaid = false
-
+	
 	local raidUIds = {}
 	local raidGuids = {}
-
+	
 
 	--	save playerinfo into raid table on load. (for solo raid)
 	DBM:RegisterOnLoadCallback(function()
@@ -1832,7 +1901,7 @@ do
 			end
 		end
 	end
-
+	
 	local function soloIterator(_, state)
 		if not state then -- no state == first call
 			return "player", 0
@@ -1923,24 +1992,14 @@ do
 	end
 
 	local function fixsoundbug()
-		local findsoundfile = false
-		local finddefaultsoundfile = false
-		if #DBM.Soundfile > 0 and DBM.Soundfile[#DBM.Soundfile].Path then
-			for i = 1, #DBM.Soundfile do
-				if DBM.Options.CountdownVoice == DBM.Soundfile[i].Path then
-					findsoundfile = true							
-				end
-				if DBM.DefaultOptions.CountdownVoice == DBM.Soundfile[i].Path then
-					finddefaultsoundfile = true							
-				end
+		if DBM.Options.CountdownVoice ~= "Mosh" and DBM.Options.CountdownVoice ~= "sst" and DBM.Options.CountdownVoice ~= "yun" and DBM.Options.CountdownVoice ~= "other" then
+			if GetLocale() == "zhTW" then
+				DBM.Options.CountdownVoice = "yun"
+			elseif  GetLocale() == "zhCN" then
+				DBM.Options.CountdownVoice = "Mosh"
+			else
+				DBM.Options.CountdownVoice = "sst"
 			end
-			if not findsoundfile then
-				if finddefaultsoundfile then
-					DBM.Options.CountdownVoice = DBM.DefaultOptions.CountdownVoice
-				else
-					DBM.Options.CountdownVoice = DBM.Soundfile[#DBM.Soundfile].Path
-				end
-			end					
 		end
 	end
 	
@@ -2396,7 +2455,7 @@ do
 			DBM:StartCombat(mod, delay + lag, "SYNC from - "..sender, true, startHp)
 		end
 	end
-
+	
 	syncHandlers["HF"] = function(sender, mod, modRevision)
 		mod = DBM:GetModByName(mod or "")
 		modRevision = tonumber(modRevision or 0) or 0
@@ -2443,15 +2502,15 @@ do
 		end
 		--Cancel any existing pull timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
 		if not DBM.Options.DontShowPT and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL) then
-			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL)
+			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL) 
 		end
 		if not DBM.Options.DontPlayPTCountdown then
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master")
 		end
 		if not DBM.Options.DontShowPTCountdownText then
 			DBM:Unschedule(countDownTextDelay)
@@ -2464,12 +2523,12 @@ do
 		end
 		if not DBM.Options.DontPlayPTCountdown then
 			PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\win.ogg", "Master")
-			if timer > 5 then DBM:Schedule(timer-5, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master") end
-			if timer > 5 then DBM:Schedule(timer-4, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master") end
-			if timer > 3 then DBM:Schedule(timer-3, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master") end
-			if timer > 3 then DBM:Schedule(timer-2, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master") end
-			if timer > 3 then DBM:Schedule(timer-1, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master") end
-			if timer > 1 then DBM:Schedule(timer, PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master") end
+			if timer > 5 then DBM:Schedule(timer-5, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master") end
+			if timer > 5 then DBM:Schedule(timer-4, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master") end
+			if timer > 3 then DBM:Schedule(timer-3, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master") end
+			if timer > 3 then DBM:Schedule(timer-2, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master") end
+			if timer > 3 then DBM:Schedule(timer-1, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master") end
+			if timer > 1 then DBM:Schedule(timer, PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master") end
 		end
 		if not DBM.Options.DontShowPTCountdownText then
 			local threshold = DBM.Options.PTCountThreshold
@@ -2495,12 +2554,12 @@ do
 		end
 		dummyMod.text:Cancel()
 		if not DBM.Options.DontPlayPTCountdown then
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master")
-			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3", "Master")
+			DBM:Unschedule(PlaySoundFile, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\com_go.mp3", "Master")
 		end
 		if not DBM.Options.DontShowPTCountdownText then
 			DBM:Unschedule(countDownTextDelay)
@@ -2524,7 +2583,7 @@ do
 			raid[sender].bwrevision = tonumber(bwrevision)
 		end
 	end
-
+	
 	syncHandlers["VRA"] = function(sender, bwarevision)--Sent by bigwigs Alphas
 		if bwarevision and raid[sender] then
 			raid[sender].bwarevision = tonumber(bwarevision)
@@ -2539,6 +2598,7 @@ do
 			raid[sender].displayVersion = displayVersion
 			raid[sender].locale = locale
 			local revDifference = revision - tonumber(DBM.Revision)
+			--[[	bigfoot@178.com
 			if version > tonumber(DBM.Version) then -- Update reminder
 				--Old version of Bigwigs version faking breaks version update notification because they send alpha revision as release revision with their faking code
 				--Bigwigs sniffs highest REVISION it finds in raid, (not highest ReleaseRevision) and then passes it as ReleaseRevision arg when sending sync back
@@ -2605,6 +2665,7 @@ do
 					end
 				end
 			end
+			]]
 		end
 		DBM:GROUP_ROSTER_UPDATE()
 	end
@@ -2613,7 +2674,7 @@ do
 		local _, _, home, world = GetNetStats()
 		sendSync("LAG", ("%d\t%d"):format(home, world))
 	end
-
+	
 	syncHandlers["LAG"] = function(sender, homelag, worldlag)
 		homelag, worldlag = tonumber(homelag or ""), tonumber(worldlag or "")
 		if homelag and worldlag and raid[sender] then
@@ -2695,7 +2756,7 @@ do
 			DBM:Unschedule(autoDecline)
 			DBM:Schedule(59, autoDecline, sender)
 			inspopup:Hide()
-			if savedSender ~= sender then
+			if savedSender ~= sender then 
 				if savedSender then
 					autoDecline(savedSender, 1) -- Do not allow multiple popups, so auto decline to previous sender.
 				end
@@ -2961,24 +3022,31 @@ do
 	end
 
 	function DBM:CHAT_MSG_ADDON(prefix, msg, channel, sender)
-		if prefix == "D4" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" and self:GetRaidUnitId(sender)) then
+		if prefix == "D4" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" or channel == "GUILD") then
+			sender = Ambiguate(sender, "none")
 			handleSync(channel, sender, strsplit("\t", msg))
 		elseif prefix == "BigWigs" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" and self:GetRaidUnitId(sender)) then
+			sender = Ambiguate(sender, "none")
 			local bwPrefix, bwMsg = msg:match("^(%u-):(.+)")
 			if bwPrefix and (bwPrefix == "VR" or bwPrefix == "VRA") then--We only care about version prefixes so only pass those prefixes on
 				handleSync(channel, sender, bwPrefix, bwMsg)
 			end
 		end
 	end
+	
+	function DBM:BN_CHAT_MSG_ADDON(prefix, msg, channel, sender)
+		if prefix == "D4" and msg then
+			handleSync(channel, sender, strsplit("\t", msg))
+		end
+	end
 end
-
 
 -----------------------
 --  Update Reminder  --
 -----------------------
 do
 	local frame, fontstring, fontstringFooter
-
+	
 	local function createFrame()
 		frame = CreateFrame("Frame", nil, UIParent)
 		frame:SetFrameStrata("FULLSCREEN_DIALOG") -- yes, this isn't a fullscreen dialog, but I want it to be in front of other DIALOG frames (like DBM GUI which might open this frame...)
@@ -3149,13 +3217,11 @@ do
 		Grilpic:SetPoint( "TOPLEFT", 10, -10 )
 		Grilpic:SetPoint( "BOTTOMRIGHT", -10, 10 )	
 		Grilpic:SetTexCoord(0, 2, 0, 1)
-		Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\textures\soundgrils\pic.tga]] )
 		
 		fontstringHeader = frame:CreateFontString(nil, "ARTWORK", "ZoneTextFont")
 		fontstringHeader:SetWidth(410)
 		fontstringHeader:SetHeight(0)
 		fontstringHeader:SetPoint("TOP", 80, -26)
-		fontstringHeader:SetText(DBM_CORE_SOUND_UNNAME)
 		
 		fontstring = frame:CreateFontString(nil, "ARTWORK", "SystemFont_Tiny")	
 		fontstring:SetWidth(200)
@@ -3164,7 +3230,6 @@ do
 		fontstring:SetFont(STANDARD_TEXT_FONT, 15, "")
 		fontstring:SetTextColor(0.62, 0.32, 0.17, 1)
 		fontstring:SetPoint("TOP", fontstringHeader, "BOTTOM", 0, -20)
-		fontstring:SetText("       "..DBM_CORE_SOUND_UNUSAGE)
 		
 		local button = CreateFrame("Button", nil, frame)
 		button:SetHeight(15)
@@ -3191,27 +3256,23 @@ do
 		else
 			frame:Show()
 			fframe = true
-		end		
-		if #DBM.Soundfile > 0 and DBM.Soundfile[#DBM.Soundfile].Path then
-			for i = 1, #DBM.Soundfile do
-				if DBM.Soundfile[i].Path == DBM.Options.CountdownVoice then
-					if DBM.Soundfile[i].Name then
-						fontstringHeader:SetText(DBM.Soundfile[i].Name)
-					else
-						fontstringHeader:SetText(DBM_CORE_SOUND_UNNAME)
-					end
-					if DBM.Soundfile[i].Usage then
-						fontstring:SetText("       "..DBM.Soundfile[i].Usage)
-					else
-						fontstring:SetText("       "..DBM_CORE_SOUND_UNUSAGE)
-					end
-					if DBM.Soundfile[i].hasPic then
-						Grilpic:SetTexture("Interface\\Addons\\"..DBM.Soundfile[i].Addon.."\\"..DBM.Soundfile[i].Tag..".tga")
-					else
-						Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\textures\soundgrils\pic.tga]] )
-					end					
-				end
-			end
+		end
+		if DBM.Options.CountdownVoice == "yun" then
+			Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\textures\soundgrils\yun.tga]] )
+			fontstringHeader:SetText(DBM_CORE_SOUNDGRIL_NAME_YUN)
+			fontstring:SetText(DBM_CORE_SOUNDGRIL_TEXT_YUN)
+		elseif DBM.Options.CountdownVoice == "sst" then
+			Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\textures\soundgrils\sst.tga]] )
+			fontstringHeader:SetText(DBM_CORE_SOUNDGRIL_NAME_SST)
+			fontstring:SetText(DBM_CORE_SOUNDGRIL_TEXT_SST)
+		elseif DBM.Options.CountdownVoice == "Mosh" then
+			Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\textures\soundgrils\yike.tga]] )
+			fontstringHeader:SetText(DBM_CORE_SOUNDGRIL_NAME_YIKE)
+			fontstring:SetText(DBM_CORE_SOUNDGRIL_TEXT_YIKE)
+		else
+			Grilpic:SetTexture( [[Interface\AddOns\DBM-Core\extrasounds\other\other.tga]] )
+			fontstringHeader:SetText(DBM_CORE_SOUNDGRIL_NAME_CUSTOM)
+			fontstring:SetText(DBM_CORE_SOUNDGRIL_TEXT_CUSTOM)
 		end
 	end
 end
@@ -3614,7 +3675,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		if dummyMod then--stop pull timer, warning, countdowns
 			dummyMod.countdown:Cancel()
 			dummyMod.text:Cancel()
-			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL)
+			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL) 
 			TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
 		end
 		if mod.hotfixNoticeRev then
@@ -4038,7 +4099,7 @@ do
 	function DBM:RequestTimers()
 		local bestClient
 		for i, v in pairs(raid) do
-			-- If bestClient player's realm is not same with your's, timer recovery by bestClient not works at all.
+			-- If bestClient player's realm is not same with your's, timer recovery by bestClient not works at all. 
 			-- SendAddonMessage target channel is "WHISPER" and target player is other realm, no msg sends at all. At same realm, message sending works fine. (Maybe bliz bug or SendAddonMessage function restriction?)
 			if v.name ~= playerName and UnitIsConnected(v.id) and (not UnitIsGhost(v.id)) and (v.revision or 0) > ((bestClient and bestClient.revision) or 0) and not select(2, UnitName(v.id)) and not clientUsed[v.name] then
 				bestClient = v
@@ -4208,7 +4269,8 @@ do
 
 	function DBM:PLAYER_ENTERING_WORLD()
 --		self:Schedule(10, function() if not DBM.Options.HelpMessageShown then DBM.Options.HelpMessageShown = true DBM:AddMsg(DBM_CORE_NEED_SUPPORT) end end)
-		self:Schedule(10, function() if not DBM.Options.SettingsMessageShown then DBM.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
+--bf@178
+--		self:Schedule(10, function() if not DBM.Options.SettingsMessageShown then DBM.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
 --		self:Schedule(16, function() if not DBM.Options.ForumsMessageShown then DBM.Options.ForumsMessageShown = DBM.ReleaseRevision self:AddMsg(DBM_FORUMS_MESSAGE) end end)
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
@@ -4240,7 +4302,7 @@ do
 		end
 		return alive
 	end
-
+	
 	local function getNumRealAlivePlayers()
 		local alive = 0
 		local currentMapId = GetCurrentMapAreaID()
@@ -4313,6 +4375,7 @@ do
 
 	function DBM:CHAT_MSG_WHISPER(msg, name, _, _, _, status)
 		if status ~= "GM" then
+			name = Ambiguate(name, "none")
 			return onWhisper(msg, name, false)
 		end
 	end
@@ -4589,7 +4652,7 @@ function DBM:UpdateMapSizes()
 	if dims then
 		currentSizes = dims
 		return
-	end
+	end 
 
 	-- failed, try Blizzard's map size
 	if not (a1 and b1 and c1 and d1) then
@@ -4798,7 +4861,6 @@ function bossModPrototype:SetEncounterID(...)
 		end
 	end
 end
-
 function bossModPrototype:SetQuestID(id)
 	self.questId = id
 end
@@ -5097,7 +5159,7 @@ function bossModPrototype:CheckTankDistance(cid, distance, defaultReturn)
 		--Tank in range, return true.
 		return true
 	end
-	return (defaultReturn == nil) or defaultReturn--When we simply can't figure anything out, return true and allow warnings using this filter to fire. But some spells will prefer not to fire(i.e : Galakras tower spell), we can define it on this function calling.
+	return (defaultReturn == nil) or defaultReturn--When we simply can't figure anything out, return true and allow warnings using this filter to fire. But some spells will prefer not to fire(i.e : Galakras tower spell), we can define it on this function calling. 
 end
 
 function bossModPrototype:Stop(cid)
@@ -5123,6 +5185,7 @@ function bossModPrototype:IsDifficulty(...)
 	end
 	return false
 end
+
 
 function bossModPrototype:SetUsedIcons(...)
 	self.usedIcons = {}
@@ -5257,7 +5320,7 @@ function bossModPrototype:IsSpellCaster(includePal)
 end
 
 function bossModPrototype:IsTanking(unit, boss)
-	if not unit then return false end
+	if not unit then return false end 
 	if GetPartyAssignment("MAINTANK", unit, 1) then
 		return true
 	end
@@ -5445,8 +5508,8 @@ do
 				local displayText = table.concat(self.combinedtext, "<, >")
 				if self.combinedcount == 1 then
 					displayText = displayText.." "..DBM_CORE_GENERIC_WARNING_OTHERS
-				elseif self.combinedcount > 1 then
-					displayText = displayText.." "..DBM_CORE_GENERIC_WARNING_OTHERS2:format(self.combinedcount)
+				elseif self.combinedcount > 1 then 
+					displayText = displayText.." "..DBM_CORE_GENERIC_WARNING_OTHERS2:format(self.combinedcount) 
 				end
 				argTable[pointToProcess] = displayText
 				text = ("%s%s%s|r%s"):format(
@@ -5774,7 +5837,7 @@ do
 	local function showCountdown(timer)
 		TimerTracker_OnEvent(TimerTracker, "START_TIMER", 2, timer, timer)
 	end
-
+	
 	local function stopCountdown()
 		TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
 	end
@@ -5787,7 +5850,7 @@ do
 			if timer <= count then count = floor(timer) end
 			if DBM.Options.ShowCountdownText and not (self.textDisabled or self.alternateVoice) then
 				stopCountdown()
-				if timer >= count then
+				if timer >= count then 
 					DBM:Schedule(timer-count, showCountdown, count)
 				else
 					DBM:Schedule(timer%1, showCountdown, floor(timer))
@@ -5824,7 +5887,7 @@ do
 				elseif i == 10 then countvaluei = "countten"
 				elseif i == 11 then countvaluei = "counteleven" end
 				if i <= 11 then
-					self.sound5:Schedule(timer-i, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..countvaluei..".mp3")
+					self.sound5:Schedule(timer-i, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\"..countvaluei..".mp3")
 				end
 			end
 		end
@@ -5949,7 +6012,7 @@ do
 		end
 		tinsert(self.countdowns, obj)
 		return obj
-	end
+	end	
 end
 
 ------------------------
@@ -5988,7 +6051,7 @@ do
 				elseif i == 10 then countvaluei = "countten"
 				elseif i == 11 then countvaluei = "counteleven" end
 				if i <= 11 then
-					self.sound5:Schedule(timer-i, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..countvaluei..".mp3")
+					self.sound5:Schedule(timer-i, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\"..countvaluei..".mp3")
 				end
 			end
 		end
@@ -6342,7 +6405,7 @@ do
 	function bossModPrototype:NewSpecialWarningCast(text, optionDefault, ...)
 		return newSpecialWarning(self, "cast", text, nil, optionDefault, ...)
 	end
-
+	
 	function bossModPrototype:NewSpecialWarningReflect(text, optionDefault, ...)
 		return newSpecialWarning(self, "reflect", text, nil, optionDefault, ...)
 	end
@@ -6372,7 +6435,7 @@ do
 		end
 		return newSpecialWarning(self, "prewarn", text, time, optionDefault, optionName, noSound, runSound, optionVersion)
 	end
-
+	
 	function DBM:PlayCountSound(number, forceVoice)
 		if number > 10 or number < 1 then return end
 --[[		local voice, voice2
@@ -6402,12 +6465,12 @@ do
 		elseif number == 9 then countvaluenumber = "countnine"
 		elseif number == 10 then countvaluenumber = "countten" end
 		if DBM.Options.UseMasterVolume then
-			PlaySoundFile("Interface\\AddOns\\"..voice.."\\"..countvaluenumber..".mp3", "Master")
+			PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..voice.."\\"..countvaluenumber..".mp3", "Master")
 		else
-			PlaySoundFile("Interface\\AddOns\\"..voice.."\\"..countvaluenumber..".mp3")
+			PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..voice.."\\"..countvaluenumber..".mp3")
 		end
 	end
-
+	
 	function DBM:PlaySpecialWarningSound(soundId)
 		local sound = type(soundId) == "number" and DBM.Options["SpecialWarningSound" .. (soundId == 1 and "" or soundId)] or soundId or DBM.Options.SpecialWarningSound
 		if DBM.Options.UseMasterVolume then

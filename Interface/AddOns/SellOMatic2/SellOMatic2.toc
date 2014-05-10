@@ -1,0 +1,50 @@
+﻿## Interface: 50400
+## X-BigfootType: 7
+## X-BigfootDesc: SellOMatic自动卖垃圾插件，当你访问商人时，自动出售垃圾物品，并显示详细的信息。你还可以自定义需要出售的物品或者需要保留不出售的物品。
+## X-Compatible-With: 50200
+## Title: Sell-O-Matic2
+## Notes: Helps you automate selling stuff.
+## Author: Silmano
+## Version: a052
+## OptionalDeps: Ace3, LibGratuity-3.0
+## SavedVariables: SellOMatic2DB
+## X-Category: Tradeskill
+## LoadManagers: AddonLoader
+## X-LoadOn-Slash: /som, /sellomatic
+## X-LoadOn-Merchant: true
+## X-Curse-Packaged-Version: a052
+## X-Curse-Project-Name: Sell-O-Matic2
+## X-Curse-Project-ID: sell-o-matic-2
+## X-Curse-Repository-ID: wow/sell-o-matic-2/mainline
+
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\LibGratuity-3.0\LibGratuity-3.0.lua
+#@end-no-lib-strip@
+
+Locales\SOM_deDE.lua
+Locales\SOM_koKR.lua
+Locales\SOM_ruRU.lua
+Locales\SOM_zhCN.lua
+Locales\SOM_esES.lua
+Locales\SOM_zhTW.lua
+Locales\SOM_frFR.lua
+Locales\SOM_esMX.lua
+Locales\SOM_enUS.lua
+Locales\SOM_ptBR.lua
+Locales\SOM_itIT.lua
+
+SOM_main.lua
+button.xml
+
+## Title: |cff880303[网易有爱]|r 自动售卖助手
+## X-Vendor: NetEase

@@ -67,15 +67,15 @@ function mod:SPELL_CAST_START(args)
 		timerPiercingRoarCD:Start()
 		if mod:IsManaUser() and mod:IsRanged() then
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3") --停止施法
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3") --停止施法
 		else
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		end
 	elseif args.spellId == 137505 then
 		warnFrillBlast:Show()
 		specWarnFrillBlast:Show()
 		timerFrillBlastCD:Start()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\watchwave.mp3") --衝擊波
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\watchwave.mp3") --衝擊波
 	end
 end
 
@@ -96,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if (args.amount or 1) >= 2 and not UnitIsDeadOrGhost("player") or not UnitDebuff("player", GetSpellInfo(137504)) then
 				specWarnCrushOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 				end
 			end
 		end
