@@ -12,7 +12,7 @@ U1RegisterAddon("SellOMatic2", {
 
 
 	
-	    {
+	{
         text = "配置选项",
         callback = function ()
 		InterfaceOptionsFrame_OpenToCategory("Sell-O-Matic")
@@ -20,6 +20,47 @@ U1RegisterAddon("SellOMatic2", {
 		InterfaceOptionsFrame_OpenToCategory("Sell-O-Matic")
 		end,
     },
+	
+    {
+        type="checkbox",
+        text="自动贩卖",
+        var = "autoSell",
+        default = function() return SellOMatic.db.profile['autoSell']  end,
+        tip="切换开启/关闭自动模式",
+        callback = function(cfg, v, loading)
+			if v then
+				SellOMatic.db.profile['autoSell'] = true
+			else
+				SellOMatic.db.profile['autoSell'] = false
+			end
+		end,
+    },	
+	{
+        var = "showFullInfo",
+        default =  "2-LITE",
+        text = "讯息种类",
+        type = "radio",
+        options = {"完整","1-FULL", "精简","2-LITE"},
+		getvalue = function() return SellOMatic.db.profile['showFullInfo'] end,
+		callback = function(cfg, v, loading)
+			SellOMatic.db.profile['showFullInfo'] = v
+        end,
+	},
+    {
+        type="checkbox",
+        text="预览",
+        var = "preview",
+        default = false,
+        tip="开启/关闭出售前的预览",
+        callback = function(cfg, v, loading)
+			if v then
+				SellOMatic.db.profile['preview'] = true
+			else
+				SellOMatic.db.profile['preview'] = false
+			end
+		end,
+    },		
+	
 	
 });
 
