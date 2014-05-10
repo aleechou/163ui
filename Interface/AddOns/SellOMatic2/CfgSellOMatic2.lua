@@ -25,8 +25,9 @@ U1RegisterAddon("SellOMatic2", {
         type="checkbox",
         text="自动贩卖",
         var = "autoSell",
-        default = function() return SellOMatic.db.profile['autoSell']  end,
+        default = true,
         tip="切换开启/关闭自动模式",
+		getvalue = function() return SellOMatic.db.profile['autoSell'] end,
         callback = function(cfg, v, loading)
 			if v then
 				SellOMatic.db.profile['autoSell'] = true
@@ -52,6 +53,7 @@ U1RegisterAddon("SellOMatic2", {
         var = "preview",
         default = false,
         tip="开启/关闭出售前的预览",
+		getvalue = function() return SellOMatic.db.profile['preview'] end,
         callback = function(cfg, v, loading)
 			if v then
 				SellOMatic.db.profile['preview'] = true
