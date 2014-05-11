@@ -175,7 +175,7 @@ U1RegisterAddon("!!!163UI!!!", {
         var = "hideCompactRaid",
         text = L["完全屏蔽默认的团队框架"],
         tip = L["说明`完全屏蔽暴雪团队框架及屏幕左侧的控制条，在使用Grid等团队框架时可以减少占用。` `注意此选项不能在战斗中设置"],
-        default = nil,
+        default = 1,
         secure = 1,
         callback = function(cfg, v, loading)
             if loading and not v then return end
