@@ -33,12 +33,14 @@ if( !fs.existsSync(packagesdir) ){
 var indexjson = require("./index.json") 
 var addonsJson = require("./addons-index.json")
 addonsJson.addons = []
+if(!addonsJson.ignore) addonsJson.ignore = {}
 
 fs.readdirSync(srcdir)
 .reduce(function(addons,filename){
-    fs.statSync(srcdir+"/"+filename).isDirectory()
-	&& fs.existsSync(srcdir+"/"+filename+"/"+filename+".toc")
-	&& addons.push( parseToc(filename) )
+	(!addonsJson.ignore[filename])
+    	&& fs.statSync(srcdir+"/"+filename).isDirectory()
+		&& fs.existsSync(srcdir+"/"+filename+"/"+filename+".toc")
+		&& addons.push( parseToc(filename) )
     return addons
 },addonsJson.addons)
 
@@ -48,28 +50,28 @@ fs.readdirSync(srcdir)
     var tarpath = packagesdir+"/"+addon.name+".zip" ;
 
     return seq
-	.then(function(){
-	    return q.nbind(fs.exists) (tarpath)
-	})
-	.then(null,function(){
-	    console.log("deleting old addon package",addon.name,"...")
-	    return q.nbind(fs.unlink) (tarpath)
-	})
-	.then(function(){
-	    return q.nbind(zipdir) (srcdir+"/"+addon.name,tarpath)
-	})
-	.then(function(){
-	    console.log("packed addon",addon.name)
-	    return q.nbind(md5file) (tarpath)
-	})
-	.then(function(md5){
-	    addon.pkgmd5 = md5
-	    return q.nbind(fs.stat) (tarpath)
-	})
-	.then(function(stats){
-	    addon.pkglen = stats.size
-	    console.log(">",addon.pkgmd5,addon.pkglen)
-	})
+		.then(function(){
+		    return q.nbind(fs.exists) (tarpath)
+		})
+		.then(null,function(){
+		    console.log("deleting old addon package",addon.name,"...")
+		    return q.nbind(fs.unlink) (tarpath)
+		})
+		.then(function(){
+		    return q.nbind(zipdir) (srcdir+"/"+addon.name,tarpath)
+		})
+		.then(function(){
+		    console.log("packed addon",addon.name)
+		    return q.nbind(md5file) (tarpath)
+		})
+		.then(function(md5){
+		    addon.pkgmd5 = md5
+		    return q.nbind(fs.stat) (tarpath)
+		})
+		.then(function(stats){
+		    addon.pkglen = stats.size
+		    console.log(">",addon.pkgmd5,addon.pkglen)
+		})
 },q())
 
 .then(function(){
