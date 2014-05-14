@@ -4,4 +4,3 @@ cd ../\!\!\!163UI.3dcodecmd\!\!\!
 git add .
 git commit -m "build 3dcodecmd"
 git push
-git ../../../dev
