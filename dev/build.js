@@ -5,7 +5,8 @@ var fs = require("fs")
 var crypto = require('crypto')
 var zipdir = require("zip-dir")
 var EasyZip = require('easy-zip').EasyZip
-
+var child_process = require("child_process")
+var Steps = require("ocsteps")
 
 
 
@@ -33,92 +34,115 @@ if( !fs.existsSync(packagesdir) ){
 var indexjson = require("./index.json") 
 var addonsJson = require("./addons-index.json")
 addonsJson.addons = []
+if(!addonsJson.ignore) addonsJson.ignore = {}
 
 fs.readdirSync(srcdir)
 .reduce(function(addons,filename){
-    fs.statSync(srcdir+"/"+filename).isDirectory()
-	&& fs.existsSync(srcdir+"/"+filename+"/"+filename+".toc")
-	&& addons.push( parseToc(filename) )
+	(!addonsJson.ignore[filename])
+    	&& fs.statSync(srcdir+"/"+filename).isDirectory()
+		&& fs.existsSync(srcdir+"/"+filename+"/"+filename+".toc")
+		&& addons.push( parseToc(filename) )
     return addons
 },addonsJson.addons)
 
 
-.reduce(function(seq,addon){
+Steps()
 
-    var tarpath = packagesdir+"/"+addon.name+".zip" ;
-
-    return seq
-	.then(function(){
-	    return q.nbind(fs.exists) (tarpath)
+	// 清除 packages
+	.step(function(){
+    	child_process.execFile("rm", ["-r",packagesdir], {}, this.hold())
 	})
-	.then(null,function(){
-	    console.log("deleting old addon package",addon.name,"...")
-	    return q.nbind(fs.unlink) (tarpath)
+	.step(function(err){
+		if(err){
+			console.log("can not clear packages folder")
+			console.log(err)
+		}
+		else {
+			fs.mkdir(packagesdir,this.holdButThrowError())
+		}
 	})
-	.then(function(){
-	    return q.nbind(zipdir) (srcdir+"/"+addon.name,tarpath)
+
+
+	.step(function(){
+
+		this.each(addonsJson.addons,function(i,addon){
+
+    		var tarpath = packagesdir+"/"+addon.name+".zip" ;
+
+    		child_process.execFile(
+    			"zip", [tarpath,"-r","."], {cwd: srcdir+"/"+addon.name}, this.hold()
+    		)
+
+    		this
+	    		.step(function(err,stdout,stderr){
+	    			//console.log(stdout.toString())
+	    			//console.log(stderr.toString())
+	    			if(err){
+	    				this.terminate()
+	    				return
+	    			}
+
+			    	console.log("packed addon",addon.name)
+			    	md5file(tarpath,this.holdButThrowError())
+	    		})
+	    		.step(function(err,md5){
+		    		addon.pkgmd5 = md5
+		    		fs.stat(tarpath,this.holdButThrowError())
+	    		})
+	    		.step(function(err,stats){
+				    addon.pkglen = stats.size
+				    console.log("  >",addon.pkgmd5,addon.pkglen)
+	    		})
+
+		})
 	})
-	.then(function(){
-	    console.log("packed addon",addon.name)
-	    return q.nbind(md5file) (tarpath)
+
+
+	.step(function(){
+	    console.log("make addons-index.json file ...",addonsIndexJson)
+	    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson))
+	    fs.exists(addonsIndexTar,this.hold())
 	})
-	.then(function(md5){
-	    addon.pkgmd5 = md5
-	    return q.nbind(fs.stat) (tarpath)
+	.step(function(exists){
+		if(exists){
+		    console.log("delete addons-index.zip")
+		    fs.unlink (addonsIndexTar,this.holdButThrowError())
+		}
 	})
-	.then(function(stats){
-	    addon.pkglen = stats.size
-	    console.log(">",addon.pkgmd5,addon.pkglen)
+	.step(function(){
+	    console.log("compress addons-index.json file to addons-index.zip ...")
+	    var release = this.hold()
+	    var zip = new EasyZip()
+	    zip.addFile("addons-index.json",addonsIndexJson,function(){
+			zip.writeToFile(addonsIndexTar,function(){
+			    release()
+			})
+	    })
 	})
-},q())
-
-.then(function(){
-    console.log("make addons-index.json file ...",addonsIndexJson)
-    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson))
-
-    return q.nbind(fs.exists) (addonsIndexTar)
-})
-.then(null,function(e){
-
-    if(e!=true)
-	throw e
-
-    console.log("delete addons-index.tar.gz")
-    return q.nbind(fs.unlink) (addonsIndexTar)
-})
-.then(function(){
-    console.log("compress addons-index.json file to addons-index.zip ...")
-
-    var deferred = q.defer()
-
-    var zip = new EasyZip()
-    zip.addFile("addons-index.json",addonsIndexJson,function(){
-	zip.writeToFile(addonsIndexTar,function(){
-	    deferred.resolve()
+	.step(function(){
+	    // md5 tar.gz file
+	    return md5file(addonsIndexTar,this.holdButThrowError())
 	})
-    })
-   
-    return deferred.promise
-})
-.then(function(){
-    // md5 tar.gz file
-    return q.nbind(md5file) (addonsIndexTar)
-})
-.then(function(md5v){
-    indexjson.addonsIndex = "addons-index.zip"
-    indexjson.addonsIndexFilename = "addons-index.json"
-    indexjson.addonsIndexMD5 = md5v
-})
-.then(function(){
-    return q.nbind(fs.writeFile) (workdir+"/index.json", JSON.stringify(indexjson,null,4))
-})
-.then(function(){
-    console.log("created index.json file.")
-})
-.then(null,function(error){
-    console.error(error) ;
-    console.error(error.stack) ;
-})
+	.step(function(err,md5v){
+	    indexjson.addonsIndex = "addons-index.zip"
+	    indexjson.addonsIndexFilename = "addons-index.json"
+	    indexjson.addonsIndexMD5 = md5v
+		indexjson.buildTime = (new Date).toString()
+
+	    fs.writeFile (workdir+"/index.json", JSON.stringify(indexjson,null,4),this.holdButThrowError())
+	})
+	.step(function(){
+	    console.log("created index.json file.")
+	})
+
+	.catch(function(error){
+	    console.error(error)
+	    console.error(error.stack)
+	})
+
+	.done(function(){
+		console.log("done")
+	}) ()
 
 
 
@@ -190,4 +214,5 @@ function md5file(filepath,cb){
     })
 
 }
+
 

@@ -1,0 +1,13 @@
+#! /bin/sh
+
+cd workdir ;
+wput -u *.json  ftp://zhouqian:ya5i\#7iAC@61.135.251.23:16321/ ;
+wput -u *.zip  ftp://zhouqian:ya5i\#7iAC@61.135.251.23:16321/ ;
+
+cd packages ;
+wput -u *  ftp://zhouqian:ya5i\#7iAC@61.135.251.23:16321/packages/ ;
+
+cd ../daily ;
+wput *  ftp://zhouqian:ya5i\#7iAC@61.135.251.23:16321/daily/ ;
+
+cd ../../ ;

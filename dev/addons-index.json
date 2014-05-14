@@ -1,13 +1,18 @@
 {
     "deprecative": [
-	"foo" ,
-	"bar" ,
-	"baz",
-"Recount"
+		"foo" ,
+		"bar" ,
+		"baz",
+		"Recount"
     ]
 
     , "conflictive": {
-	"foo": ["bar","baz"] ,
-	"qux": ["quux","corge"]
+		"foo": ["bar","baz"] ,
+		"qux": ["quux","corge"]
+    }
+
+    , "ignore": {
+    	"!!!163UI.3dcodecmd!!!-src":1
+    	, "WowLua":1
     }
 }

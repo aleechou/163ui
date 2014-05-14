@@ -4,91 +4,103 @@ bitfunc=bit32
 œ
 bitfunc=bit
 ž
-¤ ¡ u(...)
+¤ e={
+verbose=Ÿ,
+info=Ÿ,
+errro=«,
+}
+¤ ¡ m(...)
+¢ e.verbose ª print("[verbose]",...)ž
 ž
 ¤ ¡ c(...)
+¢ e.info ª print("[verbose]",...)ž
 ž
-¤ ¡ e(...)
-print("[ERROR]",...)
+¤ ¡ t(...)
+¢ e.errro ª print("[verbose]",...)ž
+ž
+¡ cmd3dcode_pipe_showlog(t,a)
+¢ t==¥ ª t="verbose"ž
+¢ a==¥ ª a=« ž
+e[t]=a
 ž
 ¤ w=3
 ¤ e=""
-¤ r=-1
-¤ s=-1
-¤ n=-1
+¤ l=-1
+¤ u=-1
+¤ a=-1
 ¤ t=0
-¤ a=0
 ¤ i=0
-¤ o=0
+¤ n=0
+¤ s=0
+¤ d=0
 ¤ h=0
-¤ l=0
-¤ ¡ m()
-i=0
-o=0
+¤ ¡ f()
+n=0
+s=0
 ž
-¤ ¡ d()
+¤ ¡ r()
 e=""
-r=-1
-s=-1
-n=-1
+l=-1
+u=-1
+a=-1
 t=0
-a=0
-l=0
+i=0
 h=0
-m()
+d=0
+f()
 ž
-d()
-¤ ¡ f(o)
-u("receive",(a+1).."/"..t,"byte",o,string.char(o))
-¢ r<0 ª
-r=o
+r()
+¤ ¡ y(o)
+m("receive",(i+1).."/"..t,"byte",o,string.char(o))
+¢ l<0 ª
+l=o
 ©
- s<0 ª
-s=o
-n=r
-t=s
-c("cmd id",n,"data len",t)
+ u<0 ª
+u=o
+a=l
+t=u
+c("cmd id",a,"data len",t)
 ¢ t<1 ª
-d()
+r()
 ž
 ©
 ž
 e=e..string.char(o)
-a=a+1
-¢ a>=t ª
+i=i+1
+¢ i>=t ª
 ¤ t=e:find(":")
 ¢ t ª
-¤ a=e:sub(1,t-1)
-¢ ThreeDimensionsCode_SafePipe_CmdHandles[a]ª
-ThreeDimensionsCode_SafePipe_CmdHandles[a](n,e:sub(t+1))
+¤ o=e:sub(1,t-1)
+¢ ThreeDimensionsCode_SafePipe_CmdHandles[o]ª
+ThreeDimensionsCode_SafePipe_CmdHandles[o](a,e:sub(t+1))
 ž
 ž
-c("receive over, time",GetTime()-h,"cmd id",n)
+c("receive over, time",GetTime()-d,"cmd id",a)
 c(e)
-d()
+r()
 ©
 ž
 ž
 ¤ ¡ a(t)
 ¤ e=GetTime()
-¢ l==0 ª
-h=e
-u("first bit come in")
+¢ h==0 ª
+d=e
+m("first bit come in")
 œ
-¢ e-l>w ª
-u("safe pipe è¶…æ—¶å…³é—­")
-d()
+¢ e-h>w ª
+m("safe pipe è¶…æ—¶å…³é—­")
+r()
+d=e
+ž
+ž
 h=e
-ž
-ž
-l=e
 ¢ t>0 ª
-i=bitfunc.bor(i,bitfunc.lshift(t,7-o))
+n=bitfunc.bor(n,bitfunc.lshift(t,7-s))
 ž
-o=o+1
-¢ o>=8 ª
-f(i)
-m(i)
+s=s+1
+¢ s>=8 ª
+y(n)
+f(n)
 ž
 ž
 ¡ ThreeDimensionsCode_Savepipe_Yin()
