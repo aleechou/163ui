@@ -19,10 +19,10 @@ errro=Ó,
 Ì É t(...)
 Ê e.errro Ò print("[verbose]",...)Æ
 Æ
-É cmd3dcode_buff_showlog(t,a)
-Ê t==Í Ò t="verbose"Æ
-Ê a==Í Ò a=Ó Æ
-e[t]=a
+É cmd3dcode_buff_showlog(a,t)
+Ê a==Í Ò a="verbose"Æ
+Ê t==Í Ò t=Ó Æ
+e[a]=t
 Æ
 Ì n=0
 Ì s=Ç
@@ -114,15 +114,15 @@ o=o-DEBUFF_ACTUAL_DISPLAY
 a("ShownBuffNumber()",o)
 Ñ o
 Æ
-Ì É i(o)
+Ì É i(t)
 Ì e=ShownBuffNumber()
-Ì t=floor(e/BUFFS_PER_ROW)
-Ì i=-t*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
-Ì t=e%BUFFS_PER_ROW
-Ì t=t*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
-a("index:",e,"x",t,"y",i)
-o:SetPoint("TOPRIGHT",t,i)
-o:Show()
+Ì o=floor(e/BUFFS_PER_ROW)
+Ì i=-o*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
+Ì o=e%BUFFS_PER_ROW
+Ì o=o*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
+a("index:",e,"x",o,"y",i)
+t:SetPoint("TOPRIGHT",o,i)
+t:Show()
 Æ
 Ì É o(o)
 Ê Î o Ò
@@ -164,17 +164,17 @@ s=Ç
 print("|cff00aa00æœ‰çˆ±å®¢æˆ·ç«¯å·²ç™»å½•ç½‘æ˜“é€šè¡Œè¯|r")
 Æ
 s=Ó
-Ì i=string.byte(e:sub(1,1))
-Ì o=string.byte(e:sub(2,2))
+Ì o=string.byte(e:sub(1,1))
+Ì i=string.byte(e:sub(2,2))
 Ì t=0
 Ì s=Ç
-n=bitfunc.bor(bitfunc.lshift(o,8),i)
+n=bitfunc.bor(bitfunc.lshift(i,8),o)
 Ê#e>2 Ò
 t=string.byte(e:sub(3,3))
 Ì e=bitfunc.band(t,1)
 n=bitfunc.bor(bitfunc.lshift(e,16),n)
 Æ
-a("ping","#"..#e,i,o,t,n)
+a("ping","#"..#e,o,i,t,n)
 Æ
 o()
 h=time()
@@ -182,4 +182,7 @@ h=time()
 É hide163buff()
 e:Hide()
 t:Hide()
+Æ
+É cmd3dcode_lastPingTime()
+Ñ h
 Æ]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
