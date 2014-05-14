@@ -178,8 +178,8 @@ print("æ ¼å¼æ— æ•ˆï¼› <cmd>:<args>")
 ThreeDimensionsCode_Send(a,e)
 §
 SLASH_URL1="/url"
-SlashCmdList["URL"]=ª(e,e)
-ThreeDimensionsCode_Send("innerbrowser","http://www.baidu.com/")
+SlashCmdList["URL"]=ª(e,t)
+ThreeDimensionsCode_Send("innerbrowser",e)
 §
 SLASH_OPEN1="/open"
 SlashCmdList["OPEN"]=ª(e,t)

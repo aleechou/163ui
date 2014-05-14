@@ -128,7 +128,7 @@ o:Show()
 Ê Î o Ò
 o=time()
 Æ
-Ê o-h>=45 Ò
+Ê o-h>=15 Ò
 a("display offline buff")
 t:Show()
 e:Hide()
