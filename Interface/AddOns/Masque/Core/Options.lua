@@ -156,7 +156,7 @@ do
 	local function GetOption(info)
 		local Option = info[#info]
 		if Option == "SkinID" then
-			return SkinList[info.arg.db.SkinID] or SkinList["Blizzard"]
+			return info.arg.db.SkinID or "Blizzard"
 		else
 			return info.arg.db[Option]
 		end

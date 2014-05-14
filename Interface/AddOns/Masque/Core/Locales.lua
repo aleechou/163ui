@@ -447,6 +447,38 @@ L["Skin"] = "皮肤"
 L["This section will allow you to skin the buttons of the add-ons and add-on groups registered with Masque."] = "这个部分将允许你将使用 Masque 注册的插件与插件群组的按钮进行换肤。"
 L["ToC/A dynamic button skinning add-on."] = "一个动态按钮皮肤插件。"
 
+
+
+
+
+L["Blizzard"] = "暴雪默认"
+L["Caith"] = "粗边框"
+L["Darion"] = "焦黑"
+L["Darion Clean"] = "焦黑（粗边）"
+L["Dream"] = "无边框"
+L["Zoomed"] = "无边框放大"
+L["HelloKitty"] = "凯蒂猫"
+L["HelloKitty Christmas"] = "圣诞凯蒂猫"
+L["Entropy: Silver"] = "质感(银)"
+L["Entropy: Adamantite"] = "质感(精金)"
+L["Entropy: Bronze"] = "质感(青铜)"
+L["Entropy: Cobalt"] = "质感(钴)"
+L["Entropy: Copper"] = "质感(铜)"
+L["Entropy: Fel Iron"] = "质感(魔铁)"
+L["Entropy: Gold"] = "质感(金)"
+L["Entropy: Iron"] = "质感(铁)"
+L["Entropy: Khorium"] = "质感(氪金)"
+L["Entropy: Obsidium"] = "质感(黑曜石)"
+L["Entropy: Saronite"] = "质感(萨隆邪铁)"
+L["Entropy: Titanium"] = "质感(泰坦神铁)"
+L["Serenity"] = "圆形白边框"
+L["Serenity Redux"] = "圆形白边框"
+L["Serenity: Square"] = "方形白边框"
+L["Serenity: Square Redux"] = "方形白边框"
+
+
+
+
 	elseif LOC == "zhTW" then
 L["Addons"] = "插件"
 L["Adjust the skin of all buttons registered to %s: %s."] = "將所有按鈕的佈景主題套用到%s：%s。"

@@ -11,7 +11,7 @@
 
 local _, Core = ...
 local error, setmetatable, type = error, setmetatable, type
-
+local L = Core.Locale
 -- Skin Data
 local Skins = {}
 Core.Skins = Skins
@@ -55,7 +55,11 @@ function Core:AddSkin(SkinID, SkinData)
 		end
 	end
 	Skins[SkinID] = SkinData
-	SkinList[SkinID] = SkinID
+	if L[SkinID] then 
+		SkinList[SkinID] = L[SkinID]
+	else
+		SkinList[SkinID] = SkinID
+	end
 end
 
 -- API method for validating and adding skins.
