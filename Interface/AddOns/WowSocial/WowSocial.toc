@@ -1,4 +1,4 @@
-## Interface: 50400
+﻿## Interface: 50400
 ## Title: WoW Social
 ## Title-zhCN: |cffff565e[友团]|r 聊天群核心模块
 ## Notes-zhCN: 魔兽友团聊天群插件的主框架
@@ -8,3 +8,5 @@
 ## SavedVariablesPerCharacter: WOWSOCIAL_DB_GROUP
 ## X-WoWBox-Ver: 1
 Load.xml
+
+## X-Vendor: NetEase
