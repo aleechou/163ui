@@ -428,3 +428,7 @@ do
 		}
 	end
 end
+function Core.API:SetOption(info, value)
+	info.arg = Core:Group()
+	info.arg:SetOption(info[#info], value)
+end
