@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridViewGridItem', 2
+local WIDGET, VERSION = 'DataGridViewGridItem', 3
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridViewGridItem = GUI:NewClass(WIDGET, 'Button', VERSION)
@@ -20,19 +20,62 @@ local STYLES = {
         self.Icon:Hide()
         self:SetNormalFontObject('GameFontHighlightSmall')
     end,
-    ICON = function(self)
+    ICON = function(self, width, height)
+        self.width = tonumber(width)
+        self.height = tonumber(height)
+
         self.Text:Hide()
         self.Icon:SetPoint('CENTER')
+        self.Icon:SetSize(width or 16, height or width or 16)
     end,
-    ICONTEXT = function(self)
+    ICONTEXT = function(self, width, height)
+        self.width = tonumber(width)
+        self.height = tonumber(height)
+
         self.Icon:SetPoint('LEFT')
+        self.Icon:SetSize(width or 16, height or width or 16)
         self.Text:ClearAllPoints()
-        self.Text:SetPoint('LEFT', self.Icon, 'RIGHT', 5, 0)
+        self.Text:SetPoint('LEFT', self.Icon, 'RIGHT', 2, 0)
         self.Text:SetPoint('TOPRIGHT')
         self.Text:SetPoint('BOTTOMRIGHT')
         self:SetNormalFontObject('GameFontHighlightSmallLeft')
     end,
 }
+
+local function StyleHelper(object, style, ...)
+    STYLES[style](object, ...)
+end
+
+local function TextureHelper(data)
+    local path, height, width, _, _, dimx, dimy, left, right, top, bottom, r, g, b = strsplit(':', data)
+
+    dimx = tonumber(dimx)
+    dimy = tonumber(dimy)
+    left = tonumber(left)
+    right = tonumber(right)
+    top = tonumber(top)
+    bottom = tonumber(bottom)
+    r = tonumber(r)
+    g = tonumber(g)
+    b = tonumber(b)
+
+    if dimx and dimy and left and right and top and bottom then
+        left, right, top, bottom = left/dimx, right/dimx, top/dimy, bottom/dimy
+    else
+        left, right, top, bottom = nil
+    end
+
+    if r and g and b then
+        r, g, b = r/255, g/255, b/255
+    else
+        r, g, b = nil
+    end
+
+    width = tonumber(width)
+    height = tonumber(height)
+
+    return path, left, right, top, bottom, width, height, r, g, b
+end
 
 function DataGridViewGridItem:Constructor(parent, style)
     if not parent then
@@ -51,7 +94,7 @@ function DataGridViewGridItem:Constructor(parent, style)
     self.Text = Text
     self.Icon = Icon
 
-    STYLES[(style or 'NORMAL'):upper()](self)
+    StyleHelper(self, strsplit(':', style or 'NORMAL'))
     
     self:SetScript('OnSizeChanged', self.OnSizeChanged)
     self:SetScript('OnClick', self.OnClick)
@@ -89,7 +132,20 @@ function DataGridViewGridItem:SetIcon(icon, left, right, top, bottom, width, hei
     if not self.Icon then
         return
     end
+
+    if not icon or icon == '' then
+        self.Icon:Hide()
+        self.Icon:SetSize(width or 1, height or width or 1)
+        return
+    end
+
+    local data = icon:match('|T([^|]+)|t')
+    if data then
+        icon, left, right, top, bottom, width, height, r, g, b = TextureHelper(data)
+    end
+
     self.Icon:SetTexture(icon)
+
     if left then
         if type(left) == 'table' then
             local coords = left
@@ -105,8 +161,9 @@ function DataGridViewGridItem:SetIcon(icon, left, right, top, bottom, width, hei
         self.Icon:SetTexCoord(0, 1, 0, 1)
     end
 
-    width = width or 16
-    height = height or width or 16
+    width = width or self.width or 16
+    height = height or self.height or width or 16
 
     self.Icon:SetSize(width, height)
+    self.Icon:Show()
 end

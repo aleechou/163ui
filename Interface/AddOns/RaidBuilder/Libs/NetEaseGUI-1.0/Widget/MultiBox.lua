@@ -7,44 +7,6 @@ if not MultiBox then
     return
 end
 
-local CheckBox = LibStub('LibClass-1.0'):NewClass('CheckBox', GUI:GetClass('ItemButton'))
-
-function CheckBox:Constructor()
-    self:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
-    self:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
-    self:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
-    self:SetDisabledCheckedTexture([[INTERFACE\BUTTONS\UI-CheckBox-Check-Disabled]])
-    self:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]], 'ADD')
-
-    self:GetNormalTexture():ClearAllPoints()
-    self:GetNormalTexture():SetSize(20, 20)
-    self:GetNormalTexture():SetPoint('LEFT')
-
-    self:GetCheckedTexture():ClearAllPoints()
-    self:GetCheckedTexture():SetSize(20, 20)
-    self:GetCheckedTexture():SetPoint('LEFT')
-
-    self:GetPushedTexture():ClearAllPoints()
-    self:GetPushedTexture():SetSize(20, 20)
-    self:GetPushedTexture():SetPoint('LEFT')
-
-    self:GetHighlightTexture():ClearAllPoints()
-    self:GetHighlightTexture():SetSize(20, 20)
-    self:GetHighlightTexture():SetPoint('LEFT')
-
-    self:GetDisabledCheckedTexture():ClearAllPoints()
-    self:GetDisabledCheckedTexture():SetSize(20, 20)
-    self:GetDisabledCheckedTexture():SetPoint('LEFT')
-
-    local Text = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
-    Text:SetPoint('LEFT', 20, 0)
-    self:SetFontString(Text)
-
-    self:SetNormalFontObject('GameFontHighlightSmall')
-    self:SetDisabledFontObject('GameFontDisableSmall')
-end
-
-
 function MultiBox:Constructor(parent)
     if not parent then
         return
@@ -53,7 +15,7 @@ function MultiBox:Constructor(parent)
     self.value = 0
     self:SetParent(parent)
     self:SetSelectMode('MULTI')
-    self:SetItemClass(CheckBox)
+    self:SetItemClass(GUI:GetClass('MultiBoxCheckBox'))
     self:SetItemHeight(20)
     self:SetItemSpacing(0)
     self:SetColumnCount(3)

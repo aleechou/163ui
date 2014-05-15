@@ -31,6 +31,14 @@ function Data:GetCache()
     return self.cache or {}
 end
 
+function Data:IsNew()
+    return self.new
+end
+
+function Data:SetIsNew(flag)
+    self.new = flag or nil
+end
+
 DataCache = RaidBuilder:NewModule('DataCache', 'AceSerializer-3.0')
 
 function DataCache:OnInitialize()
@@ -76,6 +84,8 @@ function DataCache:SaveData(key, data)
         return
     end
 
+    local isNew = self.db.profile.serverDatas[key] ~= data
+
     self.hashCache[key] = nil
     self.db.profile.serverDatas[key] = data
 
@@ -84,5 +94,6 @@ function DataCache:SaveData(key, data)
         return
     end
 
-    object:Fire('OnCacheChanged', cache)
+    object:SetIsNew(isNew)
+    object:Fire('OnCacheChanged', cache, isNew)
 end

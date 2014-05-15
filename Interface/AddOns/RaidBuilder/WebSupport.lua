@@ -18,9 +18,6 @@ local RAIDBUILDER_DIFFICULTY_NAMES = {
 }
 
 function WebSupport:OnInitialize()
-    if true then
-        return
-    end
     self:RegisterEvent('ZONE_CHANGED', 'UpdateZone')
     self:RegisterEvent('ZONE_CHANGED_INDOORS', 'UpdateZone')
     self:RegisterEvent('ZONE_CHANGED_NEW_AREA', 'UpdateZone')
@@ -122,11 +119,8 @@ function WebSupport:CommitNewbie(boss)
 end
 
 function WebSupport:SetInviteCode(code)
-    local ok, text, inviteList, eventCode, eventId, eventSource = self:DeserializeCode(code)
-
+    self:SendMessage('RAIDBUILDER_WEBSUPPORT_DATA_UPDATE', self:DeserializeCode(code))
     self:UpdateZone()
-
-    return ok, text, inviteList, eventCode, eventId, eventSource
 end
 
 function WebSupport:DeserializeCode(code)
@@ -164,8 +158,8 @@ function WebSupport:DeserializeCode(code)
         return false, L['组队码错误']
     end
 
-    local eventId, eventCode, timeStamp, eventSource = tonumberall(strsplit(',', title))
-    if not eventId or not eventCode or not timeStamp or not eventSource then
+    local eventId, eventCode, eventTime, eventSource = tonumberall(strsplit(',', title))
+    if not eventId or not eventCode or not eventTime or not eventSource then
         return false, L['组队码错误']
     end
 

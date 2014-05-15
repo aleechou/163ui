@@ -3,12 +3,16 @@ BuildEnv(...)
 
 BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
-local function _NormalSortHandler(event)
+local function _EventCodeSortHandler(event)
     local typeId = bit.band(event:GetEventCode(), TYPE_MATCH)
     local diffId = bit.band(event:GetEventCode(), DIFF_MATCH)
     local nameId = bit.band(event:GetEventCode(), NAME_MATCH)
 
     return bit.lshift(typeId, 8) + bit.lshift(0xFFFF - nameId, 8) + bit.rshift(diffId, 24)
+end
+
+local function _NormalSortHandler(event)
+    return format('%04d%08x', event:GetLeaderLogoIndex(), _EventCodeSortHandler(event))
 end
 
 local BROWSE_HEADER = {
@@ -40,7 +44,7 @@ local BROWSE_HEADER = {
         showHandler = function(event)
             return event:GetEventName(), 1, 0.82, 0
         end,
-        sortHandler = _NormalSortHandler
+        sortHandler = _EventCodeSortHandler
     },
     {
         key = 'EventMode',
@@ -110,10 +114,10 @@ local BROWSE_HEADER = {
     {
         key = 'Leader',
         text = L['团长'],
-        style = 'LEFT',
+        style = 'ICONTEXT',
         width = 130,
         showHandler = function(event)
-            return event:GetLeaderLogoTexture() .. event:GetLeaderText()
+            return event:GetLeaderText(), nil, nil, nil, event:GetLeaderLogoTexture()
         end,
         sortHandler = function(event)
             return format('%04d%s', event:GetLeaderLogoIndex(), event:GetLeader())
@@ -281,6 +285,10 @@ function BrowsePanel:Refresh()
     self.EventList:SetItemList(events)
     self.EventList:SetSelectedItem(item)
     self.TotalEvents:SetText((L['申请中 %d/%d 活动总数 %d/%d']):format(AppliedCache:Count(), AppliedCache:Max(), #events, total))
+
+    if self.EventList:GetSortHandler() ~= _NormalSortHandler then
+        self.EventList:SetSortHandler(_NormalSortHandler)
+    end
 end
 
 function BrowsePanel:UpdateSelecttedEvent(event)

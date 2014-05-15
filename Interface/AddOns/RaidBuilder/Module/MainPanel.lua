@@ -188,7 +188,7 @@ local EVENT_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLeaderLevel', },
     { text = L['装等：'],      method = 'GetLeaderItemLevel', },
     { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
-    { text = L['易信关注度：'],method = 'GetLeaderFans', },
+    { text = L['易信粉丝：'],  method = 'GetLeaderFans', },
     { text = ' ', },
     { text = L['形式：'],      method = 'GetEventModeText', },
     { text = L['说明：'],      method = 'GetSummary', },
@@ -234,7 +234,7 @@ local MEMBER_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLevel', },
     { text = L['装等：'],      method = 'GetItemLevel', },
     { text = L['PVP：'],       method = 'GetPVPRating', },
-    { text = L['易信关注度：'],method = 'GetFans', },
+    { text = L['易信粉丝：'],  method = 'GetFans', },
 }
 
 function MainPanel:OpenWaitTooltip(member)

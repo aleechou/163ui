@@ -19,14 +19,14 @@ L.EVENT_ERROR_PASSWORD = '密码错误'
 L.EVENT_ERROR_PVPRATING = 'PVP等级不符合要求'
 
 L.EVENT_ANNOUNCEMENT_CONTENT = '我在<' .. ADDON_TITLE .. '>创建了活动<%s-%s>，小伙伴们快来参加啊！'
+L.EVENT_ANNOUNCEMENT_CONTENT_MEMBER = '我在<' .. ADDON_TITLE .. '>参加了%s创建的活动<%s>，小伙伴们快来参加啊！'
 L.ADDON_SHARE_CONTENT = '我正在用跨服组团神器<' .. ADDON_TITLE .. '>，小伙伴们快来用啊！'
 L.TEAM_NOTICE_CONTENT = '<友团插件>欢迎加入本团队(%s)，体验便捷的跨服组队，畅游WOW。'
 
-L['点击按键以绑定命令->友团组团，点击ESC或者再次点击按钮取消设置。'] = true
 L['%s 开始推送易信（若超过推送次数上限将无法发送）'] = true
 L['%s拒绝了你的活动申请'] = true
-L['1.下载易信并关注公众号“|cffffd100友团插件|r”'] = true
-L['2.向“|cffffd100友团插件|r”发送“|cffffd100关注%s@%s|r”即可'] = true
+L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'] = true
+L['2.向“|cffffd100魔兽世界|r”发送“|cffffd100关注%s@%s|r”即可'] = true
 L['2v2'] = true
 L['3v3'] = true
 L['5v5'] = true
@@ -42,11 +42,8 @@ L['|cff33ff99邀请入群|r'] = true
 L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，可以点击申请列表内的恢复活动|r'] = true
 L['|cffff0000注意：该记录仅储存在本地配置中|r'] = true
 L['|cffff0000注意：黑名单仅储存在本地配置中|r'] = true
-L['|cffffd100        亲爱的朋友，还在苦恼没人一起陪你畅游艾泽拉斯吗？那就快来这里吧，每天从扭曲虚空会发布三个主题活动来到艾泽拉斯，您可以快速的创建或加入指定的活动，与同样喜欢这些活动的玩家一起活动，希望能给大家带来不同的游戏感受！|r'] = true
 L['|cffffd100%d|r'] = true
-L['|cffffd100全部主题活动|r'] = true
 L['世界Boss一波流'] = true
-L['主题活动'] = true
 L['人员已满'] = true
 L['人数'] = true
 L['今天投过了'] = true
@@ -54,7 +51,6 @@ L['今天活动'] = true
 L['今日已签到'] = true
 L['今日已达发送上限'] = true
 L['今日活动'] = true
-L['今日热门主题活动'] = true
 L['今日签到成功'] = true
 L['位置'] = true
 L['你不是团长，不能邀请成员'] = true
@@ -102,7 +98,6 @@ L['加入黑名单'] = true
 L['加密'] = true
 L['十字军的试炼'] = true
 L['千里传音！'] = true
-L['友团插件公众号'] = true
 L['友团聊天'] = true
 L['双子峰'] = true
 L['发现友团组团新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'] = true
@@ -180,6 +175,7 @@ L['急速'] = true
 L['急速：'] = true
 L['恐惧之心'] = true
 L['恢复活动'] = true
+L['悬赏：'] = true
 L['想以后继续参加这个团长的活动吗'] = true
 L['意见建议'] = true
 L['感谢参与'] = true
@@ -213,8 +209,8 @@ L['操作记录'] = true
 L['攻强：'] = true
 L['斡耳朵斯'] = true
 L['易信下载二维码'] = true
-L['易信关注度：'] = true
 L['易信推送'] = true
+L['易信粉丝：'] = true
 L['易信通知'] = true
 L['显示小地图图标'] = true
 L['显示悬浮窗'] = true
@@ -229,6 +225,7 @@ L['最低等级不能超过最高等级'] = true
 L['最小等级错误'] = true
 L['服务器'] = true
 L['未组队'] = true
+L['本周悬赏'] = true
 L['查找活动'] = true
 L['查看总榜'] = true
 L['格档：'] = true
@@ -249,12 +246,14 @@ L['活动总数 %d/%d'] = true
 L['活动总数'] = true
 L['活动类型'] = true
 L['活动说明'] = true
+L['活动过滤'] = true
 L['活动通告'] = true
 L['活动须知：'] = true
 L['深风峡谷'] = true
 L['混分'] = true
 L['清除记录'] = true
 L['火焰之地'] = true
+L['点击按键以绑定命令->友团组团，点击ESC或者再次点击按钮取消设置。'] = true
 L['点击查看详细步骤'] = true
 L['熊猫人之谜'] = true
 L['牛'] = true
@@ -315,6 +314,7 @@ L['设置'] = true
 L['设置友团职责'] = true
 L['评级战场'] = true
 L['该职责已满，不能选择该职责。'] = true
+L['详情'] = true
 L['说明'] = true
 L['说明：'] = true
 L['请在这里输入活动说明'] = true
@@ -331,6 +331,7 @@ L['请选择活动类型'] = true
 L['请选择活动类型及活动形式'] = true
 L['跳转到创建活动页面创建游戏内团队'] = true
 L['躲闪：'] = true
+L['转到'] = true
 L['输出'] = true
 L['这个活动等级最低不能低于%d'] = true
 L['这项设置将在下次载入插件时生效。'] = true
@@ -352,6 +353,7 @@ L['雷电王座'] = true
 L['风暴之眼'] = true
 L['风神王座'] = true
 L['高端'] = true
+L['魔兽世界公众号'] = true
 L['魔兽友团'] = true
 L['魔兽组团助手'] = true
 L['魔古山宝库'] = true
@@ -366,16 +368,16 @@ L.YiXinSummary = [[
 <p>遇到好的团长后，只要在易信中关注他，便可以在该团长发布开团信息后，收到该信息。</p>
 <h1><br />使用方法：</h1>
 <p>1、在手机上需要安装易信通讯软件。</p>
-<p>2、关注“|cffffd100友团插件|r”公众号。</p>
+<p>2、关注“|cffffd100魔兽世界|r”公众号。</p>
 <p>3、在公众号内输入对应命令完成订阅组团活动信息。</p>
 <h1><br />订阅组团活动信息：</h1>
-<p>1、在“|cffffd100友团插件|r”中输入：</p>
+<p>1、在“|cffffd100魔兽世界|r”公众号中输入：</p>
 <p>“|cffffd100关注|r”+“|cffffd100角色名@服务器|r”</p>
-<p>例：|cffffd100关注fgbx@提瑞斯法|r</p>
-<p>2、获得提示：|cffffd100关注【角色名@服务器】成功|r即可。</p>
+<p>例：|cffffd100关注{1}@{2}|r</p>
+<p>2、获得提示：|cffffd100关注【{1}@{2}】成功|r即可。</p>
 <p>3、退订团长信息：</p>
 <p>“|cffffd100取消关注|r”+“|cffffd100角色名@服务器|r”</p>
-<p>例：|cffffd100取消关注fgbx@提瑞斯法|r</p>
+<p>例：|cffffd100取消关注{1}@{2}|r</p>
 <p>4、查询关注：“|cffffd100查询关注|r”</p>
 <h1><br />团长篇：</h1>
 <p>1、首先团长需要创建一个活动。</p>
@@ -437,7 +439,15 @@ L.WebInviteEventSummary = [[
 </html>
 ]]
 
-L.WebInviteSummaryHtml = '团长可以在 http://www.网址.com 上复制组队代码，粘贴在下面的对话框中快速组队。'
+L.WebInviteSummaryHtml = [[
+<html>
+<body>
+<p>
+团长可以在 |Hurl:http://z.wowchina.com/|h|cff00ffff[http://z.wowchina.com/]|r|h 上复制组队代码，<br/>
+粘贴在下面的对话框中快速组队。</p>
+</body>
+</html>
+]]
 
 L.EmptySummary = [[
 <html>
@@ -447,6 +457,20 @@ L.EmptySummary = [[
 <p>如果您刚上线，将在五分钟内收集到全部活动数据。</p>
 <br/>
 <p>团长若未解散活动下线，将在十五分钟后清除活动数据。</p>
+</body>
+</html>
+]]
+
+L.RecommendSummary = [[
+<html>
+<body>
+<h1>活动详情：</h1>
+<p>在集合石网站活动页|Hurl:http://z.wowchina.com/official|h|cff00ffff[http://z.wowchina.com/official]|r|h报名并通过友团插件组团，</p>
+<p>在当周进度内击杀指定boss的所有玩家，即可参加当周抽奖；</p>
+<h1>每周我们将送出：</h1>
+<p>- 100张15点点卡；</p>
+<p>- 100份游戏小道具：快干塑像底座</p>
+<p>此外，在每周的所有中奖玩家中，我们将额外抽出一名玩家获得《魔兽世界：熊猫人之谜》典藏版一份。</p>
 </body>
 </html>
 ]]

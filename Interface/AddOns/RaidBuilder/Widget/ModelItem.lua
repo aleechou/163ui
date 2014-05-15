@@ -18,7 +18,7 @@ function ModelItem:Constructor(parent)
     self:SetBackdropColor(0, 0, 0, 1)
     self:SetAlpha(1)
 
-    local Model = CreateFrame('DressUpModel', nil, self)
+    local Model = CreateFrame('PlayerModel', nil, self)
     Model:SetPoint('TOPLEFT', 5, -5)
     Model:SetPoint('BOTTOMRIGHT', -5, 5)
 
@@ -49,7 +49,8 @@ function ModelItem:Constructor(parent)
     YiXinButton:SetFontString(YiXinButtonText)
     YiXinButton:SetHighlightFontObject('GameFontNormalSmallLeft')
     YiXinButton:SetScript('OnClick', function()
-        RaidBuilder:ShowModule('YixinSummary')
+        local name, realm = _G.UnitFullName(self:GetUnitId())
+        RaidBuilder:ShowModule('YiXinSummary', name, realm)
     end)
 
     local AssistantIcon = self:CreateTexture(nil, 'ARTWORK')
@@ -108,8 +109,8 @@ function ModelItem:UpdateYiXinFans()
         'ANCHOR_RIGHT',
         L['在|cff00ffff易信|r中关注Ta仅需两步：'],
         ' ',
-        L['1.下载易信并关注公众号“|cffffd100友团插件|r”'],
-        (L['2.向“|cffffd100友团插件|r”发送“|cffffd100关注%s@%s|r”即可']):format(name, realm),
+        L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'],
+        (L['2.向“|cffffd100魔兽世界|r”发送“|cffffd100关注%s@%s|r”即可']):format(name, realm),
         ' ',
         L['点击查看详细步骤'])
 end

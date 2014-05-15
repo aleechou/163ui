@@ -209,7 +209,7 @@ end
 
 function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
     if UnitIsGroupLeader(sender) and not UnitIsUnit('player', sender) then
-        GroupCache:SetCurrentEventCode(eventCode)
+        GroupCache:SetCurrentEventCode(eventCode, GetFullName(sender))
     end
     if eventCode ~= GroupCache:GetCurrentEventCode() then
         return
@@ -379,7 +379,7 @@ function Logic:SendYiXinNotify()
     local db = RaidBuilder:GetDB().profile.yiXin
     local resetTime = GetGameDateTime(true)
     local now = GetGameDateTime()
-    db.times = db.lastSend < resetTime and now > resetTime and 0 or db.times + 1
+    db.times = db.lastSend < resetTime and now > resetTime and 1 or db.times + 1
     db.lastSend = now
     self:SendServer('SYN', event:GetEventName(), event:GetSummary())
     System:Logf(L['%s 开始推送易信（若超过推送次数上限将无法发送）'], event:GetEventName())

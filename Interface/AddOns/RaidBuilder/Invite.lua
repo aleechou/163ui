@@ -43,6 +43,7 @@ function Invite:PLAYER_LOGIN(event)
     end
 
     self:CacheBNetToons()
+    self:CheckInviteTimeout()
     self:Start()
 end
 
@@ -122,6 +123,7 @@ function Invite:CHAT_MSG_SYSTEM(_, msg)
             MemberCache:RemoveMember(name)
         end
         System:Log(msg)
+        self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
     elseif msg == ERR_GROUP_FULL then
         if IsInGroup(LE_PARTY_CATEGORY_HOME) then
             if IsInRaid(LE_PARTY_CATEGORY_HOME) then
@@ -148,12 +150,15 @@ end
 ---- Method
 
 function Invite:InviteMember(name, battleTag, isWeb)
+    name = Ambiguate(name, 'none')
     self:CheckRaid()
     self:EnQueue(name, battleTag, isWeb)
     self:Start()
+    self:StartCheckTimer()
 end
 
 function Invite:GetMemberStatus(name, battleTag)
+    name = Ambiguate(name, 'none')
     if self:IsInGroup(name) then
         return INVITE_STATUS_JOINED
     end
@@ -214,7 +219,7 @@ function Invite:IsCanInvite(name)
 end
 
 function Invite:IsInGroup(name)
-    return UnitInRaid(name) or UnitInParty(name)
+    return UnitInRaid(name) or UnitInParty(name) or UnitIsUnit('player', name)
 end
 
 function Invite:IsBNetFriend(battleTag)
@@ -295,8 +300,6 @@ function Invite:DoBNetInvite(info)
 
         if not info.isWeb then
             self:ScheduleTimer('BNetInviteTimeout', 10, info.name)
-        else
-            self:StartCheckBNetInvite()
         end
         noAction = false
     end
@@ -356,24 +359,41 @@ end
 
 ---- CheckTimeout
 
-function Invite:StartCheckBNetInvite()
-    if not bnetTimer then
-        self.bnetTimer = self:ScheduleRepeatingTimer('CheckBNetInviteTimeout', 60)
+function Invite:StartCheckTimer()
+    if not checkTimer then
+        self.checkTimer = self:ScheduleRepeatingTimer('CheckInviteTimeout', 20)
     end
 end
 
-function Invite:CheckBNetInviteTimeout()
+function Invite:IsInviteTimeout(info)
+    local timeOut = time() - info.stamp
+    if info.isInviting then
+        if timeOut > 90 then
+            return true
+        end
+    end
+    if info.isWeb then
+        if timeOut > 600 then
+            return true
+        end
+    else
+        if timeOut > 90 then
+            return true
+        end
+    end
+end
+
+function Invite:CheckInviteTimeout()
     local count = #self.inviteQueue
     if count > 0 then
-        local now = time()
         for i = #self.inviteQueue, 1, -1 do
-            local info = self.inviteQueue[i]
-            if info.stamp and now - info.stamp > 60 then
+            if self:IsInviteTimeout(self.inviteQueue[i]) then
                 tremove(self.inviteQueue, i)
             end
         end
+        self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
     else
-        self:CancelTimer(self.bnetTimer)
-        self.bnetTimer = nil
+        self:CancelTimer(self.checkTimer)
+        self.checkTimer = nil
     end
 end

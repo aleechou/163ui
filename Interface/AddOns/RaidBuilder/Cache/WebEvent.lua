@@ -17,6 +17,8 @@ local attr = {
     'Level',
     'ItemLevel',
     'EventSource',
+    'EventName',
+    'Faction',
 
     'TimeStamp',
 }
@@ -38,11 +40,13 @@ function WebEvent:ToSocket()
             self:GetLeader(),
             self:GetLevel(),
             self:GetItemLevel(),
-            self:GetEventSource()
+            self:GetEventSource(),
+            self:GetEventName(),
+            self:GetFaction()
 end
 
 function WebEvent:FromSocket(...)
-    local eventId, eventCode, personNum, leader, leaderLevel, leaderItemLevel, eventSource = ...
+    local eventId, eventCode, personNum, leader, leaderLevel, leaderItemLevel, eventSource, eventName, faction = ...
 
     self:SetEventId(eventId)
     self:SetEventCode(eventCode)
@@ -51,19 +55,22 @@ function WebEvent:FromSocket(...)
     self:SetLevel(leaderLevel)
     self:SetItemLevel(leaderItemLevel)
     self:SetEventSource(eventSource)
+    self:SetEventName(eventName)
+    self:SetFaction(faction)
 end
 
-function WebEvent:Match(eventCode, leader)
-    if leader and leader ~= '' and not self:GetLeader():lower():match(leader:lower()) then
-        return false
-    end
-    if eventCode == 0 or eventCode == self:GetEventCode() then
+function WebEvent:Match(text)
+    if not text or text == '' then
         return true
     end
-    if bit.band(eventCode, 0xFF00FFFF) == 0 then
-        return bit.band(eventCode, self:GetEventCode()) > 0
+
+    text = text:lower()
+
+    if self:GetLeader():lower():match(text) then
+        return true
+    end
+    if self:GetEventName():lower():match(text) then
+        return true
     end
     return false
 end
-
-WebEvent.GetEventName = Event.GetEventName

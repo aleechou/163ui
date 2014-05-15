@@ -16,8 +16,6 @@ function RaidBuilder:OnInitialize()
             memberList = {},
             memberCache = {},
             appliedCache = {},
-            appliedRoles = {},
-            otherMemberRoles = {},
             logs = {},
             serverDatas = {},
             yiXin = {

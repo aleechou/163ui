@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridView', 2
+local WIDGET, VERSION = 'DataGridView', 3
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridView = GUI:NewClass(WIDGET, GUI:GetClass('ListView'), VERSION)
@@ -142,6 +142,9 @@ function DataGridView:Update()
 end
 
 function DataGridView:Sort()
+    if not self.sortHandler then
+        return
+    end
     local itemList = self:GetItemList()
     if type(itemList) == 'table' then
         if self.sortDesc then

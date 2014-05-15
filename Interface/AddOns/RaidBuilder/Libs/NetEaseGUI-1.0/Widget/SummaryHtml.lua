@@ -7,14 +7,6 @@ if not SummaryHtml then
     return
 end
 
-local L = GetLocale() == 'zhCN' and {
-    CopyUrl = '请按<|cff00ff00Ctrl+C|r>复制网址到浏览器打开',
-    Search = '请搜索“|cff00ff00%s|r”'
-} or {
-    CopyUrl = 'Please press <|cff00ff00Ctrl+C|r> to copy url',
-    Search = 'Please search "|cff00ff00%s|r"'
-}
-
 function SummaryHtml:Constructor(parent)
     if not parent then
         return
@@ -32,13 +24,7 @@ end
 function SummaryHtml:OnHyperlinkClick(link)
     local linkType, data = link:match('^([^:]+):(.+)$')
     if linkType == 'url' then
-        local dialog = StaticPopup_Show('NETEASE_COPY_URL')
-        if dialog then
-            dialog.editBox:SetText(data)
-            dialog.editBox:HighlightText()
-            dialog.editBox:SetCursorPosition(0)
-            dialog.editBox:SetFocus()
-        end
+        GUI:CallUrlDialog(data)
     elseif linkType == 'help' then
         self:OpenHelper(data)
     elseif linkType == 'urlIndex' then
@@ -88,13 +74,3 @@ function SummaryHtml:OpenHelper(id)
     HelperTip.Text:SetText(L.Search:format(id))
     HelperTip:Show()
 end
-
-StaticPopupDialogs['NETEASE_COPY_URL'] = {
-    text = L.CopyUrl,
-    whileDead = 1,
-    hideOnEscape = 1,
-    button1 = OKAY,
-    hasEditBox = true,
-    maxBytes = 2000,
-    maxLetters = 2000,
-}

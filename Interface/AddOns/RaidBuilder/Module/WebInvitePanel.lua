@@ -38,7 +38,6 @@ local BROAD_HEADER = {
         style = 'LEFT',
         showHandler = function(data)
             local status = Invite:GetMemberStatus(GetFullName(data.name, data.realm), data.btag)
-            data.status = status
             if status == INVITE_STATUS_JOINED then
                 return INVITE_STATUS_NAMES[status], 0, 1, 0
             else
@@ -63,7 +62,7 @@ function WebInvitePanel:OnInitialize()
     bottomBackground:SetPoint('BOTTOMRIGHT', -11, 9)
 
     local SummaryHtml = GUI:GetClass('SummaryHtml'):New(self)
-    SummaryHtml:SetSize(460, 60)
+    SummaryHtml:SetSize(460, 40)
     SummaryHtml:SetPoint('TOP', 0, -30)
     SummaryHtml:SetText(L.WebInviteSummaryHtml)
 
@@ -74,7 +73,7 @@ function WebInvitePanel:OnInitialize()
     WebCode:SetPrompt(L['请将网页上复制的组队代码粘贴在此'])
     WebCode:SetMaxLetters(nil)
     WebCode:SetCallback('OnTextChanged', function(_, text)
-        self:OnCodeChanged(text)
+        WebSupport:SetInviteCode(text)
     end)
     WebCode:SetScript('OnShow', function(WebCode)
         WebCode:SetText(WebSupport:GetWebCode())
@@ -82,15 +81,12 @@ function WebInvitePanel:OnInitialize()
 
     local MemberList = GUI:GetClass('DataGridView'):New(self)
     MemberList:SetPoint('TOPLEFT', WebCode, 'BOTTOMLEFT', 0, -50)
-    MemberList:SetPoint('BOTTOMRIGHT', -10, 110)
+    MemberList:SetPoint('BOTTOMRIGHT', -10, 80)
     MemberList:SetItemHeight(30)
     MemberList:SetItemSpacing(3)
     MemberList:SetItemClass(RaidBuilder:GetClass('BrowseItem'))
     MemberList:InitHeader(BROAD_HEADER)
     MemberList:SetHeaderPoint('BOTTOMLEFT', MemberList, 'TOPLEFT', 0, 0)
-    MemberList:SetSortHandler(function(data)
-        return data.status == INVITE_STATUS_JOINED and -1 or data.status or 0
-    end)
 
     local EventSummary = GUI:GetClass('SummaryHtml'):New(self)
     EventSummary:SetSize(460, 30)
@@ -109,7 +105,6 @@ function WebInvitePanel:OnInitialize()
     StartButton:SetPoint('BOTTOM', 0, 12)
     StartButton:SetSize(120, 22)
     StartButton:SetText(L['开始邀请'])
-    -- StartButton:Disable()
     StartButton:SetScript('OnClick', function()
         self:StartInvite()
     end)
@@ -123,6 +118,7 @@ function WebInvitePanel:OnInitialize()
 
     self:RegisterMessage('RAIDBUILDER_INVITE_STATUS_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_DATA_UPDATE')
 end
 
 function WebInvitePanel:EnableButton(isEnable, text)
@@ -132,11 +128,9 @@ function WebInvitePanel:EnableButton(isEnable, text)
     StartButton:SetText(text)
 end
 
-function WebInvitePanel:OnCodeChanged(text)
-    local ok, text, list, eventCode, eventId, eventSource, eventTime = WebSupport:SetInviteCode(text)
-
+function WebInvitePanel:RAIDBUILDER_WEBSUPPORT_DATA_UPDATE(_, ok, err, list, eventCode, eventId, eventSource, eventTime)
     self:SetEventInfo(eventCode, eventId, eventSource, eventTime)
-    self:EnableButton(ok, text)
+    self:EnableButton(ok, err)
 end
 
 function WebInvitePanel:GetList()

@@ -141,21 +141,5 @@ function DataBroker:Toggle()
 end
 
 function DataBroker:ShowNewVersion(url)
-    local dialog = StaticPopup_Show('WOWSOCIAL_NEWVERSION')
-    dialog.editBox:SetText(url)
-    dialog.editBox:HighlightText()
-    dialog.editBox:SetCursorPosition(0)
+    LibStub('NetEaseGUI-1.0'):CallUrlDialog(url, L['发现友团聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)
 end
-
-StaticPopupDialogs['WOWSOCIAL_NEWVERSION'] = {
-    text = L['发现友团聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'],
-    button1 = OKAY,
-    timeout = 0,
-    exclusive = 1,
-    whileDead = 1,
-    hasEditBox = true,
-    showAlert = 1,
-    hideOnEscape = 1,
-    maxLetters = 2000,
-    maxBytes = 2000,
-}
