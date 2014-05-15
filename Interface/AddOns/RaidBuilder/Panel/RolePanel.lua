@@ -71,7 +71,8 @@ function RolePanel:OnInitialize()
     HelpButton:SetHighlightFontObject('GameFontNormalSmall')
     HelpButton:SetText(L['想以后继续参加这个团长的活动吗'])
     HelpButton:SetScript('OnClick', function(button)
-        RaidBuilder:ShowModule('YixinSummary')
+        local name, realm = strsplit('-', GetFullName(self.event:GetLeader()))
+        RaidBuilder:ShowModule('YiXinSummary', name, realm)
         HideParentPanel(button)
     end)
 
@@ -172,8 +173,8 @@ function RolePanel:SetArguments(callback, event)
         GUI:SetTooltip(self.HelpButton, 'ANCHOR_BOTTOM',
             L['在|cff00ffff易信|r中关注Ta仅需两步：'],
             ' ',
-            L['1.下载易信并关注公众号“|cffffd100友团插件|r”'],
-            (L['2.向“|cffffd100友团插件|r”发送“|cffffd100关注%s@%s|r”即可']):format(strsplit('-', GetFullName(event:GetLeader()))),
+            L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'],
+            (L['2.向“|cffffd100魔兽世界|r”发送“|cffffd100关注%s@%s|r”即可']):format(strsplit('-', GetFullName(event:GetLeader()))),
             ' ',
             L['点击查看详细步骤'])
     end

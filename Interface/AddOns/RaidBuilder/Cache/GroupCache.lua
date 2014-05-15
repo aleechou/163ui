@@ -91,9 +91,10 @@ function GroupCache:GetCurrentRole()
     return self.db.currentRole
 end
 
-function GroupCache:SetCurrentEventCode(eventCode)
+function GroupCache:SetCurrentEventCode(eventCode, leader)
     if eventCode ~= self.db.currentEventCode then
         self.db.currentEventCode = eventCode
+        self.db.currentEventLeader = leader
         self:SendMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE')
     end
 end
@@ -106,6 +107,10 @@ function GroupCache:GetCurrentEventCode()
         end
     end
     return self.db.currentEventCode
+end
+
+function GroupCache:GetCurrentEventLeader()
+    return self.db.currentEventLeader
 end
 
 function GroupCache:GetCurrentEventName()
@@ -150,10 +155,25 @@ function GroupCache:GROUP_ROSTER_UPDATE()
         wipe(self.db.unitRoles)
 
         self.db.currentEventCode = nil
+        self.db.currentEventLeader = nil
 
         if not EventCache:GetCurrentEvent() then
             self.db.currentRole = nil
         end
     end
     self:SendMessage('RAIDBUILDER_UNIT_INFO_UPDATE')
+end
+
+function GroupCache:GetAnnouncementContent()
+    local event = EventCache:GetCurrentEvent()
+    if event then
+        return L.EVENT_ANNOUNCEMENT_CONTENT:format(event:GetEventName(), event:GetSummary())
+    else
+        local name = self:GetCurrentEventName()
+        local leader = self:GetCurrentEventLeader()
+
+        if name and leader then
+            return L.EVENT_ANNOUNCEMENT_CONTENT_MEMBER:format(leader, name)
+        end
+    end
 end

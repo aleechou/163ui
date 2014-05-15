@@ -55,3 +55,14 @@ function OperationGrid:SetMember(member)
         self.StatusText:SetText(INVITE_STATUS_NAMES[status])
     end
 end
+
+local WebOperationGrid = RaidBuilder:NewClass('WebOperationGrid', GUI:GetClass('DataGridViewGridItem'))
+
+function WebOperationGrid:Constructor()
+    local GotoButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    GotoButton:SetSize(60, 22)
+    GotoButton:SetPoint('LEFT', 5, 0)
+    GotoButton:SetText(L['转到'])
+    GotoButton:SetScript('OnClick', ButtonOnClick)
+    GotoButton.Handler = 'OnItemGoto'
+end

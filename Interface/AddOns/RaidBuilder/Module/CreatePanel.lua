@@ -47,13 +47,11 @@ function CreatePanel:OnInitialize()
     ShareButton:SetIconTexCoord(64/256, 96/256, 0, 1)
     ShareButton:SetTooltip(L['活动通告'])
     ShareButton:SetScript('OnClick', function()
-        local event = EventCache:GetCurrentEvent()
-        if not event then
+        local content = GroupCache:GetAnnouncementContent()
+        if not content then
             return
         end
-        RaidBuilder:ShowModule('SharePanel',
-            L['活动通告'],
-            L.EVENT_ANNOUNCEMENT_CONTENT:format(event:GetEventName(), event:GetSummary()))
+        RaidBuilder:ShowModule('SharePanel', L['活动通告'], content)
     end)
 
     local RoleWidget = GUI:GetClass('TitleWidget'):New(self)

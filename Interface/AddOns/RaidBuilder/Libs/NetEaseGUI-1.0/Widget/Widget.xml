@@ -13,6 +13,7 @@
     <Script file="InTabButton.lua" />
     <Script file="BottomTabButton.lua" />
     <Script file="CheckBox.lua" />
+    <Script file="MultiBoxCheckBox.lua" />
     <Script file="MultiBox.lua" />
     <Script file="Panel.lua" />
     <Script file="InfoPanel.lua" />

@@ -19,6 +19,8 @@ EVENT_TYPE_ARENA    = 0x100000
 EVENT_TYPE_RECOMMEND= 0x200000
 EVENT_TYPE_MISC     = 0x400000
 
+EVENT_CODE_RECOMMEND= 0x200001
+
 INVITE_STATUS_UNKNOWN   = 0x00
 INVITE_STATUS_QUEUE     = 0x01
 INVITE_STATUS_BNETTING  = 0x02
@@ -40,7 +42,7 @@ EVENT_NAMES = setmetatable({
     [EVENT_TYPE_SCENARIO]   = L['场景战役'],
     [EVENT_TYPE_BG]         = L['战场'],
     [EVENT_TYPE_ARENA]      = L['PvP'],
-    [EVENT_TYPE_RECOMMEND]  = L['主题活动'],
+    [EVENT_TYPE_RECOMMEND]  = L['本周悬赏'],
     [EVENT_TYPE_MISC]       = L['其他'],
 
     [0x01011a52] = L['决战奥格瑞玛-25人'],
@@ -90,14 +92,8 @@ EVENT_NAMES = setmetatable({
     [0x00100005] = L['随机战场'],
 
 }, {__index = function(o, code)
-    local type = bit.band(code, TYPE_MATCH)
-    if type ~= EVENT_TYPE_RECOMMEND then
-        return UNKNOWN
-    end
-    local name = RECOMMEND_NAMES[bit.band(code, NAME_MATCH)]
-    if name then
-        o[code] = name:match('^([^#]+)#')
-        return o[code]
+    if code == EVENT_CODE_RECOMMEND then
+        return RemoteDataCache:GetCurrentRecommend() or UNKNOWN
     end
     return UNKNOWN
 end})
@@ -268,51 +264,6 @@ for i = 1, 4 do
     tinsert(_PARTY_UNITS, 'party' .. i)
 end
 
-RECOMMEND_NAMES = {
-    [ 1] = '永恒岛香炉持久战#90#40#0,0,0,40',
-    [ 2] = '潘达莉亚全日常#90#40#0,0,0,40',
-    [ 3] = '世界boss一波流#90#40#0,0,0,40',
-    [ 4] = '40同职业大战场#1#45#0,0,0,40',
-    [ 5] = '为了联盟，进攻幽暗城#1#40#0,0,0,40',
-    [ 6] = '为了部落，进攻达纳苏斯#1#40#0,0,0,40',
-    [ 7] = '为了部落，进攻铁炉堡#1#40#0,0,0,40',
-    [ 8] = '为了联盟，进攻雷霆崖#1#40#0,0,0,40',
-    [ 9] = '为了联盟，进攻银月城#1#40#0,0,0,40',
-    [10] = '为了部落，进攻埃索达#1#40#0,0,0,40',
-    [11] = '为了联盟，进攻双月殿#85#40#0,0,0,40',
-    [12] = '为了部落，进攻七星殿#85#40#0,0,0,40',
-    [13] = '地狱火半岛抢占三塔#58#40#0,0,0,40',
-    [14] = '赞加沼泽双塔#58#40#0,0,0,40',
-    [15] = '纳格兰抢夺哈兰#58#40#0,0,0,40',
-    [16] = '决战蓝天伐木场#68#40#0,0,0,40',
-    [17] = '勇斗冬拥湖#68#40#0,0,0,40',
-    [18] = '智斗托尔巴拉德#85#40#0,0,0,40',
-    [19] = '决战荆棘谷：格罗姆高营地/反抗军营地#1#40#0,0,0,40',
-    [20] = '决战阿拉希：蛮锤要塞VS避难谷地#1#40#0,0,0,40',
-    [21] = '决战嚎风峡湾：瓦加德/复仇港#68#40#0,0,0,40',
-    [22] = '决战北风苔原：战歌要塞/无畏要塞#68#40#0,0,0,40',
-    [23] = '决战费伍德：血毒岗哨/野性之心哨站#1#40#0,0,0,40',
-    [24] = '决战艾萨拉：塔论迪斯哨兵/锈水港#1#40#0,0,0,40',
-    [25] = '决战凄凉之地：弗瑞恩的哨站#1#40#0,0,0,40',
-    [26] = '决战凄凉之地：尼耶尔前哨战#1#40#0,0,0,40',
-    [27] = '决战灰谷：碎木岗哨/阿斯特兰纳#1#40#0,0,0,40',
-    [28] = '决战辛特兰：鹰巢山/恶齿村#1#40#0,0,0,40',
-    [29] = '决战燃烧平原：烈焰峰/摩根的岗哨#1#40#0,0,0,40',
-    [30] = '决战菲拉斯：羽月要塞/莫沙彻营地#1#40#0,0,0,40',
-    [31] = '拦截黑暗之门#58#40#0,0,0,40',
-    [32] = '决战地狱火半岛：萨尔玛/荣耀堡#58#40#0,0,0,40',
-    [33] = '决战赞加沼泽：萨布拉金/泰雷多尔#58#40#0,0,0,40',
-    [34] = '决战泰罗卡森林：裂石堡/奥蕾莉亚要塞#58#40#0,0,0,40',
-    [35] = '决战纳格兰：加拉达尔/塔拉#58#40#0,0,0,40',
-    [36] = '决战刀锋山：希尔瓦纳/雷神要塞#58#40#0,0,0,40',
-    [37] = '决战影月谷：影月村/蛮锤要塞#58#40#0,0,0,40',
-    [38] = '挑战：雷神要塞-雷克萨#58#40#0,0,0,40',
-    [39] = '挑战：羽月要塞-珊蒂斯·羽月#1#40#0,0,0,40',
-    [40] = '挑战：战歌要塞-加尔鲁什·地狱咆哮#68#40#0,0,0,40',
-    [41] = '决战暮光高地：滩头堡/龙喉港#84#40#0,0,0,40',
-    [42] = '决战瓦斯琪尔：军团营地/静谧海滩#80#40#0,0,0,40',
-}
-
 EVENT_MINLEVELS = {}
 EVENT_MAXMEMBERS = {}
 EVENT_DEFAULT_MEMBERROLES = {}
@@ -337,14 +288,14 @@ local function MakeLogo(id, width, height)
     return ([[|TInterface\AddOns\RaidBuilder\Media\Logo\%d:%d:%d|t]]):format(id, width, height)
 end
 
-local LOGO_SIZE = 16
+local LOGO_SIZE = 20
 
 UNIT_LOGO_TEXTURE   = {
     [UNIT_LOGO_NONE     ] = [[]],
-    [UNIT_LOGO_NETEASE  ] = MakeLogo(UNIT_LOGO_NETEASE, 13, 16),
-    [UNIT_LOGO_DEV      ] = MakeLogo(UNIT_LOGO_DEV, 10, 20),
-    [UNIT_LOGO_TOTAL    ] = [[|TINTERFACE\Challenges\challenges-gold-sm:20:20:0:-2:64:64:16:48:16:48|t]],
-    [UNIT_LOGO_MONTH    ] = [[|TINTERFACE\Challenges\challenges-plat-sm:20:20:0:-2:64:64:16:48:16:48|t]],
+    [UNIT_LOGO_NETEASE  ] = MakeLogo(UNIT_LOGO_NETEASE, LOGO_SIZE, LOGO_SIZE),
+    [UNIT_LOGO_DEV      ] = MakeLogo(UNIT_LOGO_DEV, LOGO_SIZE/2, LOGO_SIZE),
+    [UNIT_LOGO_TOTAL    ] = [[|TINTERFACE\Challenges\challenges-gold-sm:20:20:0:0:64:64:18:46:16:44|t]],
+    [UNIT_LOGO_MONTH    ] = [[|TINTERFACE\Challenges\challenges-plat-sm:20:20:0:0:64:64:18:46:16:44|t]],
     [UNIT_LOGO_90303A   ] = MakeLogo(UNIT_LOGO_90303A, LOGO_SIZE, LOGO_SIZE),
     [UNIT_LOGO_90303B   ] = MakeLogo(UNIT_LOGO_90303B, LOGO_SIZE, LOGO_SIZE),
     [UNIT_LOGO_90303C   ] = MakeLogo(UNIT_LOGO_90303C, LOGO_SIZE, LOGO_SIZE),

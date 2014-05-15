@@ -1,24 +1,24 @@
 
 BuildEnv(...)
 
-local YixinSummary = RaidBuilder:NewModule(GUI:GetClass('TitlePanel'):New(UIParent), 'YixinSummary') 
+local YiXinSummary = RaidBuilder:NewModule(GUI:GetClass('TitlePanel'):New(UIParent), 'YiXinSummary') 
 
-function YixinSummary:OnInitialize()
+function YiXinSummary:OnInitialize()
     self:Hide()
     self:SetFrameStrata('DIALOG')
-    self:SetSize(450, 590)
+    self:SetSize(450, 600)
     self:SetPoint('CENTER')
     self:SetText(L['易信推送'])
 
-    local summary = GUI:GetClass('SummaryHtml'):New(self)
-    summary:SetSize(390, 370)
-    summary:SetPoint('TOP', 0, -30)
-    summary:SetText(L.YiXinSummary)
+    local Summary = GUI:GetClass('SummaryHtml'):New(self)
+    Summary:SetSize(390, 380)
+    Summary:SetPoint('TOP', 0, -30)
+    -- Summary:SetText(L.YiXinSummary)
 
     local qrYiXin = GUI:GetClass('QRCodeWidget'):New(self)
     qrYiXin:SetSize(150, 150)
     qrYiXin:SetToplevel(true)
-    qrYiXin:SetPoint('TOPLEFT', summary, 'BOTTOMLEFT', 20, 0)
+    qrYiXin:SetPoint('TOPLEFT', Summary, 'BOTTOMLEFT', 20, 0)
     qrYiXin:SetValue('http://yixin.im/m')
     local qrcodeText = qrYiXin:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
     qrcodeText:SetPoint('TOP', qrYiXin, 'BOTTOM', 0, -10)
@@ -28,10 +28,20 @@ function YixinSummary:OnInitialize()
     qr:SetSize(150, 150)
     qr:SetToplevel(true)
     qr:SetPoint('BOTTOMLEFT', qrYiXin, 'BOTTOMRIGHT', 50, 0)
-    qr:SetValue('http://yixin.im/g/MTEwMjgzMzMtMTEwMjgzMzMtMTM4MjkyNDgxNg==')
+    qr:SetValue('http://yixin.im/g/MTE1NDMwODMtMTE1NDMwODMtMTM4Nzg2NzEwNg==')
     local qrText = qr:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
     qrText:SetPoint('TOP', qr, 'BOTTOM', 0, -10)
-    qrText:SetText(L['友团插件公众号'])
+    qrText:SetText(L['魔兽世界公众号'])
+
+    self.Summary = Summary
+end
+
+function YiXinSummary:SetArguments(name, realm)
+    if name and realm then
+        self.Summary:SetText(_format(L.YiXinSummary, name, realm))
+    else
+        self.Summary:SetText(_format(L.YiXinSummary, _G.UnitFullName('player')))
+    end
 end
 
 local YixinConfirm = RaidBuilder:NewModule(CreateFrame('Frame', nil, UIParent), 'YixinConfirm', 'AceEvent-3.0', 'AceHook-3.0')
@@ -70,7 +80,7 @@ function YixinConfirm:OnInitialize()
     HelpButton:SetHighlightFontObject('GameFontGreenSmall')
     HelpButton:SetText(L['使用本功能需要具备的条件？'])
     HelpButton:SetScript('OnClick', function(button)
-        RaidBuilder:ShowModule('YixinSummary')
+        RaidBuilder:ShowModule('YiXinSummary')
         HideParentPanel(button)
     end)
 

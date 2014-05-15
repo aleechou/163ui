@@ -418,10 +418,17 @@ end
 
 function GetWebEventUrl(eventId, eventSource)
     if eventSource == 1 then
-        return ([[http://127.0.0.1/%d]]):format(eventId)
+        return ([[http://z.wowchina.com/activity/detail/%d]]):format(eventId)
     end
 end
 
 function UnitInGroup(unit)
     return UnitInRaid(unit) or UnitInParty(unit)
+end
+
+function _format(str, ...)
+    for i = 1, select('#', ...) do
+        str = str:gsub(format('{%d}', i), (select(i, ...)))
+    end
+    return str
 end

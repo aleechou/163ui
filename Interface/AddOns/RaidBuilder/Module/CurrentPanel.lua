@@ -35,7 +35,7 @@ local function _UnitSetRole(unit, role)
         return
     end
     if UnitGroupRolesAssigned(unit) == role then
-        UnitSetRole(unit, 'NONE')
+        UnitSetRole(unit, role ~= 'NONE' and 'NONE' or 'DAMAGER')
     end
     UnitSetRole(unit, role)
 end
@@ -253,13 +253,11 @@ function CurrentPanel:OnInitialize()
     ShareButton:SetTooltip(L['活动通告'])
     ShareButton:Disable()
     ShareButton:SetScript('OnClick', function()
-        local event = EventCache:GetCurrentEvent()
-        if not event then
+        local content = GroupCache:GetAnnouncementContent()
+        if not content then
             return
         end
-        RaidBuilder:ShowModule('SharePanel',
-            L['活动通告'],
-            L.EVENT_ANNOUNCEMENT_CONTENT:format(event:GetEventName(), event:GetSummary()))
+        RaidBuilder:ShowModule('SharePanel', L['活动通告'], content)
     end)
 
     local YXHelp = Button:New(self)
@@ -267,7 +265,7 @@ function CurrentPanel:OnInitialize()
     YXHelp:SetText(L['如何关注好团长?'])
     YXHelp:SetIcon([[INTERFACE\ICONS\INV_Misc_QuestionMark]])
     YXHelp:SetScript('OnClick', function()
-        RaidBuilder:ShowModule('YixinSummary')
+        RaidBuilder:ShowModule('YiXinSummary')
     end)
 
     local MemberList = GUI:GetClass('GridView'):New(self)
@@ -516,9 +514,10 @@ end
 
 function CurrentPanel:RefreshButton()
     local event = EventCache:GetCurrentEvent()
+    local eventCode = GroupCache:GetCurrentEventCode()
     self.DisbandGroupButton:SetEnabled(event)
     self.YiXinButton:SetEnabled(event)
-    self.ShareButton:SetEnabled(event)
+    self.ShareButton:SetEnabled(eventCode)
     self.TitleLabel:SetText(self:GetCurrentTitle())
 
     if self.InviteChatGroupButton then

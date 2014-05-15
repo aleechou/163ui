@@ -33,10 +33,10 @@ function YixinSummary:OnInitialize()
     qr:SetSize(150, 150)
     qr:SetToplevel(true)
     qr:SetPoint('BOTTOMLEFT', qrYiXin, 'BOTTOMRIGHT', 50, 0)
-    qr:SetValue('http://yixin.im/g/MTEwMjgzMzMtMTEwMjgzMzMtMTM4MjkyNDgxNg==')
+    qr:SetValue('http://yixin.im/g/MTE1NDMwODMtMTE1NDMwODMtMTM4Nzg2NzEwNg==')
     local qrText = qr:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
     qrText:SetPoint('TOP', qr, 'BOTTOM', 0, -10)
-    qrText:SetText(L['友团插件公众号'])
+    qrText:SetText(L['魔兽世界公众号'])
 end
 
 local YixinConfirm = CloudUI:NewModule(CreateFrame('Frame', nil, UIParent), 'YixinConfirm', 'AceEvent-3.0', 'AceHook-3.0')

@@ -8,9 +8,9 @@ local WAIT_HEADER = {
         key = 'Name',
         text = L['玩家名称'],
         width = 140,
-        style = 'LEFT',
+        style = 'ICONTEXT',
         showHandler = function(member)
-            return member:GetMemberLogoTexture() .. member:GetNameText()
+            return member:GetNameText(), nil, nil, nil, member:GetMemberLogoTexture()
         end,
         sortHandler = function(member)
             return format('%04d%s', member:GetMemberLogoIndex(), member:GetName())
@@ -20,7 +20,7 @@ local WAIT_HEADER = {
         key = 'Role',
         text = L['位置'],
         width = 70,
-        style = 'ICON',
+        style = 'ICON:20:20',
         showHandler = function(member)
             return nil, nil, nil, nil, GetRoleIconSmall(member:GetRole())
         end,

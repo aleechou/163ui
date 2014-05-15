@@ -114,9 +114,8 @@ function SettingPanel:OnInitialize()
     --     end
     -- end
 
-    local SignInButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    local SignInButton = BigButton:New(self)
     SignInButton:SetPoint('TOPRIGHT', -20, -20)
-    SignInButton:SetSize(100, 20)
     SignInButton:SetText(Profile:IsSignIn() and L['今日已签到'] or L['签到'])
     SignInButton:SetEnabled(not Profile:IsSignIn())
     SignInButton:SetScript('OnClick', function(self)
@@ -127,9 +126,9 @@ function SettingPanel:OnInitialize()
     end)
     SignInButton:Hide()
 
-    local ReferenceButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    ReferenceButton:SetPoint('TOPRIGHT', SignInButton, 'BOTTOMRIGHT', 0, -10)
-    ReferenceButton:SetSize(100, 20)
+    local ReferenceButton = BigButton:New(self)
+    -- ReferenceButton:SetPoint('TOPRIGHT', SignInButton, 'BOTTOMRIGHT', 0, -10)
+    ReferenceButton:SetPoint('TOPRIGHT', -20, -20)
     ReferenceButton:SetText(Profile:GetReferenced() and L['已填写推荐'] or L['推荐人'])
     ReferenceButton:SetEnabled(not Profile:GetReferenced())
     ReferenceButton:SetScript('OnClick', function(self)
@@ -142,6 +141,6 @@ function SettingPanel:OnInitialize()
             end
         end, nil, nil, 255)
     end)
-    ReferenceButton:Hide()
+    -- ReferenceButton:Hide()
 end
 

@@ -1,116 +1,13 @@
 
 BuildEnv(...)
 
-local RecommendItem = RaidBuilder:NewClass('RecommendItem', GUI:GetClass('ItemButton'))
-
-function RecommendItem:Constructor()
-    self:SetCheckedTexture([[Interface\HelpFrame\HelpFrameButton-Highlight]])
-    self:GetCheckedTexture():SetTexCoord(0, 1, 0, 0.57)
-
-    self:SetHighlightTexture([[Interface\HelpFrame\HelpFrameButton-Highlight]], 'ADD')
-    self:GetHighlightTexture():SetTexCoord(0, 1, 0, 0.57)
-
-    local tLeft = self:CreateTexture(nil, 'BACKGROUND')
-    tLeft:SetTexture([[Interface\AuctionFrame\UI-AuctionItemNameFrame]])
-    tLeft:SetTexCoord(0, 0.078125, 0, 1)
-    tLeft:SetWidth(10)
-    tLeft:SetPoint('TOPLEFT')
-    tLeft:SetPoint('BOTTOMLEFT')
-
-    local tRight = self:CreateTexture(nil, 'BACKGROUND')
-    tRight:SetTexture([[Interface\AuctionFrame\UI-AuctionItemNameFrame]])
-    tRight:SetTexCoord(0.75, 0.828125, 0, 1)
-    tRight:SetWidth(10)
-    tRight:SetPoint('TOPRIGHT')
-    tRight:SetPoint('BOTTOMRIGHT')
-
-    local tMid = self:CreateTexture(nil, 'BACKGROUND')
-    tMid:SetTexture([[Interface\AuctionFrame\UI-AuctionItemNameFrame]])
-    tMid:SetTexCoord(0.078125, 0.75, 0, 1)
-    tMid:SetPoint('TOPLEFT', tLeft, 'TOPRIGHT')
-    tMid:SetPoint('BOTTOMRIGHT', tRight, 'BOTTOMLEFT')
-
-    local CreateButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    CreateButton:SetSize(60, 22)
-    CreateButton:SetPoint('RIGHT', -5, 0)
-    CreateButton:SetText(L['开团'])
-    CreateButton:SetScript('OnClick', function()
-        local CreatePanel = RaidBuilder:GetModule('CreatePanel')
-        MainPanel:SelectPanel(CreatePanel)
-        CreatePanel:QuickToggle(self.Event.code, self.Event.mode)
-    end)
-
-    local JoinButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    JoinButton:SetSize(60, 22)
-    JoinButton:SetPoint('RIGHT', CreateButton, 'LEFT', -5, 0)
-    JoinButton:SetText(L['找团'])
-    JoinButton:SetScript('OnClick', function()
-        local BrowsePanel = RaidBuilder:GetModule('BrowsePanel')
-        MainPanel:SelectPanel(BrowsePanel)
-        BrowsePanel:QuickToggle(self.Event.code)
-    end)
-
-    local Title = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlight')
-    Title:SetPoint('LEFT', 5, 0)
-
-    self.Title = Title
-end
-
-function RecommendItem:SetEvent(event)
-    self.Event = event
-    self.Title:SetText(event.text)
-end
-
-function RecommendItem:SetHighlight(status)
-    if status then
-        self:SetHighlightTexture([[Interface\HelpFrame\HelpFrameButton-Highlight]], 'ADD')
-        self:GetHighlightTexture():SetTexCoord(0, 1, 0, 0.57)
-    else
-        self:SetHighlightTexture(nil)
-    end
-end
-
 local RecommendPanel = RaidBuilder:NewModule(CreateFrame('Frame'), 'RecommendPanel', 'AceEvent-3.0')
 
 function RecommendPanel:OnInitialize()
     GUI:Embed(self, 'Owner', 'Tab', 'Refresh')
 
-    MainPanel:RegisterPanel(L['主题活动'], self, 8, 170, 130)
+    MainPanel:RegisterPanel(L['本周悬赏'], self, 8, 170, 155)
     MainPanel:DisablePanel(self)
-
-    local recommendData = DataCache:NewObject('Recommend')
-    recommendData:SetCallback('OnCacheChanged', function(self, cache)
-        local data = {}
-
-        for k, v in ipairs(cache) do
-            local eventCode, eventName = (':'):split(v)
-
-            eventCode = tonumber(eventCode)
-
-            if not eventName then
-                eventName = RECOMMEND_NAMES[eventCode]
-            else
-                RECOMMEND_NAMES[eventCode] = eventName
-            end
-
-            local control, name, level, maxMembers, roleNum = eventName:match('([@!]?)([^ !@]*)#(%d+)#(%d+)#(.*)%s*$')
-
-            eventCode = eventCode + EVENT_TYPE_RECOMMEND
-
-            data[k] = {
-                text = name,
-                code = eventCode,
-                mode = 7,
-            }
-
-            InsertMenuTable(L['主题活动'], name, eventCode, control, level, maxMembers, roleNum, k == 1)
-        end
-        self:SetData(data)
-    end)
-    recommendData:SetCallback('OnDataChanged', function(_, data)
-        self:SetList(data)
-        MainPanel:EnablePanel(self)
-    end)
 
     local Icon = self:CreateTexture(nil, 'OVERLAY')
     Icon:SetTexture([[Interface\ARCHEOLOGY\Arch-Race-Mogu]])
@@ -120,12 +17,12 @@ function RecommendPanel:OnInitialize()
 
     local TitleTip = self:CreateFontString(nil, 'OVERLAY', 'GameFontNormalHuge')
     TitleTip:SetPoint('LEFT', Icon, 'RIGHT')
-    TitleTip:SetText(L['今日热门主题活动'])
+    TitleTip:SetText(L['本周悬赏'])
 
     local TopTex = CreateFrame('Frame', nil, self, 'InsetFrameTemplate')
     TopTex:SetPoint('TOPLEFT', Icon, 'BOTTOMLEFT', -55, 0)
     TopTex:SetPoint('TOPRIGHT', self:GetOwner(), -10, 0)
-    TopTex:SetHeight(60)
+    TopTex:SetHeight(90)
 
     local TopModel = CreateFrame('PlayerModel', nil, TopTex)
     TopModel:SetPoint('LEFT', 0, 0)
@@ -139,48 +36,85 @@ function RecommendPanel:OnInitialize()
     Title:SetPoint('LEFT', TopModel, 'RIGHT')
     Title:SetPoint('RIGHT')
 
-    local ListTip = GUI:GetClass('SortButton'):New(self)
-    ListTip:SetSize(200, 19)
-    ListTip:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', -5, 8)
-    ListTip:SetText(L['|cffffd100全部主题活动|r'])
+    local function MakeButton(text, callback)
+        local button = CreateFrame('Button', nil, self)
+        button:SetSize(174, 54)
+        button:SetNormalTexture([[INTERFACE\HELPFRAME\HelpButtons]])
+        button:SetPushedTexture([[INTERFACE\HELPFRAME\HelpButtons]])
+        button:SetHighlightTexture([[INTERFACE\HELPFRAME\HelpButtons]], 'ADD')
 
-    local EventList = GUI:GetClass('ListView'):New(self)
-    EventList:SetAllPoints(true)
-    EventList:SetItemClass(RaidBuilder:GetClass('RecommendItem'))
-    EventList:SetItemHeight(42)
-    EventList:SetItemSpacing(1)
-    -- EventList:SetSelectMode('RADIO')
+        button:GetNormalTexture():SetTexCoord(0.00390625, 0.68359375, 0.44140625, 0.65234375)
+        button:GetPushedTexture():SetTexCoord(0.00390625, 0.68359375, 0.22265625, 0.43359375)
+        button:GetHighlightTexture():SetTexCoord(0.00390625, 0.68359375, 0.00390625, 0.21484375)
 
-    EventList:SetCallback('OnItemFormatted',
-        function(EventList, button, data)
-            button:SetEvent(data)
-            end)
+        button:SetNormalFontObject('GameFontNormalMed2')
 
-    EventList:SetCallback('OnItemEnter',
-        function(EventList, button, data)
-            button:SetHighlight(not button:GetChecked())
-            end)
+        button:SetText(text)
+        button:SetScript('OnClick', callback)
+
+        return button
+    end
+
+    local CreateButton = BigButton:New(self)
+    CreateButton:SetPoint('CENTER')
+    CreateButton:SetText(L['开团'])
+    CreateButton:SetScript('OnClick', function()
+        local CreatePanel = RaidBuilder:GetModule('CreatePanel')
+        MainPanel:SelectPanel(CreatePanel)
+        CreatePanel:QuickToggle(self.eventCode, self.eventMode)
+    end)
+
+    local FindButton = BigButton:New(self)
+    FindButton:SetPoint('RIGHT', CreateButton, 'LEFT', -50, 0)
+    FindButton:SetText(L['找团'])
+    FindButton:SetScript('OnClick', function()
+        local BrowsePanel = RaidBuilder:GetModule('BrowsePanel')
+        MainPanel:SelectPanel(BrowsePanel)
+        BrowsePanel:QuickToggle(self.eventCode)
+    end)
+
+    local GotoButton = BigButton:New(self)
+    GotoButton:SetPoint('LEFT', CreateButton, 'RIGHT', 50, 0)
+    GotoButton:SetText(L['详情'])
+    GotoButton:SetScript('OnClick', function()
+        GUI:CallUrlDialog([[http://z.wowchina.com/official]])
+    end)
 
     local SummaryBox = CreateFrame('Frame', nil, self, 'InsetFrameTemplate')
-    SummaryBox:SetPoint('BOTTOMLEFT', self:GetOwner(), 5, 25)
-    SummaryBox:SetPoint('BOTTOMRIGHT', self:GetOwner(), -10, 25)
-    SummaryBox:SetHeight(100)
-    local box = GUI:GetClass('TitleWidget'):New(SummaryBox)
-    box:SetAllPoints(true)
-    box:SetText(L['活动须知：'])
-    local Summary = GUI:GetClass('EditBox'):New(box)
-    Summary:SetText(L['|cffffd100        亲爱的朋友，还在苦恼没人一起陪你畅游艾泽拉斯吗？那就快来这里吧，每天从扭曲虚空会发布三个主题活动来到艾泽拉斯，您可以快速的创建或加入指定的活动，与同样喜欢这些活动的玩家一起活动，希望能给大家带来不同的游戏感受！|r'])
-    Summary:SetReadOnly(true)
-    Summary:ClearCopy()
-    box:SetObject(Summary)
+    SummaryBox:SetPoint('BOTTOMLEFT', self:GetOwner(), 5, 7)
+    SummaryBox:SetPoint('BOTTOMRIGHT', self:GetOwner(), -10, 7)
+    SummaryBox:SetHeight(130)
+
+    local SummaryHtml = GUI:GetClass('SummaryHtml'):New(SummaryBox)
+    SummaryHtml:SetPoint('CENTER')
+    SummaryHtml:SetText(L.RecommendSummary)
+
+    SummaryBox:SetScript('OnSizeChanged', function(_, width, height)
+        SummaryHtml:SetSize(width - 20, height - 20)
+    end)
+    SummaryBox:GetScript('OnSizeChanged')(SummaryBox, SummaryBox:GetSize())
 
     self.Title = Title
     self.EventList = EventList
+
+    self.eventCode = EVENT_CODE_RECOMMEND
+    self.eventMode = EVENT_MODE_TYPES[L['其他']]
+
+    self:RegisterMessage('RAIDBUILDER_RECOMMENDDATA_CHANGED')
+
+    self:SetScript('OnShow', function()
+        RemoteDataCache:ReadCurrentRecommend()
+    end)
 end
 
-function RecommendPanel:SetList(eventList)
-    self.EventList:SetItemList(eventList)
-    self.EventList:Refresh()
-    self.Title:SetText(eventList[1].text)
-end
+function RecommendPanel:RAIDBUILDER_RECOMMENDDATA_CHANGED()
+    local title = L['本周悬赏']
+    if RemoteDataCache:IsCurrentRecommendNew() then
+        title = '|cffff0000New|r ' .. title
+    end
 
+    MainPanel:EnablePanel(self)
+    MainPanel:SetPanelText(self, title)
+
+    self.Title:SetText(L['悬赏：'] .. RemoteDataCache:GetCurrentRecommend())
+end

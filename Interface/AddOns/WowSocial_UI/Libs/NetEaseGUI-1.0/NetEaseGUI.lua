@@ -1,8 +1,16 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 4)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 6)
 if not GUI then
     return
 end
+
+local L = GetLocale() == 'zhCN' and {
+    CopyUrl = '请按<|cff00ff00Ctrl+C|r>复制网址到浏览器打开',
+    Search = '请搜索“|cff00ff00%s|r”'
+} or {
+    CopyUrl = 'Please press <|cff00ff00Ctrl+C|r> to copy url',
+    Search = 'Please search "|cff00ff00%s|r"'
+}
 
 local Class = LibStub('LibClass-1.0')
 
@@ -99,6 +107,17 @@ GUI.RegisterUIMenu = GUI.RegisterUIPanel
 GUI.UnregisterUIMenu = GUI.UnregisterUIPanel
 
 StaticPopupDialogs['NECLOUD_CONFIRM_DIALOG'] = {}
+StaticPopupDialogs['NETEASE_COPY_URL'] = {
+    text = L.CopyUrl,
+    button1 = OKAY,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    hasEditBox = true,
+    maxBytes = 2000,
+    maxLetters = 2000,
+}
 
 function GUI:CallWarningDialog(text, showAlert)
     local t = wipe(StaticPopupDialogs['NECLOUD_CONFIRM_DIALOG'])
@@ -172,6 +191,21 @@ function GUI:CallInputDialog(text, callback, key, default, maxBytes, ...)
         dialog.editBox:HighlightText(0, #default)
     end
     return dialog
+end
+
+function GUI:CallUrlDialog(url, title, showAlert)
+    local info = StaticPopupDialogs['NETEASE_COPY_URL']
+
+    info.text = title or L.CopyUrl
+    info.showAlert = showAlert or nil
+
+    local dialog = StaticPopup_Show('NETEASE_COPY_URL')
+    if dialog then
+        dialog.editBox:SetText(url)
+        dialog.editBox:HighlightText()
+        dialog.editBox:SetCursorPosition(0)
+        dialog.editBox:SetFocus()
+    end
 end
 
 function GUI:IsDialogVisible(key)

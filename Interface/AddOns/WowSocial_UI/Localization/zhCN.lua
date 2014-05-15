@@ -131,7 +131,6 @@ L['加入'] = true
 L['加入群组%s失败，%s。'] = true
 L['加入群组'] = true
 L['勿扰模式'] = true
-L['友团插件公众号'] = true
 L['友团组团'] = true
 L['友团聊天'] = true
 L['发呆'] = true
@@ -241,6 +240,7 @@ L['邀请好友'] = true
 L['邀请组队'] = true
 L['需要验证'] = true
 L['高端'] = true
+L['魔兽世界公众号'] = true
 
 L.YixinSummary = [[
 <html>
@@ -252,7 +252,7 @@ L.YixinSummary = [[
 <p>3、完成后再次打开活动面板，点击右下|TInterface\AddOns\WowSocial_UI\Media\YiXin:16|t进行通知。</p>
 <h1><br />群员篇：</h1>
 <p>1、在手机上需要安装易信通讯软件。</p>
-<p>2、关注“|cffffd100友团插件|r”公众号。</p>
+<p>2、关注“|cffffd100魔兽世界|r”公众号。</p>
 <p>3、在公众号内输入对应命令完成订阅群活动信息。</p>
 <p><br />|cff33ff99订阅群信息：“关注”+“群关注号”|r</p>
 <p>|cff33ff99退订群信息：“取消关注”+“群关注号”|r</p>
