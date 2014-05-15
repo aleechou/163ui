@@ -1,6 +1,6 @@
 U1RegisterAddon("RangeDisplay", {
     title = "距离提示",
-    defaultEnable = 0,
+    defaultEnable = 1,
     optionsAfterVar = 1,
 
     tags = { TAG_COMBATINFO, },

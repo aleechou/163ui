@@ -1,6 +1,6 @@
 U1RegisterAddon("Gladius", {
     title = "竞技场头像",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL",
     optionsAfterLogin = 1,
 

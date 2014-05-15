@@ -1,6 +1,6 @@
 U1RegisterAddon("Grid", {
     title = "团队框架",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL",
     minimap = "LibDBIcon10_Grid",
 

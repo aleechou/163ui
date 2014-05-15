@@ -1,6 +1,6 @@
 U1RegisterAddon("GladiatorlosSA", {
     title = "PVP语音提示",
-    defaultEnable = 0,
+    defaultEnable = 1,
     optionsAfterLogin = 1,
     load = "NORMAL",
 

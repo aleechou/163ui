@@ -4,7 +4,7 @@ U1RegisterAddon("RatingBuster", {
     deps = {"libstatlogic-1.2", "libbabble-3.0",},
     desc = "在装备的鼠标提示中，把各种战斗等级属性换算成百分比效果显示出来，换算时考虑了各职业的转换公式、职业的天赋加成、当前的增益效果等等，非常精确。也可以比较两件装备的属性总差异。``运行命令'/ratingbuster win'打开详细设置窗口。",
 
-    defaultEnable = 0,
+    defaultEnable = 1,
     
     toggle = function(name, info, enable, justload)
         CoreUIEnableOrDisable(RatingBuster, enable);
