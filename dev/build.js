@@ -159,17 +159,17 @@ function parseToc(addonName){
     } ;
 
     for(var i=0;i<lines.length;i++){
-	var line = lines[i].trim() ;
+		var line = lines[i].trim() ;
 
-	if(!line){
-	    continue ;
-	}
+		if(!line){
+		    continue ;
+		}
 
-	// config option
-	var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-	if(res){
-	    toc.metainfo[ res[1] ] = res[2] ;
-	}
+		// config option
+		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
+		if(res){
+		    // toc.metainfo[ res[1] ] = res[2] ;
+		}
     }
 
     function findfiles(subdir){

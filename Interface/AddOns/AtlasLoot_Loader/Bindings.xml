@@ -1,0 +1,5 @@
+<Bindings>
+	<Binding name="ATLASLOOT_TOGGLE" header="ATLASLOOT_TITLE">
+		AtlasLoot:ShowFrame_MiniMap()
+	</Binding>
+</Bindings>

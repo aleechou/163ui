@@ -1,0 +1,88 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+E:\PROGRA~1\Altova\XMLSpy2006\UI.xsd">
+	<Script file="locale.lua"/>
+	<Script file="Data.cn.lua"/>
+	<Script file="Data.tw.lua"/>
+	<Button name="MapMarkTemplate" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="25" y="25"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" file="Interface\AddOns\!!!163UI!!!\Textures\icon\NodeNormal">
+					<Size>
+						<AbsDimension x="20" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+			</OnLoad>			
+			<OnEnter>
+				MapMarkPoint_OnEnter(self);			
+			</OnEnter>
+			<OnLeave>
+				MapMarkPoint_OnLeave(self);
+			</OnLeave>
+		</Scripts>
+		<HighlightTexture alphaMode="ADD" file="Interface\AddOns\!!!163UI!!!\Textures\icon\NodeHighlight"/>
+	</Button>
+	
+	<CheckButton name="MapMarkCheckButton" frameStrata="HIGH" parent="WorldMapDetailFrame" hidden="true">
+		<Size>
+			<AbsDimension x="22" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT">
+				<Offset>
+					<AbsDimension x="-120" y="-16"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+				self:SetChecked(1)
+			</OnLoad>
+		</Scripts>
+	</CheckButton>
+
+	<Frame name="MapPlusDDList" frameStrata="HIGH" inherits="UIDropDownMenuTemplate" parent="WorldMapDetailFrame" hidden="true">
+		<Anchors>	
+			<Anchor point="LEFT" relativeTo="MapMarkCheckButton" relativePoint="RIGHT">
+				<Offset>
+					<AbsDimension x="-14" y="-3"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+                self:SetScale(1)
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+				UIDropDownMenu_SetWidth(self,100);
+				UIDropDownMenu_SetButtonWidth(self,120);
+			</OnLoad>
+            <!-- <OnShow> -->
+            <!--     self:SetFrameStrata'DIALOG' -->
+            <!-- </OnShow> -->
+		</Scripts>
+	</Frame>
+
+	<GameTooltip name="NPCMTooltip" frameStrata="HIGH" hidden="false" toplevel="true" parent="WorldMapFrame" inherits="GameTooltipTemplate">
+		<Scripts>
+			<OnLoad>
+				self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+				self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+				self:SetOwner(UIParent, "ANCHOR_NONE");
+			</OnLoad>
+		</Scripts>
+	</GameTooltip>
+</Ui>

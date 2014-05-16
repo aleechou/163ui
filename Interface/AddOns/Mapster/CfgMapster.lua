@@ -1,4 +1,4 @@
-U1RegisterAddon("Mapster", {
+﻿U1RegisterAddon("Mapster", {
     title = "地图增强",
     defaultEnable = 1,
     secure = 1,
@@ -11,8 +11,16 @@ U1RegisterAddon("Mapster", {
     -------- Options --------
     {
         text = "配置选项",
-        tip = "快捷命令`/mapster",
         callback = function(cfg, v, loading) SlashCmdList["ACECONSOLE_MAPSTER"]("") end,
     },
-    --]]
+
+    {
+        text = "重置所有控制台设定",
+        callback = function(cfg, v, loading)
+            MapsterDB = nil; ReloadUI();
+            NPCMarkMappingDB = nil; ReloadUI();
+            NPCMarkDB = nil; ReloadUI();
+            MapMarkHide = nil; ReloadUI();
+        end,
+    },
 });

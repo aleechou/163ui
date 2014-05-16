@@ -1,41 +1,23 @@
 ﻿## Interface: 50400
-## X-BigfootType: 9
-## X-BigfootDesc: 小巧但功能齐全的地图增强。
-## Notes: Simple Map Mod
-## Notes-zhCN: 简单实用的地图模块
-## Notes-frFR: Simples modifications de la carte.
 ## Title: Mapster
+## Title-zhTW: |cff880303[网易有爱]|r 地图增强
+## Title-zhCN: |cff880303[网易有爱]|r 地图增强
+## Notes: Simple Map Mod
+## Notes-zhTW: 簡單實用的地圖顯示、未探索區域顯示、副本地圖、NPC位置插件.
+## Notes-zhCN: 简单实用的地图显示、未探索区域显示、副本地图、NPC位置插件.
+## Notes-frFR: Simples modifications de la carte.
 ## Author: Nevcairiel
+## Version: 1.5.6.1-1-g1223da0
 ## SavedVariables: MapsterDB
-## X-Category: Map
-## Version: 1.5.5
-## X-License: All rights reserved.
-## X-Curse-Packaged-Version: 1.5.5
-## X-Curse-Project-Name: Mapster
-## X-Curse-Project-ID: mapster
-## X-Curse-Repository-ID: wow/mapster/mainline
-
+## SavedVariablesPerCharacter: NPCMarkDB, NPCMarkMappingDB, MapMarkHide
 ## OptionalDeps: Ace3, LibWindow-1.1
 
 #@no-lib-strip@
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-
-Libs\AceAddon-3.0\AceAddon-3.0.xml
-Libs\AceEvent-3.0\AceEvent-3.0.xml
-Libs\AceHook-3.0\AceHook-3.0.xml
-Libs\AceDB-3.0\AceDB-3.0.xml
-Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
-Libs\AceLocale-3.0\AceLocale-3.0.xml
-
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConsole-3.0\AceConsole-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
-
 Libs\LibWindow-1.1\LibWindow-1.1.lua
 #@end-no-lib-strip@
 
 Locale\locale.xml
+Mark\embeds.xml
 
 Mapster.lua
 Config.lua
@@ -47,5 +29,8 @@ FogClear.lua
 InstanceMaps.lua
 Scaling.lua
 
-## Title: |cff880303[网易有爱]|r Mapster
+Mark.lua
+
+
+## Title: |cff880303[网易有爱]|r 地图增强
 ## X-Vendor: NetEase
