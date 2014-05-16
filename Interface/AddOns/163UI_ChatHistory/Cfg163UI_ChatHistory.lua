@@ -1,6 +1,6 @@
 U1RegisterAddon("163UI_ChatHistory", {
     title = "聊天历史",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = 'NORMAL',
 
     tags = {TAG_CHAT, TAG_DEV},

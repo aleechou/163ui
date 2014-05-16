@@ -1,6 +1,6 @@
 U1RegisterAddon("163UI_TeamStats", {
     title = "团员信息统计",
-    defaultEnable = 0,
+    defaultEnable = 1,
     --minimap = "LibDBIcon10_TeamStats",
     frames = {"TeamStatsFrame"}, --需要保存位置的框体
 minimap = "LibDBIcon10_TeamStats",

@@ -1,6 +1,6 @@
 U1RegisterAddon("ComboPoints", {
     title = "连击点显示",
-    defaultEnable = 0,
+    defaultEnable = 1,
     optionsAfterVar = 1,
     --minimap = "",
     frames = {"ComboPoints_ComboBar"},
