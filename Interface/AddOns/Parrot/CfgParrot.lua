@@ -1,6 +1,6 @@
 U1RegisterAddon("Parrot", {
     title = "浮动战斗信息",
-    defaultEnable = 0,
+    defaultEnable = 1,
 
     tags = { TAG_BIG, TAG_COMBATINFO, },
     icon = [[Interface\Icons\Spell_Nature_ForceOfNature]],

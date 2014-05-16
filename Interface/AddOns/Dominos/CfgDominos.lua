@@ -2,7 +2,7 @@
     title = "多米诺动作条",
     optdeps = {"Masque"},
     --desc = "",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "LOGIN",
     -- minimap = "LibDBIcon10_Dominos",
 minimap = "LibDBIcon10_Dominos",
