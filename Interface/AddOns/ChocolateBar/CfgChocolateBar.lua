@@ -101,7 +101,7 @@ end
 
 U1RegisterAddon("ChocolateBar", {
     title = "巧克力信息条",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "LOGIN",
 
     tags = { TAG_INTERFACE, TAG_MANAGEMENT, TAG_BIG, },

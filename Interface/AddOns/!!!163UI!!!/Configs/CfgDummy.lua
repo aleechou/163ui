@@ -9,7 +9,7 @@ U1RegisterAddon("!!Forwarder", { dummy = 1,
     icon = [[Interface\Icons\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]],
     desc = "在野外也可以看到组队频道和交易频道的信息，插件由网易有爱warbaby原创奉献",
     author = "|cffcd1a1c[网易原创]|r",
-    defaultEnable = 0,
+    defaultEnable = 1,
 
     children = {"LFGForwarder", "TradeForwarder"},
 })
