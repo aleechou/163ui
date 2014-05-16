@@ -1,0 +1,25 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Script file="QuestHubber_Azeroth\Data_Azeroth_Alliance.lua"/>
+	<Script file="QuestHubber_Azeroth\Data_Azeroth_Horde.lua"/>
+	<Script file="QuestHubber_Azeroth\Data_Azeroth_Neutral.lua"/>
+	
+	<Script file="QuestHubber_Outland\Data_Outland_Alliance.lua"/>
+	<Script file="QuestHubber_Outland\Data_Outland_Horde.lua"/>
+	<Script file="QuestHubber_Outland\Data_Outland_Neutral.lua"/>
+
+	<Script file="QuestHubber_Northrend\Data_Northrend_Alliance.lua"/>
+	<Script file="QuestHubber_Northrend\Data_Northrend_Horde.lua"/>
+	<Script file="QuestHubber_Northrend\Data_Northrend_Neutral.lua"/>
+
+	<Script file="QuestHubber_Cataclysm\Data_Cataclysm_Alliance.lua"/>
+	<Script file="QuestHubber_Cataclysm\Data_Cataclysm_Horde.lua"/>
+	<Script file="QuestHubber_Cataclysm\Data_Cataclysm_Neutral.lua"/>
+
+	<Script file="QuestHubber_Pandaria\Data_Pandaria_Alliance.lua"/>
+	<Script file="QuestHubber_Pandaria\Data_Pandaria_Horde.lua"/>
+	<Script file="QuestHubber_Pandaria\Data_Pandaria_Neutral.lua"/>
+
+	<Script file="QuestHubber_Daily\Data_Daily_Alliance.lua"/>
+	<Script file="QuestHubber_Daily\Data_Daily_Horde.lua"/>
+	<Script file="QuestHubber_Daily\Data_Daily_Neutral.lua"/>
+</Ui>

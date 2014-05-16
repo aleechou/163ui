@@ -1,0 +1,22 @@
+﻿## Interface: 50400
+## Title: AL_MistsofPandaria
+## Title-zhTW: |cff880303[网易有爱]|r 副本掉落 [潘达利亚]
+## Title-zhCN: |cff880303[网易有爱]|r 副本掉落 [潘达利亚]
+## Notes: AtlasLoot loot tables from MoP
+## Notes-deDE: AtlasLoot Beuteverzeichnisse für MoP
+## Notes-zhCN: AtlasLoot 《熊猫人之谜》物品信息
+## Notes-zhTW: AtlasLoot 潘達利亞之謎資料片物品掉落資料庫
+## Author: Hegarol	
+## Version: v7.07.02
+## X-eMail: manager@atlasloot.net
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+mistsofpandaria.lua
+BonusRollInfo.lua
+
+## Title: |cff880303[网易有爱]|r 副本掉落 [潘达利亚]
+## X-Vendor: NetEase

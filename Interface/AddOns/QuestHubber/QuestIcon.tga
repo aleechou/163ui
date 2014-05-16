@@ -1,0 +1,36 @@
+﻿## Interface: 40300
+## Title: QuestHubber
+## Title-zhTW: |r|cFF854321[任務]|r 任務雷達 QuestHubber
+## Title-zhCN: |r|cFF854321[任务]|r 任务雷达 QuestHubber
+## Notes: Pins on the World Map for quests you have not completed yet
+## Notes-zhTW: 在世界地圖上顯示任務NPC位置.
+## Notes-zhCN: 在世界地图上显示任务NPC位置.
+## Author: pigmonkey
+## SavedVariables: QuestHubberDB
+
+Libs\LibStob\LibStob.lua
+Libs\CallbackHaodler-1.0\CallbackHaodler-1.0.xml
+Libs\Ace3Addon-3.0\Ace3Addon-3.0.xml
+Libs\Ace3Event-3.0\Ace3Event-3.0.xml
+Libs\Ace3DB-3.0\Ace3DB-3.0.xml
+Libs\Ace3Console-3.0\Ace3Console-3.0.xml
+Libs\Ace3Locale-3.0\Ace3Locale-3.0.xml
+Libs\Ace3Timer-3.0\Ace3Timer-3.0.xml
+Libs\Ace3Hook-3.0\Ace3Hook-3.0.xml
+Libs\Ace3GUI-3.0\Ace3GUI-3.0.xml
+Libs\Ace3Config-3.0\Ace3Config-3.0.xml
+Libs\LibGratuity-3.0\lib.xml
+Libs\LibsDataBroker-1.1\LibsDataBroker-1.1.lua
+
+Locale\enUS.lua
+Locale\deDE.lua
+Locale\esES.lua
+Locale\esMX.lua
+Locale\frFR.lua
+Locale\koKR.lua
+Locale\ruRU.lua
+Locale\zhCN.lua
+Locale\zhTW.lua
+
+QuestHubber.lua
+Modules\modules.xml

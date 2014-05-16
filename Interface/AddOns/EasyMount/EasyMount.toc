@@ -1,0 +1,22 @@
+﻿## Interface: 50400
+## Title: EasyMount
+## Title-zhTW: |cff880303[网易有爱]|r 一鍵坐騎 EasyMount
+## Title-zhCN: |cff880303[网易有爱]|r 一键坐骑 EasyMount
+## Notes: A chat enhance addon
+## Notes-zhTW: 一個簡單的一鍵坐騎插件插件
+## Notes-zhCN: 一个简单的一键坐骑插件插件
+## Version: 3.0
+## Author: Abin
+## SavedVariablesPerCharacter: EasyMountDB
+
+Includes\InterfaceOptionPage-1.0.lua
+Includes\TabFrame-1.0.lua
+Includes\VirtualScrollList-1.0.lua
+
+Localization.lua
+Core.lua
+Actions.lua
+OptionFrame.lua
+
+## Title: |cff880303[网易有爱]|r 一键坐骑 EasyMount
+## X-Vendor: NetEase

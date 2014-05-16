@@ -1,0 +1,22 @@
+﻿## Interface: 50400
+## Title: ErrorFilter
+## Title-zhTW: |cff880303[网易有爱]|r 錯誤過濾
+## Title-zhCN: |cff880303[网易有爱]|r 错误过滤
+## Notes: Filters the errors dislayed in the UIErrorsFrame.
+## Notes-zhTW: 自動過濾掉屏幕上方的紅色提示文字.
+## Notes-zhCN: 自动过滤掉屏幕上方的红色提示文字.
+## Version: 2.9
+## Author: iceeagle
+## OptionalDeps: Ace3, LibSink-2.0
+## SavedVariables: ErrorFilterDB
+## DefaultState: enabled
+
+Locales\enUS.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+
+ErrorFilter.lua
+
+
+## Title: |cff880303[网易有爱]|r 错误过滤
+## X-Vendor: NetEase

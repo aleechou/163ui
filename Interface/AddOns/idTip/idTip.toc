@@ -1,0 +1,11 @@
+## Interface: 50400
+## Title: idTip
+## Version: 2.2
+## Notes: Adds SpellIDs and ItemIDs to the various tooltips ingame
+## Author: Silverwind
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3432
+core.lua
+
+## Title: |cff880303[网易有爱]|r 法术物品编号
+## X-Vendor: NetEase

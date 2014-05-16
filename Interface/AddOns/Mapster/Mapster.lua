@@ -7,6 +7,8 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 
 local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
+local AL = LibStub:GetLibrary("AceLocale-3.0")
+local LGIST = LibStub:GetLibrary("LibGroupInSpecT-1.0")
 
 local PLAYER_ARROW_SIZE_WINDOW = 40
 local PLAYER_ARROW_SIZE_FULL_WITH_QUESTS = 38
@@ -16,14 +18,14 @@ local defaults = {
 	profile = {
 		hideMapButton = false,
 		arrowScale = 0.88,
-		questPanels = 1,
+		questPanels = 0,  --fishuiedit
 		modules = {
 			['*'] = true,
 		},
 		x = 0,
 		y = 0,
 		points = "CENTER",
-		scale = 0.75,
+		scale = 1,  --fishuiedit
 		poiScale = 0.8,
 		ejScale = 0.8,
 		alpha = 1,
@@ -100,6 +102,10 @@ function Mapster:OnEnable()
 		WorldMap_ToggleSizeUp()
 	end
 
+	-- ensure the map remains movable
+	SetCVar("lockedWorldMap", 0);
+	WORLDMAP_SETTINGS.locked = false
+
 	self:SetupMapButton()
 
 	LibWindow.RegisterConfig(WorldMapFrame, db)
@@ -129,9 +135,9 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetHeight(768)
 	WorldMapFrame:SetClampedToScreen(false)
 
-	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneMinimapDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	WorldMapContinentDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneMinimapDropDownButton:HookScript("OnClick", dropdownScaleFix)
 
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
@@ -149,6 +155,14 @@ function Mapster:OnEnable()
 	questOnlyBlobs:SetScript("OnClick", function(self)
 		db.questPanels = self:GetChecked() and 0 or 1
 		Mapster:WorldMapFrame_DisplayQuests()
+
+		-- force blob frames to recalculate
+		if db.questPanels == 1 then
+			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+			WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
+		end
 	end)
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
@@ -547,7 +561,6 @@ function wmfStopMoving(frame)
 end
 
 function dropdownScaleFix(self)
-	ToggleDropDownMenu(nil, nil, self:GetParent())
 	local uiScale = 1
 	local uiParentScale = UIParent:GetScale()
 	if GetCVar("useUIScale") == "1" then

@@ -1,6 +1,6 @@
 U1RegisterAddon("DBM-Core", {
     title = "首领模块",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL", --很奇怪的问题, DBM-Core.lua:1142
     minimap = "DBMMinimapButton",
     frames = {"DBMMinimapButton"},

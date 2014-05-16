@@ -1,9 +1,23 @@
 <Ui>
     <Include file="CfgDummy.lua"/>
 
+    <Include file="..\..\idTip\CfgidTip.lua"/>
+    <Include file="..\..\zTip\CfgzTip.lua"/>
+    <Include file="..\..\QuestHubber\CfgQuestHubber.lua"/>
+    <Include file="..\..\HandyNotes\CfgHandyNotes.lua"/>
+    <Include file="..\..\HabeebIt\CfgHabeebIt.lua"/>
+    <Include file="..\..\GTFO\CfgGTFO.lua"/>
+    <Include file="..\..\Fizzle\CfgFizzle.lua"/>
+    <Include file="..\..\FishingBuddy\CfgFishingBuddy.lua"/>
+    <Include file="..\..\BattlegroundTargets\CfgBattlegroundTargets.lua"/>
+    <Include file="..\..\Atemi\CfgAtemi.lua"/>
     <Include file="..\..\!BaudErrorFrame\Cfg!BaudErrorFrame.lua"/>
     <Include file="..\..\!tdDropDown\Cfg!tdDropDown.lua"/>
+    <Include file="..\..\RaidAchievement\CfgRaidAchievement.lua"/>
 	<Include file="..\..\SellOMatic2\CfgSellOMatic2.lua"/>
+	<Include file="..\..\EasyMount\CfgEasyMount.lua"/>
+	<Include file="..\..\TidyPlates\CfgTidyPlates.lua"/>
+	<Include file="..\..\Atemi\CfgAtemi.lua"/>
     <Include file="..\..\163UI_BossGuide\Cfg163UI_BossGuide.lua"/>
     <Include file="..\..\163UI_Buff\Cfg163UI_Buff.lua"/>
     <Include file="..\..\163UI_ChatHistory\Cfg163UI_ChatHistory.lua"/>
