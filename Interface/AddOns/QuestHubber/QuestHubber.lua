@@ -224,7 +224,7 @@ local dataObj = ldb:NewDataObject("QuestHubber", {
 	type = "data source",
 	text = "0",
 	value = "0",
-	icon = "Interface\\AddOns\\!!!FishUI\\media\\QuestIcon.tga",
+	icon = "Interface\\AddOns\\QuestHubber\\QuestIcon.tga",
 	OnClick = function(self, button)
 		if button == "LeftButton" then
 			if IsControlKeyDown() then
