@@ -5,7 +5,8 @@
 		"baz",
 		"Recount",
 		"NPCMark",
-		"RatingBuster"
+		"RatingBuster",
+		"idTip"
     ]
 
     , "conflictive": {
