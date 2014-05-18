@@ -24,6 +24,7 @@ nopic = 1,
         end,
 		
 		callback = function(cfg, v,loading)
+			if not wMarkerDB then wMarkerDB = {} end
 			wMarkerDB.partyShow = v.alone;
 			wMarkerDB.shown = v.shown;
 			wMarker:visibility()
@@ -48,6 +49,7 @@ nopic = 1,
         end,
 		
 		callback = function(cfg, v,loading)
+			if not wFlaresDB then wFlaresDB = {} end
 			wFlaresDB.shown = v.shown;
 			wFlaresDB.partyShow = v.alone;
 			wMarker:visibility()
