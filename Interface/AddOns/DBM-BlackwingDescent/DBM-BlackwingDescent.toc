@@ -1,0 +1,32 @@
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Blackwing Descent
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 黑翼血环
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 黑翼陷窟
+## Notes-zhCN: |cff00ff00DBM-BlackwingDescent|r
+## Notes-zhTW: |cff00ff00DBM-BlackwingDescent|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMBlackwingDescent_SavedVars, DBMBlackwingDescent_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: CATA
+## X-DBM-Mod-Name: Blackwing Descent
+## X-DBM-Mod-Name-zhTW: 黑翼陷窟
+## X-DBM-Mod-Name-zhCN: 黑翼血环
+## X-DBM-Mod-MapID: 669
+## X-DBM-Mod-Sort: 104
+## X-DBM-Mod-LoadZoneID: 754
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+
+DarkIronGolemCouncil.lua
+Magmaw.lua
+Atramedes.lua
+Chimaeron.lua
+Maloriak.lua
+Nefarian.lua
+BWDTrash.lua

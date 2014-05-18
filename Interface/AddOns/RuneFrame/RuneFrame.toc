@@ -1,0 +1,14 @@
+## Interface: 50400
+## Notes: 简易的符文插件RuneFrame
+## Author: Terry@BF,独孤傲雪, 炽火 修改@Tarecgosa
+## SavedVariables: RuneFrame_Config
+## X-Mush-Project-Name: RuneFrame
+## X-Mush-Packaged-Version: 2
+## X-Mush-UpdateVer: 2
+
+Libs\AceLibs.xml
+Core.lua
+RuneFrame.lua
+
+## Title: |cff880303[网易有爱]|r PVP冷卻
+## X-Vendor: NetEase

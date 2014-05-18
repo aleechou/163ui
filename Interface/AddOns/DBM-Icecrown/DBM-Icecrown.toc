@@ -1,0 +1,48 @@
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Icecrown Citadel
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 冰冠堡垒
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 冰冠城塞
+## Notes-zhCN: |cff00ff00DBM-Icecrown|r
+## Notes-zhTW: |cff00ff00DBM-Icecrown|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMIcecrown_SavedVars, DBMIcecrown_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-SubCategories: The Lower Spire, The Plagueworks, The Crimson Hall, Frostwing Halls, The Frozen Throne
+## X-DBM-Mod-SubCategories-zhTW: 城塞大門,瘟疫工坊,赤紅大廳,霜翼大廳,冰封王座
+## X-DBM-Mod-SubCategories-zhCN: 城门区,瘟疫区,议会区,冰龙区,冰封王座
+## X-DBM-Mod-Name: Icecrown Citadel
+## X-DBM-Mod-Name-zhTW: 冰冠城塞
+## X-DBM-Mod-Name-zhCN: 冰冠堡垒
+## X-DBM-Mod-MapID: 631
+## X-DBM-Mod-Sort: 200
+## X-DBM-Mod-LoadZoneID: 604
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+
+TheLowerSpire\LordMarrowgar.lua
+TheLowerSpire\Deathwhisper.lua
+TheLowerSpire\GunshipBattle.lua
+TheLowerSpire\Deathbringer.lua
+TheLowerSpire\LowerSpireTrash.lua
+
+ThePlagueworks\Festergut.lua
+ThePlagueworks\Rotface.lua
+ThePlagueworks\Putricide.lua
+ThePlagueworks\PlagueworksTrash.lua
+
+TheCrimsonHall\BPCouncil.lua
+TheCrimsonHall\Lanathel.lua
+TheCrimsonHall\CrimsonHallTrash.lua
+
+FrostwingHalls\Valithria.lua
+FrostwingHalls\Sindragosa.lua
+FrostwingHalls\FrostwingHallTrash.lua
+
+TheFrozenThrone\LichKing.lua
