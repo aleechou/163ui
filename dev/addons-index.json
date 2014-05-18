@@ -3,7 +3,9 @@
 		"foo" ,
 		"bar" ,
 		"baz",
-		"Recount"
+		"Recount",
+		"NPCMark"
+		"RatingBuster"
     ]
 
     , "conflictive": {
