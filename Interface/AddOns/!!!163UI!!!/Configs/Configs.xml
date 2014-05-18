@@ -1,6 +1,7 @@
 <Ui>
     <Include file="CfgDummy.lua"/>
 
+    <Include file="..\..\RuneFrame\CfgRuneFrame.lua"/>
     <Include file="..\..\idTip\CfgidTip.lua"/>
     <Include file="..\..\zTip\CfgzTip.lua"/>
     <Include file="..\..\QuestHubber\CfgQuestHubber.lua"/>

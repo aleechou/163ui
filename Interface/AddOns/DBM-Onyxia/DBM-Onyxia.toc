@@ -1,0 +1,27 @@
+## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Onyxia
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奥妮克希亚
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奧妮克希亞
+## Notes-zhCN: |cff00ff00DBM-Onyxia|r
+## Notes-zhTW: |cff00ff00DBM-Onyxia|r
+## Author: Tandanu/Nitram
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMOnyxia_SavedVars, DBMOnyxia_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-No-Heroic: 1
+## X-DBM-Mod-Sort: 203
+## X-DBM-Mod-MapID: 249
+## X-DBM-Mod-Name: Onyxia's Lair
+## X-DBM-Mod-Name-zhTW: 奧妮克希亞的巢穴
+## X-DBM-Mod-Name-zhCN: 奥妮克希亚的巢穴
+## X-DBM-Mod-LoadZoneID: 718
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+
+Onyxia.lua

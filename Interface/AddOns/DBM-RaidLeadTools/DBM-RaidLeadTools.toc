@@ -26,5 +26,3 @@ localization.tw.lua
 DBM-RaidLeadTools.lua
 load_files.xml
 
-## Title: |cff880303[网易有爱]|r DBM Raid Lead Tool
-## X-Vendor: NetEase

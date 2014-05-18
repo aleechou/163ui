@@ -1,0 +1,35 @@
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Firelands
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 火焰之地
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 火源之界
+## Notes-zhCN: |cff00ff00DBM-Firelands|r
+## Notes-zhTW: |cff00ff00DBM-Firelands|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMFirelands_SavedVars, DBMFirelands_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: CATA
+## X-DBM-Mod-Name: Firelands
+## X-DBM-Mod-Name-zhCN: 火焰之地
+## X-DBM-Mod-Name-zhTW: 火源之界
+## X-DBM-Mod-Sort: 101
+## X-DBM-Mod-MapID: 720,951
+## X-DBM-Mod-LoadZoneID: 800,803
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+
+Bethtilac.lua
+Rhyolith.lua
+Alysrazor.lua
+Shannox.lua
+Baleroc.lua
+FandralStaghelm.lua
+Ragnaros.lua
+FirelandsTrash.lua
+Volcanus.lua
+Nexus.lua

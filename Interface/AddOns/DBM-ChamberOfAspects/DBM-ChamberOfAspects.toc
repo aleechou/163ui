@@ -1,0 +1,37 @@
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Chamber of Aspects
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 龙眠神殿
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 守護巨龍之間
+## Notes-zhCN: |cff00ff00DBM-ChamberOfAspects|r
+## Notes-zhTW: |cff00ff00DBM-ChamberOfAspects|r
+## Author: Tandanu/Nitram/MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMChamberOfAspects_SavedVars, DBMChamberOfAspects_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-SubCategories: The Obsidian Sanctum, The Ruby Sanctum
+## X-DBM-Mod-SubCategories-zhTW: 黑曜聖所, 晶紅聖所
+## X-DBM-Mod-SubCategories-zhCN: 黑曜石圣殿, 红玉圣殿
+## X-DBM-Mod-Name: Chamber of Aspects
+## X-DBM-Mod-Name-zhTW: 守護巨龍之間
+## X-DBM-Mod-Name-zhCN: 龙眠神殿
+## X-DBM-Mod-Sort: 201
+## X-DBM-Mod-MapID: 615,724
+## X-DBM-Mod-LoadZoneID: 531,609
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+
+Obsidian\Shadron.lua
+Obsidian\Tenebron.lua
+Obsidian\Vesperon.lua
+Obsidian\Sartharion.lua
+
+Ruby\Baltharus.lua
+Ruby\Saviana.lua
+Ruby\Zarithrian.lua
+Ruby\Halion.lua

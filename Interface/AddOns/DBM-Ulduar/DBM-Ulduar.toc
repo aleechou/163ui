@@ -1,0 +1,41 @@
+## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Ulduar
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奥杜尔
+## Title-zhtw:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奧杜亞
+## Notes-zhCN: |cff00ff00DBM-Ulduar|r
+## Notes-zhTW: |cff00ff00DBM-Ulduar|r
+## Author: Nitram
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMUlduar_SavedVars, DBMUlduar_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-No-Heroic: 1
+## X-DBM-Mod-Name: Ulduar
+## X-DBM-Mod-Name-zhTW: 奧杜亞
+## X-DBM-Mod-Name-zhCN: 奥杜尔
+## X-DBM-Mod-MapID: 603
+## X-DBM-Mod-Sort: 204
+## X-DBM-Mod-LoadZoneID: 529
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+
+FlameLeviathan.lua
+Ignis.lua
+Razorscale.lua
+XT002.lua
+IronCouncil.lua
+Kologarn.lua
+Auriaya.lua
+Mimiron.lua
+Freya.lua
+Freya_Elders.lua
+Thorim.lua
+Hodir.lua
+GeneralVezax.lua
+YoggSaron.lua
+Algalon.lua

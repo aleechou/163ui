@@ -1,0 +1,110 @@
+﻿## Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Party-WotLK
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 五人副本-WotLK
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 五人副本-WotLK
+## Notes-zhCN: |cff00ff00DBM-Party-WotLK|r
+## Notes-zhTW: |cff00ff00DBM-Party-WotLK|r
+## Author: Arta
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMPartyWotLK_SavedVars, DBMPartyWotLK_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: PARTY
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-SubCategories: Ahn'Kahet,Azjol-Nerub,CoT: Old Stratholme,Drak'Tharon Keep,Gundrak,Halls of Lightning,Halls of Stone,The Nexus,The Oculus,Utgarde Keep,Utgarde Pinnacle,Violet Hold,Trial of the Champion,The Forge of Souls,Pit of Saron,Halls of Reflection
+## X-DBM-Mod-SubCategories-zhTW: 安卡罕特,阿茲歐-奈幽,舊斯坦索姆,德拉克薩隆要塞,剛德拉克,雷光大廳,石之大廳,奧核之心,奧核之眼,俄特加德要塞,俄特加德之巔,紫羅蘭堡,勇士試煉,眾魂熔爐,薩倫之淵,倒影大廳
+## X-DBM-Mod-SubCategories-zhCN: 安卡赫特：古代王国,艾卓-尼鲁布,净化斯坦索姆,达克萨隆要塞,古达克,闪电大厅,岩石大厅,魔枢,魔环,乌特加德城堡,乌特加德之巅,紫罗兰监狱,冠军的试炼,灵魂洪炉,萨隆矿坑,映像大厅
+## X-DBM-Mod-Name: Party-WotLK
+## X-DBM-Mod-Name-zhTW: 隊伍首領-WotLK
+## X-DBM-Mod-Name-zhCN: 队伍首领-WotLK
+## X-DBM-Mod-Sort: 225
+## X-DBM-Mod-MapID: 619,601,595,600,604,602,599,576,578,574,575,608,658,632,668,650
+## X-DBM-Mod-LoadZoneID: 523,524,542,521,530,522,526,603,601,536,533,602,534,525,520,528
+## X-Revision: BigFoot
+
+localization.en.lua
+localization.cn.lua
+localization.tw.lua
+
+AhnKahet\Taldaram.lua
+AhnKahet\Nadox.lua
+AhnKahet\JedogaShadowseeker.lua
+AhnKahet\Volazj.lua
+AhnKahet\Amanitar.lua
+
+AzjolNerub\Krikthir.lua
+AzjolNerub\Hadronox.lua
+AzjolNerub\Anubarak.lua
+
+OldStratholme\Meathook.lua
+OldStratholme\SalrammTheFleshcrafter.lua
+OldStratholme\ChronoLordEpoch.lua
+OldStratholme\MalGanis.lua
+OldStratholme\OldStratholmeWaves.lua
+
+DrakTharon\Trollgore.lua
+DrakTharon\NovosTheSummoner.lua
+DrakTharon\Dred.lua
+DrakTharon\ProphetTharonja.lua
+
+Gundrak\Sladran.lua
+Gundrak\Moorabi.lua
+Gundrak\BloodstoneAnnihilator.lua
+Gundrak\Galdarah.lua
+Gundrak\Eck.lua
+
+HallsOfLightning\Gjarngrin.lua
+HallsOfLightning\Volkhan.lua
+HallsOfLightning\Ionar.lua
+HallsOfLightning\Kronus.lua
+
+HallsOfReflection\WaveTimers.lua
+HallsOfReflection\Falric.lua
+HallsOfReflection\Marwyn.lua
+HallsOfReflection\LichKingEvent.lua
+
+HallsOfStone\MaidenOfGrief.lua
+HallsOfStone\Krystallus.lua
+HallsOfStone\BrannBronzebeard.lua
+HallsOfStone\SjonnirTheIronshaper.lua
+
+TheNexus\Commander.lua
+TheNexus\GrandMagusTelestra.lua
+TheNexus\Anomalus.lua
+TheNexus\OrmorokTheTreeShaper.lua
+TheNexus\Keristrasza.lua
+
+TheOculus\DrakosTheInterrogator.lua
+TheOculus\MageLordUrom.lua
+TheOculus\VarosCloudstrider.lua
+TheOculus\LeyGuardianEregos.lua
+
+UtgardeKeep\Keleseth.lua
+UtgardeKeep\ConstructorAndController.lua
+UtgardeKeep\IngvarThePlunderer.lua
+
+UtgardePinnacle\SvalaSorrowgrave.lua
+UtgardePinnacle\GortokPalehoof.lua
+UtgardePinnacle\SkadiTheRuthless.lua
+UtgardePinnacle\Ymiron.lua
+
+VioletHold\Erekem.lua
+VioletHold\Ichoron.lua
+VioletHold\Lavanthor.lua
+VioletHold\Moragg.lua
+VioletHold\Xevoss.lua
+VioletHold\Zuramat.lua
+VioletHold\Cyanigosa.lua
+VioletHold\PortalTimers.lua
+
+TrialoftheChampion\Champions.lua
+TrialoftheChampion\Eadric_the_Pure.lua
+TrialoftheChampion\Confessor.lua
+TrialoftheChampion\Black_Knight.lua
+
+ForgeofSouls\Bronjahm.lua
+ForgeofSouls\DevourerofSouls.lua
+
+PitofSaron\Ick.lua
+PitofSaron\ForgemasterGarfrost.lua
+PitofSaron\ScourgelordTyrannus.lua
