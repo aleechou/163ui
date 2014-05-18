@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("GTFO", {
     title = "站位提醒",
-    defaultEnable = 0,
+    defaultEnable = 1,
 
     tags = { TAG_RAID, TAG_GOOD },
     icon = [[Interface\Icons\inv_misc_pyriumgrenade]],

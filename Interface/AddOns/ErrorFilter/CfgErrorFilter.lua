@@ -1,6 +1,6 @@
 U1RegisterAddon("ErrorFilter", {
     title = "失败消息屏蔽",
-    defaultEnable = 0,
+    defaultEnable = 1,
 
     tags = { TAG_MANAGEMENT },
     icon = [[Interface\Icons\inv_misc_thornnecklace]],

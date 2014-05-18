@@ -1,7 +1,7 @@
 ﻿U1RegisterAddon("QuestHubber", {
     title = "任务雷达",
     tags = {TAG_MAPQUEST },
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL",
     optionsAfterLogin = 1,
 

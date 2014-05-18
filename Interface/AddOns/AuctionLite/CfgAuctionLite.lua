@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("AuctionLite", {
     title = "拍卖助手",
-    defaultEnable = 0,
+    defaultEnable = 1,
 
     tags = { TAG_TRADING },
     icon = [[Interface\Icons\INV_Misc_Coin_02]],

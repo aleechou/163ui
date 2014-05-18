@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("TidyPlates", {
     title = "美化姓名版",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL",
     optionsAfterLogin = 1,
 

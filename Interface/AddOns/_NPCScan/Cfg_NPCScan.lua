@@ -1,6 +1,6 @@
 U1RegisterAddon("_NPCScan", {
     title = "稀有精英探测",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = 'NORMAL',
     secure = 1, --_NPCScanButton
 

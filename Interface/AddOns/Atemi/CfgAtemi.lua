@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("Atemi", {
     title = "PVP敌对冷却",
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "NORMAL",
     optionsAfterLogin = 1,
 

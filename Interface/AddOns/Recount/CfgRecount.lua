@@ -1,7 +1,7 @@
 ﻿U1RegisterAddon("Recount", {
     title = "Recount伤害统计",
     tags = {TAG_RAID, TAG_BIG, TAG_GOOD },
-    defaultEnable = 0,
+    defaultEnable = 1,
     load = "LOGIN", --5.0 script ran too long
 
     minimap = 'LibDBIcon10_Recount', 
