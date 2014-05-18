@@ -16,5 +16,5 @@ zTipOption.lua
 localization.lua
 HoverTips.lua
 
-## Title: |cff880303[网易有爱]|r 鼠標提示增强
+## Title: |cff880303[网易有爱]|r 鼠标提示增强
 ## X-Vendor: NetEase
