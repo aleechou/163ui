@@ -19,14 +19,12 @@ function OptionsSlider:New(name, parent, low, high, step)
 	_G[f:GetName() .. 'Text']:SetFontObject('GameFontNormalLeft')
 	_G[f:GetName() .. 'Text']:ClearAllPoints()
 	_G[f:GetName() .. 'Text']:SetPoint('BOTTOMLEFT', f, 'TOPLEFT')
---	_G[f:GetName() .. 'Text']:SetJustifyH('LEFT')
 	_G[f:GetName() .. 'Low']:SetText('')
 	_G[f:GetName() .. 'High']:SetText('')
 
 	local text = f:CreateFontString(nil, 'BACKGROUND', 'GameFontHighlightSmall')
 	text:SetJustifyH('RIGHT')
 	text:SetPoint('BOTTOMRIGHT', f, 'TOPRIGHT')
---	text:SetPoint('LEFT', f, 'RIGHT', 7, 0)
 	f.valText = text
 
 	f:SetScript('OnShow', f.OnShow)
@@ -55,9 +53,9 @@ function OptionsSlider:OnMouseWheel(direction)
 	local minVal, maxVal = self:GetMinMaxValues()
 
 	if step > 0 then
-		self:SetValue(math.min(value+step, maxVal))
+		self:SetValue(min(value+step, maxVal))
 	else
-		self:SetValue(math.max(value+step, minVal))
+		self:SetValue(max(value+step, minVal))
 	end
 end
 

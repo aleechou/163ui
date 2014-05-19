@@ -12,7 +12,7 @@ local CLASS_COLOR = '|cff%02x%02x%02x'
 local HEARTHSTONE = tostring(HEARTHSTONE_ITEM_ID)
 local TOTAL = SILVER:format(L.Total)
 
-local ItemCache = LibStub('LibItemCache-1.0')
+local ItemCache = LibStub('LibItemCache-1.1')
 local ItemText, ItemCount, Enabled, Hooked = {}, {}
 
 
@@ -126,6 +126,6 @@ function Addon:HookTooltips()
 end
 
 function Addon:GetPlayerColor(player)
-	local class = ItemCache:GetPlayerInfo(player)
+	local class = ItemCache:GetPlayerInfo(player) or 'PRIEST'
 	return (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
 end

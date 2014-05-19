@@ -1,0 +1,41 @@
+﻿## Interface: 50400
+## Title: CompactRaid
+## Title-zhTW: |cff880303[网易有爱]|r 團隊框架增强
+## Title-zhCN: |cff880303[网易有爱]|r 团队框架增强
+## Notes: A modular, lightweight, and screen-estate saving grid of party/raid unit frames.
+## Notes-zhTW: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
+## Notes-zhCN: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
+## Version: 3.83
+## Author: Abin
+## SavedVariables: CompactRaidDB
+## SavedVariablesPerCharacter: CompactRaidCharDB
+## OptionalDeps: Clique, TomTom
+
+Includes\utf8.lua
+Includes\EmbedEvent-1.0.lua
+Includes\InterfaceOptionPage-1.0.lua
+Includes\VirtualScrollList-1.0.lua
+Includes\TabFrame-1.0.lua
+Includes\LibAuraGroups-1.0.lua
+Includes\LibMsgBox-1.0.lua
+Includes\ModularOptionFrame.lua
+
+Locales\enUS.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+
+Core.lua
+Supports\embeds.xml
+UnitFrames\embeds.xml
+ToolFrames\embeds.xml
+OptionFrames\embeds.xml
+
+Modules\Manager.lua
+Modules\Artwork\embeds.xml
+Modules\ClickSets\embeds.xml
+Modules\CornerIndicators\embeds.xml
+Modules\RaidDebuff\embeds.xml
+Modules\Direction\embeds.xml
+
+## Title: |cff880303[网易有爱]|r 团队框架增强
+## X-Vendor: NetEase

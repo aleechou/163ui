@@ -403,7 +403,6 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 	local defaults = SavedFrameSettings.invDefaults or {
 		--bag settings
 		availableBags = {BACKPACK_CONTAINER, 1, 2, 3, 4},
-	
 		hiddenBags = {			
 			[BACKPACK_CONTAINER] = false,
 			[1] = false,
@@ -413,7 +412,7 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		},
 
 		--frame
-		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
+		frameColor = {0, 0, 0, 0.5},
 		frameBorderColor = {1, 1, 1, 1},
 		scale = 1,
 		opacity = 1,
@@ -426,19 +425,15 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		itemFrameColumns = 8,
 		itemFrameSpacing = 2,
 		bagBreak = false,
+		reverseSlotOrder = false,
 
 		--optional components
 		hasMoneyFrame = true,
 		hasBagFrame = true,
-		hasDBOFrame = false,
+		hasDBOFrame = true,
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
-
-		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',
-		
-		--slot ordering
-		reverseSlotOrder = false,
 	}
 
 	SavedFrameSettings.invDefaults = defaults
@@ -462,7 +457,7 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		},
 
 		--frame
-		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
+		frameColor = {0, 0, 0, 0.5},
 		frameBorderColor = {1, 1, 0, 1},
 		scale = 1,
 		opacity = 1,
@@ -472,7 +467,7 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		frameLayer = 'HIGH',
 
 		--itemFrame
-		itemFrameColumns = 14,
+		itemFrameColumns = 10,
 		itemFrameSpacing = 2,
 		bagBreak = false,
 
@@ -493,10 +488,5 @@ function SavedFrameSettings:GetDefaultBankSettings()
 	return defaults
 end
 
-function SavedFrameSettings:GetDefaultGuildBankSettings()
-	return self:GetDefaultInventorySettings()
-end
-
-function SavedFrameSettings:GetDefaultVaultSettings()
-	return self:GetDefaultInventorySettings()
-end
+SavedFrameSettings.GetDefaultGuildBankSettings = SavedFrameSettings.GetDefaultInventorySettings
+SavedFrameSettings.GetDefaultVaultSettings = SavedFrameSettings.GetDefaultInventorySettings

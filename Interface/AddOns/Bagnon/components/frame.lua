@@ -348,17 +348,14 @@ function Frame:UpdateFrameLayer()
 end
 
 function Frame:SetFrameLayer(layer)
-	local strata, topLevel = nil, false
+	local topLevel, strata = true
 
 	if layer == 'TOPLEVEL' then
 		strata = 'HIGH'
-		topLevel = true
 	elseif layer == 'MEDIUMLOW' then
 		strata = 'LOW'
-		topLevel = true
 	elseif layer == 'MEDIUMHIGH' then
 		strata = 'MEDIUM'
-		topLevel = true
 	else
 		strata = layer
 		topLevel = false
@@ -717,7 +714,7 @@ function Frame:CreatePlayerSelector()
 end
 
 function Frame:HasPlayerSelector()
-	return LibStub('LibItemCache-1.0'):HasCache()
+	return LibStub('LibItemCache-1.1'):HasCache()
 end
 
 

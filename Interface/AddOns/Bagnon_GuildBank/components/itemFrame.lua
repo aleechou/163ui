@@ -14,7 +14,11 @@ function ItemFrame:UpdateEvents()
 	self:UnregisterAllMessages()
 
 	if self:IsVisible() then
+		if self:IsCached() then
+			self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+		else
 		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+		end
 		
 		self:RegisterMessage('ITEM_FRAME_SPACING_UPDATE')
 		self:RegisterMessage('ITEM_FRAME_COLUMNS_UPDATE')
@@ -24,6 +28,7 @@ function ItemFrame:UpdateEvents()
 		self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE', 'HandleGlobalItemEvent')
 		self:RegisterMessage('SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE', 'HandleGlobalItemEvent')
 		self:RegisterMessage('ITEM_SLOT_COLOR_ENABLED_UPDATE', 'HandleGlobalItemEvent')
+		self:RegisterMessage('GUILD_BANK_TAB_CHANGE', 'HandleGlobalItemEvent')
 	end
 end
 
@@ -40,11 +45,10 @@ end
 --currently, all tabs have the same number of slots. So there is no need to request layouts
 
 function ItemFrame:ReloadAllItemSlots()
-	local currentTab = self:GetCurrentTab()
 	for slot = 1, self:GetNumSlots() do
-		local itemSlot = self:GetItemSlot(slot)
-		if itemSlot then
-			itemSlot:SetSlot(currentTab, slot)
+		local button = self:GetItemSlot(slot)
+		if button then
+			button:Update()
 		else
 			self:AddItemSlot(slot)
 		end

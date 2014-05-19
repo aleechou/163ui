@@ -9,7 +9,7 @@ local SavedFrameSettings = Bagnon.SavedFrameSettings
 function SavedFrameSettings:GetDefaultVaultSettings()
 	local defaults = SavedFrameSettings.vaultDefaults or {
 		--frame
-		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
+		frameColor = {0, 0, 0, 0.5},
 		frameBorderColor = {1, 0, 0.98, 1},
 		scale = 1,
 		opacity = 1,

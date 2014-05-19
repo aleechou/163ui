@@ -1,9 +1,7 @@
-﻿## Interface: 50400
+## Interface: 50400
 ## Title: Bagnon Void Storage
 ## Author: Jaliborc (João Cardoso)
 ## Notes: Single window display for your void storage
-## Title-zhTW: |cFF2DA267[背包]|r |cFF99FF66[Bagnon]|r 虛空銀行整合
-## Notes-zhTW: 功能強大的整合背包。
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
 

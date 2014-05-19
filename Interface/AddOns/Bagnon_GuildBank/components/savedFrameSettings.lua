@@ -7,9 +7,17 @@ local Bagnon = LibStub('AceAddon-3.0'):GetAddon('Bagnon')
 local SavedFrameSettings = Bagnon.SavedFrameSettings
 
 function SavedFrameSettings:GetDefaultGuildBankSettings()
-	local defaults = SavedFrameSettings.guildBankDefaults or {
+	if not self.guildDefaults then
+		local bags = {}
+		for i = 1, MAX_GUILDBANK_TABS do
+			tinsert(bags, i)
+		end
+
+	 	self.guildDefaults = {
+			availableBags = bags,
+
 		--frame
-		frameColor = {0.1254901960784314, 0.1254901960784314, 0.1254901960784314, 1},
+		frameColor = {0, 0, 0, 0.5},
 		frameBorderColor = {0, 1, 0, 1},
 		scale = 1,
 		opacity = 1,
@@ -28,11 +36,9 @@ function SavedFrameSettings:GetDefaultGuildBankSettings()
 		hasDBOFrame = true,
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
-
-		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',
 	}
+	end
 
-	SavedFrameSettings.guildBankDefaults = defaults
-	return defaults
+	return self.guildDefaults
 end
