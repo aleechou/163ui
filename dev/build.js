@@ -100,6 +100,7 @@ Steps()
 
 	.step(function(){
 	    console.log("make addons-index.json file ...",addonsIndexJson)
+	    addonsJson.ignore = undefined
 	    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson))
 	    fs.exists(addonsIndexTar,this.hold())
 	})
