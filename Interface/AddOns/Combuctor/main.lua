@@ -158,9 +158,7 @@ function Addon:InitProfile()
 					"装备", -- [2]
 					"可使用道具", -- [3]
 					"任务", -- [4]
-					"商品", -- [5]
 					"其它", -- [6]
-					"Scrap", -- [7]
 				}
 	profile.bank.sets, profile.bank.exclude = getDefaultBankSets(class)
 	profile.bank.sets = {
