@@ -7,11 +7,6 @@
 		"NPCMark",
 		"RatingBuster",
 		"idTip",
-		"JPack",
-		"SellOMatic2",
-		"SellOMatic2_List",
-		"SellOMatic2_Item",
-		"SellOMatic2_Destroy"
     ]
 
     , "conflictive": {

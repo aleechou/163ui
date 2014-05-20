@@ -1,0 +1,10 @@
+## Interface: 50400
+## Title: Scrap Spotlight
+## Notes: Makes your Scrap to glow in the darkness of your bags
+## Author: Jaliborc (João Cardoso)
+
+## X-Category: Inventory
+## X-License: GNU General Public License Version 3
+## Dependencies: Scrap
+
+Scrap_Spotlight.lua
