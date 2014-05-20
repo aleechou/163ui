@@ -107,7 +107,11 @@ function Addon:GetProfile(player)
 	if not player then
 		player = UnitName('player')
 	end
-	return self.db.profiles[player .. ' - ' .. GetRealmName()]
+	if not self.db.profiles[player .. ' - ' .. GetRealmName()] or not self.db.profiles[player .. ' - ' .. GetRealmName()].UIFlag then
+		return nil
+	else
+		return self.db.profiles[player .. ' - ' .. GetRealmName()]
+	end
 end
 
 
@@ -165,7 +169,7 @@ function Addon:InitProfile()
 					"商品", -- [3]
 					"其它", -- [4]
 				}
-
+	profile.UIFlag = true
 	self.db.profiles[player .. ' - ' .. realm] = profile
 	return profile
 end
@@ -176,7 +180,7 @@ function Addon:GetBaseProfile()
 			bags = {0, 1, 2, 3, 4},
 			position = {'RIGHT'},
 			showBags = false,
-			leftSideFilter = true,
+			leftSideFilter = false,
 			w = 384,
 			h = 512,
 		},
