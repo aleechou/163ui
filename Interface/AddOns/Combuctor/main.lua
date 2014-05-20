@@ -107,11 +107,12 @@ function Addon:GetProfile(player)
 	if not player then
 		player = UnitName('player')
 	end
+
 	if not self.db.profiles[player .. ' - ' .. GetRealmName()] or not self.db.profiles[player .. ' - ' .. GetRealmName()].UIFlag then
 		return nil
 	else
 		return self.db.profiles[player .. ' - ' .. GetRealmName()]
-	end
+ 	end
 end
 
 
@@ -153,22 +154,18 @@ function Addon:InitProfile()
 	local profile = self:GetBaseProfile()
 
 	profile.inventory.sets, profile.inventory.exclude = getDefaultInventorySets(class)
+
 	profile.inventory.sets = {
 					"全部", -- [1]
 					"装备", -- [2]
 					"可使用道具", -- [3]
 					"任务", -- [4]
-					"商品",
+					"商品", -- [5]
 					"其它", -- [6]
-				}
+				}	
 	profile.bank.sets, profile.bank.exclude = getDefaultBankSets(class)
-	profile.bank.sets = {
-					"全部", -- [1]
-					"装备", -- [2]
-					"商品", -- [3]
-					"其它", -- [4]
-				}
-	profile.UIFlag = true
+
+
 	self.db.profiles[player .. ' - ' .. realm] = profile
 	return profile
 end
@@ -179,7 +176,7 @@ function Addon:GetBaseProfile()
 			bags = {0, 1, 2, 3, 4},
 			position = {'RIGHT'},
 			showBags = false,
-			leftSideFilter = false,
+			leftSideFilter = true,
 			w = 384,
 			h = 512,
 		},
