@@ -3,10 +3,9 @@
     defaultEnable = 1,
     load = "NORMAL",
     optionsAfterLogin = 1,
-
     tags = { TAG_RAID },
-    icon = [[Interface\Icons\PVPCurrency-Conquest-Alliance]],
-    desc = "强大的系统辅助类团队框架, 适用大部分玩家的默认配置。``设置口令：/craid 或者 点击团队框架上边的黄色旗帜，再点设定。",
-    pics = 2,
+    icon = [[Interface\Icons\Achievement_BG_3flagcap_nodeaths]],
+    desc = "美化和增强暴雪自带的团队框架，与GIRD功能重复，建议开启后关闭GRID",
+    nopic = 1,
 
 });
