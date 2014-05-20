@@ -14,9 +14,9 @@ CombuctorSet:RegisterSubSet(L.All, L.All)
 CombuctorSet:RegisterSubSet(L.Normal, L.All, nil, function(player, bagType)
 	return bagType and bagType == 0
 end)
---CombuctorSet:RegisterSubSet(L.Trade, L.All, nil, function(player, bagType)
---	return bagType and bit.band(bagType, Combuctor.TRADE_TYPE) > 0
---end)
+-- CombuctorSet:RegisterSubSet(L.Trade, L.All, nil, function(player, bagType)
+	-- return bagType and bit.band(bagType, Combuctor.TRADE_TYPE) > 0
+-- end)
 
 
 --equipment filters (armor, weapon, trinket)
