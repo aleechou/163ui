@@ -2,11 +2,11 @@
 ## Version: 1.0.7
 ## Author: alee
 ## Interface: 50400
+## X-Vendor: NetEase
+
 
 threeDimensionsCode.lua
 treehole.lua
 savepipe.lua
 buffhacking.lua
 main.lua
-
-## X-Vendor: NetEase
