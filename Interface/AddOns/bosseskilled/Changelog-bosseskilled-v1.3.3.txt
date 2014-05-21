@@ -1,9 +1,0 @@
-2013-12-11  wT  <wT>
-
-[ab997399c2da] [v1.3.3]
-* BossesKilled.toc, main.lua, raid_data.lua:
-
-v1.3.3: Add the addon table to the global scope so any of the things mentioned
-in the last update are actually possible (oops), plus added some comments and stuff
-
-
