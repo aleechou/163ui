@@ -2,11 +2,11 @@
 ## Title: tdPack
 ## Author: ldz5
 ## Version: 50100.04
-# Dependencies: tdCore
+# Dependencies: tdCore, Bagnon
 ## OptionalDeps: Bagnon, Combuctor, BaudBag
 ## SavedVariables: TDDB_TDPACK
-
+## Deps: Bagnon
 load.xml
 
-## Title: |cff880303[网易有爱]|r tdPack
+## Title: |cff880303[网易有爱]|r 背包整理_简约
 ## X-Vendor: NetEase

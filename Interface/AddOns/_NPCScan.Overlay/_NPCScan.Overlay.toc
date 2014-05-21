@@ -30,6 +30,5 @@ Modules\Minimap.lua
 #Modules\AlphaMap3.lua
 Modules\Carbonite.lua
 
-## Title: |cff880303[网易有爱]|r _NPCScan.Overlay
+## Title: |cff880303[网易有爱]|r 稀有怪物路线图
 ## X-Vendor: NetEase
-## DefaultState: disabled

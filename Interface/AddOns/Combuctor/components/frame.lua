@@ -156,7 +156,7 @@ end
 function InventoryFrame:OnPortraitEnter(portrait)
 	GameTooltip:SetOwner(portrait, 'ANCHOR_RIGHT')
 	GameTooltip:SetText(self:GetPlayer(), 1, 1, 1)
-	GameTooltip:AddLine('<Left Click> to switch characters')
+	GameTooltip:AddLine('<左键> 切换角色背包')
 	GameTooltip:Show()
 end
 

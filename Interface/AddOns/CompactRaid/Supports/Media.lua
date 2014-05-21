@@ -10,7 +10,7 @@ local _, addon = ...
 local DEFAULT_MEDIAS = {
 	font = STANDARD_TEXT_FONT,
 	--statusbar = "Interface\\BUTTONS\\WHITE8X8.BLP",
-	statusbar = "Interface\\AddOns\\!!!FishUI\\media\\Castbars",
+	statusbar = "Interface\\AddOns\\!!!163UI!!!\\Textures\\Castbars",
 	border = "Interface\\Tooltips\\UI-Tooltip-Border",
 	background = "Interface\\DialogFrame\\UI-DialogBox-Background",
 }

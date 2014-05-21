@@ -18,3 +18,6 @@ info\info.xml
 
 templates\templates.xml
 components\components.xml
+
+## Title: |cff880303[网易有爱]|r 分类背包整合
+## X-Vendor: NetEase

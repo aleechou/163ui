@@ -11,4 +11,3 @@ RangeDisplay.lua
 
 ## Title: |cff880303[网易有爱]|r RangeDisplay
 ## X-Vendor: NetEase
-## DefaultState: Disabled

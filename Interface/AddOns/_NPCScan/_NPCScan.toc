@@ -60,5 +60,5 @@ TamableIDs.lua
 Config.lua
 ConfigSearch.lua
 
-## Title: |cff880303[网易有爱]|r _NPCScan
+## Title: |cff880303[网易有爱]|r 稀有怪物警报
 ## X-Vendor: NetEase

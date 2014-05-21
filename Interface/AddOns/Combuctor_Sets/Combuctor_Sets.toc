@@ -4,3 +4,6 @@
 ## Notes: Basic sets for Combuctor
 ## Dependencies: Combuctor
 sets.lua
+
+## Title: |cff880303[网易有爱]|r 分类背包分类
+## X-Vendor: NetEase

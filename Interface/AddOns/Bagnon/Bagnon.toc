@@ -19,5 +19,5 @@ info\info.xml
 settings\settings.xml
 components\components.xml
 
-## Title: |cff880303[网易有爱]|r Bagnon
+## Title: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase

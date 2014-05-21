@@ -3,10 +3,16 @@
 		"foo" ,
 		"bar" ,
 		"baz",
-		"Recount",
 		"NPCMark",
 		"RatingBuster",
-		"idTip",
+		"RatingBuster",
+		"RatingBuster",
+		"RatingBuster",
+		"RatingBuster",
+		"RatingBuster",
+		"RatingBuster",
+		"RatingBuster",
+		"idTip"
     ]
 
     , "conflictive": {

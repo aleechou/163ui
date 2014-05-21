@@ -8,5 +8,5 @@ Startup.lua
 Events.lua
 API.lua
 
-## Title: |cff880303[网易有爱]|r BagBrother
+## Title: |cff880303[网易有爱]|r 离线背包/银行
 ## X-Vendor: NetEase

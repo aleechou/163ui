@@ -51,4 +51,3 @@ ConfigMenu.lua
 
 ## Title: |cff880303[网易有爱]|r Grid
 ## X-Vendor: NetEase
-## DefaultState: Disabled

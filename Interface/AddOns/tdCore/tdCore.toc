@@ -3,8 +3,8 @@
 ## Author: ldz5
 ## Version: 50100.06
 ## SavedVariables: TDDB_TDCORE
-
+## Deps: Bagnon
 load.xml
 
-## Title: |cff880303[网易有爱]|r tdCore
+## Title: |cff880303[网易有爱]|r 背包整理_简约
 ## X-Vendor: NetEase

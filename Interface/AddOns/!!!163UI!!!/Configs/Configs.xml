@@ -1,5 +1,8 @@
 <Ui>
     <Include file="CfgDummy.lua"/>
+	
+	
+	<Include file="..\..\Combuctor\CfgCombuctor.lua"/>		
 	<Include file="..\..\BossesKilled\CfgBossesKilled.lua"/>	
     <Include file="..\..\GlowFoSho\CfgGlowFoSho.lua"/>	
     <Include file="..\..\CompactRaid\CfgCompactRaid.lua"/>
