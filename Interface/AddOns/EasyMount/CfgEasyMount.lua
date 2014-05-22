@@ -1,5 +1,5 @@
 ﻿U1RegisterAddon("EasyMount", { 
-    title = "一键坐骑旧",
+    title = "一键坐骑",
     defaultEnable = 1,
     tags = { TAG_ITEM },
     secure = 1,

@@ -10,7 +10,6 @@
 		Talent			= "天赋: ",
 		inactiveTalent	= "备用: ",
 		TargetedBy		= "关注",
-		ItemLevel		= "装备等级: ",
 		LocalClassName= {
 			["DRUID"]		= 	"德鲁伊";
 			["HUNTER"]		= 	"猎人";
@@ -32,8 +31,7 @@
 	}
 	if zTipOption then
 		zTipOption.locStr = {
-			["zTip Options"] = "zTip 配置选项",
-			["Reset"] = "重置",
+			["zTip Options"] = "zTip Options",
 			["Positions"] = "锚点位置",
 			["Offsets"] = "偏移值（按Enter键生效）",
 			["Original Position Offsets"] = "原始位置偏移",
@@ -61,7 +59,7 @@
 			["OrigPosY"] = "默认垂直偏移",
 			["TalentIcon"] = "天赋图标",
 			["CombatHide"] = "BOSS战斗中隐藏",
-			["ItemLevel"] = "装备等级",
+			["ItemLevel"] = "物品等级",
 			["FactionName"] = "隐藏阵营标志",
 		}
 	end
@@ -72,12 +70,11 @@ elseif GetLocale() == "zhTW" then
 		Targeting	= "目標",
 		YOU			= ">> 你 <<",
 		Self			= "自己",
-		NotSpecified	= "未指定",
+		NotSpecified	= "未指定", -- 也許不正確？
 		Specified	= "神秘物種",
 		Talent			= "天賦: ",
 		inactiveTalent	= "備用: ",
 		TargetedBy		= "關註",
-		ItemLevel		= "平均裝備等級: ",
 		LocalClassName= {
 			["DRUID"]		= 	"德魯伊";
 			["HUNTER"]		= 	"獵人";
@@ -89,18 +86,16 @@ elseif GetLocale() == "zhTW" then
 			["SHAMAN"]		= 	"薩滿";
 			["PALADIN"]		= 	"聖騎士";
 			["DEATHKNIGHT"]	= 	"死亡騎士";
-			["MONK"]	= 	"武僧";
-			},                
+			},
 		Loading				= "讀取中...",
 		TooFar				= "距離過遠",
 		DisableReadTalent	= "觀察時停止讀取",
 		ResetCache			= "天賦緩存已清空",
-		ItemLevel 			= "裝備等級",
+		ItemLevel 			= "物等",
 	}
 	if zTipOption then
 		zTipOption.locStr = {
-			["zTip Options"] = "zTip 配置選項",
-			["Reset"] = "重置",
+			["zTip Options"] = "zTip Options",
 			["Positions"] = "錨點設定",
 			["Offsets"] = "偏移設定（按Enter鍵生效）",
 			["Original Position Offsets"] = "原始偏移設定",
@@ -128,8 +123,65 @@ elseif GetLocale() == "zhTW" then
 			["OrigPosY"] = "原始垂直偏移",
 			["TalentIcon"] = "天賦圖標",
 			["CombatHide"] = "BOSS戰鬥中隱藏",
-			["ItemLevel"] = "裝備等級",
+			["ItemLevel"] = "物品等級",
 			["FactionName"] = "隱藏陣營標誌",
+		}
+	end
+elseif GetLocale() == "koKR" then
+	zTip.locStr = {
+		Rare			= "희귀",
+		Targeting	= "대상 선택",
+		YOU			= ">> U <<",
+		Self			= "자신",
+		NotSpecified	= "Not specified", -- maybe not correct
+		Specified	= "Mystery",
+		Talent			= "1특성: ",
+		inactiveTalent	= "2특성: ",
+		TargetedBy		= "목표 선택:",
+		LocalClassName= {
+			["DRUID"]		= 	"드루이드";
+			["HUNTER"]		= 	"사냥꾼";
+			["MAGE"]		= 	"마법사";
+			["PRIEST"]		= 	"사제";
+			["ROGUE"]		= 	"도적";
+			["WARLOCK"]		= 	"흑마법사";
+			["WARRIOR"]		= 	"전사";
+			["SHAMAN"]		= 	"주술사";
+			["PALADIN"]		= 	"성기사";
+			["DEATHKNIGHT"]	= 	"죽음의 기사";
+			},
+		Loading				= "불려오는중...",
+		TooFar				= "너무 멀리 떨어져 있음",
+		DisableReadTalent	= "살펴보는 동안 불려오기 비활성화",
+		ResetCache			= "특성 은닉처를 다시 고쳐 놓아라",
+	}
+	if zTipOption then
+		zTipOption.locStr = {
+			["zTip Options"] = "zTip Options",
+			["Positions"] = "위치",
+			["Offsets"] = "간격",
+			["Original Position Offsets"] = "원래의 위치 간격",
+			["Target"] = "대상",
+			["Fade"] = "사라짐",
+			["PVPName"] = "PVP 계급",
+			["Reputation"] = "평판",
+			["RealmName"] = "서버 이름",
+			["IsPlayer"] = "마크 (플레이어)",
+			["ClassIcon"] = "직업 아이콘",
+			["VividMask"] = "선명한 마스크",
+			["ShowTalent"] = "특성",
+			["TargetedBy"] = "목표 선택",
+			["ManaBAR"] = "매직",
+			["NPCClass"] = "NPC직업",
+			["Scale"] = "크기",
+			["FollowCursor"] = "커서 따라가기",
+			["RootOnTop"] = "상단 고정",
+			["OnCursorTop"] = "커서 상단",
+			["RightBottom"] = "우측 하단",
+			["OffsetX"] = "X 간격",
+			["OffsetY"] = "Y 간격",
+			["OrigPosX"] = "원래 X 위치 간격",
+			["OrigPosY"] = "원래 Y 위치 간격",
 		}
 	end
 else
@@ -144,7 +196,6 @@ else
 		Talent			= "Talent: ",
 		inactiveTalent	= "Inactive: ",
 		TargetedBy		= "TargetedBy",
-		ItemLevel		= "Level of Item: ",
 		LocalClassName= {
 			["DRUID"]		= 	"Druid";
 			["HUNTER"]		= 	"Hunter";
@@ -156,18 +207,15 @@ else
 			["SHAMAN"]		= 	"Shaman";
 			["PALADIN"]		= 	"Paladin";
 			["DEATHKNIGHT"]	= 	"DeathKnight";
-			["MONK"]	= 	"monk";
-			},                
+			},
 		Loading				= "Loading...",
 		TooFar				= "Too far",
 		DisableReadTalent	= "Disable loading while inspecting",
 		ResetCache			= "Reset talent cache",
-		ItemLevel 			= "ItemLevel",
 	}
 	if zTipOption then
 		zTipOption.locStr = {
 			["zTip Options"] = "zTip Options",
-			["Reset"] = "Reset",
 			["Positions"] = "Positions",
 			["Offsets"] = "Offsets(ENTER to apply)",
 			["Original Position Offsets"] = "Original Position Offsets",
@@ -185,7 +233,6 @@ else
 			["NPCClass"] = "NPC Class",
 			["Scale"] = "Scale",
 			["FollowCursor"] = "FollowCursor",
-			["FollowCursorA"] = "FollowCursor Right",
 			["RootOnTop"] = "RootOnTop",
 			["OnCursorTop"] = "OnCursorTop",
 			["RightBottom"] = "RightBottom",
@@ -193,10 +240,6 @@ else
 			["OffsetY"] = "OffsetY",
 			["OrigPosX"] = "OrigPosX",
 			["OrigPosY"] = "OrigPosY",
-			["TalentIcon"] = "TalentIcon",
-			["CombatHide"] = "CombatHide",
-			["ItemLevel"] = "ItemLevel",
-			["FactionName"] = "HideFactionIcon",
 		}
 	end
 end

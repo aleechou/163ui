@@ -18,14 +18,14 @@ local defaults = {
 	profile = {
 		hideMapButton = false,
 		arrowScale = 0.88,
-		questPanels = 0,  --fishuiedit
+		questPanels = 0,  --163uiedit
 		modules = {
 			['*'] = true,
 		},
 		x = 0,
 		y = 0,
 		points = "CENTER",
-		scale = 1,  --fishuiedit
+		scale = 1,  --163uiedit
 		poiScale = 0.8,
 		ejScale = 0.8,
 		alpha = 1,

@@ -263,8 +263,8 @@ local Default_Profile={
 	profile={
 		Colors={
 			["Window"]={
-				["Title"] = { r = 0, g = 0, b = 0, a = 1},   --fishuiedit
-				["Background"]= { r = 0, g = 0, b = 0, a = 0.5},  --fishuiedit
+				["Title"] = { r = 1, g = 0, b = 0, a = 1},
+				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 1},
 				["Title Text"] = {r = 1, g = 1, b = 1, a = 1},
 			},
 			["Bar"]={
@@ -272,7 +272,7 @@ local Default_Profile={
 				["Total Bar"] = { r = 0.75, g = 0.75, b = 0.75},
 			},
 			["Other Windows"]={
-				["Title"] = { r = 0, g = 0, b = 0, a = 1},  --fishuiedit
+				["Title"] = { r = 1, g = 0, b = 0, a = 1},
 				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 1},
 				["Title Text"] = {r = 1, g = 1, b = 1, a = 1},
 			},
@@ -319,7 +319,7 @@ local Default_Profile={
 		ConfirmDeleteRaid = true,
 		DeleteJoinGroup = true,
 		ConfirmDeleteGroup = true,
-		BarTexture="Castbars",  --fishuiedit
+		BarTexture="BantoBar",
 		MergePets=true,
 		MergeAbsorbs=true,
 		RecordCombatOnly=true,
@@ -355,8 +355,8 @@ local Default_Profile={
 				NumFormat = 1,
 			},
 			Position={
-				x = 480, --fishuiedit
-				y = -240, --fishuiedit
+				x = 480,
+				y = -240,
 				w = 140,
 				h = 200,
 			},
@@ -400,10 +400,10 @@ local Default_Profile={
 				Grouped=true,
 				Ungrouped=false,
 				Hostile=false,
-				Pet=false, --fishuiedit
+				Pet=false, -- warbaby change default, track death use many cpu
 				Trivial=false,
 				Nontrivial=false,
-				Boss=false, --fishuiedit
+				Boss=false, -- warbaby change default, track death use many cpu
 				Unknown=false,
 			},
 		},
@@ -434,13 +434,13 @@ local Default_Profile={
 	},
 } 
 
-SM:Register("statusbar", "Aluminium",			[[Interface\Addons\Recount\Textures\statusbar\Aluminium]])
-SM:Register("statusbar", "Armory",				[[Interface\Addons\Recount\Textures\statusbar\Armory]])
-SM:Register("statusbar", "BantoBar",			[[Interface\Addons\Recount\Textures\statusbar\BantoBar]])
-SM:Register("statusbar", "Flat",				[[Interface\Addons\Recount\Textures\statusbar\Flat]])
-SM:Register("statusbar", "Minimalist",			[[Interface\Addons\Recount\Textures\statusbar\Minimalist]])
-SM:Register("statusbar", "Otravi",				[[Interface\Addons\Recount\Textures\statusbar\Otravi]])
-SM:Register("statusbar", "Empty",               [[Interface\Addons\Recount\Textures\statusbar\Empty]])
+-- SM:Register("statusbar", "Aluminium",			[[Interface\Addons\Recount\Textures\statusbar\Aluminium]])
+-- SM:Register("statusbar", "Armory",				[[Interface\Addons\Recount\Textures\statusbar\Armory]])
+-- SM:Register("statusbar", "BantoBar",			[[Interface\Addons\Recount\Textures\statusbar\BantoBar]])
+-- SM:Register("statusbar", "Flat",				[[Interface\Addons\Recount\Textures\statusbar\Flat]])
+-- SM:Register("statusbar", "Minimalist",			[[Interface\Addons\Recount\Textures\statusbar\Minimalist]])
+-- SM:Register("statusbar", "Otravi",				[[Interface\Addons\Recount\Textures\statusbar\Otravi]])
+-- SM:Register("statusbar", "Empty",               [[Interface\Addons\Recount\Textures\statusbar\Empty]])
 
 BINDING_HEADER_RECOUNT = "Recount"
 BINDING_NAME_RECOUNT_PREVIOUSPAGE = L["Show previous main page"]

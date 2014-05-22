@@ -1,9 +1,10 @@
-﻿-- Recount Locale 
+-- Recount Locale 
 -- Please use the Localization App on WoWAce to Update this 
 -- http://www.wowace.com/projects/recount/localization/
  
 local L = LibStub("AceLocale-3.0"):NewLocale("Recount", "zhTW") 
 if not L then return end 
+
 
 L[" at "] = "在"
 L[" by "] = "由"
@@ -27,14 +28,14 @@ L["'s Hostile Attacks"] = "的敵對攻擊"
 L["'s Interrupts"] = "的打斷次數"
 L["'s Mana Gained"] = "的法力獲取"
 L["'s Mana Gained From"] = "的法力獲取自"
-L["'s Network Traffic"] = "的網絡流量"
+L["'s Network Traffic"] = "的網路流量"
 L["'s Overhealing"] = "的過量治療"
 L["'s Partial Resists"] = "的部分抵抗"
 L["'s Rage Gained"] = "的怒氣獲取"
 L["'s Rage Gained From"] = "的怒氣獲取自"
 L["'s Resses"] = "的復活次數"
-L["'s RunicPower Gained"] = "的符文能量獲取"
-L["'s RunicPower Gained From"] = "的符文能量獲取自"
+L["'s RunicPower Gained"] = "的符能獲取"
+L["'s RunicPower Gained From"] = "的符能獲取自"
 L["'s TPS"] = "的每秒仇恨"
 L["'s Time Spent"] = "的時間花費"
 L["'s Time Spent Attacking"] = "攻擊花費的時間"

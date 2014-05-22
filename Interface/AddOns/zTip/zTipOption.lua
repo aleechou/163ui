@@ -70,7 +70,7 @@ function zTipOption:InitButtons()
 		{name="Close",type="Button",inherits="UIPanelCloseButton",
 			point="TOPRIGHT",func=function() zTipOption:Hide() end,},
 		{name="Reset",type="Button",inherits="UIPanelButtonTemplate",
-			width=50, height=20, text = self.locStr["Reset"],
+			width=50, height=20, text = "Reset",
 			point="TOPLEFT",x=5,y=-5,func=zTipOption.Reset},
 
 		-- Check Buttons

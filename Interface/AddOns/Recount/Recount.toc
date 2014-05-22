@@ -1,17 +1,19 @@
-﻿## Interface: 50400
+## Interface: 50400
+## X-Min-Interface: 50000
 ## Title: Recount
-## Title-zhTW: |cff880303[网易有爱]|r 戰鬥統計 Recount
-## Title-zhCN: |cff880303[网易有爱]|r 战斗统计 Recount
 ## Notes: Records Damage and Healing for Graph Based Display
 ## Notes-ruRU: Записывает урон и исцеления и отоброжает различные графики
-## Notes-zhTW: 戰鬥數值圖形化統計 治療/傷害/DPS等數據的統計，並可以通報給隊伍.
-## Notes-zhCN: 战斗数值图形化统计 治疗/伤害/DPS等数据的统计，并可以通报给队伍.
+## Notes-zhCN: 基于 Graph 裤开发的伤害/治疗统计插件
+## Notes-zhTW: 圖形化顯示的傷害/治療統計插件
 ## Author: Cryect, ported to 2.4 by Elsia
-## Version: v5.4.0b release
 ## OptionalDeps:  Ace3, LibDropdown-1.0, LibSharedMedia-3.0, LibBossIDs-1.0, LibGraph-2.0, !ClassColors
 ## SavedVariables: RecountDB
 ## SavedVariablesPerCharacter: RecountPerCharDB, BrokerRecountDBIconDB
 ## X-Category: Combat
+## X-Curse-Packaged-Version: Recount-v5.2.0b_release
+## X-Curse-Project-Name: Recount
+## X-Curse-Project-ID: recount
+## X-Curse-Repository-ID: wow/recount/mainline
 
 #@no-lib-strip@
 embeds.xml
@@ -53,6 +55,5 @@ GUI_Realtime.lua
 
 Broker_Recount.lua
 
-
-## Title: |cff880303[网易有爱]|r 战斗统计 Recount
+## Title: |cff880303[网易有爱]|r Recount
 ## X-Vendor: NetEase

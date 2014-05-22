@@ -1,20 +1,20 @@
 ﻿## Interface: 50400
-## Title: zTip
-## Title-zhTW: |cff880303[网易有爱]|r 鼠標提示增强
-## Title-zhCN: |cff880303[网易有爱]|r 鼠标提示增强
+## Title: |cFFBF00FF[H]|r zTip
 ## Notes: Enhance GameTooltip
-## Notes-zhTW: 在鼠標提示訊息增加職業、種族、天賦、公會觀察、目標的目標，目標的天賦、平均裝等等訊息.
-## Notes-zhCN: 在鼠标提示讯息增加职业、种族、天赋、公会观察、目标的目标，目标的天赋、平均装等等讯息.
+## Title-zhTW: |cFFBF00FF[H]|r zTip(修改版)
+## Notes-zhTW: 鼠標提示信息增強
 ## Author: Qshine
 ## Author-zhCN: 上官晓雾
 ## Author-zhTW: 上官曉霧
-## Version: 5.4.X
 ## SavedVariables: zTipSaves
+## Version: 5.4.X
+## X-Mush-Project-Name: zTip
+## X-Mush-Packaged-Version: 22
+## X-Mush-UpdateVer: 22
 
 zTip.lua
 zTipOption.lua
 localization.lua
-HoverTips.lua
 
-## Title: |cff880303[网易有爱]|r 鼠标提示增强
+## Title: |cff880303[网易有爱]|r 鼠标提示
 ## X-Vendor: NetEase

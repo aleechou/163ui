@@ -242,7 +242,7 @@ local dataObj = ldb:NewDataObject("QuestHubber", {
 		self:AddLine((L["QuestHubber - %s"]):format(GetRealZoneText()))
 		self:AddLine(L["%d quests available in current zone"]:format(shown))
 		self:AddLine(L["%d additional quests not shown due to filter restrictions"]:format(total-shown));
-		self:AddLine(" ")  --fishuiedit
+		self:AddLine(" ")  --163uiedit
 		self:AddLine(L["|cFFEDA55FClick|r to open the World Map"], 0.2, 1, 0.2, 1)
 		self:AddLine(L["|cFFEDA55FRight-Click|r to open the QuestHubber options"], 0.2, 1, 0.2, 1)
 		self:AddLine(L["|cFFEDA55FCtrl-Click|r to toggle low level quest tracking"], 0.2, 1, 0.2, 1)
@@ -891,7 +891,7 @@ function core:SetupMapModule()
 	-- frame contains checkbox and text label
 	local frame = CreateFrame("Frame", nil, WorldMapDetailFrame);
 	frame:SetSize(250, 20);
-	frame:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", 5, -50); --fishuiedit
+	frame:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", 5, -50); --163uiedit
 	frame:Hide();
 	frame:EnableMouse(1);
 	frame:SetFrameStrata("HIGH");

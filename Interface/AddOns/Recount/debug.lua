@@ -1,4 +1,4 @@
-local _
+
 if false then
 
 function Recount:DPrint(str)

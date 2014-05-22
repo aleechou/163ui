@@ -6,11 +6,11 @@ local revision = tonumber(string.sub("$Revision: 1240 $", 12, -3))
 local Recount = _G.Recount
 if Recount.Version < revision then Recount.Version = revision end
 
---fishuiedit
+local GetNumPartyMembers = GetNumSubgroupMembers
 
 local ReportLocations={
 	{L["Say"],"SAY"},
-	{L["Party"],"PARTY",function() return GetNumSubgroupMembers()>0 end},
+	{L["Party"],"PARTY",function() return GetNumPartyMembers()>0 end},
 	{L["Instance"],"INSTANCE_CHAT",function() return GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE)~=0 end},
 	{L["Raid"],"RAID",function() return UnitInRaid("player") end},
 	{L["Guild"],"GUILD",IsInGuild},
@@ -108,13 +108,6 @@ function me:UpdateReportWindow()
 	end
 end
 
--- by wwokwww@nga fix
-local getSliderValue = function(frame)
-  local value = frame:GetValue()
-  value = value + 0.5 - (value + 0.5) % 1
-  return value
-end
-
 function me:CreateReportWindow()
 	me.ReportWindow=Recount:CreateFrame("Recount_ReportWindow",L["Report Data"],116,200)
 
@@ -158,7 +151,7 @@ function me:CreateReportWindow()
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -46)
-	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.ReportLines=getSliderValue(this); getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..getSliderValue(this)) end)
+	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.ReportLines=this:GetValue(); getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..this:GetValue()) end)
 	getglobal(slider:GetName().."High"):SetText("25");
 	getglobal(slider:GetName().."Low"):SetText("1");
 	getglobal(slider:GetName().."Text"):SetText(L["Report Top"]..": "..slider:GetValue())

@@ -1,4 +1,4 @@
-﻿local _
+﻿
 local _G = getfenv(0)
 local format = string.format
 local strfind = string.find
@@ -11,35 +11,44 @@ local inspectItem = {}
 local inspectTime = GetTime()
 local PRIMARY_TALENT = SPECIALIZATION.." : "
 local SECONDARY_TALENT = TALENT.." : "
-local AL = LibStub:GetLibrary("AceLocale-3.0")
-local LGIST = LibStub:GetLibrary("LibGroupInSpecT-1.0")
 
-CURRENTLY_EQUIPPED = "|cFFFF8000----"..CURRENTLY_EQUIPPED.."----|r"
 
 zTip = CreateFrame("Frame", nil, GameTooltip)
-
+-----------------默认设置修改处:
 function zTip:GetDefault()
 	return {
-		Anchor = 3,
-		OffsetX = 30, OffsetY = 30,
-		OrigPosX = 70, OrigPosY = 120,
-		Scale = 1.0,
-		Fade = false,
-		DisplayPvPRank = true,
-		ShowIsPlayer = false,
-		DisplayFaction = true,
-		PlayerServer = true,
-		TargetOfMouse = true,
-		ClassIcon = true,
-		TalentIcon = true,
-		CombatHide = false,
-		VividMask = true,
-		ShowTalent = true,	
-		TargetedBy = true,
-		ManaBAR = true,	
-		NPCClass = true,
-		ItemLevel = true,
-		ShowFaction = false,
+		-- 以下为参数设置
+		-- 提示: 取值只有两种 -- 1. 数字 2. true / false
+		-- true 表示开启, false表示关闭
+
+		Anchor = false,			-- Default: 0
+			-- [false 使用系统默认位置(屏幕右下角)]
+			-- [0为人物信息跟随鼠标，非人物（按钮之类）使用默认位置（屏幕右下角）]
+			-- [1为屏幕上方，注意用OffsetX和OffsetY调整相对位置，非人物为默认位置（屏幕右下角）]
+			-- [2为跟随鼠标，向上延展，非人物为默认位置]
+			-- [3为全部跟随鼠标，非人物(按钮之类)为对象右上]
+			-- [4为屏幕上方，注意用OffsetX和OffsetY调整相对位置，非人物为对象右上]
+			-- [5为全部跟随鼠标，并向上延展，要正上方，将Offset调为0,0即可]
+
+		OffsetX = 30, OffsetY = 30,		--位置偏移值（系统位置无效） Default: 30,30
+		OrigPosX = 70, OrigPosY = 120,	--系统默认位置的偏移值（原版X=100, Y=160），要使用游戏默认设置为: false, false
+		Scale = 1.0,					--提示缩放 Default: 1.1 取值：0~N.x		Game's Default: 1.0
+		Fade = false,					--是否渐隐 Default: false       游戏默认设置为: true
+		DisplayPvPRank = true,			--显示军衔[false 不显示 | true 显示] Default: false
+		ShowIsPlayer = false,			--是否在等级行显示“（玩家）”字样	Default: false
+		DisplayFaction = true,			--是否显示NPC声望等级。
+		PlayerServer = true,			--是否显示玩家所属服务器. Default: true
+		TargetOfMouse = true,			--显示对象的目标. Default: true
+		ClassIcon = true,				--显示对象玩家/小宠物的职业/天赋图标。Default: true
+		TalentIcon = false,				--显示天赋图标
+		CombatHide = false,				--战斗中隐藏
+		VividMask = true,				--立体化鼠标提示. Default: true
+		ShowTalent = false,				--是否显示玩家天赋
+		TargetedBy = false,				--是否显示关注目标
+		ManaBAR = true,					--显示法力条
+		NPCClass = true,				--显示NPC职业
+		ItemLevel = true,				--显示物品等级
+		ShowFaction = false,			--显示阵营字样(默认隐藏)
 	}
 end
 
@@ -128,18 +137,19 @@ do
 			inspectUnit, inspectGUID = nil
 		end
 	end)
-	-----------------------ilevel------------------
+	-----------------------装等------------------
 	function HGetItemLevel(link)
-	  local levelAdjust={
+	local levelAdjust={ -- 11th item:id field and level adjustment
 		["0"]=0,["1"]=8,["373"]=4,["374"]=8,["375"]=4,["376"]=4,
 		["377"]=4,["379"]=4,["380"]=4,["445"]=0,["446"]=4,["447"]=8,
 		["451"]=0,["452"]=8,["453"]=0,["454"]=4,["455"]=8,["456"]=0,
 		["457"]=8,["458"]=0,["459"]=4,["460"]=8,["461"]=12,["462"]=16,
-		["465"] = 0,["466"] = 4,["467"] = 8,["468"] = 0,["469"] = 4,
-		["470"] = 8,["471"] = 12,["472"] = 16,["476"] = 0,["477"] = 4,
-		["478"] = 8,["479"] = 0,["480"] = 8,
-		["491"]=0,["492"]=4,["493"]=8,
-		["494"]=0,["495"]=4,["496"]=8,["497"]=12,["498"]=16}
+		["465"]=0,["466"]=4,["467"]=8,["468"]=0,["469"]=4,["470"]=8,
+		["471"]=12,["472"]=16,["476"]=0,["477"]=4,["478"]=8,["479"]=0,
+		["480"]=8,["491"]=0,["492"]=4,["493"]=8,["494"]=0,["495"]=4,
+		["496"]=8,["497"]=12,["498"]=16,["504"]=12,["505"]=16,["506"]=20,
+		["507"]=24,
+	  }
 
 	  local baseLevel = select(4,GetItemInfo(link))
 	  local upgrade = string.match(link,":(%d+)\124h%[")
@@ -208,6 +218,8 @@ do
 		if event == "INSPECT_READY" then
 			local unit = GetUnitByGUID(unitGUID)
 			if zTipSaves.ItemLevel and  unitGUID and unit and  CheckInteractDistance(unit, 1) then
+				------------------获取物等---
+		--~ 		if ( InspectFrame and InspectFrame:IsVisible() ) or ( Examiner and Examiner:IsVisible() ) then return end
 
 				if not inspectItem[unitGUID] then
 					inspectItem[unitGUID] = { ["equipped"] =GetUnitItemLevelGUID(unitGUID), ["count"] = 1 }
@@ -244,7 +256,13 @@ do
 				end
 
 				local activeGroup = GetActiveSpecGroup()
+							-----当前使用的天赋。返回1或者2
 				local numGroups = GetNumSpecGroups()
+							-----返回多少个天赋。0或者1或者2（没10级，没学双天赋。)
+
+					----GetNumSpecializations返回有多少个专精（小D有4个，其他3个)
+
+			------------------获取天赋---
 				local _, name, _, icon, _,style = GetSpecializationInfoByID(GetInspectSpecialization(unit))
 				data[1] = format("|cff%s%s [%s]|r","00ff00", name or NONE,style and _G[style] or NONE)
 				data[2] = icon
@@ -282,8 +300,11 @@ do
 	end)
 end
 
+
+
 zTipSaves = zTip:GetDefault()
 
+-- 公会名和姓名的明暗度调整 Default: 0.86 暗一点（不可超过1！）
 zTip.GuildColorAlpha = 0.86
 local pet_r=1
 local pet_b=0
@@ -294,7 +315,8 @@ zTip.locStr = {}
 
 -- record player's factions standingId
 zTip.factions = {}
-
+---:一些函数:---
+-- 颜色转换
 function zTip:GetHexColor(color)
 	if not color then
 		return "FFFFFF"
@@ -303,6 +325,7 @@ function zTip:GetHexColor(color)
 	end
 end
 
+-- 级别上色
 local lDiff,lRange, r, g, b
 function zTip:GetDifficultyColor(level)
 	lDiff = level - UnitLevel("player");
@@ -325,6 +348,7 @@ function zTip:GetDifficultyColor(level)
 	return format("%2x%2x%2x",r*255,g*255,b*255);
 end
 
+---:图标函数/遮罩:---
 local coords
 function zTip:SetClassIcon(classToken,ispet)
 	if not self.icon then
@@ -352,7 +376,7 @@ function zTip:SetClassIcon(classToken,ispet)
 		self.icon:Show()
 	end
 end
-
+--~ 天赋图标
 function zTip:SetTalentIcon(icontexture)
 	if not icontexture then return end
 	local tline
@@ -572,7 +596,7 @@ function zTip:SetDefaultAnchor(parent)
 					self:SetPoint("TOP",UIParent,"TOP", x, -y)
 				else -- follow cursor [0,2,3,5]
 				end
-			else -- not unit
+			else -- not unit 像是熔炉，信箱
 				self:SetOwner(parent, "ANCHOR_CURSOR")
 			end
 		else -- not a unit tip, buttons or other
@@ -586,7 +610,7 @@ function zTip:SetDefaultAnchor(parent)
 	end
 end
 
---Hook：GameTooltip
+--Hook：GameTooltip渐隐
 hooksecurefunc(GameTooltip, "FadeOut", function(self)
 	if (not zTipSaves.Fade) then
 		GameTooltip:Hide();
@@ -627,11 +651,14 @@ function zTip:RefreshMouseOverTarget(elapsed)
 		name = UnitName(zTip.unittarget)
 		if name ~= mouseTarget then
 			mouseTarget = name or UNKNOWNOBJECT
-			tip = format("|cffFFFF00%s [|r", zTip.locStr.Targeting)
+			tip = format("|cffFFFF00%s [|r", zTip.locStr.Targeting) -- '['
+			-- 指向我自己
 			if UnitIsUnit(zTip.unittarget, "player") then
 				tip = format("%s |c00FF0000%s|r", tip, zTip.locStr.YOU)
+			-- 指向他自己
 			elseif UnitIsUnit(zTip.unittarget, zTip.unit) then
 				tip = format("%s |cffFFFFFF%s|r", tip, zTip.locStr.Self)
+			-- 指向其它玩家
 			elseif UnitIsPlayer(zTip.unittarget) then
 				tmp, tmp2 = UnitClass(zTip.unittarget)
 				if UnitIsEnemy(zTip.unittarget,"player") then
@@ -655,6 +682,7 @@ function zTip:RefreshMouseOverTarget(elapsed)
 end
 
 function zTip:OnTooltipSetUnit()
+--~ 	BOSS战中隐藏
 	if zTipSaves.CombatHide and UnitExists("boss1") then GameTooltip:Hide() end
 
 	zTip.unit = zTip:OnMouseOverUnit(GameTooltip:GetUnit())
@@ -694,6 +722,7 @@ function zTip:UnitColor(unit, bdead, tapped, reaction,bbattlepet)
 	bdead = bdead or UnitHealth(unit) <= 0 and (not bplayer or UnitIsDeadOrGhost(unit))
 	tapped = tapped or UnitIsTapped(unit) and (not UnitIsTappedByPlayer(unit))
 	reaction = reaction or UnitReaction(unit, "player")
+--~ 第一行名字上色
 	local ISPLAYER = UnitIsPlayer(unit)
 	if tapped or bdead then
 		r = 0.55;g = 0.55;b = 0.55
@@ -753,10 +782,13 @@ function zTip:OnMouseOverUnit(name,unit)
 	bplayer = UnitIsPlayer(unit)
 	name = name or UnitName(unit)
 	guid = UnitGUID(unit)
+	--~ 是否是战宠
 	bbattlepet = (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) )
+	--~ 尸体，排除猎人假死
 	bdead = UnitHealth(unit) <= 0 and (not bplayer or UnitIsDeadOrGhost(unit))
 	tapped = UnitIsTapped(unit) and (not UnitIsTappedByPlayer(unit))
 
+	-- 1 憎恨 2 敌对 3 冷淡 4 中立 5 友好 6 尊敬 7 崇敬/崇拜
 	reaction = UnitReaction(unit, "player")
 
 --[[
@@ -772,18 +804,22 @@ function zTip:OnMouseOverUnit(name,unit)
 		text = _G[GameTooltip:GetName().."TextLeft"..i]
 		tip = text:GetText()
 		if tip then
+			--~ 查找等级行
 			if not levelline and (strfind(tip, LEVEL) or strfind(tip,"Pet Level")) then
 				levelline = i
+			-- 删除阵营字符
 			elseif not zTipSaves.ShowFaction and (tip == FACTION_ALLIANCE or tip == FACTION_HORDE) then
 				text:SetText()
 				foundfact = true
 				factlinenum = i
 --~ 				lastlinenum = lastlinenum - 1
+			-- 删除PVP字符
 			elseif tip == PVP then
 				text:SetText()
 				pvplinenum = i
 				foundpvp = true
 --~ 				lastlinenum = lastlinenum - 1
+			-- 能否驯服
 			elseif tip == TAMEABLE then
 				text:SetText( format("|cff00FF00%s|r", tip) )
 			elseif tip == NOT_TAMEABLE then
@@ -808,6 +844,8 @@ function zTip:OnMouseOverUnit(name,unit)
 		end
 	end
 
+
+	-- 物品等级
 	if zTipSaves.ItemLevel and bplayer and not bbattlepet and UnitFactionGroup(unit) == UnitFactionGroup("player") then
 		local itemlevel = inspectItem[UnitGUID(unit)]
 		local InDistance = CheckInteractDistance(unit, 1)
@@ -891,7 +929,9 @@ function zTip:OnMouseOverUnit(name,unit)
 		end
 	end
 
+	--[[ 等级行涂改 ]]
 	if levelline then
+		-- 表示 等级,尸体(如果死亡)
 		if bbattlepet then
 			tmp=UnitBattlePetLevel(unit)
 			tmp2=format(TOOLTIP_WILDBATTLEPET_LEVEL_CLASS,"","")
@@ -919,7 +959,7 @@ function zTip:OnMouseOverUnit(name,unit)
 			tmp2 = "|cffFF0000 ??|r"
 		end
 
-		-- creature type/ creature family(pet)
+		-- 种族, 职业/ creature type/ creature family(pet)
 		unitrace = UnitRace(unit)
 		unitCreatureType = UnitCreatureType(unit)
 		if unitrace and bplayer then
@@ -927,7 +967,7 @@ function zTip:OnMouseOverUnit(name,unit)
 			if UnitFactionGroup(unit) == UnitFactionGroup("player") then
 				tmp = "00FF33"
 			else
-				tmp = "FF3300"
+				tmp = "FF3300"  -- 敌对阵营种族为暗红
 			end
 			tmp2 = format("%s |cff%s%s|r", tmp2, tmp, unitrace)
 			-- class
@@ -940,10 +980,11 @@ function zTip:OnMouseOverUnit(name,unit)
 			tmp2 = format("%s |cff%s%s|r ", tmp2, tmp, _)
 		elseif UnitPlayerControlled(unit) or bbattlepet then
 			--creature family, its is a pet
-			if bbattlepet then
+			if bbattlepet then --判断是否是战斗宠物
 				-- petType
 				local petType=UnitBattlePetType(unit)
 				tmp=_G["BATTLE_PET_NAME_"..petType]
+				-- 设置战斗宠物的图标
 				if zTipSaves.ClassIcon then
 					zTip:SetClassIcon(petType,true)
 				end
@@ -953,7 +994,7 @@ function zTip:OnMouseOverUnit(name,unit)
 			end
 		elseif unitCreatureType then
 			--creature type, it is a mob or npc
-			if unitCreatureType == zTip.locStr.NotSpecified then unitCreatureType = zTip.locStr.Specified end
+			if unitCreatureType == zTip.locStr.NotSpecified then unitCreatureType = zTip.locStr.Specified end	--"未指定"替换为更通顺的"神秘物种"
 			tmp2 = format("%s |cffFFFFFF%s|r", tmp2, unitCreatureType)
 			if zTipSaves.NPCClass then
 				tmp2 = format("%s %s", tmp2, zTip:UnitClassColorText(unit))
@@ -995,6 +1036,7 @@ function zTip:OnMouseOverUnit(name,unit)
 
 	--[[ First Line, rewrite name ]]
 	if bplayer or bbattlepet then
+		-- 军衔
 		if zTipSaves.ClassIcon then
 			tip = "     "
 		else
@@ -1011,9 +1053,11 @@ function zTip:OnMouseOverUnit(name,unit)
 	tip = nil
 	guild, guildrank, guildid = GetGuildInfo(unit)
 	if bplayer then
+		-- 工会
 		if guild then
 			tip = "<"..guild.."> "..guildrank.."("..guildid..")"
 		end
+		-- 服务器
 		_, tmp = UnitName(unit)
 		if zTipSaves.PlayerServer and (tmp and tmp~="" or tip) then
 			if tmp and tip then
@@ -1042,22 +1086,27 @@ function zTip:OnMouseOverUnit(name,unit)
 
 	--[[ Colors ]]
 
+--~ 第一行名字上色
 	r,g,b = zTip:UnitColor(unit, bdead, tapped, reaction,bbattlepet)
 	GameTooltipTextLeft1:SetText(format("|cff%2x%2x%2x",r*255,g*255,b*255)..GameTooltipTextLeft1:GetText().."|r")
 
+--~ 给第二行上色
 	if tip or (levelline and levelline > 2) then
-		if bdead or tapped then
+		if bdead or tapped then -- 尸体或已被攻击
 			GameTooltipTextLeft2:SetTextColor(0.55,0.55,0.55)
 		elseif bbattlepet then
 			if levelline~=3 then
-				GameTooltipTextLeft1:SetTextColor(pet_r,pet_g,pet_b)
+				GameTooltipTextLeft1:SetTextColor(pet_r,pet_g,pet_b)----宠物修改名颜色
 				GameTooltipTextLeft2:SetTextColor(r,g,b)
 			end
 		else
 			GameTooltipTextLeft2:SetTextColor(r*zTip.GuildColorAlpha,g*zTip.GuildColorAlpha,b*zTip.GuildColorAlpha)
 		end
 	end
-
+--~ 标记本工会为亮色
+--	if bplayer and guild == GetGuildInfo("player") then
+--		GameTooltipTextLeft2:SetTextColor(0.9, 0.5, 0.9)
+--	end
 	if bplayer and guild then
 		if guild == GetGuildInfo("player") then
 			GameTooltipTextLeft2:SetTextColor(0.9, 0.5, 0.9)
@@ -1079,7 +1128,7 @@ end
 
 function zTip:Slash(msg)
 	local param1 = string.lower(msg)
-	if (param1 == "cc") then
+	if (param1 == "cc") then		--/ztip cc清空天赋缓存
 		wipe(inspectList)
 		collectgarbage("collect")
 		DEFAULT_CHAT_FRAME:AddMessage("|cff00FFFFzTip:|r "..zTip.locStr.ResetCache, 1,1,0)
@@ -1105,19 +1154,20 @@ function zTip:Slash(msg)
 	else
 		collectgarbage("collect")
 		UpdateAddOnMemoryUsage()
-		--DEFAULT_CHAT_FRAME:AddMessage("|cff00FFFFzTip:|r Toggle Option Window", 1,1,0)
-		--DEFAULT_CHAT_FRAME:AddMessage("|cff00FFFFzTip:|r "..format("%.2f",GetAddOnMemoryUsage("zTip")).." KB", 1,1,0)
+		DEFAULT_CHAT_FRAME:AddMessage("|cff00FFFFzTip:|r Toggle Option Window", 1,1,0)
+		DEFAULT_CHAT_FRAME:AddMessage("|cff00FFFFzTip:|r "..format("%.2f",GetAddOnMemoryUsage("zTip")).." KB", 1,1,0)
 		if not zTipOption then return end
 		if not zTipOption.ready then zTipOption:Init() end
 		if not zTipOption:IsShown() then zTipOption:Show() end
 	end
 end
 
---[[ fishui hide
+
 
 ---- ID
 local select, UnitBuff, UnitDebuff, UnitAura, tonumber, strfind, hooksecurefunc =
 	select, UnitBuff, UnitDebuff, UnitAura, tonumber, strfind, hooksecurefunc
+
 local function addLine(self,id,isItem)
 	if IsAltKeyDown() then
 		if isItem then
@@ -1156,6 +1206,7 @@ hooksecurefunc("SetItemRef", function(link, ...)
 end)
 
 -- Item Hooks -----------------------------------------------------------------
+
 local function attachItemTooltip(self)
 	local link = select(2,self:GetItem())
 	if not link then return end
@@ -1171,26 +1222,3 @@ ItemRefShoppingTooltip3:HookScript("OnTooltipSetItem", attachItemTooltip)
 ShoppingTooltip1:HookScript("OnTooltipSetItem", attachItemTooltip)
 ShoppingTooltip2:HookScript("OnTooltipSetItem", attachItemTooltip)
 ShoppingTooltip3:HookScript("OnTooltipSetItem", attachItemTooltip)
---]]
-
-CoreDependCall("AtlasLoot", function()
-    if AtlasLootTooltipTEMP then
-        AtlasLootTooltipTEMP.shoppingTooltips = AtlasLootTooltipTEMP.shoppingTooltips  or { ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3 };
-        AtlasLootTooltipTEMP:HookScript("OnTooltipSetItem", function(self, ...)
-            if ( IsModifiedClick("COMPAREITEMS") or (GetCVarBool("alwaysCompareItems") and not self:IsEquippedItem()) ) then
-                GameTooltip_ShowCompareItem(self, 1);
-            end
-        end)
-    end
-end)
-
-local DEFAULT_ICON_SIZE = 20
-
-local function AddIcon(self, icon)
-	if BAnd(32, TTVar.ItemInfo) and icon then
-		local title = _G[self:GetName() .. 'TextLeft1']
-		if title and not title:GetText():find('|T' .. icon) then
-			title:SetFormattedText('|T%s:%d|t %s', icon, DEFAULT_ICON_SIZE, title:GetText())
-		end
-	end
-end

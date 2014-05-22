@@ -268,7 +268,7 @@ function Recount:BroadcastLazySync()
 	if GetNumRaidMembers() > 0 then
 		for i = 1, GetNumRaidMembers(), 1 do --GetNumRaidMembers()
 			if UnitExists("raid"..i) then
-				local name, realm = UnitName("raid"..i) if realm=="" then realm=nil end  --fishuiedit
+				local name, realm = UnitName("raid"..i) if realm=="" then realm=nil end
 				
 				if Recount.VerNum and Recount.VerNum[name] and not realm then -- Elsia: Only sync if we have a valid version, and on same realm
 				
@@ -296,7 +296,7 @@ function Recount:BroadcastLazySync()
 	elseif GetNumPartyMembers() > 0 then
 		for i = 1, GetNumPartyMembers(), 1 do 
 			if UnitExists("party"..i) then
-				local name, realm = UnitName("party"..i) if realm=="" then realm=nil end  --fishuiedit
+				local name, realm = UnitName("party"..i) if realm=="" then realm=nil end
 				if Recount.VerNum and Recount.VerNum[name] and not realm then -- Elsia: Only sync if we have a valid version, and on same realm
 					local combatant = dbCombatants[name]
 					if combatant and combatant.lazysync and name~= Recount.PlayerName and UnitIsConnected(name) then -- We don't sync with self
@@ -541,7 +541,7 @@ end
 
 function Recount:SendVersion(target)
 	if target then
-		local _, realm = UnitName(target) if realm=="" then realm=nil end  --fishuiedit
+		local _, realm = UnitName(target) if realm=="" then realm=nil end
 		if UnitIsConnected(target) and not realm then
 			Recount:SendCommMessage("RECOUNT",Recount:Serialize("VS",Recount.PlayerName,Recount.Version),"WHISPER",target)
 			Recount:SendSelf(target)
