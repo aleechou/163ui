@@ -6,7 +6,7 @@
 		"NPCMark",
 		"RatingBuster",
 		"idTip",
-"GoGoMount"
+		"GoGoMount"
     ]
 
     , "conflictive": {
@@ -18,4 +18,6 @@
     	"!!!163UI.3dcodecmd!!!-src":1
     	, "WowLua":1
     }
+
+    , "downloadUrlPrefix": "http://file.ws.126.net/game/163ui/"
 }
