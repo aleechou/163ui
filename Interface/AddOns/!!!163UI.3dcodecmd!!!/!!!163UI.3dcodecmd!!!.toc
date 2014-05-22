@@ -1,5 +1,5 @@
-## Title: |cff880303[网易有爱]|r !!客户端 (ver 1.0.7)
-## Version: 1.0.7
+## Title: |cff880303[网易有爱]|r !!客户端 (ver 1.0.8)
+## Version: 1.0.8
 ## Author: alee
 ## Interface: 50400
 ## X-Vendor: NetEase
