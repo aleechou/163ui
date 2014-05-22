@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("AtlasLoot_Loader", { 
     title = "副本掉落查询",
-    tags = {TAG_ITEM, TAG_BIG, TAG_GOOD },
+    tags = {TAG_ITEM, TAG_BIG,},
     deps = {"libbabble-3.0"},
     minimap = "LibDBIcon10_AtlasLoot",
     defaultEnable = 1,
