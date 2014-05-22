@@ -1,6 +1,6 @@
 ﻿if GetLocale() == "zhCN" then
 	zTip.locStr = {
-		PetLevel	="宠物等级",
+		PetLevel	= "宠物等级",
 		Rare			= "稀有",
 		Targeting	= "目标",
 		YOU			= ">> 你 <<",
@@ -21,12 +21,13 @@
 			["SHAMAN"]		= 	"萨满祭司";
 			["PALADIN"]		= 	"圣骑士";
 			["DEATHKNIGHT"]	= 	"死亡骑士";
+			["MONK"]	= 	"武僧";
 			},
 		Loading				= "读取中...",
 		TooFar				= "距离过远",
 		DisableReadTalent	= "观察时停止读取",
 		ResetCache			= "天赋缓存已清空",
-		ItemLevel 			= "物等",
+		ItemLevel 			= "平均装备等级",
 	}
 	if zTipOption then
 		zTipOption.locStr = {
