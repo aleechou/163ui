@@ -1,6 +1,7 @@
 <Ui>
     <Include file="CfgDummy.lua"/>
 	
+	<Include file="..\..\BiggerTradeSkillUI\CfgBiggerTradeSkillUI.lua"/>		
 	<Include file="..\..\Dresser\CfgDresser.lua"/>		
 	<Include file="..\..\Quartz\CfgQuartz.lua"/>		
 	<Include file="..\..\Combuctor\CfgCombuctor.lua"/>		

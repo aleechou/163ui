@@ -3,17 +3,17 @@
   * Modules/OmegaMap.lua - Canvas for the OmegaMap   addon.                    *
   ****************************************************************************]]
 
-local Overlay = select( 2, ... );
-local NS = Overlay.Modules.WorldMapTemplate.Embed( CreateFrame( "Frame", "NPCScanOmegaMapOverlay" ) );
+local private = select( 2, ... );
+local panel = private.Modules.WorldMapTemplate.Embed( CreateFrame( "Frame", "NPCScanOmegaMapOverlay" ) );
 
 
-NS.AlphaDefault = 0.8;
+panel.AlphaDefault = 0.8;
 
 
 
 
 --- Attaches the canvas to Omegamap's custom frame when it loads.
---function NS:OnShow ( ... )
+--function panel:OnShow ( ... )
 	--self:SetParent( OmegaMapNoteFrame );
 
 	--return self.super.OnLoad( self, ... );
@@ -22,6 +22,6 @@ NS.AlphaDefault = 0.8;
 
 
 
-Overlay.Modules.Register( "OmegaMap", NS,
-	Overlay.L.MODULE_OMEGAMAP,
+private.Modules.Register( "OmegaMap", panel,
+	private.L.MODULE_OMEGAMAP,
 	"OmegaMap" );

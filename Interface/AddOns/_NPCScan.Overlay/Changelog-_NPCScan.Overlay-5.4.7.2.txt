@@ -1,0 +1,13 @@
+tag 5.4.7.2
+f7f4ebbbb9baa2c7fa6654a64de862d7fb7d7950
+James D. Callahan III <jcallahan@curse.com>
+2014-04-30 18:03:21 -0500
+
+
+
+--------------------
+
+Phanx:
+	- - Remove duplicate header declaration to avoid FrameXML errors (ticket #24)
+SLOKnightfall:
+	- Local update

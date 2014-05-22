@@ -3,17 +3,16 @@
   * Modules/BattlefieldMinimap.lua - Canvas for Blizzard_BattlefieldMinimap.   *
   ****************************************************************************]]
 
+local FOLDER_NAME, private = ...
+local panel = private.Modules.WorldMapTemplate.Embed( _G.CreateFrame( "Frame" ) );
 
-local Overlay = select( 2, ... );
-local NS = Overlay.Modules.WorldMapTemplate.Embed( CreateFrame( "Frame" ) );
-
-NS.AlphaDefault = 0.8;
+panel.AlphaDefault = 0.8;
 
 
 
 
 --- Attaches the canvas to the zone map when it loads.
-function NS:OnLoad ( ... )
+function panel:OnLoad ( ... )
 	self:SetParent( BattlefieldMinimap );
 
 	return self.super.OnLoad( self, ... );
@@ -22,6 +21,6 @@ end
 
 
 
-Overlay.Modules.Register( "BattlefieldMinimap", NS,
-	Overlay.L.MODULE_BATTLEFIELDMINIMAP,
+private.Modules.Register( "BattlefieldMinimap", panel,
+	private.L.MODULE_BATTLEFIELDMINIMAP,
 	"Blizzard_BattlefieldMinimap" );

@@ -9,56 +9,60 @@ if ( not IsAddOnLoaded( "Carbonite" ) ) then
 	return;
 end
 
+
 local CarboniteVersion = GetAddOnMetadata("Carbonite", "Version"):match("^([%d.]+)");
-	_NPCScanOverlayKey:SetMovable(false)
-	_NPCScanOverlayKey:SetScript("OnMouseDown",nil )
-	_NPCScanOverlayKey:SetScript("OnMouseUp", nil )
+	--_NPCScanOverlayKey:SetMovable(false)
+	--_NPCScanOverlayKey:SetScript("OnMouseDown",nil )
+	--_NPCScanOverlayKey:SetScript("OnMouseUp", nil )
+local FOLDER_NAME, private = ...
+L = private.L
+
+local function OverlayToggle()
+			-- for LeftButton, toggle the module Enabled or Disabled
+			if( IsShiftKeyDown() ) then
+				NSO_KeyToggleOnClick()
+			else
+								-- if Control Key down, toggle stuff on Main World Map
+				if ( private.Options.Modules[ "WorldMap" ] ) then
+					private.Modules.Disable( "WorldMap" );
+				else
+					private.Modules.Enable( "WorldMap" );
+				end
+			end
+end
 
 
 if CarboniteVersion < "5.4.0" then
 --Code for users running older version of carbonite
---[[****************************************************************************
-  * _NPCScan.Overlay by Saiket                                                 *
-  * Modules/Carbonite.lua - Modifies the WorldMap and Minimap modules for      *
-  *   compatibility with Carbonite.                                            *
-  ****************************************************************************]]
 
-
-if ( not IsAddOnLoaded( "Carbonite" ) ) then
-	return;
-end
-
-local Overlay = select( 2, ... );
 if ( NxData.NXGOpts.MapMMOwn ) then -- Minimap docked into WorldMap
-	Overlay.Modules.Unregister( "Minimap" );
+	private.Modules.Unregister( "Minimap" );
 end
-local WorldMap = Overlay.Modules.List[ "WorldMap" ];
+local WorldMap = private.Modules.List[ "WorldMap" ];
 if ( not ( WorldMap and WorldMap.Registered ) ) then
 	return;
 end
 
 local CarboniteMap = NxMap1.NxMap;
-local NS = CreateFrame( "Frame", nil, WorldMap );
-Overlay.Modules.Carbonite = NS;
+local panel = CreateFrame( "Frame", nil, WorldMap );
+private.Modules.Carbonite = panel;
 
 
 
 
 --- Repositions the canvas as the Carbonite map moves.
-function NS:OnUpdate ()
+function panel:OnUpdate ()
 	CarboniteMap:ClipZoneFrm( CarboniteMap.Cont, CarboniteMap.Zone, WorldMap );
 	WorldMap.RangeRing.Child:SetScale( WorldMap:GetScale() ); -- CarboniteMap:CZF also sets point
 	WorldMap.KeyParent:SetAlpha( NxMap1.NxWin.BackgndFade ); -- Obey window's "Fade Out" setting
+	WorldMap.KeyParent:SetScale( NxMap1:GetEffectiveScale() )
+	WorldMap.KeyParent:SetFrameStrata("High");
 end
 
-
-
-
 --- Adjusts the canvas when leaving Carbonite mode to view the default WorldMap.
-function NS:WorldMapFrameOnShow ()
+function panel:WorldMapFrameOnShow ()
 	if ( WorldMap.Loaded ) then
-		NS:Hide(); -- Stop updating with Carbonite
-		WorldMap.Toggle:Show();
+		panel:Hide(); -- Stop updating with Carbonite
 
 		-- Undo Carbonite scaling/fading
 		WorldMap:SetScale( 1 );
@@ -70,24 +74,25 @@ function NS:WorldMapFrameOnShow ()
 
 		WorldMap.KeyParent:SetParent( WorldMapButton );
 		WorldMap.KeyParent:SetAllPoints();
+		WorldMap.KeyParent:SetFrameStrata("High");
 
 		WorldMap.RangeRing:SetParent( WorldMapDetailFrame );
 		WorldMap.RangeRing:SetAllPoints();
 		WorldMap.RangeRingSetTarget( WorldMapPlayerUpper );
 	end
 end
---- Adjusts the canvas when entering Carbonite mode.
-function NS:WorldMapFrameOnHide ()
-	if ( WorldMap.Loaded ) then
-		NS:Show(); -- Begin updating with Carbonite
-		WorldMap.Toggle:Hide();
 
+--- Adjusts the canvas when entering Carbonite mode.
+function panel:WorldMapFrameOnHide ()
+	if ( WorldMap.Loaded ) then
+		panel:Show(); -- Begin updating with Carbonite
 		local ScrollFrame = CarboniteMap.TextScFrm;
 		WorldMap:SetParent( ScrollFrame:GetScrollChild() );
 		WorldMap:ClearAllPoints();
 
 		WorldMap.KeyParent:SetParent( ScrollFrame );
 		WorldMap.KeyParent:SetAllPoints();
+		WorldMap.KeyParent:SetFrameStrata("High");
 
 		WorldMap.RangeRing:SetParent( ScrollFrame );
 		WorldMap.RangeRing:SetAllPoints();
@@ -95,25 +100,34 @@ function NS:WorldMapFrameOnHide ()
 	end
 end
 
-
-
-
 local function OnUnload ()
-	NS.OnUpdate = nil;
+	panel.OnUpdate = nil;
 	if ( WorldMap.Loaded ) then
-		NS:SetScript( "OnUpdate", nil );
+		panel:SetScript( "OnUpdate", nil );
 	end
 end
+
 local function OnLoad ()
-	NS:SetScript( "OnUpdate", NS.OnUpdate );
+	panel:SetScript( "OnUpdate", panel.OnUpdate );
 
 	-- Give the canvas an explicit size so it paints correctly in Carbonite mode
 	WorldMap:SetSize( WorldMapDetailFrame:GetSize() );
 
 	-- Hooks to swap between Carbonite's map mode and the default UI map mode
-	WorldMapFrame:HookScript( "OnShow", NS.WorldMapFrameOnShow );
-	WorldMapFrame:HookScript( "OnHide", NS.WorldMapFrameOnHide );
-	NS[ WorldMapFrame:IsVisible() and "WorldMapFrameOnShow" or "WorldMapFrameOnHide" ]( WorldMapFrame );
+	WorldMapFrame:HookScript( "OnShow", panel.WorldMapFrameOnShow );
+	WorldMapFrame:HookScript( "OnHide", panel.WorldMapFrameOnHide );
+	panel[ WorldMapFrame:IsVisible() and "WorldMapFrameOnShow" or "WorldMapFrameOnHide" ]( WorldMapFrame );
+	--adds 
+		Nx.Button.TypeData["OverlayToggle"] ={
+		Up = "$INV_Misc_EngGizmos_20",
+		Dn = "$INV_Misc_EngGizmos_20",
+		SizeUp = 22,
+		SizeDn = 22,
+	}
+		CarboniteMap.ToolBar:AddButton("OverlayToggle", L.BUTTON_TOOLTIP_LINE2.."\n"..L.BUTTON_TOOLTIP_LINE3, nil, OverlayToggle, false)
+		CarboniteMap.ToolBar:Update()
+		CarboniteMap:UpdateToolBar()
+	
 end
 
 --- Sets a module's handler, or hooks the old one if it exists.
@@ -124,45 +138,48 @@ local function HookHandler ( Name, Handler )
 		Handler( ... );
 	end;
 end
+
 if ( WorldMap.Loaded ) then
 	OnLoad();
 else
 	HookHandler( "OnLoad", OnLoad );
 end
+
 HookHandler( "OnUnload", OnUnload );
 
-
 else
---Newer carbonite conde
-local Overlay = select( 2, ... );
 
-local WorldMap = Overlay.Modules.List[ "WorldMap" ];
+--Newer carbonite 5.4 alpha 2
+
+local WorldMap = private.Modules.List[ "WorldMap" ];
 if ( not ( WorldMap and WorldMap.Registered ) ) then
 	return;
 end
 
 local CarboniteMap 
-local NS = CreateFrame( "Frame", nil, WorldMap );
-Overlay.Modules.Carbonite = NS;
+local panel = CreateFrame( "Frame", nil, WorldMap );
+private.Modules.Carbonite = panel;
 
 
 
 
 --- Repositions the canvas as the Carbonite map moves.
-function NS:OnUpdate ()	
+function panel:OnUpdate ()	
 	CarboniteMap:ClipZoneFrm( CarboniteMap.Cont, CarboniteMap.Zone, WorldMap );
 	WorldMap.RangeRing.Child:SetScale( WorldMap:GetScale() ); -- CarboniteMap:CZF also sets point		
-	WorldMap.KeyParent:SetAlpha( CarboniteMap.BackgndAlpha ); -- Obey window's "Fade Out" setting				
+	--WorldMap.KeyParent:SetAlpha( CarboniteMap.BackgndAlpha ); -- Obey window's "Fade Out" setting				
+	WorldMap.KeyParent:SetAlpha( NxMap1.NxWin.BackgndFade ); -- Obey window's "Fade Out" setting
+	WorldMap.KeyParent:SetScale( NxMap1:GetEffectiveScale() )
+	WorldMap.KeyParent:SetFrameStrata("High");
 end
 
 
 
 
 --- Adjusts the canvas when leaving Carbonite mode to view the default WorldMap.
-function NS:WorldMapFrameOnShow ()
+function panel:WorldMapFrameOnShow ()
 	if ( WorldMap.Loaded ) then
-		NS:Hide(); -- Stop updating with Carbonite
-		WorldMap.Toggle:Show();
+		panel:Hide(); -- Stop updating with Carbonite
 
 		-- Undo Carbonite scaling/fading
 		WorldMap:SetScale( 1 );
@@ -174,6 +191,7 @@ function NS:WorldMapFrameOnShow ()
 
 		WorldMap.KeyParent:SetParent( WorldMapButton );
 		WorldMap.KeyParent:SetAllPoints();
+		WorldMap.KeyParent:SetFrameStrata("High");
 
 		WorldMap.RangeRing:SetParent( WorldMapDetailFrame );
 		WorldMap.RangeRing:SetAllPoints();
@@ -181,19 +199,20 @@ function NS:WorldMapFrameOnShow ()
 	end
 end
 --- Adjusts the canvas when entering Carbonite mode.
-function NS:WorldMapFrameOnHide ()
+function panel:WorldMapFrameOnHide ()
 	if not Nx.Initialized then
 		return
 	end
 	if ( WorldMap.Loaded ) then		
-		NS:Show(); -- Begin updating with Carbonite
-		WorldMap.Toggle:Hide();		
+		panel:Show(); -- Begin updating with Carbonite
+
 		local ScrollFrame = CarboniteMap.TextScFrm;
 		WorldMap:SetParent( ScrollFrame:GetScrollChild() );
 		WorldMap:ClearAllPoints();
 
 		WorldMap.KeyParent:SetParent( ScrollFrame );
 		WorldMap.KeyParent:SetAllPoints();
+		WorldMap.KeyParent:SetFrameStrata("High");
 
 		WorldMap.RangeRing:SetParent( ScrollFrame );
 		WorldMap.RangeRing:SetAllPoints();
@@ -202,27 +221,38 @@ function NS:WorldMapFrameOnHide ()
 end
 
 local function OnUnload ()
-	NS.OnUpdate = nil;
+	panel.OnUpdate = nil;
 	if ( WorldMap.Loaded ) then
-		NS:SetScript( "OnUpdate", nil );
+		panel:SetScript( "OnUpdate", nil );
 	end
 end
 
+
 local function OnLoad ()
-	NS:SetScript( "OnUpdate", NS.OnUpdate );	
+	panel:SetScript( "OnUpdate", panel.OnUpdate );	
 	-- Give the canvas an explicit size so it paints correctly in Carbonite mode
 	WorldMap:SetSize( WorldMapDetailFrame:GetSize() );
 
 	-- Hooks to swap between Carbonite's map mode and the default UI map mode
-	WorldMapFrame:HookScript( "OnShow", NS.WorldMapFrameOnShow );
-	WorldMapFrame:HookScript( "OnHide", NS.WorldMapFrameOnHide );	
+	WorldMapFrame:HookScript( "OnShow", panel.WorldMapFrameOnShow );
+	WorldMapFrame:HookScript( "OnHide", panel.WorldMapFrameOnHide );	
 	WorldMapFrame:RegisterEvent("ZONE_CHANGED");
 	WorldMapFrame:RegisterEvent("ZONE_CHANGED_INDOORS");
 	WorldMapFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-	WorldMapFrame:HookScript( "OnEvent", NS.WorldMapFrameEventHandler);
-	NS[ WorldMapFrame:IsVisible() and "WorldMapFrameOnShow" or "WorldMapFrameOnHide" ]( WorldMapFrame );
+	WorldMapFrame:HookScript( "OnEvent", panel.WorldMapFrameEventHandler);
+	panel[ WorldMapFrame:IsVisible() and "WorldMapFrameOnShow" or "WorldMapFrameOnHide" ]( WorldMapFrame );
 	if CarboniteMap then
 		CarboniteMap:ClipZoneFrm( CarboniteMap.Cont, CarboniteMap.Zone, WorldMap);
+	
+		Nx.Button.TypeData["NSO"] ={
+		Up = "$INV_Misc_EngGizmos_20",
+		Dn = "$INV_Misc_EngGizmos_20",
+		SizeUp = 22,
+		SizeDn = 22,
+	}
+		CarboniteMap.ToolBar:AddButton("NSO", L.BUTTON_TOOLTIP_LINE2.."\n"..L.BUTTON_TOOLTIP_LINE3, nil, OverlayToggle, false)
+		CarboniteMap.ToolBar:Update()
+		CarboniteMap:UpdateToolBar()
 	end
 end
 
@@ -235,13 +265,13 @@ local function HookHandler ( Name, Handler )
 	end;
 end
 
-function NS:WorldMapFrameEventHandler (event, ...)
+function panel:WorldMapFrameEventHandler (event, ...)
 	if ( not Nx.Initialized ) then
 		return
 	end
 	if not CarboniteMap then		
 		if ( Nx.db.profile.MiniMap.Own ) then -- Minimap docked into WorldMap
-			Overlay.Modules.Unregister( "Minimap" );
+			private.Modules.Unregister( "Minimap" );
 		end
 		CarboniteMap = NxMap1.NxMap
 		OnLoad()
@@ -256,6 +286,7 @@ function NS:WorldMapFrameEventHandler (event, ...)
 		end
 	end
 end
+
 
 if ( WorldMap.Loaded ) then
 	OnLoad();

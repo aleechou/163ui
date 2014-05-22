@@ -2,17 +2,15 @@
   * _NPCScan.Overlay by Saiket                                                 *
   * Modules/Minimap.lua - Canvas for the Minimap.                              *
   ****************************************************************************]]
-
-
-local Overlay = select( 2, ... );
+local FOLDER_NAME, private = ...
 local Minimap = Minimap;
-local NS = CreateFrame( "Frame" );
+local panel = _G.CreateFrame( "Frame" );
 
-NS.InsideAlphaMultiplier = 1 / 3;
-NS.UpdateDistance = 0.5;
-NS.UpdateRateDefault  = 0.04;
-NS.UpdateRateRotating = 0.02; -- Faster so that spinning the minimap appears smooth
-local UpdateRate = NS.UpdateRateDefault;
+panel.InsideAlphaMultiplier = 1 / 3;
+panel.UpdateDistance = 0.5;
+panel.UpdateRateDefault  = 0.04;
+panel.UpdateRateRotating = 0.02; -- Faster so that spinning the minimap appears smooth
+local UpdateRate = panel.UpdateRateDefault;
 
 local UpdateForce, IsInside, RotateMinimap, Radius, Quadrants;
 
@@ -262,7 +260,7 @@ do
 				--Overlay.DrawFound( self, FoundX + 0.5, FoundY + 0.5, Overlay.DetectionRadius / ( Radius * 2 ), "OVERLAY", R, G, B );
 			end
 
-			local PointsOffset, LinesOffset, TrianglesOffset = Overlay.GetPathPrimitiveOffsets( PathData );
+			local PointsOffset, LinesOffset, TrianglesOffset = private.GetPathPrimitiveOffsets( PathData );
 			for Index = TrianglesOffset, #PathData, BYTES_PER_TRIANGLE do
 				Ax, Ax2, Ay, Ay2, Bx, Bx2, By, By2, Cx, Cx2, Cy, Cy2 = PathData:byte( Index, Index + BYTES_PER_TRIANGLE - 1 );
 				Ax, Ay = ( Ax * 256 + Ax2 ) / COORD_MAX * Width - X, ( 1 - ( Ay * 256 + Ay2 ) / COORD_MAX ) * Height - Y;
@@ -298,7 +296,7 @@ do
 					end
 
 					if ( AInside and BInside and CInside ) then -- No possible intersections
-						Overlay.TextureAdd( self, "ARTWORK", R, G, B,
+						private.TextureAdd( self, "ARTWORK", R, G, B,
 							Ax + 0.5, Ay + 0.5, Bx + 0.5, By + 0.5, Cx + 0.5, Cy + 0.5 );
 					else
 						ABx, ABy = Ax - Bx, Ay - By;
@@ -356,7 +354,7 @@ do
 
 								-- Draw tris between convex polygon vertices
 								for Index = #Points, 6, -2 do
-									Overlay.TextureAdd( self, "ARTWORK", R, G, B,
+									private.TextureAdd( self, "ARTWORK", R, G, B,
 										Points[ 1 ] + 0.5, Points[ 2 ] + 0.5, Points[ Index - 3 ] + 0.5, Points[ Index - 2 ] + 0.5, Points[ Index - 1 ] + 0.5, Points[ Index ] + 0.5 );
 								end
 							end
@@ -374,7 +372,7 @@ do
 
 									if ( U > 0 and V > 0 and U + V < 1 ) then -- Entire minimap is contained
 										for Index = 1, 4 do
-											Texture = Overlay.TextureCreate( self, "ARTWORK", R, G, B );
+											Texture = private.TextureCreate( self, "ARTWORK", R, G, B );
 											Left, Top = Index == 2 or Index == 3, Index <= 2;
 											Texture:SetPoint( "LEFT", self, Left and "LEFT" or "CENTER" );
 											Texture:SetPoint( "RIGHT", self, Left and "CENTER" or "RIGHT" );
@@ -420,8 +418,8 @@ do
 	local RadiiOutside = { 233 + 1 / 3, 200, 166 + 2 / 3, 133 + 1 / 3, 100, 66 + 2 / 3 };
 	local Cos, Sin = math.cos, math.sin;
 	--- Draws paths on the minimap from a given player position and direction.
-	function NS:Paint ( Map, NewX, NewY, NewFacing )
-		Overlay.TextureRemoveAll( self );
+	function panel:Paint ( Map, NewX, NewY, NewFacing )
+		private.TextureRemoveAll( self );
 
 		Quadrants = MinimapShapes[ GetMinimapShape and GetMinimapShape() ] or MinimapShapes[ "ROUND" ];
 		if ( Quadrants ~= LastQuadrants ) then -- Minimap shape changed
@@ -455,15 +453,15 @@ do
 			Radius = ( IsInside and RadiiInside or RadiiOutside )[ Minimap:GetZoom() + 1 ];
 			UpdateRangeRing = true;
 		end
-		if ( Overlay.Options.ModulesExtra[ "Minimap" ].RangeRing ) then
+		if ( private.Options.ModulesExtra[ "Minimap" ].RangeRing ) then
 			if ( UpdateRangeRing ) then -- Re-fit ring quadrants to minimap shape and size
 				UpdateRangeRing = nil;
-				local RingRadius = Radius / Overlay.DetectionRadius / 2;
+				local RingRadius = Radius / private.DetectionRadius / 2;
 				local Min, Max = 0.5 - RingRadius, 0.5 + RingRadius;
 
 				for Index = 1, 4 do
 					local Texture = self.RangeRing[ Index ];
-					if ( Quadrants[ Index ] and Radius < Overlay.DetectionRadius ) then -- Round and too large to fit
+					if ( Quadrants[ Index ] and Radius < private.DetectionRadius ) then -- Round and too large to fit
 						Texture:Hide();
 					else
 						local Left, Top = Index == 2 or Index == 3, Index <= 2;
@@ -476,7 +474,7 @@ do
 		end
 
 		local Side = Radius * 2;
-		Width, Height = Overlay.GetMapSize( Map );
+		Width, Height = private.GetMapSize( Map );
 		Width, Height = Width / Side, Height / Side; -- Simplifies data decompression
 		X, Y = NewX / Side, NewY / Side;
 		Facing = NewFacing;
@@ -485,7 +483,7 @@ do
 			FacingSin, FacingCos = Sin( Facing ), Cos( Facing );
 		end
 
-		Overlay.ApplyZone( self, Map, PaintPath );
+		private.ApplyZone( self, Map, PaintPath );
 	end
 end
 
@@ -493,7 +491,7 @@ end
 
 
 --- Force a repaint when the minimap swaps between indoor and outdoor zoom.
-function NS:MINIMAP_UPDATE_ZOOM ()
+function panel:MINIMAP_UPDATE_ZOOM ()
 	local Zoom = Minimap:GetZoom();
 	if ( GetCVar( "minimapZoom" ) == GetCVar( "minimapInsideZoom" ) ) then -- Indeterminate case
 		Minimap:SetZoom( Zoom > 0 and Zoom - 1 or Zoom + 1 ); -- Any change to make the cvars unequal
@@ -508,7 +506,7 @@ function NS:MINIMAP_UPDATE_ZOOM ()
 	end
 end
 --- Force a repaint and cache map size when changing zones.
-function NS:ZONE_CHANGED_NEW_AREA ()
+function panel:ZONE_CHANGED_NEW_AREA ()
 	UpdateForce = true;
 	if ( not WorldMapFrame:IsVisible() ) then
 		SetMapToCurrentZone();
@@ -518,19 +516,19 @@ do
 	local GetCurrentMapAreaID = GetCurrentMapAreaID;
 	local MapLast;
 	--- Force a repaint if world map swaps back to the current zone (making player coordinates available).
-	function NS:WORLD_MAP_UPDATE ()
+	function panel:WORLD_MAP_UPDATE ()
 		local Map = GetCurrentMapAreaID();
 		if ( MapLast ~= Map ) then -- Changed zones
 			MapLast = Map;
 
-			if ( Map == Overlay.GetMapID( GetRealZoneText() ) ) then -- Now showing current zone
+			if ( Map == private.GetMapID( GetRealZoneText() ) ) then -- Now showing current zone
 				UpdateForce = true;
 			end
 		end
 	end
 end
 --- Force a repaint when minimap gets shown or module gets enabled.
-function NS:OnShow ()
+function panel:OnShow ()
 	UpdateForce = true;
 end
 do
@@ -542,12 +540,12 @@ do
 	local UpdateNext = 0;
 	local LastX, LastY, LastFacing;
 	--- Throttles repaints based on a timer, and only repaints if the minimap view changes.
-	function NS:OnUpdate ( Elapsed )
+	function panel:OnUpdate ( Elapsed )
 		UpdateNext = UpdateNext - Elapsed;
 		if ( UpdateForce or UpdateNext <= 0 ) then
 			UpdateNext = UpdateRate;
 
-			local Map = Overlay.GetMapID( GetRealZoneText() );
+			local Map = private.GetMapID( GetRealZoneText() );
 			local X, Y = GetPlayerMapPosition( "player" );
 			if ( not Map
 				or ( X == 0 and Y == 0 )
@@ -556,7 +554,7 @@ do
 			) then
 				UpdateForce = nil;
 				self.RangeRing:Hide();
-				Overlay.TextureRemoveAll( self );
+				private.TextureRemoveAll( self );
 				return;
 			end
 
@@ -564,7 +562,7 @@ do
 			UpdateRate = self[ RotateMinimap and "UpdateRateRotating" or "UpdateRateDefault" ];
 
 			local Facing = RotateMinimap and GetPlayerFacing() or 0;
-			local Width, Height = Overlay.GetMapSize( Map );
+			local Width, Height = private.GetMapSize( Map );
 			X, Y = X * Width, Y * Height;
 
 			if ( UpdateForce or Facing ~= LastFacing or ( X - LastX ) ^ 2 + ( Y - LastY ) ^ 2 >= self.UpdateDistance ) then
@@ -582,15 +580,15 @@ end
 
 
 do
-	local Backup = NS.SetAlpha;
+	local Backup = panel.SetAlpha;
 	--- Fades overlay when indoors.
-	function NS:SetAlpha ( Alpha, ... )
-		return Backup( self, IsInside and Alpha * NS.InsideAlphaMultiplier or Alpha, ... );
+	function panel:SetAlpha ( Alpha, ... )
+		return Backup( self, IsInside and Alpha * panel.InsideAlphaMultiplier or Alpha, ... );
 	end
 end
 --- Reparents this canvas to Frame.
 -- @return True if set successfully.
-function NS:SetMinimapFrame ( Frame )
+function panel:SetMinimapFrame ( Frame )
 	if ( self.ScrollFrame and self.ScrollFrame:GetParent() ~= Frame ) then
 		self.ScrollFrame:SetParent( Frame );
 		self.ScrollFrame:SetAllPoints();
@@ -601,21 +599,21 @@ end
 
 --- Force a repaint if shown paths change.
 -- @param Map  AreaID that changed, or nil if all zones must update.
-function NS:OnMapUpdate ( Map )
-	if ( not Map or Map == Overlay.GetMapID( GetRealZoneText() ) ) then
+function panel:OnMapUpdate ( Map )
+	if ( not Map or Map == private.GetMapID( GetRealZoneText() ) ) then
 		UpdateForce = true;
 	end
 end
 --- Shows the canvas when enabled.
-function NS:OnEnable ()
+function panel:OnEnable ()
 	self.ScrollFrame:Show();
 	self:RegisterEvent( "WORLD_MAP_UPDATE" );
 	self:RegisterEvent( "ZONE_CHANGED_NEW_AREA" );
 end
 --- Hides the canvas when disabled.
-function NS:OnDisable ()
+function panel:OnDisable ()
 	self.ScrollFrame:Hide();
-	Overlay.TextureRemoveAll( self );
+	private.TextureRemoveAll( self );
 	self:UnregisterEvent( "WORLD_MAP_UPDATE" );
 	self:UnregisterEvent( "ZONE_CHANGED_NEW_AREA" );
 end
@@ -625,7 +623,7 @@ do
 		UpdateForce, Radius = true;
 	end
 	--- Initializes the canvas after its dependencies load.
-	function NS:OnLoad ()
+	function panel:OnLoad ()
 		self.ScrollFrame = CreateFrame( "ScrollFrame" );
 		self.ScrollFrame:Hide();
 		self.ScrollFrame:SetScrollChild( self );
@@ -633,7 +631,7 @@ do
 		self:SetAllPoints();
 		self:SetScript( "OnShow", self.OnShow );
 		self:SetScript( "OnUpdate", self.OnUpdate );
-		self:SetScript( "OnEvent", Overlay.Modules.OnEvent );
+		self:SetScript( "OnEvent", private.Modules.OnEvent );
 		self:RegisterEvent( "MINIMAP_UPDATE_ZOOM" );
 		hooksecurefunc( Minimap, "SetZoom", SetZoom );
 
@@ -661,14 +659,14 @@ do
 	end
 end
 --- Clears all methods and scripts to be garbage collected.
-function NS:OnUnload ()
+function panel:OnUnload ()
 	self:SetScript( "OnShow", nil );
 	self:SetScript( "OnUpdate", nil );
 	self:SetScript( "OnEvent", nil );
 	self:UnregisterEvent( "MINIMAP_UPDATE_ZOOM" );
 end
 --- Clears most module data to be garbage collected.
-function NS:OnUnregister ()
+function panel:OnUnregister ()
 	self.Paint, self.OnShow, self.OnUpdate = nil;
 	self.MINIMAP_UPDATE_ZOOM = nil;
 	self.ZONE_CHANGED_NEW_AREA = nil;
@@ -680,46 +678,46 @@ end
 
 --- Enables the minimap range ring.
 -- @return True if changed.
-function NS.RangeRingSetEnabled ( Enable )
-	if ( Enable ~= Overlay.Options.ModulesExtra[ "Minimap" ].RangeRing ) then
-		Overlay.Options.ModulesExtra[ "Minimap" ].RangeRing = Enable;
+function panel.RangeRingSetEnabled ( Enable )
+	if ( Enable ~= private.Options.ModulesExtra[ "Minimap" ].RangeRing ) then
+		private.Options.ModulesExtra[ "Minimap" ].RangeRing = Enable;
 
-		NS.Config.RangeRing:SetChecked( Enable );
+		panel.Config.RangeRing:SetChecked( Enable );
 
 		if ( Enable ) then
 			UpdateForce = true;
-		elseif ( NS.Loaded ) then
-			NS.RangeRing:Hide();
+		elseif ( panel.Loaded ) then
+			panel.RangeRing:Hide();
 		end
 		return true;
 	end
 end
 --- Synchronizes custom settings to options table.
-function NS:OnSynchronize ( OptionsExtra )
+function panel:OnSynchronize ( OptionsExtra )
 	self.RangeRingSetEnabled( OptionsExtra.RangeRing ~= false );
 end
 
 
 
 
-Overlay.Modules.Register( "Minimap", NS, Overlay.L.MODULE_MINIMAP );
+private.Modules.Register( "Minimap", panel, private.L.MODULE_MINIMAP );
 
-local Config = NS.Config;
+local Config = panel.Config;
 local Checkbox = CreateFrame( "CheckButton", "$parentRangeRing", Config, "InterfaceOptionsCheckButtonTemplate" );
 Config.RangeRing = Checkbox;
 --- Toggles the range ring when clicked.
 function Checkbox.setFunc ( Enable )
-	NS.RangeRingSetEnabled( Enable == "1" );
+	panel.RangeRingSetEnabled( Enable == "1" );
 end
 
 Checkbox:SetPoint( "TOPLEFT", Config.Enabled, "BOTTOMLEFT" );
 local Label = _G[ Checkbox:GetName().."Text" ];
 Label:SetPoint( "RIGHT", Config, "RIGHT", -6, 0 );
 Label:SetJustifyH( "LEFT" );
-Label:SetFormattedText( Overlay.L.MODULE_RANGERING_FORMAT, Overlay.DetectionRadius );
+Label:SetFormattedText( private.L.MODULE_RANGERING_FORMAT, private.DetectionRadius );
 Checkbox:SetHitRectInsets( 4, 4 - Label:GetStringWidth(), 4, 4 );
-Checkbox.SetEnabled = Overlay.Config.ModuleCheckboxSetEnabled;
-Checkbox.tooltipText = Overlay.L.MODULE_RANGERING_DESC;
+Checkbox.SetEnabled = private.Config.ModuleCheckboxSetEnabled;
+Checkbox.tooltipText = private.L.MODULE_RANGERING_DESC;
 Config:AddControl( Checkbox );
 
 Config:SetHeight( Config:GetHeight() + Checkbox:GetHeight() );

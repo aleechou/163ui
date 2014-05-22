@@ -1,11 +1,10 @@
 <Bindings>
 	<Binding name="KEY _NPCScan.Overlay.Button:LeftButton" header="_NPCSCAN_OVERLAY">
-		-- Filler
+		NSO_KeyToggleOnClick()
 	</Binding>
 
-	<Binding name="PATH _NPCScan.Overlay.Button:LeftButton" header="_NPCSCAN_OVERLAY">
-		-- Filler
+	<Binding name="PATH _NPCScan.Overlay.Button:LeftButton">
+		NSO_ToggleOnClick()
 	</Binding>
-
 	<ModifiedClick action="_NPCSCAN_BUTTONDRAG" default="CTRL"/>
 </Bindings>
