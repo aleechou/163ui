@@ -19,11 +19,11 @@ end
 	if pseashownewvervar==nil then pseashownewvervar=true end
 	if wherereportraidach==nil then wherereportraidach="raid" end
 	if wherereportpartyach==nil then wherereportpartyach="party" end
-	if raminibutshowt==nil then raminibutshowt=false end --fishuiedit
+	if raminibutshowt==nil then raminibutshowt=false end --163uiedit
 	if RA_Settings==nil then RA_Settings = {RAMinimapPos = -176} end
 	rabigmenuchatlisten={"raid", "raid_warning", "officer", "party", "guild", "say", "yell", "sebe"}
 	ralowmenuchatlisten={"party", "officer", "guild", "say", "yell", "sebe"}
-	if rasoundtoplay==nil then rasoundtoplay={1,1,1,11,5,0} end --fishuiedit
+	if rasoundtoplay==nil then rasoundtoplay={1,1,1,11,5,0} end --163uiedit
 	rasoundtrack={"alarmclockbeeps1.ogg","alarmclockbeeps2.ogg","alarmclockbeeps3.ogg","fireworks.ogg","applause.ogg","gong.ogg","cat.ogg","bam.ogg","Xylo.ogg","Alert.ogg","igQuestFailed","QUESTCOMPLETED","QUESTADDED","PVPENTERQUEUE","PVPTHROUGHQUEUE","igPlayerInvite","igPlayerInviteDecline","igBackPackClose","AuctionWindowOpen","AuctionWindowClose","RaidWarning","ReadyCheck","mario.ogg"}
 
 	ramsgupdate=0

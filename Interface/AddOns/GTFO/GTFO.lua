@@ -876,7 +876,7 @@ function GTFO_OnEvent(self, event, ...)
 		RegisterAddonMessagePrefix("GTFO");
 		if (GTFOData.DataCode ~= GTFO.DataCode) then
 			GTFO_SetDefaults();
-                        --fishuiedit
+                        --163uiedit
 			--GTFO_ChatPrint(string.format(GTFOLocal.Loading_NewDatabase, GTFO.Version));
 			--GTFO_DisplayConfigPopupMessage();
 		end
@@ -920,7 +920,7 @@ function GTFO_OnEvent(self, event, ...)
 				if (PowaAuras.AurasByType.GTFOHigh) then
 					GTFO.PowerAuras = true;
 				else
-                                        --fishuiedit
+                                        --163uiedit
 					--GTFO_ChatPrint(GTFOLocal.Loading_PowerAurasOutOfDate);
 				end
 			else
@@ -1288,7 +1288,7 @@ function GTFO_OnEvent(self, event, ...)
 					if ((tonumber(sValue) > GTFO.VersionNumber) and not GTFO.UpdateFound) then
 						GTFO.UpdateFound = GTFO_ParseVersionNumber(sValue);
 						if (not GTFO.Settings.NoVersionReminder) then
-                                                --fishuiedit
+                                                --163uiedit
 						--GTFO_ChatPrint(string.format(GTFOLocal.Loading_OutOfDate, GTFO.UpdateFound));
 						end
 					end
@@ -2121,24 +2121,24 @@ end
 function GTFO_GetSounds()
 	if (GTFO.Settings.Volume == 2) then
 		GTFO.Sounds = {
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
 		};
 	elseif (GTFO.Settings.Volume == 1) then
 		GTFO.Sounds = {
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
 		};
 	else	
 		GTFO.Sounds = {
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\!!!FishUI\\media\\Sounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
 		};
 	end
 end

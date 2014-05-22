@@ -666,8 +666,6 @@ function me:CreateTextureSelection(parent)
 
 	local theFrame=me.TextureOptions
 	local BarTextures=SM:List("statusbar")
-	
-	SM:RegisterCallback("LibSharedMedia_Registered", me.RefreshStatusBars)
 
 	theFrame:SetHeight(parent:GetHeight()-34)
 	theFrame:SetWidth(200)
@@ -1202,10 +1200,10 @@ function me:SetupButtonOptions(parent)
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -96-16) -- Elsia: TODO this number will need adjusting to accommodate the paging config change
-	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Height"]..": "..math.floor(this:GetValue()+0.5));Recount.db.profile.MainWindow.RowHeight=math.floor(this:GetValue()+0.5);Recount:BarsChanged() end)
+	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Height"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowHeight=this:GetValue();Recount:BarsChanged() end)
 	getglobal(slider:GetName().."High"):SetText("35");
 	getglobal(slider:GetName().."Low"):SetText("8");
-	getglobal(slider:GetName().."Text"):SetText(L["Row Height"]..": "..math.floor(slider:GetValue()+0.5))
+	getglobal(slider:GetName().."Text"):SetText(L["Row Height"]..": "..slider:GetValue())
 
 	slider = CreateFrame("Slider", "Recount_ConfigWindow_RowSpacing_Slider", theFrame,"OptionsSliderTemplate")
 	theFrame.RowSpacingSlider=slider
@@ -1215,10 +1213,10 @@ function me:SetupButtonOptions(parent)
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -130-16)
-	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Spacing"]..": "..math.floor(this:GetValue()+0.5));Recount.db.profile.MainWindow.RowSpacing=math.floor(this:GetValue()+0.5);Recount:BarsChanged() end)
+	slider:SetScript("OnValueChanged",function(this) getglobal(this:GetName().."Text"):SetText(L["Row Spacing"]..": "..this:GetValue());Recount.db.profile.MainWindow.RowSpacing=this:GetValue();Recount:BarsChanged() end)
 	getglobal(slider:GetName().."High"):SetText("4");
 	getglobal(slider:GetName().."Low"):SetText("0");
-	getglobal(slider:GetName().."Text"):SetText(L["Row Spacing"]..": "..math.floor(slider:GetValue()))
+	getglobal(slider:GetName().."Text"):SetText(L["Row Spacing"]..": "..slider:GetValue())
 
 	theFrame.TotalBar=CreateFrame("CheckButton",nil,theFrame)
 	me:ConfigureCheckbox(theFrame.TotalBar)

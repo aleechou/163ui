@@ -371,7 +371,13 @@ U1RegisterAddon("!!!163UI!!!", {
 });
 
 U1RegisterAddon("!!!163UI.pics!!!", { title = "插件说明图片", hide = 1, defaultEnable = 1 });
-U1RegisterAddon("!!!163UI.3dcodecmd!!!", { title = "有爱核心", hide = 1, defaultEnable = 1 });
+
+U1RegisterAddon("!!!163UI.3dcodecmd!!!", { 
+	title = "有爱核心",  
+	hide = 1, 
+	defaultEnable = 1 
+});
+
 if(not GetCVar) then return end
 
 do

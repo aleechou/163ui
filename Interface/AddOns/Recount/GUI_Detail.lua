@@ -1404,14 +1404,11 @@ function Recount:CreateDetailWindow()
 	Recount.DetailWindow=CreateFrame("Frame","Recount_DetailWindow",UIParent)
 
 	local theFrame=Recount.DetailWindow
-	-- by wwokwww@nga fix
-	local AppendWidth = 30
-	local AppendWidthTotal = 90
 
 	theFrame:ClearAllPoints()
 	theFrame:SetPoint("CENTER",UIParent,"CENTER")
 	theFrame:SetHeight(320+26)
-	theFrame:SetWidth(450+50+AppendWidthTotal*2)
+	theFrame:SetWidth(450+50)
 	theFrame:SetFrameLevel(Recount.MainWindow:GetFrameLevel()+10)
 
 	theFrame:SetBackdrop({
@@ -1529,7 +1526,7 @@ function Recount:CreateDetailWindow()
 	PieMode:ClearAllPoints()
 	PieMode:SetPoint("BOTTOM",theFrame)
 	PieMode:SetHeight(320-32+26)
-	PieMode:SetWidth(450+50+AppendWidthTotal)
+	PieMode:SetWidth(450+50)
 
 	PieMode.TopPieChart=Graph:CreateGraphPieChart("Recount_DetailWindow_TopPieChart",PieMode,"LEFT","LEFT",0,72.5,150,150)--56.5,150,150)
 	PieMode.BotPieChart=Graph:CreateGraphPieChart("Recount_DetailWindow_BotPieChart",PieMode,"LEFT","LEFT",0,-72.5,150,150)---88,150,150)
@@ -1541,7 +1538,7 @@ function Recount:CreateDetailWindow()
 	local Labels=PieMode.TopRowLabels
 
 	Labels:SetPoint("TOPLEFT",PieMode,"TOP",-70-25,0)
-	Labels:SetWidth(270+50+AppendWidthTotal)
+	Labels:SetWidth(270+50)
 	Labels:SetHeight(RowHeight)
 
 	Labels.Key=Labels:CreateFontString(nil,"OVERLAY","GameFontNormal")
@@ -1560,7 +1557,7 @@ function Recount:CreateDetailWindow()
 	Recount:AddFontString(Labels.Name)
 
 	Labels.ACount=Labels:CreateFontString(nil,"OVERLAY","GameFontNormal")
-	Labels.ACount:SetPoint("RIGHT",Labels,"RIGHT",-120-AppendWidth*2,0)
+	Labels.ACount:SetPoint("RIGHT",Labels,"RIGHT",-120,0)
 	Labels.ACount:SetText(L["Count"])
 	Recount:AddFontString(Labels.ACount)
 
@@ -1584,7 +1581,7 @@ function Recount:CreateDetailWindow()
 		Row:SetScript("OnEnter", function(this) Recount:SelectUpperDetailTable(this.id) end)
 		Row:SetScript("OnMouseDown", function(this) Recount:LockUpperDetailTable(this.id) end)
 
-		Row:SetWidth(270+50+AppendWidthTotal)
+		Row:SetWidth(270+50)
 		Row:SetHeight(RowHeight)
 		Row:SetPoint("TOPLEFT",PieMode,"TOP",-70-25,-(RowHeight+2)*i)
 
@@ -1620,7 +1617,7 @@ function Recount:CreateDetailWindow()
 		Recount:AddFontString(Row.Name)
 
 		Row.ACount=Row:CreateFontString(nil,"OVERLAY","GameFontNormal")
-		Row.ACount:SetPoint("RIGHT",Row,"RIGHT",-120-AppendWidth*2,0)
+		Row.ACount:SetPoint("RIGHT",Row,"RIGHT",-120,0)
 		Row.ACount:SetText("815")
 		Row.ACount:SetTextColor(1.0,1.0,1.0,1.0)
 		Recount:AddFontString(Row.ACount)
@@ -1655,7 +1652,7 @@ function Recount:CreateDetailWindow()
 	local Labels=PieMode.BotRowLabels
 
 	Labels:SetPoint("TOPLEFT",PieMode,"TOP",-70-25,-Halfway) -- This is 50/2, the added width of the bars in the view.
-	Labels:SetWidth(270+50+AppendWidthTotal)
+	Labels:SetWidth(270+50)
 	Labels:SetHeight(RowHeight)
 
 	Labels.Key=Labels:CreateFontString(nil,"OVERLAY","GameFontNormal")
@@ -1674,12 +1671,12 @@ function Recount:CreateDetailWindow()
 	Recount:AddFontString(Labels.Name)
 
 	Labels.Min=Labels:CreateFontString(nil,"OVERLAY","GameFontNormal")
-	Labels.Min:SetPoint("RIGHT",Labels,"RIGHT",-185-AppendWidth*2,0)
+	Labels.Min:SetPoint("RIGHT",Labels,"RIGHT",-185,0)
 	Labels.Min:SetText(L["Min"])
 	Recount:AddFontString(Labels.Min)
 
 	Labels.Avg=Labels:CreateFontString(nil,"OVERLAY","GameFontNormal")
-	Labels.Avg:SetPoint("RIGHT",Labels,"RIGHT",-140-AppendWidth,0)
+	Labels.Avg:SetPoint("RIGHT",Labels,"RIGHT",-140,0)
 	Labels.Avg:SetText(L["Avg"])
 	Recount:AddFontString(Labels.Avg)
 
@@ -1707,7 +1704,7 @@ function Recount:CreateDetailWindow()
 		Row:EnableMouse(true)
 		Row:SetScript("OnEnter", function(this) me:SelectLowerDetailTable(this.id) end)
 
-		Row:SetWidth(270+50+AppendWidthTotal)
+		Row:SetWidth(270+50)
 		Row:SetHeight(RowHeight)
 		Row:SetPoint("TOPLEFT",PieMode,"TOP",-70-25,-Halfway-(RowHeight+2)*i)
 
@@ -1735,13 +1732,13 @@ function Recount:CreateDetailWindow()
 		Recount:AddFontString(Row.Name)
 
 		Row.Min=Row:CreateFontString(nil,"OVERLAY","GameFontNormal")
-		Row.Min:SetPoint("RIGHT",Row,"RIGHT",-185-AppendWidth*2,0)
+		Row.Min:SetPoint("RIGHT",Row,"RIGHT",-185,0)
 		Row.Min:SetText("32")
 		Row.Min:SetTextColor(1.0,1.0,1.0,1.0)
 		Recount:AddFontString(Row.Min)
 
 		Row.Avg=Row:CreateFontString(nil,"OVERLAY","GameFontNormal")
-		Row.Avg:SetPoint("RIGHT",Row,"RIGHT",-140-AppendWidth,0)
+		Row.Avg:SetPoint("RIGHT",Row,"RIGHT",-140,0)
 		Row.Avg:SetText("32")
 		Row.Avg:SetTextColor(1.0,1.0,1.0,1.0)
 		Recount:AddFontString(Row.Avg)

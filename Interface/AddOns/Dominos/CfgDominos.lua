@@ -3,7 +3,7 @@
     optdeps = {"Masque"},
     --desc = "",
     defaultEnable = 1,
-    load = "LOGIN",
+    load = "NORMAL",
     -- minimap = "LibDBIcon10_Dominos",
 minimap = "LibDBIcon10_Dominos",
     tags = { TAG_INTERFACE, TAG_BIG, },

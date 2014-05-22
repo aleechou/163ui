@@ -8,41 +8,7 @@ debug = true
 --@end-debug@]===] 
  
 local L = LibStub("AceLocale-3.0"):NewLocale("Recount", "enUS", true, debug) 
-
-L[" at "] = true
-L[" by "] = true
-L[" dies."] = true
-L[" for "] = true
-L[" overheal"] = true
-L[" resisted"] = true
-L["'s Absorbs"] = true
-L["'s DOT Uptime"] = true
-L["'s DPS"] = true
-L["'s DTPS"] = true
-L["'s Dispels"] = true
-L["'s Effective Healing"] = true
-L["'s Energy Gained"] = true
-L["'s Energy Gained From"] = true
-L["'s Friendly Fire"] = true
-L["'s HOT Uptime"] = true
-L["'s HPS"] = true
-L["'s HTPS"] = true
-L["'s Hostile Attacks"] = true
-L["'s Interrupts"] = true
-L["'s Mana Gained"] = true
-L["'s Mana Gained From"] = true
-L["'s Network Traffic"] = true
-L["'s Overhealing"] = true
-L["'s Partial Resists"] = true
-L["'s Rage Gained"] = true
-L["'s Rage Gained From"] = true
-L["'s Resses"] = true
-L["'s RunicPower Gained"] = true
-L["'s RunicPower Gained From"] = true
-L["'s TPS"] = true
-L["'s Time Spent"] = true
-L["'s Time Spent Attacking"] = true
-L["'s Time Spent Healing"] = true
+ 
 L["Ability"] = true
 L["Ability Name"] = true
 L["Absorbed"] = true

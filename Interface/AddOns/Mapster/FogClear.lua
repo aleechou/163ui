@@ -1398,7 +1398,7 @@ errata.Gilneas_terrain1 = errata.Gilneas
 errata.Gilneas_terrain2 = errata.Gilneas
 
 local db
-local defaults = {  --fishuiedit
+local defaults = {  --163uiedit
 	profile = {
 		colorR = 0.2666666666666667,
 		colorG = 0.611764705882353,

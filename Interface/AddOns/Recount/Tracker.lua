@@ -1,11 +1,10 @@
-local _
 local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale( "Recount" )
 local BossIDs = LibStub("LibBossIDs-1.0")
 
 local Recount = _G.Recount
 
-local revision = tonumber(string.sub("$Revision: 1251 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1219 $", 12, -3))
 if Recount.Version < revision then Recount.Version = revision end
 
 local dbCombatants
@@ -33,6 +32,7 @@ local tonumber = tonumber
 local type = type
 local pairs = pairs
 local unpack = unpack
+local n2s = n2s or function(n) return format("%d", n) end
 
 local tinsert = table.insert
 
@@ -245,8 +245,7 @@ local AbsorbSpellDuration =
 	[1463] = 8, -- Incanter's Ward (Mage) (may have unverified aura trigger), MOP
 	-- Monk, MOP
 	[116849] = 12, -- Life Cocoon (may have unverified aura trigger), MOP
---	[123402] = 30, -- Guard (Ox Stance, Brewmaster) (may have unverified aura trigger), MOP
-	[115295] = 30, -- Guard (Ox Stance, Brewmaster) (may have unverified aura trigger), MOP
+	[123402] = 30, -- Guard (Ox Stance, Brewmaster) (may have unverified aura trigger), MOP
 	-- Paladin
 	[58597] = 6, -- Sacred Shield (Paladin) proc (Fixed, thanks to Julith)
 	[86273] = 6, -- Illuminated Healing
@@ -299,7 +298,6 @@ local AbsorbSpellDuration =
 	[6229] = 30, -- Twilight Ward (partially confirmed), MOP
 	[110913] = 10, -- Dark Bargain (partially confirmed, may not be an absorb), MOP
 	[91711] = 30, -- Nether Ward (may have unverified aura trigger), MOP
-	[145379] = 15, -- Nature's Barrier, Shaman T16 Restoration 2P Bonus, 5.4
 	-- Warrior
 	[112048] = 6, -- Shield Barrier (confirmed), MOP
 	-- Enchants
@@ -355,7 +353,6 @@ local AbsorbSpellDuration =
 	[4077] = 60, -- Ice Deflector
 	[39228] = 20, -- Argussian Compass (may not be an actual absorb)
 	-- Item procs
-	[140380] = 15, -- Shield of Hydra Sputum, 九头蛇卵的铭文袋
 	[27779] = 30, -- Divine Protection - Priest dungeon set 1/2  Proc
 	[11657] = 20, -- Jang'thraze (Zul Farrak) proc
 	[10368] = 15, -- Uther's Strength proc
@@ -386,7 +383,7 @@ local AbsorbSpellDuration =
 local bossIDs = BossIDs.BossIDs
 
 function Recount.IsBoss(GUID)
-   return GUID and bossIDs[tonumber(GUID:sub(6, 10), 16)]	-- fishuiedit
+   return GUID and bossIDs[tonumber(GUID:sub(7, 10), 16)]
 end
 
 	
@@ -712,7 +709,7 @@ function Recount:SpellAuraApplied(timestamp, eventtype, srcGUID, srcName, srcFla
 		end
 		
 		if not Recount.db2.combatants[srcName]  then
---			Recount:DPrint("No source combatant!")  --fishuiedit
+--			Recount:DPrint("No source combatant!")
 		else
 			local sourceData=Recount.db2.combatants[srcName]
 			Recount:AddTableDataSum(sourceData,"ShieldedWho",dstName,spellName,1)
@@ -1026,26 +1023,15 @@ function Recount:CombatLogEvent(_,timestamp, eventtype, hideCaster, srcGUID, src
 		return
 	end
 
-	-- Pre-4.2 CLEU compat start
-	if TOC < 40100 and hideCaster ~= dummyTable then
-		-- Insert a dummy for the new argument introduced in 4.1 and perform a tail call
-		return self:CombatLogEvent(_,timestamp, eventtype, dummyTable, hideCaster, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
-	elseif TOC < 40200 and TOC > 40000 and not loopprevent then
-		loopprevent = true -- Prevent infinite recursion...
-		-- Also make it compatible with 4.1 by dropping the raid flags that don't exist in it.
-		return self:CombatLogEvent(_,timestamp, eventtype, hideCaster, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
-	end
-	-- Pre-4.2 CLEU compat end
-	
 	srcRetention = Recount:CheckRetentionFromFlags(srcFlags,srcName,srcGUID)
 	dstRetention = Recount:CheckRetentionFromFlags(dstFlags,dstName,dstGUID)
 
 	if eventtype == "SPELL_SUMMON" then -- Hacky fix for broken summon sequence and flags since 4.0.6 for chained guardian summons (greater elementals+totems). This will cause unnecessary computation and memory usage. Needs blizzard fix.
-	  if type(srcFlags)=="string" then Recount:DPrint(".."..srcFlags) end
+	  --if type(srcFlags)=="string" then Recount:DPrint(".."..srcFlags) end
       if bit_band(srcFlags, (COMBATLOG_OBJECT_TYPE_NPC+COMBATLOG_OBJECT_CONTROL_NPC))~=0 then -- Keep broken flag sources around
       	srcRetention = true
       end
-	  if type(dstFlags)=="string" then Recount:DPrint(".."..dstFlags) end
+	  --if type(dstFlags)=="string" then Recount:DPrint(".."..dstFlags) end
       if bit_band(dstFlags, (COMBATLOG_OBJECT_TYPE_NPC+COMBATLOG_OBJECT_CONTROL_NPC))~=0 then -- Keep broken flag destinations around
       	dstRetention = true
       end
@@ -1133,40 +1119,32 @@ function Recount:AddCurrentEvent(who, eventType, incoming, number, event)
 		who.LastEventIncoming[who.NextEventNum]=incoming
 		who.LastEvents[who.NextEventNum]=event --(eventType or "").." "..(abiliy or "").." "..(number or "")
 
-		local name,realm 
-		
-		if who.unit then
-			name,realm = UnitName(who.unit)
-		else
-			name = ""
-		end
-		if realm then
-			name = name.."-"..realm
-		end
-		if (not who.unit) or (name~=who.Name) and who.UnitLockout<Recount.UnitLockout then
+		if (not who.unit) or (UnitName(who.unit)~=who.Name) and who.UnitLockout<Recount.UnitLockout then
 			who.unit=Recount:FindUnit(who.Name)
 			who.UnitLockout=Recount.CurTime
 		end
 		
 		if who.unit then
-			if UnitHealthMax(who.unit)~=100 then
+			local healthMax = UnitHealthMax(who.unit)
+			local health = UnitHealth(who.unit)
+			if healthMax~=100 then
 				who.LastEventHealth = who.LastEventHealth or {}
-				who.LastEventHealth[who.NextEventNum]=UnitHealth(who.unit).." ("..math_floor(100*UnitHealth(who.unit)/(UnitHealthMax(who.unit)+Epsilon)).."%)"
+				who.LastEventHealth[who.NextEventNum]=n2s(health).." ("..n2s(math_floor(100*health/(healthMax+Epsilon))).."%)"
 				if number then
 					who.LastEventNum = who.LastEventNum or {}
-					who.LastEventNum[who.NextEventNum]=100*number/(UnitHealthMax(who.unit)+Epsilon)
+					who.LastEventNum[who.NextEventNum]=100*number/(healthMax+Epsilon)
 				elseif who.LastEventNum then
 					who.LastEventNum[who.NextEventNum]=nil
 				end
 			else
 				who.LastEventHealth = who.LastEventHealth or {}
-				who.LastEventHealth[who.NextEventNum]=UnitHealth(who.unit).."%"
+				who.LastEventHealth[who.NextEventNum]=n2s(health).."%"
 				if who.LastEventNum then
 					who.LastEventNum[who.NextEventNum]=nil
 				end
 			end
 			who.LastEventHealthNum = who.LastEventHealthNum or {}
-			who.LastEventHealthNum[who.NextEventNum]=100*UnitHealth(who.unit)/(UnitHealthMax(who.unit)+Epsilon)
+			who.LastEventHealthNum[who.NextEventNum]=100*health/(healthMax+Epsilon)
 		else
 			who.LastEventHealth = who.LastEventHealth or {}
 			who.LastEventHealthNum = who.LastEventHealthNum or {}
@@ -1465,7 +1443,7 @@ function Recount:AddTableDataSum(who,datatype,secondary,detailtype,amount)
 	CurTable.amount=(CurTable.amount or 0)+amount
 
 	if detailtype == nil then
-		--Recount:DPrint("DEBUG at: ".. (who or "nil").." "..(datatype or "nil").." ".. (secondary or "nil"))  --fishuiedit
+		--Recount:DPrint("DEBUG at: ".. (who or "nil").." "..(datatype or "nil").." ".. (secondary or "nil"))
 	end
 
 	if type(CurTable.Details[detailtype])~="table" then
@@ -1575,7 +1553,7 @@ function Recount:DetectPet(name, nGUID, nFlags)
 	--			Recount:DPrint("Party guardian: "..name.." "..(nGUID or "nil").." "..(owner or "nil").." "..(ownerID or "nil"))
 --			end
 		else
-			petName = Recount:GetGuardianOwnerByGUID(nameGUID)
+			petName = Recount:GetGuardianOwnerByGUID(nGUID)
 			if petName then
 				petName, owner = petName:match("(.-) <(.*)>")
 				return name, owner, ownerID
@@ -1591,7 +1569,7 @@ function Recount:BossFound()
 	if victim then
 	Recount.FightingWho = victim
 	Recount.FightingLevel = -1
-	--Recount:DPrint("Boss from Boss Frame: "..victim)  --fishuiedit
+	--Recount:DPrint("Boss from Boss Frame: "..victim)
 	end
 end
 
@@ -1652,13 +1630,13 @@ function Recount:AddDamageData(source, victim, ability, element, hittype, damage
 
 	-- Extra attack handling
 	if extraattacks and extraattacks[source] and not extraattacks[source].ability then
-		--Recount:DPrint("Proc ability: "..ability)  --fishuiedit
+		--Recount:DPrint("Proc ability: "..ability)
 		extraattacks[source].ability = ability
 	elseif extraattacks and extraattacks[source] and extraattacks[source].ability and ability==L["Melee"] then
 		if extraattacks[source].proctime < GetTime()-5 then -- This is an outdated proc of which we never saw damage contributions. Timeout at 5 seconds
 			extraattacks[source] = nil
 		else
-			--Recount:DPrint("Damage proc: "..ability.." "..extraattacks[source].spellName.." "..(damage or "0"))  --fishuiedit
+			--Recount:DPrint("Damage proc: "..ability.." "..extraattacks[source].spellName.." "..(damage or "0"))
 			ability = extraattacks[source].ability .. " ("..extraattacks[source].spellName..")"
 			extraattacks[source].amount = extraattacks[source].amount - 1
 			if extraattacks[source].amount == 0 then
@@ -1670,14 +1648,14 @@ function Recount:AddDamageData(source, victim, ability, element, hittype, damage
 	-- Death log entry text
 	Recount.cleventtext = source.." "..ability.." "..victim.." "..hittype
 	if damage then
-		Recount.cleventtext = Recount.cleventtext.." -"..damage
+		Recount.cleventtext = Recount.cleventtext.." -"..n2s(damage)
 	end
 	if resist and resist > 0 then
-		Recount.cleventtext = Recount.cleventtext .." ("..resist..L[" resisted"]..")"
+		Recount.cleventtext = Recount.cleventtext .." ("..n2s(resist)..L[" resisted"]..")"
 	end
 	if absorbed and absorbed > 0 then
 		absorbed = math.floor(absorbed + 0.5) -- Bandaid for weird rounding issues
-		Recount.cleventtext = Recount.cleventtext .." ("..absorbed.." "..L["Absorbed"]..")"
+		Recount.cleventtext = Recount.cleventtext .." ("..n2s(absorbed).." "..L["Absorbed"]..")"
 	end
 	if element then
 		Recount.cleventtext = Recount.cleventtext.." ("..element..")"
@@ -1930,15 +1908,15 @@ function Recount:AddHealData(source, victim, ability, healtype, amount, overheal
       Recount.cleventtext = Recount.cleventtext.." "..healtype
    end
    if amount then
-      Recount.cleventtext = Recount.cleventtext.." +"..amount
+      Recount.cleventtext = Recount.cleventtext.." +"..n2s(amount)
    end
    
    if overheal and overheal ~= 0 then 
-      Recount.cleventtext = Recount.cleventtext .." ("..overheal..L[" overheal"]..")"
+      Recount.cleventtext = Recount.cleventtext .." ("..n2s(overheal)..L[" overheal"]..")"
    end
 
 	if absorbed and absorbed > 0 then
-		Recount.cleventtext = Recount.cleventtext .." ("..absorbed.." "..L["Absorbed"]..")"
+		Recount.cleventtext = Recount.cleventtext .." ("..n2s(absorbed).." "..L["Absorbed"]..")"
 	end
    
    local sourceData

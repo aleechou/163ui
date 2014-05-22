@@ -1,19 +1,19 @@
 -- Elsia: For delete on instance entry
 -- Deletes data whenever a new, not the same instance is entered. This should safe-guard against corpse-run-reenters and the like.
-local revision = tonumber(string.sub("$Revision: 1251 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1237 $", 12, -3))
 local Recount = _G.Recount
 if Recount.Version < revision then Recount.Version = revision end
 
 local UnitIsGhost = UnitIsGhost
-local GetNumRaidMembers = GetNumGroupMembers  --fishuiedit
-local GetNumPartyMembers = GetNumSubgroupMembers  --fishuiedit
+local GetNumRaidMembers = GetNumGroupMembers
+local GetNumPartyMembers = GetNumSubgroupMembers
 
 function Recount:DetectInstanceChange() -- Elsia: With thanks to Loggerhead
 
 --	local zone = GetRealZoneText()
  	local zone = GetInstanceInfo() -- Elsia; GetInstanceInfo() is robust at PEW!
 
-	if zone == nil or zone == "" then  --fishuiedit
+	if zone == nil or zone == "" then
 		-- zone hasn't been loaded yet, try again in 5 secs.
 		self:ScheduleTimer("DetectInstanceChange",5)
 		return
@@ -54,7 +54,7 @@ function Recount:DetectInstanceChange() -- Elsia: With thanks to Loggerhead
 		return
 	end
 
-	local inInstance, instanceType = IsInInstance()  --fishuiedit
+	local inInstance, instanceType = IsInInstance()
 	
 	if inInstance and (not Recount.db.profile.DeleteNewInstanceOnly or Recount.db.profile.LastInstanceName ~= zone) and Recount.CurrentDataCollect then
 		if Recount.db.profile.ConfirmDeleteInstance == true then
@@ -75,7 +75,7 @@ function Recount:PartyMembersChanged()
 	local NumRaidMembers = GetNumRaidMembers()
 	local NumPartyMembers = GetNumPartyMembers()
 
-	if ct~=0 and Recount.db.profile.DeleteJoinRaid and not Recount.inRaid and not Recount.inScenario and NumRaidMembers > 0 and Recount.CurrentDataCollect then
+	if ct~=0 and Recount.db.profile.DeleteJoinRaid and not Recount.inRaid and NumRaidMembers > 0 and Recount.CurrentDataCollect then
 		if Recount.db.profile.ConfirmDeleteRaid then
 --			Recount:DPrint("Raid based deletion")
 			Recount:ShowReset() -- Elsia: Confirm & Delete!
@@ -115,15 +115,6 @@ function Recount:PartyMembersChanged()
 		Recount.inRaid = false
 	end
 
-	if (NumRaidMembers > 0 or UnitInRaid("player")) and IsInScenarioGroup() then
-	   change = change or not Recount.inScenario
-	   Recount.inScenario = true
-	else
-		change = change or Recount.inScenario
-		Recount.inScenario = false
-	end
-		
-	
 	if change then
 		Recount:UpdateZoneGroupFilter()
 	end
@@ -141,12 +132,12 @@ function Recount:InitPartyBasedDeletion()
 	if (NumPartyMembers > 0 and (NumRaidMembers == 0 or IsInScenarioGroup())) then Recount.inGroup = true end
 	if NumRaidMembers > 0 and not IsInScenarioGroup() then Recount.inRaid = true end
 
-	Recount:RegisterEvent("GROUP_ROSTER_UPDATE","PartyMembersChanged")  --fishuiedit
+	Recount:RegisterEvent("GROUP_ROSTER_UPDATE","PartyMembersChanged")
 	Recount:UpdateZoneGroupFilter()
 end
 
 function Recount:ReleasePartyBasedDeletion()
 	if Recount.db.profile.DeleteJoinGroup == false and Recount.db.profile.DeleteJoinRaid == false then
-		Recount:UnregisterEvent("GROUP_ROSTER_UPDATE","PartyMembersChanged")  --fishuiedit
+		Recount:UnregisterEvent("GROUP_ROSTER_UPDATE","PartyMembersChanged")
 	end
 end

@@ -1,7 +1,7 @@
-﻿U1RegisterAddon("Recount", {
-    title = "Recount伤害统计",
-    tags = {TAG_RAID, TAG_BIG, TAG_GOOD },
-    defaultEnable = 1,
+U1RegisterAddon("Recount", {
+    title = "伤害统计",
+    tags = {TAG_RAID, TAG_BIG },
+    defaultEnable = 0,
     load = "LOGIN", --5.0 script ran too long
 
     minimap = 'LibDBIcon10_Recount', 
@@ -53,14 +53,5 @@
             Recount:IsTimeDataActive()
             Recount:FullRefreshMainWindow()
         end,
-    },
-    {
-        text = "重置所有控制台设定",
-        callback = function(cfg, v, loading)
-            RecountDB = nil;
-            RecountPerCharDB = nil;
-            BrokerRecountDBIconDB = nil; 
-            ReloadUI();
-        end,
-    },
+    }
 });

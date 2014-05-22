@@ -72,9 +72,9 @@ local function FadeMenu(self)
 	fadeInfo.timeToFade = 0.1
 	fadeInfo.finishedFunc = Faded
 	fadeInfo.finishedArg1 = self
-	-- fishuiedit
+    -- XXX 163 prevent taint
 	-- UIFrameFade(self, fadeInfo);
-	UICoreFrameFade(self, fadeInfo)
+    UICoreFrameFade(self, fadeInfo)
 end
 
 function Recount:OpenBarDropDown(myframe)
