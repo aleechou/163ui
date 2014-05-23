@@ -19,10 +19,10 @@ errro=Ó,
 Ì É t(...)
 Ê e.errro Ò print("[verbose]",...)Æ
 Æ
-É cmd3dcode_buff_showlog(a,t)
-Ê a==Í Ò a="verbose"Æ
-Ê t==Í Ò t=Ó Æ
-e[a]=t
+É cmd3dcode_buff_showlog(t,a)
+Ê t==Í Ò t="verbose"Æ
+Ê a==Í Ò a=Ó Æ
+e[t]=a
 Æ
 Ì n=0
 Ì s=Ç
@@ -35,19 +35,19 @@ e:SetHeight(BUFF_BUTTON_HEIGHT)
 t:SetTexture("Interface\\AddOns\\"..o.."\\Textures\\logo-online.tga")
 t:SetAllPoints(e)
 e:SetScript("OnEnter",É(o)
-Ì t=""
-Ì e=0
+Ì e=""
+Ì t=0
 Ê n<60 Ò
-t="ä¸åˆ°1åˆ†é’Ÿ"
+e="ä¸åˆ°1åˆ†é’Ÿ"
 Ä
-e=floor(n/60)
-Ì a=floor(e/60)
+t=floor(n/60)
+Ì a=floor(t/60)
 Ê a>0 Ò
-t=a.."å°æ—¶"
+e=a.."å°æ—¶"
 Æ
-mindisplay=e%60
+mindisplay=t%60
 Ê mindisplay>0 Ò
-t=t..mindisplay.."åˆ†é’Ÿ"
+e=e..mindisplay.."åˆ†é’Ÿ"
 Æ
 Æ
 GameTooltip:SetOwner(o,'ANCHOR_BOTTOMLEFT')
@@ -56,7 +56,7 @@ GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cff00aa00[å·²è¿æ¥]|r")
 Ä
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cffFFCC00[å·²è¿æ¥ï¼Œæœªç™»å½•]|r")
 Æ
-GameTooltip:AddLine('|cffffffffä»Šæ—¥åœ¨çº¿ï¼š|r'..t)
+GameTooltip:AddLine('|cffffffffä»Šæ—¥åœ¨çº¿ï¼š|r'..e)
 Ê Î s Ò
 GameTooltip:AddLine('|cffffffffè¯·ç‚¹å‡»Buffå›¾æ ‡ç™»é™†ç½‘æ˜“é€šè¡Œè¯ï¼Œ|r')
 GameTooltip:AddLine('|cffffffffä»¥ä¾¿ç§¯ç´¯çš„åœ¨çº¿æ—¶é—´å®Œæˆç­¾åˆ°ä»»åŠ¡|r')
@@ -64,8 +64,8 @@ GameTooltip:AddLine('|cffffffffä»¥ä¾¿ç§¯ç´¯çš„åœ¨çº¿æ—¶é—´å®Œæˆç­¾åˆ°ä»»åŠ¡|r')
 Ê i Ò
 GameTooltip:AddLine('|cffffffffå•å‡»Buffå›¾æ ‡å®Œæˆç­¾åˆ°|r')
 Ä
-Ê e<30 Ò
-GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-e)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
+Ê t<30 Ò
+GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-t)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
 Æ
 Æ
 Æ
@@ -114,17 +114,17 @@ o=o-DEBUFF_ACTUAL_DISPLAY
 a("ShownBuffNumber()",o)
 Ñ o
 Æ
-Ì É i(t)
+Ì É r(o)
 Ì e=ShownBuffNumber()
-Ì o=floor(e/BUFFS_PER_ROW)
-Ì i=-o*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
-Ì o=e%BUFFS_PER_ROW
-Ì o=o*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
-a("index:",e,"x",o,"y",i)
-t:SetPoint("TOPRIGHT",o,i)
-t:Show()
+Ì t=floor(e/BUFFS_PER_ROW)
+Ì i=-t*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
+Ì t=e%BUFFS_PER_ROW
+Ì t=t*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
+a("index:",e,"x",t,"y",i)
+o:SetPoint("TOPRIGHT",t,i)
+o:Show()
 Æ
-Ì É o(o)
+Ì É i(o)
 Ê Î o Ò
 o=time()
 Æ
@@ -132,25 +132,21 @@ o=time()
 a("display offline buff")
 t:Show()
 e:Hide()
-i(t)
+r(t)
 Ä
 a("display online buff")
 e:Show()
 t:Hide()
-i(e)
+r(e)
 Æ
 Æ
-Ì i=BuffFrame_UpdateAllBuffAnchors
-É BuffFrame_UpdateAllBuffAnchors(...)
-i(...)
-o()
-Æ
-Ì i=0
+hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",i);
+Ì o=0
 CreateFrame("frame"):SetScript("OnUpdate",É()
 Ì e=time()
-Ê e-i>5 Ò
-o(e)
-i=e
+Ê e-o>5 Ò
+i(e)
+o=e
 Æ
 Æ)
 ThreeDimensionsCode_SafePipe_CmdHandles["ping"]=É(t,e)
@@ -176,7 +172,7 @@ n=bitfunc.bor(bitfunc.lshift(e,16),n)
 Æ
 a("ping","#"..#e,o,i,t,n)
 Æ
-o()
+i()
 h=time()
 Æ
 É hide163buff()
