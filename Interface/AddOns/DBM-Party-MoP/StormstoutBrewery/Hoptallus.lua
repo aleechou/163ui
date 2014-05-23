@@ -45,10 +45,10 @@ function mod:SPELL_CAST_START(args)
 		warnFurlwind:Show()
 --		specWarnFurlwind:Show()
 --		soundFurlwind:Play()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\wwsoon.mp3")--準備旋風
-		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\wwsoon.mp3")--準備旋風
+		sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerFurlwind:Start()
 		timerBreathCD:Start()--Always 18 seconds after Furlwind
 	elseif args.spellId == 112944 then
@@ -63,13 +63,13 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 112993 and destGUID == UnitGUID("player") and self:AntiSpam() and (not mod:IsTank()) then
 		specWarnFurlwind:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Tuzi or msg:find(L.Tuzi) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")--準備小怪
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")--準備小怪
 	end
 end

@@ -154,7 +154,7 @@ local function warnTorrent(name)
 			timerTorrentofIce:Start()
 			yellTorrentofIce:Yell()
 			DBM.Flash:Shake(0, 0, 1)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 		end
 	else
 		local uId = DBM:GetRaidUnitId(name)
@@ -279,7 +279,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 		timerTorrentofIce:Start()
 		yellTorrentofIce:Yell()
 		DBM.Flash:Shake(0, 0, 1)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 	end
 end
 
@@ -290,7 +290,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnNetherTear:Show()
 		timerNetherTearCD:Start(args.sourceGUID)
 		if self:AntiSpam(10, 5) then
-			sndXL:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dragonnow.mp3")  --小龍出現
+			sndXL:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dragonnow.mp3")  --小龍出現
 		end
 	elseif args.spellId == 139866 then
 		timerTorrentofIceCD:Start(args.sourceGUID)
@@ -359,7 +359,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellCinders:Yell()
 --			soundCinders:Play()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firerun.mp3")  --快跑 火焰點你
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firerun.mp3")  --快跑 火焰點你
 		end
 		if self.Options.HudMAP then
 			local spelltext = GetSpellInfo(139822)
@@ -380,7 +380,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 139822 then
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
 		end
 		if FireMarkers[args.destName] then
 			FireMarkers[args.destName] = free(FireMarkers[args.destName])
@@ -394,7 +394,7 @@ end
 function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 139836 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnCindersMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -402,7 +402,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 139909 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnTorrentofIce:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -421,7 +421,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		timerRampage:Start()	
 		if MyJS() then
 			SpecWarnJSA:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
 		else
 			DBM:PlayCountSound(Ramcount)
 		end		
@@ -429,7 +429,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		arcaneRecent = false
 		warnRampageFaded:Show()
 		specWarnRampageFaded:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\scattersoon.mp3")--注意分散
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\scattersoon.mp3")--注意分散
 		if self.Options.timerBreaths then
 			timerBreathsCD:Start(10)
 		end
@@ -464,7 +464,7 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 70628 then--Permanent Feign Death
 		local cid = self:GetCIDFromGUID(UnitGUID(uId))
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\gather.mp3")--快集合
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\gather.mp3")--快集合
 		if cid == 70235 then--Frozen
 			iceInFront = iceInFront - 1
 			iceBehind = iceBehind + 2

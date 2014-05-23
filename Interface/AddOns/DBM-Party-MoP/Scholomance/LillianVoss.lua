@@ -48,7 +48,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 111585 and args:IsPlayer() and self:AntiSpam() then
 		specWarnDarkBlaze:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\keepmove.mp3")--保持移動
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\keepmove.mp3")--保持移動
 	elseif args.spellId == 111649 then--Soul released and body becomes inactive, phase 2.
 		timerShadowShivCD:Cancel()
 		timerDeathsGraspCD:Cancel()
@@ -61,7 +61,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFixateAnger:Show()
 --			soundFixateAnger:Play()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")--快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")--快跑
 		end
 	end
 end
@@ -69,7 +69,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(115350) then
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetchange.mp3")--目標改變
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\targetchange.mp3")--目標改變
 		end
 	end
 end
@@ -100,7 +100,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, _, _, _, overkill)
 	if (spellId == 111628 or spellId == 115361) and destGUID == UnitGUID("player") and self:AntiSpam(2) then
 		specWarnDarkBlaze:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

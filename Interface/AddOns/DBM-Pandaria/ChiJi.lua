@@ -53,7 +53,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnInspiringSong:Show(args.sourceName)
 		timerInspiringSongCD:Start()
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
 	elseif args.spellId == 144471 then
 		warnBlazingSong:Show()

@@ -55,7 +55,7 @@ function mod:StaticFieldTarget(targetname, uId)
 		if targetname == UnitName("player") then
 			specWarnStaticField:Show()
 			yellStaticField:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		else
 			if uId then
 				local x, y = GetPlayerMapPosition(uId)
@@ -66,7 +66,7 @@ function mod:StaticFieldTarget(targetname, uId)
 				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 				if inRange and inRange < 6 then
 					specWarnStaticFieldNear:Show(targetname)
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 				end
 			end
 		end
@@ -111,7 +111,7 @@ function mod:SPELL_CAST_START(args)
 		warnMagneticShroud:Show()
 		specWarnMagneticShroud:Show()
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\healall.mp3")--注意群療
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\healall.mp3")--注意群療
 		end
 		timerMagneticShroudCD:Start()
 	end
@@ -128,7 +128,7 @@ end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 128889 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		specWarnStaticField:Show()
 	end
 end

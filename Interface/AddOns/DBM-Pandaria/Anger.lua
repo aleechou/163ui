@@ -135,7 +135,7 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 119488 then
 		warnUnleashedWrath:Show()
 		specWarnUnleashedWrath:Show()
-		sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --AE
+		sndWOP:Schedule(2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3") --AE
 		timerUnleashedWrath:Start()
 	elseif args.spellId == 119622 then
 		timerGrowingAngerCD:Start()
@@ -164,11 +164,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnGrowingAnger:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\findmc.mp3") --心控
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(4.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(5.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\findmc.mp3") --心控
+			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+			sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(4.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(5.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 		self:Unschedule(showpreMC)
 		if #warnpreMCTargets >= 3 then
@@ -207,7 +207,7 @@ end
 function mod:UNIT_AURA(uId)
 	if UnitDebuff("player", bitterThought) and self:AntiSpam(2) and not playerMCed then
 		specWarnBitterThoughts:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 

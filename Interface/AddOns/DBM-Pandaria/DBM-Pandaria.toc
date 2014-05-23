@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Pandaria
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首领-Mop
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首領-Mop
-## Notes-zhCN: |cff00ff00DBM-Pandaria|r
-## Notes-zhTW: |cff00ff00DBM-Pandaria|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Pandaria|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0潘達利亞野外首領|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0潘达利亚野外首领|r
 ## Author: MysticalOS/nBlueWiz
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -15,12 +14,11 @@
 ## X-DBM-Mod-Sort: 6
 ## X-DBM-Mod-MapID: 870,1064
 ## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 Anger.lua
 Salyis.lua
 Nalak.lua

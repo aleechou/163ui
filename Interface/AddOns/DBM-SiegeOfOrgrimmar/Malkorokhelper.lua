@@ -710,7 +710,7 @@ local function BossmodseventHandler(self, event, ...)
 		end
 	elseif event == "CHAT_MSG_ADDON" then
 		local prefix, message, channel, sender = ...
-		if prefix == MSG_PREFIX and (channel=="RAID" or channel=="GUILD" or (channel=="WHISPER" and (UnitIsInMyGuild(sender)==1 or Ambiguate(sender, "none") == UnitName("player")))) then
+		if prefix == MSG_PREFIX and (channel=="RAID" or channel=="GUILD" or (channel=="WHISPER" and (UnitIsInMyGuild(sender)==1 or sender == UnitName("player")))) then
 			ExRTmods:ExBossmodsGetExMsg(sender, strsplit("\t", message))
 		end 
 	end

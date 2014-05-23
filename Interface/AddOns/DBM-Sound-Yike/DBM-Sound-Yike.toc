@@ -5,6 +5,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0DBM-夏一可语音包|r
 ## Author: Xia Yike
 ## RequiredDeps: DBM-Core
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 ## X-DBM-Mod-SoundFile: yike
 ## X-DBM-Mod-SoundFileName: Xia Yike(CN)
 ## X-DBM-Mod-SoundFileName-zhTW: 夏一可(CN)

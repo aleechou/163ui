@@ -56,7 +56,7 @@ function mod:SPELL_CAST_START(args)
 		timerBlueCrushCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnBlueCrush:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 		end
 	elseif args.spellId == 135621 then
 		warnStaticCharge:Show()
@@ -80,14 +80,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 --		timerEvilGlareCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnEvilGlare:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	elseif args.spellId == 133250 then
 		warnDestructolaser:Show()
 		timerDestructolaserCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnDestructolaser:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	elseif args.spellId == 140894 then
 		warnBoomingBoogaloo:Show()

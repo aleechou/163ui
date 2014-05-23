@@ -85,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 119922 then
 		warnShockwave:Show()
 		specWarnShockwave:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shockwave.mp3")--震懾波
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\shockwave.mp3")--震懾波
 		timerShockwaveCD:Start(shockwaveCD)
 	elseif args.spellId == 119981 then
 		warnWhirlingDervish:Show()
@@ -102,10 +102,10 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		warnMeteor:Show(target)
 		specWarnMeteor:Show(target)
 		if target == UnitName("player") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3")--快回人群
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3")--快回人群
+			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 		timerMeteorCD:Start()
 	end
@@ -169,7 +169,7 @@ Notes
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 120101 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnCC:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

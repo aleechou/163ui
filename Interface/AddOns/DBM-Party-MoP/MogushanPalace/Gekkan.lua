@@ -48,7 +48,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnHexDispel:Show(args.destName)
 		timerHex:Start(args.destName)
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")--快驅散
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")--快驅散
 		end
 	end
 end
@@ -76,7 +76,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnHexInterrupt:Show(args.sourceName)
 		timerHexCD:Start()
 		if args.sourceGUID == UnitGUID("target") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--打斷施法
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--打斷施法
 		end
 	elseif args.spellId == 118963 then
 		warnShank:Show()
@@ -85,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 		warnCleansingFlame:Show()
 		specWarnCleansingFlame:Show(args.sourceName)
 		if args.sourceGUID == UnitGUID("target") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--打斷施法
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--打斷施法
 		end
 	end
 end

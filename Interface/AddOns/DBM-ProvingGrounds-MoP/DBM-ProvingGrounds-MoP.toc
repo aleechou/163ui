@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Proving Grounds-MoP
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 白虎寺试练场
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 白虎寺試練場
-## Notes-zhCN: |cff00ff00DBM-ProvingGrounds-MoP|r
-## Notes-zhTW: |cff00ff00DBM-ProvingGrounds-MoP|r
+## X-Min-Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Proving Grounds-MoP|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0白虎寺試練場|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0白虎寺试练场|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -17,10 +16,9 @@
 ## X-DBM-Mod-Name-zhCN: 白虎寺试练场
 ## X-DBM-Mod-Sort: 40
 ## X-DBM-Mod-MapID: 1148
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 PGWhiteTiger.lua

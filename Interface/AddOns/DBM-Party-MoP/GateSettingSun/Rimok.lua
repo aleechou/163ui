@@ -33,7 +33,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 107122 and args:IsPlayer() and self:AntiSpam(3, 1) then
 		specWarnViscousFluid:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	elseif args.spellId == 107120 then
 		timerFrenziedAssault:Start()
 		timerFrenziedAssaultCD:Start()
@@ -46,7 +46,7 @@ function mod:SPELL_CAST_START(args)
 		warnFrenziedAssault:Show()
 		specWarnFrenziedAssault:Show()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		end
 	end
 end
@@ -54,7 +54,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 107121 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnAssaultMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

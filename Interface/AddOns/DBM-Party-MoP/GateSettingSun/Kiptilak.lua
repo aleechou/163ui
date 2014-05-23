@@ -36,19 +36,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 107268 then
 		warnSabotage:Show(args.destName)
 		timerSabotage:Start(args.destName)
-		sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(4.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(4.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerSabotageCD:Start()
 		if self.Options.IconOnSabotage then
 			self:SetIcon(args.destName, 8)
 		end
 		if args:IsPlayer() then
 			specWarnSabotage:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")--跑開人群
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")--跑開人群
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombsoon.mp3")--準備炸彈
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bombsoon.mp3")--準備炸彈
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
 				local x, y = GetPlayerMapPosition(uId)

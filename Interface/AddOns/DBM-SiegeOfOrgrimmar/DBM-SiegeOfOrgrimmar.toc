@@ -1,15 +1,14 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Siege of Orgrimmar
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 决战奥格瑞玛
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 圍攻奧格瑪
-## Notes-zhCN: |cff00ff00DBM-SiegeOfOrgrimmar|r
-## Notes-zhTW: |cff00ff00DBM-SiegeOfOrgrimmar|r
+## X-Min-Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Siege of Orgrimmar|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0圍攻奧格瑪|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0决战奥格瑞玛|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMSiegeOfOrgrimmar_SavedVars, DBMSiegeOfOrgrimmar_SavedStats, ExRT
 ## X-DBM-Mod-Name: Siege of Orgrimmar
-## X-DBM-Mod-Name-zhTW: 圍攻奧格瑪
+## X-DBM-Mod-Name-zhTW: 圍攻奧格瑪 (SoO)
 ## X-DBM-Mod-Name-zhCN: 决战奥格瑞玛
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -19,12 +18,11 @@
 ## X-DBM-Mod-Sort: 1
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-Block-Movie-Skip-ItemID: 105930,105931,105932,105933,105934,105935
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 Immerseus.lua
 FallenProtectors.lua
 Norushen.lua

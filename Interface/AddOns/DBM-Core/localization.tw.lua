@@ -1,7 +1,7 @@
 ﻿if GetLocale() ~= "zhTW" then return end
 
 DBM_CORE_NEED_SUPPORT				= "你是否擁有良好的程式開發或語言能力? 如果是的話, DBM團隊真的需要你的幫助以保持成為WOW裡最佳的首領模組。觀看 www.deadlybossmods.com 或發送郵件到 tandanu@deadlybossmods.com 或 nitram@deadlybossmods.com 來加入團隊。"
-DBM_HOW_TO_USE_MOD					= "歡迎使用DBM-語音版。在聊天頻道輸入 /dbm 打開設定開始設定。你可以載入特定區域後為任何首領設定你喜歡的特別設置。DBM會在第一次啟動時嘗試掃描你的職業天賦，但有些選項你可能想打開。"
+DBM_HOW_TO_USE_MOD					= "歡迎使用黑手之鄉DBM-語音版。在聊天頻道輸入 /dbm 打開設定開始設定。你可以載入特定區域後為任何首領設定你喜歡的特別設置。DBM會在第一次啟動時嘗試掃描你的職業天賦，但有些選項你可能想打開。"
 
 DBM_FORUMS_MESSAGE					= "發現BUG或錯誤? 希望有新的警告，計時器或是特別功能? \n |HDBM:論壇|h|cff3588ffhttp://bbs.ngacn.cc/read.php?tid=5397726&page=1|r (你可以點擊複製網址)"
 DBM_FORUMS_COPY_URL_DIALOG			= "拜訪我們的討論與支援論壇\r"
@@ -98,9 +98,8 @@ DBM_PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h向你發送了一個倒數計
 DBM_PIZZA_CONFIRM_IGNORE			= "是否要在該次遊戲連結中忽略來自%s的計時？"
 DBM_PIZZA_ERROR_USAGE				= "命令：/dbm [broadcast] timer <時間（秒）> <文字>"
 
-DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
--- DBM_CORE_MINIMAP_TOOLTIP_FOOTER			= "Shift+左鍵或右鍵點擊即可移動"
-DBM_CORE_MINIMAP_TOOLTIP_FOOTER			= "左鍵點擊進入詳細設置"
+--DBM_CORE_MINIMAP_TOOLTIP_HEADER (Same as English locales)
+DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+左鍵或右鍵點擊即可移動，Alt+Shift+點擊即可拖放"
 
 DBM_CORE_RANGECHECK_HEADER			= "距離監視（%d碼）"
 DBM_CORE_RANGECHECK_SETRANGE		= "設置距離"
@@ -299,9 +298,9 @@ DBM_ARROW_ERROR_USAGE	= {
 	"/dbm arrow move  可移動箭頭"
 }
 
-DBM_SPEED_KILL_TIMER_TEXT			= "記錄擊殺"
-DBM_SPEED_KILL_TIMER_OPTION			= "計時器：上次的最快擊殺"
-DBM_SPEED_CLEAR_TIMER_TEXT			= "清除記錄"
+DBM_SPEED_KILL_TIMER_TEXT	= "勝利紀錄"
+DBM_SPEED_KILL_TIMER_OPTION			= "計時器：最快勝利"
+DBM_SPEED_CLEAR_TIMER_TEXT	= "最佳紀錄"
 
 
 DBM_REQ_INSTANCE_ID_PERMISSION		= "%s想要查看你的副本ID和進度鎖定情況。\n你想發送該訊息給%s嗎? 在你的當前進程（除非你下線）他可以一直查閱該訊息。"
@@ -329,11 +328,7 @@ DBM_CORE_GUILDAD_HEADER_GENERIC		= "黑手之鄉簡介"
 DBM_CORE_GUILDAD_GENERIC			= "        黑手之鄉成立于2007年10月17日，前身是國服三區雷斧堡壘的聯盟公會盟誓的二團。團長一直是阿爾貝裏希（在台服改名爲Aberich）。\n\n        2010年1月，黑手的骨幹十多名玩家一起轉戰台服pve服務器眾星之子，希望能在台服繼續我們的夢想。4.2國服同步後，由于團隊已經一部分本土化，團隊留在了台服並准備一直留下去。\n\n        公會現有25人團隊一支，從3.3至今所有版本25人H模式當前版本皆全通。5.1版本25人團排名臺服第八，並轉服至世界之樹，5.2版本和5.4版本25人團隊都拿到服務器首位刷屏。\n\n        公會活動時間：開荒期間周四五六 周一二三(也就是除了周日都有活動)，farm期間周五周六周一周二(或者更少)，晚上7:40開組，8:00開打，12:00左右結束。"
 DBM_CORE_GUILDAD_FOOTER_GENERIC		= "|h|cff3588ff重點招募\n盜賊             法師             戰士\n具體要求加QQ談   聯系QQ:313082736 注明wow和自己的職業|r|h"
 
-DBM_CORE_SOUNDGRIL_NAME_YIKE		= "夏一可"
-DBM_CORE_SOUNDGRIL_TEXT_YIKE		= "    夏一可，又名可可超人，女，真名不詳，《我叫MT》中法師和美屢的配音，魔獸世界知名解說，部落控。2009年進入西南科技大學。高三時因參加唱響艾澤拉斯而成名。"
-
-DBM_CORE_SOUNDGRIL_NAME_YUN			= "芷小芸"
-DBM_CORE_SOUNDGRIL_TEXT_YUN			= "    芷小芸，來自中國台灣省的魔獸世界美女玩家，現為台服世界之樹《黑手之鄉》公會人類死亡騎士。"
-
-DBM_CORE_SOUNDGRIL_NAME_SST			= "Iceoven"
-DBM_CORE_SOUNDGRIL_TEXT_SST			= "    All Voice generated via VoiceRss TTS (Text To Speech), API by Iceoven (Worgen Mage from Ancient Ones @ US-Dath'Remar)."
+DBM_CORE_SOUND_NOFILE		 		= "未發現語音文件"
+DBM_CORE_SOUND_NOFILEUSAGE		 	= "    DBM沒有發現已啟用的語音包，請檢查語音包是否正確並已啟用"
+DBM_CORE_SOUND_UNNAME		 		= "自定義語音"
+DBM_CORE_SOUND_UNUSAGE		 		= "    這是一份自定義的語音文件，但作者很懶，他沒有寫介紹。"

@@ -44,9 +44,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnSmash:Show()
 		timerSmashCD:Start()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shockwave.mp3")--震懾波
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\shockwave.mp3")--震懾波
 		end
 	end
 end
@@ -83,7 +83,7 @@ Notes
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 119311 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
 		specWarnBlades:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

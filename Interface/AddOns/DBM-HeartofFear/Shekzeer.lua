@@ -115,105 +115,105 @@ local function MyDR()  --公會P3減傷提示
 	mod:Schedule(10, function()
 		warnDr:Show("薩滿A","靈魂連接",10)
 		if mod.Options.optjs == "shaman1" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("靈魂連接")
 		end
 	end)
 	mod:Schedule(20, function()
 		warnDr:Show("薩滿A","寧靜圖騰",20)
 		if mod.Options.optjs == "shaman1" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("寧靜圖騰")
 		end
 	end)
 	mod:Schedule(30, function()
 		warnDr:Show("騎士A","虔誠光環",30)
 		if mod.Options.optjs == "pal1" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("虔誠光環")
 		end
 	end)
 	mod:Schedule(40, function()
 		warnDr:Show("補牧A","罩子",40)
 		if mod.Options.optjs2 == "priest1" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("罩子")
 		end
 	end)
 	mod:Schedule(50, function()
 		warnDr:Show("騎士B","虔誠光環",50)
 		if mod.Options.optjs == "pal2" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("虔誠光環")
 		end
 	end)
 	mod:Schedule(60, function()
 		warnDr:Show("補牧B","罩子",60)
 		if mod.Options.optjs2 == "priest2" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("罩子")
 		end
 	end)
 	mod:Schedule(70, function()
 		warnDr:Show("騎士C","虔誠光環",70)
 		if mod.Options.optjs == "pal3" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("虔誠光環")
 		end
 	end)
 	mod:Schedule(80, function()
 		warnDr:Show("戰士A","吼血",80)
 		if mod.Options.optjs == "warrior1" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("吼血")
 		end
 	end)
 	mod:Schedule(90, function()
 		warnDr:Show("暗牧","吸血鬼",90)
 		if mod.Options.optjs2 == "priest4" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("吸血鬼")
 		end
 	end)
 	mod:Schedule(100, function()
 		warnDr:Show("死騎","罩子",100)
 		if mod.Options.optjs == "dk" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("罩子")
 		end
 	end)
 	mod:Schedule(110, function()
 		warnDr:Show("牧師C","罩子",110)
 		if mod.Options.optjs2 == "priest3" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("罩子")
 		end
 	end)
 	mod:Schedule(120, function()
 		warnDr:Show("薩滿B","寧靜圖騰",120)
 		if mod.Options.optjs == "shaman2" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("寧靜圖騰")
 		end
 	end)
 	mod:Schedule(130, function()
 		warnDr:Show("薩滿B","靈魂連接",130)
 		if mod.Options.optjs == "shaman2" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("靈魂連接")
 		end
 	end)
 	mod:Schedule(140, function()
 		warnDr:Show("小德","寧靜",140)
 		if mod.Options.optjs == "druid" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("寧靜")
 		end
 	end)
 	mod:Schedule(150, function()
 		warnDr:Show("戰士B","吼血",150)
 		if mod.Options.optjs == "warrior2" then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 			specWarnjs:Show("吼血")
 		end
 	end)
@@ -327,12 +327,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerEyesCD:Start()
 		if args:IsPlayer() and (args.amount or 1) >= 4 then
 			specWarnEyes:Show(args.amount)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_csgg.mp3") --層數過高
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_csgg.mp3") --層數過高
 		else
 			if (args.amount or 1) >= 3 and not UnitDebuff("player", GetSpellInfo(123735)) and not UnitIsDeadOrGhost("player") then
 				specWarnEyesOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 				end
 			end
 		end
@@ -343,7 +343,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnCryOfTerror:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_kjyy.mp3") --快進音域
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_kjyy.mp3") --快進音域
 		end
 	elseif args:IsSpellID(124748) then
 		warnAmberTrap:Show(args.amount or 1)
@@ -355,7 +355,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnFixate:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 		end
 	elseif args:IsSpellID(124862) then
 		visonsTargets[#visonsTargets + 1] = args.destName
@@ -363,10 +363,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specwarnVisions:Show()
 			yellVisions:Yell()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3") --離開人群
+			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 		if self:AntiSpam(5, 3) then
 			swcount = swcount + 1
@@ -374,15 +374,15 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnTT:Schedule(1, swcount, 3)
 				specWarnTT:Schedule(2, swcount, 2)
 				specWarnTT:Schedule(3, swcount, 1)
-				sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_zlzb.mp3") --戰慄準備
-				sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndWOP:Schedule(1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zlzb.mp3") --戰慄準備
+				sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 			end
 			if swcount == 12 then swcount = 0 end
 		end
 		if mod:IsHealer() then
-			sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 		end
 		self:Unschedule(warnVisionsTargets)
 		self:Schedule(0.3, warnVisionsTargets)
@@ -406,7 +406,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specwarnStickyResin:Show()
 			DBM.Flash:Shake(1, 1, 0)
 			yellStickyResin:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_szkp.mp3") --樹脂
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_szkp.mp3") --樹脂
 		end
 		if not resinTargets[args.destName] then --prevent spam in heroic
 			resinTargets[args.destName] = true
@@ -424,7 +424,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not UnitDebuff("player", GetSpellInfo(123788)) then
 			if args:IsPlayer() then
 				specwarnXJ:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 			end
 		end
 	elseif args:IsSpellID(124821) then
@@ -439,7 +439,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(124077) then
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then--Only show warning for your own target.
 			specWarnDispatch:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--快打斷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")--快打斷
 		end
 		if self:IsDifficulty("normal25", "heroic25", "lfr25") then
 			timerDispatchCD:Start()--25 is about 12-15 variation
@@ -452,7 +452,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnHeartOfFear:Show()
 			yellHeartOfFear:Yell()
 			timerHeartOfFear:Start()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_lxkp.mp3")--連線快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_lxkp.mp3")--連線快跑
 		end
 	end
 end
@@ -463,11 +463,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerCryOfTerror:Cancel(args.destName)
 	elseif args:IsSpellID(123707) then
 		if mod:IsTank() and (not ptwo) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3") --換坦嘲諷
 		end
 	elseif args:IsSpellID(125390) then
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3") --安全
 		end
 	elseif args:IsSpellID(124097) then
 		if self.Options.StickyResinIcons then
@@ -495,7 +495,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerScreechCD:Start()
 	elseif args:IsSpellID(125826) then
 		specwarnAmberTrap:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_xjwc.mp3") --陷阱完成
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_xjwc.mp3") --陷阱完成
 	elseif args:IsSpellID(124845) then
 		warnCalamity:Show()
 		timerCalamityCD:Start()
@@ -508,18 +508,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerPhase2:Cancel()
 		timerConsumingTerrorCD:Cancel()
 		timerCryOfTerrorCD:Cancel()
 		timerDissonanceFieldCD:Cancel()
 		timerScreechCD:Cancel()
 		warnPhase3:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
 		timerVisionsCD:Start(4)
 		timerCalamityCD:Start(9)
 		timerConsumingTerrorCD:Start(11)
@@ -552,7 +552,7 @@ function mod:SPELL_CAST_START(args)
 		if mod:IsTank() then
 			DBM.Flash:Shake(1, 0, 0)
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_kjts.mp3")--恐懼吞噬
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_kjts.mp3")--恐懼吞噬
 	end
 end
 
@@ -567,18 +567,18 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerPhase2:Cancel()
 		timerCryOfTerrorCD:Cancel()
 		timerConsumingTerrorCD:Cancel()
 		timerDissonanceFieldCD:Cancel()
 		timerScreechCD:Cancel()
 		warnPhase3:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
 		timerVisionsCD:Start(7)
 		timerCalamityCD:Start(12)
 		timerConsumingTerrorCD:Start(14)
@@ -602,12 +602,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnRetreat:Show()
 		timerPhase1:Start()
 		ptwo = true
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")--階段轉換
-		sndWOP:Schedule(152, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_nwzb.mp3") --女王準備
-		sndWOP:Schedule(153, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(154, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(155, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(156, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")--階段轉換
+		sndWOP:Schedule(152, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_nwzb.mp3") --女王準備
+		sndWOP:Schedule(153, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(154, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(155, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(156, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(L.PlayerDebuffs)
 			DBM.InfoFrame:Show(10, "playerbaddebuff", 125390)
@@ -618,23 +618,23 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 125304 then
 		fieldCount = 0
 		timerPhase1:Cancel()--If you kill everything it should end early.
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_nwzb.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_nwzb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		warnAdvance:Show()
 		specWarnAdvance:Show()
 		timerDissonanceFieldCD:Start(20, 1)
 		timerPhase2:Start()--Assumed same as pull
 		ptwo = false
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")--階段轉換
-		sndWOP:Schedule(147, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--P2
-		sndWOP:Schedule(148, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(149, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(150, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(151, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")--階段轉換
+		sndWOP:Schedule(147, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--P2
+		sndWOP:Schedule(148, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(149, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(150, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(151, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self.Options.InfoFrame then--Will do this more accurately when i have an accurate count of mobs for all difficulties and then i can hide it when mobcount reaches 0
 			DBM.InfoFrame:Hide()
 		end
@@ -662,12 +662,12 @@ function mod:UNIT_HEALTH_FREQUENT_UNFILTERED(uId)
 		if UnitDebuff("player", GetSpellInfo(123184)) then
 			if self:IsDifficulty("heroic10", "heroic25") then
 				if UnitHealth(uId) / UnitHealthMax(uId) <= 0.8 and not warnedhp then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\checkhp.mp3")--注意血量
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\checkhp.mp3")--注意血量
 					warnedhp = true
 				end
 			else
 				if UnitHealth(uId) / UnitHealthMax(uId) <= 0.5 and not warnedhp then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\checkhp.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\checkhp.mp3")
 					warnedhp = true
 				end
 			end
@@ -698,27 +698,27 @@ function mod:OnSync(msg, guid, hp)
 			warnedLowHP[guid] = true
 			warnSonicDischarge:Show()--This only works if someone in raid is actually targeting them :(
 			specwarnSonicDischarge:Show()--But is extremly useful when they are.
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_ybbz.mp3") --音波爆炸準備
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_ybbz.mp3") --音波爆炸準備
 		end
 		if warnhp == 5  and not warnedLowHP5[guid] then
 			warnedLowHP5[guid] = true
-			sndYB:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+			sndYB:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
 		end
 		if warnhp == 4  and not warnedLowHP4[guid] then
 			warnedLowHP4[guid] = true
-			sndYB:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndYB:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
 		end
 		if warnhp == 3  and not warnedLowHP3[guid] then
 			warnedLowHP3[guid] = true
-			sndYB:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndYB:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
 		end
 		if warnhp == 2  and not warnedLowHP2[guid] then
 			warnedLowHP2[guid] = true
-			sndYB:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndYB:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
 		end
 		if warnhp == 1  and not warnedLowHP1[guid] then
 			warnedLowHP1[guid] = true
-			sndYB:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndYB:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	elseif msg == "swpos" and guid and hp then
 		if guid == UnitName("player") then
@@ -748,6 +748,6 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:126121") then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_yyfh.mp3") --音域腐化
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_yyfh.mp3") --音域腐化
 	end
 end

@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Terrace of Endless Spring
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 永春台
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 豐泉台
-## Notes-zhCN: |cff00ff00DBM-TerraceofEndlessSpring|r
-## Notes-zhTW: |cff00ff00DBM-TerraceofEndlessSpring|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Terrace of Endless Spring|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0永春台|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0豐泉台  (ToES)|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -13,17 +12,15 @@
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-Name: Terrace of Endless Spring
-## X-DBM-Mod-Name-zhTW: 豐泉台
+## X-DBM-Mod-Name-zhTW: 豐泉台  (ToES)
 ## X-DBM-Mod-Name-zhCN: 永春台
 ## X-DBM-Mod-Sort: 3
 ## X-DBM-Mod-MapID: 996
-## X-DBM-Mod-LoadZoneID: 886
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 ProtectorsofEndless.lua
 Tsulong.lua
 LeiShi.lua

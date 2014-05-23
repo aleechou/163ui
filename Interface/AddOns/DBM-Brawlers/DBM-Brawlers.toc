@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Brawlers
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 搏击俱乐部
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 鬥陣俱樂部
-## Notes-zhCN: |cff00ff00DBM-Brawlers|r
-## Notes-zhTW: |cff00ff00DBM-Brawlers|r
+## X-Min-Interface: 50100
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Brawlers|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0搏击俱乐部|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0鬥陣俱樂部|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -18,14 +17,12 @@
 ## X-DBM-Mod-Sort: 35
 ## X-DBM-Mod-MapID: 369,1043
 ## X-DBM-Mod-ForceLoad-MapID: 369,1043
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
-
 Brawlers.lua
-
 Rank1.lua
 Rank2.lua
 Rank3.lua

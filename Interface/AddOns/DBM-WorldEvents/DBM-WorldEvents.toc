@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r World Events
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 世界事件
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 世界事件
-## Notes-zhCN: |cff00ff00DBM-WorldEvents|r
-## Notes-zhTW: |cff00ff00DBM-WorldEvents|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0World Events|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0世界事件|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0世界事件|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -22,25 +21,21 @@
 ## X-DBM-Mod-ForceLoad-MapID: 974
 ## X-DBM-Mod-Sort: 50
 ## X-DBM-Mod-LoadCID: 55003,54499,15467,15466,49687
-## X-DBM-Mod-LoadZoneID: 704,762,764,728,823
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 Holidays\Omen.lua
 Holidays\ApothecaryTrio.lua
 Holidays\Ahune.lua
 Holidays\CorenDirebrew.lua
 Holidays\HeadlessHorseman.lua
 Holidays\Greench.lua
-
 DMF\Cannon.lua
 DMF\Gnoll.lua
 DMF\Shot.lua
 DMF\Tonks.lua
 DMF\Rabbit.lua
 DMF\Moonfang.lua
-
 Quests\Plants.lua

@@ -66,7 +66,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFists:Show()
 		timerFistsOfFuryCD:Start()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		end
 	elseif args.spellId == 106434 then
 		warnTornadoKick:Show()
@@ -79,10 +79,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		phase = phase + 1
 		if phase == 2 then
 			warnPhase2:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
 		elseif phase == 3 then
 			warnPhase3:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")
 		end
 		timerFistsOfFuryCD:Cancel()
 		timerTornadoKickCD:Cancel()

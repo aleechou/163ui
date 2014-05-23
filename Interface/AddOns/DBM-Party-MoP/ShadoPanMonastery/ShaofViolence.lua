@@ -30,7 +30,7 @@ function mod:ShaSpikeTarget(targetname, uId)
 	warnShaSpike:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnShaSpike:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	else
 		if uId then
 			local x, y = GetPlayerMapPosition(uId)
@@ -41,7 +41,7 @@ function mod:ShaSpikeTarget(targetname, uId)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnShaSpikeNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 			end
 		end
 	end
@@ -65,7 +65,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnDisorientingSmash:Show(args.destName)
 		timerDisorientingSmashCD:Start()
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")--快驅散
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")--快驅散
 		end
 	end
 end

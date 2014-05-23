@@ -161,7 +161,7 @@ function mod:ScalpelTarget()
 			specwarnAmberScalpel:Show()
 			yellAmberScalpel:Yell()
 			timerAmberScalpel:Start()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3") --快跑
 		else
 			local uId = DBM:GetRaidUnitId(targetname)
 			if uId then
@@ -187,7 +187,7 @@ local function warnAmberExplosionCast(spellId)
 	if #canInterrupt == 0 then--This will never happen if fired by "InterruptAvailable" sync since it should always be 1 or greater. This is just a fallback if contructs > 0 and we scheduled "warnAmberExplosionCast" there
 		specwarnAmberExplosion:Show(spellId == 122402 and Monstrosity or MutatedConstruct)--No interupts, warn the raid to prep for aoe damage with beware! alert.
 		if spellId == 122398 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_hpbz.mp3") --琥珀爆炸
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_hpbz.mp3") --琥珀爆炸
 		end
 	else--Interrupts available, lets call em out as a great tool to give raid leader split second decisions on who to allocate to the task (so they don't all waste it on same target and not have for next one).
 		warnInterruptsAvailable:Show(spellId == 122402 and Monstrosity or MutatedConstruct, table.concat(canInterrupt, "<, >"))
@@ -289,7 +289,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerParasiticGrowth:Start(args.destName)
 		timerParasiticGrowthCD:Start()
 		if mod:IsHealer() and (not playerIsConstruct) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_jscz.mp3") --寄生成長
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_jscz.mp3") --寄生成長
 		end
 	elseif args:IsSpellID(122540) then
 		constructCount = 0
@@ -302,14 +302,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlingCD:Start(33)
 		warnAmberExplosionSoon:Schedule(50.5)
 		timerAmberExplosionAMCD:Start(55.5, amberExplosion)
-		sndWOP:Schedule(48.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
-		sndWOP:Schedule(49.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
-		sndWOP:Schedule(50.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-		sndWOP:Schedule(51.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(52.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(53.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(54.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--P2
+		sndWOP:Schedule(48.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
+		sndWOP:Schedule(49.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
+		sndWOP:Schedule(50.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+		sndWOP:Schedule(51.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(52.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(53.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(54.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--P2
 	elseif args:IsSpellID(122395) and Phase < 3 and not playerIsConstruct then
 		warnStruggleForControl:Show(args.destName)
 		timerStruggleForControl:Start(args.destName)
@@ -328,7 +328,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specwarnReshape:Show()
 			warnReshapeLifeTutor:Show()
 			timerAmberExplosionCD:Start(15, args.destName)--Only player needs to see this, they are only person who can do anything about it.
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_nbzh.mp3") --你被轉化
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_nbzh.mp3") --你被轉化
 			if self.Options.FixNameplates and IsAddOnLoaded("TidyPlates_ThreatPlates") then
 				if TPTPNormal == true then
 					TidyPlatesThreat.db.profile.nameplate.toggle["Normal"] = false
@@ -347,7 +347,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnAmberGlob:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\orbrun.mp3") --寶珠快跑
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\orbrun.mp3") --寶珠快跑
 		end
 	end
 end
@@ -379,18 +379,18 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args:IsSpellID(122540) then--Phase 3
 		constructCount = 0
 		Phase = 3
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\pthree.mp3")--p3
 		timerMassiveStompCD:Cancel()
 		timerFlingCD:Cancel()
 		timerAmberExplosionAMCD:Cancel()
 		timerDestabalize:Cancel(Monstrosity)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		warnAmberExplosionSoon:Cancel()
 		updateInfoFrame()
 		--He does NOT reset reshape live cd here, he finishes out last CD first, THEN starts using new one.
@@ -420,7 +420,7 @@ function mod:SPELL_CAST_START(args)
 		elseif args.sourceGUID == UnitGUID("player") then--Cast by YOU
 			specwarnAmberExplosionYou:Show(args.spellName)
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3") --停止施法
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3") --停止施法
 			timerAmberExplosionCD:Start(13, args.sourceName)--Only player needs to see this, they are only person who can do anything about it.
 		end
 	elseif args:IsSpellID(122402) then--Amber Monstrosity
@@ -431,25 +431,25 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		warnAmberExplosion:Show(args.sourceName, args.spellName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_jgbz.mp3") --巨怪爆炸
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_jgbz.mp3") --巨怪爆炸
 		warnAmberExplosionSoon:Cancel()
 		warnAmberExplosionSoon:Schedule(41)
 		timerAmberExplosion:Start()
 		timerAmberExplosionAMCD:Start(46, args.spellName)
-		sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
-		sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
-		sndWOP:Schedule(41, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-		sndWOP:Schedule(42, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(43, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(44, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(45, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(39, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countseven.mp3")
+		sndWOP:Schedule(40, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countsix.mp3")
+		sndWOP:Schedule(41, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+		sndWOP:Schedule(42, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(43, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(44, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(45, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		self:Unschedule(warnAmberExplosionCast)
 		self:Schedule(0.5, warnAmberExplosionCast, 122402)--Always check available interrupts and special warn if not
 	elseif args:IsSpellID(122408) then
 		if not playerIsConstruct then
 			warnMassiveStomp:Show()--Don't even need normal warning as a construct, it just doesn't matter
 			specwarnMassiveStomp:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3") --準備踐踏
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3") --準備踐踏
 		end
 		timerMassiveStompCD:Start()--Still start timer so you still have it when you leave construct
 	elseif args:IsSpellID(122413) then
@@ -487,13 +487,13 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 122504 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specwarnBurningAmber:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif spellId == 121995 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnScalpel:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	elseif spellId == 122005 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnScalpelAmber:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -517,7 +517,7 @@ function mod:UNIT_POWER(uId)
 	elseif playerWill < 18 and not warnedWill then--5 seconds before 0 (after subtracking a budget of 8 for interrupt)
 		warnedWill = true
 		specwarnWillPower:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_yzgd.mp3") --意志過低
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_yzgd.mp3") --意志過低
 	elseif playerWill == 10 and willNumber > 10 then--Works
 		willNumber = 10
 		warnWillPower:Show(willNumber)
@@ -553,7 +553,7 @@ end
 function mod:SWING_DAMAGE(sourceGUID, _, _, _, destGUID)
 	local cid = self:GetCIDFromGUID(sourceGUID)
 	if cid == 62691 and destGUID == UnitGUID("player") and not warnedoo[sourceGUID] and not playerIsConstruct then
-		sndADD:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
+		sndADD:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\didi.mp3")
 		specwarnOOYou:Show()
 		warnedoo[sourceGUID] = true
 	end

@@ -44,7 +44,7 @@
 
 
 
-local revision =("$Revision: 10490 $"):sub(12, -3)
+local revision =("$Revision: 10687 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 local fixeditframe = false
 
@@ -1572,15 +1572,21 @@ local function CreateOptionsMenu()
 		RaidWarnSoundDropDown:SetPoint("TOPLEFT", ShowCountdownText, "BOTTOMLEFT", 10, -20)
 
 		local countSounds = {
-			{	text	= L.yike,	value 	= "Mosh"},
-			{	text	= L.yun,	value 	= "yun"},
-			{	text	= L.sst,	value 	= "sst"},
-			{	text	= DBM_CORE_SOUNDGRIL_CUSTOM,	value 	= "other"},
+			{	text	= DBM_CORE_SOUND_NOFILE,	value 	= "None"},
 		}
+		if #DBM.Soundfile > 0 and DBM.Soundfile[#DBM.Soundfile].Path then
+			table.wipe(countSounds)
+			for i = 1, #DBM.Soundfile do
+				tinsert(countSounds, {
+					text			= DBM.Soundfile[i].Name,
+					value			= DBM.Soundfile[i].Path,
+				})
+			end
+		end
 		local CountSoundDropDown = raidwarnoptions:CreateDropdown(L.CountdownVoice, countSounds,
 		DBM.Options.CountdownVoice, function(value)
 			DBM.Options.CountdownVoice = value
-			PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\movesoon.mp3", "Master")
+			PlaySoundFile("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\movesoon.mp3", "Master")
 			DBM:ShowSoundMM()
 		end
 		)

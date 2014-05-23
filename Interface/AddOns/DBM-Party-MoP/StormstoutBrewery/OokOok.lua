@@ -51,7 +51,7 @@ function mod:SPELL_CAST_START(args)
 		warnGroundPound:Show()
 		specWarnGroundPound:Show()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		end
 		timerGroundPoundCD:Start()
 	end

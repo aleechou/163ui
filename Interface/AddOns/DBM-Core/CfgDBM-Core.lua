@@ -42,6 +42,7 @@ U1RegisterAddon("DBM-Core", {
     --]]
 });
 
+U1RegisterAddon("DBM-StatusBarTimers", {title = "状态条计时器", load = "LOGIN",protected = 1, hide = 1, });
 U1RegisterAddon("DBM-RaidLeadTools", {title = "团长工具箱", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-GUI", {title = "配置选项模块", protected = nil, hide = nil, });
 U1RegisterAddon("DBM-DefaultSkin", {title = "默认皮肤", protected = nil, hide = nil, });

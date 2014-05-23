@@ -105,9 +105,8 @@ DBM_PIZZA_ERROR_USAGE				= "命令：/dbm [broadcast] timer <时间（秒）> <�
 
 DBM_CORE_ERROR_DBMV3_LOADED			= "目前有2个版本的Deadly Boss Mods正在运行：DBMv3和DBMv4。\n单击“确定”按钮可将DBMv3关闭并重载用户界面。\n我们建议将插件目录下的DBMv3删除。"
 
-DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
--- DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+单击或右键点击即可移动"
-DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "左键点击进入详细配置"
+--DBM_CORE_MINIMAP_TOOLTIP_HEADER (Same as English locales)
+DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+拖动 / 右键拖动：拖动\nAlt+Shift+拖动：自由拖动"
 
 DBM_CORE_RANGECHECK_HEADER			= "距离监视（%d码）"
 DBM_CORE_RANGECHECK_SETRANGE		= "设置距离"
@@ -172,7 +171,7 @@ DBM_CORE_BREAK_START				= "开始休息 - %s分钟！"
 DBM_CORE_BREAK_MIN					= "%s分钟后休息结束！"
 DBM_CORE_BREAK_SEC					= "%s秒后休息结束！"
 DBM_CORE_TIMER_BREAK				= "休息时间！"
-DBM_CORE_ANNOUNCE_BREAK_OVER		= "休息时间已经结束"
+DBM_CORE_ANNOUNCE_BREAK_OVER		= "休息已结束"
 
 DBM_CORE_TIMER_PULL					= "开怪倒计时"
 DBM_CORE_ANNOUNCE_PULL				= "%d秒后开怪  (%s)"
@@ -318,22 +317,22 @@ DBM_ARROW_ERROR_USAGE	= {
 
 DBM_SPEED_KILL_TIMER_TEXT	= "击杀记录"
 DBM_SPEED_KILL_TIMER_OPTION	= "计时条：最速击杀记录"
-DBM_SPEED_CLEAR_TIMER_TEXT	= "清除记录"
+DBM_SPEED_CLEAR_TIMER_TEXT	= "最速清除"
 
 
-DBM_REQ_INSTANCE_ID_PERMISSION		= "%s想要查看你的副本ID和进度锁定情况。\n你想发送该信息给%s吗? 在你的当前进程（除非你下线）他可以一直查阅该信息。"
-DBM_ERROR_NO_RAID					= "你必须在一个团队中才可以使用这个功能。"
-DBM_INSTANCE_INFO_REQUESTED			= "查看团队成员的副本锁定情况。\n请注意，队员们将会被询问是否愿意发送数据给你，因此可能需要等待一段时间才能获得全部的回复。"
-DBM_INSTANCE_INFO_STATUS_UPDATE		= "从%d个玩家获得反馈，来自%d个DBM用户：%d人发送了数据, %d人拒绝回传数据。等待结果还需要%d秒..."
-DBM_INSTANCE_INFO_ALL_RESPONSES		= "已获得全部团队成员的回传数据"
-DBM_INSTANCE_INFO_DETAIL_DEBUG		= "发送者: %s 结果类型: %s 副本名称: %s 副本ID: %s 难度: %d 团队人数: %d 进度: %s"
-DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s (%d), 难度 %d:"
-DBM_INSTANCE_INFO_DETAIL_INSTANCE	= "    ID %s, 进度 %d: %s"
+DBM_REQ_INSTANCE_ID_PERMISSION		= "%s请求获取你现在副本的存档ID与进度。是否愿意向&s提交进度？\n\n注意：在接受后，他可以随时查看您当前的进度情况，直到您下线、掉线或重载用户界面。"
+DBM_ERROR_NO_RAID					= "使用该功能需要身处一个团队中。"
+DBM_INSTANCE_INFO_REQUESTED			= "已发送团队副本进度查看请求。\n请注意，团员会根据需要选择接受或拒绝该请求。请求时间约一分钟，请等待。"
+DBM_INSTANCE_INFO_STATUS_UPDATE		= "已收到%d名团员的进度回复（已安装DBM的团员有%d名）：%d人接受请求，%d人拒绝。生成数据需要约%d秒，请等待。"
+DBM_INSTANCE_INFO_ALL_RESPONSES		= "所有团员接受请求。"
+DBM_INSTANCE_INFO_DETAIL_DEBUG		= "发送者：%s 结果类型：%s 副本名：%s 副本ID：%s 难度：%d 规模：%d 进度：%s"
+DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s（%d），难度%d："
+DBM_INSTANCE_INFO_DETAIL_INSTANCE	= "    ID %s, 进度%d：%s"
 DBM_INSTANCE_INFO_STATS_DENIED		= "拒绝请求：%s"
 DBM_INSTANCE_INFO_STATS_AWAY		= "暂离：%s"
-DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "没有安装最新版本的DBM: %s"
-DBM_INSTANCE_INFO_RESULTS			= "副本ID扫描结果。注意如果团队中有不同语言版本的魔兽客户端，那么同一副本可能会出现不止一次。"
-DBM_INSTANCE_INFO_SHOW_RESULTS		= "已回复的玩家: %s\n|HDBM:showRaidIdResults|h|cff3588ff[点击显示结果]|r|h"
+DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "新版DBM未安装：%s"
+DBM_INSTANCE_INFO_RESULTS			= "副本进度扫描结果。" --Note that instances might show up more than once if there are players with localized WoW clients in your raid.
+DBM_INSTANCE_INFO_SHOW_RESULTS		= "回复请求的玩家：%s\n|HDBM:showRaidIdResults|h|cff3588ff[点击显示结果]|r|h"
 
 DBM_CORE_LAG_CHECKING				= "延时检测--五秒后反馈结果..."
 DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - 延时检测"
@@ -342,11 +341,7 @@ DBM_CORE_LAG_FOOTER					= "未反馈此次检测的团员:%s"
 
 DBM_CORE_SOUNDVER					= "语音增强版"
 
-DBM_CORE_SOUNDGRIL_NAME_YIKE		= "夏一可"
-DBM_CORE_SOUNDGRIL_TEXT_YIKE		= "    夏一可，又名可可超人，女，真名不详，《我叫MT》中法师和美屡的配音，魔兽世界知名解说，部落控。2009年进入西南科技大学。高三时因参加唱响艾泽拉斯而成名。"
-
-DBM_CORE_SOUNDGRIL_NAME_YUN			= "芷小芸"
-DBM_CORE_SOUNDGRIL_TEXT_YUN			= "    芷小芸，来自中国台湾省的魔兽世界美女玩家，现为台服世界之树《黑手之乡》公会人类死亡骑士。"
-
-DBM_CORE_SOUNDGRIL_NAME_SST			= "Iceoven"
-DBM_CORE_SOUNDGRIL_TEXT_SST			= "    All Voice generated via VoiceRss TTS (Text To Speech), API by Iceoven (Worgen Mage from Ancient Ones @ US-Dath'Remar)."
+DBM_CORE_SOUND_NOFILE		 		= "未发现语音文件"
+DBM_CORE_SOUND_NOFILEUSAGE		 	= "    DBM没有发现已启用的语音包，请检查语音包是否正确并已启用"
+DBM_CORE_SOUND_UNNAME		 		= "自定义语音"
+DBM_CORE_SOUND_UNUSAGE		 		= "    这是一份自定义的语音文件，但作者很懒，他没有写介绍。"

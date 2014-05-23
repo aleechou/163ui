@@ -31,7 +31,7 @@ function mod:GravityFluxTarget()
 	if not targetname then return end
 	warnGravityFlux:Show(targetname)
 	if (targetname == UnitName("player")) and (not mod:IsTank()) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 
@@ -51,7 +51,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnWondrousRapdity:Show()
 		timerWondrousRapidity:Start()
 		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		end
 	end
 end
@@ -69,7 +69,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)--120037 is a weak version of same spell by exit points, 115219 is the 50k per second icewall that will most definitely wipe your group if it consumes the room cause you're dps sucks.
 	if spellId == 114062 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnWondrousRapdity:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

@@ -40,7 +40,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnUltimatePower:Show(args.destName)
 		timerUltimatePower:Start(args.destName)
 		if args.sourceGUID == UnitGUID("target") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changetarget.mp3")--目標轉換
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changetarget.mp3")--目標轉換
 		end
 	end
 end

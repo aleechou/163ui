@@ -1,9 +1,8 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Heart of Fear
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 恐惧之心
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 恐懼之心
-## Notes-zhCN: |cff00ff00DBM-HeartofFear|r
-## Notes-zhTW: |cff00ff00DBM-HeartofFear|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Heart of Fear|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0恐懼之心  (HoF)|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0恐惧之心|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -13,17 +12,15 @@
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-Name: Heart of Fear
-## X-DBM-Mod-Name-zhTW: 恐懼之心
+## X-DBM-Mod-Name-zhTW: 恐懼之心  (HoF)
 ## X-DBM-Mod-Name-zhCN: 恐惧之心
 ## X-DBM-Mod-Sort: 4
 ## X-DBM-Mod-MapID: 1009
-## X-DBM-Mod-LoadZoneID: 897
-## X-Revision: BigFoot
-
+## X-WoWBox-Ver: 1
+## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 Zorlok.lua
 Tayak.lua
 Garalon.lua

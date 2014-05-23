@@ -58,10 +58,10 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 115458 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnAcidBomb:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	elseif spellId == 116297 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnStafingRunAoe:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -72,6 +72,6 @@ function mod:RAID_BOSS_EMOTE(msg)--Needs a better trigger if possible using tran
 		specWarnStafingRun:Show()
 		timerImpalingStrikeCD:Start(29)
 		timerPreyTimeCD:Start(32.5)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bombsoon.mp3")--準備炸彈
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bombsoon.mp3")--準備炸彈
 	end
 end

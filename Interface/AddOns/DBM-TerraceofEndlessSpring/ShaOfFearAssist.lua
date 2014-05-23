@@ -875,7 +875,7 @@ local function CLEU(...)
 	elseif etype == "SPELL_CAST_START" and spellId == 119862 then                  --Shoot
 		if not platform then return end -- this prevents people to get warning if they log back into a platform, so need to find a better platform detection
 		shootCounter = shootCounter + 1
-		local mobId = tonumber(sourceGUID:sub(6, 10), 16)		--bf@178.com
+		local mobId = tonumber(sourceGUID:sub(7, 10), 16)
 		if not mobId then return end
 		if mobId == 61046 then-- Jinlun Kun
 			platform = 61046

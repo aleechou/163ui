@@ -51,15 +51,15 @@ function mod:RAID_BOSS_EMOTE(msg)
 		specWarnCannonBarrage:Show()
 		timerCannonBarrageCD:Start()
 		if mod:IsTank() then
-			sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ex_mop_zbpj.mp3")
+			sndWOP:Schedule(58, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zbpj.mp3")
 		end
 	elseif msg:find("spell:121787") then
 		warnStomp:Show()
 		specWarnStomp:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 		warnWarmonger:Schedule(10)
 		specWarnWarmonger:Schedule(10)
-		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3") --準備小怪
+		sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3") --準備小怪
 		timerStomp:Start()
 		timerWarmongerCD:Start()
 		timerStompCD:Start()
