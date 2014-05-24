@@ -1780,10 +1780,10 @@ end
 function Skada:FormatNumber(number)
 	if number then
 		if self.db.profile.numberformat == 1 then
-			if number > 1000000 then
-				return ("%02.2fM"):format(number / 1000000)
+			if number > 100000000 then
+				return ("%02.2f亿"):format(number / 100000000)
 			else
-				return ("%02.1fK"):format(number / 1000)
+				return ("%02.1f万"):format(number / 10000)
 			end
 		else
 			return math.floor(number)

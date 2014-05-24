@@ -1,5 +1,5 @@
-local AL = LibStub:GetLibrary("AceLocale-3.0")
-local LGIST = LibStub:GetLibrary("LibGroupInSpecT-1.0")
+
+
 local r, g, b = 1, 136/255, 0	-- color
 
 TIP_SHOW_SYSTEM_ID = 1;
@@ -58,6 +58,7 @@ local function hooktip(tip)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
             local type, id, bookType = GetActionInfo(actionId);
             if(type=="spell" and id and id > 0) then
+                self:AddLine("法术ID: "..id, r, g, b)
                 self:Show()
             end
         end)
@@ -67,6 +68,7 @@ local function hooktip(tip)
     if(set2) then
         hooksecurefunc(tip, "SetSpellByID", function(self, id)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
+            self:AddLine("法术ID: "..id, r, g, b)
             self:Show()
         end)
     end
@@ -77,6 +79,7 @@ local function hooktip(tip)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
             local _, id = GetSpellBookItemInfo(slot, type);
             if id then
+                self:AddLine("法术ID: "..id, r, g, b)
                 self:Show()
             end
         end)
@@ -88,6 +91,7 @@ local function hooktip(tip)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
             local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitAura(unit, index, filter);
             if spellId then
+                self:AddLine("法术ID: "..spellId, r, g, b)
                 self:Show()
             end
         end)
@@ -99,6 +103,7 @@ local function hooktip(tip)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
             local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff(unit, index);
             if spellId then
+                self:AddLine("法术ID: "..spellId, r, g, b)
                 self:Show()
             end
         end)
@@ -110,6 +115,7 @@ local function hooktip(tip)
             if not TIP_SHOW_SYSTEM_ID or IsAddOnLoaded("XXXEventAlertMod") then return end
             local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff(unit, index);
             if spellId then
+                self:AddLine("法术ID: "..spellId, r, g, b)
                 self:Show()
             end
         end)
@@ -140,10 +146,12 @@ local GameTooltip = GameTooltip
 
 local linktypes = {item = true, enchant = true, spell = true, quest = true, unit = true, talent = true, achievement = true, glyph = true, instancelock = true}
 
-local TooltipUpdate
+local TooltipUpdate --分开写，因为里面要用
 TooltipUpdate = function(self)
+    --判断是否鼠标仍在超链接上
     local focusOnLink = GetMouseFocus() focusOnLink = focusOnLink and focusOnLink.GetObjectType and focusOnLink:GetObjectType()=="HyperLinkButton"
     if not focusOnLink then
+        --和OnHyperlinkLeave一样，但是不能直接调用
         GameTooltip._tooltipLink = nil
         local frame = GameTooltip:GetOwner()
         if frame and frame.UpdateTooltip == TooltipUpdate then frame.UpdateTooltip = nil end
@@ -179,6 +187,8 @@ local function OnHyperlinkEnter(frame, link, ...)
         speciesID = speciesID and tonumber(speciesID)
         if(speciesID and speciesID > 0) then
             BattlePetToolTip_Show(speciesID, tonumber(level), tonumber(breedQuality), tonumber(maxHealth), tonumber(power), tonumber(speed), tonumber(id))
+            -- BattlePetTooltip:ClearAllPoints()
+            --BattlePetTooltip:SetOwner(frame, 'ANCHOR_TOPLEFT')
         end
     end
     if orig1[frame] then return orig1[frame](frame, link, ...) end

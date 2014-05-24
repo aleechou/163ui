@@ -21,7 +21,7 @@ TANK_ShieldReflection = false,		--法术反射
 ScrMsg = true,						--屏幕讯息
 THREATCheck = false,					--仇恨提示
 ToTCheck = true,					--目标提示
-SpellIDAndCaster = true,			--法编和源
+SpellIDAndCaster = false,			--法编和源
 OT_OnOff = false,					--OT通告
 OTM_OnOff = false,					--OT密语
 OTMShow_OnOff = false,				--显示发送
@@ -2701,6 +2701,7 @@ function RaidAlerter_UnitToColorText(unit)
 end
 
 --显示法术ID和来源：取自SpellID插件并改进
+--[[去掉法术ID
 hooksecurefunc(GameTooltip, "SetUnitBuff", function(self,...)
 	if RaidAlerter_SET.SpellIDAndCaster then
 		local _,_,_,_,_,_,_,unitCaster,_,_,id = UnitBuff(...);
@@ -2749,6 +2750,7 @@ hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
 		end
 	end
 end)
+
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	if RaidAlerter_SET.SpellIDAndCaster then
 		local id = select(3,self:GetSpell());
@@ -2758,6 +2760,7 @@ GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 		end
 	end
 end)
+]]--
 
 function RaidAlerter_SYNC(ARG_1,ARG_2,ARG_3,ARG_4)
 	ARG_1 = string.sub(ARG_1, 1, 16);	--为"RAL_CHECKVERREPLY"兼容

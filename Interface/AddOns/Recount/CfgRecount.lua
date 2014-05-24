@@ -1,5 +1,5 @@
 U1RegisterAddon("Recount", {
-    title = "伤害统计",
+    title = "Recount伤害统计",
     tags = {TAG_RAID, TAG_BIG },
     defaultEnable = 0,
     load = "LOGIN", --5.0 script ran too long

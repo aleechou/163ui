@@ -1,5 +1,5 @@
 ﻿U1RegisterAddon("Skada", {
-    title = "伤害统计",
+    title = "Skada伤害统计",
     tags = {TAG_RAID },
 	defaultEnable = 1,
     icon = [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_FASTTRACK_RANK2]],
