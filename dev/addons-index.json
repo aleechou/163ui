@@ -19,5 +19,5 @@
     	, "WowLua":1
     }
 
-    , "downloadUrlPrefix": "http://file.ws.126.net/game/163ui/"
+    , "addonsDirUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
 }

@@ -1,5 +1,11 @@
 #! /usr/bin/env node
 
+if(!process.argv[2]){
+	console.log("miss child dir name of packages")
+	process.exit()
+}
+var targetDirName = process.argv[2]
+
 var q = require("q")
 var fs = require("fs")
 var crypto = require('crypto')
@@ -15,6 +21,7 @@ var Steps = require("ocsteps")
 var srcdir = __dirname+"/../Interface/AddOns"
 var workdir = __dirname+"/workdir"
 var packagesdir = workdir + "/packages"
+var targetdir = packagesdir + '/' + targetDirName
 var addonsIndexJson = workdir + "/addons-index.json"
 var addonsIndexTar = workdir + "/addons-index.zip"
 
@@ -25,15 +32,20 @@ if( !fs.existsSync(workdir) || !fs.statSync(workdir).isDirectory() ){
     console.log("nothing to do.")
     process.exit()
 }
-// 创建 packages 目录
+// 创建 packages/target 目录
 if( !fs.existsSync(packagesdir) ){
     fs.mkdir(packagesdir)
     console.log("create packages dir",packagesdir)
+}
+if( !fs.existsSync(targetdir) ){
+    fs.mkdir(targetdir)
+    console.log("create target dir",targetdir)
 }
 
 var indexjson = require("./index.json") 
 var addonsJson = require("./addons-index.json")
 addonsJson.addons = []
+addonsJson.addonsDirUrl+= "/" + targetDirName
 if(!addonsJson.ignore) addonsJson.ignore = {}
 
 fs.readdirSync(srcdir)
@@ -47,7 +59,7 @@ fs.readdirSync(srcdir)
 
 
 Steps()
-
+/*
 	// 清除 packages
 	.step(function(){
     	child_process.execFile("rm", ["-r",packagesdir], {}, this.hold())
@@ -61,13 +73,13 @@ Steps()
 			fs.mkdir(packagesdir,this.holdButThrowError())
 		}
 	})
-
+*/
 
 	.step(function(){
 
 		this.each(addonsJson.addons,function(i,addon){
 
-    		var tarpath = packagesdir+"/"+addon.name+".zip" ;
+    		var tarpath = targetdir+"/"+addon.name+".zip" ;
 
     		child_process.execFile(
     			"zip", [tarpath,"-r","."], {cwd: srcdir+"/"+addon.name}, this.hold()
