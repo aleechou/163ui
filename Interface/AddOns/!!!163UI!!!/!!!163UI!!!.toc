@@ -84,7 +84,6 @@ Plugin\GearScoreLite.lua
 Plugin\HatTrick.lua
 Plugin\GuildRosterButtons.lua
 
-
 # yClassColors
 Plugin\yClassColors\core.lua
 Plugin\yClassColors\battlefield.lua

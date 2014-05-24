@@ -1,4 +1,4 @@
-﻿--[[------------------------------------------------------------
+--[[------------------------------------------------------------
 Dummy的插件默认值：
 - defaultEnable = 1
 - desc = "此项功能为一系列小插件的组合……"
@@ -9,7 +9,7 @@ U1RegisterAddon("!!Forwarder", { dummy = 1,
     icon = [[Interface\Icons\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]],
     desc = "在野外也可以看到组队频道和交易频道的信息，插件由网易有爱warbaby原创奉献",
     author = "|cffcd1a1c[网易原创]|r",
-    defaultEnable = 1,
+    defaultEnable = 0,
 
     children = {"LFGForwarder", "TradeForwarder"},
 })
@@ -37,10 +37,6 @@ U1RegisterAddon("!!TradeSkill", { dummy = 1,
         alwaysEnable = 1,
     },
 })
-
-
-
-
 
 -- U1RegisterAddon("LibMapData-1.0", {
 --     title = "库：地图数据",

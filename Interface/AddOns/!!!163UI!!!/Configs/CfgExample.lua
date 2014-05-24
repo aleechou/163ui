@@ -1,6 +1,6 @@
 U1RegisterAddon("$NAME$", {
     title = "$NAME$",
-    defaultEnable = 1,
+    defaultEnable = 0,
     --optionsAfterVar = 1, --对于在VARIABLES_LOADED事件里初始化并执行操作的插件来说，比如BlizzMove，没有办法在初始DB创建后，执行操作前进行拦截，只能用U1GetCfgValue
     --optionsAfterLogin = 1, --一些Ace插件是在LOGIN事件中OnEnable的，然后才有db，所以
     --runBeforeLoad = function(info, name) end --在ADDON_LOADED事件之前, NORMAL插件可以有此属性
