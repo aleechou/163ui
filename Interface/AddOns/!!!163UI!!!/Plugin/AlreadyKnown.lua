@@ -1,129 +1,272 @@
---已学物品染色
-local COLOR = { r = 0.1, g = 1.0, b = 0.1 }
+-- here is your custom color. note: it acts as a filter applied to the texture image.
+local COLOR = { r = 0.1, g = 1.0, b = 0.1, }
 
-local WEAPON, ARMOR, CONTAINER, CONSUMABLE, GLYPH, TRADE_GOODS, RECIPE, GEM, MISCALLANEOUS, QUEST = GetAuctionItemClasses()
-local KNOWABLES = { [CONSUMABLE] = true, [GLYPH] = true, [RECIPE] = true, [MISCALLANEOUS] = true }
 
-local f = CreateFrame("GameTooltip")
-f:SetOwner(WorldFrame, "ANCHOR_NONE")
+local tooltip = CreateFrame('GameTooltip', nil, UIParent)
+tooltip:SetOwner(UIParent, 'ANCHOR_NONE')
 
-local lines = {}
-for i=1, 40 do
-	lines[i] = f:CreateFontString()
-	f:AddFontStrings(lines[i], f:CreateFontString())
-end
+local IsAlreadyKnown
+do
+	local knowns = {}
 
-local knowns, id = {}
-local function isKnown(link)
-	id = strmatch(link, "item:(%d+):")
-	if ( not id ) then
-		return false
-	end
-	if ( knowns[id] ) then
-		return true
+	-- things we have to care. please let me know if any lack or surplus here.
+	local weapon, armor, container, consumable, glyph, trade_goods, recipe, gem, miscallaneous, quest = GetAuctionItemClasses()
+	local knowables = { [consumable] = true, [glyph] = true, [recipe] = true, [miscallaneous] = true, }
+
+	local lines = {}
+	for i = 1, 40 do
+		lines[i] = tooltip:CreateFontString()
+		tooltip:AddFontStrings(lines[i], tooltip:CreateFontString())
 	end
 
-	f:ClearLines()
-	f:SetHyperlink(link)
-	for i=1, f:NumLines() do
-		if ( lines[i]:GetText() == ITEM_SPELL_KNOWN ) then
-			knowns[id] = true
-			return true
-		end
-	end
-	return false
-end
+	function IsAlreadyKnown (itemLink)
+        local status, enabled = pcall(U1GetCfgValue, "!!tradeskill/knownRecipes")
+        if not status or not enabled then return end
 
-local numItems, offset, index, link, merchantButton, itemButton
-
-local function merchantFrame_UpdateMerchantInfo()
-	numItems = GetMerchantNumItems()
-	for i=1, MERCHANT_ITEMS_PER_PAGE do
-		index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
-		if ( index <= numItems ) then
-			link = GetMerchantItemLink(index)
-			if ( link and KNOWABLES[select(6, GetItemInfo(link))] and isKnown(link) ) then
-				merchantButton, itemButton = _G["MerchantItem" .. i], _G["MerchantItem" .. i .. "ItemButton"]
-				if ( select(5, GetMerchantItemInfo(index)) == 0 ) then 
-					SetItemButtonNameFrameVertexColor(merchantButton, COLOR.r * 0.5, COLOR.g * 0.5, COLOR.b * 0.5)
-					SetItemButtonSlotVertexColor(merchantButton, COLOR.r * 0.5, COLOR.g * 0.5, COLOR.b * 0.5)
-					SetItemButtonTextureVertexColor(itemButton, COLOR.r * 0.5, COLOR.g * 0.5, COLOR.b * 0.5)
-					SetItemButtonNormalTextureVertexColor(itemButton, COLOR.r * 0.5, COLOR.g * 0.5, COLOR.b * 0.5)
-				else
-					SetItemButtonNameFrameVertexColor(merchantButton, COLOR.r, COLOR.g, COLOR.b)
-					SetItemButtonSlotVertexColor(merchantButton, COLOR.r, COLOR.g, COLOR.b)
-					SetItemButtonTextureVertexColor(itemButton, COLOR.r, COLOR.g, COLOR.b)
-					SetItemButtonNormalTextureVertexColor(itemButton, COLOR.r, COLOR.g, COLOR.b)
-				end
-			end
-		end
-	end
-end
-
-hooksecurefunc("MerchantFrame_UpdateMerchantInfo", merchantFrame_UpdateMerchantInfo)
-
-if ( MerchantFrame:IsVisible() and MerchantFrame.selectedTab == 1 ) then
-	merchantFrame_UpdateMerchantInfo()
-end
-
-local function auctionFrameBrowse_Update()
-	numItems, offset = GetNumAuctionItems("list"), FauxScrollFrame_GetOffset(BrowseScrollFrame)
-	for i=1, NUM_BROWSE_TO_DISPLAY do
-		index = offset + i + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page)
-		if ( index <= (numItems + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page)) ) then
-			link = GetAuctionItemLink("list", offset + i)
-			if ( link and KNOWABLES[select(6, GetItemInfo(link))] and isKnown(link) ) then
-				_G["BrowseButton" .. i .. "ItemIconTexture"]:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
-			end
-		end
-	end
-end
-
-local function auctionFrameBid_Update()
-	numItems, offset = GetNumAuctionItems("bidder"), FauxScrollFrame_GetOffset(BidScrollFrame)
-	for i=1, NUM_BIDS_TO_DISPLAY do
-		index = offset + i
-		if ( index <= numItems ) then
-			link = GetAuctionItemLink("bidder", index)
-			if ( link and KNOWABLES[select(6, GetItemInfo(link))] and isKnown(link) ) then
-				_G["BidButton" .. i .. "ItemIconTexture"]:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
-			end
-		end
-	end
-end
-
-local function auctionFrameAuctions_Update()
-	numItems, offset = GetNumAuctionItems("owner"), FauxScrollFrame_GetOffset(AuctionsScrollFrame)
-	for i=1, NUM_AUCTIONS_TO_DISPLAY do
-		index = offset + i + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameAuctions.page)
-		if ( index <= (numItems + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameAuctions.page)) ) then
-			if ( select(13, GetAuctionItemInfo("owner", offset + i)) ~= 1 ) then 
-				link = GetAuctionItemLink("owner", offset + i)
-				if ( link and KNOWABLES[select(6, GetItemInfo(link))] and isKnown(link) ) then
-					_G["AuctionsButton" .. i .. "ItemIconTexture"]:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
-				end
-			end
-		end
-	end
-end
-
-if ( IsAddOnLoaded("Blizzard_AuctionUI") ) then
-	hooksecurefunc("AuctionFrameBrowse_Update", auctionFrameBrowse_Update)
-	hooksecurefunc("AuctionFrameBid_Update", auctionFrameBid_Update)
-	hooksecurefunc("AuctionFrameAuctions_Update", auctionFrameAuctions_Update)
-else
-	f:SetScript("OnEvent", function(self, event, addonName)
-		if ( not addonName or (addonName and addonName ~= "Blizzard_AuctionUI") ) then
+		if ( not itemLink ) then
 			return
 		end
 
-		hooksecurefunc("AuctionFrameBrowse_Update", auctionFrameBrowse_Update)
-		hooksecurefunc("AuctionFrameBid_Update", auctionFrameBid_Update)
-		hooksecurefunc("AuctionFrameAuctions_Update", auctionFrameAuctions_Update)
+		local itemID = itemLink:match('item:(%d+):')
+		if ( knowns[itemID] ) then
+			return true
+		end
 
-		self:UnregisterEvent(event)
-		self:SetScript("OnEvent", nil)
-	end)
+		local _, _, _, _, _, itemType = GetItemInfo(itemLink)
+		if ( not knowables[itemType] ) then
+			return
+		end
 
-	f:RegisterEvent("ADDON_LOADED")
+		tooltip:ClearLines()
+		tooltip:SetHyperlink(itemLink)
+
+		for i = 1, tooltip:NumLines() do
+			if ( lines[i]:GetText() == ITEM_SPELL_KNOWN ) then
+				knowns[itemID] = true
+				return true
+			end
+		end
+	end
+end
+
+
+-- merchant frame
+
+local function MerchantFrame_UpdateMerchantInfo ()
+	local numItems = GetMerchantNumItems()
+
+	for i = 1, MERCHANT_ITEMS_PER_PAGE do
+		local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
+		if ( index > numItems ) then
+			return
+		end
+
+		local button = _G['MerchantItem' .. i .. 'ItemButton']
+
+		if ( button and button:IsShown() ) then
+			local _, _, _, _, numAvailable, isUsable = GetMerchantItemInfo(index)
+
+			if ( isUsable and IsAlreadyKnown(GetMerchantItemLink(index)) ) then
+				local r, g, b = COLOR.r, COLOR.g, COLOR.b
+				if ( numAvailable == 0 ) then
+					r, g, b = r * 0.5, g * 0.5, b * 0.5
+				end
+
+				SetItemButtonTextureVertexColor(button, r, g, b)
+			end
+		end
+	end
+end
+
+hooksecurefunc('MerchantFrame_UpdateMerchantInfo', MerchantFrame_UpdateMerchantInfo)
+
+local function MerchantFrame_UpdateBuybackInfo ()
+	local numItems = GetNumBuybackItems()
+
+	for index = 1, BUYBACK_ITEMS_PER_PAGE do
+		if ( index > numItems ) then
+			return
+		end
+
+		local button = _G['MerchantItem' .. index .. 'ItemButton']
+
+		if ( button and button:IsShown() ) then
+			local _, _, _, _, _, isUsable = GetBuybackItemInfo(index)
+
+			if ( isUsable and IsAlreadyKnown(GetBuybackItemLink(index)) ) then
+				SetItemButtonTextureVertexColor(button, COLOR.r, COLOR.g, COLOR.b)
+			end
+		end
+	end
+end
+
+hooksecurefunc('MerchantFrame_UpdateBuybackInfo', MerchantFrame_UpdateBuybackInfo)
+
+
+-- guild bank frame
+
+local function GuildBankFrame_Update ()
+	if ( GuildBankFrame.mode ~= 'bank' ) then
+		return
+	end
+
+	local tab = GetCurrentGuildBankTab()
+
+	for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
+		local button = _G['GuildBankColumn' .. math.ceil((i - 0.5) / NUM_SLOTS_PER_GUILDBANK_GROUP) .. 'Button' .. math.fmod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)]
+
+		if ( button and button:IsShown() ) then
+			local texture, _, locked = GetGuildBankItemInfo(tab, i)
+
+			if ( texture and not locked ) then
+				if ( IsAlreadyKnown(GetGuildBankItemLink(tab, i)) ) then
+					SetItemButtonTextureVertexColor(button, COLOR.r, COLOR.g, COLOR.b)
+				else
+					SetItemButtonTextureVertexColor(button, 1, 1, 1)
+				end
+			end
+		end
+	end
+end
+
+local isBlizzard_GuildBankUILoaded
+if ( IsAddOnLoaded('Blizzard_GuildBankUI') ) then
+	isBlizzard_GuildBankUILoaded = true
+
+	hooksecurefunc('GuildBankFrame_Update', GuildBankFrame_Update)
+end
+
+
+-- auction frame
+
+local function AuctionFrameBrowse_Update ()
+	local numItems = GetNumAuctionItems('list')
+	local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
+
+	for i = 1, NUM_BROWSE_TO_DISPLAY do
+		local index = offset + i
+		if ( index > numItems ) then
+			return
+		end
+
+		local texture = _G['BrowseButton' .. i .. 'ItemIconTexture']
+
+		if ( texture and texture:IsShown() ) then
+			local _, _, _, _, canUse =  GetAuctionItemInfo('list', index)
+
+			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('list', index)) ) then
+				texture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
+			end
+		end
+	end
+end
+
+local function AuctionFrameBid_Update ()
+	local numItems = GetNumAuctionItems('bidder')
+	local offset = FauxScrollFrame_GetOffset(BidScrollFrame)
+
+	for i = 1, NUM_BIDS_TO_DISPLAY do
+		local index = offset + i
+		if ( index > numItems ) then
+			return
+		end
+
+		local texture = _G['BidButton' .. i .. 'ItemIconTexture']
+
+		if ( texture and texture:IsShown() ) then
+			local _, _, _, _, canUse =  GetAuctionItemInfo('bidder', index)
+
+			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('bidder', index)) ) then
+				texture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
+			end
+		end
+	end
+end
+
+local function AuctionFrameAuctions_Update ()
+	local numItems = GetNumAuctionItems('owner')
+	local offset = FauxScrollFrame_GetOffset(AuctionsScrollFrame)
+
+	for i = 1, NUM_AUCTIONS_TO_DISPLAY do
+		local index = offset + i
+		if ( index > numItems ) then
+			return
+		end
+
+		local texture = _G['AuctionsButton' .. i .. 'ItemIconTexture']
+
+		if ( texture and texture:IsShown() ) then
+			local _, _, _, _, canUse, _, _, _, _, _, _, _, _, _, saleStatus = GetAuctionItemInfo('owner', index)
+
+			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('owner', index)) ) then
+				local r, g, b = COLOR.r, COLOR.g, COLOR.b
+				if ( saleStatus == 1 ) then
+					r, g, b = r * 0.5, g * 0.5, b * 0.5
+				end
+
+				texture:SetVertexColor(r, g, b)
+			end
+		end
+	end
+end
+
+local isBlizzard_AuctionUILoaded
+if ( IsAddOnLoaded('Blizzard_AuctionUI') ) then
+	isBlizzard_AuctionUILoaded = true
+
+	hooksecurefunc('AuctionFrameBrowse_Update', AuctionFrameBrowse_Update)
+	hooksecurefunc('AuctionFrameBid_Update', AuctionFrameBid_Update)
+	hooksecurefunc('AuctionFrameAuctions_Update', AuctionFrameAuctions_Update)
+end
+
+CoreDependCall("BaudAuction", function()
+    hooksecurefunc('BaudAuctionBrowseScrollBar_Update', function()
+        local ScrollBox = BaudAuctionBrowseScrollBox;
+        local ScrollBar = getglobal(ScrollBox:GetName() .. "ScrollBar");
+        local Highlight = getglobal(ScrollBox:GetName() .. "Highlight");
+
+        local Entry, Index, Text;
+        for Line = 1, ScrollBox.Entries do
+            Entry = _G[ScrollBox:GetName() .. "Entry" .. Line];
+            if (Entry:IsShown()) then
+                local icon = _G[Entry:GetName() .. "Texture"]
+                if Entry.itemLink then
+                    if IsAlreadyKnown(Entry.itemLink) then
+                        icon:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
+                    else
+                        icon:SetVertexColor(1.0, 1.0, 1.0)
+                    end
+                else
+                    icon:SetVertexColor(1.0, 0.1, 0.1) --not canUse
+                end
+            end
+        end
+    end)
+end)
+
+-- for LoD addons
+
+if ( not (isBlizzard_GuildBankUILoaded and isBlizzard_AuctionUILoaded) ) then
+	local function OnEvent (self, event, addonName)
+		if ( addonName == 'Blizzard_GuildBankUI' ) then
+			isBlizzard_GuildBankUILoaded = true
+
+			hooksecurefunc('GuildBankFrame_Update', GuildBankFrame_Update)
+		elseif ( addonName == 'Blizzard_AuctionUI' ) then
+			isBlizzard_AuctionUILoaded = true
+
+			hooksecurefunc('AuctionFrameBrowse_Update', AuctionFrameBrowse_Update)
+			hooksecurefunc('AuctionFrameBid_Update', AuctionFrameBid_Update)
+			hooksecurefunc('AuctionFrameAuctions_Update', AuctionFrameAuctions_Update)
+		end
+
+		if ( isBlizzard_GuildBankUILoaded and isBlizzard_AuctionUILoaded ) then
+			self:UnregisterEvent(event)
+			self:SetScript('OnEvent', nil)
+			OnEvent = nil
+		end
+	end
+
+	tooltip:SetScript('OnEvent', OnEvent)
+	tooltip:RegisterEvent('ADDON_LOADED')
 end
