@@ -2117,10 +2117,10 @@ do
 				tile = true, tileSize = 16, edgeSize = 16,
 				insets = {left = 1, right = 1, top = 1, bottom = 1}}
 			)
-			frame:SetSize(550, 420)
-			frame:SetPoint("CENTER", UIParent, "CENTER")
-			frame:SetFrameStrata("DIALOG")
-			frame:Show()
+			--frame:SetSize(550, 420)
+			--frame:SetPoint("CENTER", UIParent, "CENTER")
+			--frame:SetFrameStrata("DIALOG")
+			--frame:Show()
 
 			local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 			title:SetPoint("TOP", frame, "TOP", 0, -12)

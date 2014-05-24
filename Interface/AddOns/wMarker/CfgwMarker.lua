@@ -5,6 +5,7 @@
     secure = 1,
 nopic = 1,
     tags = { TAG_RAID },
+	optionsAfterVar = 1,
     icon = [[Interface\Icons\INV_Sigil_UlduarAll]],
     desc = "wMarker漂亮的团队标记插件，显示一个各种团队标记的框体以供快速标记，问号为就绪检查，X为清除标记。",
 
