@@ -468,7 +468,7 @@ WW:Font("XLootFontNormal", ChatFontNormal, 12, 1, 1, 1, .5):un();
 WW:Font("XLootFontHighlight", ChatFontNormal, 12, 1, .82, 0):un();
 local function BottomButton(name, text, justify)
     local b = WW:Button(name, XLootFrame):SetButtonFont("XLootFontNormal"):SetHighlightFontObject("XLootFontHighlight"):SetText(text):SetWidth(80):GetButtonText():SetJustifyH(justify):ALL():up():un()
-	b:SetFrameLevel(8)
+	b:SetFrameLevel(16) --防止拾取框被挡住@T
 	b:SetHeight(16)
 	b:ClearAllPoints()
 	b:SetPoint('BOTTOM', 0, 4)
@@ -486,7 +486,7 @@ local function BuildFrame()
 	-- Setup frame
 	local f = frame
 	f:SetFrameStrata'HIGH'
-	f:SetFrameLevel(5)
+	f:SetFrameLevel(15) --防止拾取框被挡住@T
 	f:SetMovable(1)
 	f:EnableMouse(1)
 	f:RegisterForDrag'LeftButton'

@@ -83,7 +83,7 @@
 
 				<Scripts>
 					<OnLoad>
-						self:SetFrameLevel(self:GetFrameLevel() + 4)
+						self:SetFrameLevel(self:GetFrameLevel() + 2)
 						self:GetNormalTexture():SetVertexColor(1, 0.82, 0, .8)
 						self:GetNormalTexture():SetAlpha(.5)
 					</OnLoad>

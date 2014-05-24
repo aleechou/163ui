@@ -42,4 +42,17 @@
 	<Include file="SpecializedLibBars-1.0\Lib.xml"/>	
 	<Script file="LibWindow-1.1\LibWindow-1.1.lua"/>	
 	<Include file="AceHook-3.0\AceHook-3.0.xml"/>
+	<Include file="LibTextDump-1.0\lib.xml"/>
+	<Include file="LibTextTable-1.1\lib.xml"/>	
+	<Script file="LibStrataFix\LibStrataFix.lua"/>		
+	<Script file="Unfit-1.0\Unfit-1.0.lua"/>
+	<Script file="CustomSearch-1.0\CustomSearch-1.0.lua"/>
+	<Script file="LibItemSearch-1.2\LibItemSearch-1.2.lua"/>
+	<Include file="LibItemCache-1.1\LibItemCache-1.1.xml"/>
+	<Script file="LibJostle-3.0\LibJostle-3.0.lua"/>
+	<Include file="LibItemCache-1.0\LibItemCache-1.0.xml"/>
+	<Script file="Classy-1.0\Classy-1.0.lua"/>
+	<Include file="DRData-1.0\DRData-1.0.xml"/>
+	<Include file="LibDropDown-1.0\lib.xml"/>
+	<Script file="LibDeformat-3.0\LibDeformat-3.0.lua"/>
 </Ui>
