@@ -6,7 +6,8 @@
 		"NPCMark",
 		"RatingBuster",
 		"idTip",
-		"GoGoMount"
+		"GoGoMount",
+"zTip"
     ]
 
     , "conflictive": {
