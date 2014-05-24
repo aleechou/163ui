@@ -2,7 +2,7 @@ UI163_USER_MODE = 1 --这句必须写一次，影响一些默认值。单体版�
 local _, engClass = UnitClass("player")
 U1RegisterAddon("BlinkHealthText", {
     title = "多玩简易状态",
-    defaultEnable = 1,
+    defaultEnable = 0,
     tags = {"COMBATINFO", "GOOD"},
     icon = "Interface\\Icons\\Spell_ChargeNegative",
     nopic = 1,
@@ -70,7 +70,7 @@ U1RegisterAddon("BlinkHealthText", {
 
 U1RegisterAddon("DailyTamerCheck", {
     title = "宠物日常检测",
-    defaultEnable = 1,
+    defaultEnable = 0,
     tags = {TAG_MAPQUEST},
     desc = "检测宠物日常任务完成情况，配合TomTom插件，可以设置各个任务的路径点。`快捷命令：/dtc 或 /dtcheck",
 	nopic = 1,
@@ -148,7 +148,7 @@ U1RegisterAddon("DailyTamerCheck", {
 
 U1RegisterAddon("YOBUFF", {
     title = "YOBUFF",
-    defaultEnable = 1,
+    defaultEnable = 0,
     tags = {"MANAGEMENT"},
     icon = "Interface\\Icons\\Spell_ChargeNegative",
     nopic = 1,
