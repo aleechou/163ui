@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: JPack Ex
+## Notes: A button on you bag frame!
+## Notes-zhCN: 为各种背包整合及系统背包添加JPack整理按键。
+## Dependencies: JPack
+## X-Curse-Packaged-Version: 0.7.11
+## X-Curse-Project-Name: JPack
+## X-Curse-Project-ID: jpack
+## X-Curse-Repository-ID: wow/jpack/mainline
+## X-Mush-Project-Father: Combuctor
+## X-Mush-Packaged-Version: 1
+
+localization.lua
+JPack_Ex.lua
+## Title: |cff880303[网易有爱]|r 背包整理扩展 for Combuctor
+## X-Vendor: NetEase
