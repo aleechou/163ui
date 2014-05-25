@@ -1,5 +1,5 @@
 local base_char,keywords=192,{"and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while",}; function prettify(code) return code:gsub("["..string.char(base_char).."-"..string.char(base_char+#keywords).."]", 
-  function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì o="!!!163UI.3dcodecmd!!!"
+  function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì h="!!!163UI.3dcodecmd!!!"
 Ê bit==Í Á bit32~=Í Ò
 bitfunc=bit32
 Ä
@@ -10,7 +10,7 @@ verbose=Ç,
 info=Ç,
 errro=Ó,
 }
-Ì É a(...)
+Ì É n(...)
 Ê e.verbose Ò print("[verbose]",...)Æ
 Æ
 Ì É t(...)
@@ -24,48 +24,48 @@ errro=Ó,
 Ê a==Í Ò a=Ó Æ
 e[t]=a
 Æ
-Ì n=0
-Ì s=Ç
-Ì h=0
-Ì i=Ç
+Ì i=0
+Ì o=Ç
+Ì s=0
+Ì r=Ç
 Ì e=CreateFrame("button","buff163uiLinkage_online",BuffFrame)
 e:SetWidth(BUFF_BUTTON_HEIGHT)
 e:SetHeight(BUFF_BUTTON_HEIGHT)
 Ì t=e:CreateTexture(Í,"BACKGROUND")
-t:SetTexture("Interface\\AddOns\\"..o.."\\Textures\\logo-online.tga")
+t:SetTexture("Interface\\AddOns\\"..h.."\\Textures\\logo-online.tga")
 t:SetAllPoints(e)
-e:SetScript("OnEnter",É(o)
-Ì e=""
-Ì t=0
-Ê n<60 Ò
-e="ä¸åˆ°1åˆ†é’Ÿ"
+e:SetScript("OnEnter",É(n)
+Ì t=""
+Ì e=0
+Ê i<60 Ò
+t="ä¸åˆ°1åˆ†é’Ÿ"
 Ä
-t=floor(n/60)
-Ì a=floor(t/60)
+e=floor(i/60)
+Ì a=floor(e/60)
 Ê a>0 Ò
-e=a.."å°æ—¶"
+t=a.."å°æ—¶"
 Æ
-mindisplay=t%60
+mindisplay=e%60
 Ê mindisplay>0 Ò
-e=e..mindisplay.."åˆ†é’Ÿ"
+t=t..mindisplay.."åˆ†é’Ÿ"
 Æ
 Æ
-GameTooltip:SetOwner(o,'ANCHOR_BOTTOMLEFT')
-Ê s Ò
+GameTooltip:SetOwner(n,'ANCHOR_BOTTOMLEFT')
+Ê o Ò
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cff00aa00[å·²è¿æ¥]|r")
 Ä
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cffFFCC00[å·²è¿æ¥ï¼Œæœªç™»å½•]|r")
 Æ
-GameTooltip:AddLine('|cffffffffä»Šæ—¥åœ¨çº¿ï¼š|r'..e)
-Ê Î s Ò
-GameTooltip:AddLine('|cffffffffè¯·ç‚¹å‡»Buffå›¾æ ‡ç™»é™†ç½‘æ˜“é€šè¡Œè¯ï¼Œ|r')
+GameTooltip:AddLine('|cffffffffä»Šæ—¥åœ¨çº¿ï¼š|r'..t)
+Ê Î o Ò
+GameTooltip:AddLine('|cffffffffè¯·ç™»é™†ç½‘æ˜“é€šè¡Œè¯ï¼Œ|r')
 GameTooltip:AddLine('|cffffffffä»¥ä¾¿ç§¯ç´¯çš„åœ¨çº¿æ—¶é—´å®Œæˆç­¾åˆ°ä»»åŠ¡|r')
 Ä
-Ê i Ò
+Ê r Ò
 GameTooltip:AddLine('|cffffffffå•å‡»Buffå›¾æ ‡å®Œæˆç­¾åˆ°|r')
 Ä
-Ê t<30 Ò
-GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-t)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
+Ê e<30 Ò
+GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-e)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
 Æ
 Æ
 Æ
@@ -80,105 +80,130 @@ ThreeDimensionsCode_Send("checkin")
 Ì t=CreateFrame("button","buff163uiLinkage_offline",BuffFrame)
 t:SetWidth(BUFF_BUTTON_HEIGHT)
 t:SetHeight(BUFF_BUTTON_HEIGHT)
-Ì i=t:CreateTexture(Í,"BACKGROUND")
-i:SetTexture("Interface\\AddOns\\"..o.."\\Textures\\logo-offline.tga")
-i:SetAllPoints(t)
+Ì a=t:CreateTexture(Í,"BACKGROUND")
+a:SetTexture("Interface\\AddOns\\"..h.."\\Textures\\logo-offline.tga")
+a:SetAllPoints(t)
 e.tooltip=CreateFrame("BUTTON","ConsolidatedBuffsTooltipBuff_buff163uiLinkage_online",ConsolidatedBuffsTooltip,"ConsolidatedBuffTemplate");
 t:SetScript("OnEnter",É(e)
 GameTooltip:SetOwner(e,'ANCHOR_BOTTOMLEFT')
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cffaaaaaa[æ–­å¼€]|r")
+GameTooltip:AddLine(' ')
+Ê GetCVar("gxWindow")=='0'Ò
+GameTooltip:AddLine('|cFFFF0000è¯·ç‚¹å‡»Buffæ›´æ”¹çª—å£æ¨¡å¼|r')
+Ä
+GameTooltip:AddLine('|cFFFF0000æœªæ£€æµ‹åˆ°æœ‰çˆ±å®¢æˆ·ç«¯ï¼Œè¯·å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯|r')
+Æ
+GameTooltip:AddLine(' ')
 GameTooltip:AddLine('|cffffffffåœ¨æ¸¸æˆæ—¶å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯ï¼Œ|r')
 GameTooltip:AddLine('|cffffffffå¯ä¿æŒæœ‰çˆ±è¿æ¥ï¼Œå¹¶ç§¯ç´¯|r')
 GameTooltip:AddLine('|cffffffffæ¸¸æˆæ—¶é—´ç”¨äºç­¾åˆ°|r')
 GameTooltip:AddLine('|cffffffffæˆ–å‚ä¸å…¶ä»–å®˜æ–¹æ´»åŠ¨|r')
 GameTooltip:Show()
 Æ)
+StaticPopupDialogs["163UI-Linkage:ChangeWindowMode"]={
+text="ç¡®å®šç°åœ¨å˜æ›´ä¸ºå…¨å±çŠ¶æ€çš„çª—å£æ¨¡å¼å—ï¼ˆä¸ä¼šé‡å¯WOWï¼‰ï¼Ÿ",
+button1="ç«‹å³ç”Ÿæ•ˆ",
+button2="ä¸‹æ¬¡å†è¯´",
+OnAccept=É()
+SetCVar("gxWindow","1")
+SetCVar("gxMaximize","1")
+ConsoleExec("gxRestart")
+Æ,
+timeout=0,
+whileDead=Ó,
+hideOnEscape=Ó,
+preferredIndex=3,
+}
+t:SetScript("OnClick",É()
+Ê GetCVar("gxWindow")=="0"Ò
+StaticPopup_Show("163UI-Linkage:ChangeWindowMode")
+Ä
+Æ
+Æ)
 t:SetScript("OnLeave",É(e)
 GameTooltip:Hide()
 Æ)
 É ShownBuffNumber()
-Ì i={BuffFrame:GetChildren()}
-Ì o=0
-a("ShownBuffNumber()-------------")
-È n,i Ë ipairs(i)Ã
-a(i:IsVisible(),i:GetTop(),i~=t,i~=e)
-Ê i:IsVisible()Á i~=t Á i~=e Ò
-o=o+1
+Ì o={BuffFrame:GetChildren()}
+Ì a=0
+n("ShownBuffNumber()-------------")
+È i,o Ë ipairs(o)Ã
+Ê o:IsVisible()Á o~=t Á o~=e Ò
+a=a+1
 Æ
 Æ
-Ê ConsolidatedBuffs:IsVisible()Ò
-a("ConsolidatedBuffs:IsVisible()",ConsolidatedBuffs:IsVisible())
-o=o+1
+a=a-DEBUFF_ACTUAL_DISPLAY
+Ì e,o,o,t=GetWeaponEnchantInfo()
+Ê e Ò a=a+1 Æ
+Ê t Ò a=a+1 Æ
+n("ShownBuffNumber()",a)
+Ñ a
 Æ
-o=o-DEBUFF_ACTUAL_DISPLAY
-a("ShownBuffNumber()",o)
-Ñ o
-Æ
-Ì É r(o)
+Ì É h(t)
 Ì e=ShownBuffNumber()
-Ì t=floor(e/BUFFS_PER_ROW)
-Ì i=-t*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
-Ì t=e%BUFFS_PER_ROW
-Ì t=t*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
-a("index:",e,"x",t,"y",i)
-o:SetPoint("TOPRIGHT",t,i)
-o:Show()
+Ì a=floor(e/BUFFS_PER_ROW)
+Ì a=-a*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
+Ì o=e%BUFFS_PER_ROW
+Ì o=o*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
+n("index:",e,"x",o,"y",a)
+t:SetPoint("TOPRIGHT",o,a)
+t:Show()
 Æ
-Ì É i(o)
-Ê Î o Ò
-o=time()
+Ì É a(a)
+Ê Î a Ò
+a=time()
 Æ
-Ê o-h>=45 Ò
-a("display offline buff")
+Ê GetCVar("gxWindow")=="0"Ï a-s>=45 Ò
+n("display offline buff")
 t:Show()
 e:Hide()
-r(t)
+h(t)
 Ä
-a("display online buff")
+n("display online buff")
 e:Show()
 t:Hide()
-r(e)
+h(e)
 Æ
 Æ
-hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",i);
-Ì o=0
+hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",a);
+Ì h=0
 CreateFrame("frame"):SetScript("OnUpdate",É()
 Ì e=time()
-Ê e-o>5 Ò
-i(e)
-o=e
+Ê e-h>5 Ò
+a(e)
+h=e
 Æ
 Æ)
 ThreeDimensionsCode_SafePipe_CmdHandles["ping"]=É(t,e)
 Ê#e<1 Ò
-Ê s Ò
+Ê o Ò
 print("|cff00aa00æœ‰çˆ±å®¢æˆ·ç«¯å·²é€€å‡ºç™»å½•çŠ¶æ€|r")
 Æ
-s=Ç
+o=Ç
 Ä
-Ê Î s Ò
+Ê Î o Ò
 print("|cff00aa00æœ‰çˆ±å®¢æˆ·ç«¯å·²ç™»å½•ç½‘æ˜“é€šè¡Œè¯|r")
 Æ
-s=Ó
+o=Ó
 Ì o=string.byte(e:sub(1,1))
-Ì i=string.byte(e:sub(2,2))
+Ì a=string.byte(e:sub(2,2))
 Ì t=0
 Ì s=Ç
-n=bitfunc.bor(bitfunc.lshift(i,8),o)
+i=bitfunc.bor(bitfunc.lshift(a,8),o)
 Ê#e>2 Ò
 t=string.byte(e:sub(3,3))
 Ì e=bitfunc.band(t,1)
-n=bitfunc.bor(bitfunc.lshift(e,16),n)
+i=bitfunc.bor(bitfunc.lshift(e,16),i)
 Æ
-a("ping","#"..#e,o,i,t,n)
+n("ping","#"..#e,o,a,t,i)
 Æ
-i()
-h=time()
+a()
+s=time()
 Æ
 É hide163buff()
 e:Hide()
 t:Hide()
 Æ
 É cmd3dcode_lastPingTime()
-Ñ h
+Ñ s
 Æ]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
