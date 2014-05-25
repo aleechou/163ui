@@ -84,6 +84,8 @@ Plugin\GearScoreLite.lua
 Plugin\HatTrick.lua
 Plugin\GuildRosterButtons.lua
 Plugin\NoGoldSeller.lua
+Plugin\rQuestWatchFrameMover.lua
+Plugin\MerchantFilterButtons.lua
 
 # yClassColors
 Plugin\yClassColors\core.lua
