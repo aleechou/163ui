@@ -17,7 +17,8 @@ local flaskLink = "|cff0070dd"..flaskName.."|r"
 local spellList = {}
 addon:BuildSpellList(spellList, 79638, 79472, 79471, 79469, 79470)
 addon:BuildSpellList(spellList, 79639, 79472, 79471, 79469, 79470)
-addon:BuildSpellList(spellList, 79640, 79472, 79471, 79469, 79470)
+addon:BuildSpellList(spellList, 79640, 79472, 79471, 79469, 79470, 86569)
+
 
 local button = addon:CreateActionButton("AlchemyFlask", L["alchemy flask"], nil, 7200, "PLAYER_AURA")
 button:RequireItem(75525)

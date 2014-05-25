@@ -47,6 +47,9 @@ end
 local function Button_OnIndexChanged(self, index, save)
 	self.index = index
 	self:SetSpell(self.spellList[index])
+	if self.spellList2 then
+		self:SetSpell2(self.spellList2[index])
+	end
 
 	if save then
 		addon:SaveData("specdb", self.key, index)

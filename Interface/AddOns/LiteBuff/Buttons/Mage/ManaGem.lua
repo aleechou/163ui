@@ -19,7 +19,9 @@ button:SetAttribute("spell", button.spell)
 -- button:SetItem(81901, 10, 1, 36799, 3, 1)
 button:SetItem(36799, 3, 1)
 button.spell2 = button.spell
+button.spell = "使用法力宝石"
 button:RequireSpell(759)
+
 
 -- function button:OnBagUpdate(combat)
 -- 	if combat or gemName == self.itemName then
@@ -38,6 +40,7 @@ local gemName
 button.itemName = false
 button:HookMethod('OnBagUpdate', function()
     local self = button
+
     if(InCombatLockdown() or gemName == self.itemName) then
         return
     end
