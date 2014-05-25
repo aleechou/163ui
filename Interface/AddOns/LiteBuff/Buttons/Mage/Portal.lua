@@ -43,6 +43,7 @@ local buildList = function(splist, fot, spt)
         if(isKnown) then
             for slot = 1, numSlots do
                 local spellID, overrideSpellID, isKnown, spellName, slotSpecID = GetFlyoutSlotInfo(id, slot)
+                --print(GetSpellInfo(spellID))
                 if(isKnown) then
                     addon:BuildSpellList(splist, spellID)
                 end
@@ -84,6 +85,7 @@ local update = function()
 
         if(not button:IsShown()) then button:Show() end
         button:SetScrollable(spellList, 'spell1', _scrollSnippet)
+        button.spellList2 = spellList2
         button:__163_UpdateButton()
         button:__UpdateScrollAttr_163()
         button:InvokeMethod'OnTalentSwitch'
