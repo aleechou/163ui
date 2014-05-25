@@ -83,6 +83,7 @@ Plugin\Tutorial.xml
 Plugin\GearScoreLite.lua
 Plugin\HatTrick.lua
 Plugin\GuildRosterButtons.lua
+Plugin\NoGoldSeller.lua
 
 # yClassColors
 Plugin\yClassColors\core.lua
