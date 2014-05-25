@@ -27,7 +27,17 @@ local defaultDB = {
     selectedTag = "NETEASE",
     showOrigin = nil, --插件原名
     disableLaterLoading = nil,
-    frames = {}, --框体位置
+    --框体位置
+    frames = {
+        ["RaidAlerter_Attack_Frame"] = {
+            nil, nil, nil, nil, nil,
+            "TOP",
+            "UIParent",
+            "TOP",
+            0,
+            -45,
+        },
+    },
     mode = "EASY",
     --minimapPos = 226, --in U1_CreateMinimapButton
     --tags = {}, --保存每个tag的点击时间和次数
@@ -886,7 +896,7 @@ local captureHookAceEvent = function(self, eventname, method, ... --[[actually j
                 error("Usage: "..RegisterName.."(\"eventname\", \"methodname\"): 'methodname' - method '"..tostring(method).."' not found on self.", 2)
             end
 
-            if select("#",...)>=1 then	-- this is not the same as testing for arg==nil!
+            if select("#",...)>=1 then  -- this is not the same as testing for arg==nil!
                 local arg=select(1,...)
                 regfunc = function(...) if self[method] then self[method](self,arg,...) elseif DEBUG_MODE then print("ERROR", capturing, method) end end
             else
@@ -898,7 +908,7 @@ local captureHookAceEvent = function(self, eventname, method, ... --[[actually j
                 error("Usage: "..RegisterName.."(self or \"addonId\", eventname, method): 'self or addonId': table or string or thread expected.", 2)
             end
 
-            if select("#",...)>=1 then	-- this is not the same as testing for arg==nil!
+            if select("#",...)>=1 then  -- this is not the same as testing for arg==nil!
                 local arg=select(1,...)
                 regfunc = function(...) method(arg,...) end
             else
@@ -1472,7 +1482,7 @@ function U1:ADDON_LOADED(event, name)
         end
 
         --TODO: NORMAL的插件应该在前面加载，LOGIN的如果在这里加载会影响其他插件的事件
-	    --TODO: 但如果在VAR或者LOGIN的时候加载则主要是无法利用自动保存的位置,其次是事件顺序
+        --TODO: 但如果在VAR或者LOGIN的时候加载则主要是无法利用自动保存的位置,其次是事件顺序
 
         --print("ADDON_LOADED3", db, U1DB, db==U1DB, db==defaultDB);
         --f:UnregisterEvent("ADDON_LOADED")  --已加载插件数量的更新是在UIUI单独注册的事件 --要统计Blizzard的插件
@@ -1695,6 +1705,18 @@ do
     end
     function U1FramePosRestore(name)
         local pos = U1FramePosGet(name);
+
+        -- 导入默认的位置
+        if defaultDB.frames[name] and (not pos or not pos.integrated) then
+            print("not integrated",name)
+            table.foreach(defaultDB.frames[name],function(i,v)
+                pos[i] = v
+                print(i,v)
+            end)
+            pos.integrated = true
+        end
+
+        -- 玩家拖放的位置
         if _G[name] and pos and #pos > 1 then
             if _G[name]:IsResizable() then
                 _G[name]:SetSize(pos[3],pos[4]);
@@ -1765,20 +1787,20 @@ fixFrame:SetScript("OnEvent", FixFrame_OnEvent)
 setfenv(FriendsFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
 
 function FixFrame_OnEvent(this, event, arg1)
-	if event == "ADDON_LOADED" then
-		if (arg1 == "Blizzard_PetJournal") then
-			setfenv(PetJournalParent_OnShow, setmetatable({UpdateMicroButtons=function()
-				if (PetJournalParent and PetJournalParent:IsShown()) then
-					CompanionsMicroButton:Enable();
-					CompanionsMicroButton:SetButtonState("PUSHED", 1);
-				end
-			end }, { __index = _G}))
-		elseif (arg1 == "Blizzard_AchievementUI") then
-			setfenv(AchievementFrame_OnShow, setmetatable({ UpdateMicroButtons = function()
-				if (AchievementFrame and AchievementFrame:IsShown()) then
-					AchievementMicroButton:SetButtonState("PUSHED", 1);
-				end
-			end }, { __index = _G}))
-		end
-	end
+    if event == "ADDON_LOADED" then
+        if (arg1 == "Blizzard_PetJournal") then
+            setfenv(PetJournalParent_OnShow, setmetatable({UpdateMicroButtons=function()
+                if (PetJournalParent and PetJournalParent:IsShown()) then
+                    CompanionsMicroButton:Enable();
+                    CompanionsMicroButton:SetButtonState("PUSHED", 1);
+                end
+            end }, { __index = _G}))
+        elseif (arg1 == "Blizzard_AchievementUI") then
+            setfenv(AchievementFrame_OnShow, setmetatable({ UpdateMicroButtons = function()
+                if (AchievementFrame and AchievementFrame:IsShown()) then
+                    AchievementMicroButton:SetButtonState("PUSHED", 1);
+                end
+            end }, { __index = _G}))
+        end
+    end
 end

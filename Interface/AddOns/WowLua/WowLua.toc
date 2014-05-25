@@ -1,0 +1,15 @@
+## Interface: 40300
+## Title: WowLua
+## Version: v40300-1.0.2-71bf340 
+## Author: Cladhaire
+## Notes: Interactive Lua interpreter and scratchpad
+## LoadManagers: AddonLoader
+## X-LoadOn-Slash: /wowlua, /lua, /wowluarun, /luarun
+## SavedVariables: WowLua_DB
+
+Localization.enUS.lua
+
+WowLua.lua
+FAIAP.lua
+WowLua.xml
+WowLua_Config.lua
