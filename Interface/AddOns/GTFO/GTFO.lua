@@ -2121,24 +2121,24 @@ end
 function GTFO_GetSounds()
 	if (GTFO.Settings.Volume == 2) then
 		GTFO.Sounds = {
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzz.mp3",
 		};
 	elseif (GTFO.Settings.Volume == 1) then
 		GTFO.Sounds = {
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzz.mp3",
 		};
 	else	
 		GTFO.Sounds = {
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzzer.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbeep.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmdouble.mp3",
-			"Interface\\AddOns\\GTFOSounds\\alarmbuzz.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzzer.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbeep.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmdouble.mp3",
+			"Interface\\AddOns\\GTFO\\Sounds\\alarmbuzz.mp3",
 		};
 	end
 end
