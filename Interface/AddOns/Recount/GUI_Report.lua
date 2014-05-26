@@ -151,7 +151,7 @@ function me:CreateReportWindow()
 	slider:SetWidth(180)
 	slider:SetHeight(16)
 	slider:SetPoint("TOP", theFrame, "TOP", 0, -46)
-	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.ReportLines=this:GetValue(); getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..this:GetValue()) end)
+	slider:SetScript("OnValueChanged",function(this) Recount.db.profile.ReportLines=this:GetValue(); getglobal(this:GetName().."Text"):SetText(L["Report Top"]..": "..math.ceil(this:GetValue())) end)
 	getglobal(slider:GetName().."High"):SetText("25");
 	getglobal(slider:GetName().."Low"):SetText("1");
 	getglobal(slider:GetName().."Text"):SetText(L["Report Top"]..": "..slider:GetValue())
