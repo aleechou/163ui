@@ -87,8 +87,10 @@ e.tooltip=CreateFrame("BUTTON","ConsolidatedBuffsTooltipBuff_buff163uiLinkage_on
 t:SetScript("OnEnter",�(e)
 GameTooltip:SetOwner(e,'ANCHOR_BOTTOMLEFT')
 GameTooltip:AddLine("有爱连接 |cffaaaaaa[断开]|r")
-GameTooltip:AddLine(' ')
-� GetCVar("gxWindow")=='0'�
+� � ThreeDimensionsCode_IsFramesCreated()�
+GameTooltip:AddLine('|cFFFF0000有爱连接没有创建(可能受其他插件影响)|r')
+GameTooltip:AddLine('|cFFFF0000请点击Buff手动建立连接|r')
+� GetCVar("gxWindow")=='0'�
 GameTooltip:AddLine('|cFFFF0000请点击Buff更改窗口模式|r')
 �
 GameTooltip:AddLine('|cFFFF0000未检测到有爱客户端，请启动有爱客户端|r')
@@ -115,9 +117,11 @@ hideOnEscape=�,
 preferredIndex=3,
 }
 t:SetScript("OnClick",�()
+� � ThreeDimensionsCode_IsFramesCreated()�
+ThreeDimensionsCode_Tell_AllAddOnsLoaded()
+�
 � GetCVar("gxWindow")=="0"�
 StaticPopup_Show("163UI-Linkage:ChangeWindowMode")
-�
 �
 �)
 t:SetScript("OnLeave",�(e)
