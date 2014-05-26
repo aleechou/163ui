@@ -1708,10 +1708,8 @@ do
 
         -- 导入默认的位置
         if defaultDB.frames[name] and (not pos or not pos.integrated) then
-            print("not integrated",name)
             table.foreach(defaultDB.frames[name],function(i,v)
                 pos[i] = v
-                print(i,v)
             end)
             pos.integrated = true
         end
