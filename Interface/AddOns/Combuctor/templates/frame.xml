@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Frame name="CombuctorInventoryTemplate" resizable="true" clampedToScreen="true" enableMouse="true" movable="true" topLevel="true" frameStrata="HIGH" parent="UIParent" hidden="true" inherits="ButtonFrameTemplate" virtual="true">
+	<Frame name="CombuctorInventoryTemplate" resizable="true" clampedToScreen="true" enableMouse="true" movable="true" topLevel="false" frameStrata="HIGH" parent="UIParent" hidden="true" inherits="ButtonFrameTemplate" virtual="true">
 		<Size x="300" y="400"/>
 
 		<HitRectInsets>
