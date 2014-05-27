@@ -7,7 +7,7 @@
 ## Notes-zhTW: 當你的目標是友好玩家時在目標框上加交易和查看裝備的按鈕
 ## X-Repple: 辅助
 ## SavedVariables: 
-## 163UI-Version: 2014052702
+## 163UI-Version: 2014052801
 
 TargetButton.xml
 

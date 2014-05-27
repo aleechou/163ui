@@ -3,7 +3,7 @@
 ## Title: |cFF00FF00[B]|rTOTxp-目标的目标
 ## Notes: 目标的目标信息增强,OT提示等。warbaby最早期的作品之一，很古老了，但一直都还能用）
 ## SavedVariables: TOTxpAggroMode, TOTxpIgnoreWarriorOT, TOTxp_SHOW_TOTOT
-## 163UI-Version: 2014052702
+## 163UI-Version: 2014052801
 
 TOTxp.xml
 

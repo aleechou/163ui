@@ -4,7 +4,7 @@
 ## Notes: Single window displays for your inventory and bank
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
-## 163UI-Version: 2014052702
+## 163UI-Version: 2014052801
 ## Version: 5.4.15
 ## OptionalDeps: LibStub, Ace3, BagBrother, ItemRack, Wardrobe, WoWUnit
 
