@@ -68,14 +68,14 @@ end
 
 function ItemSlot:OnDragStart(button)
 	if not self:IsCached() then
-	PickupGuildBankItem(self:GetSlot())
-end
+		PickupGuildBankItem(self:GetSlot())
+	end
 end
 
 function ItemSlot:OnReceiveDrag(button)
 	if not self:IsCached() then
-	PickupGuildBankItem(self:GetSlot())
-end
+		PickupGuildBankItem(self:GetSlot())
+	end
 end
 
 function ItemSlot:OnShow()
@@ -100,13 +100,13 @@ function ItemSlot:UpdateTooltip()
 		dummySlot:SetAllPoints(self)
 		dummySlot:Show()
 	else
-	local pet = {GameTooltip:SetGuildBankItem(self:GetSlot())}
-	if pet[1] and pet[1] > 0 then
-		BattlePetToolTip_Show(unpack(pet))
-	end
+		local pet = {GameTooltip:SetGuildBankItem(self:GetSlot())}
+		if pet[1] and pet[1] > 0 then
+			BattlePetToolTip_Show(unpack(pet))
+		end
 
-	GameTooltip:Show()
-end
+		GameTooltip:Show()
+	end
 end
 
 function ItemSlot:SplitStack(split)

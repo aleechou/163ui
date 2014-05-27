@@ -4,7 +4,7 @@
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Dependencies: Bagnon
 ## LoadOnDemand: 1
-
+## 163UI-Version: 2014052702
 localization\localization.xml
 widgets\widgets.xml
 panels\panels.xml
