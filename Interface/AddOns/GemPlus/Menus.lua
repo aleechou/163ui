@@ -212,3 +212,8 @@ local menuTrade = CreateMenu("TradeskillInfoInputBox", "TRADE_SKILL_SHOW")
 function menuTrade:OnShow(editbox)
 	return TradeskillInfoInputBox ~= nil
 end
+
+menu = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
+function menu:OnAttach(editbox)
+editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
+end 
