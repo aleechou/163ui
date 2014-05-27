@@ -81,8 +81,8 @@ minimap = "LibDBIcon10_Dominos",
     {
         text = "设置按钮皮肤",
         tip = "说明`打开按钮美化插件的设置面板。",
-       --暂时只打开masque自带界面 callback = function() UUI.OpenToAddon("masque") end,
-		callback = function() SlashCmdList["MASQUE"]() end,
+        callback = function() UUI.OpenToAddon("masque") end,
+		--callback = function() SlashCmdList["MASQUE"]() end,
 
     },
 

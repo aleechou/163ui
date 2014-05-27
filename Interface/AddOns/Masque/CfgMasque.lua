@@ -120,6 +120,42 @@ U1RegisterAddon("Masque", {
         end,
     },
     {
+        text = "设置动作条布局",
+        tip = "说明`打开多米诺动作条的设置面板。",
+        callback = function() UUI.OpenToAddon("Dominos") end,
+
+    },	
+	{
+        var = 'hookbuff',
+        default = 1,
+        text = '美化玩家增益减益图标',
+        callback = function(cfg, v, loading)
+            local group = LibStub("Masque"):Group('默认BUFF按钮')
+            if loading then return end
+            CoreUIEnableOrDisable(LibStub("Masque"):Group('默认BUFF按钮'), v)
+        end,
+        -- {
+        --     var = "buffSize",
+        --     default = 13,
+        --     type = "spin",
+        --     reload = 1,
+        --     tip = "说明`调整美化后的增益减益下面的计时文字尺寸。",
+        --     range = {9, 15, 1},
+        --     text = "剩余时间文字大小",
+        -- }
+    },
+    -- {
+    --     var = "nameSize",
+    --     default = 13,
+    --     type = "spin",
+    --     reload = 1,
+    --     tip = "说明`调整技能按钮上显示的宏的字体大小。",
+    --     range = {9, 15, 1},
+    --     text = "默认按钮文字大小",
+    -- }
+
+   
+   {
         text = "隐藏主动作条两侧材质",
         var = "hidecap",
         default = 1,
@@ -196,37 +232,10 @@ U1RegisterAddon("Masque", {
             end
 --]]
         end
-    },
+    
+	},
 
-    {
-        var = 'hookbuff',
-        default = 1,
-        text = '美化玩家增益减益图标',
-        callback = function(cfg, v, loading)
-            local group = LibStub("Masque"):Group('默认BUFF按钮')
-            if loading then return end
-            CoreUIEnableOrDisable(LibStub("Masque"):Group('默认BUFF按钮'), v)
-        end,
-        -- {
-        --     var = "buffSize",
-        --     default = 13,
-        --     type = "spin",
-        --     reload = 1,
-        --     tip = "说明`调整美化后的增益减益下面的计时文字尺寸。",
-        --     range = {9, 15, 1},
-        --     text = "剩余时间文字大小",
-        -- }
-    },
-    -- {
-    --     var = "nameSize",
-    --     default = 13,
-    --     type = "spin",
-    --     reload = 1,
-    --     tip = "说明`调整技能按钮上显示的宏的字体大小。",
-    --     range = {9, 15, 1},
-    --     text = "默认按钮文字大小",
-    -- }
-});
+ });   
 
 U1RegisterAddon("ButtonFacade", {
     title = "ButtonFacade",
@@ -258,3 +267,4 @@ if hooksecurefunc then
         end
     end)
 end
+

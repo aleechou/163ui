@@ -10,6 +10,8 @@
 ## Notes-zhTW: Shift、Ctrl（預設）或Alt+滑鼠左鍵按一下,或按兩下滑鼠左鍵快速標記目標
 ## X-Repple: 辅助
 ## SavedVariablesPerCharacter: SRTISaved
+## 163UI-Version: 2014052702
+
 SimpleRaidTargetIcons.lua
 
 ## Title: |cff880303[网易有爱]|r SimpleRaidTargetIcons
