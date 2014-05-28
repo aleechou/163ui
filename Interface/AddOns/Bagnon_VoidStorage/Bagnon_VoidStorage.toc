@@ -4,10 +4,10 @@
 ## Notes: Single window display for your void storage
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
-## 163UI-Version: 2014052801
+
 localization\localization.xml
 components\components.xml
 main.lua
 
 ## Title: |cff880303[网易有爱]|r 虚空银行整合
-## X-Vendor: NetEase
+## X-Vendor: NetEase## 163UI-Version: 2014052801

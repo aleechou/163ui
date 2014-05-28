@@ -13,3 +13,4 @@ BiggerTradeSkillUI.lua
 
 ## Title: |cff880303[网易有爱]|r 制造面板增强
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

@@ -19,3 +19,4 @@ worldevents.lua
 
 ## Title: |cff880303[网易有爱]|r 副本掉落 [世界事件]
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

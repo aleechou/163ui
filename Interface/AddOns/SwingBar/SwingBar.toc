@@ -11,3 +11,4 @@ SwingBar.lua
 
 ## Title: |cff880303[网易有爱]|r 普攻计时
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

@@ -15,3 +15,4 @@ Options.lua
 
 ## Title: |cff880303[网易有爱]|r Ellipsis_Options
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

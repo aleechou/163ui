@@ -19,3 +19,4 @@ burningcrusade.lua
 
 ## Title: |cff880303[网易有爱]|r 副本掉落 AL_BurningCrusade
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

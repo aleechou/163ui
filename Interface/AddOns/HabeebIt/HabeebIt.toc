@@ -16,3 +16,4 @@ HabeebIt.lua
 
 ## Title: |cff880303[网易有爱]|r 好运符管家
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

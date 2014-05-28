@@ -14,3 +14,4 @@ localization.lua
 JPack_Ex.lua
 ## Title: |cff880303[网易有爱]|r 背包整理扩展 for Combuctor
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

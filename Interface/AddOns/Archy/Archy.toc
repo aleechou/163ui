@@ -10,7 +10,7 @@
 ## X-Curse-Project-Name: Archy - Archaeology Assistant
 ## X-Curse-Project-ID: archy
 ## X-Curse-Repository-ID: wow/archy/mainline
-## 163UI-Version: 2014052801
+
 
 ..\LibBabble-3.0\LibBabble-3.0.lua
 ..\LibBabble-3.0\LibBabble-DigSites-3.0.lua
@@ -35,3 +35,4 @@ Bindings.xml
 
 ## Title: |cff880303[网易有爱]|r Archy
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801
