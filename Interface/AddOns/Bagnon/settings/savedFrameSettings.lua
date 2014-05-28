@@ -470,7 +470,6 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		itemFrameColumns = 10,
 		itemFrameSpacing = 2,
 		bagBreak = false,
-		reverseSlotOrder = false,
 
 		--optional components
 		hasMoneyFrame = true,
@@ -478,9 +477,13 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		hasDBOFrame = true,
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
+
+		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',
+		
+		--slot ordering
+		reverseSlotOrder = false,
 	}
-	
 	SavedFrameSettings.bankDefaults = defaults
 	return defaults
 end

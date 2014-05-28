@@ -1,6 +1,6 @@
 U1RegisterAddon("Bagnon", {
     title = "简约背包整合",
-    defaultEnable = 0,
+    defaultEnable = 1,
     optionsAfterLogin = 1,
     nopic = true,
 
@@ -47,4 +47,3 @@ U1RegisterAddon("tdPack", {
 	parent = "Bagnon",
     hide = 1,
 })
-
