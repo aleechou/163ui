@@ -22,9 +22,6 @@ button:RequireSpell(88747)
 button.icon.text:ClearAllPoints()
 button.icon.text:SetPoint("BOTTOMRIGHT")
 
-
--- RegisterStateDriver(button, "visibility", "[form:1/3] hide; show")
-
 function button:OnUpdateTimer(spell)
 	local shortest, count = 0, 0
 	local i
@@ -52,7 +49,7 @@ function button:OnUpdateTimer(spell)
 		return -1, shortest
 	end
 end
-
+--163uiedit
 local function update()
     local spellID = 102791 -- 恢复
     if(GetSpecialization() == 1) then

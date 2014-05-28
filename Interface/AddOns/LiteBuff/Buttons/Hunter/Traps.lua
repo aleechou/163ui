@@ -32,6 +32,7 @@ end
 
 RegisterTrap(1499, 60, "frost", "single") -- Frozen
 RegisterTrap(13809, 30, "frost", "aoe") -- Frost
+--163uiedit
 -- RegisterTrap(13795, 15, "fire", "single") -- Immo
 RegisterTrap(13813, 20, "fire", "damage") -- Explosion
 RegisterTrap(34600, 15, "natural", "guardian") -- Snake

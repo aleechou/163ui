@@ -21,4 +21,5 @@ local button = addon:CreateActionButton("PriestChakra", CATEGORY, nil, nil, "PLA
 button:SetAttribute("type", "spell")
 button:SetScrollable(spellList)
 button:SetFlyProtect()
-button:RequireSpell(81208)
+--163uiedit
+button:RequireSpell(34861)

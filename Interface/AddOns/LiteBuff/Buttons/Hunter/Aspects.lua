@@ -42,7 +42,7 @@ function button:OnFlyStateChanged(flying)
 		self.icon:SetDesaturated(false)
 	end
 end
-
+--163uiedit
 local button = addon:CreateActionButton('HunterAspects2', L['aspects']..'2', nil, nil, 'DUAL', 'STANCE')
 button:SetAttribute("type", "spell")
 button:RequireSpell(13165)

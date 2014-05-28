@@ -81,6 +81,7 @@ end
 
 function button:OnUpdateTimer()
 	local spec = GetActiveSpecGroup()
+--163uiedit
 	--self.icon:SetSpell(spellList[1])
 	--self.icon2:SetSpell(spellList[2])
 	self.icon:SetSpell(spellList[spec])

@@ -53,13 +53,13 @@
 -- Mark of the Wild, Legacy of the Emperor, Blessing of Kings, Embrace of the Shale Spider
 
 -- STAMINA
--- Power Word: Fortitude, Imp: Blood Pact, Commanding Shout, Qiraji Fortitude
+-- Power Word: Fortitude, Imp: Blood Pact, Commanding Shout, Qiraji Fortitude, Dark Intent
 
 -- ATTACK_POWER
 -- Horn of the Winter, Trueshot Aura, Battle Shout
 
 -- SPELL_POWER
--- Arcane Brilliance, Burning Wrath, Dark Intent
+-- Arcane Brilliance, Burning Wrath, Dark Intent, Dalaran Brilliance
 
 -- ATTACK_HASTE
 -- Unholy Aura, Swiftblade's Cunning, Unleashed Rage, Serpent's Swiftness
@@ -68,7 +68,7 @@
 -- Moonkin Aura, Shadowform, Elemental Oath
 
 -- CRITICAL_STRIKE
--- Leader of the Pack, Arcane Brilliance, Trueshot Aura, Legacy of the White Tiger, Furious Howl
+-- Leader of the Pack, Arcane Brilliance, Legacy of the White Tiger, Furious Howl, Dalaran Brilliance
 
 --- MASTERY
 -- Legacy of the White Tiger, Blessing of Might, Grace of Air, Roar of Courage
@@ -123,7 +123,7 @@ local UnitDebuff = UnitDebuff
 local _
 
 local LIBNAME = "LibBuffGroups-1.0"
-local VERSION = 1.02
+local VERSION = 1.06
 
 local lib = _G[LIBNAME]
 if lib and lib.version >= VERSION then return end
@@ -179,13 +179,13 @@ end
 AddAuraGroup("STATS", 1126, 115921, 20217, 90363) -- Mark of the Wild, Legacy of the Emperor, Blessing of Kings, Embrace of the Shale Spider
 
 -- STAMINA
-AddAuraGroup("STAMINA", 21562, 103127, 469, 90364) -- Power Word: Fortitude, Imp: Blood Pact, Commanding Shout, Qiraji Fortitude
+AddAuraGroup("STAMINA", 109773, 21562, 103127, 469, 90364) -- Dark Intent, Power Word: Fortitude, Imp: Blood Pact, Commanding Shout, Qiraji Fortitude
 
 -- ATTACK_POWER
 AddAuraGroup("ATTACK_POWER", 57330, 19506, 6673) -- Horn of the Winter, Trueshot Aura, Battle Shout
 
 -- SPELL_POWER
-AddAuraGroup("SPELL_POWER", 1459, 77747, 109773) -- Arcane Brilliance, Burning Wrath, Dark Intent
+AddAuraGroup("SPELL_POWER", 109773, 1459, 77747, 61316) -- Dark Intent, Arcane Brilliance, Burning Wrath, Dalaran Brilliance
 
 -- ATTACK_HASTE
 AddAuraGroup("ATTACK_HASTE", 55610, 113742, 30809, 128433) -- Unholy Aura, Swiftblade's Cunning, Unleashed Rage, Serpent's Swiftness
@@ -194,7 +194,7 @@ AddAuraGroup("ATTACK_HASTE", 55610, 113742, 30809, 128433) -- Unholy Aura, Swift
 AddAuraGroup("SPELL_HASTE", 24907, 15473, 51470) -- Moonkin Aura, Shadowform, Elemental Oath
 
 -- CRITICAL_STRIKE
-AddAuraGroup("CRITICAL_STRIKE", 17007, 1459, 19506, 116956, 24604) -- Leader of the Pack, Arcane Brilliance, Trueshot Aura, Legacy of the White Tiger, Furious Howl
+AddAuraGroup("CRITICAL_STRIKE", 17007, 1459, 116781, 24604, 61316) -- Leader of the Pack, Arcane Brilliance, Legacy of the White Tiger, Furious Howl, Dalaran Brilliance
 
 --- MASTERY
 AddAuraGroup("MASTERY", 116781, 19740, 116956, 93435) -- Legacy of the White Tiger, Blessing of Might, Grace of Air, Roar of Courage

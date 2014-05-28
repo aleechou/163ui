@@ -33,6 +33,7 @@ addon.L = {
 	["presences"] = "Presence",
 	["stances"] = "Stance",
 	["aspects"] = "Aspect",
+	["legacies"] = "Legacy spells",
 	["fly protecting"] = "Fly protecting",
 	["weapon"] = "Weapon: %s",
 	["remove weapon poison"] = "Remove weapon poison",
@@ -55,4 +56,5 @@ addon.L = {
 	["shouts"] = "Shout",
 	["general options"] = "General Options",
 	["disable buttons"] = "Disable Buttons",
+	["crystal of insanity"] = "Crystal of Insanity",
 }

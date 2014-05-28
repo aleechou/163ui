@@ -1,20 +1,20 @@
-
+﻿
 local wipe = wipe
 local tinsert = table.insert
 
 local db, list
 
 U1RegisterAddon("LiteBuff", {
-    title = "职业快捷按钮",
+    title = "職業快捷按鈕",
     defaultEnable = 1,
-    tags = {TAG_COMBATINFO },
+    tags = { TAG_COMBATINFO },
     frames = { 'LiteBuffFrame' },
     optionsAfterVar = 1,
     load = "LOGIN",
     icon = [[Interface\Icons\INV_Relics_Warpring]],
-    desc = "Abin的最新作品，针对每个职业配置的快捷施法条。例如潜行者有3个按钮，分别代表主手、副手、远程武器，鼠标滚轮选择要使用的毒药，左键点击是上毒，右键点击是移除毒药。再比如法师开门，也是滚动选择目的地，左键开门，右键自己传送。部分状态类的按钮上，红色表示缺失此状态，黄色表示部分人员缺失，绿色表示齐备。`此外还提供了天赋切换、精炼合计、随机坐骑的按钮。插件完全使用安全模板开发，战斗中不会出错，Abin出品值得信赖。`网易有爱特别调整了原版的显示方式，比较符合普通玩家的习惯，可以在控制台调整按钮大小、间隔，并可以使用按钮美化插件美化。",
+    desc = "Abin的最新作品，針對每個職業配置的快捷施法條。例如潛行者有3個按鈕，分別代表主手、副手、遠程武器，鼠標滾輪選擇要使用的毒藥，左鍵點擊是上毒，右鍵點擊是移除毒藥。再比如法師開門，也是滾動選擇目的地，左鍵開門，右鍵自己傳送。部分狀態類的按鈕上，紅色表示缺失此狀態，黃色表示部分人員缺失，綠色表示齊備。`此外還提供了天賦切換、精煉合計、隨機坐騎的按鈕。插件完全使用安全模板開發，戰鬥中不會出錯，Abin出品值得信賴。",
     author = "Abin",
-    modifier = "|cffcd1a1c[网易]|r",
+    modifier = "|cffcd1a1c[Warbaby@163]|r",
 
     toggle = function(name, info, enable, justload)
         if not justload then
@@ -29,7 +29,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         var = 'growh',
-        text = '横向排列',
+        text = '橫向排列',
         default = 1,
         callback = function(cfg, v, loading)
             if(not loading) then LiteBuff:RefreshLiteBuffs() end
@@ -38,7 +38,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         var = 'locked',
-        text = '锁定位置',
+        text = '鎖定位置',
         default = false,
         callback = function(cfg, v, loading)
             LiteBuff.chardb.lock = v
@@ -47,7 +47,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         var = 'iconsize',
-        text = '图标尺寸',
+        text = '圖標尺寸',
         default = 32,
         type = "spin",
         range = {24, 48, 1},
@@ -58,7 +58,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         var = 'gap',
-        text = '图标间隔',
+        text = '圖標間隔',
         default = 6,
         type = "spin",
         range = {-2, 20, 1},
@@ -70,7 +70,7 @@ U1RegisterAddon("LiteBuff", {
     {
         type = 'spin',
         var = 'scale',
-        text = '缩放',
+        text = '縮放',
         range = { .2, 3, .05 }, -- Limit from litebuff itself
         default = 1,
         -- getvalue = function()
@@ -91,7 +91,7 @@ U1RegisterAddon("LiteBuff", {
     },
     {
         var = 'simpletip',
-        text = '简短提示',
+        text = '簡短提示',
         default = false,
         -- getvalue = function()
         --     return LiteBuff and LiteBuff.db.simpletip
@@ -103,7 +103,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         type = 'checklist',
-        text = '禁用按钮',
+        text = '禁用按鈕',
         getvalue = function()
             db = db or {}
             wipe(db)

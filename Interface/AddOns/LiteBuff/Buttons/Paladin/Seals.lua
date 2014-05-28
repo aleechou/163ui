@@ -12,6 +12,7 @@ local UnitGUID = UnitGUID
 local _, addon = ...
 local L = addon.L
 
+--163uiedit
 local seals =  {
     20154,
     20165,
@@ -24,6 +25,7 @@ local spellList = {}
 local button = addon:CreateActionButton("PaladinSeals", L["seals"], nil, nil, "STANCE")
 button:SetAttribute("type", "spell")
 
+--163uiedit
 local function update()
     wipe(spellList)
     for _, id in next, seals do

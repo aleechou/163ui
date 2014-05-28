@@ -14,6 +14,7 @@
 
 	<Script file="Mage\ArcaneBrilliance.lua"/>
 	<Script file="Mage\Armors.lua"/>
+	<!-- <Script file="Mage\Invocation.lua"/> -->
 	<Script file="Mage\ManaGem.lua"/>
 	<Script file="Mage\Portal.lua"/>
 	<Script file="Mage\WaterElement.lua"/>
@@ -31,7 +32,7 @@
 	<Script file="Rogue\WeaponPoison.lua"/>
 
 	<Script file="Shaman\Shields.lua"/>	
-	<Script file="Shaman\Totems.lua"/>	
+	<!-- <Script file="Shaman\Totems.lua"/> -->
 	<!-- <Script file="Shaman\EarthTotems.lua"/> -->
 	<!-- <Script file="Shaman\FireTotems.lua"/> -->
 	<!-- <Script file="Shaman\WaterTotems.lua"/> -->
@@ -47,5 +48,10 @@
 	<Script file="Warrior\Stances.lua"/>
 	<Script file="Warrior\Shouts.lua"/>
 
+	<Script file="Monk\Stances.lua"/>
+	<Script file="Monk\Statues.lua"/>	
+	<Script file="Monk\Legacies.lua"/>
+	
+	<Script file="Common\CrystalOfInsanity.lua"/>
 	<!-- <Script file="Common\Alchemy.lua"/> -->
 </Ui>

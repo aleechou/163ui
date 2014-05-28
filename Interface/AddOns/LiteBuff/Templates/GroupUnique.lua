@@ -19,6 +19,14 @@ end
 local function Button_OnUpdateTimer(self, spell)
 	self.affectedUnit = nil
 	local allowSelf = self.allowSelf
+	if allowSelf then
+		local expires = addon:GetUnitBuffTimer("player", spell, 1)
+		if expires then
+			self.affectedUnit = "player"
+			return 1, expires
+		end
+	end
+
 	local key, count = addon:IsGrouped()
 	if key then
 		local i
@@ -31,12 +39,6 @@ local function Button_OnUpdateTimer(self, spell)
 					return 1, expires
 				end
 			end
-		end
-	elseif allowSelf then
-		local expires = addon:GetUnitBuffTimer("player", spell, 1)
-		if expires then
-			self.affectedUnit = "player"
-			return 1, expires
 		end
 	end
 end
