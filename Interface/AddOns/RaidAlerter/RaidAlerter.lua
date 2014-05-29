@@ -2579,7 +2579,7 @@ function RaidAlerter_OnEvent(self, event, ...)
 		RaidAlerter_Check_Variables();
 		RaidAlerter_MainFrame:SetClampedToScreen(true);
 		RaidAlerter_Attack_Frame:SetClampedToScreen(true);
-		RaidAlerter.AddMsg(RAL_TEXT_MINDMSG.."|cFF5588FF/ral help|r");
+		--RaidAlerter.AddMsg(RAL_TEXT_MINDMSG.."|cFF5588FF/ral help|r");
 	elseif (event=="PLAYER_ENTERING_WORLD") then
 		RaidAlerter_SetCameraMaxToMax();
 		RaidAlerter_Option_MainFrame_Update();
@@ -5351,6 +5351,7 @@ function RaidAlerter_Inspect(self, check)
 	end
 	InspectUnit(unit);
 end
+
 
 function RaidAlerter.AddMsg(msg, NoPrefix)
 	if DEFAULT_CHAT_FRAME then

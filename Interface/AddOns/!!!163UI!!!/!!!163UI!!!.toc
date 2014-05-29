@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Title: |cff880303[网易有爱]|r !!控制台和基本库
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014052903
 
 ## OptionalDeps: 163Core, !!!Ace3, !!!Libs
 ## SavedVariablesPerCharacter: U1DB
@@ -87,6 +87,7 @@ Plugin\GuildRosterButtons.lua
 Plugin\NoGoldSeller.lua
 Plugin\rQuestWatchFrameMover.lua
 Plugin\MerchantFilterButtons.lua
+Plugin\ProfessionTabs.lua
 
 # yClassColors
 Plugin\yClassColors\core.lua

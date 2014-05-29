@@ -1,6 +1,7 @@
 local DEV_MOD = false
 local debug
 local debugf = tekDebug and tekDebug:GetFrame("JPack")--tekDebug
+
 if debugf then
 	debug = function(...) debugf:AddMessage(string.join(", ", tostringall(...))) end
 else
@@ -821,7 +822,6 @@ function JPack:ADDON_LOADED(event, addon)
 		JPackDB.version = version
 	end
 	
-	print(format('%s %s', version, L["HELP"]))
 	
 	
 	JPack:RegisterEvent"BANKFRAME_OPENED"
