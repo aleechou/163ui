@@ -99,7 +99,7 @@ function BagToggle:OnClick(button)
 
 		if self:GetSettings():GetGuild() then
 			addLine('guildbank', GUILD_BANK, 'Bagnon_GuildBank')
-		end
+				end
 		
 		if #menu > 1 then
 			EasyMenu(menu, Dropdown, self, 0, 0, 'MENU')
@@ -162,6 +162,7 @@ function BagToggle:UpdateTooltip()
 	end
 	
 	GameTooltip:SetText(L.TipBags)
+
 	if self:IsBagFrameShown() then
 		GameTooltip:AddLine(L.TipHideBags, 1,1,1)
 	else

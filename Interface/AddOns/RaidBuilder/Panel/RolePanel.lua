@@ -104,6 +104,13 @@ function RolePanel:OnInitialize()
         self.event = nil
     end)
 
+    local QuickMsg = GUI:GetClass('Dropdown'):New(self)
+    QuickMsg:SetPoint('BOTTOM', 0, 45)
+    QuickMsg:SetSize(205, 26)
+    QuickMsg:SetMenuTable(QUICK_MSG_MENUTABLE)
+    QuickMsg:SetDefaultText(L['你想对团长说什么？'])
+
+    self.QuickMsg = QuickMsg
     self.AcceptButton = AcceptButton
     self.RoleList = RoleList
     self.Password = Password
@@ -154,6 +161,7 @@ function RolePanel:SetArguments(callback, event)
 
     local hasPassword = event and event:GetHasPassword() or nil
     local isSelf = event and (event:IsSelf() or not event:GetLeader()) or nil
+    local QuickMsg = event and EVENT_QUICK_MSG_MENUTABLE[event:GetEventMode()] or nil
 
     local height = 160
     if hasPassword then
@@ -161,12 +169,22 @@ function RolePanel:SetArguments(callback, event)
     end
     if not isSelf then
         height = height + 30
+        if QuickMsg then
+            height = height + 26
+        end
     end
 
     if isSelf then
+        self.QuickMsg:Hide()
         self.HelpButton:Hide()
         self.RoleList:SetPoint('TOP', 0, -50)
     else
+        if QuickMsg then
+            self.QuickMsg:Show()
+            self.QuickMsg:SetValue(nil)
+        else
+            self.QuickMsg:Hide()
+        end
         self.HelpButton:Show()
         self.RoleList:SetPoint('TOP', 0, -80)
 
@@ -199,8 +217,9 @@ function RolePanel:AcceptOnClick()
         return
     end
     local password = self.Password:IsShown() and self.Password:GetNumber()
+    local msgId = self.QuickMsg:IsShown() and self.QuickMsg:GetValue()
 
-    self.callback(role, password)
+    self.callback(role, password, msgId)
 end
 
 function RolePanel:UpdateAcceptButton()

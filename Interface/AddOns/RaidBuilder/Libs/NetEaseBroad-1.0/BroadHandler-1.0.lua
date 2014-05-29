@@ -11,7 +11,7 @@ local AceEvent = assert(LibStub('AceEvent-3.0', true), 'BroadHandler-1.0 require
 local AceSerializer = assert(LibStub('AceSerializer-3.0', true), 'BroadHandler-1.0 requires AceSerializer-3.0')
 local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandler-1.0 requires CallbackHandler-1.0')
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
-local Base64 = assert(LibStub('LibBase64-1.0', true), 'BroadHandler-1,0 requires LibBase64-1.0')
+local Base64 = assert(LibStub('NetEaseBase64-1.0', true), 'BroadHandler-1,0 requires NetEaseBase64-1.0')
 
 local MAJOR, MINOR = 'BroadHandler-1.0', 7
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)

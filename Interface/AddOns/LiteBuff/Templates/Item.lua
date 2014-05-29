@@ -13,13 +13,13 @@ local L = addon.L
 local templates = addon.templates
 
 local function Button_OnBagUpdate(self)
-	local count = GetItemCount(self.itemID or 0, false, self.asCharges) or 0
-	self.itemCount = count
-	local r, g, b = addon:GetGradientColor(count, self.threshold)
+	local count = GetItemCount(self.itemID or 0, false, self.asCharges) or 0 --163uiedit
+	self.itemCount = count --163uiedit
+	local r, g, b = addon:GetGradientColor(count, self.threshold) --163uiedit
 	self.icon:SetText(count, r, g, b)
 
-	if count > 0 then
-		local start, duration, enable = GetItemCooldown(self.itemID)
+	if count > 0 then --163uiedit
+		local start, duration, enable = GetItemCooldown(self.itemID) --163uiedit
 		if start and start > 0 and duration > 0 and enable > 0 then
 			self.icon.cooldown:SetCooldown(start, duration)
 			self.icon.cooldown:Show()
@@ -35,12 +35,12 @@ local function Button_OnBagUpdate(self)
 	self:UpdateTimer()
 end
 
-local function Button_SetItem(self, itemID, threshold, asCharges)
+local function Button_SetItem(self, itemID, threshold, asCharges) --163uiedit
 	self.itemCount = 0
 	self.itemCooldownExpires = 0
-	self.itemID = itemID
-	self.threshold = threshold or 1
-	self.asCharges = asCharges
+	self.itemID = itemID --163uiedit
+	self.threshold = threshold or 1 --163uiedit
+	self.asCharges = asCharges --163uiedit
 	Button_OnBagUpdate(self)
 end
 

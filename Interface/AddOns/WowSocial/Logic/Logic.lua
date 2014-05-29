@@ -8,7 +8,7 @@ Logic = Cloud:NewModule('Logic',
     'AceTimer-3.0',
     'NetEaseSocketClient-1.0')
 
-local Base64 = LibStub('LibBase64-1.0')
+local Base64 = LibStub('NetEaseBase64-1.0')
 local AceSerializer = LibStub('AceSerializer-3.0')
 
 Logic.timers = {}

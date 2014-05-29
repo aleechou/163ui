@@ -35,7 +35,10 @@ end
 
 function ItemSlot:Create()
 	local id = self:GetNextItemSlotID()
-	local item = self:Bind(self:GetBlizzardItemSlot(id) or self:ConstructNewItemSlot(id))
+	-- XXX 163
+	--local item = self:Bind(self:GetBlizzardItemSlot(id) or self:ConstructNewItemSlot(id))
+	local item = self:Bind(self:ConstructNewItemSlot(id))
+	-- XXX 163
 	local name = item:GetName()
 
 	--add a quality border texture
@@ -427,7 +430,7 @@ function ItemSlot:ShowTooltip()
 	if self:IsBank() then
 		GameTooltip:SetInventoryItem('player', BankButtonIDToInvSlotID(self:GetID()))
 		GameTooltip:Show()
-		CursorUpdate(self)
+		--CursorUpdate(self) XXX 163
 	else
 		ContainerFrameItemButton_OnEnter(self)
 	end	

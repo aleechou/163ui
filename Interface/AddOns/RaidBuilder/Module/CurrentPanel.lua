@@ -249,7 +249,7 @@ function CurrentPanel:OnInitialize()
     ShareButton:SetPoint('RIGHT', YiXinButton, 'LEFT', -80, 0)
     ShareButton:SetText(L['活动通告'])
     ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]])
-    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 1)
+    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 0.5)
     ShareButton:SetTooltip(L['活动通告'])
     ShareButton:Disable()
     ShareButton:SetScript('OnClick', function()
@@ -258,14 +258,6 @@ function CurrentPanel:OnInitialize()
             return
         end
         RaidBuilder:ShowModule('SharePanel', L['活动通告'], content)
-    end)
-
-    local YXHelp = Button:New(self)
-    YXHelp:SetPoint('RIGHT', ShareButton, 'LEFT', -130, 0)
-    YXHelp:SetText(L['如何关注好团长?'])
-    YXHelp:SetIcon([[INTERFACE\ICONS\INV_Misc_QuestionMark]])
-    YXHelp:SetScript('OnClick', function()
-        RaidBuilder:ShowModule('YiXinSummary')
     end)
 
     local MemberList = GUI:GetClass('GridView'):New(self)
@@ -365,12 +357,85 @@ function CurrentPanel:OnInitialize()
         self.InviteChatGroupButton = InviteChatGroupButton
     end
 
+    local RulesPanel = CreateFrame('ScrollFrame', nil, self)
+    RulesPanel:SetPoint('TOPRIGHT', MemberList, 7, 8)
+    RulesPanel:SetSize(265, 0)
+    RulesPanel:SetFrameLevel(MemberList:GetFrameLevel() + 10)
+
+    local function ToggleRulesPanel()
+        if RulesPanel:GetScript('OnUpdate') then
+            return
+        end
+        local isShow = not (RulesPanel:GetHeight() > 0)
+        local x = 0.01
+        RulesPanel:SetScript('OnUpdate', function(self, elapsed)
+            if x > 0 then
+                x = x - elapsed
+                return
+            end
+            x = 0.01
+            if isShow then
+                if self:GetHeight() < 320 then
+                    self:SetHeight(self:GetHeight() + 32)
+                else
+                    self:SetScript('OnUpdate', nil)
+                end
+            else
+                if self:GetHeight() > 0 then
+                    self:SetHeight(self:GetHeight() - 32)
+                else
+                    self:SetScript('OnUpdate', nil)
+                end
+            end
+        end)
+    end
+
+    local RulesChild = CreateFrame('Frame', nil, RulesPanel)
+    RulesChild:SetAllPoints(true)
+    RulesChild:SetSize(265, 320)
+    RulesPanel:SetScrollChild(RulesChild)
+
+    local RulesChildTexture = RulesChild:CreateTexture(nil, 'BACKGROUND')
+    RulesChildTexture:SetTexture([[INTERFACE\BarberShop\UI-BARBERSHOP]])
+    RulesChildTexture:SetTexCoord(0, 0.517578125, 0, 0.625)
+    RulesChildTexture:SetAllPoints(true)
+
+    local RulesCloseButton = CreateFrame('Button', nil, RulesChild)
+    RulesCloseButton:SetNormalTexture([[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]])
+    RulesCloseButton:GetNormalTexture():SetTexCoord(192/256, 224/256, 0.5, 1)
+    RulesCloseButton:SetHighlightTexture([[INTERFACE\Challenges\challenges-metalglow]], 'ADD')
+    RulesCloseButton:GetHighlightTexture():SetTexCoord(0.25, 0.75, 0.25, 0.75)
+    RulesCloseButton:SetPoint('TOPRIGHT', -30, -40)
+    RulesCloseButton:SetSize(32, 32)
+    RulesCloseButton:SetScript('OnClick', ToggleRulesPanel)
+
+    local RulesTextPanel = GUI:GetClass('ScrollFrame'):New(RulesChild)
+    RulesTextPanel:SetPoint('TOPLEFT', 60, -80)
+    RulesTextPanel:SetSize(197, 160)
+    local RulesTextChild = CreateFrame('Frame', nil, RulesTextPanel)
+    RulesTextChild:SetPoint('TOPLEFT')
+    RulesTextChild:SetSize(150, 160)
+    RulesTextPanel:SetScrollChild(RulesTextChild)
+    local RulesText = GUI:GetClass('SummaryHtml'):New(RulesTextChild)
+    RulesText:SetPoint('TOPLEFT')
+    RulesText:SetSize(150, 160)
+
+    local RulesButton = Button:New(self)
+    RulesButton:SetIcon([[INTERFACE\ICONS\INV_MISC_NOTE_02]])
+    RulesButton:SetPoint('RIGHT', ShareButton, 'LEFT', -80, 0)
+    RulesButton:SetText(L['详细介绍'])
+    RulesButton:SetTooltip(L['暂无详细介绍'])
+    RulesButton:Disable()
+    RulesButton:SetScript('OnClick', ToggleRulesPanel)
+
     self.ShareButton = ShareButton
     self.YiXinButton = YiXinButton
     self.TitleLabel = TitleLabel
     self.DisbandGroupButton = DisbandGroupButton
     self.GroupInfo = GroupInfo
     self.MemberList = MemberList
+    self.RulesText = RulesText
+    self.RulesButton = RulesButton
     self.Size = {x = self:GetWidth(), y = self:GetHeight()}
 
     self:RegisterBucketEvent({'PLAYER_LOGIN', 'GROUP_ROSTER_UPDATE'}, 1, 'UpdateGroup')
@@ -378,6 +443,7 @@ function CurrentPanel:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroup')
+    self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE', 'UpdateRules')
     self:ScheduleRepeatingTimer('OnTimer', 5)
 end
 
@@ -523,6 +589,8 @@ function CurrentPanel:RefreshButton()
     if self.InviteChatGroupButton then
         self.InviteChatGroupButton:SetEnabled(#GetOwnChatGroupList(UnitFullName('player')) > 0 and not self:GetInviteButtonStatus())
     end
+
+    self:UpdateRules()
 end
 
 function CurrentPanel:SetInviteButtonStatus(flag)
@@ -532,4 +600,20 @@ end
 
 function CurrentPanel:GetInviteButtonStatus()
     return self.inviteButtonStatus
+end
+
+function CurrentPanel:SetRulesText(text)
+    self.RulesText:SetText(text:gsub('(%a[%w+.-]+://%S+)', '|Hurl:%1|h|cff00ffff[%1]|r|h'))
+end
+
+function CurrentPanel:UpdateRules()
+    local event = GroupCache:GetCurrentEventCode()
+    local rules = GroupCache:GetCurrentEventRules()
+
+    local isEnable = event and rules and rules ~= ''
+    self.RulesButton:SetEnabled(isEnable)
+    self.RulesButton:SetTooltip(isEnable and L['点击查看详细介绍'] or L['暂无详细介绍'])
+    if isEnable then
+        self:SetRulesText(rules)
+    end
 end

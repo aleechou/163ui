@@ -1,5 +1,5 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 6)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 7)
 if not GUI then
     return
 end
@@ -165,6 +165,7 @@ function GUI:CallInputDialog(text, callback, key, default, maxBytes, ...)
     t.hasEditBox = true
     t.maxLetters = maxBytes or 32
     t.maxBytes = maxBytes or 255
+    t.timeout = 60
 
     local args = {...}
 

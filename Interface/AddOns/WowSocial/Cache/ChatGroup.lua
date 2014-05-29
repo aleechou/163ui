@@ -141,5 +141,9 @@ function ChatGroup:UserIsManager(name)
 end
 
 function ChatGroup:IsPublic()
-    return self:GetGroupType() == GROUPTYPE_NETEASE
+    return self:GetGroupType() == GROUPTYPE_NETEASE or self:GetGroupType() == GROUPTYPE_AUTOJOIN
+end
+
+function ChatGroup:IsPublicFirstTouch()
+    return self:GetGroupType() == GROUPTYPE_AUTOJOIN and self:UserIsMember(PLAYER_NAME) == nil
 end

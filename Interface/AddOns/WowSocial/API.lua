@@ -167,7 +167,7 @@ function LeaveChatGroup(gid)
     end
     local group = ChatGroupCache:GetChatGroup(gid)
     if group and group:IsPublic() then
-        group:SetJoined(nil)
+        group:SetJoined(false)
 
         ChatGroupCache:LeaveChatGroup(gid)
         
@@ -194,7 +194,7 @@ function KickChatGroup(gid, target)
     return Logic:SendServer('COMM_GROUP_KICK', gid, target)
 end
 
-function _G.InviteChatGroup(gid, target)
+function InviteChatGroup(gid, target)
     if type(gid) ~= 'number' then
         error(([[bad argument #1 to 'InviteChatGroup' (number expected, got %s)]]):format(type(gid)), 2)
     end
@@ -310,7 +310,7 @@ function UserIsChatGroupMember(gid, name)
         error(([[bad argument #1 to 'UserIsChatGroupMember' (string expected, got %s)]]):format(type(name)), 2)
     end
     local group = ChatGroupCache:GetChatGroup(gid)
-    return group and group:UserIsMember(name)
+    return group and group:UserIsMember(name) or nil
 end
 
 ---- ChatLog
@@ -397,7 +397,7 @@ function SetAnnRead(index)
     Logic:SendMessage('NECLOUD_ANNOUNCEMENT_UPDATE', hasUnread)
 end
 
-function _G.GetOwnChatGroupList(fullName)
+function GetOwnChatGroupList(fullName)
     local list = GetChatGroupList()
     local result = {}
     for i, v in ipairs(list) do
@@ -406,5 +406,15 @@ function _G.GetOwnChatGroupList(fullName)
         end
     end
 
+    return result
+end
+
+function GetJoinedChatGroupList()
+    local result = {}
+    for i, v in ipairs(GetChatGroupList()) do
+        if UserIsChatGroupMember(v.target, PLAYER_NAME) then
+            tinsert(result, v)
+        end
+    end
     return result
 end

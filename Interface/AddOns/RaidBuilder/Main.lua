@@ -68,18 +68,29 @@ function RaidBuilder:OnInitialize()
 end
 
 function RaidBuilder:PromoteToLeader(...)
+    local arg1, arg2 = ...
     if EventCache:GetCurrentEvent() then
-        System:Error(L['当前正在组织活动，不能转移队长。'])
+        GUI:CallMessageDialog(L['当前正在组织活动，转移队长将解散当前活动，是否继续？'], function(result)
+            if result then
+                Logic:DisbandEvent()
+                self.hooks.PromoteToLeader(arg1, arg2)
+            end
+        end)
     else
-        return self.hooks.PromoteToLeader(...)
+        return self.hooks.PromoteToLeader(arg1, arg2)
     end
 end
 
-function RaidBuilder:LeaveParty(...)
+function RaidBuilder:LeaveParty()
     if EventCache:GetCurrentEvent() and UnitIsGroupLeader('player') and not IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-        System:Error(L['当前正在组织活动，不能离开队伍，请先解散活动。'])
+        GUI:CallMessageDialog(L['当前正在组织活动，离开队伍将解散当前活动，是否继续？'], function(result)
+            if result then
+                Logic:DisbandEvent()
+                self.hooks.LeaveParty()
+            end
+        end)
     else
-        return self.hooks.LeaveParty(...)
+        return self.hooks.LeaveParty()
     end
 end
 

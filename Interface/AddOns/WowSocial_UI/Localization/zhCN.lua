@@ -95,7 +95,6 @@ L['%s已退出群组%s。'] = true
 L['%s被%s踢出群组%s。'] = true
 L['%s邀请你加入群组%s。'] = true
 L['%s：发现新版本 %s，请及时下载更新\n%s'] = true
-L['<html><body><h3>%s</h3><p><br />%s</p></body></html>'] = true
 L['PvP'] = true
 L['|cffff0000试玩账号无法发送消息。|r'] = true
 L['下载链接：'] = true

@@ -31,7 +31,7 @@ local WEB_HEADER = {
     {
         key = 'PersonNum',
         text = L['当前人数'],
-        width = 100,
+        width = 80,
         showHandler = function(event)
             return event:GetPersonNum()
         end,
@@ -42,7 +42,7 @@ local WEB_HEADER = {
     {
         key = 'LeaderLevel',
         text = L['等级'],
-        width = 80,
+        width = 70,
         showHandler = function(event)
             return event:GetLevel()
         end,
@@ -53,7 +53,7 @@ local WEB_HEADER = {
     {
         key = 'LeaderItemLevel',
         text = L['装等'],
-        width = 80,
+        width = 70,
         showHandler = function(event)
             return event:GetItemLevel()
         end,
@@ -65,7 +65,7 @@ local WEB_HEADER = {
         key = 'Leader',
         text = L['团长'],
         style = 'LEFT',
-        width = 150,
+        width = 170,
         showHandler = function(event)
             return event:GetLeader()
         end,
@@ -74,9 +74,20 @@ local WEB_HEADER = {
         end,
     },
     {
+        key = 'Time',
+        text = L['开团时间'],
+        width = 130,
+        showHandler = function(event)
+            return date('%Y-%m-%d %H:%M', event:GetTimeStamp()) 
+        end,
+        sortHandler = function(event)
+            return event:GetTimeStamp()
+        end
+    },
+    {
         key = 'Option',
         text = L['操作'],
-        width = 170,
+        width = 70,
         class = RaidBuilder:GetClass('WebOperationGrid'),
         showHandler = function(event)
             return

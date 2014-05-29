@@ -1,7 +1,7 @@
 
 local GUI = assert(LibStub('NetEaseGUI-1.0'), 'NetEaseGUI-DropMenu-1.0 requests NetEaseGUI')
 
-local WIDGET, VERSION = 'DropMenu', 1
+local WIDGET, VERSION = 'DropMenu', 2
 local DropMenu = GUI:NewClass(WIDGET, GUI:GetClass('GridView'), VERSION, 'Owner')
 if not DropMenu then
     return
@@ -41,7 +41,7 @@ function DropMenu:Constructor()
     self:SetAutoSize(true)
     self:SetRowCount(15)
     self:SetClampedToScreen(true)
-    self:SetFrameStrata('DIALOG')
+    self:SetFrameStrata('FULLSCREEN')
     self:EnableMouse(true)
 
     self:SetCallback('OnItemFormatted', self.OnItemFormatted)

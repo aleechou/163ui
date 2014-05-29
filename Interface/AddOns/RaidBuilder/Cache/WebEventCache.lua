@@ -10,7 +10,6 @@ end
 function WebEventCache:CacheEvent(id, ...)
     local event = self.eventCache[id] or WebEvent:New()
     event:FromSocket(id, ...)
-    event:SetTimeStamp(time())
 
     self.eventCache[id] = event
 

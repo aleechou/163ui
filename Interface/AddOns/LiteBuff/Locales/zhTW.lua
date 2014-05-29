@@ -34,6 +34,7 @@ addon.L = {
 	["presences"] = "領域",
 	["stances"] = "姿態",
 	["aspects"] = "守護",
+	["legacies"] = "傳承法術",
 	["fly protecting"] = "飛行保護中",
 	["weapon"] = "武器: %s",
 	["remove weapon poison"] = "清除武器上的毒藥",
@@ -56,4 +57,5 @@ addon.L = {
 	["shouts"] = "怒吼",
 	["general options"] = "一般選項",
 	["disable buttons"] = "禁用按鈕",
+	["crystal of insanity"] = "精神錯亂水晶",
 }

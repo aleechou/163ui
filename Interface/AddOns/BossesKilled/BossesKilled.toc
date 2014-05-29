@@ -17,3 +17,4 @@ raid_data.lua
 BasicVersionSlashCmd.lua
 ## Title: |cff880303[网易有爱]|r 随机团进度
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

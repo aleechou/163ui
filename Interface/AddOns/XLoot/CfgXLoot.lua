@@ -7,9 +7,19 @@ U1RegisterAddon("XLoot", {
     tags = { TAG_INTERFACE },
     icon = [[Interface\Icons\ACHIEVEMENT_GUILDPERK_BOUNTIFULBAGS]],
     desc = "美化和增强拾取物品的界面。`可以同时显示全部掉落物品，不需翻页，还可以发送物品链接。有很多设置选项，可以调整按品质染色边框等。更详细的设置功能需通过/xloot命令进行。",
-
+	
+{
+		text = "配置选项",
+		tip="如无法打开配置页，请关闭暴雪插件管理页再试。",
+        callback = function ()
+		InterfaceOptionsFrame_OpenToCategory("XLoot")
+		InterfaceOptionsFrame_OpenToCategory("XLoot")
+		InterfaceOptionsFrame_OpenToCategory("XLoot")
+		end,
+    },
+	
     --toggle = function(name, info, enable, justload) end,
-
+--[[
     {
         var = "snap",
         default = true,
@@ -47,7 +57,7 @@ U1RegisterAddon("XLoot", {
     },
     {
         text = "设置背景颜色",
-        callback = function(cfg, v, loading) SlashCmdList['XLOOT']("color frame_backdrop") end,
+        callback = function(cfg, v, loading) SlashCmdList['XLOOT']("frame_color_backdrop") end,
     },
     {
         text = "设置缩放大小",
@@ -57,4 +67,6 @@ U1RegisterAddon("XLoot", {
         default = 1.1,
         callback = function(cfg, v, loading) SlashCmdList['XLOOT']("set frame_scale "..v) if(XLootFrame:IsVisible()) then XLootFrame:SetScale(v) end end,
     },
+]]--	
+	
 });

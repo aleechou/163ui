@@ -1,4 +1,4 @@
-
+﻿
 local wipe = wipe
 local tinsert = table.insert
 
@@ -7,14 +7,14 @@ local db, list
 U1RegisterAddon("LiteBuff", {
     title = "职业快捷按钮",
     defaultEnable = 1,
-    tags = {TAG_COMBATINFO },
+    tags = { TAG_COMBATINFO },
     frames = { 'LiteBuffFrame' },
     optionsAfterVar = 1,
     load = "LOGIN",
     icon = [[Interface\Icons\INV_Relics_Warpring]],
-    desc = "Abin的最新作品，针对每个职业配置的快捷施法条。例如潜行者有3个按钮，分别代表主手、副手、远程武器，鼠标滚轮选择要使用的毒药，左键点击是上毒，右键点击是移除毒药。再比如法师开门，也是滚动选择目的地，左键开门，右键自己传送。部分状态类的按钮上，红色表示缺失此状态，黄色表示部分人员缺失，绿色表示齐备。`此外还提供了天赋切换、精炼合计、随机坐骑的按钮。插件完全使用安全模板开发，战斗中不会出错，Abin出品值得信赖。`网易有爱特别调整了原版的显示方式，比较符合普通玩家的习惯，可以在控制台调整按钮大小、间隔，并可以使用按钮美化插件美化。",
+    desc = "Abin的最新作品，针对每个职业配置的快捷施法条。例如潜行者有3个按钮，分别代表主手、副手、远程武器，鼠标滚轮选择要使用的毒药，左键点击是上毒，右键点击是移除毒药。再比如法师开门，也是滚动选择目的地，左键开门，右键自己传送。部分状态类的按钮上，红色表示缺失此状态，黄色表示部分人员缺失，绿色表示齐备。`此外还提供了天赋切换、精炼合计、随机坐骑的按钮。插件完全使用安全模板开发，战斗中不会出错，Abin出品值得信赖。",
     author = "Abin",
-    modifier = "|cffcd1a1c[网易]|r",
+    --modifier = "|cffcd1a1c[Warbaby@163]|r",
 
     toggle = function(name, info, enable, justload)
         if not justload then
@@ -103,7 +103,7 @@ U1RegisterAddon("LiteBuff", {
 
     {
         type = 'checklist',
-        text = '禁用按钮',
+        text = '禁用按鈕',
         getvalue = function()
             db = db or {}
             wipe(db)

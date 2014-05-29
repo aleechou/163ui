@@ -17,3 +17,4 @@ ComboPoints.xml
 
 ## Title: |cff880303[网易有爱]|r ComboPoints
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

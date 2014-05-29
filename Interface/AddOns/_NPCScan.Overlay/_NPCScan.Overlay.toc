@@ -79,3 +79,4 @@ Modules\OmegaMap.lua
 Modules\Carbonite.lua
 ## Title: |cff880303[网易有爱]|r 稀有怪物路线图
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

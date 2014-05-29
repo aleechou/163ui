@@ -111,7 +111,7 @@ function Logic:SOCKET_VERSION(_, version, url, isCompat)
 end
 
 function Logic:SOCKET_CONNECTED()
-    self:SendServer('SLOGIN', self:GetAddonVersion())
+    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'))
 end
 
 function Logic:SOCKET_DATA_VALUE(_, ...)
@@ -134,7 +134,7 @@ function Logic:SOCKET_EVENT_DISBAND(_, ...)
     self:BROAD_EVENT_DISBAND(nil, nil, ...)
 end
 
-function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, stats, progression)
+function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
     local event = EventCache:GetCurrentEvent()
     if not event then
         self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_NULL')
@@ -171,7 +171,7 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
         end
     end
 
-    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression)
+    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
     GroupCache:SetUnitRole(sender, role)
     self:SendSocket(sender, 'SEJT')
 end
@@ -210,6 +210,7 @@ end
 function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
     if UnitIsGroupLeader(sender) and not UnitIsUnit('player', sender) then
         GroupCache:SetCurrentEventCode(eventCode, GetFullName(sender))
+        GroupCache:SetCurrentEventRules((select(10, ...)))
     end
     if eventCode ~= GroupCache:GetCurrentEventCode() then
         return
@@ -251,10 +252,16 @@ function Logic:RefreshCurrentEvent()
     self.refreshTimer = self:ScheduleTimer('RefreshCurrentEvent', 300)
 end
 
+function Logic:GetAddonSource()
+    if IsAddOnLoaded('!!!163UI!!!') then
+        return 2
+    end
+end
+
 function Logic:CreateEvent(...)
     local eventCode, eventMode,
           minLevel, maxLevel, itemLevel, pvpRating,
-          summary, crossRealm, forceVerify, password, memberRole = ...
+          summary, crossRealm, forceVerify, password, memberRole, eventRules = ...
 
     local leader = UnitName('player')
     local leaderBattleTag = select(2, BNGetInfo())
@@ -264,6 +271,7 @@ function Logic:CreateEvent(...)
     local leaderProgression = GetPlayerRaidProgression(eventCode)
     local leaderPVPRating = GetPlayerPVPRating(eventCode)
     local faction = UnitFactionGroup('player')
+    local source = self:GetAddonSource()
 
     local event = EventCache:CacheEvent(
         leader,
@@ -286,7 +294,10 @@ function Logic:CreateEvent(...)
         leaderPVPRating,
         leaderProgression,
         faction,
-        self.fans or 0)
+        self.fans or 0,
+        nil,
+        source)
+    event:SetRules(eventRules)
 
     if not event then
         System:Logf(L['创建活动失败 %s'], EVENT_NAMES[eventCode] or '')
@@ -332,7 +343,7 @@ function Logic:DisbandEvent()
     end
 end
 
-function Logic:JoinEvent(event, role, password)
+function Logic:JoinEvent(event, role, password, msgId)
     self:SendSocket(event:GetLeader(), 'SEJ', password, role,
         select(2, BNGetInfo()),
         select(2, UnitClass('player')),
@@ -340,7 +351,8 @@ function Logic:JoinEvent(event, role, password)
         floor(GetAverageItemLevel()),
         GetPlayerPVPRating(event:GetEventCode()),
         GetPlayerStats(role),
-        GetPlayerRaidProgression(event:GetEventCode()))
+        GetPlayerRaidProgression(event:GetEventCode()),
+        msgId)
 
     AppliedCache:AddApplied(event:GetLeader(), role, false)
 end
@@ -399,6 +411,7 @@ function Logic:BroadPlayerInfo()
     local pvpRating = GetPlayerPVPRating(eventCode)
     local progression = GetPlayerRaidProgression(eventCode)
     local battleTag = select(2, BNGetInfo())
+    local rules = EventCache:GetCurrentEvent() and UnitIsGroupLeader('player') and GroupCache:GetCurrentEventRules() or nil
 
     self:SendSocket('@GROUP', 'GUI',
         eventCode,
@@ -410,7 +423,8 @@ function Logic:BroadPlayerInfo()
         stat,
         progression,
         self.fans or 0,
-        role)
+        role,
+        rules)
 end
 
 function Logic:GetPlayerFans()

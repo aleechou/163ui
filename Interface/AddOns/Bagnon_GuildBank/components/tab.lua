@@ -38,7 +38,7 @@ end
 
 function Tab:GetSlot()
 	return 'guild' .. tostring(self:GetID())
-end
+	end
 
 
 --[[ Update ]]--
@@ -66,7 +66,7 @@ function Tab:UpdateCount(count)
 	if self:GetChecked() or self:IsCached() then
 		self:SetCount(count or select(6, self:GetInfo()))
 	end
-end
+	end
 
 function Tab:UpdateTooltip()
 	local name, icon, _, canDeposit, numWithdrawals = self:GetInfo()

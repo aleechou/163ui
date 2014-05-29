@@ -113,6 +113,7 @@ function EventCache:SetCurrentEvent(event)
         self.db.profile.currentEvent = event:GetProxy()
     end
     self:SendMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE')
+    self:SendMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE')
 end
 
 function EventCache:GetCurrentEvent()

@@ -84,5 +84,5 @@ function AnnPanel:OnInitialize()
 end
 
 function AnnPanel:SetAnn(title, content)
-    self.AnnContent:SetText(format(L['<html><body><h3>%s</h3><p><br />%s</p></body></html>'], title, FormatAnnMessage(content)))
+    self.AnnContent:SetText(format('<html><body><h3>%s</h3><p><br />%s</p></body></html>', title, FormatAnnMessage(content)))
 end

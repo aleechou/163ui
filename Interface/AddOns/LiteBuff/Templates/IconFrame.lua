@@ -73,6 +73,7 @@ end
 
 -- Create an icon frame with cooldown, for displaying spells
 function templates.CreateIconFrame(parent)
+--163uiedit
 	-- local frame = CreateFrame("Frame", nil, parent)
 	local frame = CreateFrame('Button', '$parentIcon', parent, 'AuraButtonTemplate')
     frame:EnableMouse(false)
@@ -94,11 +95,13 @@ function templates.CreateIconFrame(parent)
     frame.border:SetTexCoord(14/64, 49/64, 15/64, 50/64)
 
 	frame.text = frame:CreateFontString(nil, "ARTWORK", "TextStatusBarText")
-	frame.text:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, 1)
+	frame.text:ClearAllPoints()
+	frame.text:SetPoint("BOTTOM", frame, "BOTTOMRIGHT", 0, -3)
 
 	frame.cooldown = CreateFrame("Cooldown", nil, frame, "CooldownFrameTemplate")
 	frame.cooldown:SetAllPoints(frame.icon)
     frame.cooldown.noCooldownCount = true
+--163uiedit
 
 	frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	frame:SetScript("OnEvent", IconFrame_UpdateCooldown)

@@ -77,3 +77,4 @@ ConfigSearch.lua
 Vignette.lua
 ## Title: |cff880303[网易有爱]|r 稀有怪物警报
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

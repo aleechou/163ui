@@ -193,7 +193,7 @@ end
 function WebInvitePanel:Invite()
     for i, v in ipairs(self:GetList()) do
         if v.status ~= INVITE_STATUS_JOINED then
-            Invite:InviteMember(GetFullName(v.name, v.realm), v.btag, true)
+            Invite:InviteMember(GetFullName(v.name, v.realm), v.btag, true, self.eventId, self.eventSource)
         end
     end
 end

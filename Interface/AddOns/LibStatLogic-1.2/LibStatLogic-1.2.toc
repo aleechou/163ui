@@ -26,3 +26,4 @@ LibStatLogic-1.2.lua
 
 ## Title: |cff880303[网易有爱]|r LibStatLogic-1.2
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

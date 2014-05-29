@@ -411,6 +411,11 @@ function GetUnitLogoIndex(name, btag)
     return UNIT_LOGO_NONE
 end
 
+function GetUnitLogoName(name, btag)
+    local index = GetUnitLogoIndex(name, btag)
+    return UNIT_LOGO_NAMES[index] or nil
+end
+
 function GetUnitLogoTexture(name, btag)
     local index = GetUnitLogoIndex(name, btag)
     return UNIT_LOGO_TEXTURE[index]
@@ -431,4 +436,24 @@ function _format(str, ...)
         str = str:gsub(format('{%d}', i), (select(i, ...)))
     end
     return str
+end
+
+if IsAddOnLoaded('WowSocial') then
+    local function _GetWowSocialEnv()
+        BuildEnv('WowSocial')
+        return _ENV
+    end
+
+    local WowSocialEnv = _GetWowSocialEnv()
+
+    local ExportFuncs = {
+        'InviteChatGroup',
+        'GetOwnChatGroupList',
+        'GetJoinedChatGroupList',
+        'SendChatGroupMessage',
+    }
+
+    for i, v in ipairs(ExportFuncs) do
+        _ENV[v] = WowSocialEnv[v]
+    end
 end

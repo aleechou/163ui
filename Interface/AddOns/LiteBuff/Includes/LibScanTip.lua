@@ -15,11 +15,12 @@
 -- 2012-2-04
 --------------------------------------------------------------
 
-local VERSION = 1.0
+local VERSION = 1.02
 
 local type = type
 local strfind = strfind
 local _G = _G
+local _
 
 local TIPNAME = "LibScanTip_TooltipFrame"
 local TIPOWNER = WorldFrame

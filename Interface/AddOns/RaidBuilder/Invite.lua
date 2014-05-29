@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-Invite = RaidBuilder:NewModule('Invite', 'AceEvent-3.0', 'AceTimer-3.0', 'AceBucket-3.0', 'AceSerializer-3.0')
+Invite = RaidBuilder:NewModule('Invite', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0', 'AceBucket-3.0', 'AceSerializer-3.0')
 
 function Invite:OnInitialize()
     self.db = RaidBuilder:GetDB()
@@ -14,11 +14,16 @@ function Invite:OnInitialize()
     self.inviteQueue = self.db.profile.inviteQueue
     self.inviteBNets = self.db.profile.inviteBNets
 
+    self.inviteBNetTimers = {}
+
     self:RegisterEvent('PLAYER_LOGIN')
     self:RegisterEvent('CHAT_MSG_SYSTEM')
     self:RegisterEvent('GROUP_ROSTER_UPDATE', 'CheckRaid')
     self:RegisterEvent('BN_FRIEND_INVITE_ADDED')
     self:RegisterBucketEvent('BN_FRIEND_INFO_CHANGED', 1, 'CacheBNetToons')
+
+    self:SecureHook('BNToastFrame_Show')
+    self:SecureHook('PendingList_Scroll')
 end
 
 ---- Cache
@@ -30,15 +35,10 @@ function Invite:PLAYER_LOGIN(event)
         self.realms[v] = true
     end
 
-    local now = time()
-    local playerName = UnitFullName('player')
     for i = 1, BNGetNumFriendInvites() do
-        local id, _, isBattleTag, data = BNGetFriendInviteInfoByAddon(i)
-        if isBattleTag and id and data and data ~= '' then
-            local ok, tag, stamp, leaderName, selfName = self:Deserialize(data)
-            if ok and tag == 'RaidBuilder' then
-                BNDeclineFriendInvite(id)
-            end
+        local tag, id, stamp = self:GetFriendInviteInfo(i)
+        if tag == 'RaidBuilder' then
+            BNDeclineFriendInvite(id)
         end
     end
 
@@ -59,6 +59,8 @@ function Invite:CacheBNetToons()
                     local name = Ambiguate(GetFullName(toonName, (realmName:gsub('%s+', ''))), 'none')
 
                     self.bnToons[name] = battleTag
+
+                    self:StopBNetInviteTimer(name, battleTag)
                 end
             end
         end
@@ -74,19 +76,55 @@ end
 
 ---- AutoBNetAccept
 function Invite:BN_FRIEND_INVITE_ADDED()
-    local now = time()
     local playerName = UnitFullName('player')
 
     for i = 1, BNGetNumFriendInvites() do
-        local id, _, isBattleTag, data = BNGetFriendInviteInfoByAddon(i)
-        if isBattleTag and id and data and data ~= '' then
-            local ok, tag, stamp, leaderName, selfName = self:Deserialize(data)
-            if ok and tag == 'RaidBuilder' then
-                if playerName == selfName and AppliedCache:IsApplied(leaderName) then
-                    BNAcceptFriendInvite(id)
-                end
+        local tag, id, stamp, leaderName, selfName = self:GetFriendInviteInfo(i)
+        if tag == 'RaidBuilder' then
+            if playerName == selfName and AppliedCache:IsApplied(leaderName, true) then
+                BNAcceptFriendInvite(id)
             end
+        elseif tag == 'RaidBuilder-Web' then
+            BNToastFrame_AddToast(5, 'RaidBuilder-Web')
         end
+    end
+end
+
+function Invite:GetFriendInviteInfo(index)
+    local id, _, isBattleTag, data, stamp = BNGetFriendInviteInfoByAddon(index)
+    if isBattleTag and id and data and data ~= '' then
+        local ok, tag, eventId, leaderName, selfName, eventSource = self:Deserialize(data)
+        if ok and (tag == 'RaidBuilder' or tag == 'RaidBuilder-Web') then
+            return tag, id, tonumber(stamp) or 0, leaderName, selfName, eventId, eventSource
+        end
+    end
+end
+
+---- Hook
+
+function Invite:BNToastFrame_Show()
+    if BNToastFrame.toastType == 5 and BNToastFrame.toastData == 'RaidBuilder-Web' then
+        BNToastFrameDoubleLine:SetText(L['收到一个|cff00ffff友团集合石|r活动请求，请验证是否合法。'])
+        BNToastFrame_RemoveToast(5, nil)
+    end
+end
+
+function Invite:PendingList_Scroll(offset)
+    for i = 1, PENDING_INVITES_TO_DISPLAY do
+        local button = _G['FriendsFramePendingButton'..i]
+        if button and button.index then
+            self:FormatPendingButton(button, self:GetFriendInviteInfo(button.index))
+        end
+    end
+end
+
+function Invite:FormatPendingButton(button, tag, id, stamp, leaderName, selfName, eventId, eventSource)
+    if tag == 'RaidBuilder-Web' then
+        button.webInviteButton = button.webInviteButton or WebInviteButton:New(button)
+        button.webInviteButton:SetInfo(stamp, leaderName, selfName, eventId, eventSource)
+        button.webInviteButton:Show()
+    elseif button.webInviteButton then
+        button.webInviteButton:Hide()
     end
 end
 
@@ -138,7 +176,7 @@ function Invite:CHAT_MSG_SYSTEM(_, msg)
                 ConvertToRaid()
                 for i, info in ipairs(self.inviteQueue) do
                     if not info.isInviting then
-                        info.status = status
+                        info.status = INVITE_STATUS_QUEUE
                     end
                 end
             end
@@ -149,10 +187,10 @@ end
 
 ---- Method
 
-function Invite:InviteMember(name, battleTag, isWeb)
+function Invite:InviteMember(name, battleTag, isWeb, eventId, eventSource)
     name = Ambiguate(name, 'none')
     self:CheckRaid()
-    self:EnQueue(name, battleTag, isWeb)
+    self:EnQueue(name, battleTag, isWeb, eventId, eventSource)
     self:Start()
     self:StartCheckTimer()
 end
@@ -171,7 +209,7 @@ end
 
 ---- Queue
 
-function Invite:EnQueue(name, battleTag, isWeb)
+function Invite:EnQueue(name, battleTag, isWeb, eventId, eventSource)
     if not self:IsInQueue(name, battleTag) then
         tinsert(self.inviteQueue, {
             name = name,
@@ -179,6 +217,8 @@ function Invite:EnQueue(name, battleTag, isWeb)
             isWeb = isWeb,
             status = INVITE_STATUS_QUEUE,
             stamp = time(),
+            eventId = eventId,
+            eventSource = eventSource,
         })
     end
 end
@@ -266,8 +306,10 @@ end
 function Invite:Do(info)
     if self:IsInGroup(info.name) then
         return nil, true
-    elseif self:IsCanInvite(info.name) or self:IsBNetFriend(info.battleTag) then
+    elseif self:IsCanInvite(info.name) then
         return self:DoGroupInvite(info)
+    elseif self:IsBNetFriend(info.battleTag) then
+        return self:DoFriendOffline(info.name, info.battleTag)
     else
         return self:DoBNetInvite(info)
     end
@@ -285,35 +327,59 @@ function Invite:DoGroupInvite(info)
     return INVITE_STATUS_INVITING, true
 end
 
+function Invite:MakeFriendInviteData(info)
+    if info.isWeb then
+        return self:Serialize('RaidBuilder-Web', info.eventId, UnitFullName('player'), info.name, info.eventId, info.eventSource)
+    else
+        return self:Serialize('RaidBuilder', nil, UnitFullName('player'), info.name)
+    end
+end
+
 function Invite:DoBNetInvite(info)
     local noAction = true
     if info.status < INVITE_STATUS_BNETTING then
-        local data = self:Serialize(
-            info.isWeb and 'RaidBuilder-Web' or 'RaidBuilder',
-            time(),
-            UnitFullName('player'),
-            info.name
-        )
-        BNSendFriendInvite(info.battleTag, data)
+        BNSendFriendInvite(info.battleTag, self:MakeFriendInviteData(info))
 
         self.inviteBNets[info.battleTag] = true
 
         if not info.isWeb then
-            self:ScheduleTimer('BNetInviteTimeout', 10, info.name)
+            self:StartBNetInviteTimer(info.name, info.battleTag)
         end
+
         noAction = false
     end
     return INVITE_STATUS_BNETTING, noAction
 end
 
-function Invite:BNetInviteTimeout(name)
+function Invite:DoFriendOffline(name, battleTag)
+    self:RemoveQueue(name, battleTag)
+    self:RemoveBNetFriend(name, battleTag)
+    MemberCache:RemoveMember(name)
+end
+
+function Invite:StartBNetInviteTimer(name, battleTag)
+    local key = name .. battleTag
+    if not self.inviteBNetTimers[key] then
+        self.inviteBNetTimers[key] = self:ScheduleTimer('BNetInviteTimeout', 10, name, battleTag)
+    end
+end
+
+function Invite:StopBNetInviteTimer(name, battleTag)
+    local key = name .. battleTag
+    self:CancelTimer(key)
+    self.inviteBNetTimers[key] = nil
+end
+
+function Invite:BNetInviteTimeout(name, battleTag)
+    self.inviteBNetTimers[name .. battleTag] = nil
+
     if not self:GetBattleTagByName(name) and self:GetInviteQueueNode(name) then
         self:CHAT_MSG_SYSTEM(nil, ERR_BAD_PLAYER_NAME_S:format(name))
     end
 end
 
-function Invite:RemoveBNetFriend(name)
-    local battleTag = self:GetBattleTagByName(name)
+function Invite:RemoveBNetFriend(name, battleTag)
+    local battleTag = battleTag or self:GetBattleTagByName(name)
     if not battleTag or battleTag == '' then
         return
     end

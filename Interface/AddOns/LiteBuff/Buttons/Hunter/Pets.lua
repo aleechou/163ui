@@ -31,6 +31,7 @@ end
 
 local DISMISS = addon:BuildSpellList(nil, 2641)
 local REVIVE = addon:BuildSpellList(nil, 982)
+local petAlive
 
 local button = addon:CreateActionButton("HunterPets", L["pets"], nil, nil, "DUAL")
 button:SetFlyProtect()
@@ -46,6 +47,7 @@ function button:OnEnable()
 end
 
 function button:OnPetAlive(alive)
+	petAlive = alive
 	self:SetSpell2(alive and DISMISS or REVIVE)
 	self:UpdateTimer()
 end
@@ -63,6 +65,7 @@ function button:PET_STABLE_UPDATE()
 	local maxIndex = 1
 	local i
 	for i = 1, 5 do
+--163uiedit
 		local icon, name --= GetStablePetInfo(i)
         local spellID, isKnown = GetFlyoutSlotInfo(9, i);
         if spellID and isKnown then
@@ -94,7 +97,8 @@ end
 
 local petName, petIcon
 function button:OnUpdateTimer()
-	if petName and petIcon then
+--163uiedit
+	if petAlive and petName and petIcon then
 		local data = spellList[self.index]
 		return data and petName == data.spell and petIcon == data.icon
 	end

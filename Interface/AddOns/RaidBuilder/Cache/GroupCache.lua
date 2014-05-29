@@ -99,6 +99,13 @@ function GroupCache:SetCurrentEventCode(eventCode, leader)
     end
 end
 
+function GroupCache:SetCurrentEventRules(rules)
+    if rules ~= self.db.currentEventRules then
+        self.db.currentEventRules = rules
+        self:SendMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE')
+    end
+end
+
 function GroupCache:GetCurrentEventCode()
     if PlayerIsGroupLeader() then
         local event = EventCache:GetCurrentEvent()
@@ -107,6 +114,16 @@ function GroupCache:GetCurrentEventCode()
         end
     end
     return self.db.currentEventCode
+end
+
+function GroupCache:GetCurrentEventRules()
+    if PlayerIsGroupLeader() then
+        local event = EventCache:GetCurrentEvent()
+        if event then
+            return event:GetRules()
+        end
+    end
+    return self.db.currentEventRules
 end
 
 function GroupCache:GetCurrentEventLeader()
@@ -129,14 +146,6 @@ function GroupCache:RefreshPlayerInfo()
     self.broadTimer = self:ScheduleTimer('RefreshPlayerInfo', 60)
 end
 
-function GroupCache:GROUP_ROSTER_UPDATE()
-    for target, v in pairs(self.unitCache) do
-        if UnitInRaid(target) or UnitInParty(target) then
-            self.unitCache[target] = nil
-        end
-    end
-end
-
 function GroupCache:ROLE_CHANGED_INFORM(_, target, operator, _, role)
     if not UnitIsGroupLeader(operator) then
         return
@@ -156,6 +165,7 @@ function GroupCache:GROUP_ROSTER_UPDATE()
 
         self.db.currentEventCode = nil
         self.db.currentEventLeader = nil
+        self.db.currentEventRules = nil
 
         if not EventCache:GetCurrentEvent() then
             self.db.currentRole = nil

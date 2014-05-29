@@ -120,6 +120,8 @@ function SharePanel:Share()
         RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
     elseif item.value == 'BN_INLINE_TOAST_BROADCAST' then
         BNSetCustomMessage(content)
+    elseif item.value == 'GROUP' then
+        SendChatGroupMessage(item.id, content)
     else
         SendChatMessage(content, item.value, nil, item.id)
     end
@@ -153,6 +155,12 @@ function SharePanel:SetArguments(titel, content, isRecord)
         local id, name = channels[i], channels[i+1]
         if not name:find('友团') then
             tinsert(list, { text = name, value = 'CHANNEL', id = id })
+        end
+    end
+
+    if IsAddOnLoaded('WowSocial') then
+        for i, v in ipairs(GetJoinedChatGroupList()) do
+            tinsert(list, { text = v.text, value = v.chatType, id = v.target })
         end
     end
 

@@ -4,10 +4,11 @@
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Dependencies: Bagnon
 ## LoadOnDemand: 1
-## 163UI-Version: 2014052801
+
 localization\localization.xml
 widgets\widgets.xml
 panels\panels.xml
 
 ## Title: |cff880303[网易有爱]|r 背包整合设定
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052802

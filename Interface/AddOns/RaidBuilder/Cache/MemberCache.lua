@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-MemberCache = RaidBuilder:NewModule('MemberCache', 'AceEvent-3.0', 'AceTimer-3.0')
+MemberCache = RaidBuilder:NewModule('MemberCache', 'AceEvent-3.0', 'AceTimer-3.0', 'AceBucket-3.0')
 
 local CHECK_INTERVAL = 60
 local MEMBER_TIMEOUT = 900
@@ -14,6 +14,17 @@ function MemberCache:OnInitialize()
 
     self:RegisterMessage('RAIDBUILDER_EVENT_LOADED')
     self:ScheduleRepeatingTimer('CheckMemberList', CHECK_INTERVAL)
+    self:RegisterBucketEvent({'GROUP_ROSTER_UPDATE', 'PLAYER_LOGIN'}, 10, 'GROUP_ROSTER_UPDATE')
+    self:CheckMemberList()
+end
+
+function MemberCache:GROUP_ROSTER_UPDATE()
+    for i, v in ipairs(self.db.profile.memberList) do
+        if UnitInGroup(v) then
+            self:RemoveMember(v, true)
+        end
+    end
+    self:RefreshMemberList()
 end
 
 function MemberCache:CheckMemberList()
@@ -46,7 +57,7 @@ function MemberCache:RefreshMemberList()
     self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
 end
 
-function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression)
+function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
     tDeleteItem(self.db.profile.memberList, target)
 
     local proxy = {
@@ -60,6 +71,7 @@ function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel,
         Stats = stats,
         Progression = progression,
         ApplyTime = time(),
+        MsgId = msgId,
     }
 
     tinsert(self.db.profile.memberList, target)
@@ -69,13 +81,15 @@ function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel,
     self:RefreshMemberList()
 end
 
-function MemberCache:RemoveMember(target)
+function MemberCache:RemoveMember(target, noRefresh)
     self.memberCache[target] = nil
     self.db.profile.memberCache[target] = nil
 
     tDeleteItem(self.db.profile.memberList, target)
 
-    self:RefreshMemberList()
+    if not noRefresh then
+        self:RefreshMemberList()
+    end
 end
 
 function MemberCache:ClearMemberList()

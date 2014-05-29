@@ -335,5 +335,3 @@ function WowSocialUI_OnShow_Out(object, handler)
 
     CACHEOUT[object]:Play()
 end
-_G.WowSocialUI_OnShow_In=WowSocialUI_OnShow_In
-_G.WowSocialUI_OnShow_Out=WowSocialUI_OnShow_Out

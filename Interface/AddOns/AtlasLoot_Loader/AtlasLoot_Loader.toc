@@ -21,4 +21,5 @@ core.xml
 
 ## Title: |cff880303[网易有爱]|r 副本掉落 [载入程序]
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801
 ## OptionalDeps: LibBabble-3.0

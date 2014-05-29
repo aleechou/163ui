@@ -62,37 +62,47 @@ local WAIT_HEADER = {
             return member:GetItemLevel()
         end
     },
+    -- {
+    --     key = 'Haste',
+    --     text = L['急速'],
+    --     width = 70,
+    --     showHandler = function(member)
+    --         return member:GetStatInfo(STAT_HASTE)
+    --     end,
+    --     sortHandler = function(member)
+    --         return member:GetStatInfo(STAT_HASTE) or 0
+    --     end,
+    -- },
+    -- {
+    --     key = 'Mastery',
+    --     text = L['精通'],
+    --     width = 70,
+    --     showHandler = function(member)
+    --         return member:GetStatInfo(STAT_MASTERY)
+    --     end,
+    --     sortHandler = function(member)
+    --         return member:GetStatInfo(STAT_MASTERY) or 0
+    --     end,
+    -- },
+    -- {
+    --     key = 'Hit',
+    --     text = L['命中'],
+    --     width = 70,
+    --     showHandler = function(member)
+    --         return member:GetStatInfo(STAT_HIT)
+    --     end,
+    --     sortHandler = function(member)
+    --         return member:GetStatInfo(STAT_HIT) or 0
+    --     end,
+    -- },
     {
-        key = 'Haste',
-        text = L['急速'],
-        width = 70,
+        key = 'Msg',
+        text = L['说明'],
+        width = 200,
+        style = 'LEFT',
         showHandler = function(member)
-            return member:GetStatInfo(STAT_HASTE)
-        end,
-        sortHandler = function(member)
-            return member:GetStatInfo(STAT_HASTE) or 0
-        end,
-    },
-    {
-        key = 'Mastery',
-        text = L['精通'],
-        width = 70,
-        showHandler = function(member)
-            return member:GetStatInfo(STAT_MASTERY)
-        end,
-        sortHandler = function(member)
-            return member:GetStatInfo(STAT_MASTERY) or 0
-        end,
-    },
-    {
-        key = 'Hit',
-        text = L['命中'],
-        width = 70,
-        showHandler = function(member)
-            return member:GetStatInfo(STAT_HIT)
-        end,
-        sortHandler = function(member)
-            return member:GetStatInfo(STAT_HIT) or 0
+            -- return EVENT_QUICK_MSG_DATATABLE[member:GetMsgId()]
+            return QUICK_MSG_NAMES[member:GetMsgId()]
         end,
     },
     {

@@ -44,7 +44,7 @@ function CreatePanel:OnInitialize()
     ShareButton:SetPoint('RIGHT', YiXinButton, 'LEFT', -80, 0)
     ShareButton:SetText(L['活动通告'])
     ShareButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]])
-    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 1)
+    ShareButton:SetIconTexCoord(64/256, 96/256, 0, 0.5)
     ShareButton:SetTooltip(L['活动通告'])
     ShareButton:SetScript('OnClick', function()
         local content = GroupCache:GetAnnouncementContent()
@@ -74,9 +74,13 @@ function CreatePanel:OnInitialize()
     ItemWidget:SetPoint('TOPRIGHT', RoleWidget, 'BOTTOM', -2, -5)
     ItemWidget:SetText(L['装备等级'])
 
+    local MiscWidget = GUI:GetClass('TitleWidget'):New(self)
+    MiscWidget:SetPoint('TOPLEFT', LevelWidget, 'BOTTOMLEFT', 0, -5)
+    MiscWidget:SetPoint('BOTTOMLEFT')
+    MiscWidget:SetPoint('TOPRIGHT', LevelWidget, 'BOTTOMRIGHT', 0, -5)
+
     local SummaryWidget = GUI:GetClass('TitleWidget'):New(self)
-    SummaryWidget:SetPoint('TOPLEFT', LevelWidget, 'BOTTOMLEFT', 0, -5)
-    SummaryWidget:SetPoint('BOTTOMLEFT')
+    SummaryWidget:SetPoint('BOTTOMLEFT', MiscWidget, 'BOTTOMRIGHT', 5, 0)
     SummaryWidget:SetPoint('TOPRIGHT', ItemWidget, 'BOTTOMRIGHT', 0, -5)
     SummaryWidget:SetText(L['活动说明'])
 
@@ -91,9 +95,14 @@ function CreatePanel:OnInitialize()
     PwdWidget:SetPoint('TOPRIGHT', RoleWidget, 'BOTTOMRIGHT', 0, -5)
     PwdWidget:SetText(L['申请密码'])
 
-    local MiscWidget = GUI:GetClass('TitleWidget'):New(self)
-    MiscWidget:SetPoint('BOTTOMLEFT', SummaryWidget, 'BOTTOMRIGHT', 5, 0)
-    MiscWidget:SetPoint('TOPRIGHT', PwdWidget, 'BOTTOMRIGHT', 0, -5)
+    local RulesWidget = GUI:GetClass('TitleWidget'):New(self)
+    RulesWidget:SetPoint('BOTTOMLEFT', SummaryWidget, 'BOTTOMRIGHT', 5, 0)
+    RulesWidget:SetPoint('TOPRIGHT', PwdWidget, 'BOTTOMRIGHT', 0, -5)
+    RulesWidget:SetText(L['详细介绍（加入活动后才能查看）'])
+    local RulesBox = GUI:GetClass('EditBox'):New(RulesWidget)
+    RulesBox:SetPrompt(L['请在这里输入详细介绍，团员加入活动后可在我的队伍面板查看'])
+    RulesWidget:SetObject(RulesBox)
+    RulesBox:GetEditBox():SetMaxBytes(150)
 
     local SummaryBox = GUI:GetClass('EditBox'):New(SummaryWidget)
     SummaryBox:SetPrompt(L['请在这里输入活动说明'])
@@ -149,15 +158,15 @@ function CreatePanel:OnInitialize()
     Password:SetNumeric(true)
     Password:SetMaxLetters(6)
 
+    local ForceVerify = GUI:GetClass('CheckBox'):New(MiscWidget)
+    ForceVerify:SetPoint('TOPLEFT', 2, -50)
+    ForceVerify:SetSize(26, 26)
+    ForceVerify:SetText(L['装备和PVP等级必须符合'])
+
     local CrossRealm = GUI:GetClass('CheckBox'):New(MiscWidget)
-    CrossRealm:SetPoint('TOPLEFT', 20, -20)
+    CrossRealm:SetPoint('BOTTOMLEFT', ForceVerify, 'TOPLEFT', 0, 5)
     CrossRealm:SetSize(26, 26)
     CrossRealm:SetText(L['创建跨服活动'])
-
-    local ForceVerify = GUI:GetClass('CheckBox'):New(MiscWidget)
-    ForceVerify:SetPoint('TOPLEFT', CrossRealm, 'BOTTOMLEFT', 0, -10)
-    ForceVerify:SetSize(26, 26)
-    ForceVerify:SetText(L['装备等级和PVP等级必须符合要求'])
 
     self:RegisterInputBox(TankBox:GetInputBox())
     self:RegisterInputBox(HealerBox:GetInputBox())
@@ -211,6 +220,7 @@ function CreatePanel:OnInitialize()
     self.ForceVerify = ForceVerify
     self.SummaryBox = SummaryBox
     self.Password = Password
+    self.RulesBox = RulesBox
 
     self.ShareButton = ShareButton
     self.YiXinButton = YiXinButton
@@ -273,6 +283,7 @@ function CreatePanel:Update()
         self.SummaryBox:SetText(event:GetSummary() or '')
         self.CrossRealm:SetChecked(event:GetCrossRealm())
         self.ForceVerify:SetChecked(event:GetForceVerify())
+        self.RulesBox:SetText(event:GetRules() or '')
 
         self.TankNumber:SetNumber(event:GetRoleTotal('TANK') or tank)
         self.HealerNumber:SetNumber(event:GetRoleTotal('HEALER') or healer)
@@ -287,6 +298,7 @@ function CreatePanel:Update()
         self.SummaryBox:SetText('')
         self.CrossRealm:SetChecked(true)
         self.ForceVerify:SetChecked(false)
+        self.RulesBox:SetText('')
         self.TankNumber:SetNumber(tank)
         self.HealerNumber:SetNumber(healer)
         self.DamagerNumber:SetNumber(damager)
@@ -368,7 +380,7 @@ function CreatePanel:CreateEvent()
         return System:Errorf(L['等级最高不能超过%d'], MAX_PLAYER_LEVEL)
     end
     if minLevel < _minLevel then
-        return System:Error(L['这个活动等级最低不能低于%d'], _minLevel)
+        return System:Errorf(L['这个活动等级最低不能低于%d'], _minLevel)
     end
     if minLevel > maxLevel then
         return System:Error(L['最低等级不能超过最高等级'])
@@ -381,6 +393,7 @@ function CreatePanel:CreateEvent()
     local crossRealm = not not self.CrossRealm:GetChecked()
     local forceVerify = not not self.ForceVerify:GetChecked()
     local password = tonumber(self.Password:GetText())
+    local rules = self.RulesBox:GetText()
 
     local event = Event:New()
     event:SetRoleTotal('TANK', self:GetVisibleNumber(self.TankNumber))
@@ -407,7 +420,8 @@ function CreatePanel:CreateEvent()
             crossRealm,
             forceVerify,
             password,
-            self:GetMemberRole(role))
+            self:GetMemberRole(role),
+            rules)
 
         self:OnShow()
     end, event)

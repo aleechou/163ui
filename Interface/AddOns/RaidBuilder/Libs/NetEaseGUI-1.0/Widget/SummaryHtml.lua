@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'SummaryHtml', 1
+local WIDGET, VERSION = 'SummaryHtml', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local SummaryHtml = GUI:NewClass(WIDGET, 'SimpleHTML', VERSION)
@@ -19,6 +19,8 @@ function SummaryHtml:Constructor(parent)
 
     self:SetHyperlinksEnabled(true)
     self:SetScript('OnHyperlinkClick', self.OnHyperlinkClick)
+    self:SetScript('OnHyperlinkEnter', self.OnHyperlinkEnter)
+    self:SetScript('OnHyperlinkLeave', GameTooltip_Hide)
 end
 
 function SummaryHtml:OnHyperlinkClick(link)
@@ -29,6 +31,15 @@ function SummaryHtml:OnHyperlinkClick(link)
         self:OpenHelper(data)
     elseif linkType == 'urlIndex' then
         LoadURLIndex(data)
+    end
+end
+
+function SummaryHtml:OnHyperlinkEnter(link)
+    local linkType, data = link:match('^([^:]+):(.+)$')
+    if linkType == 'url' then
+        GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
+        GameTooltip:SetText(data, nil, nil, nil, true)
+        GameTooltip:Show()
     end
 end
 

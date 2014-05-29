@@ -4,8 +4,9 @@ BuildEnv(...)
 CURRENT_REALM = GetRealmName():gsub('%s+', '')
 PLAYER_NAME = UnitName('player') .. '-' .. CURRENT_REALM
 
-GROUPTYPE_NORMAL = 0
-GROUPTYPE_NETEASE = 1
+GROUPTYPE_NORMAL   = 0
+GROUPTYPE_NETEASE  = 1
+GROUPTYPE_AUTOJOIN = 2
 
 function IsSelf(target)
     return target == PLAYER_NAME

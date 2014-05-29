@@ -1,6 +1,6 @@
 ﻿--    NoGoldSeller
 --    World of Warcraft/TW-Hellscream/Horde/Sonicelement
-DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00NoGoldSeller:出售金幣廣告信息屏蔽插件已經載入.輸入/NGS可禁用或啟用.|r\n（作者:|cff3399FFSonicelement|r@地獄吼（zhTW））" )
+
 local NGSenable=1
 local NGSkilled=0
 local NGSreport=0

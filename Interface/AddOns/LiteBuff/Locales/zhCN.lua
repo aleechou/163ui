@@ -34,6 +34,7 @@ addon.L = {
 	["presences"] = "灵气",
 	["stances"] = "姿态",
 	["aspects"] = "守护",
+	["legacies"] = "传承法术",
 	["fly protecting"] = "飞行保护中",
 	["weapon"] = "武器: %s",
 	["remove weapon poison"] = "清除武器上的毒药",
@@ -56,4 +57,5 @@ addon.L = {
 	["shouts"] = "怒吼",
 	["general options"] = "一般选项",
 	["disable buttons"] = "禁用按钮",
+	["crystal of insanity"] = "狂乱水晶",
 }

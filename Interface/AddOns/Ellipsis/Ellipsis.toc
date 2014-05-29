@@ -20,3 +20,4 @@ AuraHandler.lua
 
 ## Title: |cff880303[网易有爱]|r Ellipsis
 ## X-Vendor: NetEase
+## 163UI-Version: 2014052801

@@ -1,10 +1,10 @@
-------------------------------------------------------------
+﻿------------------------------------------------------------
 -- Main.lua
 --
 -- Abin
 -- 2011/11/13
 ------------------------------------------------------------
-
+ --163uiedit
 local ICON_SIZE = 36
 local BUTTON_GAP = 2
 
@@ -14,12 +14,12 @@ local UpdateMasque = function()
         return MasqueGroup
     else
         Masque = LibStub('Masque', true)
-        MasqueGroup = Masque and Masque:Group('职业快捷按钮')
+        MasqueGroup = Masque and Masque:Group('职业快捷按鈕')
 
         return MasqueGroup
     end
 end
-
+ --163uiedit
 local floor = floor
 local GetTime = GetTime
 local type = type
@@ -561,7 +561,7 @@ function templates.CreateActionButton(key, category, title, duration, ...)
 end
 
 function addon:RefreshLiteBuffs()
-    if(InCombatLockdown()) then U1Message("战斗中不能应用此设置, 请脱战后重试") return end
+    if(InCombatLockdown()) then U1Message("戰鬥中不能應用此設置, 請脫戰後重試") return end
     for key, button in next, self.actionButtons do
         button:__163_UpdateButton()
     end
