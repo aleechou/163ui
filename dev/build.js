@@ -113,7 +113,7 @@ Steps()
 	.step(function(){
 	    console.log("make addons-index.json file ...",addonsIndexJson)
 	    addonsJson.ignore = undefined
-	    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson))
+	    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson,null,2))
 	    fs.exists(addonsIndexTar,this.hold())
 	})
 	.step(function(exists){
@@ -180,8 +180,8 @@ function parseToc(addonName){
 
 		// config option
 		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-		if(res/* && res[1]=="163UI-Version"*/){
-		toc.metainfo[ res[1] ] = res[2] ;
+		if(res && res[1]=="163UI-Version"){
+			toc.metainfo[ res[1] ] = res[2] ;
 		}
     }
 
