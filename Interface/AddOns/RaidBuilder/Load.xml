@@ -1,24 +1,20 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    <Include file="Libs\Embeds.xml" /> 
-    <Include file="Localization\Localization.xml" />
-    
-    <Script file="Data.lua" />
-    <Script file="API.lua" />
-    <Script file="MenuTable.lua" />
-    <Script file="Main.lua" />
-    <Script file="Profile.lua" />
-
-    <Include file="Cache\Cache.xml" />
-
-    <Include file="Widget\Widget.xml" />
-    <Include file="Module\Module.xml" />
-    <Include file="Panel\Panel.xml" />
-    
-    <Script file="Logic.lua" />
-    <Script file="System.lua" />
-    <Script file="Invite.lua" />
-    <Script file="DataBroker.lua" />
-    <Script file="TeamNotice.lua" />
-    <Script file="WebSupport.lua" />
+  <Include file="Libs\Embeds.xml" />
+  <Include file="Localization\Localization.xml" />
+  <Script file="Data.lua" />
+  <Script file="API.lua" />
+  <Script file="MenuTable.lua" />
+  <Script file="Main.lua" />
+  <Script file="Profile.lua" />
+  <Include file="Cache\Cache.xml" />
+  <Include file="Widget\Widget.xml" />
+  <Include file="Module\Module.xml" />
+  <Include file="Panel\Panel.xml" />
+  <Script file="Logic.lua" />
+  <Script file="System.lua" />
+  <Script file="Invite.lua" />
+  <Script file="DataBroker.lua" />
+  <Script file="TeamNotice.lua" />
+  <Script file="WebSupport.lua" />
 </Ui>

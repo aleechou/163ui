@@ -27,6 +27,7 @@ local attr = {
     'Progression',
     'ApplyTime',
     'Fans',
+    'MsgId',
 }
 
 for i, v in ipairs(attr) do
@@ -71,4 +72,10 @@ end
 
 function Member:GetMemberLogoIndex()
     return GetUnitLogoIndex(self:GetName(), self:GetBattleTag())
+end
+
+function Member:GetMessage()
+    local msgId = self:GetMsgId()
+
+    return msgId and MESSAGE_DATA[msgId] or ''
 end

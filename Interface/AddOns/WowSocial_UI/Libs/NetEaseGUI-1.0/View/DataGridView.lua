@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridView', 3
+local WIDGET, VERSION = 'DataGridView', 4
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridView = GUI:NewClass(WIDGET, GUI:GetClass('ListView'), VERSION)
@@ -43,15 +43,17 @@ end
 function DataGridView:OnItemFormatted(button, data)
     for i, v in ipairs(self.sortButtons) do
         local grid = button[v.key]
-        if v.showHandler then
-            local text, r, g, b, icon, left, right, top, bottom, width, height = v.showHandler(data)
+        if grid and data then
+            if v.showHandler then
+                local text, r, g, b, icon, left, right, top, bottom, width, height = v.showHandler(data)
 
-            grid:SetText(text)
-            grid:GetFontString():SetTextColor(r or 1, g or 1, b or 1)
-            grid:SetIcon(icon, left, right, top, bottom, width, height)
-        end
-        if v.formatHandler then
-            v.formatHandler(grid, data)
+                grid:SetText(text)
+                grid:GetFontString():SetTextColor(r or 1, g or 1, b or 1)
+                grid:SetIcon(icon, left, right, top, bottom, width, height)
+            end
+            if  v.formatHandler then
+                v.formatHandler(grid, data)
+            end
         end
     end
 end

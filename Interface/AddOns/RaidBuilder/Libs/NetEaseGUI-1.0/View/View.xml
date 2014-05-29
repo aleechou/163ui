@@ -1,7 +1,7 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    <Script file="TabView.lua" />
-    <Script file="ListView.lua" />
-    <Script file="GridView.lua" />
-    <Script file="DataGridView.lua" />
+  <Script file="TabView.lua" />
+  <Script file="ListView.lua" />
+  <Script file="GridView.lua" />
+  <Script file="DataGridView.lua" />
 </Ui>

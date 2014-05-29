@@ -1,9 +1,16 @@
 
-local _NSList = {}
-local _NSInclude = setmetatable({}, {__index = function(o, k)
+local MAJOR, MINOR = 'NetEaseEnv-1.0', 1
+local Env = LibStub:NewLibrary(MAJOR, MINOR)
+if not Env then return end
+
+Env._NSList = Env._NSList or {}
+Env._NSInclude = Env._NSInclude or setmetatable({}, {__index = function(o, k)
     o[k] = {}
     return o[k]
 end})
+
+local _NSList = Env._NSList
+local _NSInclude = Env._NSInclude
 
 local function FindKey(current, name)
     for _, ns in pairs(_NSInclude[current]) do
@@ -26,17 +33,19 @@ local function getNameSpace(name)
     return _NSList[name]
 end
 
-local function include(current, name)
+local function include(current, name, slient)
     local ns = getNameSpace(name)
-    if not ns then
+    if ns then
+        _NSInclude[current][name] = ns
+    elseif not slient then
         error(([[Cannot find namespace '%s']]):format(name), 2)
     end
-    _NSInclude[current][name] = ns
 end
 
 local function buildNameSpace(name)
     if not getNameSpace(name) then
         local _ENV = setmetatable({}, _Meta)
+
         _ENV._ENV = _ENV
         _NSList[name] = _ENV
     end

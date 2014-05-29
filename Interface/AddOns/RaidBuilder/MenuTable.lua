@@ -220,3 +220,36 @@ do
         end
     end
 end
+
+local EVENT_QUICK_MSG_MENU_DATA = [[
+1#Roll1#1
+2#Roll2#2
+3#Roll3#3
+4#Roll4#4
+5#Roll5#5
+6#Roll6#6
+7#Roll7#7
+8#Roll8#8
+9#Roll9#9
+10#Roll10#10
+11#Roll11#11
+12#Roll12#12
+13#Roll13#13
+14#Roll14#14
+15#Roll15#15
+16#Roll16#16
+]]
+
+local function MakeEventQuickMsgMenuTable()
+    local menu, data = {}, {}
+    for str in EVENT_QUICK_MSG_MENU_DATA:gmatch('[^\r\n]+') do
+        local mode, text, value = str:match('^(%d+)#([^#]+)#(%d+)$')
+        mode = tonumber(mode)
+        menu[mode] = menu[mode] or {}
+        data[value] = text
+        tinsert(menu[mode], {text = text, value = value})
+    end
+    return menu, data
+end
+
+EVENT_QUICK_MSG_MENUTABLE, EVENT_QUICK_MSG_DATATABLE = MakeEventQuickMsgMenuTable()

@@ -31,6 +31,8 @@ local attr = {
     'CrossRealm',
     'HasPassword',
     'ForceVerify',
+    'Rules',
+    'Source',
 
     'Leader',
     'LeaderBattleTag',
@@ -108,7 +110,8 @@ function Event:ToSocket()
             self:GetLeaderProgression(),
             self:GetFaction(),
             self:GetLeaderFans(),
-            self:GetRealm()
+            self:GetRealm(),
+            self:GetSource()
 end
 
 function Event:FromSocket(...)
@@ -116,7 +119,7 @@ function Event:FromSocket(...)
             minLevel, maxLevel, itemLevel, pvpRating,
             summary, crossRealm, forceVerify, hasPassword, memberRole,
             leaderBattleTag, leaderClass, leaderLevel,
-            leaderItemLevel, leaderPVPRating, leaderProgression, faction, fans, realm = ...
+            leaderItemLevel, leaderPVPRating, leaderProgression, faction, fans, realm, source = ...
     summary = self:TextFilter(summary:gsub('\n', ''))
 
     self:SetLeader(leader)
@@ -141,6 +144,7 @@ function Event:FromSocket(...)
     self:SetLeaderFans(fans)
     self:SetFaction(faction)
     self:SetRealm(realm)
+    self:SetSource(source)
 end
 
 function Event:GetEventName()
@@ -176,7 +180,7 @@ function Event:IsLevelValid()
 end
 
 function Event:IsItemLevelValid()
-    local equipLevel = select(2, GetAverageItemLevel())
+    local equipLevel = GetAverageItemLevel()
     return equipLevel >= self:GetItemLevel()
 end
 
@@ -316,4 +320,12 @@ end
 
 function Event:GetLeaderLogoIndex()
     return GetUnitLogoIndex(self:GetLeader(), self:GetLeaderBattleTag())
+end
+
+function Event:GetLeaderLogoTooltip()
+    local name, btag = self:GetLeader(), self:GetLeaderBattleTag()
+    local logoName = GetUnitLogoName(name, btag)
+    if logoName then
+        return GetUnitLogoTexture(name, btag) .. logoName
+    end
 end

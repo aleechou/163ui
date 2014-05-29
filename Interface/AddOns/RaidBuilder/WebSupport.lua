@@ -3,7 +3,7 @@ BuildEnv(...)
 
 WebSupport = RaidBuilder:NewModule('WebSupport', 'AceEvent-3.0', 'AceTimer-3.0')
 
-local Base64 = LibStub('LibBase64-1.0')
+local Base64 = LibStub('NetEaseBase64-1.0')
 
 local SUPPORT_EVENTCODES = {
     [0x01011a52] = true,
@@ -76,12 +76,12 @@ function WebSupport:ENCOUNTER_START()
     self.instanceProgress = self:GetInstanceProgress()
 end
 
-function WebSupport:ENCOUNTER_END(...)
-    self:ScheduleTimer('ENCOUNTER_END_DELAY', 2, ...)
+function WebSupport:ENCOUNTER_END(_, _, boss)
+    self.currentBoss = boss
+    self:ScheduleTimer('ENCOUNTER_END_DELAY', 2)
 end
 
-function WebSupport:ENCOUNTER_END_DELAY(_, boss)
-    self.currentBoss = boss
+function WebSupport:ENCOUNTER_END_DELAY()
     self:RegisterEvent('UPDATE_INSTANCE_INFO')
     RequestRaidInfo()
 end
@@ -115,7 +115,9 @@ function WebSupport:CommitNewbie(boss)
             end
         end
     end
-    Logic:SendServer('SWN', boss, unpack(list))
+    if #list > 0 then
+        Logic:SendServer('SWN', boss, unpack(list)) 
+    end
 end
 
 function WebSupport:SetInviteCode(code)

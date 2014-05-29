@@ -44,9 +44,13 @@ function AppliedCache:DeleteApplied(leader)
     self:SendMessage('RAIDBUILDER_APPLIED_UPDATE')
 end
 
-function AppliedCache:IsApplied(leader)
+function AppliedCache:IsApplied(leader, flag)
     local v = self.db.profile.appliedCache[leader]
-    return v and v.active
+    if flag then
+        return not not v
+    else
+        return v and v.active
+    end
 end
 
 function AppliedCache:IterateAppliedList()

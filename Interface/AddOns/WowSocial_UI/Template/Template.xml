@@ -1,4 +1,4 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Include file="Animation.xml" />
+  <Include file="Animation.xml" />
 </Ui>

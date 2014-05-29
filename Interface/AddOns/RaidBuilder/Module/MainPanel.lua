@@ -21,7 +21,7 @@ function MainPanel:OnInitialize()
         self:CreateTitleButton{
             title = L['意见建议'],
             texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
-            coords = {0, 32/256, 0, 1},
+            coords = {0, 32/256, 0, 0.5},
             callback = function()
                 local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
                 if CloudUI then
@@ -33,7 +33,7 @@ function MainPanel:OnInitialize()
         local AnnButton = self:CreateTitleButton{
             title = L['公告'],
             texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
-            coords = {96/256, 128/256, 0, 1},
+            coords = {96/256, 128/256, 0, 0.5},
             callback = function()
                 local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
                 if CloudUI then
@@ -65,8 +65,8 @@ function MainPanel:OnInitialize()
 
     self:CreateTitleButton{
         title = L['分享插件'],
-        texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
-        coords = {64/256, 96/256, 0, 1},
+        texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
+        coords = {64/256, 96/256, 0, 0.5},
         callback = function()
             RaidBuilder:ShowModule('SharePanel',
                 L['分享插件'],
@@ -75,10 +75,19 @@ function MainPanel:OnInitialize()
         end
     }
 
+    self:CreateTitleButton{
+        title = L['如何关注好团长?'],
+        texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
+        coords = {32/256, 64/256, 0, 0.5},
+        callback = function()
+            RaidBuilder:ShowModule('YiXinSummary')
+        end
+    }
+
     -- self:CreateTitleButton{
     --     title = L['每日签到'],
     --     texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
-    --     coords = {224/256, 1, 0, 1},
+    --     coords = {224/256, 1, 0, 0.5},
     --     callback = function()
     --         MainPanel:SelectPanel(OptionPanel)
     --     end
@@ -90,6 +99,12 @@ function MainPanel:OnInitialize()
     self:HookScript('OnHide', self.OnHide)
 
     self.GameTooltip = CreateFrame('GameTooltip', 'RaidBuilderTooltip', UIParent, 'GameTooltipTemplate')
+
+    local SourceTexture = self.GameTooltip:CreateTexture(nil, 'ARTWORK')
+    SourceTexture:SetSize(64, 64)
+    SourceTexture:SetPoint('CENTER', self.GameTooltip, 'TOPRIGHT')
+
+    self.GameTooltip.SourceTexture = SourceTexture
 end
 
 function MainPanel:OnShow()
@@ -189,6 +204,7 @@ local EVENT_INFO_TOOLTIP_ORDER = {
     { text = L['装等：'],      method = 'GetLeaderItemLevel', },
     { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
     { text = L['易信粉丝：'],  method = 'GetLeaderFans', },
+    { text = '',               method = 'GetLeaderLogoTooltip'},
     { text = ' ', },
     { text = L['形式：'],      method = 'GetEventModeText', },
     { text = L['说明：'],      method = 'GetSummary', },
@@ -209,7 +225,7 @@ function MainPanel:OpenEventTooltip(event)
         if not v.method or not event[v.method] then
             GameTooltip:AddLine(v.text, 1, 1, 1, true)
         else
-            local value = event[v.method](event, unpack(v))
+            local value, r, g, b = event[v.method](event, unpack(v))
             if value then
                 GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
             end
@@ -225,7 +241,15 @@ function MainPanel:OpenEventTooltip(event)
             GameTooltip:AddDoubleLine(v, FormatProgressionText(event:GetLeaderProgression(), i), 1, 1, 1)
         end
     end
+
     GameTooltip:Show()
+
+    if event:GetSource() then
+        GameTooltip.SourceTexture:Show()
+        GameTooltip.SourceTexture:SetTexture(format([[Interface\AddOns\RaidBuilder\Media\Mark\%d]], event:GetSource()))
+    else
+        GameTooltip.SourceTexture:Hide()
+    end
 end
 
 local MEMBER_INFO_TOOLTIP_ORDER = {

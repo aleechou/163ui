@@ -36,8 +36,14 @@ function ChatGroupCache:InitDB(name)
 end
 
 function ChatGroupCache:NECLOUD_READY()
-    for i, id in ipairs(self.normalList) do
-        self:RequestChatGroupUserList(id)
+    for i, gid in ipairs(self.normalList) do
+        self:RequestChatGroupUserList(gid)
+    end
+    for i, gid in ipairs(self.recommendList) do
+        local group = self:GetChatGroup(gid)
+        if group and group:IsPublicFirstTouch() then
+            JoinChatGroup(gid)
+        end
     end
 end
 

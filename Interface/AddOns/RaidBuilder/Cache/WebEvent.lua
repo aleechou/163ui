@@ -5,7 +5,6 @@ WebEvent = (RaidBuilder or Addon):NewClass('WebEvent')
 
 function WebEvent:Constructor(proxy)
     self.proxy = proxy or {
-
     }
 end
 
@@ -42,11 +41,12 @@ function WebEvent:ToSocket()
             self:GetItemLevel(),
             self:GetEventSource(),
             self:GetEventName(),
-            self:GetFaction()
+            self:GetFaction(),
+            self:GetTimeStamp()
 end
 
 function WebEvent:FromSocket(...)
-    local eventId, eventCode, personNum, leader, leaderLevel, leaderItemLevel, eventSource, eventName, faction = ...
+    local eventId, eventCode, personNum, leader, leaderLevel, leaderItemLevel, eventSource, eventName, faction, timeStamp = ...
 
     self:SetEventId(eventId)
     self:SetEventCode(eventCode)
@@ -57,6 +57,7 @@ function WebEvent:FromSocket(...)
     self:SetEventSource(eventSource)
     self:SetEventName(eventName)
     self:SetFaction(faction)
+    self:SetTimeStamp(timeStamp)
 end
 
 function WebEvent:Match(text)

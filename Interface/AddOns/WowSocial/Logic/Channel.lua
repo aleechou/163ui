@@ -3,7 +3,7 @@ BuildEnv(...)
 
 Channel = Cloud:NewModule('Channel', 'AceEvent-3.0', 'NetEaseBroad-1.0', 'AceTimer-3.0')
 
-local Base64 = LibStub('LibBase64-1.0')
+local Base64 = LibStub('NetEaseBase64-1.0')
 local AceSerializer = LibStub('AceSerializer-3.0')
 
 local function UnpackUnvisible(msg, key)

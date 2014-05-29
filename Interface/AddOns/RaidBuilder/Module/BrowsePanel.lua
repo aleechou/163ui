@@ -23,13 +23,13 @@ local BROWSE_HEADER = {
         width = 25,
         showHandler = function(event)
             if event:IsSelf() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 128/256, 160/256, 0, 1 -- [[INTERFACE\GROUPFRAME\UI-Group-LeaderIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 128/256, 160/256, 0, 0.5 -- [[INTERFACE\GROUPFRAME\UI-Group-LeaderIcon]]
             elseif event:IsInEvent() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 32/256, 64/256, 0, 1 -- [[INTERFACE\CHATFRAME\UI-ChatConversationIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 32/256, 64/256, 0, 0.5 -- [[INTERFACE\CHATFRAME\UI-ChatConversationIcon]]
             elseif event:IsApplied() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 160/256, 192/256, 0, 1 -- [[INTERFACE\HELPFRAME\HelpIcon-ReportLag]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 160/256, 192/256, 0, 0.5 -- [[INTERFACE\HELPFRAME\HelpIcon-ReportLag]]
             elseif event:GetHasPassword() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 192/256, 224/256, 0, 1 -- [[INTERFACE\PetBattles\PetBattle-LockIcon]]
+                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 192/256, 224/256, 0, 0.5 -- [[INTERFACE\PetBattles\PetBattle-LockIcon]]
             end
         end,
         sortHandler = function(event)
@@ -252,7 +252,7 @@ function BrowsePanel:OnInitialize()
     IconSummary:SetFormattedText(
         -- '|TINTERFACE\\GROUPFRAME\\UI-Group-LeaderIcon:15|t %s |TINTERFACE\\CHATFRAME\\UI-ChatConversationIcon:15|t %s |TINTERFACE\\HELPFRAME\\HelpIcon-ReportLag:15|t %s |TINTERFACE\\PetBattles\\PetBattle-LockIcon:15|t %s', 
         -- L['团长'], L['在团'], L['申请'], L['加密'])
-        '|TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:128:160:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:32:64:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:160:192:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:32:192:224:0:32|t %s', 
+        '|TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:128:160:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:32:64:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:160:192:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:192:224:0:32|t %s', 
         L['我的'], L['已加入'], L['申请中'], L['加密'])
 
     self.JoinButton = JoinButton
@@ -264,7 +264,12 @@ function BrowsePanel:OnInitialize()
     self.LeaderInput = LeaderInput
     self.EmptySummary = EmptySummary
 
-    self:SetScript('OnShow', self.Refresh)
+    self:SetScript('OnShow', function(self)
+        self:Refresh()
+        if self.EventList:GetSortHandler() ~= _NormalSortHandler then
+            self.EventList:SetSortHandler(_NormalSortHandler)
+        end
+    end)
     self:SetScript('OnHide', function()
         RaidBuilder:HideModule('RolePanel')
     end)
@@ -285,10 +290,6 @@ function BrowsePanel:Refresh()
     self.EventList:SetItemList(events)
     self.EventList:SetSelectedItem(item)
     self.TotalEvents:SetText((L['申请中 %d/%d 活动总数 %d/%d']):format(AppliedCache:Count(), AppliedCache:Max(), #events, total))
-
-    if self.EventList:GetSortHandler() ~= _NormalSortHandler then
-        self.EventList:SetSortHandler(_NormalSortHandler)
-    end
 end
 
 function BrowsePanel:UpdateSelecttedEvent(event)
@@ -305,7 +306,7 @@ function BrowsePanel:UpdateSelecttedEvent(event)
 end
 
 function BrowsePanel:GetEventList(eventCode, usable, noPassword, leader)
-    local equipLevel = select(2, GetAverageItemLevel())
+    local equipLevel = GetAverageItemLevel()
     local level = UnitLevel('player')
 
     local list = {}
@@ -343,8 +344,8 @@ function BrowsePanel:JoinEvent()
         elseif IsInGroup() then
             System:Error(L['你已经在一个队伍中，不能申请其它活动。'])
         else
-            RaidBuilder:ShowModule('RolePanel', function(role, password)
-                Logic:JoinEvent(event, role, password)
+            RaidBuilder:ShowModule('RolePanel', function(role, password, msgId)
+                Logic:JoinEvent(event, role, password, msgId)
             end, event)
         end
     end

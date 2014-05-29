@@ -30,6 +30,7 @@ function Profile:SaveEventProfile(event)
         TotalHEALER = event:GetRoleTotal('HEALER'),
         TotalDAMAGER= event:GetRoleTotal('DAMAGER'),
         TotalNONE   = event:GetRoleTotal('NONE'),
+        Rules       = event:GetRules(),
     }
 end
 

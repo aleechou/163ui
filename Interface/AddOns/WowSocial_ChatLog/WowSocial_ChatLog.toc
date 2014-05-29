@@ -5,3 +5,5 @@
 ## Dependencies: WowSocial
 ## SavedVariablesPerCharacter: WOWSOCIAL_DB_CHATLOG
 ## X-WoWBox-Ver: 1
+## X-Vendor: NetEase
+## 163UI-Version: 2014052903
