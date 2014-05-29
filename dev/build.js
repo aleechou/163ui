@@ -166,9 +166,9 @@ function parseToc(addonName){
     var lines = content.split("\n");
 
     var toc = {
-	name: addonName
-	, metainfo: {}
-	, files: {}
+		name: addonName
+		, metainfo: {}
+		, files: {}
     } ;
 
     for(var i=0;i<lines.length;i++){
@@ -180,23 +180,23 @@ function parseToc(addonName){
 
 		// config option
 		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-		if(res){
-		    // toc.metainfo[ res[1] ] = res[2] ;
+		if(res/* && res[1]=="163UI-Version"*/){
+		toc.metainfo[ res[1] ] = res[2] ;
 		}
     }
 
     function findfiles(subdir){
-	fs.readdirSync(addonDir+"/"+subdir).map(function(filename){
-	    if(filename=='.' || filename=='..')
-		return ;
-	    if( fs.statSync(addonDir+"/"+subdir+filename).isDirectory() ){
-		findfiles(subdir+filename+"/") ;
-	    }
-	    else{
-		toc.files[ subdir+filename ]
-		    = md5fileSync( addonDir+"/"+subdir+filename ) ;
-	    }
-	}) ;
+		fs.readdirSync(addonDir+"/"+subdir).map(function(filename){
+		    if(filename=='.' || filename=='..')
+				return ;
+		    if( fs.statSync(addonDir+"/"+subdir+filename).isDirectory() ){
+				findfiles(subdir+filename+"/") ;
+		    }
+		    else{
+				toc.files[ subdir+filename ]
+				    = md5fileSync( addonDir+"/"+subdir+filename ) ;
+		    }
+		}) ;
     }
 
     findfiles("") ;
