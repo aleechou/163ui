@@ -1,7 +1,7 @@
 ﻿U1RegisterAddon("Quartz", {
     title = "施法条增强",
     tags = { TAG_INTERFACE, TAG_GOOD, },
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "NORMAL",
     icon = [[Interface\ICONS\INV_Enchant_EssenceCosmicGreater]],
     desc = "美化和增强施法条，支持延迟显示等贴心功能。",

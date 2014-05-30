@@ -1,8 +1,9 @@
 ﻿local class = UnitClass and select(2, UnitClass("PLAYER"))
 U1RegisterAddon("SwingBar", {
     title = "近战攻击条",
-    defaultEnable = (class=="WARRIOR" or class=="PALADIN" or class=="DEATHKNIGHT" or class=="HUNTER" or class=='MONK') and 1 or 0,
-    frames = {"SwingBar"},
+    --defaultEnable = (class=="WARRIOR" or class=="PALADIN" or class=="DEATHKNIGHT" or class=="HUNTER" or class=='MONK') and 1 or 0,
+    defaultEnable = 0
+	frames = {"SwingBar"},
 
     tags = { TAG_CLASS, TAG_WARRIOR, TAG_PALADIN, TAG_ROGUE, TAG_DEATHKNIGHT, TAG_DRUID, TAG_HUNTER, TAG_SHAMAN, TAG_MONK },
     icon = [[Interface\Icons\INV_AXE_25]],

@@ -1,7 +1,7 @@
 local _, engClass = UnitClass("player")
 U1RegisterAddon("EventAlertMod", {
     title = "技能特效报警",
-    defaultEnable = 1,
+    defaultEnable = 0,
     --optionsAfterVar = 1,
     load = "LOGIN", --5.0 script ran too long
     --secure = 1,

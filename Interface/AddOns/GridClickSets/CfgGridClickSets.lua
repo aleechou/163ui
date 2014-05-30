@@ -1,6 +1,6 @@
 U1RegisterAddon("GridClickSets", {
     title = "点击施法",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "NORMAL", --否则无法hook compact raid
 
     tags = { TAG_RAID },

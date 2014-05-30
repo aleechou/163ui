@@ -1,6 +1,6 @@
 U1RegisterAddon("Bagnon", {
     title = "简约背包整合",
-    defaultEnable = 1,
+    defaultEnable = 0,
     optionsAfterLogin = 1,
     nopic = true,
 

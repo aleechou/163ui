@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("BattlegroundTargets", {
     title = "PVP战场框体",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "LOGIN",
 
     tags = { TAG_PVP },

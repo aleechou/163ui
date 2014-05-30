@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("RaidAlerter", {
     title = "团队警报",
-    defaultEnable = 1,
+    defaultEnable = 0,
     secure = 0,
 
     tags = { TAG_RAID, TAG_CHAT, },

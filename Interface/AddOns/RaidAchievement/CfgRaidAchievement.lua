@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("RaidAchievement", {
     title = "成就助手",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "NORMAL",
     optionsAfterLogin = 1,
 

@@ -10,10 +10,8 @@ if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 local _, addon = ...
 local L = addon.L
 
---163uiedit
 local flyoutID = 78
 local spellList = {}
---163uiedit
 -- addon:BuildSpellList(spellList, 8017)
 -- addon:BuildSpellList(spellList, 8024)
 -- addon:BuildSpellList(spellList, 8033)
@@ -27,7 +25,6 @@ end
 local function CreateWeaponEnchantButton(slot)
 	local button = addon:CreateActionButton("ShamanWeaponEnchant"..slot, L["enchants"], nil, 1800, "WEAPON_ENCHANT")
 	button:SetFlyProtect("type1", "spell")
---163uiedit
 	-- button:SetScrollable(spellList, "spell1")
 	button:SetWeaponSlot(slot)
 	button.OnTooltipRightText = Button_OnTooltipRightText
@@ -38,7 +35,6 @@ local button1 = CreateWeaponEnchantButton(16)
 local button2 = CreateWeaponEnchantButton(17)
 button2:RequireSpell(86629) -- Only enchantment shamans may dual-wield
 
---163uiedit
 local function update()
     wipe(spellList)
     local name, desc, numSlots, isKnown = GetFlyoutInfo(flyoutID)

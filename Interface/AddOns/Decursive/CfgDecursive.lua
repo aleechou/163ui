@@ -1,6 +1,6 @@
 U1RegisterAddon("Decursive", {
     title = "一键驱散",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "LOGIN",
 
     tags = { TAG_RAID, TAG_BIG, TAG_CLASS, TAG_MAGE, TAG_PALADIN, TAG_PRIEST, TAG_SHAMAN, TAG_DRUID, TAG_MONK },

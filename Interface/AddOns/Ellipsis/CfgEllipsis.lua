@@ -17,7 +17,7 @@ U1RegisterAddon("Ellipsis", {
     tags = { TAG_COMBATINFO },
     icon = [[Interface\Icons\SPELL_HOLY_BORROWEDTIME]],
     desc = "多功能法术计时器",
-    defaultEnable = 1,
+    defaultEnable = 0,
 
 
     {

@@ -3,7 +3,7 @@
     tags = {TAG_ITEM, TAG_BIG,},
     deps = {"libbabble-3.0"},
     minimap = "LibDBIcon10_AtlasLoot",
-    defaultEnable = 1,
+    defaultEnable = 0,
 
     author = "Hegarol",
     desc = "显示副本中的首领与小怪可能掉落的物品，并且可以查询各种声望、战场、兑换物的奖励物品等。`快捷命令：/al 或 /atlasloot``|cff00d100本插件下的子模块全部开启即可，会自动加载需要的部分|r",

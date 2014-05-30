@@ -32,11 +32,7 @@
 	<Script file="Rogue\WeaponPoison.lua"/>
 
 	<Script file="Shaman\Shields.lua"/>	
-	<!-- <Script file="Shaman\Totems.lua"/> -->
-	<!-- <Script file="Shaman\EarthTotems.lua"/> -->
-	<!-- <Script file="Shaman\FireTotems.lua"/> -->
-	<!-- <Script file="Shaman\WaterTotems.lua"/> -->
-	<!-- <Script file="Shaman\WindTotems.lua"/> -->
+	 <Script file="Shaman\Totems.lua"/> 
 	<Script file="Shaman\WeaponEnchants.lua"/>
 
 	<Script file="Warlock\Armors.lua"/>
