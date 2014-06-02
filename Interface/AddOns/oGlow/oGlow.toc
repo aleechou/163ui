@@ -4,7 +4,7 @@
 ## Version: 2.2.2
 # SavedVariables: oGlowDB
 ## X-eMail: troeks@gmail.com
-## Notes: Make your shiny items... glow in the dark!
+## Notes: 在人物栏高亮物品品质
 
 init.lua
 event.lua
@@ -38,6 +38,6 @@ filters\quality.lua
 
 
 
-## Title: |cff880303[网易有爱]|r oGlow
+## Title: |cff880303[网易有爱]|r 物品品质高亮
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

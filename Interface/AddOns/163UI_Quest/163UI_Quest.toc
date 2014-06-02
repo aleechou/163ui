@@ -3,6 +3,6 @@
 ## Author: Abin,Warbaby
 163UI_Quest.lua
 
-## Title: |cff880303[网易有爱]|r 163UI_Quest
+## Title: |cff880303[网易有爱]|r 任务助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

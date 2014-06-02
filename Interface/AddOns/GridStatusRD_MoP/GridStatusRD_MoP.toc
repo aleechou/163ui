@@ -16,6 +16,6 @@ TerraceofEndlessSpring.lua
 ThroneofThunder.lua
 SiegeofOrgrimmar.lua
 
-## Title: |cff880303[网易有爱]|r GridStatusRD_MoP
+## Title: |cff880303[网易有爱]|r Grid MOP组件
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

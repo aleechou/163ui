@@ -1,7 +1,7 @@
 ﻿## Interface: 50400
 ## Title: Broker: MicroMenu
 ## Version: v1.3.6
-## Notes: Shows the mirco menu and game menu in a clickable broker tooltip.
+## Notes: 在信息栏中显示微型菜单
 ## Author: yess
 ## X-eMail: starfire@fantasymail.de
 ## OptionalDeps: LibQTip-1.0
@@ -28,4 +28,4 @@ Options.lua
 
 ## Title: |cff880303[网易有爱]|r 微型菜单
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

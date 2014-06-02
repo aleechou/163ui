@@ -2,7 +2,7 @@
 ## Title: Dresser
 ## Author: Vladinator
 ## Version: 3.3
-## Notes: Adds new buttons and functionality to the dressing room!
+## Notes: 增强试穿界面
 ## X-Mush-Project-Name: Dresser
 ## X-Mush-Packaged-Version: 8
 ## X-Mush-UpdateVer: 8
@@ -11,4 +11,4 @@ Dresser.lua
 
 ## Title: |cff880303[网易有爱]|r 试穿助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

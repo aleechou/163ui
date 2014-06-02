@@ -2,7 +2,7 @@
 ## Author: p3lim
 ## Version: 50200.21-Release
 ## Title: Broker:Equipment
-## Notes: LDB Equipment Manager plug-in
+## Notes: 在装备栏中显示套装名称
 ## X-Curse-Packaged-Version: 50200.21-Release
 ## X-Curse-Project-Name: Broker_Equipment
 ## X-Curse-Project-ID: broker_equipment
@@ -16,4 +16,4 @@ Broker_Equipment.lua
 
 ## Title: |cff880303[网易有爱]|r 装备管理
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

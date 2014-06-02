@@ -10,9 +10,9 @@
 ## Notes-zhTW: Shift、Ctrl（預設）或Alt+滑鼠左鍵按一下,或按兩下滑鼠左鍵快速標記目標
 ## X-Repple: 辅助
 ## SavedVariablesPerCharacter: SRTISaved
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201
 
 SimpleRaidTargetIcons.lua
 
-## Title: |cff880303[网易有爱]|r SimpleRaidTargetIcons
+## Title: |cff880303[网易有爱]|r 快捷标记
 ## X-Vendor: NetEase

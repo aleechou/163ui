@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Author: d07.RiV (Iroared)
 ## Title: ReforgeLite
-## Notes: Calculates optimal reforging for given weights/caps.
+## Notes: 自动计算和重铸装备属性
 ## Version: 1.37
 ## SavedVariables: ReforgeLiteDB
 ## Dependencies: 
@@ -20,4 +20,4 @@ Presets.lua
 TaskUI.lua
 ## Title: |cff880303[网易有爱]|r 重铸助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

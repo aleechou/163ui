@@ -1,10 +1,8 @@
 ## Interface: 50400
 ## Title: DuowanChat
-# Title-zhCN: [多玩] 多玩聊天
-# Title-zhTW: [多玩] 多玩聊天
-## Notes: A chat enhance addon
-## Notes-zhTW: 研究178的聊天增強插件
-## Notes-zhCN: 研究178的聊天增强插件
+# Title-zhCN: 聊天增强
+# Title-zhTW: 聊天增强
+## Notes: 聊天增加插件，提供快捷切换频道和聊天表情等。
 ## Author: Terry, dugu@bigfoot
 ## Version: 0.1
 ## X-DuowanAddon: 介面聊天
@@ -19,6 +17,6 @@ locale\locale.cn.lua
 locale\locale.tw.lua
 frame.xml
 
-## Title: |cff880303[网易有爱]|r DuowanChat
+## Title: |cff880303[网易有爱]|r 聊天增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

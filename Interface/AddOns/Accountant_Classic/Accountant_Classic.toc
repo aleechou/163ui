@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Title: Accountant Classic
-## Notes: A basic tool to track your monetary incomings and outgoings within WoW.
+## Notes: 统计个人金钱花费和收入，以表格的形式呈现。
 ## Author: Arith Hsu
 ## Version: 2.5.18
 ## X-eMail: arithmandarjp @ yahoo.co.jp
@@ -23,5 +23,6 @@ Accountant.xml
 AccountantButton.xml
 AccountantOptions.xml
 
-## Title: |cff880303[网易有爱]|r Accountant_Classic
+## Title: |cff880303[网易有爱]|r 收支统计
 ## X-Vendor: NetEase
+## 163UI-Version: 2014060201

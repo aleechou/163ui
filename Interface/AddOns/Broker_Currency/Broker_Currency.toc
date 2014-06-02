@@ -14,7 +14,7 @@
 ## Notes-frFR: LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-koKR: 자동으로LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-ruRU: Динамические LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
-## Notes-zhCN: 一组LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.。
+## Notes-zhCN: 显示在界面顶部的多功能信息条
 ## Notes-zhTW: 一組LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.。
 
 ## DefaultState: enabled
@@ -40,4 +40,4 @@ Broker_Currency.lua
 
 ## Title: |cff880303[网易有爱]|r Broker信息条核心
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

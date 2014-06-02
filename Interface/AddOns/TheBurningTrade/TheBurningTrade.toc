@@ -9,6 +9,6 @@
 locale.lua
 TheBurningTrade.lua
 
-## Title: |cff880303[网易有爱]|r TheBurningTrade
+## Title: |cff880303[网易有爱]|r 交易增强界面
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

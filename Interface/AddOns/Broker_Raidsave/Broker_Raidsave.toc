@@ -2,7 +2,7 @@
 ##
 # Title: Broker [RaidSave]
 ## Version:  2.1.2-beta
-## Notes: Minimalistic LDB plugin that allows tracking of raid IDs across characters.
+## Notes: 监控账号下各个角色的团队副本进度。
 ## Author: torhal
 ## X-Email: zhinjio@gmail.com
 ## X-Category: Raid
@@ -29,6 +29,6 @@ Locales\zhCN.lua
 Broker_RaidSave.lua
 
 
-## Title: |cff880303[网易有爱]|r Broker_RaidSave
+## Title: |cff880303[网易有爱]|r 信息条_团本进度
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

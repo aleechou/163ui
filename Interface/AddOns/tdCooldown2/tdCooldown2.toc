@@ -18,6 +18,6 @@ main.lua
 core\embed.xml
 addons\addons.xml
 
-## Title: |cff880303[网易有爱]|r tdCooldown2
+## Title: |cff880303[网易有爱]|r 技能冷却
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

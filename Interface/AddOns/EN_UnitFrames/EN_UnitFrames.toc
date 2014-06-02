@@ -13,7 +13,7 @@
 
 EN_UnitFrames.xml
 
-## Title: |cff880303[网易有爱]|r EN_UnitFrames
+## Title: |cff880303[网易有爱]|r EUF头像框体
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201
 SBuff_Buffs.lua

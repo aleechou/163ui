@@ -1,7 +1,6 @@
 ## Interface: 50400
 ## Title: GladiatorlosSA
-## Notes: PVP Spell Sound Alert
-## Notes-zhTW: PVP技能語音提示
+## Notes: PVP技能语音提示
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521
 ## SavedVariables: GladiatorlosSADB
 ## Version: 2.0
@@ -16,6 +15,6 @@ GladiatorlosSA.lua
 spelllist.lua
 options.lua
 
-## Title: |cff880303[网易有爱]|r GladiatorlosSA
+## Title: |cff880303[网易有爱]|r PVP语音提示
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

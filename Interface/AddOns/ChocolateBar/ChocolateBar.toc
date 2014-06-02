@@ -7,7 +7,7 @@
 ## X-Curse-Project-Name: ChocolateBar Broker Display
 ## X-Curse-Project-ID: chocolatebar
 ## X-Curse-Repository-ID: wow/chocolatebar/mainline
-
+## notes:显示在顶部的巧克力信息条框体
 ## SavedVariables: ChocolateBarDB
 
 #@no-lib-strip@
@@ -27,6 +27,6 @@ Bar.lua
 
 Brokers.lua
 
-## Title: |cff880303[网易有爱]|r ChocolateBar
+## Title: |cff880303[网易有爱]|r 信息条
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

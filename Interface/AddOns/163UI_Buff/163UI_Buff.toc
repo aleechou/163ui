@@ -5,6 +5,6 @@
 SBuff_BuffTimer.lua
 CastBy.lua
 
-## Title: |cff880303[网易有爱]|r 163UI_Buff
+## Title: |cff880303[网易有爱]|r 增益显示增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

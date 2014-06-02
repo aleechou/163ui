@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Title: TinyTip
-## Notes: 格式化显示提示信息
+## Notes: 格式化显示鼠标提示信息
 # Title-zhCN: 鼠标信息 TinyTip
 ## Notes-zhCN: 格式化显示提示信息
 # Title-zhTW:  滑鼠資訊 TinyTip 
@@ -12,6 +12,6 @@ TinyTip.lua
 HoverTips.lua
 InspectTip.lua
 
-## Title: |cff880303[网易有爱]|r TinyTip
+## Title: |cff880303[网易有爱]|r 鼠标提示
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

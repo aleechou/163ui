@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Author: kunda
 ## Title: GridStatusRaidIcons
-## Notes: Adds Raid Target Icon status to Grid (Player or Player Target).
+## Notes: 在团队框架中增加目标/目标的目标高亮
 ## Version: 40300-1
 ## Dependencies: Grid
 ## X-Curse-Packaged-Version: 40300-1
@@ -11,6 +11,6 @@
 
 embeds.xml
 
-## Title: |cff880303[网易有爱]|r GridStatusRaidIcons
+## Title: |cff880303[网易有爱]|r Grid目标显示组件
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

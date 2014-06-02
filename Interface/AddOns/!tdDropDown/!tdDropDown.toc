@@ -9,6 +9,6 @@ localization.lua
 tdDropDown.lua
 tdDropDown_Option.lua
 
-## Title:  |cff880303[网易有爱]|r !tdDropDown
+## Title:  |cff880303[网易有爱]|r 下拉框增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

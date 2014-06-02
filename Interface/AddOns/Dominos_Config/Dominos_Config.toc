@@ -2,7 +2,7 @@
 ## Title: Dominos Config
 ## Title-zhCN: Dominos 设置
 ## Title-zhTW: Dominos 設置
-## Notes: GUI based configuration for Dominos
+## Notes: 多米诺设置界面
 ## Author: Tuller
 ## Dependencies: Dominos
 ## LoadOnDemand: 1
@@ -11,6 +11,6 @@ menu.lua
 panel.lua
 general.lua
 profiles.lua
-## Title: |cff880303[网易有爱]|r Dominos_Config
+## Title: |cff880303[网易有爱]|r 多米诺_设置
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

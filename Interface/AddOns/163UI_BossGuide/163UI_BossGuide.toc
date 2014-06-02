@@ -5,6 +5,6 @@
 
 163UI_BossGuide.lua
 
-## Title: |cff880303[网易有爱]|r 163UI_BossGuide
+## Title: |cff880303[网易有爱]|r 有爱副本攻略
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Title: GridStatusBanzai
-## Notes: The former GridStatusAggro in 2.4
+
 ## Dependencies: Grid
 ## OptionalDeps: Ace3
 ## X-Curse-Packaged-Version: 1.04.29
@@ -10,6 +10,6 @@
 
 embeds.xml
 
-## Title: |cff880303[网易有爱]|r GridStatusBanzai
+## Title: |cff880303[网易有爱]|r Grid快捷仇恨目标
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

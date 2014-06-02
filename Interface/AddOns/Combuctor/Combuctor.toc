@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Title: Combuctor
 ## Author: Tuller and Jaliborc (João Cardoso)
-## Notes: Pants are a dangerous foe
+## Notes: 分类更细致的背包整合
 ## Version: 5.4.0
 ## OptionalDeps: BagBrother, Ace3, LibItemCache-1.0, LibItemSearch-1.2, Unfit-1.0
 ## SavedVariables: CombuctorVersion, CombuctorDB2
@@ -21,4 +21,4 @@ components\components.xml
 
 ## Title: |cff880303[网易有爱]|r 分类背包整合
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

@@ -15,6 +15,6 @@
 Data.lua
 ComboPoints.xml
 
-## Title: |cff880303[网易有爱]|r ComboPoints
+## Title: |cff880303[网易有爱]|r 连击点显示
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

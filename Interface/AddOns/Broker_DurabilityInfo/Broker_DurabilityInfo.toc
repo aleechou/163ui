@@ -1,6 +1,6 @@
 ﻿## Interface: 50400
 ## Title: Broker: DurabilityInfo
-## Notes: Displays item durability and repair cost.
+## Notes: 在信息条中显示装备耐久
 ## Version: 1.18
 ## Author: iceeagle
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibDialog-1.0, LibCrayon-3.0
@@ -37,4 +37,4 @@ Broker_DurabilityInfo.lua
 
 ## Title: |cff880303[网易有爱]|r 装备耐久信息
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

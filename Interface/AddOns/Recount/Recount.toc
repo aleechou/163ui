@@ -14,7 +14,7 @@
 ## X-Curse-Project-Name: Recount
 ## X-Curse-Project-ID: recount
 ## X-Curse-Repository-ID: wow/recount/mainline
-
+## notes:老牌伤害统计插件。
 #@no-lib-strip@
 embeds.xml
 #@end-no-lib-strip@
@@ -55,6 +55,6 @@ GUI_Realtime.lua
 
 Broker_Recount.lua
 
-## Title: |cff880303[网易有爱]|r Recount
+## Title: |cff880303[网易有爱]|r Recount伤害统计
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

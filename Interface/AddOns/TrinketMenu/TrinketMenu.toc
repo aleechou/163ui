@@ -2,7 +2,7 @@
 ## Title: TrinketMenu
 ## Version: 5.0.4
 ## Author: Gello, Resike, luyi7338
-## Notes: AddOn to manage trinkets
+## Notes: 便捷更换和监视饰品
 ## SavedVariables: TrinketMenuOptions
 ## SavedVariablesPerCharacter: TrinketMenuPerOptions, TrinketMenuQueue
 TrinketMenu.lua
@@ -13,6 +13,6 @@ TrinketMenuQueue.lua
 TrinketMenuQueue.xml
 localization.lua
 
-## Title: |cff880303[网易有爱]|r TrinketMenu
+## Title: |cff880303[网易有爱]|r 饰品管理
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

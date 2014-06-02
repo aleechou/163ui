@@ -2,7 +2,7 @@
 ## Title: Masque: |cffff8000Caith|r
 ## Version: 4.2.74
 ## Author: StormFX
-## Notes: Caith skin for Masque.
+
 ## Notes-deDE: Caith-Skin für Masque.
 ## Notes-zhTW: Masque的Caith皮膚。
 ## Dependencies: Masque
@@ -16,3 +16,6 @@
 ## X-Curse-Repository-ID: wow/masque_caith/mainline
 
 Caith.lua
+## Title: |cff880303[网易有爱]|r 动作条皮肤Caith
+## X-Vendor: NetEase
+## 163UI-Version: 2014060201

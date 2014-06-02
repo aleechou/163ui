@@ -28,6 +28,6 @@ Buttons\embeds.xml
 Options.lua
 
 
-## Title: |cff880303[网易有爱]|r LiteBuff
+## Title: |cff880303[网易有爱]|r 职业便捷条
 ## X-Vendor: NetEase
-## 163UI-Version: 2014053101
+## 163UI-Version: 2014060201

@@ -1,7 +1,6 @@
 ## Interface: 30300
 ## Title: ButtonFacade: |cffff8000HelloKitty|r
 ## Version: 1.1
-## Notes: HelloKitty skins for ButtonFacade.
 ## Notes-deDE: HelloKitty Skins für ButtonFacade.
 ## Notes-esMX: HelloKitty texturas para ButtonFacade.
 ## Notes-esES: HelloKitty texturas para ButtonFacade.
@@ -13,3 +12,7 @@
 ## Author: Psychoshamoo
 
 Skins.lua
+
+## Title: |cff880303[网易有爱]|r 动作条皮肤KITTY
+## X-Vendor: NetEase
+## 163UI-Version: 2014060201

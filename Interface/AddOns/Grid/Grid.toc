@@ -7,7 +7,7 @@
 ## X-Curse-Repository-ID: wow/grid/mainline
 
 # Title: Grid
-# Notes: A compact grid of party/raid unit frames.
+# Notes: 强大的团队框体，支持多种功能。
 
 ## Author: Phanx, Pastamancer, Maia
 ## Credits: Greltok, Jerry, jlam
@@ -51,4 +51,4 @@ ConfigMenu.lua
 
 ## Title: |cff880303[网易有爱]|r Grid
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

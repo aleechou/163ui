@@ -40,6 +40,6 @@ BarDisplay.lua
 
 modules.xml
 
-## Title: |cff880303[网易有爱]|r Skada
+## Title: |cff880303[网易有爱]|r Skada伤害统计
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

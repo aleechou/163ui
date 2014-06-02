@@ -1,12 +1,12 @@
 ## Interface: 50400
 ## Title: Dominos Encounter
 ## Title-zhCN: |cFF0099FF[Dominos]|r 特殊能量条模块
-## Notes: Makes the PlayerPowerBarAlt movable
+## Notes: 多米诺为各职业提供的能量条移动功能
 ## Author: Tuller (with help from Goranaws)
 ## Dependencies: Dominos
 bar.lua
 controller.lua
 
-## Title: |cff880303[网易有爱]|r Dominos_XP
+## Title: |cff880303[网易有爱]|r Dominos_特殊能量条
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

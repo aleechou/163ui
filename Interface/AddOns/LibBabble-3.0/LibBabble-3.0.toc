@@ -13,6 +13,6 @@ LibBabble-Inventory-3.0.lua
 
 ## X-Date-Update: Tue Sep 20 10:04:42 CST 2011
 
-## Title: |cff880303[网易有爱]|r LibBabble-3.0
+## Title: |cff880303[网易有爱]|r 基本库-LibBabble-3.0
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

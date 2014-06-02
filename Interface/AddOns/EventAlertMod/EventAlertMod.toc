@@ -3,6 +3,7 @@
 ## Author: Whitep@雷鱗 (Thanks for ACDACD as previous author of 4.7.02)
 ## Version: 5.1.0.09
 ## SavedVariables: EA_Config, EA_Position, EA_Items, EA_AltItems, EA_TarItems, EA_ScdItems, EA_GrpItems, EA_Pos, EA_SpecCheckPower
+
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -16,6 +17,6 @@ EventAlert_TargetAlerts.xml
 EventAlert_SCDAlerts.xml
 EventAlert_GroupAlerts.xml
 
-## Title: |cff880303[网易有爱]|r EventAlertMod
+## Title: |cff880303[网易有爱]|r EAM技能特效警报
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

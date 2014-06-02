@@ -11,6 +11,6 @@
 SpellsWidget.lua
 GridStatusTankCooldown.lua
 
-## Title: |cff880303[网易有爱]|r GridStatusTankCooldown
+## Title: |cff880303[网易有爱]|r Grid坦克CD组件
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

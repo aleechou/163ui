@@ -16,6 +16,6 @@ Locale\Locale.xml
 Core.lua
 
 
-## Title: |cff880303[网易有爱]|r GridStatusRaidDebuff
+## Title: |cff880303[网易有爱]|r Grid负面状态组件
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

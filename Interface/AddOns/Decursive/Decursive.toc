@@ -5,7 +5,7 @@
 ## X-Curse-Project-Name: Decursive
 ## X-Curse-Project-ID: decursive
 ## X-Curse-Repository-ID: wow/decursive/mainline
-
+## Notes:为能够驱散的职业提供一键驱散面板，点击即可驱散相关负面状态。
 
 
 ## SavedVariables: DecursiveDB
@@ -63,6 +63,6 @@ Dcr_LiveList.lua
 Dcr_LiveList.xml
 
 
-## Title: |cff880303[网易有爱]|r Decursive
+## Title: |cff880303[网易有爱]|r 一键驱散
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

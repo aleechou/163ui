@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Title: Combuctor Config
 ## Author: Tuller and Jaliborc (João Cardoso)
-## Notes: An options menu for Combuctor
+## Notes: 分类背包配置
 ## Dependencies: Combuctor
 ## LoadOnDemand: 1
 
@@ -11,4 +11,4 @@ general.lua
 sets.lua
 ## Title: |cff880303[网易有爱]|r 分类背包配置
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201

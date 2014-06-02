@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Title: Bagnon
 ## Author: Tuller & Jaliborc (João Cardoso)
-## Notes: Single window displays for your inventory and bank
+## Notes: 简约风格的背包整合
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
 ## Version: 5.4.15
@@ -20,4 +20,4 @@ components\components.xml
 
 ## Title: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052802
+## 163UI-Version: 2014060201

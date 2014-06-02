@@ -19,6 +19,6 @@
 localizations.lua
 Options.lua
 
-## Title: |cff880303[网易有爱]|r RangeDisplay_Options
+## Title: |cff880303[网易有爱]|r 距离显示设置
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060201
