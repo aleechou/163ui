@@ -26,6 +26,7 @@ UUI.DropDownItems = QuickMenus or {
     --"163ui_chat/clean",
     "dbm-core/range",
     "163ui_bossguide/",
+    "!!!163ui!!!/displayLinkageStatusAsBuff",
 }
 
 --[[------------------------------------------------------------
