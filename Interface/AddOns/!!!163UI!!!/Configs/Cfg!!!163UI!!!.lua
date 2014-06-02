@@ -368,6 +368,21 @@ U1RegisterAddon("!!!163UI!!!", {
             text = '每天第一次登陆时显示老黄历',
         },
     },
+    
+    {
+        text = L["有爱客户端"], type = "text",
+        {
+            var = "displayLinkageStatusAsBuff",
+            default = true,
+            text = "有爱连接状态显示为Buff",
+            tip = "说明`关闭此选项不会导致有爱连接断开，以及影响签到的时间积累",
+            callback = function(cfg, v, loading)
+                if Toggle3DCodeCmdBuff  then
+                    Toggle3DCodeCmdBuff()
+                end
+            end
+        },
+    },
 });
 
 U1RegisterAddon("!!!163UI.pics!!!", { title = "插件说明图片", hide = 1, defaultEnable = 0 });
