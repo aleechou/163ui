@@ -69,6 +69,7 @@ GameTooltip:AddLine('|cffffffff还有'..(30-e)..'分钟完成签到|r')
 �
 �
 �
+GameTooltip:AddLine('|cffffffff(可在有爱控制台>有爱设置里隐藏Buff)|r')
 GameTooltip:Show()
 �)
 e:SetScript("OnLeave",�(e)
@@ -96,10 +97,9 @@ GameTooltip:AddLine('|cFFFF0000请点击Buff更改窗口模式|r')
 GameTooltip:AddLine('|cFFFF0000未检测到有爱客户端，请启动有爱客户端|r')
 �
 GameTooltip:AddLine(' ')
-GameTooltip:AddLine('|cffffffff在游戏时启动有爱客户端，|r')
-GameTooltip:AddLine('|cffffffff可保持有爱连接，并积累|r')
-GameTooltip:AddLine('|cffffffff游戏时间用于签到|r')
-GameTooltip:AddLine('|cffffffff或参与其他官方活动|r')
+GameTooltip:AddLine('|cffffffff在游戏时启动有爱客户端可保持有爱连接，|r')
+GameTooltip:AddLine('|cffffffff并积累游戏时间用于签到或参与其他官方活动|r')
+GameTooltip:AddLine('|cffffffff(可在有爱控制台>有爱设置里隐藏此Buff)|r')
 GameTooltip:Show()
 �)
 StaticPopupDialogs["163UI-Linkage:ChangeWindowMode"]={
@@ -127,7 +127,7 @@ StaticPopup_Show("163UI-Linkage:ChangeWindowMode")
 t:SetScript("OnLeave",�(e)
 GameTooltip:Hide()
 �)
-� ShownBuffNumber()
+� � r()
 � o={BuffFrame:GetChildren()}
 � a=0
 n("ShownBuffNumber()-------------")
@@ -144,7 +144,7 @@ n("ShownBuffNumber()",a)
 � a
 �
 � � h(t)
-� e=ShownBuffNumber()
+� e=r()
 � a=floor(e/BUFFS_PER_ROW)
 � a=-a*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
 � o=e%BUFFS_PER_ROW
@@ -154,6 +154,11 @@ t:SetPoint("TOPRIGHT",o,a)
 t:Show()
 �
 � � a(a)
+� U1DB � U1DB.configs � U1DB.configs["!!!163ui!!!/displayLinkageStatusAsBuff"]=="_NIL"�
+t:Hide()
+e:Hide()
+�
+�
 � � a �
 a=time()
 �
@@ -210,4 +215,8 @@ t:Hide()
 �
 � cmd3dcode_lastPingTime()
 � s
-�]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
+�
+� Toggle3DCodeCmdBuff(e)
+a()
+�
+]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()

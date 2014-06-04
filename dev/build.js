@@ -1,11 +1,5 @@
 #! /usr/bin/env node
 
-if(!process.argv[2]){
-	console.log("miss child dir name of packages")
-	process.exit()
-}
-var targetDirName = process.argv[2]
-
 var q = require("q")
 var fs = require("fs")
 var crypto = require('crypto')
@@ -16,12 +10,10 @@ var Steps = require("ocsteps")
 
 
 
-
-
 var srcdir = __dirname+"/../Interface/AddOns"
 var workdir = __dirname+"/workdir"
 var packagesdir = workdir + "/packages"
-var targetdir = packagesdir + '/' + targetDirName
+var targetdir
 var addonsIndexJson = workdir + "/addons-index.json"
 var addonsIndexTar = workdir + "/addons-index.zip"
 
@@ -37,17 +29,13 @@ if( !fs.existsSync(packagesdir) ){
     fs.mkdir(packagesdir)
     console.log("create packages dir",packagesdir)
 }
-if( !fs.existsSync(targetdir) ){
-    fs.mkdir(targetdir)
-    console.log("create target dir",targetdir)
-}
 
 var indexjson = require("./index.json") 
 var addonsJson = require("./addons-index.json")
 addonsJson.addons = []
-addonsJson.addonsDirUrl+= "/" + targetDirName
 if(!addonsJson.ignore) addonsJson.ignore = {}
 
+// 过滤并加载插件包
 fs.readdirSync(srcdir)
 .reduce(function(addons,filename){
 	(!addonsJson.ignore[filename])
@@ -57,8 +45,38 @@ fs.readdirSync(srcdir)
     return addons
 },addonsJson.addons)
 
-
 Steps()
+
+	// 确定输出目录
+	.step(function(){
+		var targetDirName = new Date().Format("yyyyMMdd")
+
+		fs.readdir(packagesdir,this.holdButThrowError(function(err,names){
+
+			var idx = "01"
+			names.forEach(function(fname){
+				if( fname.substr(0,targetDirName.length) == targetDirName ){
+					idx = parseInt(fname.substr(targetDirName.length)) + 1
+					return false
+				}
+			})
+
+			idx = idx.toString()
+			idx.length==1 && (idx="0"+idx)
+
+			targetDirName+= idx
+			targetdir = packagesdir + '/' + targetDirName
+			addonsJson.lastVersion = targetDirName
+			addonsJson.addonsDirUrl = addonsJson.packagesUrl + '/' + targetDirName
+
+			fs.exists(targetdir,this.hold(function(exists){
+				if(!exists){
+				    fs.mkdir(targetdir,this.holdButThrowError())
+				    console.log("create target dir",targetdir)
+				}
+			}))
+		}))
+	})
 /*
 	// 清除 packages
 	.step(function(){
@@ -74,7 +92,7 @@ Steps()
 		}
 	})
 */
-
+	// 打包扩展
 	.step(function(){
 
 		this.each(addonsJson.addons,function(i,addon){
@@ -87,8 +105,6 @@ Steps()
 
     		this
 	    		.step(function(err,stdout,stderr){
-	    			//console.log(stdout.toString())
-	    			//console.log(stderr.toString())
 	    			if(err){
 	    				this.terminate()
 	    				return
@@ -148,12 +164,29 @@ Steps()
 	    console.log("created index.json file.")
 	})
 
+	// 处理 history.md/.html
+	.step(function(){
+		fs.readFile(__dirname+"/../history.md",this.holdButThrowError())
+	})
+	.step(function(err,buff){
+		fs.writeFile(__dirname+"/workdir/history.md",buff,this.holdButThrowError())
+	})
+	.step(function(){
+		child_process.exec(
+			"md2html history.md > history.html",{cwd:__dirname+"/workdir"}, this.holdButThrowError()
+		)
+	})
+
+
 	.catch(function(error){
 	    console.error(error)
 	    console.error(error.stack)
 	})
 
 	.done(function(){
+
+		console.log("\n-----------")
+		console.log("new packages folder is:",targetdir)
 		console.log("done")
 	}) ()
 
@@ -180,7 +213,7 @@ function parseToc(addonName){
 
 		// config option
 		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-		if(res && res[1]=="163UI-Version"){
+		if(res && res[1]){
 			toc.metainfo[ res[1] ] = res[2] ;
 		}
     }
@@ -229,3 +262,25 @@ function md5file(filepath,cb){
 }
 
 
+
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
