@@ -34,14 +34,14 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 
 			-- Add to recipient healing.
 			do
-				if heal.dstName then
-					local healed = player.healed[heal.dstName]
+				if heal.dstName and heal.dstGUID then
+					local healed = player.healed[heal.dstGUID]
 
 					-- Create recipient if it does not exist.
 					if not healed then
 						local _, className = UnitClass(heal.dstName)
-						healed = {class = className, amount = 0, shielding = 0}
-						player.healed[heal.dstName] = healed
+						healed = {name = heal.dstName, class = className, amount = 0, shielding = 0}
+						player.healed[heal.dstGUID] = healed
 					end
 
 					healed.amount = healed.amount + amount
@@ -96,6 +96,7 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 
 		if bit.band(srcFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 and bit.band(srcFlags, dstFlags, COMBATLOG_OBJECT_REACTION_MASK) ~= 0 then
 			heal.dstName = dstName
+			heal.dstGUID = dstGUID
 			heal.playerid = srcGUID
 			heal.playername = srcName
 			heal.spellid = spellId
@@ -151,6 +152,7 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 				if prev and prev > amount then
 
 					heal.dstName = dstName
+					heal.dstGUID = dstGUID
 					heal.playerid = srcGUID
 					heal.playername = srcName
 					heal.spellid = spellId
@@ -179,6 +181,7 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 				if prev and prev > amount then
 
 					heal.dstName = dstName
+					heal.dstGUID = dstGUID
 					heal.playerid = srcGUID
 					heal.playername = srcName
 					heal.spellid = spellId
@@ -220,25 +223,21 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 		end
 	end
 
+	local httable = {}
 	function healingtaken:Update(win, set)
 		local nr = 1
 		local max = 0
 
+		wipe(httable)
 		for i, player in ipairs(set.players) do
-			-- Iterate over all players and add to this player's healing taken.
-			local totalhealing = 0
-			for j, p in ipairs(set.players) do
-
-				-- Iterate over each healed player this player did.
-				-- Bit expensive doing this once for each player in raid; can be done differently.
-				for name, heal in pairs(p.healed) do
-					if name == player.name then
-						totalhealing = totalhealing + heal.amount
-					end
-				end
-
+			-- Iterate over all players and bin their healing done
+			for dstGUID, heal in pairs(player.healed) do
+				httable[dstGUID] = (httable[dstGUID] or 0) + heal.amount
 			end
+		end
 
+		for i, player in ipairs(set.players) do
+			local totalhealing = httable[player.id] or 0
 			-- Now we have a total healing value for this player.
 			if totalhealing > 0 then
 				local d = win.dataset[nr] or {}
@@ -341,7 +340,7 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 				local d = win.dataset[nr] or {}
 				win.dataset[nr] = d
 
-				d.id = spell.id
+				d.id = spell.name -- ticket 362: this needs to be spellname because spellid is not unique with pets that mirror abilities (DK DRW)
 				d.label = spell.name
 				d.value = spell.healing
 				d.valuetext = Skada:FormatValueText(
@@ -376,14 +375,14 @@ Skada:AddLoadableModule("Healing", function(Skada, L)
 		local max = 0
 
 		if player then
-			for name, heal in pairs(player.healed) do
+			for dstGUID, heal in pairs(player.healed) do
 				if heal.amount > 0 then
 
 					local d = win.dataset[nr] or {}
 					win.dataset[nr] = d
 
-					d.id = name
-					d.label = name
+					d.id = dstGUID
+					d.label = heal.name or dstGUID -- second clause for legacy data upgrade
 					d.value = heal.amount
 					d.class = heal.class
 					d.valuetext = Skada:FormatValueText(
