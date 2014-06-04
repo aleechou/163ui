@@ -20,5 +20,5 @@
     	, "WowLua":1
     }
 
-    , "addonsDirUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
+    , "packagesUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
 }
