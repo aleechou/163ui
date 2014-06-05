@@ -54,3 +54,5 @@ ScarletHalls\FlameweaverKoegler.lua
 ScarletCathedral\ThalnosSoulrender.lua
 ScarletCathedral\Korlof.lua
 ScarletCathedral\Durand.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

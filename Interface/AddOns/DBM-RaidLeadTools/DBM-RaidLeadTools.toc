@@ -26,3 +26,5 @@ localization.tw.lua
 DBM-RaidLeadTools.lua
 load_files.xml
 
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

@@ -28,3 +28,5 @@ localization.fr.lua
 localization.it.lua
 SpellTimers.lua
 
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

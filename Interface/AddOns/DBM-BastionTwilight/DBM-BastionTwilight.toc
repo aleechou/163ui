@@ -29,3 +29,5 @@ AscendantCouncil.lua
 Chogall.lua
 Sinestra.lua
 BoTTrash.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

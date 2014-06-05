@@ -28,3 +28,5 @@ Yulon.lua
 Niuzao.lua
 Xuen.lua
 Ordos.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

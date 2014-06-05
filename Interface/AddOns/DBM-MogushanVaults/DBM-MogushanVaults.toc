@@ -27,3 +27,5 @@ GarajalTheSpiritbinder.lua
 SpiritKings.lua
 Elegon.lua
 WillofEmperor.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

@@ -46,3 +46,5 @@ FrostwingHalls\Sindragosa.lua
 FrostwingHalls\FrostwingHallTrash.lua
 
 TheFrozenThrone\LichKing.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

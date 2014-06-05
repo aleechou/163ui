@@ -46,3 +46,5 @@ MilitaryQuarter\Horsemen.lua
 
 FrostwyrmLair\Sapphiron.lua
 FrostwyrmLair\Kel'Thuzad.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

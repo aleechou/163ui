@@ -34,3 +34,5 @@ Rank8.lua
 Rank9.lua
 Rares1.lua
 Rares2.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

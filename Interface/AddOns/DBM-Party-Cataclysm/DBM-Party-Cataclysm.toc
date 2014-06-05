@@ -114,3 +114,6 @@ WorldBosses\Garr.lua
 WorldBosses\JulakDoom.lua
 WorldBosses\Mobus.lua
 WorldBosses\Xariona.lua
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

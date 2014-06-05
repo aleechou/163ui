@@ -33,3 +33,5 @@ Blackhorn.lua
 SpineDeathwing.lua
 MadnessDeathwing.lua
 DSTrash.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

@@ -39,3 +39,6 @@ Hodir.lua
 GeneralVezax.lua
 YoggSaron.lua
 Algalon.lua
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

@@ -25,3 +25,5 @@ localization.tw.lua
 localization.cn.lua
 
 Onyxia.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

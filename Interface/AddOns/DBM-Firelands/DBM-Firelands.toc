@@ -33,3 +33,5 @@ Ragnaros.lua
 FirelandsTrash.lua
 Volcanus.lua
 Nexus.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

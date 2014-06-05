@@ -24,3 +24,4 @@ Locale\zhTW.lua
 
 ## Title: |cff880303[网易有爱]|r LearningAid
 ## X-Vendor: NetEase
+## 163UI-Version: 2014060401

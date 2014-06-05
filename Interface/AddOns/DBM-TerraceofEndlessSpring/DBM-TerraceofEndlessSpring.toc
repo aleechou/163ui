@@ -26,3 +26,6 @@ Tsulong.lua
 LeiShi.lua
 ShaofFear.lua
 ShaOfFearAssist.lua
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

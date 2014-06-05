@@ -108,3 +108,5 @@ ForgeofSouls\DevourerofSouls.lua
 PitofSaron\Ick.lua
 PitofSaron\ForgemasterGarfrost.lua
 PitofSaron\ScourgelordTyrannus.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

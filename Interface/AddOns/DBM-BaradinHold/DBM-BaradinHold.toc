@@ -27,3 +27,5 @@ localization.cn.lua
 Argaloth.lua
 Occuthar.lua
 Alizabal.lua
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401
