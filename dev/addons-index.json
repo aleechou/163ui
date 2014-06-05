@@ -23,7 +23,6 @@
     , "packagesUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
 
     , "client": {
-
     	"Windows": {
     		"lastVersion": "3.1.7"
     		, "upgraderFilename": "3.1.7-setup.exe"
@@ -37,6 +36,7 @@
     		, "upgraderUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.1.8-osx.dmg"
     		, "upgraderMD5": "ooxx"
     	}
-
     }
+
+    , offlinePackageUrl: "http://wowui.w.163.com/163wui/offline/3.1.7.rar"
 }
