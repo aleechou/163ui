@@ -21,7 +21,7 @@
     }
 
     , "packagesUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
-}
+	
    , "client": {
    	"Windows": {
     		"lastVersion": "3.1.7"
