@@ -34,7 +34,6 @@ Skada:AddLoadableModule("TotalHealing", function(Skada, L)
 		end
 
 		local nr = 1
-		local max = 0
 
 		for i, player in ipairs(set.players) do
 			if player.healing > 0 or player.overhealing > 0 then
@@ -53,15 +52,11 @@ Skada:AddLoadableModule("TotalHealing", function(Skada, L)
 				d.backgroundwidth = mypercent
 				d.class = player.class
 
-				if player.healing + player.overhealing > max then
-					max = player.healing + player.overhealing
-				end
-
 				nr = nr + 1
 			end
 		end
 
-		win.metadata.maxvalue = max
+		win.metadata.maxvalue = maxvalue
 	end
 
 	function mod:OnEnable()

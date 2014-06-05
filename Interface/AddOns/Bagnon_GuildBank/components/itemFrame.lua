@@ -17,7 +17,7 @@ function ItemFrame:UpdateEvents()
 		if self:IsCached() then
 			self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 		else
-		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+			self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
 		end
 		
 		self:RegisterMessage('ITEM_FRAME_SPACING_UPDATE')

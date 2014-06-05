@@ -54,6 +54,7 @@ Skada.defaults = {
 		reset={instance=1, join=3, leave=1},
 		icon = {hide = false, radius = 80, minimapPos = 195},
 		numberformat=1,
+		setformat=3,
 		showranks=true,
 		setstokeep=10,
 		tooltips=true,
@@ -404,6 +405,17 @@ Skada.options = {
 						get=function() return Skada.db.profile.setstokeep end,
 						set=function(self, val) Skada.db.profile.setstokeep = val end,
 						order=13,
+					},
+
+					setformat = {
+						type="select",
+						name=L["Set format"],
+						desc=L["Controls the way set names are displayed."],
+						values=	Skada:SetLabelFormats(),
+						get=function() return Skada.db.profile.setformat end,
+						set=function(self, opt) Skada.db.profile.setformat = opt; Skada:ApplySettings(); end,
+						order=14,
+						width="double",
 					},
 
 					tenativecombatstart = {
