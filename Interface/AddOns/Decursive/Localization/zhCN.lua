@@ -1,7 +1,7 @@
 ﻿--[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.3) add-on for World of Warcraft UI
+    Decursive (v 2.7.3.1) add-on for World of Warcraft UI
     Copyright (C) 2006-2007-2008-2009-2010-2011-2012 John Wellesz (archarodim AT
     teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
@@ -74,7 +74,7 @@ T._LoadedFiles["zhCN.lua"] = false;
 local L = LibStub("AceLocale-3.0"):NewLocale("Decursive", "zhCN");
 
 if not L then
-    T._LoadedFiles["zhCN.lua"] = "2.7.3";
+    T._LoadedFiles["zhCN.lua"] = "2.7.3.1";
     return;
 end;
 
@@ -204,7 +204,7 @@ L["OPT_ADDDEBUFF_USAGE"] = "<减益名称>"
 L["OPT_ADVDISP"] = "高级显示选项"
 L["OPT_ADVDISP_DESC"] = "允许分别设置面板和边框的透明度，以及微单元框体的间距。"
 L["OPT_AFFLICTEDBYSKIPPED"] = "%s受到%s的影响，但将被忽略。"
-L["OPT_ALLOWMACROEDIT"] = "允许使用宏模式" -- Needs review
+L["OPT_ALLOWMACROEDIT"] = "允许使用宏编辑"
 L["OPT_ALLOWMACROEDIT_DESC"] = "启用此项以防止 Decursive 更新宏，让你自己编辑你所需的宏。"
 L["OPT_ALWAYSIGNORE"] = "不在战斗状态时也忽略"
 L["OPT_ALWAYSIGNORE_DESC"] = "选中后不在状态时此减益也会被忽略。"
@@ -245,7 +245,7 @@ L["OPT_CURINGOPTIONS_EXPLANATION"] = [=[选择你想要治疗的伤害类型，�
 （如要更改顺序，反选所有类型并再次检查所需顺序）]=]
 L["OPT_CURINGORDEROPTIONS"] = "净化类型和优先级"
 L["OPT_CURSECHECK_DESC"] = "选中后你将可以查看和净化受到诅咒效果影响的单位"
-L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "允许宏编辑（只限高级用户）" -- Needs review
+L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "允许编辑以上法术内部宏"
 L["OPT_CUSTOM_SPELL_ALLOW_EDITING_DESC"] = [=[勾选此项如想编辑内置宏 Decursive 将使用自定义法术。
 
 注意：检查此项允许 Decursive 管理修改法术。
@@ -332,7 +332,7 @@ L["OPT_MACROBIND_DESC"] = [=[Decursive 宏的按键。
 
 按你想設定的按键后按 'Enter' 键保存设置(鼠标需要移动到编辑区域之外)]=]
 L["OPT_MACROOPTIONS"] = "宏选项"
-L["OPT_MACROOPTIONS_DESC"] = "有关 Decursive 创建的宏的选项设置" -- Needs review
+L["OPT_MACROOPTIONS_DESC"] = "有关 Decursive 创建“鼠标指向”宏的选项设置"
 L["OPT_MAGICCHARMEDCHECK_DESC"] = "选中后你将可以查看和净化受到魔法诱惑效果影响的玩家"
 L["OPT_MAGICCHECK_DESC"] = "选中后你将可以查看和净化受到不良魔法效果影响的玩家"
 L["OPT_MAXMFS"] = "最大单位显示"
@@ -473,4 +473,4 @@ L["UNSTABLERELEASE"] = "不稳定版本"
 
 
 
-T._LoadedFiles["zhCN.lua"] = "2.7.3";
+T._LoadedFiles["zhCN.lua"] = "2.7.3.1";

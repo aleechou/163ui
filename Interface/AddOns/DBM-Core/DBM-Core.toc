@@ -29,5 +29,5 @@ DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
 DBM-HudMap.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+## 163UI-Version: 2014060701

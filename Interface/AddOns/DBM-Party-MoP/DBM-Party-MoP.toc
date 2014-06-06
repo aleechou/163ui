@@ -42,7 +42,8 @@ MogushanPalace\WeaponmasterXin.lua
 NiuzaoTemple\Jinbak.lua
 NiuzaoTemple\Vojak.lua
 NiuzaoTemple\Pavalak.lua
-NiuzaoTemple\Neronok.lua
+NiuzaoTemple
+eronok.lua
 Scholomance\Chillheart.lua
 Scholomance\JandiceBarov.lua
 Scholomance\Rattlegore.lua
@@ -54,5 +55,6 @@ ScarletHalls\FlameweaverKoegler.lua
 ScarletCathedral\ThalnosSoulrender.lua
 ScarletCathedral\Korlof.lua
 ScarletCathedral\Durand.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

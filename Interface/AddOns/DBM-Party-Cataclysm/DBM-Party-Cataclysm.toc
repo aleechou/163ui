@@ -79,7 +79,8 @@ ThroneOfTides\ErunakStonespeaker.lua
 ThroneOfTides\Ozumat.lua
 
 ZulAman\Akilzon5.lua
-ZulAman\Nalorakk5.lua
+ZulAman
+alorakk5.lua
 ZulAman\Janalai5.lua
 ZulAman\Halazzi5.lua
 ZulAman\Malacrass5.lua
@@ -115,5 +116,6 @@ WorldBosses\JulakDoom.lua
 WorldBosses\Mobus.lua
 WorldBosses\Xariona.lua
 
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

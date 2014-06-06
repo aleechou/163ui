@@ -60,5 +60,6 @@ Battlegrounds\TempleOfKotmogu.lua
 Battlegrounds\TwinPeaks.lua
 Battlegrounds\Warsong.lua
 Arenas\Arenas.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

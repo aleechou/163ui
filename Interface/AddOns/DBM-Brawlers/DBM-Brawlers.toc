@@ -17,8 +17,6 @@
 ## X-DBM-Mod-Sort: 35
 ## X-DBM-Mod-MapID: 369,1043
 ## X-DBM-Mod-ForceLoad-MapID: 369,1043
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
@@ -34,5 +32,5 @@ Rank8.lua
 Rank9.lua
 Rares1.lua
 Rares2.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+## 163UI-Version: 2014060701

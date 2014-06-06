@@ -36,7 +36,8 @@ ConstructQuarter\Grobbulus.lua
 ConstructQuarter\Gluth.lua
 ConstructQuarter\Thaddius.lua
 
-PlagueQuarter\Noth.lua
+PlagueQuarter
+oth.lua
 PlagueQuarter\Heigan.lua
 PlagueQuarter\Loatheb.lua
 
@@ -46,5 +47,6 @@ MilitaryQuarter\Horsemen.lua
 
 FrostwyrmLair\Sapphiron.lua
 FrostwyrmLair\Kel'Thuzad.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

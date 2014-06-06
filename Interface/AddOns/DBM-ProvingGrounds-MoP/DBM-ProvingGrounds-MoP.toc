@@ -22,5 +22,6 @@ localization.en.lua
 localization.tw.lua
 localization.cn.lua
 PGWhiteTiger.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

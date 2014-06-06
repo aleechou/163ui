@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.3) add-on for World of Warcraft UI
+    Decursive (v 2.7.3.1) add-on for World of Warcraft UI
     Copyright (C) 2006-2007-2008-2009-2010-2011-2012 John Wellesz (archarodim AT
     teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
@@ -74,7 +74,7 @@ T._LoadedFiles["zhTW.lua"] = false;
 local L = LibStub("AceLocale-3.0"):NewLocale("Decursive", "zhTW");
 
 if not L then
-    T._LoadedFiles["zhTW.lua"] = "2.7.3";
+    T._LoadedFiles["zhTW.lua"] = "2.7.3.1";
     return;
 end;
 
@@ -210,6 +210,17 @@ L["OPT_AUTOHIDEMFS_DESC"] = "選擇何時自動隱藏 MUF 視窗"
 L["OPT_BLACKLENTGH_DESC"] = "設定一個人停留在排除名單中的時間。"
 L["OPT_BORDERTRANSP"] = "邊框透明度"
 L["OPT_BORDERTRANSP_DESC"] = "設定邊框的透明度。"
+L["OPT_CENTERTEXT"] = "中央計數器:" -- Needs review
+L["OPT_CENTERTEXT_DESC"] = [=[顯示每個MUF的中心最上面的（根據你的優先次序）受影響信息。
+
+其中之一：
+- 剩餘時間直至結束
+- 從過去時間的影響量(Time elapsed since the affliction hit)
+- 距離數]=] -- Needs review
+L["OPT_CENTERTEXT_DISABLED"] = "關閉" -- Needs review
+L["OPT_CENTERTEXT_ELAPSED"] = "經過時間" -- Needs review
+L["OPT_CENTERTEXT_STACKS"] = "距離數" -- Needs review
+L["OPT_CENTERTEXT_TIMELEFT"] = "剩餘時間" -- Needs review
 L["OPT_CENTERTRANSP"] = "中央透明度"
 L["OPT_CENTERTRANSP_DESC"] = "設定中間色塊的透明度"
 L["OPT_CHARMEDCHECK_DESC"] = "選取後你可以看見並處理被媚惑的玩家。"
@@ -284,6 +295,10 @@ L["OPT_ENABLE_A_CUSTOM_SPELL"] = "啟用"
 L["OPT_ENABLEDEBUG"] = "啟用除錯"
 L["OPT_ENABLEDEBUG_DESC"] = "啟用除錯輸出"
 L["OPT_ENABLEDECURSIVE"] = "啟用 Decursive"
+L["OPT_ENABLE_LIVELIST"] = "啟用直播列表" -- Needs review
+L["OPT_ENABLE_LIVELIST_DESC"] = [=[顯示信息列表受影響玩家。
+
+您可以將這個名單通過移動decursive的欄位 (或者輸入 /DCRSHOW 顯示該欄位).]=] -- Needs review
 L["OPT_FILTEROUTCLASSES_FOR_X"] = "在戰鬥中指定的職業%q將被忽略。"
 L["OPT_GENERAL"] = "一般選項"
 L["OPT_GROWDIRECTION"] = "反向顯示 MUFs"
@@ -452,4 +467,4 @@ L["UNSTABLERELEASE"] = "不穩定釋出版"
 
 
 
-T._LoadedFiles["zhTW.lua"] = "2.7.3";
+T._LoadedFiles["zhTW.lua"] = "2.7.3.1";

@@ -27,7 +27,8 @@ localization.cn.lua
 localization.tw.lua
 
 AhnKahet\Taldaram.lua
-AhnKahet\Nadox.lua
+AhnKahet
+adox.lua
 AhnKahet\JedogaShadowseeker.lua
 AhnKahet\Volazj.lua
 AhnKahet\Amanitar.lua
@@ -43,7 +44,8 @@ OldStratholme\MalGanis.lua
 OldStratholme\OldStratholmeWaves.lua
 
 DrakTharon\Trollgore.lua
-DrakTharon\NovosTheSummoner.lua
+DrakTharon
+ovosTheSummoner.lua
 DrakTharon\Dred.lua
 DrakTharon\ProphetTharonja.lua
 
@@ -108,5 +110,6 @@ ForgeofSouls\DevourerofSouls.lua
 PitofSaron\Ick.lua
 PitofSaron\ForgemasterGarfrost.lua
 PitofSaron\ScourgelordTyrannus.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701

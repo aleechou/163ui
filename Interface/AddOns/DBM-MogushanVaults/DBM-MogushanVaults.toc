@@ -16,8 +16,6 @@
 ## X-DBM-Mod-Name-zhCN: 魔古山宝库
 ## X-DBM-Mod-Sort: 5
 ## X-DBM-Mod-MapID: 1008
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -27,5 +25,4 @@ GarajalTheSpiritbinder.lua
 SpiritKings.lua
 Elegon.lua
 WillofEmperor.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+## 163UI-Version: 2014060701

@@ -39,5 +39,6 @@ DMF\Tonks.lua
 DMF\Rabbit.lua
 DMF\Moonfang.lua
 Quests\Plants.lua
-## X-Vendor: NetEase
-## 163UI-Version: 2014060401
+
+
+## 163UI-Version: 2014060701
