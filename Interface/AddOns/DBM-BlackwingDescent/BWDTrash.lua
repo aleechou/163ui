@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod("BWDTrash", "DBM-BlackwingDescent")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7387 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 51 $"):sub(12, -3))
 mod:SetModelID(29539)
 mod:SetZone()
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED",
@@ -28,33 +29,33 @@ mod:RemoveOption("SpeedKillTimer")
 local drakonidDied = 0
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(80727) and args:IsDestTypePlayer() then
+	if args.spellId == 80727 and args:IsDestTypePlayer() then
 		warnSacrifice:Show(args.destName)
 		timerSacrifice:Start(args.destName)
-	elseif args:IsSpellID(80084) then
+	elseif args.spellId == 80084 then
 		warnEnrage:Show(args.destName, args.amount or 1)
-	elseif args:IsSpellID(80652) then
+	elseif args.spellId == 80652 then
 		warnWhirlwind:Show(args.destName)
 		timerWhirlwind:Start(args.destName)
-	elseif args:IsSpellID(79630) then--Drakonid Rush
+	elseif args.spellId == 79630 then--Drakonid Rush
 		timerChargeCD:Start()
-	elseif args:IsSpellID(80035) then--Drakonid Vengeful rage, good way to reset dragonid died counter without a pull mechanic to reset on.
+	elseif args.spellId == 80035 then--Drakonid Vengeful rage, good way to reset dragonid died counter without a pull mechanic to reset on.
 		drakonidDied = 1
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(80727) and args:IsDestTypePlayer() then
+	if args.spellId == 80727 and args:IsDestTypePlayer() then
 		timerSacrifice:Cancel(args.destName)
-	elseif args:IsSpellID(80652) then
+	elseif args.spellId == 80652 then
 		timerWhirlwind:Cancel(args.destName)
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(81063) then
+	if args.spellId == 81063 then
 		warnLaserStrike:Show()
-	elseif args:IsSpellID(81056) then
+	elseif args.spellId == 81056 then
 		warnFlashBomb:Show()
 	end
 end

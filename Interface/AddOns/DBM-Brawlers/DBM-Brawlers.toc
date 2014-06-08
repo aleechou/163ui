@@ -5,7 +5,8 @@
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0鬥陣俱樂部|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMBrawlers_SavedVars
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
@@ -32,5 +33,3 @@ Rank8.lua
 Rank9.lua
 Rares1.lua
 Rares2.lua
-
-## 163UI-Version: 2014060701

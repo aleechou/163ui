@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod("FirelandsTrash", "DBM-Firelands")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 5756 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 60 $"):sub(12, -3))
 mod:SetModelID(38765)
 mod:SetZone()
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS",
@@ -38,9 +39,9 @@ local lavaRunning = false
 
 function mod:LeapTarget(sGUID)
 	local targetname = nil
-	for i=1, GetNumGroupMembers() do
-		if UnitGUID("raid"..i.."target") == sGUID then
-			targetname = DBM:GetUnitFullName("raid"..i.."targettarget")
+	for uId in DBM:GetGroupMembers() do
+		if UnitGUID(uId.."target") == sGUID then
+			targetname = DBM:GetUnitFullName(uId.."targettarget")
 			break
 		end
 	end
@@ -79,13 +80,13 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(100094) then--Trash version of Fieroblast, different from boss version
+	if args.spellId == 100094 then--Trash version of Fieroblast, different from boss version
 		if args.sourceGUID == UnitGUID("target") then
 			specWarnFieroblast:Show(args.sourceName)
 		end
-	elseif args:IsSpellID(99629) then--Druid of the Flame Leaping
+	elseif args.spellId == 99629 then--Druid of the Flame Leaping
 		self:ScheduleMethod(1, "LeapTarget", args.sourceGUID)
-	elseif args:IsSpellID(99503) then
+	elseif args.spellId == 99503 then
 		warnRaiselava:Show()
 		timerRaiseLavaCD:Start()
 		if not lavaRunning then
@@ -95,23 +96,23 @@ function mod:SPELL_CAST_START(args)
 			)
 			lavaRunning = true
 		end
-	elseif args:IsSpellID(100724) then
+	elseif args.spellId == 100724 then
 		warnEarthquake:Show()
 		specWarnEarthQuake:Show()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(99579) and self:AntiSpam(4) then
+	if args.spellId == 99579 and self:AntiSpam(4) then
 		warnMoltenBolt:Show()
 		timerMoltenBoltCD:Start()
-	elseif args:IsSpellID(99575) then
+	elseif args.spellId == 99575 then
 		warnLavaSpawn:Show()
 		timerLavaSpawnCD:Start()
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 99510 and destGUID == UnitGUID("player") and self:AntiSpam(3) then
 		specWarnLava:Show()
 	end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Freya_Elders", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 1192 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 
 -- passive mod to provide information for multiple fight (trash respawn)
 -- mod:SetCreatureID(32914, 32915, 32913)
@@ -22,9 +22,6 @@ local specWarnGroundTremor	= mod:NewSpecialWarningCast(62932, true)
 
 local sndWOP				= mod:NewSound(nil, "SoundWOP", true)
 
-mod:AddBoolOption("PlaySoundOnFistOfStone", mod:IsTank())
-mod:AddBoolOption("TrashRespawnTimer", true, "timer")
-
 --
 -- Trash: 33430 Guardian Lasher (flower)
 -- 33355 (nymph)
@@ -40,14 +37,11 @@ mod:AddBoolOption("TrashRespawnTimer", true, "timer")
 --
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(62344) then 					-- Fists of Stone
+	if args.spellId == 62344 then 					-- Fists of Stone
 		specWarnFistofStone:Show()
-		if self.Options.PlaySoundOnFistOfStone then
-			PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
-		end
 	elseif args:IsSpellID(62325, 62932) then		-- Ground Tremor
 		specWarnGroundTremor:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3")
 	end
 end
 
@@ -55,17 +49,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(62310, 62928) then 			-- Impale
 		warnImpale:Show(args.destName)
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
 		end
 		timerImpale:Start(args.destName)
-	end
-end
-
-function mod:UNIT_DIED(args)
-	if self.Options.TrashRespawnTimer and not DBM.Bars:GetBar(L.TrashRespawnTimer) then
-		local guid = tonumber(args.destGUID:sub(6, 10), 16)
-		if guid == 33430 or guid == 33355 or guid == 33354 then		-- guardian lasher / nymph / tree
-			DBM.Bars:CreateBar(7200, L.TrashRespawnTimer)
-		end
 	end
 end

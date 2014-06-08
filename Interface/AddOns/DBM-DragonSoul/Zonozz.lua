@@ -1,12 +1,11 @@
 local mod	= DBM:NewMod(324, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7779 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55308)
-mod:SetModelID(39138)
 mod:SetModelSound("sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_INTRO_01.OGG", "sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_SPELL_05.OGG")
 mod:SetZone()
-mod:SetUsedIcons(6, 7, 8)
+mod:SetUsedIcons()
 
 mod:RegisterCombat("combat")
 
@@ -15,7 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
-	"UNIT_SPELLCAST_SUCCEEDED",
+	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
@@ -53,7 +52,7 @@ local function warnShadowsTargets()
 	warnShadows:Show(table.concat(shadowsTargets, "<, >"))
 	timerShadowsCD:Start()
 	if mod:IsHealer() then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 	end
 	table.wipe(shadowsTargets)
 	shadowIcon = 8
@@ -110,7 +109,7 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(104322, 104606, 104607, 104608) then
+	if args:IsSpellID(104322) then
 		warnPsychicDrain:Show()
 		specWarnPsychicDrain:Show()
 		timerPsychicDrainCD:Start()
@@ -118,11 +117,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 end	
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(104543, 109409, 109410, 109411) then
+	if args:IsSpellID(104543) then
 		warnFocusedAnger:Show(args.destName, args.amount or 1)
 	elseif args:IsSpellID(106836) then
 		warnVoidDiffusion:Show(args.destName, args.amount or 1)
-	elseif args:IsSpellID(103434, 104599, 104600, 104601) then
+	elseif args:IsSpellID(103434) then
 		shadowsTargets[#shadowsTargets + 1] = args.destName
 		if self.Options.DisruptingShadowsIcons then
 			self:SetIcon(args.destName, shadowIcon)
@@ -130,7 +129,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() and self:IsDifficulty("heroic10", "heroic25") then
 			specWarnShadows:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 			self:updateRangeFrame()
 		end
 		self:Unschedule(warnShadowsTargets)
@@ -144,7 +143,7 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(103434, 104599, 104600, 104601) then
+	if args:IsSpellID(103434) then
 		if self.Options.DisruptingShadowsIcons then
 			self:SetIcon(args.destName, 0)
 		end
@@ -157,7 +156,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 103571 and not self:IsDifficulty("lfr25") then
 		warnVoidofUnmaking:Show()
 		specWarnVoidofUnmaking:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ballappear.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\ballappear.mp3")
 		timerVoidofUnmakingCD:Start()
 		if not firstPsychicDrain then
 			timerPsychicDrainCD:Start(8)
@@ -186,7 +185,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if (msg == L.voidYell or msg:find(L.voidYell)) and self:IsDifficulty("lfr25") then
 		warnVoidofUnmaking:Show()
 		specWarnVoidofUnmaking:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ballappear.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\ballappear.mp3")
 		timerVoidofUnmakingCD:Start()
 		if not firstPsychicDrain then
 			timerPsychicDrainCD:Start(8)

@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("Razuvious", "DBM-Naxx", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2248 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 mod:SetCreatureID(16061)
-
+mod:SetModelID(16582)
 mod:RegisterCombat("yell", L.Yell1, L.Yell2, L.Yell3, L.Yell4)
 
 mod:RegisterEvents(
@@ -28,9 +28,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerShout:Start()
 		warnShoutNow:Show()
 		warnShoutSoon:Schedule(11)
-	elseif args:IsSpellID(29060) then -- Taunt
+	elseif args.spellId == 29060 then -- Taunt
 		timerTaunt:Start()
-	elseif args:IsSpellID(29061) then -- ShieldWall
+	elseif args.spellId == 29061 then -- ShieldWall
 		timerShieldWall:Start()
 		warnShieldWall:Schedule(15)
 	end

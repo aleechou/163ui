@@ -1,7 +1,7 @@
-﻿local mod	= DBM:NewMod("Champions", "DBM-Coliseum")
+local mod	= DBM:NewMod("Champions", "DBM-Coliseum")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3726 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 mod:SetCreatureID(34458, 34451, 34459, 34448, 34449, 34445, 34456, 34447, 34441, 34454, 34444, 34455, 34450, 34453, 34461, 34460, 34469, 34467, 34468, 34471, 34465, 34466, 34473, 34472, 34470, 34463, 34474, 34475)
 
 mod:RegisterCombat("combat")
@@ -11,6 +11,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS",
 	"SPELL_DAMAGE",
+	"SPELL_MISSED",
 	"SPELL_AURA_APPLIED",
 	"UNIT_DIED"
 )
@@ -60,12 +61,12 @@ local isDispeller = select(2, UnitClass("player")) == "WARRIOR"
 				or select(2, UnitClass("player")) == "PRIEST"
 				or select(2, UnitClass("player")) == "SHAMAN"
 
-local warnHellfire			= mod:NewSpellAnnounce(68147, 4)
+local warnHellfire			= mod:NewSpellAnnounce(65816, 4)
 local preWarnBladestorm 	= mod:NewSoonAnnounce(65947, 3)
 local warnBladestorm		= mod:NewSpellAnnounce(65947, 4)
 local warnHeroism			= mod:NewSpellAnnounce(65983, 3)
 local warnBloodlust			= mod:NewSpellAnnounce(65980, 3)
-local warnHandofFreedom		= mod:NewTargetAnnounce(68758, 2)
+local warnHandofFreedom		= mod:NewTargetAnnounce(66115, 2)
 local warnHandofProt		= mod:NewTargetAnnounce(66009, 3)
 local warnDivineShield		= mod:NewSpellAnnounce(66010, 3)
 local warnIceBlock			= mod:NewSpellAnnounce(65802, 3)
@@ -79,54 +80,41 @@ local timerShadowstepCD		= mod:NewCDTimer(30, 66178)
 local timerDeathgripCD		= mod:NewCDTimer(35, 66017)
 local timerBladestormCD		= mod:NewCDTimer(90, 65947)
 
-local specWarnHellfire		= mod:NewSpecialWarningMove(68147)
+local specWarnHellfire		= mod:NewSpecialWarningMove(65816)
 local specWarnHandofProt	= mod:NewSpecialWarningDispel(66009, isDispeller)
 local specWarnDivineShield	= mod:NewSpecialWarningDispel(66010, isDispeller) 
 local specWarnIceBlock		= mod:NewSpecialWarningDispel(65802, isDispeller)
 
-mod:AddBoolOption("PlaySoundOnBladestorm", true)
-
-local sndWOP				= mod:NewSound(nil, "SoundWOP", true)
-
-function mod:OnCombatStart(delay)
-end
+local soundBladestorm		= mod:NewSound(65947, nil, mod:IsMelee())
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(65816, 68145, 68146, 68147) then		-- Warlock Hellfire
 		warnHellfire:Show()
-	elseif args:IsSpellID(65947) then						-- Warrior Bladestorm
+	elseif args.spellId == 65947 then						-- Warrior Bladestorm
 		warnBladestorm:Show()
 		timerBladestorm:Start()
 		timerBladestormCD:Start()
 		preWarnBladestorm:Schedule(85)                      -- Pre-Warn will only announce for 2nd and later bladestorm.
-		if self.Options.PlaySoundOnBladestorm then
-			PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
-		end
-	elseif args:IsSpellID(65983) then						-- Shamen Heroism
+		soundBladestorm:Play()
+	elseif args.spellId == 65983 then						-- Shamen Heroism
 		warnHeroism:Show()
-		if isDispeller then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-		end
-	elseif args:IsSpellID(65980) then						-- Shamen Blood lust
+	elseif args.spellId == 65980 then						-- Shamen Blood lust
 		warnBloodlust:Show()
-		if isDispeller then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-		end
 	elseif args:IsSpellID(68758, 68757, 68756, 66115) and not args:IsDestTypePlayer() then	-- Paladin Hand of Freedom on <mobname>
 		warnHandofFreedom:Show(args.destName)
-	elseif args:IsSpellID(66009) then						-- Paladin Hand of Protection on <mobname>
+	elseif args.spellId == 66009 then						-- Paladin Hand of Protection on <mobname>
 		warnHandofProt:Show(args.destName)
 		specWarnHandofProt:Show(args.destName)
 	elseif args:IsSpellID(66178, 68759, 68760, 68761) then	-- Rogue Shadowstep
 		warnShadowstep:Show()
-        if mod:IsDifficulty("heroic25") then                -- 3 out of 4 difficulties have 30 second cooldown, but on 25 heroic, it's 20sec
+        if self:IsDifficulty("heroic25") then                -- 3 out of 4 difficulties have 30 second cooldown, but on 25 heroic, it's 20sec
 			timerShadowstepCD:Start(20)
 		else
 			timerShadowstepCD:Start()
 		end
 	elseif args:IsSpellID(66017, 68753, 68754, 68755) and args:IsDestTypePlayer() then	-- DeathKnight DeathGrip
 		warnDeathgrip:Show(args.destName)
-		if mod:IsDifficulty("heroic25") then                -- 3 out of 4 difficulties have 35 second cooldown, but on 25 heroic, it's 20sec
+		if self:IsDifficulty("heroic25") then                -- 3 out of 4 difficulties have 35 second cooldown, but on 25 heroic, it's 20sec
 			timerDeathgripCD:Start(20)
 		else
 			timerDeathgripCD:Start()
@@ -135,31 +123,25 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(66010) then                                      -- Divine Shield on <mobname>
+	if args.spellId == 66010 then                                      -- Divine Shield on <mobname>
 		warnDivineShield:Show(args.destName)
 		specWarnDivineShield:Show(args.destName)
-		if isDispeller then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-		end
-	elseif args:IsSpellID(65802) then                                  -- Iceblock on <mobname>
+	elseif args.spellId == 65802 then                                  -- Iceblock on <mobname>
 		warnIceBlock:Show(args.destName)
 		specWarnIceBlock:Show(args.destName)
-		if isDispeller then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-		end
-	elseif args:IsSpellID(65859) and args:IsDestTypePlayer() then      -- Cyclone on <playername>
+	elseif args.spellId == 65859 and args:IsDestTypePlayer() then      -- Cyclone on <playername>
 		warnCyclone:Show(args.destName)
-	elseif args:IsSpellID(65801) and args:IsDestTypePlayer() then      -- Sheep on <playername>
+	elseif args.spellId == 65801 and args:IsDestTypePlayer() then      -- Sheep on <playername>
 		warnSheep:Show(args.destName)
 	end
 end
 
-function mod:SPELL_DAMAGE(args)
-	if args:IsPlayer() and args:IsSpellID(65817, 68142, 68143, 68144) then
+function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+	if (spellId == 65817 or spellId == 68142 or spellId == 68143 or spellId == 68144) and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnHellfire:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
+mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)

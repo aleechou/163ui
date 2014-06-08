@@ -21,7 +21,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ArachnophobiaTimer	= "Arachnophobia"
+	ArachnophobiaTimer	= "Arachnophobia",
+	Pull1				= "Yes, run! It makes the blood pump faster!",
+	Pull2				= "Just a little taste..."
 })
 
 ----------------------------
@@ -41,6 +43,10 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	WarningEmbraceExpire	= "Show pre-warning for Widow's Embrace fade",
 	WarningEmbraceExpired	= "Show warning for Widow's Embrace fade"
+})
+
+L:SetMiscLocalization({
+	Pull					= "Kneel before me, worm!"--Not actually pull trigger, but often said on pull
 })
 
 ---------------
@@ -98,6 +104,10 @@ L:SetOptionLocalization({
 	TimerTeleportBack	= "Show timer for Teleport back"
 })
 
+L:SetMiscLocalization({
+	Pull				= "Die, trespasser!"
+})
+
 --------------------------
 --  Heigan the Unclean  --
 --------------------------
@@ -122,6 +132,10 @@ L:SetOptionLocalization({
 	TimerTeleport		= "Show timer for Teleport"
 })
 
+L:SetMiscLocalization({
+	Pull				= "You are mine now."
+})
+
 ---------------
 --  Loatheb  --
 ---------------
@@ -138,8 +152,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	WarningHealSoon		= "Show pre-warning for 3-second healing window",
-	WarningHealNow		= "Show warning for 3-second healing window",
-	SporeDamageAlert	= "Send whisper to and announce to raid players who damage spores\n(requires announce to be enabled and leader/promoted status)"
+	WarningHealNow		= "Show warning for 3-second healing window"
 })
 
 -----------------
@@ -152,13 +165,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	WarningHateful	= "Post Hateful Strike targets to raid chat\n(requires announce to be enabled and leader/promoted status)"
 })
 
 L:SetMiscLocalization({
 	yell1			= "Patchwerk want to play!",
-	yell2			= "Kel'thuzad make Patchwerk his avatar of war!",
-	HatefulStrike	= "Hateful Strike --> %s [%s]"
+	yell2			= "Kel'thuzad make Patchwerk his avatar of war!"
 })
 
 -----------------

@@ -144,8 +144,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	WarningHealSoon			= "为3秒后可以治疗显示提前警报",
-	WarningHealNow			= "为现在治疗显示警报",
-	SporeDamageAlert		= "在团队中提示谁杀死了孢子并发送悄悄话给该玩家\n(需要团长或助理权限)"
+	WarningHealNow			= "为现在治疗显示警报"
 })
 
 -----------------
@@ -158,13 +157,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	WarningHateful 			= "公布仇恨打击的目标到团队频道\n(需要团长或助理权限)"
 })
 
 L:SetMiscLocalization({
 	yell1 				= "帕奇维克要跟你玩！",
-	yell2 				= "帕奇维克是克尔苏加德的战神！",
-	HatefulStrike 			= "仇恨打击 --> %s [%s]"
+	yell2 				= "帕奇维克是克尔苏加德的战神！"
 })
 
 -----------------
@@ -381,9 +378,6 @@ L:SetOptionLocalization({
 	TimerPhase2			= "为第二阶段显示计时条",
 	specwarnP2Soon			= "为克尔苏加德攻击前10秒显示特别警报",
 	warnAddsSoon			= "为寒冰皇冠卫士显示提前警报",
-	SetIconOnMC			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(28410),
-	SetIconOnManaBomb	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(27819),
-	SetIconOnFrostTomb	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(27808),
 	ShowRange			= "当第二阶段开始时显示距离监视框"
 })
 

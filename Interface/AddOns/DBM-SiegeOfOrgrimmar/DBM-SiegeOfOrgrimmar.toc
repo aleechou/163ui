@@ -5,7 +5,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0决战奥格瑞玛|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMSiegeOfOrgrimmar_SavedVars, DBMSiegeOfOrgrimmar_SavedStats, ExRT
 ## X-DBM-Mod-Name: Siege of Orgrimmar
 ## X-DBM-Mod-Name-zhTW: 圍攻奧格瑪 (SoO)
@@ -18,8 +19,6 @@
 ## X-DBM-Mod-Sort: 1
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-Block-Movie-Skip-ItemID: 105930,105931,105932,105933,105934,105935
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -39,6 +38,3 @@ SiegecrafterBlackfuse.lua
 ParagonsOfTheKlaxxi.lua
 GarroshHellscream.lua
 SoOTrash.lua
-
-
-## 163UI-Version: 2014060701

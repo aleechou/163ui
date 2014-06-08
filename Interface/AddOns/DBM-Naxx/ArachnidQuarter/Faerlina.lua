@@ -1,14 +1,15 @@
 local mod	= DBM:NewMod("Faerlina", "DBM-Naxx", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2248 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 20 $"):sub(12, -3))
 mod:SetCreatureID(15953)
-
+mod:SetModelID(15940)
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED"
+	"SPELL_AURA_APPLIED",
+	"UNIT_DIED",
+	"CHAT_MSG_MONSTER_YELL"
 )
 
 local warnEmbraceActive		= mod:NewSpellAnnounce(28732, 1)
@@ -20,7 +21,6 @@ local warnEnrageNow			= mod:NewSpellAnnounce(28131, 4)
 local timerEmbrace			= mod:NewBuffActiveTimer(30, 28732)
 local timerEnrage			= mod:NewCDTimer(60, 28131)
 
-local embraceSpam = 0
 local enraged = false
 
 function mod:OnCombatStart(delay)
@@ -29,10 +29,11 @@ function mod:OnCombatStart(delay)
 	enraged = false
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(28732, 54097)				-- Widow's Embrace
-	and (GetTime() - embraceSpam) > 5 then  -- This spell is casted twice in Naxx 25 (bug?)
-		embraceSpam = GetTime()
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpellID(28798, 54100) then			-- Frenzy
+		warnEnrageNow:Show()
+		enraged = true
+	elseif args:IsSpellID(28732, 54097)	and args:GetDestCreatureID() == 15953 and self:AntiSpam(5) then
 		warnEmbraceExpire:Cancel()
 		warnEmbraceExpired:Cancel()
 		warnEnrageSoon:Cancel()
@@ -49,10 +50,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(28798, 54100) then			-- Frenzy
-		warnEnrageNow:Show()
-		enraged = GetTime()
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 15953 then
+		warnEnrageSoon:Cancel()
+		warnEmbraceExpire:Cancel()
+		warnEmbraceExpired:Cancel()
 	end
 end
 
+--Secondary pull trigger, so we can detect combat when he's pulled while already in combat (which is about 99% of time)
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if (msg == L.Pull or msg:find(L.Pull)) and not self:IsInCombat() then
+		DBM:StartCombat(self, 0)
+	end
+end

@@ -1,16 +1,19 @@
-local mod	= DBM:NewMod("SkadiTheRuthless", "DBM-Party-WotLK", 11)
+local mod	= DBM:NewMod(643, "DBM-Party-WotLK", 11, 286)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3592 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(26693)
-mod:SetMinSyncRevision(3108)
+mod:SetMinSyncRevision(7)--Could break if someone is running out of date version with higher revision
 
 mod:RegisterCombat("yell", L.Phase2)
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
 	"CHAT_MSG_MONSTER_YELL"
+)
+
+mod:RegisterEventsInCombat(
+	"SPELL_AURA_APPLIED",
+	"SPELL_AURA_REMOVED"
 )
 
 local warnPhase2		= mod:NewPhaseAnnounce(2)
@@ -47,7 +50,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Phase2 or msg:find(L.Phase2) then
 		warnPhase2:Show()
 	elseif msg == L.CombatStart or msg:find(L.CombatStart) then
-		if mod:IsDifficulty("heroic5") then
+		if self:IsDifficulty("heroic5") then
 			timerAchieve:Start()
 		end
 	end

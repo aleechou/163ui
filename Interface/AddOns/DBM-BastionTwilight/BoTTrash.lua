@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod("BoTrash", "DBM-BastionTwilight")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7780 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 60 $"):sub(12, -3))
 mod:SetModelID(37193)
 mod:SetZone()
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS",
@@ -46,9 +47,9 @@ end
 
 function mod:RuptureTarget(sGUID)
 	local targetname = nil
-	for i=1, GetNumGroupMembers() do
-		if UnitGUID("raid"..i.."target") == sGUID then
-			targetname = DBM:GetUnitFullName("raid"..i.."targettarget")
+	for uId in DBM:GetGroupMembers() do
+		if UnitGUID(uId.."target") == sGUID then
+			targetname = DBM:GetUnitFullName(uId.."targettarget")
 			break
 		end
 	end
@@ -58,9 +59,9 @@ end
 
 function mod:FlameStrikeTarget(sGUID)
 	local targetname = nil
-	for i=1, GetNumGroupMembers() do
-		if UnitGUID("raid"..i.."target") == sGUID then
-			targetname = DBM:GetUnitFullName("raid"..i.."targettarget")
+	for uId in DBM:GetGroupMembers() do
+		if UnitGUID(uId.."target") == sGUID then
+			targetname = DBM:GetUnitFullName(uId.."targettarget")
 			break
 		end
 	end
@@ -72,14 +73,14 @@ function mod:FlameStrikeTarget(sGUID)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(93340) then
+	if args.spellId == 93340 then
 		warnFrostWhirl:Show()
 		specWarnFrostWhirl:Show()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(87903) then
+	if args.spellId == 87903 then
 		warnVolcanicWrath:Show()
 		specWarnVolcanicWrath:Show()
 		timerVolcanicWrath:Show()
@@ -87,23 +88,23 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(87903) then--I will have to log this trash to verify this spell event.
+	if args.spellId == 87903 then--I will have to log this trash to verify this spell event.
 		timerVolcanicWrath:Cancel()
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93362, 93383) then
+	if args.spellId == 93362 then
 		self:ScheduleMethod(0.2, "FlameStrikeTarget", args.sourceGUID)
 		self:SetFlamestrike()
-	elseif args:IsSpellID(93377) then
+	elseif args.spellId == 93377 then
 		specWarnRupture:Show()
 		self:ScheduleMethod(0.2, "RuptureTarget", args.sourceGUID)
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
-	if (spellId == 93383 or spellId == 93362) and destGUID == UnitGUID("player") and self:AntiSpam() then
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 93362 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnFlameStrike:Show()
 	end
 end

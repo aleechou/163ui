@@ -143,7 +143,7 @@ L:SetWarningLocalization({
 
 L:SetTimerLocalization({
 	timerRageRagnaros		= "%s on %s",--Spellname on targetname
-	TimerPhaseSons		= "Transition ends"
+	TimerPhaseSons			= "Transition ends"
 })
 
 L:SetOptionLocalization({

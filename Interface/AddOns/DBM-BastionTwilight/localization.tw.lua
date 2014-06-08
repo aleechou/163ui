@@ -50,8 +50,8 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	SoundWOP = "為重要技能播放額外的警告語音",
 	specWarnBossLow		= "當首領血量低於30%時顯示特別警告",
-	SpecWarnGrounded	= "當你缺少$spell:83581時顯示特別警告(大約施放前10秒)",
-	SpecWarnSearingWinds	= "當你缺少$spell:83500時顯示特別警告(大約施放前10秒)",
+	SpecWarnGrounded		= "當你缺少$spell:83581時顯示特別警告<br/>(大約施放前10秒內)",
+	SpecWarnSearingWinds	= "當你缺少$spell:83500時顯示特別警告<br/>(大約施放前10秒內)",
 	timerTransition		= "顯示階段轉換計時器",
 	RangeFrame		= "當需要時自動顯示距離框",
 	yellScrewed				= "當你同時中了$spell:83099和$spell:92307時大喊",

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("StratWaves", "DBM-Party-WotLK", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4345 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 
 mod:RegisterEvents(
 	"UPDATE_WORLD_STATES",
@@ -13,17 +13,20 @@ local warningWaveNow	= mod:NewAnnounce("WarningWaveNow", 3)
 local timerWaveIn		= mod:NewTimer(20, "TimerWaveIn")
 local timerRoleplay		= mod:NewTimer(162, "TimerRoleplay")
 
+local meathook = EJ_GetEncounterInfo(611)
+local salramm = EJ_GetEncounterInfo(612)
+
 local wavesNormal = {
 	{2, L.Devouring},
 	{2, L.Devouring},
 	{2, L.Devouring},
 	{2, L.Devouring},
-	{L.Meathook},
+	{meathook},
 	{2, L.Devouring},
 	{2, L.Devouring},
 	{2, L.Devouring},
 	{2, L.Devouring},
-	{L.Salramm},
+	{salramm},
 }
 
 local wavesHeroic = {
@@ -31,12 +34,12 @@ local wavesHeroic = {
 	{1, L.Devouring, 1, L.Enraged, 1, L.Necro},
 	{1, L.Devouring, 1, L.Enraged, 1, L.Necro, 1, L.Fiend},
 	{1, L.Necro, 4, L.Acolyte, 1, L.Fiend},
-	{L.Meathook},
+	{meathook},
 	{1, L.Devouring, 1, L.Necro, 1, L.Fiend, 1, L.Stalker},
 	{1, L.Devouring, 2, L.Enraged, 1, L.Abom},
 	{1, L.Devouring, 1, L.Enraged, 1, L.Necro, 1, L.Abom},
 	{1, L.Devouring, 1, L.Necro, 1, L.Fiend, 1, L.Abom},
-	{L.Salramm},
+	{salramm},
 }
 
 local waves		= wavesNormal
@@ -58,7 +61,7 @@ local function getWaveString(wave)
 end
 
 function mod:UPDATE_WORLD_STATES(args)
-	if mod:IsDifficulty("heroic5") then 
+	if self:IsDifficulty("heroic5") then 
 		waves = wavesHeroic 
 	else 
 		waves = wavesNormal 
@@ -82,7 +85,7 @@ end
 
 function mod:UNIT_DIED(args)
 	if bit.band(args.destGUID:sub(0, 5), 0x00F) == 3 then
-		local z = mod:GetCIDFromGUID(args.destGUID)
+		local z = self:GetCIDFromGUID(args.destGUID)
 		if z == 26529 then
 			timerWaveIn:Start()
 		end

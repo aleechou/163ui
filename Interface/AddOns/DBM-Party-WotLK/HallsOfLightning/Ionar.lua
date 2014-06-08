@@ -1,12 +1,18 @@
-local mod	= DBM:NewMod("Ionar", "DBM-Party-WotLK", 6)
+local mod	= DBM:NewMod(599, "DBM-Party-WotLK", 6, 275)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3001 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(28546)
 mod:SetZone()
 mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
+
+mod:RegisterEventsInCombat(
+	"SPELL_AURA_APPLIED",
+	"SPELL_CAST_START",
+	"UNIT_HEALTH target focus mouseover boss1"
+)
 
 local warningDisperseSoon	= mod:NewSoonAnnounce(52770, 2)
 local warningDisperse		= mod:NewSpellAnnounce(52770, 3)
@@ -16,12 +22,6 @@ local timerOverload			= mod:NewTargetTimer(10, 52658)
 mod:AddBoolOption("SetIconOnOverloadTarget", true)
 
 local warnedDisperse		= false
-
-mod:RegisterEvents(
-	"SPELL_AURA_APPLIED",
-	"SPELL_CAST_START",
-	"UNIT_HEALTH"
-)
 
 function mod:OnCombatStart()
 	warnedDisperse = false
@@ -38,7 +38,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(52770) then
+	if args.spellId == 52770 then
 		warningDisperse:Show()
 	end
 end

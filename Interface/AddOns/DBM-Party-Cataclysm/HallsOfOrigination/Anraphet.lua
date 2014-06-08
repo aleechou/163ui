@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(126, "DBM-Party-Cataclysm", 4, 70)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(39788)
-mod:SetModelID(34580)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -46,37 +45,37 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(75603, 91174) then
+	if args.spellId == 75603 then
 		warnNemesis:Show(args.destName)
 		timerNemesis:Start(args.destName)
-	elseif args:IsSpellID(77336, 91158) then
+	elseif args.spellId == 77336 then
 		warnBubble:Show(args.destName)
 		timerBubble:Show()
-	elseif args:IsSpellID(77235, 91163) then
+	elseif args.spellId == 77235 then
 		warnImpale:Show(args.destName)
 		timerImpale:Start(args.destName)
 		timerImpaleCD:Start()
-	elseif args:IsSpellID(76956, 91177) and args:IsPlayer() then
+	elseif args.spellId == 76956 and args:IsPlayer() then
 		specWarnAlphaBeams:Show()
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(75603, 91174) then
+	if args.spellId == 75603 then
 		timerNemesis:Cancel(args.destName)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(76184) then
+	if args.spellId == 76184 then
 		warnAlphaBeams:Show()
 		timerAlphaBeams:Start()
 		timerAlphaBeamsCD:Start()
-	elseif args:IsSpellID(75622, 91208) then
+	elseif args.spellId == 75622 then
 		warnOmegaStance:Show()
 		timerOmegaStance:Start()
 		timerOmegaStanceCD:Start()
-	elseif args:IsSpellID(77241, 91160) then
+	elseif args.spellId == 77241 then
 		warnInferno:Show()
 		timerInferno:Start()
 	end
@@ -90,7 +89,7 @@ end
 
 function mod:OnSync(msg)
 	if msg == "HoOGauntlet" then
-		if mod:IsDifficulty("heroic5") then
+		if self:IsDifficulty("heroic5") then
 			timerGauntlet:Start()
 		end
 	end

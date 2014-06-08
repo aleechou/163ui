@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(322, "DBM-Party-Cataclysm", 14, 186)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(54590)
-mod:SetModelID(35978)
-mod:SetMinSyncRevision(6999)
+mod:SetMinSyncRevision(19)--Could break if someone is running out of date version with higher revision
 mod:SetZone()
 
 mod:RegisterCombat("emote", L.Pull)
+--Still don't know why this needs to pull this way, this boss fires an engage event? plus emote only fires FIRST pull so this mod is even broken subsiquent pulls
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
@@ -34,9 +34,9 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(103252) then
+	if args.spellId == 103252 then
 		warnIcyTomb:Show(args.destName)
-	elseif args:IsSpellID(102582) then
+	elseif args.spellId == 102582 then
 		warnChainsFrost:Show()
 	end
 end

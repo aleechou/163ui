@@ -1,12 +1,12 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Vault of Archavon
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 阿尔卡冯的宝库
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 亞夏梵穹殿
-## Notes-zhCN: |cff00ff00DBM-VoA|r
-## Notes-zhTW: |cff00ff00DBM-VoA|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Vault of Archavon|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0亞夏梵穹殿|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0阿尔卡冯的宝库|r
 ## Author: Nitram/Tandanu/MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMVoA_SavedVars, DBMVoA_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -18,16 +18,12 @@
 ## X-DBM-Mod-Name-zhCN: 阿尔卡冯的宝库
 ## X-DBM-Mod-Sort: 207
 ## X-DBM-Mod-LoadZoneID: 532
-## X-Revision: BigFoot
 
 localization.en.lua
-localization.cn.lua
 localization.tw.lua
+localization.cn.lua
 
 Archavon.lua
 Emalon.lua
 Koralon.lua
 Toravon.lua
-
-
-## 163UI-Version: 2014060701

@@ -1,15 +1,15 @@
 local mod	= DBM:NewMod("JulakDoom", "DBM-Party-Cataclysm", 15)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7445 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 71 $"):sub(12, -3))
 mod:SetCreatureID(50089)
 mod:SetModelID(24301)
+mod:SetZone()
 mod:SetUsedIcons(8, 7)
-mod:SetZone(770, 700)--Twilight highlands (both versions of it)
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
@@ -45,7 +45,7 @@ local function showMC()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93610) then
+	if args.spellId == 93610 then
 		warnShockwave:Show()
 		specWarnShockwave:Show()
 		timerShockwaveCD:Start()
@@ -53,7 +53,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(93621) then
+	if args.spellId == 93621 then
 		warnMCTargets[#warnMCTargets + 1] = args.destName
 		timerMCCD:Start()
 		if self.Options.SetIconOnMC then
@@ -70,12 +70,12 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(93621) and self.Options.SetIconOnMC then
+	if args.spellId == 93621 and self.Options.SetIconOnMC then
 		self:SetIcon(args.destName, 0)
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 93612 and destGUID == UnitGUID("player") and self:AntiSpam(3) then
 		specWarnBreath:Show()
 	end

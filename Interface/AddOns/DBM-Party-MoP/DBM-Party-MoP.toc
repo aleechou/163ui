@@ -4,7 +4,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0队伍首领 (熊猫人之谜)|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領 (潘達利亞)|r
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMPartyMoP_SavedVars, DBMPartyMoP_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
@@ -16,8 +17,6 @@
 ## X-DBM-Mod-Name-zhCN: 队伍首领 (熊猫人之谜)
 ## X-DBM-Mod-Sort: 25
 ## X-DBM-Mod-MapID: 960,961,959,962,994,1011,1007,1001,1004
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -42,8 +41,7 @@ MogushanPalace\WeaponmasterXin.lua
 NiuzaoTemple\Jinbak.lua
 NiuzaoTemple\Vojak.lua
 NiuzaoTemple\Pavalak.lua
-NiuzaoTemple
-eronok.lua
+NiuzaoTemple\Neronok.lua
 Scholomance\Chillheart.lua
 Scholomance\JandiceBarov.lua
 Scholomance\Rattlegore.lua
@@ -55,6 +53,3 @@ ScarletHalls\FlameweaverKoegler.lua
 ScarletCathedral\ThalnosSoulrender.lua
 ScarletCathedral\Korlof.lua
 ScarletCathedral\Durand.lua
-
-
-## 163UI-Version: 2014060701

@@ -7,10 +7,6 @@ local L
 ----------------
 L= DBM:GetModLocalization(139)
 
-L:SetOptionLocalization({
-	SetIconOnConsuming		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88954)
-})
-
 -----------------
 --  Occu'thar  --
 -----------------
@@ -22,9 +18,9 @@ L= DBM:GetModLocalization(140)
 L= DBM:GetModLocalization(339)
 
 L:SetTimerLocalization({
-	TimerFirstSpecial		= "第一次特別技能"
+	TimerFirstSpecial		= "特別技能"
 })
 
 L:SetOptionLocalization({
-	TimerFirstSpecial		= "$spell:105738施放後為第一次特別技能顯示計時器"
+	TimerFirstSpecial		= "為下一次的特別技能$spell:105738顯示計時器<br/>(特別技能是隨機性的。技能為$spell:105067或$spell:104936)"
 })

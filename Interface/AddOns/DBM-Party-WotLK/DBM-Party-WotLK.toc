@@ -1,12 +1,11 @@
 ﻿## Interface: 50400
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Party-WotLK
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 五人副本-WotLK
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 五人副本-WotLK
-## Notes-zhCN: |cff00ff00DBM-Party-WotLK|r
-## Notes-zhTW: |cff00ff00DBM-Party-WotLK|r
+## Title-zhTW: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r WotLK隊伍模組
+## Title-zhCN: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r WotLK队伍模组
 ## Author: Arta
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMPartyWotLK_SavedVars, DBMPartyWotLK_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
@@ -20,15 +19,13 @@
 ## X-DBM-Mod-Sort: 225
 ## X-DBM-Mod-MapID: 619,601,595,600,604,602,599,576,578,574,575,608,658,632,668,650
 ## X-DBM-Mod-LoadZoneID: 523,524,542,521,530,522,526,603,601,536,533,602,534,525,520,528
-## X-Revision: BigFoot
 
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
 
 AhnKahet\Taldaram.lua
-AhnKahet
-adox.lua
+AhnKahet\Nadox.lua
 AhnKahet\JedogaShadowseeker.lua
 AhnKahet\Volazj.lua
 AhnKahet\Amanitar.lua
@@ -44,8 +41,7 @@ OldStratholme\MalGanis.lua
 OldStratholme\OldStratholmeWaves.lua
 
 DrakTharon\Trollgore.lua
-DrakTharon
-ovosTheSummoner.lua
+DrakTharon\NovosTheSummoner.lua
 DrakTharon\Dred.lua
 DrakTharon\ProphetTharonja.lua
 
@@ -111,5 +107,3 @@ PitofSaron\Ick.lua
 PitofSaron\ForgemasterGarfrost.lua
 PitofSaron\ScourgelordTyrannus.lua
 
-
-## 163UI-Version: 2014060701

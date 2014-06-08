@@ -1,16 +1,16 @@
-local mod	= DBM:NewMod("Anomalus", "DBM-Party-WotLK", 8)
+local mod	= DBM:NewMod(619, "DBM-Party-WotLK", 8, 281)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3962 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(26763)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_SUMMON",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1 target focus mousover"
 )
 
 local warningRiftSoon	= mod:NewSoonAnnounce(47743, 2)
@@ -23,7 +23,7 @@ function mod:OnCombatStart()
 end
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(47743) then
+	if args.spellId == 47743 then
 		warningRiftNow:Show()
 	end
 end

@@ -5,7 +5,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0潘达利亚野外首领|r
 ## Author: MysticalOS/nBlueWiz
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMPandaria_SavedVars, DBMPandaria_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -14,8 +15,6 @@
 ## X-DBM-Mod-Sort: 6
 ## X-DBM-Mod-MapID: 870,1064
 ## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -28,6 +27,3 @@ Yulon.lua
 Niuzao.lua
 Xuen.lua
 Ordos.lua
-
-
-## 163UI-Version: 2014060701

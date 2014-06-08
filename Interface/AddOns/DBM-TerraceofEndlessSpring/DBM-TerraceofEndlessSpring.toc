@@ -5,7 +5,8 @@
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0豐泉台  (ToES)|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMTerraceofEndlessSpring_SavedVars, DBMTerraceofEndlessSpring_SavedStats, ShaAssistDB
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -16,8 +17,6 @@
 ## X-DBM-Mod-Name-zhCN: 永春台
 ## X-DBM-Mod-Sort: 3
 ## X-DBM-Mod-MapID: 996
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -26,7 +25,3 @@ Tsulong.lua
 LeiShi.lua
 ShaofFear.lua
 ShaOfFearAssist.lua
-
-
-
-## 163UI-Version: 2014060701

@@ -1,8 +1,9 @@
 local mod	= DBM:NewMod("Emalon", "DBM-VoA")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4264 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 51 $"):sub(12, -3))
 mod:SetCreatureID(33993)
+mod:SetModelID(27108)
 mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
@@ -10,7 +11,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEvents(
 	"SPELL_CAST_START",
 	"SPELL_HEAL",
-	"UNIT_TARGET",
+	"UNIT_TARGET_UNFILTERED",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED"
 )
@@ -27,9 +28,9 @@ local timerMobOvercharge	= mod:NewTimer(20, "timerMobOvercharge", 64217)
 
 local timerEmalonEnrage		= mod:NewTimer(360, "EmalonEnrage", 26662)
 
-mod:AddBoolOption("NovaSound")
-mod:AddBoolOption("RangeFrame")
+local soundNova				= mod:NewSound(65279, nil, mod:IsMelee())
 
+mod:AddBoolOption("RangeFrame")
 
 local overchargedMob
 function mod:OnCombatStart(delay)
@@ -54,13 +55,11 @@ function mod:SPELL_CAST_START(args)
 		timerNovaCD:Start()
 		warnNova:Show()
 		specWarnNova:Show()
-		if self.Options.NovaSound then
-			PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.wav")
-		end
+		soundNova:Play()
 	end
 end
 
-function mod:UNIT_TARGET()
+function mod:UNIT_TARGET_UNFILTERED()
 	if overchargedMob then
 		self:TrySetTarget(overchargedMob)
 	end
@@ -70,10 +69,10 @@ function mod:TrySetTarget(target, icon)
 	icon = icon or 8
 	if DBM:GetRaidRank() >= 1 then
 		local found = false
-		for i = 1, GetNumGroupMembers() do
-			if UnitGUID("raid"..i.."target") == target then
+		for uId in DBM:GetGroupMembers() do
+			if UnitGUID(uId.."target") == target then
 				found = true
-				SetRaidTarget("raid"..i.."target", icon)
+				SetRaidTarget(uId.."target", icon)
 				break
 			end
 		end
@@ -85,11 +84,11 @@ function mod:TrySetTarget(target, icon)
 	end
 end
 
-function mod:SPELL_HEAL(args)
-	if args.spellId == 64218 then
+function mod:SPELL_HEAL(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 64218 then
 		warnOverCharge:Show()
 		timerOvercharge:Start()
-		self:TrySetTarget(args.destGUID)
+		self:TrySetTarget(destGUID)
 	end
 end
 

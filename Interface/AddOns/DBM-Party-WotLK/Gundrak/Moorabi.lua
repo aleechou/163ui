@@ -1,15 +1,15 @@
-local mod	= DBM:NewMod("Moorabi", "DBM-Party-WotLK", 5)
+local mod	= DBM:NewMod(594, "DBM-Party-WotLK", 5, 274)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3354 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(29305)
 --mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1 target focus mouseover"
 )
 
 local warningTransform	= mod:NewSpellAnnounce(55098, 3)
@@ -22,7 +22,7 @@ function mod:OnCombatStart()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(55098) then
+	if args.spellId == 55098 then
 		warningTransform:Show()
 		if lowHealth then
 			timerTransform:Start(5) --cast every 5 seconds below 50% health

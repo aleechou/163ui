@@ -9,7 +9,7 @@ L= DBM:GetModLocalization(192)
 L:SetOptionLocalization({
 	SoundWOP = "為重要技能播放額外的警告語音",
 	SetIconOnFixate   = DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(99559),
-	RangeFrame	= "顯示距離框(10碼)"
+	RangeFrame			= "顯示距離框(10碼)"
 })
 
 L:SetMiscLocalization({

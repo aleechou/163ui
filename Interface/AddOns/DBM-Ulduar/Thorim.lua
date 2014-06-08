@@ -1,8 +1,9 @@
 local mod	= DBM:NewMod("Thorim", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4177 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 mod:SetCreatureID(32865)
+mod:SetModelID(28977)
 mod:SetUsedIcons(8)
 
 mod:RegisterCombat("yell", L.YellPhase1)
@@ -35,7 +36,8 @@ local sndWOP				= mod:NewSound(nil, "SoundWOP", true)
 
 mod:AddBoolOption("RangeFrame")
 
-local lastcharge				= {} 
+local lastcharge				= {}
+local phase2 = false
 
 function mod:OnCombatStart(delay)
 	enrageTimer:Start()
@@ -43,7 +45,8 @@ function mod:OnCombatStart(delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(10)
 	end
-	table.wipe(lastcharge) 
+	table.wipe(lastcharge)
+	phase2 = false
 end
 
 local sortedFailsC = {}
@@ -71,13 +74,13 @@ end
 
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(62042) then 					-- Storm Hammer
+	if args.spellId == 62042 then 					-- Storm Hammer
 		warnStormhammer:Show(args.destName)
 
-	elseif args:IsSpellID(62130) then				-- Unbalancing Strike
+	elseif args.spellId == 62130 then				-- Unbalancing Strike
 		warnUnbalancingStrike:Show(args.destName)
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
 		end
 	elseif args:IsSpellID(62526, 62527) then	-- Runic Detonation
 		self:SetIcon(args.destName, 8, 5)
@@ -86,41 +89,40 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(62042) then 		-- Storm Hammer
+	if args.spellId == 62042 then 		-- Storm Hammer
 		timerStormhammer:Schedule(2)
-	elseif args:IsSpellID(62466) then   	-- Lightning Charge
+	elseif args.spellId == 62466 then   	-- Lightning Charge
 		warnLightningCharge:Show()
 		timerLightningCharge:Start()	
-	elseif args:IsSpellID(62130) then	-- Unbalancing Strike
+	elseif args.spellId == 62130 then	-- Unbalancing Strike
 		timerUnbalancingStrike:Start()
 	end
 end
 
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.YellPhase2 and mod:LatencyCheck() then		-- Bossfight (tank and spank)
+	if msg == L.YellPhase2 then		-- Bossfight (tank and spank)
 		self:SendSync("Phase2")
 	end
 end
 
-local spam = 0
-function mod:SPELL_DAMAGE(args)
-	if args:IsSpellID(62017) then -- Lightning Shock
-		if bit.band(args.destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) ~= 0
-		and bit.band(args.destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
-		and GetTime() - spam > 5 then
-			spam = GetTime()
+function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+	if spellId == 62017 then -- Lightning Shock
+		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) ~= 0
+		and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
+		and self:AntiSpam(5) then
 			specWarnOrb:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
-	elseif self.Options.AnnounceFails and args:IsSpellID(62466) and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(args.destName) ~= "none" and args.destName then
-		lastcharge[args.destName] = (lastcharge[args.destName] or 0) + 1
-		SendChatMessage(L.ChargeOn:format(args.destName), "RAID")
+	elseif self.Options.AnnounceFails and spellId == 62466 and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(destName) ~= "none" and destName then
+		lastcharge[destName] = (lastcharge[destName] or 0) + 1
+		SendChatMessage(L.ChargeOn:format(destName), "RAID")
 	end
 end
 
 function mod:OnSync(event, arg)
-	if event == "Phase2" then
+	if event == "Phase2" and not phase2 then
+		phase2 = true
 		warnPhase2:Show()
 		enrageTimer:Stop()
 		timerHardmode:Stop()

@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(168, "DBM-BastionTwilight", nil, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7749 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(45213)
-mod:SetModelID(34335)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetModelSound("Sound\\Creature\\Sinestra\\VO_BT_Sinestra_Aggro01.wav", "Sound\\Creature\\Sinestra\\VO_BT_Sinestra_Kill02.wav")
@@ -113,11 +112,10 @@ end
 local function showOrbWarning(source)
 	table.wipe(orbList)
 	mod:Unschedule(showOrbWarning)
-	for i = 1, GetNumGroupMembers() do
+	for i = 1, DBM:GetGroupMembers() do
 		-- do some checks for 25/10 man raid size so we don't warn for ppl who are not in the instance
-		local _,_,diff = GetInstanceInfo()--GetInstanceDifficulty()
-		if diff == 3 and i > 10 then return end
-		if diff == 4 and i > 25 then return end
+		if GetInstanceDifficulty() == 3 and i > 10 then return end
+		if GetInstanceDifficulty() == 4 and i > 25 then return end
 		local n = GetRaidRosterInfo(i)
 		-- Has aggro on something, but not a tank
 		if UnitThreatSituation(n) == 3 and not isTank(n) then
@@ -125,7 +123,7 @@ local function showOrbWarning(source)
 			if UnitIsUnit(n, "player") and not playerWarned then
 				playerWarned = true
 				specWarnOrbOnYou:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\orbrun.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\orbrun.mp3")
 				yellSlicer:Yell()
 			end
 		end
@@ -169,7 +167,7 @@ end
 function mod:OrbsRepeat()
 	resetPlayerOrbStatus()
 	timerOrbs:Start()
-	sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
+	sndWOP:Schedule(27, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
 	if self.Options.WarnOrbSoon then
 		warnOrbSoon:Schedule(23, 5)
 		warnOrbSoon:Schedule(24, 4)
@@ -192,12 +190,12 @@ end
 
 function mod:givesacrifice()
 	specWarnSacrifice:Show()
-	sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sacrifice.mp3")
+	sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sacrifice.mp3")
 end
 
 function mod:givemasteraura()
 	specWarnControl:Show()
-	sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\masteraura.mp3")
+	sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\masteraura.mp3")
 end
 
 function mod:OnCombatStart(delay)
@@ -216,9 +214,9 @@ function mod:OnCombatStart(delay)
 	wrackloop = 0
 	timerDragon:Start(16-delay)
 	timerBreathCD:Start(21-delay, breathcount)
-	sndWOP:Schedule(19-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
+	sndWOP:Schedule(19-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
 	timerOrbs:Start(29-delay)
-	sndWOP:Schedule(27-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
+	sndWOP:Schedule(27-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
 	table.wipe(orbList)
 	orbWarned = nil
 	playerWarned = nil
@@ -254,10 +252,10 @@ function mod:SPELL_CAST_START(args)
 		if breathcount == 3 and mod.Options.SoundMAura then
 			self:ScheduleMethod(17.5, "givemasteraura")
 		end
-		sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
+		sndWOP:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
 	elseif args:IsSpellID(86227, 86226) then
 		warnExtinction:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\twkill.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\twkill.mp3")
 		timerExtinction:Start()
 	end
 end
@@ -289,16 +287,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				if mod.Options.SoundPAL1 then
 					self:ScheduleMethod(13, "givesacrifice")
-				end
+				end				
 			end
 			if args:IsPlayer() then
-				sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\trinket.mp3")
+				sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\trinket.mp3")
 			end
 			specWarnDispel:Schedule(20, 20)
-			sndDIS:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 		else
 			if wrackloop % 2 == 0 then
 				if mod.Options.SoundPAL2 then
@@ -307,23 +305,23 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				if mod.Options.SoundPAL1 then
 					self:ScheduleMethod(15, "givesacrifice")
-				end
+				end				
 			end
 			if args:IsPlayer() then
-				sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\trinket.mp3")
+				sndWOP:Schedule(14, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\trinket.mp3")
 			end
 			specWarnDispel:Schedule(22, 22)
-			sndDIS:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Schedule(21, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Schedule(21, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")			
 		end
 		self:Schedule(60, function()
 			specWarnDispel:Cancel()
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 		end)
 	elseif args:IsSpellID(89435, 92956) and (GetTime() - oldWrackTime < 60 or GetTime() - newWrackTime > 12) then -- jumped wracks (10,25)
 		newWrackCount = newWrackCount + 1
@@ -332,54 +330,54 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Schedule(0.3, showWrackWarning)
 		if newWrackCount > 7 and GetTime() - lastDispeled < 5 and GetTime() - newWrackTime < 60 and not wrackWarned8 and mod:IsDifficulty("heroic10") then
 			specWarnDispel:Cancel()
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			specWarnDispel:Schedule(12, 12)
-			sndDIS:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			wrackWarned8 = true
 		elseif newWrackCount > 3 and GetTime() - lastDispeled < 5 and GetTime() - newWrackTime < 60 and not wrackWarned4 then
 			specWarnDispel:Cancel()
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			if mod:IsDifficulty("heroic10") then
 				specWarnDispel:Schedule(12, 12)
-				sndDIS:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndDIS:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndDIS:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				sndDIS:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+				sndDIS:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndDIS:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndDIS:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndDIS:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			else
 				specWarnDispel:Schedule(14, 14)
-				sndDIS:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndDIS:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndDIS:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				sndDIS:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-			end
+				sndDIS:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndDIS:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndDIS:Schedule(13, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndDIS:Schedule(14, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			end				
 			wrackWarned4 = true
 		elseif newWrackCount > 1 and GetTime() - lastDispeled < 5 and GetTime() - newWrackTime < 60 and not wrackWarned2 then
 			specWarnDispel:Cancel()
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-			sndDIS:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndDIS:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			if mod:IsDifficulty("heroic10") then
 				specWarnDispel:Schedule(12, 12)
-				sndDIS:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndDIS:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndDIS:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				sndDIS:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+				sndDIS:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndDIS:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndDIS:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndDIS:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			else
 				specWarnDispel:Schedule(18, 18)
-				sndDIS:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndDIS:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndDIS:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-				sndDIS:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+				sndDIS:Schedule(15, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndDIS:Schedule(16, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndDIS:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndDIS:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 			end
 			wrackWarned2 = true
 		end
@@ -387,9 +385,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		eggDown = 0
 		warnPhase2:Show()
 		timerBreathCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
 		timerOrbs:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
 		if self.Options.WarnOrbSoon then
 			warnOrbSoon:Cancel()
 		end
@@ -426,7 +424,7 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(87654) and self:AntiSpam(3) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killegg.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killegg.mp3")
 		timerEggWeaken:Show()
 		specWarnEggWeaken:Show()
 		eggRemoved = true
@@ -455,7 +453,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 			showOrbWarning("damage")
 		end
 		if destGUID == UnitGUID("player") and GetTime() - orbdamageSpam >= 4 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 			orbdamageSpam = GetTime()
 		end
 	end
@@ -466,12 +464,12 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.YellDragon or msg:find(L.YellDragon) then
 		warnDragon:Show()
 		if mod:IsTank() then
-			sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dragonnow.mp3")
+			sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dragonnow.mp3")
 		end
 		timerDragon:Start()
 	elseif msg == L.YellEgg or msg:find(L.YellEgg) then
 		timerEggWeakening:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eggsoon.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\eggsoon.mp3")
 	end
 end
 
@@ -486,9 +484,9 @@ function mod:UNIT_DIED(args)
 			warnPhase3:Show()
 			breathcount = 1
 			timerBreathCD:Start(21, breathcount)
-			sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
+			sndWOP:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firebreathsoon.mp3")
 			timerOrbs:Start(30)
-			sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
+			sndWOP:Schedule(28, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\blackorb.mp3")
 			timerDragon:Start()
 			timerRedEssenceCD:Start()
 			if self.Options.WarnOrbSoon then

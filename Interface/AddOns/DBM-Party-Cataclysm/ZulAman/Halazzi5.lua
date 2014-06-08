@@ -1,9 +1,8 @@
 ﻿local mod	= DBM:NewMod(189, "DBM-Party-Cataclysm", 10, 77)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(23577)
-mod:SetModelID(21632)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -35,26 +34,26 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(43303, 97490) then -- unconfirmed in mop
+	if args.spellId == 43303 then
 		warnShock:Show(args.destName)
 		timerShock:Show(args.destName)
-	elseif args:IsSpellID(43139) then
+	elseif args.spellId == 43139 then
 		warnEnrage:Show(args.destName)
 		specWarnEnrage:Show(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(43303, 97490) then -- unconfirmed in mop
+	if args.spellId == 43303 then
 		timerShock:Cancel(args.destName)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(43302, 97492) then -- unconfirmed in mop
+	if args.spellId == 43302 then
 		warnTotemLighting:Show()
 		specWarnTotem:Show()
-	elseif args:IsSpellID(97499, 97500) then -- unconfirmed in mop
+	elseif args.spellId == 97499 then
 		warnTotemWater:Show()
 		specWarnTotemWater:Show()
 	end

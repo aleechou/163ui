@@ -1,10 +1,10 @@
 local mod	= DBM:NewMod("Mobus", "DBM-Party-Cataclysm", 15)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7378 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 71 $"):sub(12, -3))
 mod:SetCreatureID(50009)
 mod:SetModelID(37338)
-mod:SetZone(614, 613)--Abyssal depths, or Vashjir Main map
+mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -38,22 +38,22 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93492) and self:IsInCombat() then
+	if args.spellId == 93492 and self:IsInCombat() then
 		warnRam:Show()
 		specWarnRam:Show()
-	elseif args:IsSpellID(93494) and self:IsInCombat() then
+	elseif args.spellId == 93494 and self:IsInCombat() then
 		warnWake:Show()
 		specWarnWake:Show()
 		timerWakeCD:Start()
 		timerRamCD:Start()
-	elseif args:IsSpellID(93491) and self:IsInCombat() then
+	elseif args.spellId == 93491 and self:IsInCombat() then
 		timerAlgaeCD:Start()
 		self:ScheduleMethod(0.2, "AlgaeTarget")
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)--Assumed spell event, might need to use spell damage, or spell periodic damage instead.
-	if args:IsSpellID(93490) and args:IsPlayer() then
+	if args.spellId == 93490 and args:IsPlayer() then
 		specWarnAlgae:Show()
 	end
 end

@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(325, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7599 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55312)
-mod:SetModelID(39101)
 mod:SetModelSound("sound\\CREATURE\\Yorsahj\\VO_DS_YORSAHJ_INTRO_01.OGG", "sound\\CREATURE\\Yorsahj\\VO_DS_YORSAHJ_SPELL_02.OGG")
 mod:SetZone()
 mod:SetUsedIcons()
@@ -15,7 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
-	"UNIT_SPELLCAST_SUCCEEDED",
+	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_DIED"
 )
 
@@ -102,20 +101,20 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(104849, 108383, 108384, 108385) then
+	if args:IsSpellID(104849) then
 		timerVoidBoltCD:Start()
 	elseif args:IsSpellID(105530) then
 		warnManaVoid:Show()
 		specWarnManaVoid:Show()
-		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killvoid.mp3")
+		sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killvoid.mp3")
 		timerManaVoid:Start()
-	elseif args:IsSpellID(105573, 108350, 108351, 108352) and self:IsInCombat() then
+	elseif args:IsSpellID(105573) and self:IsInCombat() then
 		if yellowActive then
 			timerAcidCD:Start(3.5)
 		else
 			timerAcidCD:Start()
 		end
-	elseif args:IsSpellID(105033, 108356, 108357, 108358) and args:GetSrcCreatureID() == 55312 then
+	elseif args:IsSpellID(105033) and args:GetSrcCreatureID() == 55312 then
 		if yellowActive then
 			timerSearingCD:Start(3.5)
 		else
@@ -128,7 +127,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(104849, 108383, 108384, 108385) then
+	if args:IsSpellID(104849) then
 		warnVoidBolt:Show(args.destName, args.amount or 1)
 		local _, _, _, _, _, duration, expires = UnitDebuff(args.destName, args.spellName)
 		timerVoidBolt:Start(duration, args.destName)
@@ -183,7 +182,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnOozesHit:Show(bossName, table.concat(oozesHitTable, ", "))
 		end
 		if not self:IsDifficulty("lfr25") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\spread.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\spread.mp3")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
 			end
@@ -196,7 +195,7 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(104849, 108383, 108384, 108385) then
+	if args:IsSpellID(104849) then
 		timerVoidBolt:Cancel(args.destName)
 	elseif args:IsSpellID(104901) and args:GetDestCreatureID() == 55312 then--Yellow Removed
 		yellowActive = false
@@ -227,117 +226,117 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			warnOozes:Show(table.concat(oozeColorsHeroic[spellId], ", "))
 			if spellId == 105420 then
 				if self.Options.ColorPGDB == "KPurple" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["PURPLE"][1]/100,oozePos["PURPLE"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorPGDB == "KGreen" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["GREEN"][1]/100,oozePos["GREEN"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorPGDB == "KBlack" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLACK"][1]/100,oozePos["BLACK"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorPGDB == "KBlue" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLUE"][1]/100,oozePos["BLUE"][2]/100,nil,20)
 					end
 				end
 			elseif spellId == 105435 then
 				if self.Options.ColorGRBD == "KGreen" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["GREEN"][1]/100,oozePos["GREEN"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorGRBD == "KBlack" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLACK"][1]/100,oozePos["BLACK"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorGRBD == "KBlue" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLUE"][1]/100,oozePos["BLUE"][2]/100,nil,20)
 					end
 				end
 			elseif spellId == 105436 then
 				if self.Options.ColorGYDR == "KYellow" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["YELLOW"][1]/100,oozePos["YELLOW"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorGYDR == "KGreen" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["GREEN"][1]/100,oozePos["GREEN"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorGYDR == "KBlack" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLACK"][1]/100,oozePos["BLACK"][2]/100,nil,20)
 					end
 				end
 			elseif spellId == 105437 then
 				if self.Options.ColorBPGY == "KPurple" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["PURPLE"][1]/100,oozePos["PURPLE"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBPGY == "KGreen" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["GREEN"][1]/100,oozePos["GREEN"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBPGY == "KYellow" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["YELLOW"][1]/100,oozePos["YELLOW"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBPGY == "KBlue" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLUE"][1]/100,oozePos["BLUE"][2]/100,nil,20)
 					end
 				end
 			elseif spellId == 105439 then
 				if self.Options.ColorBDPY == "KPurple" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["PURPLE"][1]/100,oozePos["PURPLE"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBDPY == "KBlack" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLACK"][1]/100,oozePos["BLACK"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBDPY == "KYellow" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["YELLOW"][1]/100,oozePos["YELLOW"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorBDPY == "KBlue" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblue.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLUE"][1]/100,oozePos["BLUE"][2]/100,nil,20)
 					end
 				end
 			elseif spellId == 105440 then
 				if self.Options.ColorPRYD == "KPurple" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["PURPLE"][1]/100,oozePos["PURPLE"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorPRYD == "KBlack" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killblack.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["BLACK"][1]/100,oozePos["BLACK"][2]/100,nil,20)
 					end
 				elseif self.Options.ColorPRYD == "KYellow" then
-					sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
+					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
 					if self.Options.oozesArrow then
 						DBM.Arrow:ShowRunTo(oozePos["YELLOW"][1]/100,oozePos["YELLOW"][2]/100,nil,20)
 					end
@@ -348,17 +347,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		else
 			warnOozes:Show(table.concat(oozeColors[spellId], ", "))
 			if spellId == 105420 or spellId == 105437 or spellId == 105440 then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killpurple.mp3")
 				if self.Options.oozesArrow then
 					DBM.Arrow:ShowRunTo(oozePos["PURPLE"][1]/100,oozePos["PURPLE"][2]/100,nil,20)
 				end
 			elseif spellId == 105435 or spellId == 105436 then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killgreen.mp3")
 				if self.Options.oozesArrow then
 					DBM.Arrow:ShowRunTo(oozePos["GREEN"][1]/100,oozePos["GREEN"][2]/100,nil,20)
 				end
 			elseif spellId == 105439 then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killyellow.mp3")
 				if self.Options.oozesArrow then
 					DBM.Arrow:ShowRunTo(oozePos["YELLOW"][1]/100,oozePos["YELLOW"][2]/100,nil,20)
 				end

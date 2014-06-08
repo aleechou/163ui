@@ -6,7 +6,8 @@
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0雷霆王座(ToT)|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMThroneofThunder_SavedVars, DBMThroneofThunder_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -17,8 +18,6 @@
 ## X-DBM-Mod-Name-zhTW: 雷霆王座  (ToT)
 ## X-DBM-Mod-Sort: 2
 ## X-DBM-Mod-MapID: 1098
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
@@ -36,6 +35,3 @@ TwinConsorts.lua
 LeiShen.lua
 Raden.lua
 ToTTrash.lua
-
-
-## 163UI-Version: 2014060701

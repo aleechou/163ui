@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(173, "DBM-BlackwingDescent", nil, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7773 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(41378)
-mod:SetModelID(33186)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 6, 7, 8)
 mod:SetModelSound("Sound\\Creature\\Nefarian\\VO_BD_Nefarian_MaloriakIntro01.wav", "Sound\\Creature\\Maloriak\\VO_BD_Maloriak_Event05.wav")
@@ -19,7 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
 	"SPELL_INTERRUPT",
 	"RAID_BOSS_EMOTE",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1"
 )
 
 local isDispeller = select(2, UnitClass("player")) == "MAGE"
@@ -168,7 +167,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnRemedy:Show()
 		specWarnRemedy:Show(args.destName)
 		if isDispeller then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
 		end
 	elseif args:IsSpellID(77786, 92971, 92972, 92973) then
 		warnConsumingFlames:Show(args.destName)
@@ -184,14 +183,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDebilitatingSlime:Start()
 	elseif args:IsSpellID(92930, 92986, 92987, 92988) and self:AntiSpam(3, 2) and args:IsPlayer() then
 		specWarnSludge:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	elseif args:IsSpellID(92754) then
 		if (mod:IsTank() and self:GetUnitCreatureId("target") == 41378) or mod:IsHealer() then
 			warnEngulfingDarkness:Show()
 			timerEngulfingDarkness:Start()
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end		
 	end
 end
@@ -225,7 +224,7 @@ function mod:SPELL_CAST_START(args)
 		timerMagmaJetsCD:Start()
 		timerAcidNovaCD:Start(14)
 		if mod:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		end
 		timerFlashFreeze:Cancel()
 		timerScorchingBlast:Cancel()
@@ -263,7 +262,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerAcidNova:Start()
 		timerAcidNovaCD:Start()
 		if mod:IsHealer() then
-			sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Schedule(27, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		end
 	end
 end

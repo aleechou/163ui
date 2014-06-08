@@ -1,4 +1,7 @@
-﻿if GetLocale() ~= "zhCN" then return end
+﻿-- Simplified Chinese by Diablohu(diablohudream@gmail.com)
+-- Last update: 2/25/2012
+
+if GetLocale() ~= "zhCN" then return end
 
 local L
 
@@ -22,9 +25,12 @@ L= DBM:GetModLocalization(140)
 L= DBM:GetModLocalization(339)
 
 L:SetTimerLocalization({
-	TimerFirstSpecial		= "第一次特别技能"
+	TimerFirstSpecial		= "第一次特殊技能"
 })
 
 L:SetOptionLocalization({
-	TimerFirstSpecial		= "$spell:105738施放后为第一次特别技能显示计时条"
+	TimerFirstSpecial		= "计时条：$spell:105738后的第一次特殊技能<br/>（第一次特殊技能是随机的，$spell:105067或$spell:104936）"
+})
+
+L:SetMiscLocalization({
 })

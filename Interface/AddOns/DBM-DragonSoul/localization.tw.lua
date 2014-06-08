@@ -7,7 +7,7 @@ local L
 L= DBM:GetModLocalization(311)
 
 L:SetWarningLocalization({
-	KohcromWarning	= "%s: %s"--Bossname, spellname. At least with this we can get boss name from casts in this one, unlike a timer started off the previous bosses casts.
+	KohcromWarning	= "%s:%s"
 })
 
 L:SetTimerLocalization({

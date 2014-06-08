@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod("Freya", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4133 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 73 $"):sub(12, -3))
 
 mod:SetCreatureID(32906)
+mod:SetModelID(28777)
 mod:RegisterCombat("combat")
 mod:RegisterKill("yell", L.YellKill)
 mod:SetUsedIcons(6, 7, 8)
@@ -14,7 +15,6 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
 	"UNIT_DIED",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
@@ -30,9 +30,10 @@ local warnPhase2			= mod:NewPhaseAnnounce(2, 3)
 local warnSimulKill			= mod:NewAnnounce("WarnSimulKill", 1)
 local warnFury				= mod:NewTargetAnnounce(63571, 2)
 local warnRoots				= mod:NewTargetAnnounce(62438, 2)
+local warnLifebinder		= mod:NewTargetAnnounce(62869, 3)--Actual spell is hidden from CLEU so we use a diff trigger.
 
+local specWarnLifebinder	= mod:NewSpecialWarningSpell(62869, false)
 local specWarnFury			= mod:NewSpecialWarningYou(63571)
-local specWarnTree		= mod:NewSpecialWarning("WarningTree")
 local specWarnTremor		= mod:NewSpecialWarningCast(62859)	-- Hard mode
 local specWarnBeam			= mod:NewSpecialWarningMove(62865)	-- Hard mode
 
@@ -41,30 +42,20 @@ local timerAlliesOfNature	= mod:NewNextTimer(60, 62678)
 local timerSimulKill		= mod:NewTimer(12, "TimerSimulKill")
 local timerFury				= mod:NewTargetTimer(10, 63571)
 local timerTremorCD 		= mod:NewCDTimer(28, 62859)
+local timerLifebinderCD 	= mod:NewCDTimer(40, 62869)
 
 local sndWOP				= mod:NewSound(nil, "SoundWOP", true)
 
 mod:AddBoolOption("HealthFrame", true)
-mod:AddBoolOption("PlaySoundOnFury")
 
 local adds		= {}
 local rootedPlayers 	= {}
 local altIcon 		= true
-local killTime		= 0
 local iconId		= 6
 
 function mod:OnCombatStart(delay)
 	enrage:Start()
 	table.wipe(adds)
-end
-
-function mod:OnCombatEnd(wipe)
-	DBM.BossHealth:Hide()
-	if not wipe then
-		if DBM.Bars:GetBar(L.TrashRespawnTimer) then
-			DBM.Bars:CancelBar(L.TrashRespawnTimer) 
-		end	
-	end
 end
 
 local function showRootWarning()
@@ -75,22 +66,24 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(62437, 62859) then
 		specWarnTremor:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopcast.mp3")
 		timerTremorCD:Start()
 	end
 end 
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(62678) then -- Summon Allies of Nature
+	if args.spellId == 62678 then -- Summon Allies of Nature
 		timerAlliesOfNature:Start()
+	elseif args.spellId == 62619 and self:GetUnitCreatureId(args.sourceName) == 33228 then -- Pheromones spell, cast by newly spawned Eonar's Gift second they spawn to allow melee to dps them while protector is up.
+		warnLifebinder:Show()
+		specWarnLifebinder:Show()
+		timerLifebinderCD:Start()
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killtree.mp3")
 	elseif args:IsSpellID(63571, 62589) then -- Nature's Fury
 		altIcon = not altIcon	--Alternates between Skull and X
 		self:SetIcon(args.destName, altIcon and 7 or 8, 10)
 		warnFury:Show(args.destName)
 		if args:IsPlayer() then -- only cast on players; no need to check destFlags
-			if self.Options.PlaySoundOnFury then
-				PlaySoundFile("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
-			end
 			specWarnFury:Show()
 		end
 		timerFury:Start(args.destName)
@@ -111,7 +104,7 @@ function mod:SPELL_AURA_APPLIED(args)
 
 	elseif args:IsSpellID(62451, 62865) and args:IsPlayer() then
 		specWarnBeam:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end 
 end
 
@@ -124,16 +117,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg == L.TreeYell or msg:find(L.TreeYell) then
-		specWarnTree:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killtree.mp3")
-	end
-end
-
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.SpawnYell then
-		if self.Options.HealthFrame then
+		if DBM.BossHealth:IsShown() then
 			if not adds[33202] then DBM.BossHealth:AddBoss(33202, L.WaterSpirit) end -- ancient water spirit
 			if not adds[32916] then DBM.BossHealth:AddBoss(32916, L.Snaplasher) end  -- snaplasher
 			if not adds[32919] then DBM.BossHealth:AddBoss(32919, L.StormLasher) end -- storm lasher
@@ -147,11 +133,10 @@ end
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 33202 or cid == 32916 or cid == 32919 then
-		if self.Options.HealthFrame then
+		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:RemoveBoss(cid)
 		end
-		if (GetTime() - killTime) > 20 then
-			killTime = GetTime()
+		if self:AntiSpam(20) then
 			timerSimulKill:Start()
 			warnSimulKill:Show()
 		end

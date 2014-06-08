@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(110, "DBM-Party-Cataclysm", 7, 67)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(43438)
-mod:SetModelID(33477)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -51,7 +50,7 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(86881, 92648) then
+	if args.spellId == 86881 then
 		if args:IsPlayer() then
 			specWarnCrystalBarrage:Show()
 		else
@@ -78,7 +77,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(82415, 92650) then
+	if args.spellId == 82415 then
 		warnDampening:Show()
 		timerDampening:Start()
 	end

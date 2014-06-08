@@ -43,15 +43,19 @@ local settings = default_settings
 local mainframe = CreateFrame("Frame", "DBM_Raidleadtool", UIParent)
 
 local function createpanel()
-    DBM_RaidLeadPanel = DBM_GUI:CreateNewPanel(L["Raidlead Tools"] .. " - r"..Revision, "option")
+	if GetLocale() ~= "zhTW" then
+		DBM_RaidLeadPanel = DBM_GUI:CreateNewPanel("Raidlead Tools - r"..Revision, "option")
+	else
+		DBM_RaidLeadPanel = DBM_GUI:CreateNewPanel("團隊隊長工具 - r"..Revision, "option")
+	end
 
 	local area = DBM_RaidLeadPanel:CreateArea(L.Area_Raidleadtool, nil, 180, true)
 
-	-- local warnLootMaster = area:CreateCheckButton(L.ShowWarningForLootMaster, true)
-	-- warnLootMaster:SetScript("OnShow", function(self) self:SetChecked(settings.WarnWhenNoLootmaster) end)
-	-- warnLootMaster:SetScript("OnClick", function(self)
-	-- 	settings.WarnWhenNoLootmaster = not not self:GetChecked()
-	-- end)
+	local warnLootMaster = area:CreateCheckButton(L.ShowWarningForLootMaster, true)
+	warnLootMaster:SetScript("OnShow", function(self) self:SetChecked(settings.WarnWhenNoLootmaster) end)
+	warnLootMaster:SetScript("OnClick", function(self)
+		settings.WarnWhenNoLootmaster = not not self:GetChecked()
+	end)
 
 	local StickyIcons = area:CreateCheckButton(L.StickyIcons, true)
 	StickyIcons:SetScript("OnShow", function(self) self:SetChecked(settings.StickyIcons) end)
@@ -134,11 +138,11 @@ do
 			DBM:RegisterCallback("kill", combat_end)
 
 			-- WarnforLootmaster
-			-- DBM:RegisterCallback("pull", function()
-			-- 	if DBM_BidBot_Translations.WarnWhenNoLootmaster and GetLootMethod() ~= "master" then
-			-- 		DBM:AddMsg(L.Warning_NoLootMaster)
-			-- 	end
-			-- end)			
+			DBM:RegisterCallback("pull", function()
+				if DBM_BidBot_Translations.WarnWhenNoLootmaster and GetLootMethod() ~= "master" then
+					DBM:AddMsg(L.Warning_NoLootMaster)
+				end
+			end)			
 		end
 	end)
 	mainframe:RegisterEvent("ADDON_LOADED")

@@ -1,33 +1,24 @@
 ﻿## Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Bastion of Twilight
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 暮光堡垒
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 暮光堡壘
-## Notes-zhCN: |cff00ff00DBM-BastionTwilight|r
-## Notes-zhTW: |cff00ff00DBM-BastionTwilight|r
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Bastion of Twilight|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0暮光堡壘|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0暮光堡垒|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMBastionTwilight_SavedVars, DBMBastionTwilight_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: CATA
-## X-DBM-Mod-Name: Bastion of Twilight
-## X-DBM-Mod-Name-zhTW: 暮光堡壘
-## X-DBM-Mod-Name-zhCN: 暮光堡垒
 ## X-DBM-Mod-MapID: 671
 ## X-DBM-Mod-Sort: 103
-## X-DBM-Mod-LoadZoneID: 758
-## X-Revision: BigFoot
-
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
 HalfusWyrmbreaker.lua
 ValionaTheralion.lua
 AscendantCouncil.lua
 Chogall.lua
 Sinestra.lua
 BoTTrash.lua
-
-## 163UI-Version: 2014060701

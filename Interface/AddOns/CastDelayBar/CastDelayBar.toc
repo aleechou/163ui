@@ -8,6 +8,6 @@
 
 CastDelayBar.lua
 
-## Title: |cff880303[网易有爱]|r CastDelayBar
+## Title: |cff880303[网易有爱]|r 施法条延迟
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014060401

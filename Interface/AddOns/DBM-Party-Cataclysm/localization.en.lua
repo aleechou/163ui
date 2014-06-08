@@ -410,9 +410,9 @@ L:SetOptionLocalization{
 L= DBM:GetModLocalization(186)
 
 L:SetOptionLocalization{
-	StormIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97300),
+	StormIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(43648),
 	RangeFrame	= "Show range frame (10 yards)",
-	StormArrow	= "Show DBM Arrow for $spell:97300",
+	StormArrow	= "Show DBM Arrow for $spell:43648",
 	SetIconOnEagle	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97318)
 }
 
@@ -576,10 +576,6 @@ L= DBM:GetModLocalization(180)
 -- High Priestess Kilnara --
 ----------------------------
 L= DBM:GetModLocalization(181)
-
-L:SetMiscLocalization{
-	WaveAgony	= "Share in my pain!"
-}
 
 ------------
 -- Zanzil --
@@ -770,7 +766,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("Garr")
 
 L:SetGeneralLocalization{
-	name = "Garr (Cata)"
+	name = "Garr"
 }
 
 ----------------

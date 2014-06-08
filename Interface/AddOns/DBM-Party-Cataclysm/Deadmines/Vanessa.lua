@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(95, "DBM-Party-Cataclysm", 2, 63)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(49541)
-mod:SetModelID(32806)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -29,17 +28,17 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(92614) then
+	if args.spellId == 92614 then
 		warnDeflection:Show()
 		timerDeflection:Start()
-	elseif args:IsSpellID(92622) then
+	elseif args.spellId == 92622 then
 		warnDeadlyBlades:Show()
 		timerDeadlyBlades:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(92100) then
+	if args.spellId == 92100 then
 		timerGauntlet:Start()
 	end
 end

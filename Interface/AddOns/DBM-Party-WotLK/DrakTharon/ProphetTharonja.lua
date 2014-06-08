@@ -1,21 +1,22 @@
-local mod	= DBM:NewMod("ProphetTharonja", "DBM-Party-WotLK", 4)
+local mod	= DBM:NewMod(591, "DBM-Party-WotLK", 4, 273)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3369 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(26632)
+mod:SetModelID(27072)--Does not scale, but at least it's on face. Leaving on for now.
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1 target focus mousover"
 )
 
 local warningDecayFleshSoon	= mod:NewSoonAnnounce(49356, 2)
 local warningCloud 			= mod:NewSpellAnnounce(49548, 3)
 
-local warnedDecay		= false
+local warnedDecay = false
 
 function mod:OnCombatStart()
 	warnedDecay = false

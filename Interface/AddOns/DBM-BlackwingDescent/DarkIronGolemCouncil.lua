@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(169, "DBM-BlackwingDescent", nil, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(42180, 42178, 42179, 42166)
-mod:SetModelID(32688)
 mod:SetZone()
 mod:SetUsedIcons(1, 3, 6, 7, 8)
 mod:SetModelSound("Sound\\Creature\\Nefarian\\VO_BD_Nefarian_OmnitronIntro01.wav", "Sound\\Creature\\Council\\VO_BD_Council_Event01.wav")
@@ -123,7 +122,7 @@ function mod:ChemicalBombTarget()
 	if not targetname then return end
 	warnChemicalBomb:Show(targetname)
 	if targetname == UnitName("player") then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\poisoncircle.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\poisoncircle.mp3")
 		yellChemicalCloud:Yell()
 	end
 end
@@ -131,14 +130,14 @@ end
 local bossActivate = function(boss)
 	if boss == Magmatron or boss == 42178 then
 		if not mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\attackfire.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\attackfire.mp3")
 		end
 		incinerateCast = 0
 		timerAcquiringTarget:Start(20)--These are same on heroic and normal
-		sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
+		sndWOP:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\targetsoon.mp3")
 		timerIncinerationCD:Start(10)
 		if mod:IsHealer() then
-			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Schedule(7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		end
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			warnBarrierSoon:Schedule(34)
@@ -147,20 +146,20 @@ local bossActivate = function(boss)
 		end
 	elseif boss == Electron or boss == 42179 then
 		if not mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\attacklightning.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\attacklightning.mp3")
 		end
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			timerLightningConductorCD:Start(15)--Probably also has a variation if it's like normal. Needs more logs to verify.
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eleaesoon.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\eleaesoon.mp3")
 			warnUnstableShieldSoon:Schedule(30)
 		else
 			timerLightningConductorCD:Start(11)--11-15 variation confirmed for normal, only boss ability with an actual variation on timer. Strange.
-			sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eleaesoon.mp3")
+			sndWOP:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\eleaesoon.mp3")
 			warnUnstableShieldSoon:Schedule(40)
 		end
 	elseif boss == Toxitron or boss == 42180 then
 		if not mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\attackpoison.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\attackpoison.mp3")
 		end
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			timerChemicalBomb:Start(25)
@@ -173,7 +172,7 @@ local bossActivate = function(boss)
 		end
 	elseif boss == Arcanotron or boss == 42166 then
 		if not mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\attackarcane.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\attackarcane.mp3")
 		end
 		timerGeneratorCD:Start(15)--These appear same on heroic and non heroic but will leave like this for now to await 25 man heroic confirmation.
 		if mod:IsDifficulty("heroic10", "heroic25") then
@@ -187,14 +186,14 @@ end
 local bossInactive = function(boss)
 	if boss == Magmatron then
 		timerAcquiringTarget:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\targetsoon.mp3")
 		timerIncinerationCD:Cancel()
 		if mod:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 		end
 	elseif boss == Electron then
 		timerLightningConductorCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eleaesoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\eleaesoon.mp3")
 	elseif boss == Toxitron then
 		timerChemicalBomb:Cancel()
 		timerPoisonProtocolCD:Cancel()
@@ -256,17 +255,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnAcquiringTarget:Show(args.destName)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerAcquiringTarget:Start(27)
-			sndWOP:Schedule(24, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
+			sndWOP:Schedule(24, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\targetsoon.mp3")
 		else
 			timerAcquiringTarget:Start()
-			sndWOP:Schedule(37, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
+			sndWOP:Schedule(37, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\targetsoon.mp3")
 		end
 		if args:IsPlayer() then
 			specWarnAcquiringTarget:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopmove.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopmove.mp3")
 			self:ScheduleMethod(1, "CheckEncasing")
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\avoidtarget.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\avoidtarget.mp3")
 		end
 		if self.Options.AcquiringTargetIcon then
 			self:SetIcon(args.destName, 7, 8)
@@ -276,7 +275,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnConductor:Show()
 --			soundLightningConductor:Play()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 			yellLightConductor:Yell()
 		end
 		if self.Options.ConductorIcon then
@@ -285,40 +284,40 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerLightningConductor:Start(15, args.destName)
 			timerLightningConductorCD:Start(20)
-			sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eleaesoon.mp3")
+			sndWOP:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\eleaesoon.mp3")
 		else
 			timerLightningConductor:Start(args.destName)
 			timerLightningConductorCD:Start()
-			sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\eleaesoon.mp3")
+			sndWOP:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\eleaesoon.mp3")
 		end
 	elseif args:IsSpellID(80094) then
 		warnFixate:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnBombTarget:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\avoidslime.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\avoidslime.mp3")
 --			soundFixate:Play()
 			yellFixate:Yell()
 		end
 	elseif args:IsSpellID(80161, 91472, 91473) and args:IsPlayer() and GetTime() - cloudSpam > 4 then
 		specWarnChemicalCloud:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		cloudSpam = GetTime()
 	elseif args:IsSpellID(79629, 91555, 91556, 91557) and args:IsDestTypeHostile() then--Check if Generator buff is gained by a hostile.
 		local targetCID = self:GetUnitCreatureId("target")--Get CID of current target
 		if args:GetDestCreatureID() == targetCID and args:GetDestCreatureID() ~= 42897 then--If target gaining buff is target then not an ooze (only hostiles left filtering oozes is golems)
 			specWarnGenerator:Show(args.destName)--Show special warning to move him out of it.
 			if mod:IsTank() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bossout.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\bossout.mp3")
 			end
 		end
 	elseif args:IsSpellID(92048) then--Shadow Infusion, debuff 5 seconds before shadow conductor.
 		timerNefAbilityCD:Start()
-		sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
+		sndWOP:Schedule(30, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
 		warnShadowConductorCast:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shadowae.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\shadowae.mp3")
 		timerShadowConductorCast:Start()
 		if args:IsPlayer() then
-			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3")
+			sndWOP:Schedule(3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3")
 		end
 	elseif args:IsSpellID(92023) then
 		if args:IsPlayer() then
@@ -329,7 +328,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		specWarnEncasingShadows:Show(args.destName)
 		timerNefAbilityCD:Start()
-		sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
+		sndWOP:Schedule(30, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
 	elseif args:IsSpellID(92053) then
 		specWarnShadowConductor:Show(args.destName)
 		timerShadowConductor:Show(args.destName)
@@ -363,12 +362,12 @@ function mod:SPELL_CAST_START(args)
 		if incinerateCast == 1 then--Only cast twice on heroic, 3 times on normal.
 			timerIncinerationCD:Start()--second cast is after 27 seconds on heroic and normal.
 			if mod:IsHealer() then
-				sndWOP:Schedule(24, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+				sndWOP:Schedule(24, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 			end
 		elseif incinerateCast == 2 and self:IsDifficulty("normal10", "normal25") then
 			timerIncinerationCD:Start(32)--3rd cast on normal is 32 seconds. 10 27 32 series.
 			if mod:IsHealer() then
-				sndWOP:Schedule(29, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+				sndWOP:Schedule(29, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 			end
 		end
 	elseif args:IsSpellID(79582, 91516, 91517, 91518) then
@@ -377,7 +376,7 @@ function mod:SPELL_CAST_START(args)
 		if self:GetUnitCreatureId("target") == 42178 then
 			specWarnBarrier:Show()
 			if not mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
 			end
 		end
 	elseif args:IsSpellID(79900, 91447, 91448, 91449) then
@@ -386,7 +385,7 @@ function mod:SPELL_CAST_START(args)
 		if self:GetUnitCreatureId("target") == 42179 then
 			specWarnUnstableShield:Show()
 			if not mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
 			end
 		end
 	elseif args:IsSpellID(79835, 91501, 91502, 91503) then
@@ -395,7 +394,7 @@ function mod:SPELL_CAST_START(args)
 		if self:GetUnitCreatureId("target") == 42180 then
 			specWarnShell:Show()
 			if not mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
 			end
 		end
 	elseif args:IsSpellID(79729, 91543, 91544, 91545) then
@@ -404,15 +403,15 @@ function mod:SPELL_CAST_START(args)
 		if self:GetUnitCreatureId("target") == 42166 then
 			specWarnConversion:Show()
 			if not mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
 			end
 		end
 	elseif args:IsSpellID(91849) then--Grip
 		warnGrip:Show()
 		specWarnGrip:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\gripaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\gripaway.mp3")
 		timerNefAbilityCD:Start()
-		sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
+		sndWOP:Schedule(30, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
 		cloudSpam = GetTime()
 	elseif args:IsSpellID(79710, 91540, 91541, 91542) then
 		if self:IsMelee() and (self:GetUnitCreatureId("target") == 42166 or self:GetUnitCreatureId("focus") == 42166) or not self:IsMelee() then
@@ -428,7 +427,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(80053, 91513, 91514, 91515) then
 		warnPoisonProtocol:Show()
 		if not mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killslime.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killslime.mp3")
 		end
 		if self:GetUnitCreatureId("target") ~= 42180 then--You're not targeting toxitron
 			specWarnPoisonProtocol:Show()
@@ -441,7 +440,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(79624) then
 		warnGenerator:Show()
 		if not mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bluecircle.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bluecircle.mp3")
 		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerGeneratorCD:Start(20)
@@ -451,10 +450,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(91857) then
 		warnOverchargedGenerator:Show()
 		specWarnOvercharged:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bluecircleboom.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bluecircleboom.mp3")
 		timerArcaneBlowback:Start()
 		timerNefAbilityCD:Start()
-		sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
+		sndWOP:Schedule(30, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\nefsoon.mp3")
 	end
 end
 

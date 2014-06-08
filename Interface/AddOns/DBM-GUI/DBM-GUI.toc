@@ -6,13 +6,12 @@
 ## Notes: GUI for Deadly Boss Mods
 ## Notes-zhCN: Deadly Boss Mods的设置界面
 ## Notes-zhTW: Deadly Boss Mods的使用者介面
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## LoadOnDemand: 1
 ## DefaultState: enabled
 ## Author: Nitram and Tandanu
 ## URL: http://www.deadlybossmods.com
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
@@ -20,6 +19,3 @@ DBM-GUI_DropDown.xml
 DBM-GUI_Templates.xml
 DBM-GUI.lua
 DBM-GUI_DropDown.lua
-
-
-## 163UI-Version: 2014060701

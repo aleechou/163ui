@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(132, "DBM-Party-Cataclysm", 3, 71)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(40177)
-mod:SetModelID(33429)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -29,27 +28,27 @@ local timerPhalanx			= mod:NewBuffActiveTimer(30, 74908)
 local timerImpalingSlam		= mod:NewTargetTimer(5, 75056)
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(74981) then
+	if args.spellId == 74981 then
 		warnDualBlades:Show()
 		timerDualBlades:Start()
-	elseif args:IsSpellID(75007, 90729) then
+	elseif args.spellId == 75007 then
 		warnEncumbered:Show()
 		timerEncumbered:Start()
 	elseif args:IsSpellID(74908, 76481) then
 		warnPhalanx:Show()
 		timerPhalanx:Start()
-	elseif args:IsSpellID(75056, 90756) then
+	elseif args.spellId == 75056 then
 		warnImpalingSlam:Show(args.destName)
 		timerImpalingSlam:Start(args.destName)
-	elseif args:IsSpellID(74976, 90737) and self:AntiSpam(10) then
+	elseif args.spellId == 74976 and self:AntiSpam(10) then
 		warnDisorientingRoar:Show()
-	elseif args:IsSpellID(74987) and args:IsPlayer() then
+	elseif args.spellId == 74987 and args:IsPlayer() then
 		specWarnCaveIn:Show()
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(75000) then
+	if args.spellId == 75000 then
 		warnPickWeapon:Show()
 	end
 end

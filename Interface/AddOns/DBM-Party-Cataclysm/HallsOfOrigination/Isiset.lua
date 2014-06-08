@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(127, "DBM-Party-Cataclysm", 4, 70)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(39587)
-mod:SetModelID(33465)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -23,21 +22,22 @@ local timerAstralRain	= mod:NewBuffActiveTimer(8, 74134)
 local timerSupernova	= mod:NewCastTimer(3, 74136)
 
 local warnedSplit
+
 function mod:OnCombatStart(delay)
 	warnedSplit = false
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(74134) then--74365?
+	if args.spellId == 74134 then--74365?
 		warnAstralRain:Show()
 		timerAstralRain:Start()
-	elseif args:IsSpellID(74133, 90760) then
+	elseif args.spellId == 74133 then
 		warnVeilSky:Show()
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(74136) then
+	if args.spellId == 74136 then
 		warnSupernova:Show()
 		timerSupernova:Start()
 	end

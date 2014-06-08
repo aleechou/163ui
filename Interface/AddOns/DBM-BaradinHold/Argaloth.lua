@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(139, "DBM-BaradinHold", nil, 74)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7779 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(47120)
-mod:SetModelID(35426)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 
@@ -15,7 +14,7 @@ mod:RegisterEvents(
 	"SPELL_CAST_START",
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1"
 )
 
 local warnConsuming			= mod:NewTargetAnnounce(88954, 3)
@@ -57,7 +56,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(88954, 95173) then
+	if args.spellId == 88954 then
 		consuming = consuming + 1--Count raid members who got consuming
 		timerConsuming:Start()
 		timerConsumingCD:Start()
@@ -72,9 +71,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			self:Schedule(0.3, showConsumingWarning)
 		end
-	elseif args:IsSpellID(88972) then
+	elseif args.spellId == 88972 then
 		timerFirestorm:Start()
-	elseif args:IsSpellID(88942, 95172) then--Debuff application not cast, special warning for tank taunts.
+	elseif args.spellId == 88942 then--Debuff application not cast, special warning for tank taunts.
 		if self:AntiSpam(3, 1) then
 			warnMeteorSlash:Show()
 			timerMeteorSlash:Start()
@@ -92,14 +91,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		if consuming == 0 then--End Buff active timer when no raid members have it
 			timerConsuming:Cancel()
 		end
-	elseif args:IsSpellID(88972) then
+	elseif args.spellId == 88972 then
 		timerMeteorSlash:Start(13)
 		timerConsumingCD:Start(9)
 	end
 end
 	
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(88972) then
+	if args.spellId == 88972 then
 		warnFirestorm:Show()
 		specWarnFirestormCast:Show()
 		timerMeteorSlash:Cancel()

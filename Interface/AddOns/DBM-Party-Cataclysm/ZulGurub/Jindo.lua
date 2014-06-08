@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(185, "DBM-Party-Cataclysm", 11, 76)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(52148)
-mod:SetModelID(37789)
 mod:SetZone()
 mod:SetUsedIcons(8)
 
@@ -28,8 +27,8 @@ local specWarnBodySlam			= mod:NewSpecialWarningYou(97198)
 local specWarnSunderRift		= mod:NewSpecialWarningMove(97320)
 
 local timerDeadzone				= mod:NewNextTimer(21, 97170)
-local timerShadowsOfHakkar		= mod:NewBuffActiveTimer(8, 97172)
-local timerShadowsOfHakkarNext	= mod:NewNextTimer(19.5, 97172)
+local timerShadowsOfHakkar		= mod:NewBuffActiveTimer(10, 97172)
+local timerShadowsOfHakkarNext	= mod:NewNextTimer(21, 97172)
 
 mod:AddBoolOption("BodySlamIcon")
 
@@ -42,13 +41,13 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(97172) then
+	if args.spellId == 97172 then
 		specWarnShadow:Show()
 		timerShadowsOfHakkar:Start()
 		timerShadowsOfHakkarNext:Start()
-	elseif args:IsSpellID(97320) and args:IsPlayer() then
+	elseif args.spellId == 97320 and args:IsPlayer() then
 		specWarnSunderRift:Show()
-	elseif args:IsSpellID(97597) then
+	elseif args.spellId == 97597 then
 		warnBodySlam:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnBodySlam:Show()
@@ -60,23 +59,23 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(97417) then
+	if args.spellId == 97417 then
 		barrier = barrier - 1
 		warnBarrierDown:Show(barrier)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(97172) then
+	if args.spellId == 97172 then
 		warnShadowsOfHakkar:Show()
-	elseif args:IsSpellID(97158) and not phase2warned then
+	elseif args.spellId == 97158 and not phase2warned then
 		phase2warned = true
 		warnPhase2:Show()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(97170) then
+	if args.spellId == 97170 then
 		warnDeadzone:Show()
 		timerDeadzone:Start()
 	end

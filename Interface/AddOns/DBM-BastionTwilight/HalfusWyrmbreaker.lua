@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(156, "DBM-BastionTwilight", nil, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7661 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(44600)
-mod:SetModelID(34816)
 mod:SetZone()
 mod:SetModelSound("Sound\\Creature\\Chogall\\VO_BT_Chogall_BotEvent02.wav", "Sound\\Creature\\Halfus\\VO_BT_Halfus_Event07.wav")
 --Long: Halfus! Hear me! The master calls, the master wants! Protect our secrets, Halfus! Destroy the intruders! Murder for his glory, murder for his hunger!
@@ -76,7 +75,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if args.amount % 2 == 0 and (args.amount or 1) >= 8 then
 			if mod:IsTank() or mod:IsHealer() then
 				specWarnMalevolent:Show(args.amount)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dshigh.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dshigh.mp3")
 			end
 		end
 	end
@@ -86,9 +85,9 @@ function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(83710, 86169, 86170, 86171) and self:AntiSpam(6) then
 		warnFuriousRoar:Show()
 		timerFuriousRoar:Cancel()--We Cancel any scheduled roar timers before doing anything else.
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stunsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stunsoon.mp3")
 		timerFuriousRoar:Start()--And start a fresh one.
-		sndWOP:Schedule(27, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stunsoon.mp3")
+		sndWOP:Schedule(27, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stunsoon.mp3")
 		timerFuriousRoar:Schedule(30)--If it comes off CD while he's stunned by paralysis, he no longer waits to casts it after stun, it now consumes his CD as if it was cast on time. This is why we schedule this timer. So we get a timer for next roar after a stun.
 	elseif args:IsSpellID(83707, 86163, 86164, 86165) then
 		warnBreath:Show()
@@ -105,7 +104,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		DBM.BossHealth:AddBoss(self:GetCIDFromGUID(args.sourceGUID), args.sourceName)
 	elseif args:IsSpellID(83706) then
 		warnBarrage:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
 		timerBarrageCD:Start()
 	end
 end

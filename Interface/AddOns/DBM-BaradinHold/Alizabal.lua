@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(339, "DBM-BaradinHold", nil, 74)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7425 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55869)
-mod:SetModelID(21252)
 mod:SetModelSound("sound\\CREATURE\\ALIZABAL\\VO_BH_ALIZABAL_INTRO_01.OGG", "sound\\CREATURE\\ALIZABAL\\VO_BH_ALIZABAL_RESET_01.OGG")
 mod:SetZone()
 
@@ -50,7 +49,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(104936) then
+	if args.spellId == 104936 then
 		if not firstspecial then--First special ability used after a blade dance, so the OTHER special is going to be cast in 8 seconds.
 			timerFirstSpecial:Cancel()
 			timerSeethingHateCD:Start(8)
@@ -63,7 +62,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSkewer:Show(args.destName)
 		timerSkewer:Start(args.destName)
 		specWarnSkewer:Show()
-	elseif args:IsSpellID(105067) then--10m ID confirmed
+	elseif args.spellId == 105067 then--10m ID confirmed
 		if not firstspecial then--First special ability used after a blade dance, so the OTHER special is going to be cast in 8 seconds.
 			timerFirstSpecial:Cancel()
 			timerSkewerCD:Start(8)
@@ -78,7 +77,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then		
 			specWarnSeethingHate:Show()
 		end
-	elseif args:IsSpellID(105784) then--It seems the cast ID was disabled on live, so now gotta do this the dumb way.
+	elseif args.spellId == 105784 then--It seems the cast ID was disabled on live, so now gotta do this the dumb way.
 		bladeCasts = bladeCasts + 1
 		if bladeCasts > 1 then return end
 		warnBladeDance:Show()
@@ -94,7 +93,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(105784) then
+	if args.spellId == 105784 then
 		if bladeCasts < 3 then return end
 		firstspecial = false
 		firstskewer = false
@@ -102,9 +101,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		bladeCasts = 0
 		timerBladeDance:Cancel()
 		timerFirstSpecial:Start()
-	elseif args:IsSpellID(104936) then
+	elseif args.spellId == 104936 then
 		timerSkewer:Cancel(args.destName)
-	elseif args:IsSpellID(105067) then
+	elseif args.spellId == 105067 then
 		timerSeethingHate:Cancel(args.destName)
 	end
 end

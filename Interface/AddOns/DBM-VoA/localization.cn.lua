@@ -41,16 +41,12 @@ L:SetGeneralLocalization{
 	name 				= "风暴看守者埃玛尔隆"
 }
 
-L:SetWarningLocalization{
-}
-
 L:SetTimerLocalization{
 	timerMobOvercharge		= "超载爆炸",
 	EmalonEnrage			= "埃玛尔隆狂暴"
 }
 
 L:SetOptionLocalization{
-	NovaSound			= "为$spell:65279播放音效",
 	timerMobOvercharge		= "为能量超载的小怪显示爆炸倒计时(debuff叠加)",
 	EmalonEnrage			= "为$spell:26662显示计时条",
 	RangeFrame			= "显示距离框 (10码)"
@@ -74,36 +70,10 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	PlaySoundOnCinder		= "当你中了$spell:67332时播放音效",
 	BurningFury			= "为$spell:66721显示警报",
 	KoralonEnrage			= "为$spell:26662显示计时条"
 }
 
 L:SetMiscLocalization{
-	Meteor				= "%s开始施放流星拳！"
-}
-
--------------------------------
---  Toravon the Ice Watcher  --
--------------------------------
-L = DBM:GetModLocalization("Toravon")
-
-L:SetGeneralLocalization{
-	name = "寒冰看守者图拉旺"
-}
-
-L:SetWarningLocalization{
-	Frostbite	= "冰霜撕咬：>%s< (%d)"
-}
-
-L:SetTimerLocalization{
-	ToravonEnrage	= "图拉旺狂暴"
-}
-
-L:SetOptionLocalization{
-	Frostbite	= "为$spell:72098显示警告",
-}
-
-L:SetMiscLocalization{
-	ToravonEnrage	= "为狂暴显示计时条"
+	Meteor				= "%s施放流星拳！"
 }

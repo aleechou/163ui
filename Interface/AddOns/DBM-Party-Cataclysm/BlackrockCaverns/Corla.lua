@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(106, "DBM-Party-Cataclysm", 1, 66)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(39679)
-mod:SetModelID(31546)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -36,10 +35,10 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(75823, 93462) then
+	if args.spellId == 75823 then
 		warnDarkCommand:Show(args.destName)
 		timerDarkCommand:Start(args.destName)
-	elseif args:IsSpellID(75697, 87378) and args:IsPlayer() then
+	elseif args.spellId == 75697 and args:IsPlayer() then
 		timerEvolution:Start()
 		if (args.amount or 1) >= 80 and self:AntiSpam(5) then
 			specWarnEvolution:Show(args.amount)
@@ -49,18 +48,18 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(75608) then
+	if args.spellId == 75608 then
 		warnAdd:Show()
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(75823, 93462) then
+	if args.spellId == 75823 then
 		warnDarkCommandCast:Show()
 		specWarnDarkCommand:Show(args.sourceName)
 		timerDarkCommandCast:Start()
 		timerDarkCommandCD:Start()
-	elseif args:IsSpellID(82362, 87374) then
+	elseif args.spellId == 82362 then
 		warnShadowStrike:Show()
 		specWarnShadowStrike:Show(args.sourceName)
 		if mod:IsDifficulty("heroic5") then
@@ -72,9 +71,9 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_INTERRUPT(args)
-	if type(args.extraSpellId) == "number" and (args.extraSpellId == 82362 or args.extraSpellId == 87374) then
+	if type(args.extraSpellId) == "number" and args.extraSpellId == 82362 then
 		timerShadowStrike:Cancel()
-	elseif type(args.extraSpellId) == "number" and (args.extraSpellId == 75823 or args.extraSpellId == 93462) then
+	elseif type(args.extraSpellId) == "number" and args.extraSpellId == 75823 then
 		timerDarkCommandCast:Cancel()
 	end
 end

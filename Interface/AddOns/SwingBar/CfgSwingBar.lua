@@ -1,10 +1,10 @@
-﻿U1RegisterAddon("SwingBar", {
+local class = UnitClass and select(2, UnitClass("PLAYER"))
+U1RegisterAddon("SwingBar", {
     title = "近战攻击条",
-    --defaultEnable = (class=="WARRIOR" or class=="PALADIN" or class=="DEATHKNIGHT" or class=="HUNTER" or class=='MONK') and 1 or 0,
-    defaultEnable = 0,
-	frames = {"SwingBar"},
+    defaultEnable = (class=="WARRIOR" or class=="PALADIN" or class=="DEATHKNIGHT" or class=="HUNTER" or class=='MONK') and 1 or 0,
+    frames = {"SwingBar"},
 
-    tags = { TAG_CLASS, TAG_WARRIOR, TAG_PALADIN, TAG_ROGUE, TAG_DEATHKNIGHT, TAG_DRUID, TAG_HUNTER, TAG_SHAMAN, TAG_MONK },
+    tags = { TAG_GOOD, TAG_CLASS, TAG_WARRIOR, TAG_PALADIN, TAG_ROGUE, TAG_DEATHKNIGHT, TAG_DRUID, TAG_HUNTER, TAG_SHAMAN, TAG_MONK, },
     icon = [[Interface\Icons\INV_AXE_25]],
     desc = "仅占用8K的近战攻击进度条，支持副手武器。默认位置在施法条上方，控制台中可锁定/解锁，及调整大小和材质。",
     --pics = 2, -- 一共多少张图片，都在图片Pics/插件名.tga里，高度128，宽度200。

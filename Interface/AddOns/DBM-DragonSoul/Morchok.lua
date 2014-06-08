@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(311, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7779 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55265)
-mod:SetModelID(39094)
 mod:SetModelSound("sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_EVENT_04.OGG", "sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_ORB_01.OGG")
 mod:SetZone()
 mod:SetUsedIcons()
@@ -66,7 +65,7 @@ function mod:OnCombatStart(delay)
 		timerVortexNext:Start(55-delay)
 	end
 	timerStomp:Start(-delay)
-	sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+	sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 	timerCrystal:Start(19-delay)
 end
 
@@ -86,7 +85,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(103846) and self:AntiSpam(3, 1) then
 		warnFurious:Show()
 	elseif args:IsSpellID(103541) and args:IsPlayer() and not safeSpam then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
 		safeSpam = true
 	end
 end
@@ -98,7 +97,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:GetSrcCreatureID() == 55265 then
 			if self.Options.OnlyMorchok then
 				timerStomp:Start(19)
-				sndWOP:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+				sndWOP:Schedule(16, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 				timerCrystal:Start(26)
 			end
 			timerVortexNext:Start()
@@ -108,37 +107,37 @@ function mod:SPELL_AURA_REMOVED(args)
 		else
 			if self.Options.OnlyKohcrom then
 				timerStompKohcrom:Start(25)
-				sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+				sndWOP:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 				timerCrystalKohcrom:Start(44)
 			end
 		end
 	elseif args:IsSpellID(103687) then
 		if self:IsTank() or self:IsHealer() then
 			if not bloodphase then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
 			end
 		end
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(103414, 108571, 109033, 109034) then
+	if args:IsSpellID(103414) then
 		if args:GetSrcCreatureID() == 55265 then
 			if self.Options.OnlyMorchok then
 				warnStomp:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompstart.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompstart.mp3")
 				if crystalCount < 3 then
 					timerStomp:Start()
-					sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+					sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 				end
 			end
 		else
 			if self.Options.OnlyKohcrom then
 				KohcromWarning:Show(args.sourceName, args.spellName)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompstart.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompstart.mp3")
 				if crystalCount < 3 then				
 					timerStompKohcrom:Start()
-					sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
+					sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stompsoon.mp3")
 				end
 			end
 		end
@@ -146,7 +145,7 @@ function mod:SPELL_CAST_START(args)
 		if args:GetSrcCreatureID() == 55265 then
 			warnBlood:Show()
 			timerBlood:Start()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
 		end
 	end
 end
@@ -158,11 +157,11 @@ function mod:SPELL_SUMMON(args)
 			if self.Options.OnlyMorchok then
 				warnCrystal:Show()
 				specwarnCrystal:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\crystalappear.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\crystalappear.mp3")
 				safeSpam = false
-				sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndWOP:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 				if crystalCount < 3 then
 					timerCrystal:Start()
 				end
@@ -171,11 +170,11 @@ function mod:SPELL_SUMMON(args)
 			if self.Options.OnlyKohcrom then		
 				KohcromWarning:Show(args.sourceName, args.spellName)
 				specwarnCrystal:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\crystalappear.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\crystalappear.mp3")
 				safeSpam = false
-				sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-				sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-				sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+				sndWOP:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+				sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+				sndWOP:Schedule(11, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 				if crystalCount < 3 then
 					timerCrystalKohcrom:Start()
 				end				
@@ -187,7 +186,7 @@ function mod:SPELL_SUMMON(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(103821, 110045, 110046, 110047) and self:AntiSpam(3, 1) then
+	if args:IsSpellID(103821) and self:AntiSpam(3, 1) then
 		bloodphase = true
 		crystalCount = 0
 		warnVortex:Show()
@@ -199,8 +198,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if (spellId == 103785 or spellId == 108570 or spellId == 110287 or spellId == 110288) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+	if spellId == 103785 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnBlood:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
