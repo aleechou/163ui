@@ -1,101 +1,120 @@
 local base_char,keywords=192,{"and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while",}; function prettify(code) return code:gsub("["..string.char(base_char).."-"..string.char(base_char+#keywords).."]", 
-  function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì t={
+  function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì e={
 verbose=Ç,
 info=Ç,
 errro=Ó,
 }
-Ì É e(...)
-Ê t.verbose Ò print("[verbose]",...)Æ
+Ì É t(...)
+Ê e.verbose Ò print("[verbose]",...)Æ
 Æ
 Ì É a(...)
-Ê t.info Ò print("[verbose]",...)Æ
+Ê e.info Ò print("[verbose]",...)Æ
 Æ
 Ì É a(...)
-Ê t.errro Ò print("[verbose]",...)Æ
+Ê e.errro Ò print("[verbose]",...)Æ
 Æ
-É cmd3dcode_main_showlog(a,e)
-Ê a==Í Ò a="verbose"Æ
-Ê e==Í Ò e=Ó Æ
-t[a]=e
+É cmd3dcode_main_showlog(t,a)
+Ê t==Í Ò t="verbose"Æ
+Ê a==Í Ò a=Ó Æ
+e[t]=a
 Æ
-Ì m="3dcodecmd$Yin2"
-Ì c="##########################\n"
+Ì e="3dcodecmd$Yin2"
+Ì e="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yin()"
-Ì f="3dcodecmd$Yang2"
-Ì u="##########################\n"
+Ì e="3dcodecmd$Yang2"
+Ì e="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yang()"
-Ì É d(t,o,a)
-Ê Î GetMacroBody(t)Ò
-CreateMacro(t,"INV_MISC_QUESTIONMARK",o,Í)
-e("create macro",t);
+Ì É e(e,o,a)
+Ê Î GetMacroBody(e)Ò
+CreateMacro(e,"INV_MISC_QUESTIONMARK",o,Í)
+t("create macro",e);
 Ä
-e("macro has already exists",t)
+t("macro has already exists",e)
 Æ
-SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,t)
+SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 Æ
-Ì a=0
-Ì s=Ç
-Ì t=GetNumAddOns()
 Ì i=0
+Ì n=Ç
+Ì e=GetNumAddOns()
+Ì a=0
 È e=1,GetNumAddOns()Ã
-Ì a,a,a,t,a,a,a=GetAddOnInfo(e)
+Ì o,o,o,t,o,o,o=GetAddOnInfo(e)
 Ê t Á Î IsAddOnLoadOnDemand(e)Ò
-i=i+1
+a=a+1
 Æ
 Æ
 Ì h=Ç
 Ì o=Ç
 Ì r=0
-Ì l=time()
-Ì t=CreateFrame("frame")
-Ì É n()
-o=Ó
-r=time()
-Ê Î s Ò
-threeDimensionsCodeFrames_create()
-s=Ó
-e("åˆ›å»º threeDimensionsCodeFrames_create()")
+Ì d=time()
+Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
+e:EnableKeyboard(Ó);
+e:SetPropagateKeyboardInput(Ó);
+e:SetFrameStrata("TOOLTIP")
+e:SetFrameLevel(128)
+e:SetScript("OnKeyDown",É(t,e,...)
+Ê IsControlKeyDown()Á IsAltKeyDown()Á(e=="PAGEUP"Ï e=="PAGEDOWN")Ò
+Ê e=="PAGEDOWN"Ò
+ThreeDimensionsCode_Savepipe_Yin()
+Å e=="PAGEUP"Ò
+ThreeDimensionsCode_Savepipe_Yang()
 Æ
-t:SetScript("OnEvent",null)
-Æ
-t:RegisterEvent("ADDON_LOADED")
-t:SetScript("OnEvent",É(h,s,t)
-Ê s=="ADDON_LOADED"Á t:sub(1,9)~="Blizzard_"Ò
-a=a+1
-Æ
-e(s,t,t:sub(1,9),a,i)
-Ê a>=i Á Î o Ò
-n()
+t:SetPropagateKeyboardInput(Ç)
+Ñ Ç
+Ä
+t:SetPropagateKeyboardInput(Ó)
 Æ
 Æ)
-t:SetScript("OnUpdate",É(a,a)
+Ì É s()
+o=Ó
+r=time()
+Ê Î n Ò
+threeDimensionsCodeFrames_create()
+n=Ó
+t("åˆ›å»º threeDimensionsCodeFrames_create()")
+Æ
+e:SetScript("OnEvent",null)
+Æ
+e:RegisterEvent("ADDON_LOADED")
+e:SetScript("OnEvent",É(h,n,e)
+Ê n=="ADDON_LOADED"Á e:sub(1,9)~="Blizzard_"Ò
+i=i+1
+Æ
+t(n,e,e:sub(1,9),i,a)
+Ê i>=a Á Î o Ò
+s()
+Æ
+Æ)
+e:SetScript("OnUpdate",É(a,a)
 Ê h Ò
-e("proccessed")
+t("proccessed")
 Ñ
 Æ
-Ê time()-l>=3 Á Î o Ò
-e("ç­‰å¾…æ‰€æœ‰æ’ä»¶åŠ è½½å®Œæˆè¶…æ—¶")
-n()
+Ê time()-d>=3 Á Î o Ò
+t("ç­‰å¾…æ‰€æœ‰æ’ä»¶åŠ è½½å®Œæˆè¶…æ—¶")
+s()
 Æ
 Ê Î o Ò
 Ñ
 Æ
 Ê UnitAffectingCombat("player")Ò
-e("in combat, wait over")
+t("in combat, wait over")
 Ñ
 Æ
 Ê time()-r>=0 Ò
-d(m,c,"ALT-CTRL-PAGEDOWN")
-d(f,u,"ALT-CTRL-PAGEUP")
+DeleteMacro("3dcodecmd$Yin")
+DeleteMacro("3dcodecmd$Yin2")
+DeleteMacro("3dcodecmd$Yang")
+DeleteMacro("3dcodecmd$Yang2")
 ThreeDimensionsCode_SignalLamp.desireWidth();
 h=Ó
-t:SetScript("OnUpdate",Í)
+e:SetScript("OnUpdate",Í)
 Æ
 Æ)
 É cmd3dcode_test()
@@ -110,8 +129,8 @@ ThreeDimensionsCode_Send("hi",t);
 print('make frames',GetTime()-e)
 Æ
 É ThreeDimensionsCode_IsFramesCreated()
-Ñ s
+Ñ n
 Æ
 É ThreeDimensionsCode_Tell_AllAddOnsLoaded()
-Ñ n()
+Ñ s()
 Æ]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()
