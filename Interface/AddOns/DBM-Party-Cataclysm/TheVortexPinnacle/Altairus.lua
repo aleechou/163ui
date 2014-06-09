@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(115, "DBM-Party-Cataclysm", 8, 68)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 5590 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(43873)
-mod:SetModelID(34265)
 mod:SetZone()
 mod:SetUsedIcons(8)
 
@@ -20,11 +19,14 @@ local warnDownwind		= mod:NewSpellAnnounce(88286, 4)
 
 local specWarnBreath	= mod:NewSpecialWarningYou(88308, false)
 local specWarnBreathNear= mod:NewSpecialWarningClose(88308)
+local specWarnDownwind	= mod:NewSpecialWarningMove(88286)
 
 local timerBreath		= mod:NewCastTimer(2, 88308)
 local timerBreathCD		= mod:NewCDTimer(12, 88308)
 
 mod:AddBoolOption("BreathIcon")
+
+local activeWind = ""
 
 function mod:BreathTarget()
 	local targetname = self:GetBossTarget(43873)
@@ -46,16 +48,23 @@ function mod:BreathTarget()
 	end
 end
 
+function mod:OnCombatStart(delay)
+	activeWind = ""
+end
+
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(88282) and args:IsPlayer() then
+	if args.spellId == 88282 and args:IsPlayer() and activeWind ~= "up" then
 		warnUpwind:Show()
-	elseif args:IsSpellID(88286) and args:IsPlayer() then
+		activeWind = "up"
+	elseif args.spellId == 88286 and args:IsPlayer() and activeWind ~= "down" then
 		warnDownwind:Show()
+		specWarnDownwind:Show()
+		activeWind = "down"
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(88308, 93989) then
+	if args.spellId == 88308 then
 		self:ScheduleMethod(0.2, "BreathTarget")
 		timerBreath:Start()
 		timerBreathCD:Start()

@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod("Garr", "DBM-Party-Cataclysm", 15)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 6520 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 71 $"):sub(12, -3))
 mod:SetCreatureID(50056)
 mod:SetModelID(37307)
-mod:SetZone(606, 683)--Hyjal (both versions of it)
+mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_CAST_SUCCESS"
 )
@@ -28,7 +28,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93508) then--Possibly use 93507 (Magma Shackles) EDIT: nope, they are resistable so they woudln't be reliable.
+	if args.spellId == 93508 then--Possibly use 93507 (Magma Shackles) EDIT: nope, they are resistable so they woudln't be reliable.
 		warnMassiveEruption:Show()
 		specWarnMassiveEruption:Show()
 		soundMassiveEruption:Play()
@@ -37,7 +37,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(93506) then--Possibly use 93507 (Magma Shackles) instead if it's always cast before eruption, for an earlier warning?
+	if args.spellId == 93506 then--Possibly use 93507 (Magma Shackles) instead if it's always cast before eruption, for an earlier warning?
 		warnAntiMagicPulse:Show()
 		timerAntiMagicPulseCD:Start()
 	end

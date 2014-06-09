@@ -57,7 +57,7 @@ L["Show minimap button"] = true
 L["Toggles showing the minimap button."] = true
 
 L["reports the active mode"] = true
-L["Skada report on %s for %s, %s to %s:"] = "Skada: %s for %s, %s - %s:"
+L["Skada: %s for %s:"] = "Skada: %s for %s:"
 L["Only keep boss fighs"] = "Only keep boss fights"
 L["Boss fights will be kept with this on, and non-boss fights are discarded."] = true
 L["Show raw threat"] = true
@@ -69,6 +69,8 @@ L["Reverse bar growth"] = "Reverse bar growth"
 L["Bars will grow up instead of down."] = "Bars will grow up instead of down."
 L["Number format"] = "Number format"
 L["Controls the way large numbers are displayed."] = "Controls the way large numbers are displayed."
+L["Set format"] = "Set format"
+L["Controls the way set names are displayed."] = "Controls the way set names are displayed."
 L["Reset on entering instance"] = "Reset on entering instance"
 L["Controls if data is reset when you enter an instance."] = "Controls if data is reset when you enter an instance."
 L["Reset on joining a group"] = "Reset on joining a group"
@@ -196,6 +198,9 @@ L["Absorb"] = "Absorb"
 L["Last fight"] = "Last fight"
 L["Disable while hidden"] = "Disable while hidden"
 L["Skada will not collect any data when automatically hidden."] = "Skada will not collect any data when automatically hidden."
+L["Data Collection"] = "Data Collection"
+L["ENABLED"] = "ENABLED"
+L["DISABLED"] = "DISABLED"
 
 L["Rename window"] = "Rename window"
 L["Enter the name for the window."] = "Enter the name for the window."

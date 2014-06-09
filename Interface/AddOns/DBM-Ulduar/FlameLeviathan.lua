@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod("FlameLeviathan", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4181 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 50 $"):sub(12, -3))
 
 mod:SetCreatureID(33113)
-
+mod:SetModelID(28875)
 mod:RegisterCombat("yell", L.YellPull)
+--mod:SetMinSyncRevision(4182)
+mod:SetMinSyncRevision(7)--Could break if someone is running out of date version with higher revision
 
 mod:RegisterEvents(
 	"SPELL_AURA_REMOVED",
@@ -23,16 +25,17 @@ local warnWardofLife		= mod:NewSpecialWarning("warnWardofLife")
 
 local timerSystemOverload	= mod:NewBuffActiveTimer(20, 62475)
 local timerFlameVents		= mod:NewCastTimer(10, 62396)
-local timerPursued			= mod:NewTargetTimer(30, 62374)
+local timerPursued			= mod:NewBuffFadesTimer(30, 62374)
 
 local sndWOP				= mod:NewSound(nil, "SoundWOP", true)
---local soundPursued = mod:NewSound(62374)
 
 local guids = {}
 local function buildGuidTable()
 	table.wipe(guids)
-	for i = 1, GetNumGroupMembers() do
-		guids[UnitGUID("raid"..i.."pet") or ""] = UnitName("raid"..i)
+	for uId in DBM:GetGroupMembers() do
+		local name, server = UnitName(uId)
+		local fullName = name .. (server and server ~= "" and ("-" .. server) or "")
+		guids[UnitGUID(uId.."pet") or "none"] = fullName
 	end
 end
 
@@ -41,38 +44,40 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(62907) then		-- Ward of Life spawned (Creature id: 34275)
+	if args.spellId == 62907 then		-- Ward of Life spawned (Creature id: 34275)
 		warnWardofLife:Show()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(62396) then		-- Flame Vents
+	if args.spellId == 62396 then		-- Flame Vents
 		timerFlameVents:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
-	elseif args:IsSpellID(62475) then	-- Systems Shutdown / Overload
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
+	elseif args.spellId == 62475 then	-- Systems Shutdown / Overload
 		timerSystemOverload:Start()
 		warnSystemOverload:Show()
-
-	elseif args:IsSpellID(62374) then	-- Pursued
-		local player = guids[args.destGUID]
+	elseif args.spellId == 62374 then	-- Pursued
+		local target = guids[args.destGUID]
 		warnNextPursueSoon:Schedule(25)
-		sndWOP:Schedule(25, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
-		timerPursued:Start(player)
-		pursueTargetWarn:Show(player)
-		if player == UnitName("player") then
-			pursueSpecWarn:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
-			--soundPursued:Play()
+		sndWOP:Schedule(25, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\targetsoon.mp3")
+		timerPursued:Start()
+		if target then
+			pursueTargetWarn:Show(target)
+			if target == UnitName("player") then
+				pursueSpecWarn:Show()
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
+			end
 		end
-	elseif args:IsSpellID(62297) then		-- Hodir's Fury (Person is frozen)
-		warnHodirsFury:Show(args.destName)
+	elseif args.spellId == 62297 then		-- Hodir's Fury (Person is frozen)
+		local target = guids[args.destGUID]
+		if target then
+			warnHodirsFury:Show(target)
+		end
 	end
-
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(62396) then
+	if args.spellId == 62396 then
 		timerFlameVents:Stop()
 	end
 end

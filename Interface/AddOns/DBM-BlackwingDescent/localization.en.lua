@@ -20,8 +20,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	SoundWOP = "Play Extra Warning Sound",
 	timerShadowConductorCast	= "Show timer for $spell:92048 cast",
-	timerArcaneLockout			= "Show timer for $spell:79710 spell lockout",	
-	
+	timerArcaneLockout			= "Show timer for $spell:79710 spell lockout",
 	timerArcaneBlowbackCast		= "Show timer for $spell:91879 cast",
 	timerNefAblity				= "Show timer for heroic ability buff cooldown",
 	SpecWarnActivated			= "Show special warning when new boss activated",
@@ -117,7 +116,7 @@ L:SetOptionLocalization({
 	WarnPhase			= "Show warning which phase is incoming",
 	TimerPhase			= "Show timer for next phase",
 	RangeFrame			= "Show range frame (6) during blue phase",
-	SetTextures			= "Automatically disable projected textures in dark phase\n(returns it to enabled upon leaving phase)",
+	SetTextures			= "Automatically disable projected textures in dark phase<br/>(returns it to enabled upon leaving phase)",
 	FlashFreezeIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(77699),
 	BitingChillIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(77760),
 	ConsumingFlamesIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(77786)
@@ -161,19 +160,19 @@ L:SetOptionLocalization({
 	NefTailSwipe			= "Show warning for Nefarian's $spell:77827",
 	OnyBreath				= "Show warning for Onyxia's $spell:77826",
 	NefBreath				= "Show warning for Nefarian's $spell:77826",
-	specWarnCinderMove		= "Show special warning to move away when you are affected by\n $spell:79339 (5s before explosion)",
-	warnShadowblazeSoon		= "Show pre-warning countdown for $spell:81031 (5s before)\n(Only after timer has been synced to first yell to ensure accuracy)",
-	specWarnShadowblazeSoon	= "Show pre-special warning for $spell:81031\n(5s prewarn at first, 1s prewarn after first yell sync to ensure accuracy)",
+	specWarnCinderMove		= "Show special warning to move away when you are affected by<br/> $spell:79339 (5s before explosion)",
+	warnShadowblazeSoon		= "Show pre-warning countdown for $spell:81031 (5s before)<br/>(Only after timer has been synced to first yell to ensure accuracy)",
+	specWarnShadowblazeSoon	= "Show pre-special warning for $spell:81031<br/>(5s prewarn at first, 1s prewarn after first yell sync to ensure accuracy)",
 	timerNefLanding			= "Show timer for when Nefarian lands",
 	OnySwipeTimer			= "Show timer for Onyxia's $spell:77827 cooldown",
 	NefSwipeTimer			= "Show timer for Nefarian's $spell:77827 cooldown",
 	OnyBreathTimer			= "Show timer for Onyxia's $spell:77826 cooldown",
 	NefBreathTimer			= "Show timer for Nefarian's $spell:77826 cooldown",
 	InfoFrame				= "Show info frame for $journal:3284",
-	SetWater				= "Automatically disable water collision on pull\n(returns it to enabled upon leaving combat)",
-	TankArrow				= "Show DBM arrow for Animated Bone Warrior kiter\n(designed for one kiter strategy)",--npc 41918
+	SetWater				= "Automatically disable water collision on pull<br/>(returns it to enabled upon leaving combat)",
+	TankArrow				= "Show DBM arrow for Animated Bone Warrior kiter<br/>(designed for one kiter strategy)",--npc 41918
 	SetIconOnCinder			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(79339),
-	RangeFrame				= "Show range frame (10) for $spell:79339\n(Shows everyone if you have debuff, only players with debuff if not)"
+	RangeFrame				= "Show range frame (10) for $spell:79339<br/>(Shows everyone if you have debuff, only players with debuff if not)"
 })
 
 L:SetMiscLocalization({

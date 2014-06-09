@@ -1,13 +1,13 @@
-local mod	= DBM:NewMod("Eck", "DBM-Party-WotLK", 5)
+local mod	= DBM:NewMod(595, "DBM-Party-WotLK", 5, 274)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2869 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(29932)
 --mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 )
 
 local enrageTimer	= mod:NewBerserkTimer(120)

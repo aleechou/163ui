@@ -9,7 +9,7 @@ L = DBM:GetModLocalization(156)
 
 L:SetOptionLocalization({
 	SoundWOP = "为重要技能播放额外的警告语音",
-	ShowDrakeHealth		= "显示已被释放的小龙血量\n(需要先开启首领血量)"
+	ShowDrakeHealth		= "显示已释放幼龙的生命值（需要开启首领生命值显示）"
 })
 
 ---------------------------
@@ -140,9 +140,9 @@ L:SetMiscLocalization({
 	HasAggro			= "获得仇恨"
 })
 
---------------------------
+-------------------------------------
 --  The Bastion of Twilight Trash  --
---------------------------
+-------------------------------------
 L = DBM:GetModLocalization("BoTrash")
 
 L:SetGeneralLocalization({

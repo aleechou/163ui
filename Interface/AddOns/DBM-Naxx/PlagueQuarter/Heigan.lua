@@ -1,14 +1,16 @@
 local mod	= DBM:NewMod("Heigan", "DBM-Naxx", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2248 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 21 $"):sub(12, -3))
 mod:SetCreatureID(15936)
-
+mod:SetModelID(16309)
 mod:RegisterCombat("combat")
 
 mod:EnableModel()
 
-mod:RegisterEvents()
+mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
+)
 
 local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 2, 46573)
 local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, 46573)
@@ -16,7 +18,7 @@ local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, 46573)
 local timerTeleport		= mod:NewTimer(90, "TimerTeleport", 46573)
 
 function mod:OnCombatStart(delay)
-	mod:BackInRoom(90 - delay)
+	self:BackInRoom(90 - delay)
 end
 
 function mod:DancePhase()
@@ -31,4 +33,11 @@ function mod:BackInRoom(time)
 	warnTeleportSoon:Schedule(time - 15, 15)
 	warnTeleportNow:Schedule(time)
 	self:ScheduleMethod(time, "DancePhase")
+end
+
+--Secondary pull trigger, so we can detect combat when he's pulled while already in combat (which is about 99% of time)
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Pull and not self:IsInCombat() then
+		DBM:StartCombat(self, 0)
+	end
 end

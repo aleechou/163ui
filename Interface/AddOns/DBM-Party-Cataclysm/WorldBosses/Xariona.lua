@@ -1,10 +1,10 @@
 local mod	= DBM:NewMod("Xariona", "DBM-Party-Cataclysm", 15)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7378 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 71 $"):sub(12, -3))
 mod:SetCreatureID(50061)
 mod:SetModelID(32229)
-mod:SetZone(640)--Deepholm
+mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -53,25 +53,25 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93556) then
+	if args.spellId == 93556 then
 		warnUnleashedMagic:Show()
 		specWarnUnleashedMagic:Show()
 		timerUnleashedMagicCD:Start()
-	elseif args:IsSpellID(93546) then
+	elseif args.spellId == 93546 then
 		self:ScheduleMethod(0.2, "FissureTarget")
 		timerTwilightFissureCD:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(93553) then
+	if args.spellId == 93553 then
 		warnTwilightZone:Show()
 		timerTwilightZoneCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(93551) then
+	if args.spellId == 93551 then
 		warnTwilightBuffet:Show(args.destName)
 		timerTwilightBuffet:Start(args.destName)
 		timerTwilightBuffetCD:Start()
@@ -79,7 +79,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(93551) then
+	if args.spellId == 93551 then
 		timerTwilightBuffet:Cancel(args.destName)
 	end
 end
@@ -102,9 +102,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName)
 		end
 	end
 end
---[[
-			"<7.8> [REGEN_DISABLED]  ++ > Regen Disabled : Entering combat! ++ > ", -- [11]
-			"<9.8> Xariona:Possible Target<Omegal>:target:Fury of the Twilight Flight::0:93554", -- [1]
-			"<39.9> Xariona:Possible Target<Omegal>:target:Fury of the Twilight Flight::0:93554", -- [7]
-			"<75.9> Xariona:Possible Target<Omegal>:target:Unleashed Magic::0:93556", -- [16]
---]]

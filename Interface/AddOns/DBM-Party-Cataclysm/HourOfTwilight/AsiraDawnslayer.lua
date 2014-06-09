@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(342, "DBM-Party-Cataclysm", 14, 186)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(54968)
-mod:SetModelID(38995)
-mod:SetMinSyncRevision(6780)
+mod:SetMinSyncRevision(19)--Could break if someone is running out of date version with higher revision
 mod:SetZone()
 
 mod:RegisterCombat("yell", L.Pull)
@@ -28,16 +27,16 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(103558) then
+	if args.spellId == 103558 then
 		warnSmokeBomb:Show()
 		timerSmokeBomb:Start()
-	elseif args:IsSpellID(103419) then
+	elseif args.spellId == 103419 then
 		warnBladeBarrier:Show()
 	end
 end
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(108374) and self:IsInCombat() then
+	if args.spellId == 108374 and self:IsInCombat() then
 		warnFireTotem:Show()
 		timerFireTotem:Start()
 	end

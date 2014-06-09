@@ -1,18 +1,18 @@
 local mod	= DBM:NewMod("Sartharion", "DBM-ChamberOfAspects", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4380 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 108 $"):sub(12, -3))
 mod:SetCreatureID(28860)
+mod:SetModelID(27035)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED",
 	"SPELL_DAMAGE",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"CHAT_MSG_MONSTER_EMOTE"
+	"RAID_BOSS_EMOTE"
 )
 
 local warnShadowFissure	    = mod:NewSpellAnnounce(59127)
@@ -25,7 +25,7 @@ local warnVesperonPortal	= mod:NewSpecialWarning("WarningVesperonPortal", false)
 local warnTenebronPortal	= mod:NewSpecialWarning("WarningTenebronPortal", false)
 local warnShadronPortal		= mod:NewSpecialWarning("WarningShadronPortal", false)
 
-mod:AddBoolOption("AnnounceFails", true, "announce")
+mod:AddBoolOption("AnnounceFails", false, "announce")
 
 local timerShadowFissure    = mod:NewCastTimer(5, 59128)--Cast timer until Void Blast. it's what happens when shadow fissure explodes.
 local timerWall             = mod:NewCDTimer(30, 43113)
@@ -33,10 +33,12 @@ local timerTenebron         = mod:NewTimer(30, "TimerTenebron", 61248)
 local timerShadron          = mod:NewTimer(80, "TimerShadron", 58105)
 local timerVesperon         = mod:NewTimer(120, "TimerVesperon", 61251)
 
-mod:AddBoolOption("PlaySoundOnFireWall")
+local soundFlameWall		= mod:NewSound(43113)
 
 local lastvoids = {}
 local lastfire = {}
+local GetSpellInfo, UnitDebuff = GetSpellInfo, UnitDebuff
+local tsort, tinsert, twipe = table.sort, table.insert, table.wipe
 
 local function isunitdebuffed(spellID)
 	local name = GetSpellInfo(spellID)
@@ -55,32 +57,24 @@ function mod:OnSync(event)
 	if event == "FireWall" then
 		timerWall:Start()
 		warnFireWall:Show()
-		
-		if self.Options.PlaySoundOnFireWall then
---			PlaySoundFile("Sound\\Spells\\PVPFlagTaken.wav")
-			PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.wav")
-		end
-
+		soundFlameWall:Play()
 	elseif event == "VesperonPortal" then
 		warnVesperonPortal:Show()
-
 	elseif event == "TenebronPortal" then
 		warnTenebronPortal:Show()
-
 	elseif event == "ShadronPortal" then
 		warnShadronPortal:Show()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-    if args:IsSpellID(57579, 59127) and self:IsInCombat() then
+    if args:IsSpellID(57579, 59127) then
         warnShadowFissure:Show()
         timerShadowFissure:Start()
     end
 end
 
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, mob)
-	if not self:IsInCombat() then return end
+function mod:RAID_BOSS_EMOTE(msg, mob)
 	if msg == L.Wall or msg:find(L.Wall) then
 		self:SendSync("FireWall")
 	elseif msg == L.Portal or msg:find(L.Portal) then
@@ -94,31 +88,29 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, mob)
 	end
 end
 
-mod.CHAT_MSG_MONSTER_EMOTE = mod.CHAT_MSG_RAID_BOSS_EMOTE
-
 function mod:CheckDrakes(delay)
-	if self.Options.HealthFrame then
+	if DBM.BossHealth:IsShown() then
 		DBM.BossHealth:Show(L.name)
 		DBM.BossHealth:AddBoss(28860, "Sartharion")
 	end
 	if isunitdebuffed(61248) then	-- Power of Tenebron
 		timerTenebron:Start(30 - delay)
 		warnTenebron:Schedule(25 - delay)
-		if self.Options.HealthFrame then
+		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:AddBoss(30452, "Tenebron")
 		end
 	end
 	if isunitdebuffed(58105) then	-- Power of Shadron
 		timerShadron:Start(75 - delay)
 		warnShadron:Schedule(70 - delay)
-		if self.Options.HealthFrame then
+		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:AddBoss(30451, "Shadron")
 		end
 	end
 	if isunitdebuffed(61251) then	-- Power of Vesperon
 		timerVesperon:Start(120 - delay)
 		warnVesperon:Schedule(115 - delay)
-		if self.Options.HealthFrame then
+		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:AddBoss(30449, "Vesperon")
 		end
 	end
@@ -128,8 +120,8 @@ function mod:OnCombatStart(delay)
 	self:ScheduleMethod(5, "CheckDrakes", delay)
 	timerWall:Start(-delay)
 
-	table.wipe(lastvoids)
-	table.wipe(lastfire)
+	twipe(lastvoids)
+	twipe(lastfire)
 end
 
 
@@ -147,37 +139,37 @@ function mod:OnCombatEnd(wipe)
 
 	local voids = ""
 	for k, v in pairs(lastvoids) do
-		table.insert(sortedFails, k)
+		tinsert(sortedFails, k)
 	end
-	table.sort(sortedFails, sortFails1)
+	tsort(sortedFails, sortFails1)
 	for i, v in ipairs(sortedFails) do
 		voids = voids.." "..v.."("..(lastvoids[v] or "")..")"
 	end
 	SendChatMessage(L.VoidZones:format(voids), "RAID")
-	table.wipe(sortedFails)
+	twipe(sortedFails)
 	
 	local fire = ""
 	for k, v in pairs(lastfire) do
-		table.insert(sortedFails, k)
+		tinsert(sortedFails, k)
 	end
-	table.sort(sortedFails, sortFails2)
+	tsort(sortedFails, sortFails2)
 	for i, v in ipairs(sortedFails) do
 		fire = fire.." "..v.."("..(lastfire[v] or "")..")"
 	end
 	SendChatMessage(L.FireWalls:format(fire), "RAID")
-	table.wipe(sortedFails)
+	twipe(sortedFails)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if self.Options.AnnounceFails and self.Options.Announce and args:IsSpellID(57491) and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(args.destName) ~= "none" and args.destName then
+	if self.Options.AnnounceFails and self.Options.Announce and args.spellId == 57491 and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(args.destName) ~= "none" and args.destName then
 		lastfire[args.destName] = (lastfire[args.destName] or 0) + 1
 		SendChatMessage(L.FireWallOn:format(args.destName), "RAID")
 	end
 end
 
-function mod:SPELL_DAMAGE(args)
-	if self.Options.AnnounceFails and self.Options.Announce and args:IsSpellID(59128) and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(args.destName) ~= "none" and args.destName then
-		lastvoids[args.destName] = (lastvoids[args.destName] or 0) + 1
-		SendChatMessage(L.VoidZoneOn:format(args.destName), "RAID")
+function mod:SPELL_DAMAGE(_, _, _, _, _, destName, _, _, spellId)
+	if self.Options.AnnounceFails and self.Options.Announce and spellId == 59128 and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(destName) ~= "none" and destName then
+		lastvoids[destName] = (lastvoids[destName] or 0) + 1
+		SendChatMessage(L.VoidZoneOn:format(destName), "RAID")
 	end	
 end

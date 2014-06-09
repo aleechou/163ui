@@ -1,8 +1,10 @@
 local mod	= DBM:NewMod("CrimsonHallTrash", "DBM-Icecrown", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4494 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 37 $"):sub(12, -3))
+mod:SetModelID(31037)
 mod:SetUsedIcons(1, 2)
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED",
@@ -19,6 +21,7 @@ local timerChainsofShadow	= mod:NewTargetTimer(10, 70645)
 
 mod:AddBoolOption("BloodMirrorIcon", false)
 mod:RemoveOption("HealthFrame")
+mod:RemoveOption("SpeedKillTimer")
 
 local BloodMirrorTargets = {}
 local BloodMirrorIcons = 2
@@ -30,7 +33,7 @@ local function warnBloodMirrorTargets()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(70451) and args:IsDestTypePlayer() then
+	if args.spellId == 70451 and args:IsDestTypePlayer() then
 		BloodMirrorTargets[#BloodMirrorTargets + 1] = args.destName
 		timerBloodMirror:Start(args.destName)
 		if self.Options.BloodMirrorIcon then
@@ -43,22 +46,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			self:Schedule(0.3, warnBloodMirrorTargets)
 		end
-	elseif args:IsSpellID(70432) then
+	elseif args.spellId == 70432 then
 		warnBloodSap:Show(args.destName)
 		timerBloodSap:Start(args.destName)
-	elseif args:IsSpellID(70645) and args:IsDestTypePlayer() then
+	elseif args.spellId == 70645 and args:IsDestTypePlayer() then
 		warnChainsofShadow:Show(args.destName)
 		timerChainsofShadow:Start(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(70451) then
+	if args.spellId == 70451 then
 		timerBloodMirror:Cancel(args.destName)
 		self:SetIcon(args.destName, 0)
-	elseif args:IsSpellID(70432) then
+	elseif args.spellId == 70432 then
 		timerBloodSap:Cancel(args.destName)
-	elseif args:IsSpellID(70645) then
+	elseif args.spellId == 70645 then
 		timerChainsofShadow:Cancel(args.destName)
 	end
 end

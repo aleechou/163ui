@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod("Valithria", "DBM-Icecrown", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4502 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 58 $"):sub(12, -3))
 mod:SetCreatureID(36789)
+mod:SetModelID(30318)
 mod:SetUsedIcons(8)
-mod:RegisterCombat("yell", L.YellPull)
+mod:RegisterCombat("yell", L.YellPull)--TODO, see if she fires IEEU
 mod:RegisterKill("yell", L.YellKill)
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED",
@@ -15,26 +16,26 @@ mod:RegisterEvents(
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_TARGET"
+	"UNIT_TARGET_UNFILTERED"
 )
 
-local warnCorrosion		= mod:NewAnnounce("WarnCorrosion", 2, 70751, false)
-local warnGutSpray		= mod:NewTargetAnnounce(71283, 3, nil, mod:IsTank() or mod:IsHealer())
-local warnManaVoid		= mod:NewSpellAnnounce(71741, 2, nil, mod:IsManaUser())
-local warnSupression	= mod:NewSpellAnnounce(70588, 3)
-local warnPortalSoon	= mod:NewSoonAnnounce(72483, 2, nil)
-local warnPortal		= mod:NewSpellAnnounce(72483, 3, nil)
-local warnPortalOpen	= mod:NewAnnounce("WarnPortalOpen", 4, 72483)
+local warnCorrosion			= mod:NewStackAnnounce(70751, 2, nil, false)
+local warnGutSpray			= mod:NewTargetAnnounce(70633, 3, nil, mod:IsTank() or mod:IsHealer())
+local warnManaVoid			= mod:NewSpellAnnounce(71179, 2, nil, mod:IsManaUser())
+local warnSupression		= mod:NewSpellAnnounce(70588, 3)
+local warnPortalSoon		= mod:NewSoonAnnounce(72483, 2, nil)
+local warnPortal			= mod:NewSpellAnnounce(72483, 3, nil)
+local warnPortalOpen		= mod:NewAnnounce("WarnPortalOpen", 4, 72483)
 
-local specWarnLayWaste	= mod:NewSpecialWarningSpell(71730)
-local specWarnManaVoid	= mod:NewSpecialWarningMove(71741)
+local specWarnLayWaste		= mod:NewSpecialWarningSpell(69325)
+local specWarnManaVoid		= mod:NewSpecialWarningMove(71179)
 
-local timerLayWaste		= mod:NewBuffActiveTimer(12, 69325)
-local timerNextPortal	= mod:NewCDTimer(46.5, 72483, nil)
-local timerPortalsOpen	= mod:NewTimer(10, "TimerPortalsOpen", 72483)
-local timerHealerBuff	= mod:NewBuffActiveTimer(40, 70873)
-local timerGutSpray		= mod:NewTargetTimer(12, 71283, nil, mod:IsTank() or mod:IsHealer())
-local timerCorrosion	= mod:NewTargetTimer(6, 70751, nil, false)
+local timerLayWaste			= mod:NewBuffActiveTimer(12, 69325)
+local timerNextPortal		= mod:NewCDTimer(46.5, 72483, nil)
+local timerPortalsOpen		= mod:NewTimer(10, "TimerPortalsOpen", 72483)
+local timerHealerBuff		= mod:NewBuffActiveTimer(40, 70873)
+local timerGutSpray			= mod:NewTargetTimer(12, 70633, nil, mod:IsTank() or mod:IsHealer())
+local timerCorrosion		= mod:NewTargetTimer(6, 70751, nil, false)
 local timerBlazingSkeleton	= mod:NewTimer(50, "TimerBlazingSkeleton", 17204)
 local timerAbom				= mod:NewTimer(50, "TimerAbom", 43392)--Experimental
 
@@ -45,7 +46,6 @@ local berserkTimer		= mod:NewBerserkTimer(420)
 mod:AddBoolOption("SetIconOnBlazingSkeleton", true)
 
 local GutSprayTargets = {}
-local spamSupression = 0
 local BlazingSkeletonTimer = 60
 local AbomSpawn = 0
 local AbomTimer = 60
@@ -57,10 +57,10 @@ local function warnGutSprayTargets()
 end
 
 function mod:StartBlazingSkeletonTimer()
-	sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
+	sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
 	timerBlazingSkeleton:Start(BlazingSkeletonTimer)
 	self:ScheduleMethod(BlazingSkeletonTimer, "StartBlazingSkeletonTimer")
-	sndWOP:Schedule(BlazingSkeletonTimer-4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
+	sndWOP:Schedule(BlazingSkeletonTimer-4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
 	if BlazingSkeletonTimer >= 10 then--Keep it from dropping below 5
 		BlazingSkeletonTimer = BlazingSkeletonTimer - 5
 	end
@@ -86,7 +86,7 @@ function mod:StartAbomTimer()
 end
 
 function mod:OnCombatStart(delay)
-	if mod:IsDifficulty("heroic10") or mod:IsDifficulty("heroic25") then
+	if self:IsDifficulty("heroic10", "heroic25") then
 		berserkTimer:Start(-delay)
 	end
 	timerNextPortal:Start()
@@ -99,14 +99,14 @@ function mod:OnCombatStart(delay)
 	self:ScheduleMethod(23-delay, "StartAbomTimer")--First abom is 23-25 seconds after combat start, cause of variation, it may cause slightly off timer rest of fight
 	timerBlazingSkeleton:Start(-delay)
 	timerAbom:Start(23-delay)
-	sndWOP:Schedule(46-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
+	sndWOP:Schedule(46-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\bonesoon.mp3")
 	table.wipe(GutSprayTargets)
 	blazingSkeleton = nil
 end
 
 function mod:Portals()
 	warnPortal:Show()
-	sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\indoorsoon.mp3")
+	sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\indoorsoon.mp3")
 	warnPortalOpen:Cancel()
 	timerPortalsOpen:Cancel()
 	warnPortalSoon:Cancel()
@@ -120,10 +120,10 @@ end
 
 function mod:TrySetTarget()
 	if DBM:GetRaidRank() >= 1 then
-		for i = 1, GetNumGroupMembers() do
-			if UnitGUID("raid"..i.."target") == blazingSkeleton then
+		for uId in DBM:GetGroupMembers() do
+			if UnitGUID(uId.."target") == blazingSkeleton then
 				blazingSkeleton = nil
-				SetRaidTarget("raid"..i.."target", 8)
+				SetRaidTarget(uId.."target", 8)
 			end
 			if not blazingSkeleton then
 				break
@@ -142,11 +142,10 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(71741) then--Mana Void
+	if args:IsSpellID(71179, 71741) then--Mana Void
 		warnManaVoid:Show()
-	elseif args:IsSpellID(70588) and GetTime() - spamSupression > 5 then--Supression
+	elseif args.spellId == 70588 and self:AntiSpam(5, 1) then--Supression
 		warnSupression:Show(args.destName)
-		spamSupression = GetTime()
 	end
 end
 
@@ -157,18 +156,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Unschedule(warnGutSprayTargets)
 		self:Schedule(0.3, warnGutSprayTargets)
 	elseif args:IsSpellID(70751, 71738, 72022, 72023) and args:IsDestTypePlayer() then--Corrosion
-		warnCorrosion:Show(args.spellName, args.destName, args.amount or 1)
+		warnCorrosion:Show(args.destName, args.amount or 1)
 		timerCorrosion:Start(args.destName)
 	elseif args:IsSpellID(69325, 71730) then--Lay Waste
 		specWarnLayWaste:Show()
 		timerLayWaste:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firebone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firebone.mp3")
 	elseif args:IsSpellID(70873, 71941) then	--Emerald Vigor/Twisted Nightmares (portal healers)
 		if args:IsPlayer() then
 			timerHealerBuff:Start()
-			sndWOP:Schedule(37, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(38, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(37, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(38, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(39, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	end
 end
@@ -183,37 +182,24 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-do 
-	local lastVoid = 0
-	function mod:SPELL_DAMAGE(args)
-		if args:IsSpellID(71086, 71743, 72029, 72030) and args:IsPlayer() and time() - lastVoid > 2 then		-- Mana Void
-			specWarnManaVoid:Show()
-			if mod:IsManaUser() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
-			end
-			lastVoid = time()
-		end
-	end
-
-	function mod:SPELL_MISSED(args)
-		if args:IsSpellID(71086, 71743, 72029, 72030) and args:IsPlayer() and time() - lastVoid > 2 then		-- Mana Void
-			specWarnManaVoid:Show()
-			if mod:IsManaUser() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
-			end
-			lastVoid = time()
+function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+	if (spellId == 71806 or spellId == 71743 or spellId == 72029 or spellId == 72030) and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then		-- Mana Void
+		specWarnManaVoid:Show()
+		if mod:IsManaUser() then
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	end
 end
+mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
-function mod:UNIT_TARGET()
+function mod:UNIT_TARGET_UNFILTERED()
 	if blazingSkeleton then
 		self:TrySetTarget()
 	end
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if (msg == L.YellPortals or msg:find(L.YellPortals)) and mod:LatencyCheck() then
+	if (msg == L.YellPortals or msg:find(L.YellPortals)) and self:LatencyCheck() then
 		self:SendSync("NightmarePortal")
 	end
 end

@@ -1,4 +1,6 @@
 ## Interface: 50400
+## X-BigfootType: 3
+## X-BigfootDesc: 可以监视预设的团队法术冷却，使你更好的了解团队状况
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFSpell Timers|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFSpell Timers|r
@@ -13,7 +15,8 @@
 ## Notes-koKR: 공격대 쿨다운 및 시전 바 생성 플러그인
 ## Notes-esES: Crea barras para cd largos o duracion de cds
 ## LoadOnDemand: 0
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## DefaultState: enabled
 ## Author: Nitram and Tandanu
 ## URL: http://www.deadlybossmods.com

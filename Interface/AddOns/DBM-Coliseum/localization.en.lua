@@ -21,7 +21,6 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarningSnobold				= "Show warning for Snobold Vassal spawns",
 	SpecialWarningImpale3		= "Show special warning for Impale (>=3 stacks)",
 	SpecialWarningAnger3		= "Show special warning for Rising Anger (>=3 stacks)",
@@ -85,7 +84,6 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	TimerCombatStart			= "Show time for start of combat",
 	WarnNetherPower				= "Show warning when Lord Jaraxxus gains Nether Power (to dispel/steal)",
 	SpecWarnTouch				= "Show special warning when you are affected by Touch of Jaraxxus",
@@ -96,7 +94,6 @@ L:SetOptionLocalization{
 	IncinerateFleshIcon			= "Set icons on Incinerate Flesh targets",
 	LegionFlameIcon				= "Set icons on Legion Flame targets",
 	LegionFlameWhisper			= "Send whisper to Legion Flame targets (requires Raid Leader)",
-	LegionFlameRunSound			= "Play sound on Legion Flame",
 	IncinerateShieldFrame		= "Show boss health with a health bar for Incinerate Flesh"
 }
 
@@ -157,8 +154,6 @@ L:SetMiscLocalization{
 } 
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	PlaySoundOnBladestorm	= "Play sound on Bladestorm"
 }
 
 ---------------------
@@ -191,7 +186,6 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	TimerSpecialSpell			= "Show timer for next special ability",
 	WarnSpecialSpellSoon		= "Show pre-warning for next special ability",
 	SpecWarnSpecial				= "Show special warning when you have to change color",
@@ -239,7 +233,6 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarnEmerge				= "Show warning for emerge",
 	WarnEmergeSoon			= "Show pre-warning for emerge",
 	WarnSubmerge			= "Show warning for submerge",
@@ -250,13 +243,10 @@ L:SetOptionLocalization{
 	timerAdds				= "Show timer for new adds",
 	TimerEmerge				= "Show timer for emerge",
 	TimerSubmerge			= "Show timer for submerge",
-	PlaySoundOnPursue		= "Play sound when you are being pursued",
-	PlaySoundOnShadowStrike		= "Play countdown voice before $spell:66134 (judge for yourself)",
 	PursueIcon				= "Set icons on pursued targets",
 	SpecWarnShadowStrike	= "Show special warning for $spell:66134 (to interrupt)",
-	RemoveHealthBuffsInP3	= "Remove HP buffs at start of Phase 3", 
-	SetIconsOnPCold         = "Set icons on $spell:68510 targets",
-	AnnouncePColdIcons		= "Announce icons for $spell:68510 targets to raid chat\n(requires announce to be enabled and leader/promoted status)",
-	AnnouncePColdIconsRemoved	= "Also announce when icons are removed for $spell:68510\n(requires above option)"
+	SetIconsOnPCold         = "Set icons on $spell:66013 targets",
+	AnnouncePColdIcons		= "Announce icons for $spell:66013 targets to raid chat<br/>(requires raid leader)",
+	AnnouncePColdIconsRemoved	= "Also announce when icons are removed for $spell:66013<br/>(requires above option)"
 }
 

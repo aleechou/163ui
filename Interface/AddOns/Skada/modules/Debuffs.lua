@@ -97,6 +97,23 @@ Skada:AddLoadableModule("Debuffs", function(Skada, L)
 		log_auraremove(Skada.total, aura)
 	end
 
+	-- handle weapon-procced self-buffs that show with a null source
+	-- 5/17 02:58:15.156 SPELL_AURA_APPLIED,0x0000000000000000,nil,0x4228,0x0,0x0180000005F37DDE,"Grimbit",0x511,0x0,104993,"Jade Spirit",0x2,BUFF
+	local function NullAura(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
+		if srcName == nil and #srcGUID == 0 and dstName and #dstGUID > 0 then
+			--print(eventtype, ...)
+			srcName = dstName
+			srcGUID = dstGUID
+			srcFlags = dstFlags
+
+			if eventtype == 'SPELL_AURA_APPLIED' then
+				AuraApplied(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
+			else
+				AuraRemoved(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
+			end
+		end
+	end
+
 	local function len(t)
 		local l = 0
 		for i,j in pairs(t) do
@@ -216,6 +233,10 @@ Skada:AddLoadableModule("Debuffs", function(Skada, L)
 
 		Skada:RegisterForCL(AuraApplied, 'SPELL_AURA_APPLIED', {src_is_interesting = true})
 		Skada:RegisterForCL(AuraRemoved, 'SPELL_AURA_REMOVED', {src_is_interesting = true})
+
+		-- ticket 307: some weapon-procced self buffs (eg Jade Spirit) have a null src
+		Skada:RegisterForCL(NullAura, 'SPELL_AURA_APPLIED', {dst_is_interesting_nopets = true, src_is_not_interesting = true})
+		Skada:RegisterForCL(NullAura, 'SPELL_AURA_REMOVED', {dst_is_interesting_nopets = true, src_is_not_interesting = true})
 
 		self:ScheduleRepeatingTimer("Tick", 1)
 

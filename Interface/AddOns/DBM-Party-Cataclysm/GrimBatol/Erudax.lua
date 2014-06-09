@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(134, "DBM-Party-Cataclysm", 3, 71)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(40484)
-mod:SetModelID(33428)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -39,14 +38,14 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(75861, 91079) then
+	if args.spellId == 75861 then
 		bindingCount = bindingCount + 1
 		bindingTargets[#bindingTargets + 1] = args.destName
 		self:Unschedule(showBindingWarning)
 		self:Schedule(0.3, showBindingWarning)
-	elseif args:IsSpellID(75792, 91092) then
+	elseif args.spellId == 75792 then
 		warnFeeble:Show(args.destName)
-		if mod:IsDifficulty("heroic5") then
+		if self:IsDifficulty("heroic5") then
 			timerFeeble:Start(5, args.destName)
 		else
 			timerFeeble:Start(args.destName)
@@ -55,7 +54,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(75861, 91079) then
+	if args.spellId == 75861 then
 		bindingCount = bindingCount - 1
 		if bindingCount == 0 then
 			timerBinding:Cancel()
@@ -64,11 +63,11 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(75664, 91086) then
+	if args.spellId == 75664 then
 		warnGale:Show()
 		timerGale:Start()
 		timerGaleCD:Start()
-	elseif args:IsSpellID(75763, 79467, 91026) then
+	elseif args:IsSpellID(75763, 79467) then
 		warnUmbralMending:Show()
 	end
 end

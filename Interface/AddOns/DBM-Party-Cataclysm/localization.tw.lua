@@ -18,7 +18,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	WarnAdd		= "當一隻小怪的$spell:75608消散時警告"
+	WarnAdd		= "當一隻小怪失去$spell:75608時警告"
 })
 
 -----------------------
@@ -64,10 +64,6 @@ L= DBM:GetModLocalization(90)
 -- Foe Reaper 5000 --
 ---------------------
 L= DBM:GetModLocalization(91)
-
-L:SetOptionLocalization{
-	HarvestIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88495)
-}
 
 ----------------------
 -- Admiral Ripsnarl --
@@ -136,7 +132,7 @@ L= DBM:GetModLocalization(124)
 L= DBM:GetModLocalization(125)
 
 L:SetMiscLocalization{
-	Kill		= "普塔...不再...存在..."
+	Kill	= "普塔...不再...存在..."
 }
 
 --------------
@@ -267,8 +263,8 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(99)
 
 L:SetWarningLocalization{
-	specWarnCoagulant	= "綠色混合 - 不斷移動!",
-	specWarnRedMix		= "紅色混合 - 不要移動!"
+	specWarnCoagulant	= "綠色混合 - 保持移動!",
+	specWarnRedMix		= "紅色混合 - 停止移動!"
 }
 
 L:SetOptionLocalization{
@@ -288,22 +284,22 @@ L= DBM:GetModLocalization(100)
 L= DBM:GetModLocalization(110)
 
 L:SetWarningLocalization({
-	WarnEmerge	= "鑽出地面",
+	WarnEmerge		= "鑽出地面",
 	WarnSubmerge	= "鑽進地裡"
 })
 
 L:SetTimerLocalization({
-	TimerEmerge	= "下一次 鑽出地面",
-	TimerSubmerge	= "下一次 鑽進地裡"
+	TimerEmerge		= "下一次鑽出地面",
+	TimerSubmerge	= "下一次鑽進地裡"
 })
 
 L:SetOptionLocalization({
-	WarnEmerge	= "為鑽出地面顯示警告",
+	WarnEmerge		= "為鑽出地面顯示警告",
 	WarnSubmerge	= "為鑽進地裡顯示警告",
-	TimerEmerge	= "為鑽出地面顯示計時器",
+	TimerEmerge		= "為鑽出地面顯示計時器",
 	TimerSubmerge	= "為鑽進地裡顯示計時器",
 	CrystalArrow	= "當你附近的人中了$spell:81634時顯示DBM箭頭",
-	RangeFrame	= "顯示距離框 (5碼)"
+	RangeFrame		= "顯示距離框 (5碼)"
 })
 
 --------------
@@ -314,7 +310,7 @@ L= DBM:GetModLocalization(111)
 L:SetWarningLocalization({
 	WarnAirphase			= "空中階段",
 	WarnGroundphase			= "地上階段",
-	specWarnCrystalStorm		= "水晶風暴 - 找掩護"
+	specWarnCrystalStorm	= "水晶風暴 - 找掩護"
 })
 
 L:SetTimerLocalization({
@@ -327,7 +323,7 @@ L:SetOptionLocalization({
 	WarnGroundphase			= "當岩革降落時顯示警告",
 	TimerAirphase			= "為下一次空中階段顯示計時器",
 	TimerGroundphase		= "為下一次地上階段顯示計時器",
-	specWarnCrystalStorm		= "為$spell:92265顯示特別警告"
+	specWarnCrystalStorm	= "為$spell:92265顯示特別警告"
 })
 
 -----------
@@ -355,10 +351,6 @@ L:SetMiscLocalization{
 -- Altairus --
 -------------- 
 L= DBM:GetModLocalization(115)
-
-L:SetOptionLocalization({
-	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
-})
 
 -----------
 -- Asaad --
@@ -400,7 +392,7 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	TimerPhase		= "為第二階段開始顯示計時器"
+	TimerPhase		= "為第二階段顯示計時器"
 }
 
 ----------------
@@ -411,10 +403,8 @@ L:SetOptionLocalization{
 L= DBM:GetModLocalization(186)
 
 L:SetOptionLocalization{
-	StormIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97300),
 	RangeFrame	= "顯示距離框",
-	StormArrow	= "為$spell:97300顯示BDM箭頭",
-	SetIconOnEagle	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97318)
+	StormArrow	= "為$spell:43648顯示BDM箭頭"
 }
 
 ---------------
@@ -424,9 +414,9 @@ L= DBM:GetModLocalization(187)
 
 L:SetWarningLocalization{
 	WarnBear		= "熊階段",
-	WarnBearSoon		= "5秒後 熊階段",
+	WarnBearSoon	= "5秒後 熊階段",
 	WarnNormal		= "普通階段",
-	WarnNormalSoon		= "5秒後 普通階段"
+	WarnNormalSoon	= "5秒後 普通階段"
 }
 
 L:SetTimerLocalization{
@@ -436,9 +426,9 @@ L:SetTimerLocalization{
 
 L:SetOptionLocalization{
 	WarnBear		= "為熊階段顯示警告",
-	WarnBearSoon		= "為熊階段顯示預先警告",
+	WarnBearSoon	= "為熊階段顯示預先警告",
 	WarnNormal		= "為普通階段顯示警告",
-	WarnNormalSoon		= "為熊階段顯示預先警告",
+	WarnNormalSoon	= "為熊階段顯示預先警告",
 	TimerBear		= "為熊階段顯示計時器",
 	TimerNormal		= "為普通階段顯示計時器",
 	InfoFrame		= "顯示中了$spell:42402的玩家的訊息框"
@@ -455,13 +445,9 @@ L:SetMiscLocalization{
 ---------------
 L= DBM:GetModLocalization(188)
 
-L:SetOptionLocalization{
-	FlameIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(43140)
-}
-
 L:SetMiscLocalization{
 	YellBomb	= "燒死你們!",
-	YellHatchAll	= "現在，讓我來告訴你們什麼叫數量優勢...",
+	YellHatchAll= "現在，讓我來告訴你們什麼叫數量優勢...",
 	YellAdds	= "雌鷹哪裡去啦?快去孵蛋!"
 }
 
@@ -513,9 +499,7 @@ L:SetTimerLocalization{
 
 L:SetOptionLocalization{
 	timerNextForm	= "顯示型態變化的計時器",
-	InfoFrame		= "顯示中了$spell:42402的玩家的訊息框",
-	ThrowIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97639),
-	ClawRageIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97672)
+	InfoFrame		= "顯示中了$spell:42402的玩家的訊息框"
 }
 
 L:SetMiscLocalization{
@@ -530,7 +514,6 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(175)
 
 L:SetOptionLocalization{
-	SetIconOnToxicLink	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(96477),
 	LinkArrow		= "當你中了$spell:96477顯顯示DBM箭頭"
 }
 
@@ -541,7 +524,7 @@ L= DBM:GetModLocalization(176)
 
 L:SetWarningLocalization{
 	WarnRevive		= "剩餘%d鬼魂",
-	SpecWarnOhgan		= "奧根蘇醒了!攻擊!"
+	SpecWarnOhgan	= "奧根蘇醒了!攻擊!"
 }
 
 L:SetOptionLocalization{
@@ -578,10 +561,6 @@ L= DBM:GetModLocalization(180)
 ----------------------------
 L= DBM:GetModLocalization(181)
 
-L:SetMiscLocalization{
-	WaveAgony	= "感受我的痛苦!"
-}
-
 ------------
 -- Zanzil --
 ------------
@@ -593,8 +572,7 @@ L:SetWarningLocalization{
 
 L:SetOptionLocalization{
 	SpecWarnToxic	= "為當你沒有$spell:96328顯示特別警告",
-	InfoFrame		= "為沒有$spell:96328的玩家顯示訊息框",
-	SetIconOnGaze	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(96342)
+	InfoFrame		= "為沒有$spell:96328的玩家顯示訊息框"
 }
 
 L:SetMiscLocalization{
@@ -607,12 +585,11 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(185)
 
 L:SetWarningLocalization{
-	WarnBarrierDown	= "哈卡之鏈的薄霧障壁破壞 - 剩餘%d/3"
+	WarnBarrierDown	= "哈卡之鏈的薄霧障壁破壞 - 剩下%d/3"
 }
 
 L:SetOptionLocalization{
-	WarnBarrierDown	= "提示當哈卡之鏈的薄霧障壁被破壞",
-	BodySlamIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(97198)
+	WarnBarrierDown	= "提示當哈卡之鏈的薄霧障壁被破壞"
 }
 
 L:SetMiscLocalization{
@@ -781,10 +758,6 @@ L = DBM:GetModLocalization("JulakDoom")
 
 L:SetGeneralLocalization{
 	name = "毀滅祖拉克"
-}
-
-L:SetOptionLocalization{
-	SetIconOnMC	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(93621)
 }
 
 -----------

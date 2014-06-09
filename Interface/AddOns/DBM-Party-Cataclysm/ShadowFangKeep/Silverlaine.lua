@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(97, "DBM-Party-Cataclysm", 6, 64)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(3887)
-mod:SetModelID(37288)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -27,7 +26,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(93956) then
+	if args.spellId == 93956 then
 		veilShadowCast = veilShadowCast + 1
 		if self:AntiSpam(4) then
 			warnVeilShadow:Show()
@@ -37,7 +36,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(93956) then
+	if args.spellId == 93956 then
 		veilShadowCast = veilShadowCast - 1
 		if veilShadowCast == 0 then
 			timerVeilShadow:Cancel()
@@ -46,7 +45,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(93857) then
+	if args.spellId == 93857 then
 		warnWorgenSpirit:Show()
 		timerWorgenSpirit:Start()
 	end

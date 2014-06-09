@@ -1,0 +1,20 @@
+﻿## Interface: 50400
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of the Four Winds|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0四風王座|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0风神王座|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
+## SavedVariablesPerCharacter: DBMThroneFourWinds_SavedVars, DBMThroneFourWinds_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: CATA
+## X-DBM-Mod-MapID: 754
+## X-DBM-Mod-Sort: 105
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+Conclave.lua
+AlAkir.lua

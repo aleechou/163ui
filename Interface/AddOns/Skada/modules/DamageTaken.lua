@@ -218,6 +218,7 @@ Skada:AddLoadableModule("DamageTaken", function(Skada, L)
 
 		local nr = 1
 		if player then
+			local max = 0
 			for spellname, spell in pairs(player.damagetakenspells) do
 
 				local d = win.dataset[nr] or {}
@@ -231,11 +232,12 @@ Skada:AddLoadableModule("DamageTaken", function(Skada, L)
 				d.spellid = spell.id
 				d.valuetext = Skada:FormatNumber(spell.damage)..(" (%02.1f%%)"):format(spell.damage / player.damagetaken * 100)
 
+				max = math.max(max, spell.damage)
 				nr = nr + 1
 			end
 
 			-- Sort the possibly changed bars.
-			win.metadata.maxvalue = player.damagetaken
+			win.metadata.maxvalue = max
 		end
 	end
 

@@ -43,4 +43,4 @@ Util.lua
 
 ## Title: |cff880303[网易有爱]|r 拍卖助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060401

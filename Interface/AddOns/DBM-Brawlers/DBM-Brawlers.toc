@@ -5,7 +5,8 @@
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0鬥陣俱樂部|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMBrawlers_SavedVars
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
@@ -17,8 +18,6 @@
 ## X-DBM-Mod-Sort: 35
 ## X-DBM-Mod-MapID: 369,1043
 ## X-DBM-Mod-ForceLoad-MapID: 369,1043
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.cn.lua
 localization.tw.lua

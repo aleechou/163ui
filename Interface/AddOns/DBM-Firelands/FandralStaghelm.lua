@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(197, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7654 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(52571)
-mod:SetModelID(37953)
 mod:SetZone()
 mod:SetUsedIcons(8)
 mod:SetModelSound("Sound\\Creature\\FandralFlameDruid\\VO_FL_FANDRAL_GATE_INTRO_01.wav", "Sound\\Creature\\FandralFlameDruid\\VO_FL_FANDRAL_KILL_05.wav")
@@ -106,7 +105,7 @@ function mod:LeapingFlamesTarget(targetname)
 	if targetname == UnitName("player") then
 		recentlyJumped = true--Anti Spam
 		specWarnLeapingFlamesCast:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		yellLeapingFlames:Yell()
 		self:Schedule(3, clearLeapWarned)--So you don't get move warning too from debuff.
 	else
@@ -121,7 +120,7 @@ function mod:LeapingFlamesTarget(targetname)
 			if inRange and inRange < 13 then
 				recentlyJumped = true--Anti Spam
 				specWarnLeapingFlamesNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 				if self.Options.LeapArrow then
 					DBM.Arrow:ShowRunAway(x, y, 12, 5)
 				end
@@ -174,9 +173,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		abilityCount = 0
 		timerNextSpecial:Cancel()
 		timerNextSpecial:Start(abilityTimers[abilityCount], leap, abilityCount+1)
-		sndWOP:Schedule(abilityTimers[abilityCount] - 3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(abilityTimers[abilityCount] - 2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(abilityTimers[abilityCount] - 1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if self.Options.RangeFrameCat then
 			DBM.RangeCheck:Show(10)
 		end
@@ -193,9 +192,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnAdrenaline:Show(args.destName, args.amount or 1)
 		if kitty then
 			timerNextSpecial:Start(abilityTimers[abilityCount] or 3.7, leap, abilityCount+1)
-			sndWOP:Schedule(abilityTimers[abilityCount] - 3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(abilityTimers[abilityCount] - 2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(abilityTimers[abilityCount] - 1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		else
 			timerNextSpecial:Start(abilityTimers[abilityCount] or 3.7, swipe, abilityCount+1)
 		end
@@ -203,16 +202,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFury:Show(args.destName, args.amount or 1)
 	elseif args:IsSpellID(98535, 100206, 100207, 100208) and args:IsPlayer() and not recentlyJumped then
 		specWarnLeapingFlames:Show()--You stood in the fire!
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	elseif args:IsSpellID(98450) and args:IsPlayer() then
 		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)--Find out what our specific seed timer is
 		specWarnSearingSeed:Schedule(expires - GetTime() - 3.5)	-- Show "move away" warning 5secs before explode
 --		soundSeed:Schedule(expires - GetTime() - 5)
-		sndWOP:Schedule(expires - GetTime() - 4.5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
-		sndWOP:Schedule(expires - GetTime() - 3, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(expires - GetTime() - 2, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(expires - GetTime() - 1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(expires - GetTime(), "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(expires - GetTime() - 4.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+		sndWOP:Schedule(expires - GetTime() - 3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+		sndWOP:Schedule(expires - GetTime() - 2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(expires - GetTime() - 1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(expires - GetTime(), "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerSearingSeed:Start(expires-GetTime())
 		if self.Options.RangeFrameSeeds then
 			DBM.RangeCheck:Show(12)
@@ -222,7 +221,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerOrb:Start()
 			if (args.amount or 1) >= 4 then
 				specWarnOrb:Show(args.amount)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\awayfireorb.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\awayfireorb.mp3")
 			end
 		end
 	end

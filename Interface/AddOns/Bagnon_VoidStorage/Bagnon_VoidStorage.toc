@@ -10,4 +10,4 @@ components\components.xml
 main.lua
 
 ## Title: |cff880303[网易有爱]|r 虚空银行整合
-## X-Vendor: NetEase## 163UI-Version: 2014060201
+## X-Vendor: NetEase## 163UI-Version: 2014060401

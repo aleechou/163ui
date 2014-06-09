@@ -140,6 +140,9 @@ a=a-DEBUFF_ACTUAL_DISPLAY
 Ì e,o,o,t=GetWeaponEnchantInfo()
 Ê e Ò a=a+1 Æ
 Ê t Ò a=a+1 Æ
+Ê ConsolidatedBuffs:IsVisible()Ò
+a=a+1
+Æ
 n("ShownBuffNumber()",a)
 Ñ a
 Æ

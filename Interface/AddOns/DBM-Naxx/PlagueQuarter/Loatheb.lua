@@ -1,17 +1,16 @@
 local mod	= DBM:NewMod("Loatheb", "DBM-Naxx", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4523 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 mod:SetCreatureID(16011)
-
-mod:RegisterCombat("combat")
+mod:SetModelID(16110)
+mod:RegisterCombat("combat")--Maybe change to a yell later so pull detection works if you chain pull him from tash gauntlet
 
 mod:EnableModel()
 
 mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS",
-	"SPELL_DAMAGE",
-	"SWING_DAMAGE"
+	"UNIT_DIED"
 )
 
 local warnSporeNow	= mod:NewSpellAnnounce(32329, 2)
@@ -20,19 +19,16 @@ local warnDoomNow	= mod:NewSpellAnnounce(29204, 3)
 local warnHealSoon	= mod:NewAnnounce("WarningHealSoon", 4, 48071)
 local warnHealNow	= mod:NewAnnounce("WarningHealNow", 1, 48071, false)
 
-
 local timerSpore	= mod:NewNextTimer(36, 32329)
 local timerDoom		= mod:NewNextTimer(180, 29204)
 local timerAura		= mod:NewBuffActiveTimer(17, 55593)
-
-mod:AddBoolOption("SporeDamageAlert", false)
 
 local doomCounter	= 0
 local sporeTimer	= 36
 
 function mod:OnCombatStart(delay)
 	doomCounter = 0
-	if mod:IsDifficulty("normal25") then
+	if self:IsDifficulty("normal25") then
 		sporeTimer = 18
 	else
 		sporeTimer = 36
@@ -43,11 +39,11 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(29234) then
+	if args.spellId == 29234 then
 		timerSpore:Start(sporeTimer)
 		warnSporeNow:Show()
 		warnSporeSoon:Schedule(sporeTimer - 5)
-	elseif args:IsSpellID(29204, 55052) then  -- Inevitable Doom
+	elseif args:IsSpellID(29204, 55052) then
 		doomCounter = doomCounter + 1
 		local timer = 30
 		if doomCounter >= 7 then
@@ -56,24 +52,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		warnDoomNow:Show(doomCounter)
 		timerDoom:Start(timer, doomCounter + 1)
-	elseif args:IsSpellID(55593) then
+	elseif args.spellId == 55593 then
 		timerAura:Start()
 		warnHealSoon:Schedule(14)
 		warnHealNow:Schedule(17)
 	end
 end
 
---Spore loser function. Credits to Forte guild and their old discontinued dbm plugins. Sad to see that guild disband, best of luck to them!
-function mod:SPELL_DAMAGE(args)
-	if self.Options.SporeDamageAlert and args.destName == "Spore" and args.spellId ~= 62124 and self:IsInCombat() then
-		SendChatMessage(args.sourceName..", You are damaging a Spore!!! ("..args.amount.." damage)", "RAID_WARNING")
-		SendChatMessage(args.sourceName..", You are damaging a Spore!!! ("..args.amount.." damage)", "WHISPER", nil, args.sourceName)
-	end
-end
-
-function mod:SWING_DAMAGE(args)
-	if self.Options.SporeDamageAlert and args.destName == "Spore" and self:IsInCombat() then
-		SendChatMessage(args.sourceName..", You are damaging a Spore!!! ("..args.amount.." damage)", "RAID_WARNING")
-		SendChatMessage(args.sourceName..", You are damaging a Spore!!! ("..args.amount.." damage)", "WHISPER", nil, args.sourceName)
+--because in all likelyhood, pull detection failed (cause 90s like to chargein there trash and all and pull it
+--We unschedule the pre warnings on death as a failsafe
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 16011 then
+		warnSporeSoon:Cancel()
+		warnHealSoon:Cancel()
+		warnHealNow:Cancel()
 	end
 end

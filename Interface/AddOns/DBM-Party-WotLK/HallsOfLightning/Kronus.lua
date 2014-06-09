@@ -1,22 +1,22 @@
-local mod	= DBM:NewMod("Kronus", "DBM-Party-WotLK", 6)
+local mod	= DBM:NewMod(600, "DBM-Party-WotLK", 6, 275)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2250 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(28923)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
+mod:RegisterEventsInCombat(
+	"SPELL_CAST_START"
+)
+
 local warningNova	= mod:NewSpellAnnounce(52960, 3)
 local timerNovaCD	= mod:NewCDTimer(30, 52960)
 local timerAchieve	= mod:NewAchievementTimer(120, 1867, "TimerSpeedKill") 
 
-mod:RegisterEvents(
-	"SPELL_CAST_START"
-)
-
 function mod:OnCombatStart(delay)
-	if mod:IsDifficulty("heroic5") then
+	if self:IsDifficulty("heroic5") then
 		timerAchieve:Start(-delay)
 	end
 end

@@ -5,7 +5,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0白虎寺试练场|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMProvingGroundsMoP_SavedVars, DBMProvingGroundsMoP_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: SCENARIO
@@ -16,8 +17,6 @@
 ## X-DBM-Mod-Name-zhCN: 白虎寺试练场
 ## X-DBM-Mod-Sort: 40
 ## X-DBM-Mod-MapID: 1148
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua

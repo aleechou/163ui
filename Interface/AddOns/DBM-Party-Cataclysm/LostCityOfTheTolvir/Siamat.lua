@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(122, "DBM-Party-Cataclysm", 5, 69)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(44819)
-mod:SetModelID(35231)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -40,17 +39,17 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(84982) then
+	if args.spellId == 84982 then
 		warnGatheredStorms:Show()
 		timerGatheredStorms:Start()
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(84522, 90016) then
+	if args.spellId == 84522 then
 		warnThunderCrash:Show()
 		timerThunderCrash:Start()
-	elseif args:IsSpellID(91872) then
+	elseif args.spellId == 91872 then
 		warnLightningCharge:Show()
 		if args.sourceGUID == thirdServant then--Third add to have spawned is dying and casting Lightning Charge
 			specWarnPhase2Soon:Show()
@@ -60,19 +59,19 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(84589) then
+	if args.spellId == 84589 then
 		warnDeflectingWinds:Show()
-	elseif args:IsSpellID(83066) then
+	elseif args.spellId == 83066 then
 		warnWailingWinds:Show()
 		timerWailingWinds:Start()
-	elseif args:IsSpellID(83151) then
+	elseif args.spellId == 83151 then
 		warnAbsorbStorms:Show()
 		timerAbsorbStorms:Start()
 	end
 end
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(84547, 84553, 84554, 90013, 90014) then
+	if args:IsSpellID(84547, 84553, 84554) then
 		warnStaticShock:Show()
 		servantSpawn = servantSpawn + 1
 		if servantSpawn == 3 then--Third add spawned

@@ -3,9 +3,8 @@ local L		= mod:GetLocalizedStrings()
 local Riplimb	= EJ_GetSectionInfo(2581)
 local Rageface	= EJ_GetSectionInfo(2583)
 
-mod:SetRevision(("$Revision: 7664 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(53691)
-mod:SetModelID(38448)
 mod:SetZone()
 mod:SetUsedIcons(6, 8) -- cross(7) is hard to see in redish environment?
 mod:SetModelSound("Sound\\Creature\\SHANNOX\\VO_FL_SHANNOX_SPAWN.wav", "Sound\\Creature\\SHANNOX\\VO_FL_SHANNOX_KILL_04.wav")
@@ -21,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_CAST_SUCCESS",
 	"SPELL_SUMMON",
-	"UNIT_HEALTH",
+	"UNIT_HEALTH boss1 boss2 boss3", -- probably needs just one (?)
 	"UNIT_DIED"
 )
 
@@ -82,7 +81,7 @@ function mod:ImmoTrapTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnImmTrap:Show()
 		yellImmoTrap:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -94,7 +93,7 @@ function mod:ImmoTrapTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnImmTrapNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 			end
 		end
 	end
@@ -105,7 +104,7 @@ function mod:CrystalTrapTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnCrystalTrap:Show()
 		yellCrystalTrap:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -117,7 +116,7 @@ function mod:CrystalTrapTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnCrystalTrapNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 			end
 		end
 	end
@@ -196,7 +195,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsDestTypePlayer() then
 			warnCrystalPrisonTrapped:Show(args.destName)
 			if not self:IsTank() and not self:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killcrystal.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killcrystal.mp3")
 			end
 		else--It's a trapped dog
 			timerCrystalPrison:Start(args.destName)--make a 10 second timer for how long dog is trapped.
@@ -231,14 +230,14 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(100002) then
 		warnSpear:Show()--Only valid until rip dies
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\spear.mp3")
-		sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\spear.mp3")
+		sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
 		specWarnSpear:Show()
 		timerSpearCD:Start()
 	elseif args:IsSpellID(99840) and ripLimbDead then	--This is cast after Riplimb dies.
 		warnMagmaRupture:Show()
 		timerMagmaRuptureCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\firecircle.mp3")
 	end
 end
 
@@ -247,7 +246,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFaceRage:Show(args.destName)
 		specWarnFaceRage:Show(args.destName)
 		if not self:IsTank() and not self:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killrageface.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\killrageface.mp3")
 		end
 		timerFaceRageCD:Start()
 		if self.Options.SetIconOnFaceRage then

@@ -1,0 +1,27 @@
+## Interface: 50400
+## SavedVariables: LearningAid_Saved
+## SavedVariablesPerCharacter: LearningAid_Character
+## Author: Jamash (Kil'jaeden-US)
+## Version: 1.11.2
+## X-Embeds: Ace3
+## X-Category: Interface Enhancements
+
+
+LearningAid.xml
+LearningAid.lua
+Debug.lua
+Events.lua
+SpellButton.lua
+Companion.lua
+Spell.lua
+ActionBar.lua
+Trainer.lua
+
+
+Locale\enUS.lua
+Locale\zhCN.lua
+Locale\zhTW.lua
+
+## Title: |cff880303[网易有爱]|r LearningAid
+## X-Vendor: NetEase
+## 163UI-Version: 2014060401

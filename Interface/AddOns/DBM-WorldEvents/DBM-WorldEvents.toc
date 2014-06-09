@@ -5,7 +5,8 @@
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0世界事件|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMWorldEvents_SavedVars, DBMWorldEvents_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
@@ -21,8 +22,6 @@
 ## X-DBM-Mod-ForceLoad-MapID: 974
 ## X-DBM-Mod-Sort: 50
 ## X-DBM-Mod-LoadCID: 55003,54499,15467,15466,49687
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua

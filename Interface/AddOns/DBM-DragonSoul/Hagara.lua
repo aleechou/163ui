@@ -1,12 +1,11 @@
 local mod	= DBM:NewMod(317, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7746 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55689)
-mod:SetModelID(39318)
 mod:SetModelSound("sound\\CREATURE\\HAGARA\\VO_DS_HAGARA_INTRO_01.OGG", "sound\\CREATURE\\HAGARA\\VO_DS_HAGARA_CRYSTALDEAD_05.OGG")
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
+mod:SetUsedIcons(3, 4, 5, 6, 7, 8)
 
 mod:RegisterCombat("combat")
 
@@ -70,8 +69,8 @@ local firstPhase = true
 local iceFired = false
 local assaultCount = 0
 local pillarsRemaining = 4
-local currentPillar = "Unknown"--Temp arg, just to prevent nil error if announce happens but you missed getting an assigned value (ie you disconnect and reconnect and came back mid frost/lightning phase)
-local Hagara = EJ_GetEncounterInfo(317)
+local frostPillar = EJ_GetSectionInfo(4069)
+local lightningPillar = EJ_GetSectionInfo(3919)
 local lanceIcon = 6
 local frostflakeIcon = 8
 local dispelIcon = 1
@@ -89,7 +88,7 @@ function mod:ShatteredIceTarget()
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerShatteringCD:Start(15)
 		if self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shattericesoon.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.mp3")
 		end
 	else
 		timerShatteringCD:Start()
@@ -117,7 +116,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	self:UnregisterShortTermEvents()
 	if self.Options.SetBubbles and not GetCVarBool("chatBubbles") and CVAR then--Only turn them back on if they are off now, but were on when we pulled
 		SetCVar("chatBubbles", 1)
 		CVAR = false
@@ -155,18 +153,16 @@ do
 		return DBM:GetRaidSubgroup(DBM:GetUnitFullName(v1)) < DBM:GetRaidSubgroup(DBM:GetUnitFullName(v2))
 	end
 	function mod:SetTombIcons()
-		if DBM:GetRaidRank() > 0 then
-			table.sort(tombIconTargets, sort_by_group)
-			local tombIcons = 1
-			for i, v in ipairs(tombIconTargets) do
-				if self.Options.AnnounceFrostTombIcons and UnitIsGroupLeader() then
-					SendChatMessage(L.TombIconSet:format(tombIcons, DBM:GetUnitFullName(v)), "RAID")
-				end
-				self:SetIcon(v, tombIcons)
-				tombIcons = tombIcons + 1
+		table.sort(tombIconTargets, sort_by_group)
+		local tombIcons = 1
+		for i, v in ipairs(tombIconTargets) do
+			if self.Options.AnnounceFrostTombIcons and DBM:GetRaidRank() > 0 then
+				SendChatMessage(L.TombIconSet:format(tombIcons, DBM:GetUnitFullName(v)), "RAID")
 			end
-			self:Schedule(8, ClearTombTargets)
+			self:SetIcon(v, tombIcons)
+			tombIcons = tombIcons + 1
 		end
+		self:Schedule(8, ClearTombTargets)
 	end
 end
 
@@ -174,16 +170,11 @@ local function warnTombTargets()
 	warnFrostTomb:Show(table.concat(tombTargets, "<, >"))
 	specWarnFrostTombCast:Show()
 	if not mod:IsHealer() then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killicetomb.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\killicetomb.mp3")
 	end
 	table.wipe(tombTargets)
 end
 
-local function registerYell()
-	mod:RegisterShortTermEvents(
-		"CHAT_MSG_MONSTER_YELL"--We register on hide, because it also fires just before hide, every time and don't want to trigger "hide over" at same time as hide.
-	)
-end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(105297) then
 		lanceTargets[#lanceTargets + 1] = args.sourceName
@@ -206,7 +197,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args:IsSpellID(109557, 109541) then
 		warnStormPillars:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stormpillar.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\stormpillar.mp3")
 	end
 end	
 
@@ -230,18 +221,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			self:Schedule(0.3, warnTombTargets)
 		end
-	elseif args:IsSpellID(107851, 110898, 110899, 110900) then
+	elseif args:IsSpellID(107851) then
 		assaultCount = assaultCount + 1
 		warnAssault:Show(assaultCount)
 		specWarnAssault:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\focusattack.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..GetLocale().."\\focusattack.mp3")
 		if (firstPhase and assaultCount < 2) or (not firstPhase and assaultCount < 3) then
 			timerAssaultCD:Start(nil, assaultCount+1)
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.mp3")
+			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.mp3")
 		end
 	elseif args:IsSpellID(110317) then
 		if args:IsPlayer() then
@@ -252,7 +243,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if UnitDebuff(args.destName, GetSpellInfo(109325)) then
 			if self:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\dispelnow.mp3")
 			end
 			if self.Options.SetIconOnFrostflake then
 				self:SetIcon(args.destName, dispelIcon)
@@ -273,18 +264,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnFrostflake:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\frostflake.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\frostflake.mp3")
 			yellFrostflake:Yell()
 		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED_DOSE(args)
-	if args:IsSpellID(107062, 107063) and args:IsPlayer() and self:IsDifficulty("heroic10", "heroic25") then
+	if args:IsSpellID(105316) and args:IsPlayer() and self:IsDifficulty("heroic10", "heroic25") then
 		if (args.amount or 0) == 3 or (args.amount or 0) == 5 or (args.amount or 0) == 7 or (args.amount or 0) == 9 then
 			specWarnIceLance:Show(args.amount or 1)
 			if not igotlance then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\awayline.mp3")
+				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\awayline.mp3")
 			else
 				SendChatMessage(L.YellIceLance, "SAY")
 			end
@@ -295,7 +286,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(104451) and self.Options.SetIconOnFrostTomb then
 		self:SetIcon(args.destName, 0)
-	elseif args:IsSpellID(105256, 109552, 109553, 109554) then
+	elseif args:IsSpellID(105256) then
 		if self.Options.SetBubbles and GetCVarBool("chatBubbles") then
 			SetCVar("chatBubbles", 0)
 			CVAR = true
@@ -304,13 +295,13 @@ function mod:SPELL_AURA_REMOVED(args)
 			SetCVar("chatBubblesParty", 0)
 			CVAR2 = true
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shieldoff.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\shieldoff.mp3")
 		timerIceLanceCD:Start(12)
 		timerFeedback:Start()
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerShatteringCD:Start(20)
 			if self:IsHealer() then
-				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shattericesoon.mp3")
+				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.mp3")
 			end
 		else
 			timerShatteringCD:Start(17)		
@@ -323,9 +314,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		assaultCount = 0
 		timerAssaultCD:Start(nil, 1)
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.mp3")
+			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.mp3")
 		end
 		timerLightningStormCD:Start()
 	elseif args:IsSpellID(105311) then--Frost defeated.
@@ -334,7 +325,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args:IsSpellID(105482) then--Lighting defeated.
 		pillarsRemaining = pillarsRemaining - 1
 		warnPillars:Show(lightningPillar, pillarsRemaining)
-	elseif args:IsSpellID(105409, 109560, 109561, 109562) then
+	elseif args:IsSpellID(105409) then
 		if self.Options.SetBubbles and GetCVarBool("chatBubbles") then
 			SetCVar("chatBubbles", 0)
 			CVAR = true
@@ -343,13 +334,13 @@ function mod:SPELL_AURA_REMOVED(args)
 			SetCVar("chatBubblesParty", 0)
 			CVAR2 = true
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shieldoff.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\shieldoff.mp3")
 		timerIceLanceCD:Start(12)
 		timerFeedback:Start()
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerShatteringCD:Start(20)
 			if self:IsHealer() then
-				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shattericesoon.mp3")
+				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.mp3")
 			end
 		else
 			timerShatteringCD:Start(17)		
@@ -362,9 +353,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		assaultCount = 0
 		timerAssaultCD:Start(nil, 1)
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.mp3")
+			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.mp3")
 		end
 		timerTempestCD:Start()
 		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
@@ -375,7 +366,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
+			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\safenow.mp3")
 		end
 	end
 end
@@ -383,9 +374,9 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(104448) then
 		warnFrostTombCast:Show(args.spellName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\icetombsoon.mp3")
+		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\icetombsoon.mp3")
 		timerFrostTomb:Start()
-	elseif args:IsSpellID(105256, 109552, 109553, 109554) then
+	elseif args:IsSpellID(105256) then
 		if self.Options.SetBubbles and not GetCVarBool("chatBubbles") and CVAR then--Only turn them back on if they are off now, but were on when we pulled
 			SetCVar("chatBubbles", 1)
 			CVAR = false
@@ -395,22 +386,20 @@ function mod:SPELL_CAST_START(args)
 			CVAR2 = false
 		end
 		pillarsRemaining = 4
-		currentPillar = EJ_GetSectionInfo(4069)
 		timerAssaultCD:Cancel()
 		timerIceLanceCD:Cancel()
 		timerShatteringCD:Cancel()
 		if self:IsHealer() and self:IsDifficulty("heroic10", "heroic25") then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shattericesoon.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.mp3")
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countone.mp3")
 		end
 		warnTempest:Show()
 		specWarnTempest:Show()
-		self:Schedule(1, registerYell) -- delay 1 sec to ignore phase start yell.
-	elseif args:IsSpellID(105409, 109560, 109561, 109562) then
+	elseif args:IsSpellID(105409) then
 		if self.Options.SetBubbles and not GetCVarBool("chatBubbles") and CVAR then--Only turn them back on if they are off now, but were on when we pulled
 			SetCVar("chatBubbles", 1)
 			CVAR = false
@@ -424,35 +413,23 @@ function mod:SPELL_CAST_START(args)
 		else
 			pillarsRemaining = 4
 		end
-		currentPillar = EJ_GetSectionInfo(3919)
 		timerAssaultCD:Cancel()
 		timerIceLanceCD:Cancel()
 		timerShatteringCD:Cancel()
 		if self:IsHealer() and self:IsDifficulty("heroic10", "heroic25") then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shattericesoon.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.mp3")
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countone.mp3")
 		end
 		warnLightningStorm:Show()
 		specWarnLightingStorm:Show()
 		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 			DBM.RangeCheck:Show(10)
 		end
-		self:Schedule(1, registerYell) -- delay 1 sec to ignore phase start yell.
-	elseif args:IsSpellID(105289, 108567, 110887, 110888) then
+	elseif args:IsSpellID(105289) then
 		self:ScheduleMethod(0.2, "ShatteredIceTarget")
-	end
-end
---Faster way to get remaining count then cast triggers that are like 5 seconds too slow.
-function mod:CHAT_MSG_MONSTER_YELL(msg, boss)
-	if boss == Hagara then
-		pillarsRemaining = pillarsRemaining - 1
-		warnPillars:Show(currentPillar, pillarsRemaining)
-		if pillarsRemaining == 0 then
-			self:UnregisterShortTermEvents()
-		end
 	end
 end

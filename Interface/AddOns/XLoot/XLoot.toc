@@ -15,7 +15,7 @@
 ## OptionalDeps: Ace3, LibStub, ButtonFacade, Masque, Pawn
 
 #@no-lib-strip@
-Libs\Embeds.xml
+
 #@end-no-lib-strip@
 
 localization.lua
@@ -27,7 +27,9 @@ helpers.lua
 
 XLoot_Options\load.xml
 XLoot_Frame\load.xml
+XLoot_Master\load.xml
+
 
 ## Title: |cff880303[网易有爱]|r 拾取框增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052903
+## 163UI-Version: 2014060701

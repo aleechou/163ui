@@ -29,6 +29,7 @@ JPACK_IGNORE_BAGS = {
 -- this is my order
 JPACK_ORDER = {
 	'炉石',
+	"旅店老板的女儿",
 	'协同披风',
 	'协和披风',
 	'协作披风',

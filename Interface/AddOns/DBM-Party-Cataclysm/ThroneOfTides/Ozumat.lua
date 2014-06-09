@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod(104, "DBM-Party-Cataclysm", 9, 65)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7776 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(40792)--42172 is Ozumat, but we need Neptulon for engage trigger.
-mod:SetModelID(35100)--32911Looks like crap, definitely doesn't scale well. so just use one of his tenticles instead
+--mod:SetModelID(35100)--32911Looks like crap, definitely doesn't scale well. so just use one of his tenticles instead
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -31,17 +31,17 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(83463) and not warnedPhase2 then
+	if args.spellId == 83463 and not warnedPhase2 then
 		warnPhase2:Show(2)
 		warnedPhase2 = true
-	elseif args:IsSpellID(76133) and not warnedPhase3 then
+	elseif args.spellId == 76133 and not warnedPhase3 then
 		warnPhase3:Show(3)
 		warnedPhase3 = true
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(83985, 83986, 91511) then
+	if args:IsSpellID(83985, 83986) then
 		warnBlightSpray:Show()
 		timerBlightSpray:Start()
 	end

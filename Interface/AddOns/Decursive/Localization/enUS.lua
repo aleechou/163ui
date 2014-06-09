@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.3) add-on for World of Warcraft UI
+    Decursive (v 2.7.3.1) add-on for World of Warcraft UI
     Copyright (C) 2006-2007-2008-2009-2010-2011-2012 John Wellesz (archarodim AT
     teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
@@ -21,7 +21,7 @@
     Decursive is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY.
 
-    This file was last updated on 2012-11-19T01:19:56Z
+    This file was last updated on 2013-08-16T21:23:40Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -108,8 +108,8 @@ L["CLASS_HUNTER"] = "Hunter"
 L["CLEAR_PRIO"] = "C"
 L["CLEAR_SKIP"] = "C"
 L["COLORALERT"] = "Set the color alert when a '%s' is required."
-L["COLORCHRONOS"] = "Chronometers"
-L["COLORCHRONOS_DESC"] = "Set the chronometers' color"
+L["COLORCHRONOS"] = "Center counter"
+L["COLORCHRONOS_DESC"] = "Set the Center counter' color"
 L["COLORSTATUS"] = "Set the color for the '%s' MUF status."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "Scan and cure pets"
@@ -160,7 +160,6 @@ He was in life as he was in game, selfless, generous, dedicated to his friends a
 He left us at the age of 38 leaving behind him not just anonymous players in a virtual world but, a group of true friends who will miss him forever.]=]
 L["GLOR5"] = "He will always be remembered..."
 L["HANDLEHELP"] = "Drag all the Micro-UnitFrames (MUFs)"
-L["HIDE_LIVELIST"] = "Hide the live-list"
 L["HIDE_MAIN"] = "Hide Decursive Window"
 L["HIDESHOW_BUTTONS"] = "Hide/Show buttons and Lock/Unlock the \"Decursive\" bar"
 L["HLP_LEFTCLICK"] = "Left-Click"
@@ -205,7 +204,7 @@ L["OPT_ADDDEBUFF_USAGE"] = "<Affliction name>"
 L["OPT_ADVDISP"] = "Advance display Options"
 L["OPT_ADVDISP_DESC"] = "Allow to set Transparency of the border and center separately, to set the space between each MUF"
 L["OPT_AFFLICTEDBYSKIPPED"] = "%s afflicted by %s will be skipped"
-L["OPT_ALLOWMACROEDIT"] = "Allow macro edition"
+L["OPT_ALLOWMACROEDIT"] = "Allow macro editing"
 L["OPT_ALLOWMACROEDIT_DESC"] = "Enable this to prevent Decursive from updating its macro, letting you edit it as you want."
 L["OPT_ALWAYSIGNORE"] = "Also ignore when not in combat"
 L["OPT_ALWAYSIGNORE_DESC"] = "If checked, this affliction will also be ignored when you are not in combat"
@@ -216,6 +215,17 @@ L["OPT_AUTOHIDEMFS_DESC"] = "Choose when to automatically hide the MUFs' window.
 L["OPT_BLACKLENTGH_DESC"] = "Defines how long someone stays on the blacklist"
 L["OPT_BORDERTRANSP"] = "Border transparency"
 L["OPT_BORDERTRANSP_DESC"] = "Set the transparency of the border"
+L["OPT_CENTERTEXT"] = "Center counter:"
+L["OPT_CENTERTEXT_DESC"] = [=[Displays information about the topmost (according to your priorities) affliction in each MUF's center.
+
+Either:
+- Time remaining before natural expiry
+- Time elapsed since the affliction hit
+- Number of stacks]=]
+L["OPT_CENTERTEXT_DISABLED"] = "Disabled"
+L["OPT_CENTERTEXT_ELAPSED"] = "Time elapsed"
+L["OPT_CENTERTEXT_STACKS"] = "Number of stacks"
+L["OPT_CENTERTEXT_TIMELEFT"] = "Time left"
 L["OPT_CENTERTRANSP"] = "Center transparency"
 L["OPT_CENTERTRANSP_DESC"] = "Set the transparency of the center"
 L["OPT_CHARMEDCHECK_DESC"] = "If checked you'll be able to see and deal with charmed units"
@@ -241,10 +251,13 @@ The green numbers represent the priority associated to each affliction type. Thi
 (To change the priorities, uncheck all the check boxes and then check them in order of the priority you want.)]=]
 L["OPT_CURINGORDEROPTIONS"] = "Affliction types and priorities"
 L["OPT_CURSECHECK_DESC"] = "If checked you'll be able to see and cure cursed units"
-L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "Allow macro editing (for advanced users only)"
-L["OPT_CUSTOM_SPELL_ALLOW_EDITING_DESC"] = [=[Check this if you want to edit the internal macro Decursive will use for your custom spell.
+L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "Allow internal macro editing for the above spell"
+L["OPT_CUSTOM_SPELL_ALLOW_EDITING_DESC"] = [=[Check this if you want to edit the internal macro Decursive will use for the custom spell being added.
 
 Note: Checking this allows you to modify spells managed by Decursive.
+
+If a spell is already listed you'll need to remove it first to enable macro editing.
+
 (---For advanced users only---)]=]
 L["OPT_CUSTOM_SPELL_CURE_TYPES"] = "Affliction types"
 L["OPT_CUSTOM_SPELL_IS_DEFAULT"] = "This spell is part of Decursive's automatic configuration. If this spell is no longer working correctly, you can remove or disable it to regain default Decursive behaviour."
@@ -291,11 +304,14 @@ L["OPT_ENABLE_A_CUSTOM_SPELL"] = "Enable"
 L["OPT_ENABLEDEBUG"] = "Enable Debugging"
 L["OPT_ENABLEDEBUG_DESC"] = "Enable Debugging output"
 L["OPT_ENABLEDECURSIVE"] = "Enable Decursive"
+L["OPT_ENABLE_LIVELIST"] = "Enable the live-list"
+L["OPT_ENABLE_LIVELIST_DESC"] = [=[Displays an informative list of afflicted people.
+
+You can move this list by moving the Decursive bar (type /DCRSHOW to display that bar).]=]
 L["OPT_FILTEROUTCLASSES_FOR_X"] = "%q will be ignored on the specified classes while you are in combat."
 L["OPT_GENERAL"] = "General options"
 L["OPT_GROWDIRECTION"] = "Reverse MUFs Display"
 L["OPT_GROWDIRECTION_DESC"] = "The MUFs will be displayed from bottom to top"
-L["OPT_HIDELIVELIST_DESC"] = "If not hidden, displays an informative list of cursed people"
 L["OPT_HIDEMFS_GROUP"] = "in solo or in party"
 L["OPT_HIDEMFS_GROUP_DESC"] = "Hide the MUF's window when you are not in a raid."
 L["OPT_HIDEMFS_NEVER"] = "Never auto-hide"
@@ -328,7 +344,7 @@ L["OPT_MACROBIND_DESC"] = [=[Defines the key on which the 'Decursive' macro will
 
 Press the key and hit your 'Enter' keyboard key to save the new assignment (with your mouse cursor over the edit field)]=]
 L["OPT_MACROOPTIONS"] = "Macro options"
-L["OPT_MACROOPTIONS_DESC"] = "Set the behaviour of the macro created by Decursive"
+L["OPT_MACROOPTIONS_DESC"] = "Set the behaviour of the 'mouseover' macro created by Decursive"
 L["OPT_MAGICCHARMEDCHECK_DESC"] = "If checked you'll be able to see and cure magic-charmed units"
 L["OPT_MAGICCHECK_DESC"] = "If checked you'll be able to see and cure magic afflicted units"
 L["OPT_MAXMFS"] = "Max units shown"
@@ -397,10 +413,6 @@ L["OPT_REVERSE_LIVELIST_DESC"] = "The live-list fills itself from bottom to top"
 L["OPT_SCANLENGTH_DESC"] = "Defines the time between each scan"
 L["OPT_SHOWBORDER"] = "Show the class-colored borders"
 L["OPT_SHOWBORDER_DESC"] = "A colored border will be displayed around the MUFs representing the unit's class"
-L["OPT_SHOWCHRONO"] = "Show chronometers"
-L["OPT_SHOWCHRONO_DESC"] = "The number of seconds elapsed since a unit has been afflicted is displayed"
-L["OPT_SHOWCHRONOTIMElEFT"] = "Time left"
-L["OPT_SHOWCHRONOTIMElEFT_DESC"] = "Display time left instead of time elapsed."
 L["OPT_SHOWHELP"] = "Show help"
 L["OPT_SHOWHELP_DESC"] = "Shows an detailed tooltip when you mouse-over a micro-unit-frame"
 L["OPT_SHOWMFS"] = "Show the Micro Units Frame"
@@ -475,4 +487,4 @@ L["UNSTABLERELEASE"] = "Unstable release"
 
 
 
-T._LoadedFiles["enUS.lua"] = "2.7.3";
+T._LoadedFiles["enUS.lua"] = "2.7.3.1";

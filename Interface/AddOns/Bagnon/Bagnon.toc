@@ -1,11 +1,12 @@
 ## Interface: 50400
 ## Title: Bagnon
 ## Author: Tuller & Jaliborc (João Cardoso)
-## Notes: 简约风格的背包整合
+## Notes: Single window displays for your inventory and bank
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
+
+## OptionalDeps: BagBrother, ItemRack, Wardrobe, WoWUnit
 ## Version: 5.4.15
-## OptionalDeps: LibStub, Ace3, BagBrother, ItemRack, Wardrobe, WoWUnit
 
 libs\libs.xml
 localization\localization.xml
@@ -20,4 +21,4 @@ components\components.xml
 
 ## Title: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014060401

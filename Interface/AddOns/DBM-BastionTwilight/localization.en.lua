@@ -7,7 +7,7 @@ L = DBM:GetModLocalization(156)
 
 L:SetOptionLocalization({
 	SoundWOP = "Play Extra Warning Sound",
-	ShowDrakeHealth		= "Show the health of released drakes\n(Requires Boss Health enabled)"
+	ShowDrakeHealth		= "Show the health of released drakes<br/>(Requires Boss Health enabled)"
 })
 
 ---------------------------
@@ -52,7 +52,7 @@ L:SetOptionLocalization({
 	SpecWarnSearingWinds	= "Show special warning when you are missing $spell:83500 debuff\n(~10sec before cast)",
 	timerTransition			= "Show Phase transition timer",
 	RangeFrame				= "Show range frame automatically when needed",
-	yellScrewed				= "Yell when you have $spell:83099 & $spell:92307 at same time",
+	yellScrewed				= "Yell when you have $spell:83099 &amp; $spell:92307 at same time",
 	InfoFrame				= "Show info frame for players without $spell:83581 or $spell:83500",
 	HeartIceIcon			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(82665),
 	BurningBloodIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(82660),
@@ -117,17 +117,17 @@ L:SetOptionLocalization({
 	SoundPAL2 = "Play Warning Sound when the first $spell:89421 player need $spell:6940 during even turn",
 	SoundMAura = "Play Warning Sound for $spell:31821 when the third $spell:90125 is coming",
 	WarnFlameBreath		= "Show warning for $spell:90125",
-	WarnOrbSoon			= "Show pre-warning for Orbs (Before 5s, Every 1s)\n(Expected warning. may not be accurate. Can be spammy.)",
+	WarnOrbSoon			= "Show pre-warning for Orbs (Before 5s, Every 1s)<br/>(Expected warning. may not be accurate. Can be spammy.)",
 	warnWrackJump		= "Announce $spell:89421 jump targets",
 	warnAggro			= "Announce players who have Aggro when Orbs spawn (Can be target of Orbs)",
-	SpecWarnAggroOnYou	= "Show special warning if you have Aggro when Orbs spawn\n(Can be target of Orbs)",
+	SpecWarnAggroOnYou	= "Show special warning if you have Aggro when Orbs spawn<br/>(Can be target of Orbs)",
 	SpecWarnOrbs		= "Show special warning when Orbs spawn (Expected warning)",
 	SpecWarnDispel		= "Show special warning to dispel $spell:89421\n(after certain time elapsed from casted/jumped)",
 	TimerFlameBreath			= "Show timer for $spell:90125",
 	TimerEggWeakening	= "Show timer for when $spell:87654 dissipates",
 	TimerEggWeaken		= "Show timer for $spell:87654 regeneration",
 	TimerOrbs			= "Show timer for next Orbs (Expected timer. may not be accurate)",
-	SetIconOnOrbs		= "Set icons on players who have Aggro when Orbs spawn\n(Can be target of Orbs)",
+	SetIconOnOrbs		= "Set icons on players who have Aggro when Orbs spawn<br/>(Can be target of Orbs)",
 	OrbsCountdown		= "Play countdown sound for Orbs",
 	InfoFrame			= "Show info frame for players who have aggro"
 })
@@ -138,9 +138,9 @@ L:SetMiscLocalization({
 	HasAggro			= "Has Aggro"
 })
 
---------------------------
+-------------------------------------
 --  The Bastion of Twilight Trash  --
---------------------------
+-------------------------------------
 L = DBM:GetModLocalization("BoTrash")
 
 L:SetGeneralLocalization({

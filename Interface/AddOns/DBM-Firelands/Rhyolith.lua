@@ -1,11 +1,9 @@
 local mod	= DBM:NewMod(193, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7654 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(52558)--or does 53772 die instead?didn't actually varify this fires right unit_died event yet so we'll see tonight
-mod:SetModelID(38414)
 mod:SetZone()
-mod:SetUsedIcons()
 mod:SetModelSound("Sound\\Creature\\RHYOLITH\\VO_FL_RHYOLITH_AGGRO.wav", "Sound\\Creature\\RHYOLITH\\VO_FL_RHYOLITH_KILL_02.wav")
 --Long: Blah blah blah Nuisances, Nuisances :)
 --Short: So Soft
@@ -21,7 +19,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
 	"SPELL_SUMMON",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1"
 )
 
 local warnHeatedVolcano		= mod:NewSpellAnnounce(98493, 3)
@@ -55,7 +53,7 @@ local addcount = 0
 
 function mod:OnCombatStart(delay)
 	timerFragmentCD:Start(-delay)
-	sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
+	sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
 	timerHeatedVolcano:Start(30-delay)
 	timerFlameStomp:Start(16-delay)--Actually found an old log, maybe this is right.
 	if self:IsDifficulty("heroic10", "heroic25") then
@@ -82,8 +80,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		timerSparkCD:Cancel()
 		timerFragmentCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sparksoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sparksoon.mp3")
 		timerHeatedVolcano:Cancel()
 	end
 end
@@ -104,7 +102,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(97282, 100411, 100968, 100969) then
 		warnFlameStomp:Show()
 		specWarnFlameStomp:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\firestomp.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\firestomp.mp3")
 		if not phase2Started then
 			timerFlameStomp:Start()
 		else--13sec cd in phase 2
@@ -116,7 +114,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(98493) then
 		warnHeatedVolcano:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\volcano.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\volcano.mp3")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerHeatedVolcano:Start()
 		else
@@ -126,18 +124,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnMagmaFlow:Show()
 		specWarnMagmaFlow:Show()
 		timerMagmaFlowActive:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fireline.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fireline.mp3")
 		if not phase2Started then
-			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(9, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(8, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(9, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 100974 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -148,21 +146,21 @@ function mod:SPELL_SUMMON(args)
 		warnFragments:Show()
 		if fragmentCount < 2 then
 			timerFragmentCD:Start()
-			sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
+			sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
 		else--Spark is next start other CD bar and reset count.
 			fragmentCount = 0
 			timerSparkCD:Start(22.5, sparkCount+1)
-			sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sparksoon.mp3")
+			sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sparksoon.mp3")
 		end		
 		addcount = addcount + 1
 		if self:IsDifficulty("heroic10", "heroic25") and addcount == 10 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
 		end
 	elseif args:IsSpellID(98552) then
 		sparkCount = sparkCount + 1
 		warnShard:Show(sparkCount)
 		timerFragmentCD:Start()
-		sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
+		sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fragsoon.mp3")
 		addcount = addcount + 1
 	end
 end

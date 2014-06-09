@@ -1,13 +1,12 @@
 local mod	= DBM:NewMod(332, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7599 $"):sub(12, -3))
-mod:SetCreatureID(56598)
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
+mod:SetCreatureID(56598)--56427 is Boss, but engage trigger needs the ship which is 56598
 mod:SetMainBossID(56427)
-mod:SetModelID(39399)
 mod:SetModelSound("sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_INTRO_01.OGG", "sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_SLAY_01.OGG")
 mod:SetZone()
-mod:SetUsedIcons(7, 8)
+mod:SetUsedIcons()
 
 mod:RegisterCombat("combat")
 mod:SetMinCombatTime(20)
@@ -24,7 +23,7 @@ mod:RegisterEventsInCombat(
 	"RAID_BOSS_EMOTE",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED"
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 local warnDrakesLeft				= mod:NewAddsLeftAnnounce("ej4192", 2, 61248)
@@ -92,10 +91,10 @@ local function Phase2Delay()
 	mod:UnscheduleMethod("AddsRepeat")
 	timerSapperCD:Cancel()
 	timerRoarCD:Start(10)
-	sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\roarsoon.mp3")
+	sndWOP:Schedule(8, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\roarsoon.mp3")
 	timerTwilightFlamesCD:Start(12)
 	timerShockwaveCD:Start(13)
-	sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\wavesoon.mp3")
+	sndWOP:Schedule(10, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\wavesoon.mp3")
 	if mod:IsDifficulty("heroic10", "heroic25") then
 		timerConsumingShroud:Start(45)
 	end
@@ -116,11 +115,11 @@ function mod:ShockwaveTarget()
 	end	
 	if targetname == UnitName("player") then
 		specWarnShockwave:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		yellShockwave:Yell()
 	else
 		specWarnShockwaveOther:Show(targetname)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\watchwave.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\watchwave.mp3")
 	end
 end
 
@@ -151,7 +150,7 @@ function mod:OnCombatStart(delay)
 		timerSapperCD:Start(69-delay)
 	end
 	timerTwilightOnslaughtCD:Start(48-delay, 1)
-	sndWOP:Schedule(44-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
+	sndWOP:Schedule(44-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerBroadsideCD:Start(57-delay)
 	end
@@ -179,25 +178,25 @@ function mod:SPELL_CAST_START(args)
 		specWarnTwilightOnslaught:Show()
 		timerTwilightOnslaught:Start()
 		if twilightOnslaughtCount == 1 and self.Options.holditslaught1 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 		elseif twilightOnslaughtCount == 2 and self.Options.holditslaught2 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 		elseif twilightOnslaughtCount == 3 and self.Options.holditslaught3 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 		elseif twilightOnslaughtCount == 4 and self.Options.holditslaught4 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 		elseif twilightOnslaughtCount == 5 and self.Options.holditslaught5 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\holdit.mp3")
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stackpurple.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stackpurple.mp3")
 		end
 		timerTwilightOnslaughtCD:Start(35, twilightOnslaughtCount+1)
-		sndWOP:Schedule(31, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
+		sndWOP:Schedule(31, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
 	elseif args:IsSpellID(108046) then
 		self:ScheduleMethod(0.2, "ShockwaveTarget")
 		timerShockwaveCD:Start()
-		sndWOP:Schedule(20, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\wavesoon.mp3")
-	elseif args:IsSpellID(110212, 110213) then
+		sndWOP:Schedule(20, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\wavesoon.mp3")
+	elseif args:IsSpellID(110212) then
 		warnTwilightBreath:Show()
 		specWarnTwilightBreath:Show()
 		timerTwilightBreath:Start()
@@ -208,10 +207,10 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(108044, 109228, 109229, 109230) then
+	if args:IsSpellID(108044) then
 		warnRoar:Show()
 		timerRoarCD:Start()
-		sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\roarsoon.mp3")
+		sndWOP:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\roarsoon.mp3")
 	end
 end
 
@@ -235,19 +234,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args:IsSpellID(108040) and not phase2Started then
 		timerTwilightOnslaughtCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\purplecirclesoon.mp3")
 		timerBroadsideCD:Cancel()
 		self:Schedule(10, Phase2Delay)
 		phase2Started = true
 		warnPhase2:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")
 		timerCombatStart:Start(8)
 		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:AddBoss(56427, L.name)
 		end
-	elseif args:IsSpellID(110214, 110598) then
+	elseif args:IsSpellID(110214) then
 		warnConsumingShroud:Show(args.destName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shroud.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\shroud.mp3")
 		timerConsumingShroud:Start()
 		if self.Options.SetIconOnConsumingShroud then
 			self:SetIcon(args.destName, 7)
@@ -259,7 +258,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(108043) then
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\changemt.mp3")
 		end
 	elseif args:IsSpellID(110214) then
 		if self.Options.SetIconOnConsumingShroud then
@@ -269,19 +268,19 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(108051, 109216, 109217, 109218) then
+	if args:IsSpellID(108051) then
 		warnTwilightFlames:Show()
 		timerTwilightFlamesCD:Start()
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if (spellId == 108076 or spellId == 109222 or spellId == 109223 or spellId == 109224) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+	if spellId == 108076 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnTwilightFlames:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	elseif spellId == 110095 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnDeckFire:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -292,7 +291,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 		if not phase2Started then
 			timerSapperCD:Start()
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\goblinappear.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\goblinappear.mp3")
 	elseif msg == L.DeckFire or msg:find(L.DeckFire) then
 		specWarnDeckFireCast:Show()
 	elseif msg == L.Broadside or msg:find(L.Broadside) then

@@ -2,17 +2,17 @@
 local mod	= DBM:NewMod("Thaddius", "DBM-Naxx", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4534 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 47 $"):sub(12, -3))
 mod:SetCreatureID(15928)
-
+mod:SetModelID(16137)
 mod:RegisterCombat("yell", L.Yell)
 
 mod:EnableModel()
 
 mod:RegisterEvents(
 	"SPELL_CAST_START",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"UNIT_AURA"
+	"RAID_BOSS_EMOTE",
+	"UNIT_AURA player"
 )
 
 local warnShiftSoon			= mod:NewPreWarnAnnounce(28089, 5, 3)
@@ -52,7 +52,7 @@ end
 
 local lastShift = 0
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(28089) then
+	if args.spellId == 28089 then
 		phase2 = true
 		timerNextShift:Start()
 		timerShiftCast:Start()
@@ -62,7 +62,7 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-function mod:UNIT_AURA(elapsed)
+function mod:UNIT_AURA()
 	if not phase2 or (GetTime() - lastShift) > 5 or (GetTime() - lastShift) < 3 then return end
 	local charge
 	local i = 1
@@ -104,7 +104,7 @@ function mod:UNIT_AURA(elapsed)
 	end
 end
 
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Emote or msg == L.Emote2 then
 		down = down + 1
 		if down >= 2 then

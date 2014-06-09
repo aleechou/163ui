@@ -5,7 +5,8 @@
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0魔古山宝库|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
 ## SavedVariablesPerCharacter: DBMMogushanVaults_SavedVars, DBMMogushanVaults_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -16,8 +17,6 @@
 ## X-DBM-Mod-Name-zhCN: 魔古山宝库
 ## X-DBM-Mod-Sort: 5
 ## X-DBM-Mod-MapID: 1008
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 localization.en.lua
 localization.tw.lua
 localization.cn.lua

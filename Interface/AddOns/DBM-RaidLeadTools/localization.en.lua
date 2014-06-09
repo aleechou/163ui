@@ -10,4 +10,4 @@ L.Warning_NoLootMaster			= "Lootmaster is currently disabled! - Please enable Lo
 
 L.StickyIcons					= "Always set Raidicons back to as they where on Combatstart"
 
-L['Raidlead Tools'] = 'Raidlead Tools'
+

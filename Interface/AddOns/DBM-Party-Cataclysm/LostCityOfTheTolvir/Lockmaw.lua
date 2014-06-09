@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(118, "DBM-Party-Cataclysm", 5, 69)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(43614)
-mod:SetModelID(33438)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -50,15 +49,15 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(81690, 89998) then
+	if args.spellId == 81690 then
 		warnScentBlood:Show(args.destName)
 		timerScentBlood:Start(args.destName)
-	elseif args:IsSpellID(81630, 90004) then
+	elseif args.spellId == 81630 then
 		poisonCount = poisonCount + 1
 		poisonTargets[#poisonTargets + 1] = args.destName
 		self:Unschedule(showPoisonWarning)
 		self:Schedule(0.3, showPoisonWarning)
-	elseif args:IsSpellID(81706) then
+	elseif args.spellId == 81706 then
 		warnEnrage:Show()
 	end
 end
@@ -66,9 +65,9 @@ end
 mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(81690, 89998) then
+	if args.spellId == 81690 then
 		timerScentBlood:Cancel(args.destName)
-	elseif args:IsSpellID(75861, 91079) then
+	elseif args.spellId == 75861 then
 		poisonCount = poisonCount - 1
 		if poisonCount == 0 then
 			timerPoison:Cancel()
@@ -77,7 +76,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(81642) then
+	if args.spellId == 81642 then
 		warnDustFlail:Show()
 		timerDustFlail:Start()
 	end

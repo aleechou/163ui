@@ -1,14 +1,13 @@
 local mod	= DBM:NewMod(318, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7668 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(53879)
-mod:SetModelID(35268)
 mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKSLAY_01.OGG")
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
+mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
 
-mod:RegisterCombat("yell", L.Pull)
+mod:RegisterCombat("yell", L.Pull)--INSTANCE_ENCOUNTER_ENGAGE_UNIT comes 30 seconds after encounter starts, because of this, the mod can miss the first round of ability casts such as first grip targets. have to use yell
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
@@ -59,7 +58,8 @@ mod:AddBoolOption("ShowShieldInfo", mod:IsHealer())
 local gripTargets = {}
 local gripIcon = 6
 local corruptionActive = {}
-local residueCount = 0
+local residueNum = 0
+local residueDebug = false
 local diedOozeGUIDS = {}
 local warnedAmalgamation = false
 local BloodAbsorbed = 0
@@ -73,23 +73,25 @@ end
 local function showGripWarning()
 	warnGrip:Show(table.concat(gripTargets, "<, >"))
 	specWarnGrip:Show()
-	sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\someonecaught.mp3")
+	sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\someonecaught.mp3")
 	table.wipe(gripTargets)
 end
 
 local function warningResidue()
-	-- if mod.Options.InfoFrame then
-		-- DBM.InfoFrame:SetHeader(L.BloodCount)
-		-- DBM.InfoFrame:Show(1, "texts", residueCount, nil, nil, L.BloodCount)
-	-- end
+	if mod.Options.InfoFrame and residueNum >= 0 then
+		DBM.InfoFrame:SetHeader(L.BloodCount)
+		DBM.InfoFrame:Show(1, "texts", residueNum, nil, nil, L.BloodCount)
+	end
 end
 
 local function checkOozeResurrect(GUID)
 	-- set min resurrect time to 5 sec. (guessed)
 	if diedOozeGUIDS[GUID] and GetTime() - diedOozeGUIDS[GUID] > 5 then
-		residueCount = residueCount - 1
+		residueNum = residueNum - 1
 		diedOozeGUIDS[GUID] = nil
-		warningResidue()
+		mod:Unschedule(warningResidue)
+		mod:Schedule(1.25, warningResidue)
+		if residueDebug then print("revived", residueNum) end
 	end
 end
 
@@ -154,7 +156,7 @@ function mod:OnCombatStart(delay)
 		clearPlasmaVariables()
 	end
 	gripIcon = 6
-	residueCount = 0
+	residueNum = 0
 	warnedAmalgamation = false
 	BloodAbsorbed = 0
 end
@@ -169,12 +171,12 @@ function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(105845) then
 		warnNuclearBlast:Show()
 		specWarnNuclearBlast:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\boomrun.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\boomrun.mp3")
 		warnedAmalgamation = false
 	elseif args:IsSpellID(105847, 105848) then
 		warnSealArmor:Show()
 		specWarnSealArmor:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmuscle.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killmuscle.mp3")
 		if self:IsDifficulty("lfr25") then
 			timerSealArmor:Start(34.5)
 		else
@@ -206,29 +208,28 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(106199) and self:IsHealer() then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-	elseif args:IsSpellID(105219, 109371, 109372, 109373) then
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
+	elseif args:IsSpellID(105219) then
+		residueNum = residueNum + 1
 		diedOozeGUIDS[args.sourceGUID] = GetTime()
-		residueCount = residueCount + 1
-		if residueCount >= 0 then
-			warningResidue()
-		end
-	elseif args:IsSpellID(105248) then
+		self:Unschedule(warningResidue)
+		self:Schedule(1.25, warningResidue)
+		if residueDebug then print("created", residueNum) end
+	elseif args:IsSpellID(105248) and diedOozeGUIDS[args.sourceGUID] then
+		residueNum = residueNum - 1
 		diedOozeGUIDS[args.sourceGUID] = nil
-		residueCount = residueCount - 1
-		if residueCount >= 0 then
-			warningResidue()
-		end
+		self:Unschedule(warningResidue)
+		self:Schedule(1.25, warningResidue)
+		if residueDebug then print("absorbed", residueNum) end
 	end
 end
 
 function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID)
-	checkOozeResurrect(destGUID)
+	checkOozeResurrect(sourceGUID)
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:SWING_DAMAGE(sourceGUID, _, _, _, destGUID)
-	checkOozeResurrect(destGUID)
 	checkOozeResurrect(sourceGUID)
 end
 mod.SWING_MISSED = mod.SWING_DAMAGE
@@ -237,7 +238,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(105248) then
 		warnAbsorbedBlood:Show(args.destName, 1)
 		BloodAbsorbed = 1
-	elseif args:IsSpellID(105490, 109457, 109458, 109459) then
+	elseif args:IsSpellID(105490) then
 		gripTargets[#gripTargets + 1] = args.destName
 		timerGripCD:Cancel(args.sourceGUID)
 		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3.mp3")
@@ -255,7 +256,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self:Unschedule(showGripWarning)
 		self:Schedule(0.3, showGripWarning)
-	elseif args:IsSpellID(105479, 109362, 109363, 109364) then
+	elseif args:IsSpellID(105479) then
 		if self.Options.ShowShieldInfo then
 			setPlasmaTarget(args.destGUID, args.destName)
 		end
@@ -277,7 +278,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if args.amount == 9 then
 			warnAbsorbedBlood:Show(args.destName, args.amount)
 			warnedAmalgamation = true
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killmixone.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killmixone.mp3")
 		else
 			warnAbsorbedBlood:Show(args.destName, args.amount)
 		end
@@ -286,14 +287,14 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(105490, 109457, 109458, 109459) then
+	if args:IsSpellID(105490) then
 		if self.Options.SetIconOnGrip then
 			self:SetIcon(args.destName, 0)
 		end
 		if self:IsDps() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")
 		end
-	elseif args:IsSpellID(105479, 109362, 109363, 109364) then
+	elseif args:IsSpellID(105479) then
 		if self.Options.ShowShieldInfo then
 			clearPlasmaTarget(args.destGUID, args.destName)
 		end
@@ -314,21 +315,21 @@ function mod:RAID_BOSS_EMOTE(msg)
 		checkTendrils()
 		self:Schedule(3, checkTendrils)
 		timerBarrelRoll:Start()
-		sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		if msg == L.DRoll or msg:find(L.DRoll) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\leftside.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\leftside.mp3")
 		elseif msg == L.DRollR or msg:find(L.DRollR) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\rightside.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\rightside.mp3")
 		end
 	elseif msg == L.DLevels or msg:find(L.DLevels) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\balancenow.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\balancenow.mp3")
 		self:Unschedule(checkTendrils)
 		timerBarrelRoll:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	end
 end
 
@@ -357,7 +358,7 @@ function mod:UNIT_HEALTH(uId)
 			local bleft = 9 - BloodAbsorbed
 			specWarnAmalgamationLowHP:Show(bleft)
 			if not self:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\stopatk.mp3")
 			end
 		end
 	end

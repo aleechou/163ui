@@ -9,8 +9,6 @@
 ## DefaultState: enabled
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
-## X-WoWBox-Ver: 1
-## X-WoWBox-ID: 3375
 
 embeds.xml
 Libs\LibChatAnims\LibChatAnims.xml
@@ -29,5 +27,7 @@ DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
 DBM-HudMap.lua
+
+
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060801

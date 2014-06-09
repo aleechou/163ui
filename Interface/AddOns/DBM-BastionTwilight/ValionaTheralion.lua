@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(157, "DBM-BastionTwilight", nil, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7780 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(45992, 45993)
-mod:SetModelID(34812)
 mod:SetZone()
 mod:SetUsedIcons(6, 7, 8)
 mod:SetModelSound("Sound\\Creature\\Chogall\\VO_BT_Chogall_BotEvent10.wav", "Sound\\Creature\\Valiona\\VO_BT_Valiona_Event06.wav")
@@ -23,8 +22,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_HEAL",
 	"SPELL_PERIODIC_HEAL",
 	"RAID_BOSS_EMOTE",
-	"UNIT_AURA",
-	"UNIT_SPELLCAST_SUCCEEDED"
+	"UNIT_AURA player",
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
 )
 
 --Valiona Ground Phase
@@ -143,7 +142,7 @@ local function valionaDelay()
 	timerEngulfingMagicNext:Cancel()
 	timerBlackoutCD:Start(10)
 	timerDevouringFlamesCD:Start(25)
-	sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3")
+	sndWOP:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\breathsoon.mp3")
 	if mod.Options.RangeFrame then
 		DBM.RangeCheck:Show(8)
 	end
@@ -151,12 +150,12 @@ end
 
 local function theralionDelay()
 	timerDevouringFlamesCD:Cancel()
-	sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3")
+	sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\breathsoon.mp3")
 	timerBlackoutCD:Cancel()
 	timerNextFabFlames:Start(10)
 	timerEngulfingMagicNext:Start(15)
 	timerNextDeepBreath:Start()
-	sndWOP:Schedule(93, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\deepsoon.mp3")
+	sndWOP:Schedule(93, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\deepsoon.mp3")
 	ValionaLanded = false
 	if mod.Options.RangeFrame then
 		DBM.RangeCheck:Show(10)
@@ -173,7 +172,7 @@ function mod:FabFlamesTarget()
 	warnFabFlames:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnFabulousFlames:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		yellFabFlames:Yell()
 		lastFab = GetTime()--Trigger the anti spam here so when we pre warn it thrown at them we don't double warn them again for taking 1 tick of it when it lands.
 	else
@@ -186,7 +185,7 @@ function mod:FabFlamesTarget()
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 11 then--What's exact radius of this circle?
 				specWarnFabulousFlamesNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 			end
 		end
 	end
@@ -198,7 +197,7 @@ function mod:TwilightBlastTarget()
 	if self.Options.TBwarnWhileBlackout or not blackoutActive then
 		if targetname == UnitName("player") then
 			specWarnTwilightBlast:Show()
-			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+			sndWOP:Schedule(1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 			yellTwilightBlast:Yell()
 		else
 			local uId = DBM:GetRaidUnitId(targetname)
@@ -224,7 +223,7 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerBlackoutCD:Start(10-delay)
 	timerDevouringFlamesCD:Start(25.5-delay)
-	sndWOP:Schedule(22-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3")
+	sndWOP:Schedule(22-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\breathsoon.mp3")
 	timerNextDazzlingDestruction:Start(85-delay)
 	dazzlingCast = 0
 	breathCast = 0
@@ -252,7 +251,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(86788, 92876, 92877, 92878) then
 		blackoutActive = true
 		warnBlackout:Show(args.destName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\blackout.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\blackout.mp3")
 		timerBlackout:Start(args.destName)
 		timerBlackoutCD:Start()
 		if self.Options.BlackoutIcon then
@@ -268,7 +267,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerEngulfingMagicNext:Start()
 		if args:IsPlayer() then
 			specWarnEngulfingMagic:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 --			soundEngulfingMagic:Play()
 			yellEngulfingMagic:Yell()
 		end
@@ -292,19 +291,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTwilightShift:Show(args.destName.." ("..tostring(args.amount or 1)..")")
 		timerTwilightShiftCD:Start()
 		if args.amount == 4 then
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\telesoon.mp3")
-			sndWOP:Schedule(15, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
-			sndWOP:Schedule(16, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-			sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+			sndWOP:Schedule(14, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\telesoon.mp3")
+			sndWOP:Schedule(15, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfive.mp3")
+			sndWOP:Schedule(16, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
+			sndWOP:Schedule(17, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+			sndWOP:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+			sndWOP:Schedule(19, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		end
 		self:Unschedule(AMSTimerDelay)
 		self:Schedule(20, AMSTimerDelay)--Cause when a DK AMSes it we don't get another timer.
 	elseif args:IsSpellID(92886, 92887) and args:IsPlayer() then
 		if (args.amount or 1) >= 20 and self:AntiSpam(5, 1) then
 			specWarnTwilightZone:Show(args.amount)
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\debuffhigh.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\debuffhigh.mp3")
 		end
 	end
 end
@@ -340,7 +339,7 @@ function mod:SPELL_CAST_START(args)
 		warnDevouringFlames:Show()
 		timerDevouringFlamesCD:Start()
 		specWarnDevouringFlames:Show()
-		sndWOP:Schedule(38, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\breathsoon.mp3")
+		sndWOP:Schedule(38, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\breathsoon.mp3")
 	elseif args:IsSpellID(86408) then
 		dazzlingCast = dazzlingCast + 1
 		warnDazzlingDestruction:Show(dazzlingCast)
@@ -362,7 +361,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 86505 or spellId == 92907 or spellId == 92908 or spellId == 92909) and destGUID == UnitGUID("player") and GetTime() - lastFab > 3 then
 		specWarnFabulousFlames:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		lastFab = GetTime()
 	end
 end
@@ -374,7 +373,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 		warnDeepBreath:Show(breathCast)
 		if breathCast == 1 then
 			timerNextDeepBreath:Cancel()
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\deepsoon.mp3")
+			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\deepsoon.mp3")
 			specWarnDeepBreath:Show()
 			timerNextDazzlingDestruction:Start()
 			self:Schedule(40, valionaDelay)--We do this cause you get at least one more engulfing magic after this emote before they completely switch so we need a method to cancel bar more appropriately
@@ -389,10 +388,10 @@ function mod:UNIT_AURA(uId)
 	if UnitDebuff("player", meteorTarget) and not markWarned then
 		specWarnTwilightMeteorite:Show()
 		timerTwilightMeteorite:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runin.mp3")
-		sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3")
+		sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
+		sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
+		sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		yellTwilightMeteorite:Yell()
 		markWarned = true
 		self:Schedule(7, markRemoved)

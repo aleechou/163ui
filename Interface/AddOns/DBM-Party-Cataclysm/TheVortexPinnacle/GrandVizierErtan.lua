@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(114, "DBM-Party-Cataclysm", 8, 68)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7759 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(43878)
-mod:SetModelID(35181)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -23,7 +22,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(86340) then
+	if args.spellId == 86340 then
 		warnSummonTempest:Show()
 		timerSummonTempest:Start()
 	end

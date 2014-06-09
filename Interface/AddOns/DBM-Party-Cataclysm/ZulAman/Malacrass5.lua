@@ -1,10 +1,8 @@
 local mod	= DBM:NewMod(190, "DBM-Party-Cataclysm", 10, 77)
 local L		= mod:GetLocalizedStrings()
-local _
 
-mod:SetRevision(("$Revision: 7749 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(24239)
-mod:SetModelID(22332)
 mod:SetZone()
 
 mod:RegisterCombat("yell", L.YellPull)
@@ -47,21 +45,23 @@ local timerSpiritBolts		= mod:NewBuffActiveTimer(5, 43383)
 local timerSpiritBoltsNext	= mod:NewNextTimer(36, 43383)
 
 local function getClass(name)
-	local class = "unknown"
+	local class
 	if UnitName("player") == name then
-		_, class = UnitClass("player")
+		class = select(2, UnitClass("player"))
 	else
 		local nameString = "%s-%s"	-- "PlayerName-RealmName"
-		for i=1, GetNumGroupMembers() do
-			local n,r = UnitName("party"..i)	-- arg1 = PlayerName , arg2 = RealmName
+		for uId, i in DBM:GetGroupMembers() do
+			local n, r = UnitName(uId)	-- PlayerName, RealmName
 			if n == name or (n and r and nameString:format(n,r) == name) then
-				_, class = UnitClass("party"..i)
+				class = select(2, UnitClass("party"..i))
 				break
 			end
 		end
 	end
-	class = class:sub(0, 1):upper()..class:sub(2):lower()
-	return class
+	if class then
+		class = class:sub(0, 1):upper()..class:sub(2):lower()
+	end
+	return class or "unknown"
 end
 
 function mod:OnCombatStart(delay)
@@ -69,36 +69,36 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(43451) then					--Paladin Heal (Holy Light)
+	if args.spellId == 43451 then					--Paladin Heal (Holy Light)
 		warnHolyLight:Show()
 		specWarnHolyLight:Show(args.sourceName)
-	elseif args:IsSpellID(43431) then				--Priest Heal (Flash Heal)
+	elseif args.spellId == 43431 then				--Priest Heal (Flash Heal)
 		warnFlashHeal:Show()
 		specWarnFlashHeal:Show(args.sourceName)
-	elseif args:IsSpellID(43548) then				--Shaman Heal (Healing Wave)
+	elseif args.spellId == 43548 then				--Shaman Heal (Healing Wave)
 		warnHealingWave:Show()
 		specWarnHealingWave:Show(args.sourceName)
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(43436) then					--Shaman (Fire Nova Totem)
+	if args.spellId == 43436 then					--Shaman (Fire Nova Totem)
 		warnFireNovaTotem:Show()
 		specWarnFireNovaTotem:Show()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(43501) then
+	if args.spellId == 43501 then
 		local class = getClass(args.destName)
 		warnSiphon:Show(args.destName)
 		timerSiphon:Start(args.spellName, class)
-	elseif args:IsSpellID(43383) then
+	elseif args.spellId == 43383 then
 		warnSpiritBolts:Show()
 		warnSpiritBoltsSoon:Schedule(31)
 		timerSpiritBolts:Start()
 		timerSpiritBoltsNext:Start()
-	elseif args:IsSpellID(43421) then
+	elseif args.spellId == 43421 then
 		warnLifebloom:Show(args.destName)
 		specWarnLifebloom:Show(args.destName)
 	end

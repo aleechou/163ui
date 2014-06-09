@@ -1,8 +1,9 @@
 local mod	= DBM:NewMod("Koralon", "DBM-VoA")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4264 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
 mod:SetCreatureID(35013)
+mod:SetModelID(29524)
 
 mod:RegisterCombat("combat")
 
@@ -12,21 +13,19 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED_DOSE"
 )
 
-local warnBreath			= mod:NewSpellAnnounce(67328, 3)
-local timerBreath			= mod:NewBuffActiveTimer(4.5, 67328)
-local timerBreathCD			= mod:NewCDTimer(45, 67328)--Seems to variate, but 45sec cooldown looks like a good testing number to start.
+local warnBreath			= mod:NewSpellAnnounce(66665, 3)
+local timerBreath			= mod:NewBuffActiveTimer(4.5, 66665)
+local timerBreathCD			= mod:NewCDTimer(45, 66665)--Seems to variate, but 45sec cooldown looks like a good testing number to start.
 
-local warnMeteor			= mod:NewSpellAnnounce(67333, 3)
-local warnMeteorSoon		= mod:NewPreWarnAnnounce(68161, 5, 2)
-local timerNextMeteor		= mod:NewNextTimer(47, 68161)
+local warnMeteor			= mod:NewSpellAnnounce(66725, 3)
+local warnMeteorSoon		= mod:NewPreWarnAnnounce(66725, 5, 2)
+local timerNextMeteor		= mod:NewNextTimer(47, 66725)
 local WarnBurningFury		= mod:NewAnnounce("BurningFury", 2, 66721)
 local timerNextBurningFury	= mod:NewNextTimer(20, 66721)
 
-local specWarnCinder		= mod:NewSpecialWarningMove(67332)
+local specWarnCinder		= mod:NewSpecialWarningMove(66684)
 
 local timerKoralonEnrage	= mod:NewTimer(300, "KoralonEnrage", 26662)
-
-mod:AddBoolOption("PlaySoundOnCinder")
 
 function mod:OnCombatStart(delay)
 	timerKoralonEnrage:Start(-delay)
@@ -37,11 +36,11 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(67328, 66665) then
+	if args.spellId == 66665 then
 		warnBreath:Show()
 		timerBreath:Start()
 		timerBreathCD:Start()
-	elseif args:IsSpellID(66725, 68161) then
+	elseif args.spellId == 66725 then
 		warnMeteor:Show()
 		timerNextMeteor:Start()
 		warnMeteorSoon:Schedule(42)
@@ -49,15 +48,11 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsPlayer() and args:IsSpellID(66684, 67332) then
+	if args:IsPlayer() and args.spellId == 66684 then
 		specWarnCinder:Show()
-		if self.Options.PlaySoundOnCinder then
-			PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.wav")
-		end
-	elseif args:IsSpellID(66721) then
+	elseif args.spellId == 66721 then
 		WarnBurningFury:Show(args.amount or 1)
 		timerNextBurningFury:Start()
 	end
 end
-
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

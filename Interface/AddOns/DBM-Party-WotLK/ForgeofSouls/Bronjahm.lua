@@ -1,20 +1,21 @@
-local mod	= DBM:NewMod("Bronjahm", "DBM-Party-WotLK", 14)
+local mod	= DBM:NewMod(615, "DBM-Party-WotLK", 14, 280)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 3726 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(36497)
+mod:SetModelID(30226)
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1 target focus mouseover"
 )
 
 local warnSoulstormSoon		= mod:NewSoonAnnounce(68872, 2)
 local warnCorruptSoul		= mod:NewTargetAnnounce(68839, 3)
-local specwarnSoulstorm		= mod:NewSpecialWarning("specwarnSoulstorm")
+local specwarnSoulstorm		= mod:NewSpecialWarningSpell(68872, nil, nil, nil, 2)
 local timerSoulstormCast	= mod:NewCastTimer(4, 68872)
 
 local warned_preStorm = false
@@ -24,14 +25,14 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(68872) then							-- Soulstorm
+	if args.spellId == 68872 then							-- Soulstorm
 		specwarnSoulstorm:Show()
 		timerSoulstormCast:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(68839) then							-- Corrupt Soul
+	if args.spellId == 68839 then							-- Corrupt Soul
 		warnCorruptSoul:Show(args.destName)
 	end
 end

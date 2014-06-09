@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(180, "DBM-Party-Cataclysm", 11, 76)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 5749 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(52286)
-mod:SetModelID(37831)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -48,17 +47,17 @@ function mod:LightingRushTarget()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(96697) then
+	if args.spellId == 96697 then
 		self:ScheduleMethod(0.2, "LightingRushTarget")
 		warnRush:Show()
 		timerRushCD:Start()
-	elseif args:IsSpellID(96698) then
+	elseif args.spellId == 96698 then
 		warnRod:Show()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(96710, 96711) and args:IsPlayer() then
+	if args.spellId == 96710 and args:IsPlayer() then
 		specWarnCloud:Show()
 	end
 end

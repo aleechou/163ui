@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("Gothik", "DBM-Naxx", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 4523 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 7 $"):sub(12, -3))
 mod:SetCreatureID(16060)
-
+mod:SetModelID(16279)
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
@@ -16,8 +16,8 @@ local warnRiderDown		= mod:NewAnnounce("WarningRiderDown", 4)
 local warnKnightDown	= mod:NewAnnounce("WarningKnightDown", 2)
 local warnPhase2		= mod:NewPhaseAnnounce(2, 4)
 
-local timerPhase2		= mod:NewTimer(270, "TimerPhase2", 27082) 
-local timerWave			= mod:NewTimer(20, "TimerWave", 27082)
+local timerPhase2		= mod:NewTimer(270, "TimerPhase2", "Interface\\Icons\\Spell_Nature_WispSplode") 
+local timerWave			= mod:NewTimer(20, "TimerWave", 69516)
 
 local wavesNormal = {
 	{2, L.Trainee, next = 20},
@@ -78,7 +78,7 @@ local function getWaveString(wave)
 end
 
 function mod:OnCombatStart(delay)
-	if mod:IsDifficulty("normal25") then
+	if self:IsDifficulty("normal25") then
 		waves = wavesHeroic
 	else
 		waves = wavesNormal
@@ -104,10 +104,10 @@ end
 
 function mod:UNIT_DIED(args)
 	if bit.band(args.destGUID:sub(0, 5), 0x00F) == 3 then
-		local guid = tonumber(args.destGUID:sub(9, 12), 16)
-		if guid == 16126 then -- Unrelenting Rider
+		local cid = self:GetCIDFromGUID(args.destGUID)
+		if cid == 16126 then -- Unrelenting Rider
 			warnRiderDown:Show()
-		elseif guid == 16125 then -- Unrelenting Deathknight
+		elseif cid == 16125 then -- Unrelenting Deathknight
 			warnKnightDown:Show()
 		end
 	end

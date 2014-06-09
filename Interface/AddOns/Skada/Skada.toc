@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 50400
 ## Title: Skada
 ## Notes: Modular damage meter.
 ## Notes-koKR: 데미지 미터 모듈입니다.
@@ -7,15 +7,15 @@
 ## Notes-frFR: Un damage meter.
 ## Notes-zhCN: 伤害统计
 ## Author: Zarnivoop
-## Version: r516
+## Version: r559
 ## SavedVariables: SkadaDB,UISkadaFlag
 ## SavedVariablesPerCharacter: SkadaPerCharDB
-## X-Curse-Packaged-Version: r516
+## X-Curse-Packaged-Version: r559
 ## X-Curse-Project-Name: Skada Damage Meter
 ## X-Curse-Project-ID: skada
 ## X-Curse-Repository-ID: wow/skada/mainline
 
-## OptionalDeps: Ace3, LibSharedMedia-3.0, LibWindow-1.1, LibDBIcon-1.0, AceGUI-3.0-SharedMediaWidgets
+## OptionalDeps: Ace3, LibSharedMedia-3.0, LibWindow-1.1, LibDBIcon-1.0, AceGUI-3.0-SharedMediaWidgets, LibBossIDs-1.0, LibDualSpec-1.0
 
 ## X-License: MIT/X
 ## X-Category: Combat
@@ -42,4 +42,4 @@ modules.xml
 
 ## Title: |cff880303[网易有爱]|r Skada伤害统计
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014060701

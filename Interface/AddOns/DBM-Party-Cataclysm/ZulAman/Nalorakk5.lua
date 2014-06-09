@@ -1,9 +1,8 @@
 ﻿local mod	= DBM:NewMod(187, "DBM-Party-Cataclysm", 10, 77)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(23576)
-mod:SetModelID(21631)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -46,9 +45,9 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(42398) and self:AntiSpam(4) then
+	if args.spellId == 42398 and self:AntiSpam(4) then
 		warnSilence:Show()
-	elseif args:IsSpellID(42402) then
+	elseif args.spellId == 42402 then
 		warnSurge:Show(args.destName)
 		timerSurgeCD:Start()
 	end

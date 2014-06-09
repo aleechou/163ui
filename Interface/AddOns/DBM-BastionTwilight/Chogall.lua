@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(167, "DBM-BastionTwilight", nil, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7773 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(43324)
-mod:SetModelID(34576)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetModelSound("Sound\\Creature\\Chogall\\VO_BT_Chogall_BotEvent15.wav", "Sound\\Creature\\Chogall\\VO_BT_Chogall_BotEvent42.wav")
@@ -19,8 +18,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
-	"UNIT_HEALTH",
-	"UNIT_AURA",
+	"UNIT_HEALTH boss1",
+	"UNIT_AURA player",
 	"UNIT_DIED"
 )
 
@@ -89,7 +88,7 @@ local function showWorshipWarning()
 	table.wipe(worshipTargets)
 	worshipIcon = 7
 	timerWorshipCD:Start(worshipCooldown)
-	sndWOP:Schedule(worshipCooldown-1, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
+	sndWOP:Schedule(worshipCooldown-1, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
 	specWarnWorship:Show()
 end
 
@@ -101,7 +100,7 @@ end
 
 function mod:CorruptingCrashTarget(sGUID)
 	local targetname = nil
-	for i=1, GetNumGroupMembers() do
+	for i=1, DBM:GetGroupMembers() do
 		if UnitGUID("raid"..i.."target") == sGUID then
 			targetname = DBM:GetUnitFullName("raid"..i.."targettarget")
 			break
@@ -114,7 +113,7 @@ function mod:CorruptingCrashTarget(sGUID)
 	warnCorruptingCrash:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCorruptingCrash:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		yellCrash:Yell()
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
@@ -127,7 +126,7 @@ function mod:CorruptingCrashTarget(sGUID)
 			end
 			if inRange then
 				specWarnCorruptingCrashNear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 				if self.Options.CorruptingCrashArrow then
 					DBM.Arrow:ShowRunAway(x, y, 10, 5)
 				end
@@ -139,7 +138,7 @@ end
 function mod:OnCombatStart(delay)
 	timerFlamesOrders:Start(5-delay)
 	timerWorshipCD:Start(10-delay)
-	sndWOP:Schedule(8, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
+	sndWOP:Schedule(8, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
 	table.wipe(worshipTargets)
 	table.wipe(creatureIcons)
 	prewarned_Phase2 = false
@@ -188,7 +187,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEmpoweredShadows:Show()
 		specWarnEmpoweredShadows:Show()
 		if self:IsDifficulty("heroic10", "heroic25") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\shadow3ae.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\shadow3ae.mp3")
 		end
 		timerEmpoweredShadows:Start()
 	end
@@ -208,14 +207,14 @@ function mod:SPELL_CAST_START(args)
 		timerAdherent:Start()
 		timerFesterBlood:Start()
 		if not mod:IsHealer() then
-			sndWOP:Schedule(43, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killslime.mp3")
+			sndWOP:Schedule(43, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killslime.mp3")
 		end
 	elseif args:IsSpellID(82524) then
 		warnFury:Show()
 		timerFuryCD:Start()
 		if mod:IsTank() or mod:IsHealer() then
 			specwarnFury:Show(args.destName)
-			sndWOP:Schedule(42, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\furysoon.mp3")
+			sndWOP:Schedule(42, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\"..GetLocale().."\\furysoon.mp3")
 		end		
 		if not firstFury then--85% fury of chogal, it resets cd on worship and changes cd to 36
 			firstFury = true
@@ -247,7 +246,7 @@ end
 
 mod:RegisterOnUpdateHandler(function(self)
 	if self.Options.SetIconOnCreature and (DBM:GetRaidRank() > 0 and not (iconsSet == 8 and self:IsDifficulty("normal25", "heroic25") or iconsSet == 4 and self:IsDifficulty("normal10", "heroic10"))) then
-		for i = 1, GetNumGroupMembers() do
+		for i = 1, DBM:GetGroupMembers() do
 			local uId = "raid"..i.."target"
 			local guid = UnitGUID(uId)
 			if creatureIcons[guid] then
@@ -272,7 +271,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnPhase2:Show()
 		timerAdherent:Cancel()
 		timerWorshipCD:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\findmc.mp3")
 		timerFesterBlood:Cancel()
 		timerFlamesOrders:Cancel()
 		timerShadowsOrders:Cancel()
@@ -280,8 +279,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			warnShadowOrders:Show()--No reason to do this warning on normal, nothing spawns so nothing you can do about it.
 			timerEmpoweredShadowsCD:Start()--Time til he actually absorbs elemental and gains it's effects
-			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killshaele.mp3")
-			sndWOP:Schedule(18, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
+			sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killshaele.mp3")
+			sndWOP:Schedule(18, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")
 			timerFlamesOrders:Start()--always 25 seconds after shadows orders, regardless of phase.
 		else
 			timerEmpoweredShadowsCD:Start(10.8)--Half the time on normal since you don't actually have to kill elementals plus the only thing worth showing on normal.
@@ -290,7 +289,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			warnFlameOrders:Show()--No reason to do this warning on normal, nothing spawns so nothing you can do about it.
 			timerFlamingDestructionCD:Start()--Time til he actually absorbs elemental and gains it's effects
-			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\killfireele.mp3")
+			sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\killfireele.mp3")
 			timerShadowsOrders:Start(shadowOrdersCD)--15 seconds after a flame order above 85%, 25 seconds after a flame orders below 85%
 		else
 			timerFlamingDestructionCD:Start(10.8)--Half the time on normal since you don't actually have to kill elementals plus the only thing worth showing on normal.
@@ -306,7 +305,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 81538 or spellId == 93212 or spellId == 93213 or spellId == 93214) and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnBlaze:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -328,7 +327,7 @@ function mod:UNIT_AURA(uId)
 	if UnitDebuff("player", Corruption) and self:AntiSpam(7, 2) then
 		specWarnSickness:Show()
 		timerSickness:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")
 		if self.Options.RangeFrame and not DBM.RangeCheck:IsShown() then
 			DBM.RangeCheck:Show(5)
 		end

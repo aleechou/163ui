@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(341, "DBM-Party-Cataclysm", 14, 186)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7663 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(54938)
-mod:SetModelID(38991)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -45,16 +44,16 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(103151) then
+	if args.spellId == 103151 then
 		warnRighteousShear:Show(args.destName)
-	elseif args:IsSpellID(103565) then
+	elseif args.spellId == 103565 then
 		warnPurifyingLight:Show()
 	elseif args:IsSpellID(103677, 103680, 103681) then--Spellids are locationsal. So figure out which one is switch could announce wave direction?
 		warnWaveVirtue:Show()
 		specwarnWaveVirtue:Show()
-	elseif args:IsSpellID(103363) then
+	elseif args.spellId == 103363 then
 		warnTwilightShear:Show(args.destName)
-	elseif args:IsSpellID(103767) then
+	elseif args.spellId == 103767 then
 		warnCorruptingTwilight:Show()
 	elseif args:IsSpellID(103782, 103783, 103784) then--Same as virtue
 		warnWaveTwilight:Show()
@@ -63,13 +62,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(103754) then--Phase change from holy to shadow.
+	if args.spellId == 103754 then--Phase change from holy to shadow.
 		timerWaveVirtueCD:Cancel()--Cancel this timer if he was pushed before he got to do it, which is entirely possible.
 		timerWaveTwilightCD:Start(35)--Is this cast more then once?
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 103653 and destGUID == UnitGUID("player") and self:AntiSpam(5) then
 		specwarnPurified:Show()
 	elseif spellId == 103775 and destGUID == UnitGUID("player") and self:AntiSpam(5) then

@@ -42,7 +42,7 @@ Skada:AddLoadableModule("Damage", function(Skada, L)
 
 			-- Add spell to player if it does not exist.
 			if not player.damagespells[dmg.spellname] then
-				player.damagespells[dmg.spellname] = {id = dmg.spellid, hit = 0, totalhits = 0, damage = 0, critical = 0, glancing = 0, crushing = 0, ABSORB = 0, BLOCK = 0, DEFLECT = 0, DODGE= 0, EVADE = 0, IMMUNE = 0, PARRY = 0, REFLECT = 0, RESIST = 0, MISS = 0}
+				player.damagespells[dmg.spellname] = {id = dmg.spellid, totalhits = 0, damage = 0}
 			end
 
 			-- Add to player total damage.
@@ -63,30 +63,28 @@ Skada:AddLoadableModule("Damage", function(Skada, L)
 
 			spell.damage = spell.damage + amount
 			if dmg.critical then
-				spell.critical = spell.critical + 1
+				spell.critical = (spell.critical or 0) + 1
 			elseif dmg.missed ~= nil then
-				if spell[dmg.missed] ~= nil then -- Just in case.
-					spell[dmg.missed] = spell[dmg.missed] + 1
-				end
+				spell[dmg.missed] = (spell[dmg.missed] or 0) + 1
 			elseif dmg.glancing then
-				spell.glancing = spell.glancing + 1
+				spell.glancing = (spell.glancing or 0) + 1
 			elseif dmg.crushing then
-				spell.crushing = spell.crushing + 1
+				spell.crushing = (spell.crushing or 0) + 1
 			else
-				spell.hit = spell.hit + 1
+				spell.hit = (spell.hit or 0) + 1
 			end
 
 			-- For now, only save damaged info to current set.
 			-- Saving this to Total may become a memory hog deluxe, and besides, it does not make much sense
 			-- to see in Total. Why care which particular mob you damaged the most in a whole raid, for example?
-			if set == Skada.current and dmg.dstname then
+			if set == Skada.current and dmg.dstname and amount > 0 then
 				-- Make sure destination exists in player.
 				if not player.damaged[dmg.dstname] then
 					player.damaged[dmg.dstname] = 0
 				end
 
 				-- Add to destination.
-				player.damaged[dmg.dstname] = player.damaged[dmg.dstname] + dmg.amount
+				player.damaged[dmg.dstname] = player.damaged[dmg.dstname] + amount
 			end
 
 		end
@@ -366,8 +364,10 @@ Skada:AddLoadableModule("Damage", function(Skada, L)
 		d.id = title
 		d.valuetext = Skada:FormatValueText(
 			value, mod.metadata.columns.Damage,
-			string.format("%02.1f%%", value / win.metadata.maxvalue * 100), mod.metadata.columns.Percent
+			string.format("%02.1f%%", value / spellmod.totalhits * 100), mod.metadata.columns.Percent
 		)
+
+		win.metadata.maxvalue = math.max(win.metadata.maxvalue, value)
 	end
 
 	function spellmod:Enter(win, id, label)
@@ -383,18 +383,19 @@ Skada:AddLoadableModule("Damage", function(Skada, L)
 			local spell = player.damagespells[self.spellname]
 
 			if spell then
-				win.metadata.maxvalue = spell.totalhits
+				spellmod.totalhits = spell.totalhits
+				win.metadata.maxvalue = 0
 
-				if spell.hit > 0 then
+				if spell.hit and spell.hit > 0 then
 					add_detail_bar(win, 1, L["Hit"], spell.hit)
 				end
-				if spell.critical > 0 then
+				if spell.critical and spell.critical > 0 then
 					add_detail_bar(win, 2, L["Critical"], spell.critical)
 				end
-				if spell.glancing > 0 then
+				if spell.glancing and spell.glancing > 0 then
 					add_detail_bar(win, 3, L["Glancing"], spell.glancing)
 				end
-				if spell.crushing > 0 then
+				if spell.crushing and spell.crushing > 0 then
 					add_detail_bar(win, 4, L["Crushing"], spell.crushing)
 				end
 				if spell.ABSORB and spell.ABSORB > 0 then

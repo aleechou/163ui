@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("Augh", "DBM-Party-Cataclysm", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7445 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(49045)
-mod:SetModelID(37339)
+mod:SetModelID(37339)--Needs hardcode because he's in EJ as a separate boss even though he is.
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -23,18 +23,18 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(84768) and self:AntiSpam(5) then
+	if args.spellId == 84768 and self:AntiSpam(5) then
 		warnSmokeBomb:Show()
-	elseif args:IsSpellID(84799) then
+	elseif args.spellId == 84799 then
 		warnParalyticDart:Show(args.destName)
 		timerParalyticDart:Start(args.destName)
-	elseif args:IsSpellID(84784) then
+	elseif args.spellId == 84784 then
 		warnWhirlWind:Show()
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(84799) then
+	if args.spellId == 84799 then
 		timerParalyticDart:Cancel()
 	end
 end

@@ -1,4 +1,7 @@
-﻿if GetLocale() ~= "zhCN" then return end
+﻿-- Simplified Chinese by Diablohu(diablohudream@gmail.com)
+-- Last update: 9/18/2011
+
+if GetLocale() ~= "zhCN" then return end
 
 local L
 

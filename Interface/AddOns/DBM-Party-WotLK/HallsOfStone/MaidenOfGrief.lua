@@ -1,13 +1,13 @@
-local mod	= DBM:NewMod("MaidenOfGrief", "DBM-Party-WotLK", 7)
+local mod	= DBM:NewMod(605, "DBM-Party-WotLK", 7, 277)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2250 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(27975)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED"
 )
@@ -23,7 +23,7 @@ local timerSorrowCD		= mod:NewCDTimer(30, 50760)
 local timerAchieve		= mod:NewAchievementTimer(60, 1866, "TimerSpeedKill")
 
 function mod:OnCombatStart(delay)
-	if mod:IsDifficulty("heroic5") then
+	if self:IsDifficulty("heroic5") then
 		timerAchieve:Start(-delay)
 	end
 end

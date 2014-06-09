@@ -1,13 +1,13 @@
-local mod	= DBM:NewMod("SalrammTheFleshcrafter", "DBM-Party-WotLK", 3)
+local mod	= DBM:NewMod(612, "DBM-Party-WotLK", 3, 279)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 2250 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 105 $"):sub(12, -3))
 mod:SetCreatureID(26530)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
 	"SPELL_SUMMON"
@@ -20,23 +20,23 @@ local timerGhoulCD	= mod:NewCDTimer(20, 52451)
 local timerCurse	= mod:NewTargetTimer(30, 58845)
 
 function mod:SPELL_SUMMON(args)
-	if args:IsSpellID(52451) then
+	if args.spellId == 52451 then
 		warningGhoul:Show()
 		timerGhoulCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(58845) then
+	if args.spellId == 58845 then
 		warningCurse:Show(args.destName)
 		timerCurse:Start(args.destName)
-	elseif args:IsSpellID(52709) then
-		wagningSteal:Show(args.destName)
+	elseif args.spellId == 52709 then
+		warningSteal:Show(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(58845) then
+	if args.spellId == 58845 then
 		timerCurse:Cancel()
 	end
 end

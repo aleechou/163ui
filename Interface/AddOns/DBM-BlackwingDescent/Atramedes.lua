@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod(171, "DBM-BlackwingDescent", nil, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 7782 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(41442)
-mod:SetModelID(34547)
 mod:SetZone()
 mod:SetUsedIcons(8)
 mod:SetModelSound("Sound\\Creature\\Nefarian\\VO_BD_Nefarian_AtramedesIntro.wav", "Sound\\Creature\\Atramedes\\VO_BD_Atramedes_Event03.wav")
@@ -19,7 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS",
 	"UNIT_DIED",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_AURA"
+	"UNIT_AURA player"
 )
 
 local warnSonarPulse		= mod:NewSpellAnnounce(77672, 3)
@@ -67,20 +66,20 @@ local function groundphase()
 	timerAirphase:Start()
 	timerModulation:Start()
 	timerSonicBreath:Start(25)
-	sndWOP:Schedule(22, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
+	sndWOP:Schedule(22, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
 	timerSearingFlame:Start()
-	sndWOP:Schedule(42, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dangsoon.mp3")
+	sndWOP:Schedule(42, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dangsoon.mp3")
 	warnSearingFlameSoon:Schedule(40)
 end
 
 function mod:OnCombatStart(delay)
 	timerSonarPulseCD:Start(-delay)
 	timerSonicBreath:Start(25-delay)
-	sndWOP:Schedule(21-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
+	sndWOP:Schedule(21-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
 	timerModulation:Start(-delay)
 	warnSearingFlameSoon:Schedule(40-delay)
 	timerSearingFlame:Start(-delay)
-	sndWOP:Schedule(42-delay, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\dangsoon.mp3")
+	sndWOP:Schedule(42-delay, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dangsoon.mp3")
 	timerAirphase:Start(90-delay)
 	shieldsLeft = 10
 	pesteredWarned = false
@@ -105,14 +104,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnTracking:Show()
 --			soundTracking:Play()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")
 		end
 		if self.Options.TrackingIcon then
 			self:SetIcon(args.destName, 8)
 		end
 	elseif args:IsSpellID(92681) then
 		specWarnObnoxiousFiend:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\fiend.mp3")
+		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\fiend.mp3")
 	end
 end
 
@@ -138,7 +137,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(78075) then
 		timerSonicBreath:Start()
-		sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
+		sndWOP:Schedule(39, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
 		warnSonicBreath:Show()
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			timerObnoxiousFiend:Start()
@@ -169,7 +168,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		warnAirphase:Show()
 		timerSonicBreath:Cancel()
 		timerModulation:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
+		sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\sonicsoon.mp3")
 		timerSonarPulseCD:Cancel()
 		timerGroundphase:Start()
 		self:Schedule(31.5, groundphase)
