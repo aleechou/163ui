@@ -8,4 +8,4 @@ Menus.lua
 
 ## Title: |cff880303[网易有爱]|r 宝石助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014060901
