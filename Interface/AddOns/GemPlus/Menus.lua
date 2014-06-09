@@ -215,5 +215,7 @@ end
 
 menu = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
 function menu:OnAttach(editbox)
-editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
+	if editbox then
+		editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
+	end
 end 
