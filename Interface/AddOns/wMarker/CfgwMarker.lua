@@ -3,7 +3,7 @@
     defaultEnable = 1,
     load = "NORMAL",
     secure = 1,
-nopic = 1,
+	nopic = 1,
     tags = { TAG_RAID },
 	optionsAfterVar = 1,
     icon = [[Interface\Icons\INV_Sigil_UlduarAll]],
@@ -15,7 +15,8 @@ nopic = 1,
 		type = "checklist",
 		cols = 2,
 		options = {"显示框体", 'shown', "垂直显示", 'vertical','单独时隐藏','alone'},
-		
+	
+
         getvalue = function()
             raid = {}
             raid['shown'] = wMarkerDB.shown;
@@ -24,8 +25,19 @@ nopic = 1,
             return raid
         end,
 		
+
+		
 		callback = function(cfg, v,loading)
-			if not wMarkerDB then wMarkerDB = {} end
+		
+		if not v then 
+			v = {
+				alone = true,
+				shown = true,
+				vertical = true,
+			}
+		end
+		
+		if not wMarkerDB then wMarkerDB = {} end
 			wMarkerDB.partyShow = v.alone;
 			wMarkerDB.shown = v.shown;
 			wMarker:visibility()
@@ -48,9 +60,16 @@ nopic = 1,
 			raid['vertical'] = wFlaresDB.vertical;
             return raid
         end,
-		
+			
 		callback = function(cfg, v,loading)
-			if not wFlaresDB then wFlaresDB = {} end
+		if not v then 
+			v = {
+				alone = true,
+				shown = true,
+				vertical = true,
+			}
+		end
+		if not wFlaresDB then wFlaresDB = {} end
 			wFlaresDB.shown = v.shown;
 			wFlaresDB.partyShow = v.alone;
 			wMarker:visibility()
