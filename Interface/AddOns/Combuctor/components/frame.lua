@@ -501,6 +501,8 @@ function InventoryFrame:OnShow()
 	Addon('FrameEvents'):Register(self)
 	
 	self:UpdateSets(self:GetDefaultCategory())
+
+	self:UpdateBagFrame()
 end
 
 function InventoryFrame:OnHide()
