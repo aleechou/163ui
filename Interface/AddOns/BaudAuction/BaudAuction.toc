@@ -1,17 +1,12 @@
 ## Interface: 50400
-## Title: |cFFFFFFFF[A]|rBaudAuction
 ## Notes: Modifies Blizzard's auction house display so it can display and sort multiple pages of items at once.
-## Dependencies: Blizzard_AuctionUI
-## Author: Baudzilla, vivianalive, 二区-奥拉基尔-乐亭一中波霸(幻化提示)
-## Version: 1.111v
-## OptionalDeps: !!!iLib,Ace3,LibItemData-1.0
+## Author: Baudzilla
+## Version: 1.111
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_AuctionUI
+# RequiredDeps: Blizzard_AuctionUI
 ## SavedVariables: BaudAuctionConfig
-
-
 BaudAuction.xml
 
-## Title: |cff880303[网易有爱]|r 拍卖信息增强
+## Title: |cff880303[网易有爱]|r BaudAuction
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060901
