@@ -5,20 +5,22 @@
 ## Notes-zhCN: 天赋,物品和附魔内置冷却监视
 ## Author: superk
 ## SavedVariables: ExtraCDDB
-## Version: 1.2.2e
-## X-Curse-Packaged-Version: 1.2.2e
+## Version: 1.2
+## X-Curse-Packaged-Version: 1.2.3
 ## X-Curse-Project-Name: ExtraCD
 ## X-Curse-Project-ID: extracd
 ## X-Curse-Repository-ID: wow/extracd/mainline
+## X-Mush-Project-Name: ExtraCD
+## X-Mush-Packaged-Version: 45
+## X-Mush-UpdateVer: 45
 
 embeds.xml
 Locales\locales.xml
 overlay.xml
-
 ExtraCD.lua
 data.lua
 options.lua
 
 ## Title: |cff880303[网易有爱]|r 内置CD监控
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014061003
