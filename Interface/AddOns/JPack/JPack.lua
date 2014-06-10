@@ -1,7 +1,6 @@
 local DEV_MOD = false
 local debug
 local debugf = tekDebug and tekDebug:GetFrame("JPack")--tekDebug
-
 if debugf then
 	debug = function(...) debugf:AddMessage(string.join(", ", tostringall(...))) end
 else
@@ -106,6 +105,7 @@ local function CanGoInBag(frombag,fromslot, tobag)
    if not item then return false end
    -- Get the item's family
    local itemFamily = GetItemFamily(item)
+   if itemFamily==nil then itemFamily = 0 end
    
    -- If the item is a container, then the itemFamily should be 0
    --[[
@@ -153,7 +153,7 @@ return 1xxx 非垃圾 ，0xxx for 垃圾，xxx为（999-JPACK_ORDER中所定的�
 ]]
 local function getPerffix(item)
 	if not item then return end
-	
+	if item.subType == nil and item.type == nil then item.subType = "PET" item.type = "PET"end
 	--按名称获取顺序
 	local i=IndexOfTable(JPACK_ORDER,item.name)
 	if(i<=0)then
@@ -183,11 +183,13 @@ local function getPerffix(item)
 	--灰色物品、可装备的非优秀物品
 	if(item.rarity==0)then
 		return "00"..s
-	elseif(IsEquippableItem(item.name) and item.type~=L.TYPE_BAG and item.subType~=L.TYPE_FISHWEAPON) and item.subType~=L.TYPE_MISC then 
-		if(item.rarity <= 1 ) or (item.level<UnitLevel('player')*0.1)then
+	elseif(item.rarity==7)then
+		return "2"..s
+	elseif(IsEquippableItem(item.name) and item.type~=L.TYPE_BAG and item.type~=L.TYPE_WEAPON and item.type~=L.TYPE_HUJIA and item.subType~=L.TYPE_FISHWEAPON) and item.subType~=L.TYPE_MISC then 
+		if(item.rarity <= 1 ) or (item.level<UnitLevel('player')*0.9)then
 			return '02'..s
 		end
-	elseif(item.type==L.TYPE_CONSUMABLE)then
+	elseif(item.type==L.TYPE_CONSUMABLE and (item.subType==L.TYPE_YAOSHUI or item.subType==L.TYPE_FOODDRINK))then
 		if(item.level<UnitLevel('player')*0.9)then
 			return '01'..s
 		end
@@ -248,10 +250,19 @@ local function getCompareStr(item)
 	if(not item)then
 		return nil
 	elseif(not item.compareStr)then
+		if item.texture == nil then return 
+			getPerffix(item).." ".."1"..item.type.." "..item.subType.." ".."pet".." "
+			..string.format("%2d",item.minLevel).." "..string.format("%2d",item.level).." ".."00".."PET" 
+		end
 		local _,_,textureType,textureIndex=string.find(item.texture,"\\.*\\([^_]+_?[^_]*_?[^_]*)_?(%d*)")
 		if(not item.rarity)then item.rarity='1' end
-		item.compareStr= getPerffix(item).." "..item.rarity..item.type.." "..item.subType.." "..textureType.." "
-			..string.format("%2d",item.minLevel).." "..string.format("%2d",item.level).." "..(textureIndex or "00")..item.name
+		if (item.type == L.TYPE_SHANGPIN) then
+			item.compareStr = getPerffix(item).." "..item.type.." "..item.subType.." "..string.format("%2d",item.minLevel).." "..string.format("%2d",item.level).." "..item.rarity.." "..(textureIndex or "00")..item.name
+		elseif ((item.type == L.TYPE_WEAPON) or (item.type == L.TYPE_HUJIA)) then
+			item.compareStr = getPerffix(item).." "..string.format("%2d",item.level).." "..item.rarity.." "..item.type.." "..item.subType.." "..string.format("%2d",item.minLevel).." "..(textureIndex or "00")..item.name
+		else
+			item.compareStr = getPerffix(item).." "..item.rarity.." "..item.type.." "..item.subType.." "..string.format("%2d",item.minLevel).." "..string.format("%2d",item.level).." "..(textureIndex or "00")..item.name
+		end
 	end
 	return item.compareStr
 end
@@ -705,6 +716,7 @@ local function stackOnce()
 			item = getJPackItem(bag,slot)
 			if(item)then
 				if (not locked) then
+					if item.stackCount == nil then item.stackCount = 1 end
 					if (item.stackCount ~= 1) and (itemCount < item.stackCount)then
 						slotInfo = pendingStack[item.itemid]
 						if(slotInfo)then
@@ -822,6 +834,7 @@ function JPack:ADDON_LOADED(event, addon)
 		JPackDB.version = version
 	end
 	
+	print(format('%s %s', version, L["HELP"]))
 	
 	
 	JPack:RegisterEvent"BANKFRAME_OPENED"
