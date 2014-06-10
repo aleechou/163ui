@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.3.1) add-on for World of Warcraft UI
+    Decursive (v 2.7.3) add-on for World of Warcraft UI
     Copyright (C) 2006-2007-2008-2009-2010-2011-2012 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
@@ -17,7 +17,7 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    This file was last updated on 2013-12-29T20:59:47Z
+    This file was last updated on 2013-08-08T21:03:46Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -82,9 +82,6 @@ T.Dcr = {};
 local DC                = T._C;
 local DebugTextTable    = T._DebugTextTable;
 local Reported          = {};
-
-local UNPACKAGED = "@pro" .. "ject-version@";
-local VERSION = "2.7.3.1";
 
 T._LoadedFiles = {};
 T._LoadedFiles["Dcr_DIAG.lua"] = false; -- here for consistency but useless in this particular file
@@ -260,7 +257,7 @@ do
         _Debug(unpack(TIandBI));
 
 
-        DebugHeader = ("%s\n2.7.3.1  %s(%s)  CT: %0.4f D: %s %s %s BDTHFAd: %s nDrE: %d Embeded: %s W: %d LA: %d TA: %d NDRTA: %d BUIE: %d TI: [dc:%d, lc:%d, y:%d, LEBY:%d, LB:%d, TTE:%u] (%s, %s, %s, %s)"):format(instructionsHeader, -- "%s\n
+        DebugHeader = ("%s\n2.7.3  %s(%s)  CT: %0.4f D: %s %s %s BDTHFAd: %s nDrE: %d Embeded: %s W: %d LA: %d TA: %d NDRTA: %d BUIE: %d TI: [dc:%d, lc:%d, y:%d, LEBY:%d, LB:%d, TTE:%u] (%s, %s, %s, %s)"):format(instructionsHeader, -- "%s\n
         tostring(DC.MyClass), tostring(UnitLevel("player") or "??"), NiceTime(), date(), GetLocale(), -- %s(%s)  CT: %0.4f D: %s %s
         BugGrabber and "BG" .. (T.BugGrabber and "e" or "") or "NBG", -- %s
         tostring(T._BDT_HotFix1_applyed), -- BDTHFAd: %s
@@ -383,7 +380,7 @@ function T._onError(event, errorObject)
         and ( T._CatchAllErrors or (
         errorml:find("decursive") and -- first, make a general test to see if it's worth looking further
         (
-           ( not errorml:find("\\libs\\") ) -- errors happpening in something located below Decursive's path but not inside \Libs 
+           ( errorml:sub(1,9) == "decursive" ) and not errorml:find("\\libs\\") -- errors happpening in something located below Decursive's path but not inside \Libs 
         or ( errorm:find("[\"']Decursive[\"']") ) -- events involving Decursive
         or ( errorm:find("Decursive:") ) -- libraries error involving Decursive (AceLocal)
         or ( errorml:find("decursive%.")) -- for Aceconfig
@@ -711,13 +708,12 @@ do
     local Incompatible = false; -- always a PBCK
     local MixedInstall = false; -- always a PBCK
     local MissingFile = false; -- always a PBCK
-    local RestartNeeded = false; -- always a PBCK
     local IncompleteLoad = false; -- NOT always a PBCK
     function T._SelfDiagnostic (force, FromCommand)    -- {{{
 
         -- will not executes several times unless forced
         if not force and T._DiagStatus then
-            return T._DiagStatus, LibraryIssues or Incompatible or MixedInstall or MissingFile or RestartNeeded;
+            return T._DiagStatus, LibraryIssues or Incompatible or MixedInstall or MissingFile;
         end
 
         T._DiagStatus = 0; -- will be set to 1 if the diagnostic fails
@@ -726,25 +722,26 @@ do
 
         --LibStub:GetLibrary
         local UseLibStub = {
-            ["AceAddon-3.0"] = 12,
-            ["AceComm-3.0"] = 7,
+            ["AceAddon-3.0"] = 11,
             ["AceConsole-3.0"] = 7,
-            ["AceDB-3.0"] = 23,
-            ["AceDBOptions-3.0"] = 14,
             ["AceEvent-3.0"] = 3,
-            ["AceHook-3.0"] = 7,
-            ["AceLocale-3.0"] = 6,
             ["AceTimer-3.0"] = 16,
+            --["LibShefkiTimer-1.0"] = 3,
+            ["AceHook-3.0"] = 5,
+            ["AceDB-3.0"] = 22,
+            ["AceDBOptions-3.0"] = 12,
+            ["AceLocale-3.0"] = 6,
+            ["AceComm-3.0"] = 7,
 
-            ["AceGUI-3.0"] = 34,
+            ["AceGUI-3.0"] = 33,
             ["AceConfig-3.0"] = 2,
+            ["AceConfigRegistry-3.0"] = 14,
             ["AceConfigCmd-3.0"] = 13,
-            ["AceConfigDialog-3.0"] = 58,
-            ["AceConfigRegistry-3.0"] = 15,
+            ["AceConfigDialog-3.0"] = 57,
 
             ["LibDataBroker-1.1"] = 4,
-            ["LibDBIcon-1.0"] = 34,
-            ["LibQTip-1.0"] = 42,
+            ["LibDBIcon-1.0"] = 25, --not updated for WoW 4.3
+            ["LibQTip-1.0"] = 38,
             ["CallbackHandler-1.0"] = 6,
         };
 
@@ -783,16 +780,6 @@ do
             GenericErrorMessage2 = "You need to install an older version of Decursive.";
             FatalOccured = true;
             Incompatible = true;
-        end
-
-        -- Catch people updating add-ons while WoW is running before they post "it doesn't work!!!!" comments.
-        local versionInTOC = GetAddOnMetadata("Decursive", "Version");
-
-        if versionInTOC and versionInTOC ~= VERSION and versionInTOC ~= UNPACKAGED and VERSION ~= UNPACKAGED then
-            table.insert(Errors, "You have updated Decursive while WoW was still running in the background.");
-            GenericErrorMessage2 = "You need to restart WoW completely or you might experience various issues with your add-ons until you do.";
-            FatalOccured = true;
-            RestartNeeded = true;
         end
 
         -- check if all Decursive files are loaded
@@ -923,7 +910,7 @@ do
             DecursiveInstallCorrupted = nil;
         end
 
-        return T._DiagStatus, LibraryIssues or Incompatible or MixedInstall or MissingFile or RestartNeeded;
+        return T._DiagStatus, LibraryIssues or Incompatible or MixedInstall or MissingFile;
 
 
     end -- }}}
@@ -940,4 +927,4 @@ do
     end
 end
 
-T._LoadedFiles["Dcr_DIAG.lua"] = "2.7.3.1";
+T._LoadedFiles["Dcr_DIAG.lua"] = "2.7.3";
