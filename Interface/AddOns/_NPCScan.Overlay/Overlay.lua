@@ -15,12 +15,17 @@ _NPCScanMiniMapIcon = {}
 
 private.Version = GetAddOnMetadata( FOLDER_NAME, "Version" ):match( "^([%d.]+)" );
 
-private.Options = {
+--private.Options = {};
+
+_NPCScanOverlayOptions  = {
 	Version = private.Version,
 	Modules = {},
 	ModulesAlpha = {},
 	ModulesExtra = {},
 	MiniMapIcon = {},
+	ShowAll = false,
+	ShowKey = true,
+	LockSwap = false,
 };
 
 private.OptionsDefault = {
@@ -31,6 +36,7 @@ private.OptionsDefault = {
 	MiniMapIcon = {},
 	ShowAll = false,
 	ShowKey = true,
+	LockSwap = false,
 };
 
 private.TextureTable = {};
@@ -40,69 +46,6 @@ private.CurrentTextureMob = nil;
 private.NPCsEnabled = {};
 private.NPCCounts = {}; -- Number of enabled NPCs that use this NPC path
 private.NPCMaps = {}; -- [ NpcID ] = { [ MapID1 ] = (true|{FoundX,FoundY}); ... };
-private.NPCsFoundIgnored = {
-	[ 32487 ] = true; -- Putridus the Ancient
-	[ 50009 ] = true; -- Mobus
-};
-private.NPCAliases = { -- (Key) NPC shows (Value) NPC's path instead
-	-- Note: Circular references will lock client!
-	-- Madexx (Brown)
-	[ 51401 ] = 50154; -- Madexx (Red)
-	[ 51402 ] = 50154; -- Madexx (Green)
-	[ 51403 ] = 50154; -- Madexx (Black)
-	[ 51404 ] = 50154; -- Madexx (Blue)
-};
-private.Achievements = { -- Achievements whos criteria mobs are all mapped
-		[ 1312 ] = true; -- Bloody Rare (Outlands)
-		[ 2257 ] = true; -- Frostbitten (Northrend)
-		[ 7317 ] = true; -- One Of Many
-		[ 7439 ] = true; -- Glorious! (Pandaria)
-		[ 8103 ] = true; -- Champions of Lei Shen
-		[ 8714 ] = true;  --Timeless Champion
-};
-
---Color's used for the paths.  Need to revisit to replace the duplicated colors if possible
-private.Colors = {
-	RAID_CLASS_COLORS.SHAMAN,
-	RAID_CLASS_COLORS.DEATHKNIGHT,
-	GREEN_FONT_COLOR,
-	RAID_CLASS_COLORS.DRUID,
-	RAID_CLASS_COLORS.PALADIN,
-	UnitPopupButtons.RAID_TARGET_1.color,
-	UnitPopupButtons.RAID_TARGET_5.color,
-	UnitPopupButtons.RAID_TARGET_6.color,
-	UnitPopupButtons.RAID_TARGET_3.color,
-	RAID_CLASS_COLORS.MONK,
-	RAID_CLASS_COLORS.HUNTER,
-
-	RAID_CLASS_COLORS.SHAMAN,
-	RAID_CLASS_COLORS.DEATHKNIGHT,
-	GREEN_FONT_COLOR,
-	RAID_CLASS_COLORS.DRUID,
-	RAID_CLASS_COLORS.PALADIN,
-	UnitPopupButtons.RAID_TARGET_1.color,
-	UnitPopupButtons.RAID_TARGET_5.color,
-	UnitPopupButtons.RAID_TARGET_6.color,
-	UnitPopupButtons.RAID_TARGET_3.color,
-	RAID_CLASS_COLORS.MONK,
-	RAID_CLASS_COLORS.HUNTER,
-
-	RAID_CLASS_COLORS.SHAMAN,
-	RAID_CLASS_COLORS.DEATHKNIGHT,
-	GREEN_FONT_COLOR,
-	RAID_CLASS_COLORS.DRUID,
-	RAID_CLASS_COLORS.PALADIN,
-	UnitPopupButtons.RAID_TARGET_1.color,
-	UnitPopupButtons.RAID_TARGET_5.color,
-	UnitPopupButtons.RAID_TARGET_6.color,
-	UnitPopupButtons.RAID_TARGET_3.color,
-	RAID_CLASS_COLORS.MONK,
-	RAID_CLASS_COLORS.HUNTER,
-};
-
-_NPCScanOverlayKeyColors = private.Colors
-
-
 private.DetectionRadius = 100; -- yards
 
 local TexturesUnused = CreateFrame( "Frame" );
@@ -112,9 +55,6 @@ local MESSAGE_REGISTER = "NpcOverlay_RegisterScanner";
 local MESSAGE_ADD = "NpcOverlay_Add";
 local MESSAGE_REMOVE = "NpcOverlay_Remove";
 local MESSAGE_FOUND = "NpcOverlay_Found";
-
-
-
 
 --- Prepares an unused texture on the given frame.
 -- @param Layer  Draw layer for texture.
@@ -527,14 +467,8 @@ end
 
 
 --- Enables always showing all paths.
--- @return True if changed.
 function private.SetShowAll ( Enable )
-	Enable = not not Enable;
-	if ( Enable ~= private.Options.ShowAll ) then
-		private.Options.ShowAll = Enable;
-
-		private.Config.ShowAll:SetChecked( Enable );
-
+	if ( Enable == true) then
 		-- Update all affected maps
 		for Map, MapData in pairs( private.PathData ) do
 			-- If a map has a disabled path, it must be redrawn
@@ -545,23 +479,18 @@ function private.SetShowAll ( Enable )
 				end
 			end
 		end
-
-		return true;
 	end
+	private.Options.ShowAll = Enable;
+	private.Config.ShowAll:SetChecked( Enable );
 end
 
-
---- Reloads enabled modules from saved settings.
-function private.Synchronize ( Options )
-	-- Load defaults if settings omitted
-	if ( not Options ) then
-		Options = private.OptionsDefault;
-	end
-	_NPCScanOverlayOptions.ShowKey = Options.ShowKey 
-	private.SetShowAll( Options.ShowAll );
-	private.Modules.OnSynchronize( Options );
-
+--- Enables always showing all paths.
+-- @return True if changed.
+function private.SetLockSwap ( Enable )
+	private.Options.LockSwap = Enable;
+	private.Config.LockSwap:SetChecked( Enable );
 end
+
  
  --Creates LDB icon and click actgions
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("_NPCScan.Overlay", {
@@ -572,7 +501,7 @@ local LDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("_NPCScan.Over
 		if button == "LeftButton" then
 			-- for LeftButton, toggle the module Enabled or Disabled
 			if( IsShiftKeyDown() ) then
-				NSO_KeyToggleOnClick()
+				private.WorldMapKey_ToggleOnClick()
 			else
 								-- if Control Key down, toggle stuff on Main World Map
 				if ( private.Options.Modules[ "WorldMap" ] ) then
@@ -635,6 +564,11 @@ do
 			self[ Event ] = nil;
 			self:UnregisterEvent( Event );
 
+			private.Options = _G._NPCScanOverlayOptions
+			if ( not private.Options  ) then
+				private.Options = private.OptionsDefault;
+			end
+
 			-- Build a reverse lookup of NpcIDs to zones, and add them all by default
 			for Map, MapData in pairs( private.PathData ) do
 				SetMapByID( Map );
@@ -655,13 +589,15 @@ do
 				end
 			end
 
-			local Options = _NPCScanOverlayOptions;
-			_NPCScanOverlayOptions = private.Options;
-			if ( Options and not Options.ModulesExtra ) then -- 3.3.5.1: Moved module options to options sub-tables
-				Options.ModulesExtra = {};
+			if ( private.Options  and not private.Options.ModulesExtra ) then -- 3.3.5.1: Moved module options to options sub-tables
+				private.Options.ModulesExtra = {};
 			end
 
-			private.Synchronize( Options ); -- Loads defaults if nil
+			private.SetShowAll( private.Options.ShowAll );
+			private.SetLockSwap( private.Options.LockSwap );
+			private.Modules.OnSynchronize( private.Options );
+			private.SetKeyIconTexture()
+			private.SetPathIconTexture()
 			self:RegisterMessage( MESSAGE_REGISTER );
 			self:RegisterMessage( MESSAGE_FOUND );
 			--MiniMapIcon:Register("_NPCScan.Minimap", LDB, _NPCScanMiniMapIcon)
@@ -709,9 +645,3 @@ function private.FlashStop(MobID)
 end
 
 private.Events:RegisterEvent( "ADDON_LOADED" );
-
-
-
-
---http://wowprogramming.com/BlizzArt/Interface/ICONS/Ability_Hunter_MasterMarksman.png
---http://wowprogramming.com/BlizzArt/Interface/ICONS/INV_Misc_EngGizmos_20.png

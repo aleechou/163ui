@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.3.1) add-on for World of Warcraft UI
+    Decursive (v 2.7.3) add-on for World of Warcraft UI
     Copyright (C) 2006-2007-2008-2009-2010-2011-2012 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
@@ -1702,7 +1702,7 @@ local function GetStaticOptions ()
                                     "\n\n|cFFDDDD00 %s|r:\n   %s"..
                                     "\n\n|cFFDDDD00 %s|r:\n   %s"
                                 ):format(
-                                    "2.7.3.1", "John Wellesz", ("2014-02-03T04:28:16Z"):sub(1,10),
+                                    "2.7.3", "John Wellesz", ("2013-09-11T19:28:12Z"):sub(1,10),
                                     L["ABOUT_NOTES"],
                                     L["ABOUT_LICENSE"],         GetAddOnMetadata("Decursive", "X-License") or 'MoP is buggy',
                                     L["ABOUT_SHAREDLIBS"],      GetAddOnMetadata("Decursive", "X-Embeds") or 'MoP is buggy',
@@ -2989,6 +2989,6 @@ function D:QuickAccess (CallingObject, button) -- {{{
 end -- }}}
 
 
-T._LoadedFiles["Dcr_opt.lua"] = "2.7.3.1";
+T._LoadedFiles["Dcr_opt.lua"] = "2.7.3";
 
 -- Closer

@@ -5,7 +5,7 @@
 ## Version: 5.4.2
 ## SavedVariables: DominosDB, DominosVersion
 ## OptionalDeps: Ace3, LibKeyBound-1.0, Masque, FlyPaper
-## 163UI-Version: 2014060201
+
 embeds.xml
 localization.xml
 Dominos.lua
@@ -29,3 +29,4 @@ multiActionBarFixer.lua
 
 ## Title: |cff880303[网易有爱]|r 多米诺动作条
 ## X-Vendor: NetEase
+## 163UI-Version: 2014061002

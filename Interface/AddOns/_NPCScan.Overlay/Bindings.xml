@@ -1,10 +1,16 @@
 <Bindings>
 	<Binding name="KEY _NPCScan.Overlay.Button:LeftButton" header="_NPCSCAN_OVERLAY">
-		NSO_KeyToggleOnClick()
+				_G._NPCScan.Overlay.WorldMapKey_ToggleOnClick()
 	</Binding>
 
 	<Binding name="PATH _NPCScan.Overlay.Button:LeftButton">
-		NSO_ToggleOnClick()
+		_G._NPCScan.Overlay.WorldMapPaths_ToggleOnClick()
 	</Binding>
+
+	<Binding name="MINIMAP_PATH _NPCScan.Overlay.Button:LeftButton">
+		Minimap_Toggle()
+	</Binding>
+
+
 	<ModifiedClick action="_NPCSCAN_BUTTONDRAG" default="CTRL"/>
 </Bindings>

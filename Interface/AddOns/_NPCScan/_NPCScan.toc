@@ -1,5 +1,5 @@
 ## Interface: 50400
-## Title: _|cffCCCC88NPCScan|r
+## Title: _NPCScan
 ## Notes: Scans NPCs around you for rare ones.
 ## Notes-deDE: Scant NSCs in deiner Nähe nach seltenen.
 ## Notes-enCN: 搜索附近的 NPC 寻找稀有怪物。
@@ -29,8 +29,8 @@
 ## X-Credits-ruRU: Localization: StingerSoft, Sarymian, KVVV, The_DimoK, ichik, Ant1dotE, tick095, dartraiden
 ## X-Credits-zhCN: Localization: digmouse, tss1398383123, ananhaid, redsaru, dh0000
 ## X-Credits-zhTW: Localization: s8095324, pepper_ep, zhTW, laincat, alpha2009, machihchung
-## Version: 5.4.7.2
-## X-Date: 2013-12-24T20:18:38Z
+## Version: 5.4.8.2
+## X-Date: 2014-06-01T11:34:40Z
 ## X-Category: Miscellaneous
 ## X-License: GPLv3
 ## X-Email: jcallahan@curse.com
@@ -39,11 +39,14 @@
 ## X-CompatibleLocales: deDE, enCN, enTW, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
 ## SavedVariables: _NPCScanOptions
 ## SavedVariablesPerCharacter: _NPCScanOptionsCharacter
-## OptionalDeps: Ace3, LibTextDump-1.0, LibTextTable-1.1, LibSharedMedia-3.0
-## X-Curse-Packaged-Version: 5.4.7.2
+## OptionalDeps: Ace3, LibDialog-1.0, LibSharedMedia-3.0, LibTextDump-1.0, LibTextTable-1.1
+## X-Curse-Packaged-Version: 5.4.8.2
 ## X-Curse-Project-Name: _NPCScan
 ## X-Curse-Project-ID: npcscan
 ## X-Curse-Repository-ID: wow/npcscan/mainline
+## X-Mush-Project-Name: _NPCScan
+## X-Mush-Packaged-Version: 49
+## X-Mush-UpdateVer: 49
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
@@ -52,8 +55,8 @@ Libs\LibTextDump-1.0\Lib.xml
 Libs\LibTextTable-1.1\Lib.xml
 Libs\LibSharedMedia-3.0\lib.xml
 Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\LibDialog-1.0\lib.xml
 #@end-no-lib-strip@
-
 # See http://wow.wowace.com/addons/npcscan/localization/
 Locales\Locale-enUS.lua
 Locales\Locale-deDE.lua
@@ -65,16 +68,15 @@ Locales\Locale-ptBR.lua
 Locales\Locale-ruRU.lua
 Locales\Locale-zhCN.lua
 Locales\Locale-zhTW.lua
-
 Constants.lua
 NPCData.lua
-
 _NPCScan.lua
 TargetButton.lua
 MapOverlays.lua
 Config.lua
 ConfigSearch.lua
 Vignette.lua
+
 ## Title: |cff880303[网易有爱]|r 稀有怪物警报
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014061002

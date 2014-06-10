@@ -19,6 +19,8 @@ local table = _G.table
 -- AddOn namespace.
 -------------------------------------------------------------------------------
 local FOLDER_NAME, private = ...
+
+local Dialog = _G.LibStub("LibDialog-1.0")
 local L = private.L
 _G._NPCScan = private
 
@@ -60,7 +62,7 @@ private.Options = {
 		NPCs = {},
 		MapName = {},
 		WorldID = {},
-		},
+	},
 }
 
 private.OptionsCharacter = {
@@ -73,9 +75,9 @@ private.OptionsDefault = {
 	Version = DB_VERSION,
 	AlertSound = nil, -- Default sound
 	NPCs = {
-		[50409] = private.L.NPCs["50409"],--"Mysterious Camel Figurine",
-		[50410] = private.L.NPCs["50410"],--"Mysterious Camel Figurine",
-		[64004] = private.L.NPCs["64004"],--"Ghostly Pandaren Fisherman",
+		[50409] = private.L.NPCs["50409"], --"Mysterious Camel Figurine",
+		[50410] = private.L.NPCs["50410"], --"Mysterious Camel Figurine",
+		[64004] = private.L.NPCs["64004"], --"Ghostly Pandaren Fisherman",
 		[64191] = private.L.NPCs["64191"], --"Ghostly Pandaren Craftsman",
 	},
 	NPCWorldIDs = {
@@ -89,7 +91,6 @@ private.OptionsDefault = {
 		MapName = {},
 		WorldID = {},
 	},
-
 }
 
 
@@ -113,6 +114,25 @@ private.OptionsCharacterDefault = {
 	TrackRares = true,
 	TrackVignettes = false,
 }
+
+
+-------------------------------------------------------------------------------
+-- Dialogs.
+-------------------------------------------------------------------------------
+Dialog:Register("NPCSCAN_AUTOADD_WARNING", {
+	text = "You appear to be running _NPCScan.AutoAdd v2.2 or earlier, which may prevent _NPCScan from working properly.\n\nIt is recommended that you disable _NPCScan.AutoAdd until it is updated.",
+	text_justify_h = "left",
+	text_justify_v = "bottom",
+	buttons = {
+		{
+			text = _G.OKAY,
+		},
+	},
+	icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
+	show_while_dead = true,
+	hide_on_escape = true,
+	width = 500,
+})
 
 
 -------------------------------------------------------------------------------
@@ -405,11 +425,8 @@ local function AchievementActivate(achievement)
 	achievement.Active = true
 
 	for criteria_id, npc_id in pairs(achievement.Criteria) do
-	--ignore list check
 		if not _G._NPCScanOptions.IgnoreList.NPCs[npc_id] then
 			AchievementNPCActivate(achievement, npc_id, criteria_id)
-		else
-		--print("ignoreing "..npc_id)
 		end
 	end
 	return true
@@ -602,14 +619,13 @@ function private.SetAlertSound(alert_sound)
 end
 
 --- Sets the icon to display over found NPC.
-function private.SetTargetIcon(icon)
-	if icon == nil then icon = 8 end
-		private.OptionsCharacter.TargetIcon = icon
-		local iconinfo = UnitPopupButtons["RAID_TARGET_"..icon]
-		local text = iconinfo.text
-		local colorCode = string.format("|cFF%02x%02x%02x", iconinfo.color.r*255, iconinfo.color.g*255, iconinfo.color.b*255);
+function private.SetTargetIcon(icon_id)
+	icon_id = icon_id or private.NUM_RAID_ICONS
+	private.OptionsCharacter.TargetIcon = icon_id
 
-		_G.UIDropDownMenu_SetText(private.Config.alert_icon_dropdown, colorCode..text)
+	local icon_info = _G.UnitPopupButtons["RAID_TARGET_" .. icon_id]
+	local colorCode = ("|cFF%02x%02x%02x"):format(icon_info.color.r * 255, icon_info.color.g * 255, icon_info.color.b * 255)
+	_G.UIDropDownMenu_SetText(private.Config.alert_icon_dropdown, colorCode .. icon_info.text)
 end
 
 --- Enables Blocking alerts while on taxi.
@@ -911,36 +927,33 @@ end
 -- Loads defaults, validates settings, and starts scan.
 -- Used instead of ADDON_LOADED to give overlay mods a chance to load and register for messages.
 function private.Frame:PLAYER_LOGIN(event_name)
-	--Check to see if old version of _NPCScan.AutoAdd is loaded and display warning
 	if _G.IsAddOnLoaded("_NPCScan.AutoAdd") then
-		local AutoAddVersion = GetAddOnMetadata("_NPCScan.AutoAdd", "Version"):match("^([%d.]+)");
-		if AutoAddVersion <= "2.2" then
-			StaticPopup_Show("NPCSCAN_AUTOADD_WARNING")
+		if _G.GetAddOnMetadata("_NPCScan.AutoAdd", "Version"):match("^([%d.]+)") <= "2.2" then
+			Dialog:Spawn("NPCSCAN_AUTOADD_WARNING")
 		end
 	end
-
 	local stored_options = _G._NPCScanOptions
 	local stored_character_options = _G._NPCScanOptionsCharacter
 	_G._NPCScanOptions = private.Options
 	_G._NPCScanOptionsCharacter = private.OptionsCharacter
 
---Updates custom NPCs to include include new NPCS added in version change
+	--Updates custom NPCs to include include new NPCS added in version change
 	if stored_options and stored_options.Version ~= DB_VERSION then
-			if stored_options.NPCs then
-				for npc_id, npc_name in pairs(private.OptionsDefault.NPCs) do
-					if not stored_options.NPCs[npc_id] then
-						stored_options.NPCs[npc_id] = npc_name
-						local world = private.OptionsDefault.NPCWorldIDs and private.OptionsDefault.NPCWorldIDs[npc_id]
-						if world then
-							stored_options.NPCWorldIDs[npc_id] = world
-						end
+		if stored_options.NPCs then
+			for npc_id, npc_name in pairs(private.OptionsDefault.NPCs) do
+				if not stored_options.NPCs[npc_id] then
+					stored_options.NPCs[npc_id] = npc_name
+					local world = private.OptionsDefault.NPCWorldIDs and private.OptionsDefault.NPCWorldIDs[npc_id]
+					if world then
+						stored_options.NPCWorldIDs[npc_id] = world
 					end
 				end
 			end
+		end
 		stored_options.Version = DB_VERSION
 	end
 
---Converts old style per character NPCs to global saved NPCs
+	--Converts old style per character NPCs to global saved NPCs
 	if stored_character_options and stored_character_options.Version ~= DB_VERSION then
 		if not stored_character_options.Version or type(stored_character_options.Version) == "string" or stored_character_options.Version < DB_VERSION then
 			if stored_character_options.NPCs then
@@ -967,7 +980,7 @@ end
 
 
 do
-	local FirstWorld = true
+	local has_initialized = false
 
 	function private.Frame:PLAYER_ENTERING_WORLD()
 		self:PLAYER_UPDATE_RESTING()
@@ -980,7 +993,6 @@ do
 		else
 			private.WorldID = map_name
 		end
-
 
 		if private.OptionsCharacter.TrackRares then
 			for npc_id, world_name in pairs(private.UNTAMABLE_ID_TO_WORLD_NAME) do
@@ -1009,10 +1021,12 @@ do
 			NPCActivate(npc_id, private.Options.NPCWorldIDs[npc_id])
 		end
 
-		if FirstWorld or not private.Options.CacheWarnings then -- Full listing of cached mobs gets printed on login
-			FirstWorld = false
+		if not has_initialized or not private.Options.CacheWarnings then
+			-- Full listing of cached mobs gets printed on login
+			has_initialized = true
 			table.wipe(CacheList)
-		else -- Print list of cached mobs specific to new world
+		else
+			-- Print list of cached mobs specific to new world
 			local list_string = CacheListBuild(CacheList)
 			if list_string then
 				private.Print(L.CACHED_WORLD_FORMAT:format(list_string, map_name))
@@ -1140,14 +1154,3 @@ if _G.GetZoneText() == "" then
 else
 	private.Frame:ZONE_CHANGED_NEW_AREA("ZONE_CHANGED_NEW_AREA")
 end
-
-
-_G.StaticPopupDialogs["NPCSCAN_AUTOADD_WARNING"] = {
-	text = "_NPCScan has detected that you are running _NPCScan.AutoAdd v2.2.  This version of the addon is not supported and may prevent _NPCScan from working properly.  It is reccomended that you disable _NPCScan.AutoAdd untill it is updated.",
-	button1 = "Ok",
-	OnAccept = function()
-	end,
-	timeout = 0,
-	whileDead = true,
-	hideOnEscape = true,
-}

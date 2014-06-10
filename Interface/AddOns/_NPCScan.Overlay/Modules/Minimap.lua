@@ -679,7 +679,7 @@ end
 --- Enables the minimap range ring.
 -- @return True if changed.
 function panel.RangeRingSetEnabled ( Enable )
-	if ( Enable ~= private.Options.ModulesExtra[ "Minimap" ].RangeRing ) then
+
 		private.Options.ModulesExtra[ "Minimap" ].RangeRing = Enable;
 
 		panel.Config.RangeRing:SetChecked( Enable );
@@ -689,8 +689,7 @@ function panel.RangeRingSetEnabled ( Enable )
 		elseif ( panel.Loaded ) then
 			panel.RangeRing:Hide();
 		end
-		return true;
-	end
+
 end
 --- Synchronizes custom settings to options table.
 function panel:OnSynchronize ( OptionsExtra )
@@ -721,3 +720,13 @@ Checkbox.tooltipText = private.L.MODULE_RANGERING_DESC;
 Config:AddControl( Checkbox );
 
 Config:SetHeight( Config:GetHeight() + Checkbox:GetHeight() );
+
+--- Toggles the module like a checkbox.
+function Minimap_Toggle ()
+	local enable = _NPCScanOverlayOptions.Modules.Minimap
+	if enable then
+		private.Modules.Disable( "Minimap" )
+	else
+		private.Modules.Enable( "Minimap" )
+	end
+end

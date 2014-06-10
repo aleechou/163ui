@@ -64,7 +64,7 @@ function print_time_checkbox.setFunc(is_enabled)
 end
 
 local alert_icon_dropdown = _G.CreateFrame("Frame", "_NPCScanConfigIconDropdown", panel, "UIDropDownMenuTemplate")
-alert_icon_dropdown:SetPoint("TOPLEFT", panel.print_time_checkbox , "BOTTOMLEFT", -10, -20)
+alert_icon_dropdown:SetPoint("TOPLEFT", panel.print_time_checkbox, "BOTTOMLEFT", -10, -20)
 alert_icon_dropdown:SetPoint("RIGHT", -12, 0)
 alert_icon_dropdown:EnableMouse(true)
 alert_icon_dropdown.tooltipText = L.CONFIG_ALERT_SOUND_DESC
@@ -79,28 +79,24 @@ do
 
 
 	function alert_icon_dropdown:initialize(level)
-		if not level then
+		if not level or level ~= 1 then
 			return
 		end
 
 		local current_icon = private.OptionsCharacter.TargetIcon
 		local info = _G.UIDropDownMenu_CreateInfo()
 
-		if level == 1 then
-			info.func = Icon_Entry_OnSelect
-			local index = 1
-			while index < 9 do
-				local iconinfo = UnitPopupButtons["RAID_TARGET_"..index]
-				info.text = iconinfo.text
-				info.arg1 = index
-				info.checked = current_icon == index
-				info.icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_"..index
-				info.colorCode = string.format("|cFF%02x%02x%02x", iconinfo.color.r*255, iconinfo.color.g*255, iconinfo.color.b*255);
+		info.func = Icon_Entry_OnSelect
 
-				_G.UIDropDownMenu_AddButton(info, level)
-				index = index + 1
-			end
-			
+		for index = 1, private.NUM_RAID_ICONS do
+			local icon_info = _G.UnitPopupButtons["RAID_TARGET_" .. index]
+			info.text = icon_info.text
+			info.arg1 = index
+			info.checked = current_icon == index
+			info.icon = [[Interface\TargetingFrame\UI-RaidTargetingIcon_]] .. index
+			info.colorCode = ("|cFF%02x%02x%02x"):format(icon_info.color.r * 255, icon_info.color.g * 255, icon_info.color.b * 255)
+
+			_G.UIDropDownMenu_AddButton(info, level)
 		end
 	end
 end -- do-block
@@ -246,7 +242,7 @@ do
 			info.arg1 = _G.MUTE
 			info.checked = current_sound == _G.MUTE
 			_G.UIDropDownMenu_AddButton(info, level)
-			
+
 
 
 

@@ -43,7 +43,7 @@ do
 end
 --- Sets a module's overlay alpha.
 local function SetAlpha ( Module, Alpha )
-	if ( Module.Enabled and Module.Alpha ~= Alpha ) then
+	if ( Module.Enabled) then
 		Module.Alpha = Alpha;
 		if ( Module.SetAlpha ) then
 			SafeCall( Module.SetAlpha, Module, Alpha );
@@ -197,14 +197,12 @@ end
 --- Enables a module.
 -- @return True if enabled successfully.
 function panel.Enable ( Name )
-	if ( not private.Options.Modules[ Name ] ) then
 		private.Options.Modules[ Name ] = true;
 
 		local Module = panel.List[ Name ];
 		Module.Config:SetEnabled( true );
 		Enable( Module );
 		return true;
-	end
 end
 --- Disables a module.
 -- @return True if disabled successfully.
@@ -219,16 +217,12 @@ function panel.Disable ( Name )
 	end
 end
 --- Sets the module's alpha setting.
--- @return True if changed.
 function panel.SetAlpha ( Name, Alpha )
-	if ( Alpha ~= private.Options.ModulesAlpha[ Name ] ) then
 		private.Options.ModulesAlpha[ Name ] = Alpha;
-
 		local Module = panel.List[ Name ];
 		Module.Config.Alpha:SetValue( Alpha );
 		SetAlpha( Module, Alpha );
-		return true;
-	end
+
 end
 
 

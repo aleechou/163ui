@@ -18,17 +18,18 @@ local FOLDER_NAME, private = ...
 L = private.L
 
 local function OverlayToggle()
-			-- for LeftButton, toggle the module Enabled or Disabled
-			if( IsShiftKeyDown() ) then
-				NSO_KeyToggleOnClick()
-			else
-								-- if Control Key down, toggle stuff on Main World Map
-				if ( private.Options.Modules[ "WorldMap" ] ) then
-					private.Modules.Disable( "WorldMap" );
-				else
-					private.Modules.Enable( "WorldMap" );
-				end
-			end
+	private.WorldMapPaths_ToggleOnClick()
+end
+
+local function KeyToggle()
+	private.WorldMapKey_ToggleOnClick()
+	local texture
+	if private.Options.ShowKey then
+		texture= private.KeyToggleIconTexture_Enabled
+	else
+		texture= private.KeyToggleIconTexture_Disabled
+	end
+	_NPCScanKeyToggle.KeyNormal:SetTexture(texture)
 end
 
 
@@ -119,12 +120,19 @@ local function OnLoad ()
 	panel[ WorldMapFrame:IsVisible() and "WorldMapFrameOnShow" or "WorldMapFrameOnHide" ]( WorldMapFrame );
 	--adds 
 		Nx.Button.TypeData["OverlayToggle"] ={
-		Up = "$INV_Misc_EngGizmos_20",
-		Dn = "$INV_Misc_EngGizmos_20",
+		Up = private.PathToggleIconTexture_Enabled ,
+		Dn = private.PathToggleIconTexture_Enabled ,
 		SizeUp = 22,
 		SizeDn = 22,
 	}
-		CarboniteMap.ToolBar:AddButton("OverlayToggle", L.BUTTON_TOOLTIP_LINE2.."\n"..L.BUTTON_TOOLTIP_LINE3, nil, OverlayToggle, false)
+		CarboniteMap.ToolBar:AddButton("OverlayToggle", L.MODULE_WORLDMAP_TOGGLE, nil, OverlayToggle, false)
+		Nx.Button.TypeData["KeyToggle"] ={
+		Up = private.KeyToggleIconTexture_Enabled ,
+		Dn = private.KeyToggleIconTexture_Enabled ,
+		SizeUp = 22,
+		SizeDn = 22,
+	}
+		CarboniteMap.ToolBar:AddButton("KeyToggle", L.MODULE_WORLDMAP_KEYTOGGLE, nil, KeyToggle, false)
 		CarboniteMap.ToolBar:Update()
 		CarboniteMap:UpdateToolBar()
 	
@@ -244,13 +252,21 @@ local function OnLoad ()
 	if CarboniteMap then
 		CarboniteMap:ClipZoneFrm( CarboniteMap.Cont, CarboniteMap.Zone, WorldMap);
 	
-		Nx.Button.TypeData["NSO"] ={
-		Up = "$INV_Misc_EngGizmos_20",
-		Dn = "$INV_Misc_EngGizmos_20",
+		Nx.Button.TypeData["OverlayToggle"] ={
+		Up = private.PathToggleIconTexture_Enabled,
+		Dn = private.PathToggleIconTexture_Enabled ,
 		SizeUp = 22,
 		SizeDn = 22,
 	}
-		CarboniteMap.ToolBar:AddButton("NSO", L.BUTTON_TOOLTIP_LINE2.."\n"..L.BUTTON_TOOLTIP_LINE3, nil, OverlayToggle, false)
+		CarboniteMap.ToolBar:AddButton("OverlayToggle", L.MODULE_WORLDMAP_TOGGLE, nil, OverlayToggle, false)
+
+		Nx.Button.TypeData["KeyToggle"] ={
+		Up = private.KeyToggleIconTexture_Enabled,
+		Dn = private.KeyToggleIconTexture_Enabled ,
+		SizeUp = 22,
+		SizeDn = 22,
+	}
+		CarboniteMap.ToolBar:AddButton("KeyToggle", L.MODULE_WORLDMAP_KEYTOGGLE, nil, KeyToggle, false)
 		CarboniteMap.ToolBar:Update()
 		CarboniteMap:UpdateToolBar()
 	end

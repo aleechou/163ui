@@ -6,8 +6,6 @@
 ## Author: Terry, dugu@bigfoot
 ## Version: 0.1
 ## X-DuowanAddon: 介面聊天
-
-## X-Revision: Duowan
 ## SavedVariables: DuowanChatDB, DuowanChatPlayerDB
 ### SavedVariablesPerCharacter: DuowanChatPerDB
 ## LoadOnDemand: 

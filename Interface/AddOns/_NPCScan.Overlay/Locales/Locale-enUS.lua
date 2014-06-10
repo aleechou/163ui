@@ -794,11 +794,23 @@ select( 2, ... ).L = setmetatable( {
 
 	};
 
+	BUTTON_TOOLTIP_LINE1 = "|cffffee00 _NPCScan.Overlay|r",
+	BUTTON_TOOLTIP_LINE2 = "|cffd6ff00 Click: |r Toggles World Map paths",
+	BUTTON_TOOLTIP_LINE3 = "|cffd6ff00 Shift Click: |r Toggles World Map key",
+	BUTTON_TOOLTIP_LINE4 = "|cffd6ff00 Right-Click: |r Toggles Mini Map paths",
+	BUTTON_TOOLTIP_LINE5 = "|cffaaf200 Middle-Click: |r Toggle display of Both Mini & World Map paths",
+	BUTTON_TOOLTIP_LINE6 = "|cff6cff00 Shift Middle-Click: |r Open Options Menu",
+
 	CONFIG_ALPHA = "Alpha",
 	CONFIG_DESC = "Control which maps will show mob path overlays.  Most map-modifying addons are controlled with the World Map option.",
 	CONFIG_SHOWALL = "Always show all paths",
 	CONFIG_SHOWALL_DESC = "Normally when a mob isn't being searched for, its path gets taken off the map.  Enable this setting to always show every known patrol instead.",
+	CONFIG_SHOWKEY = "Show Mob Key on Map",
+	CONFIG_SHOWKEY_DESC = "Toggles the displaying of the mob key on the world map.",
+	CONFIG_LOCKSWAP = "Swap Mob Key Movement Controls",
+	CONFIG_LOCKSWAP_DESC = "Sets the  mob key to move on mouse over and holding <Shift> to prevent movement.",
 	CONFIG_SETCOLOR = "Set Path Colors",
+
 	CONFIG_SETCOLOR_DESC = "Click to set Map Key & Path Colors.",
 	CONFIG_COLORLIST_LABEL = "Overlay Path Color Table",
 	CONFIG_COLORLIST_INST = "Click on mob title to choose its color.",
@@ -817,12 +829,7 @@ select( 2, ... ).L = setmetatable( {
 	MODULE_WORLDMAP_TOGGLE_DESC = "Toggle _|cffCCCC88NPCScan|r.Overlay's paths for tracked NPCs.",
 	MODULE_WORLDMAP_KEYTOGGLE = "Toggle Mob Path Key",
 	MODULE_WORLDMAP_KEYTOGGLE_DESC = "Toggle Path Key.",
-	BUTTON_TOOLTIP_LINE1 = "|cffffee00 _NPCScan.Overlay|r",
-	BUTTON_TOOLTIP_LINE2 = "|cffd6ff00 Click: |r Toggles World Map paths",
-	BUTTON_TOOLTIP_LINE3 = "|cffd6ff00 Shift Click: |r Toggles World Map key",
-	BUTTON_TOOLTIP_LINE4 = "|cffd6ff00 Right-Click: |r Toggles Mini Map paths",
-	BUTTON_TOOLTIP_LINE5 = "|cffaaf200 Middle-Click: |r Toggle display of Both Mini & World Map paths",
-	BUTTON_TOOLTIP_LINE6 = "|cff6cff00 Shift Middle-Click: |r Open Options Menu",
+
 
 	-- Phrases localized by default UI
 	CONFIG_ENABLE = ENABLE;
@@ -843,3 +850,4 @@ SLASH__NPCSCAN_OVERLAY3 = "/overlay";
 BINDING_HEADER__NPCSCAN_OVERLAY = "_|cffCCCC88NPCScan.Overlay|r";
 _G[ "BINDING_NAME_KEY _NPCScan.Overlay.Button:LeftButton" ] = [=[Toggle Mob Key]=];
 _G[ "BINDING_NAME_PATH _NPCScan.Overlay.Button:LeftButton" ] = [=[Toggle Mob Paths]=];
+_G[ "BINDING_NAME_MINIMAP_PATH _NPCScan.Overlay.Button:LeftButton" ] = [=[Toggle MiniMap Paths]=];

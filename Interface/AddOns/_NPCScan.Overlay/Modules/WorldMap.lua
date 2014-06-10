@@ -4,25 +4,23 @@
   ****************************************************************************]]
 
 
-local private = select( 2, ... );
+local FOLDER_NAME, private = ...
 local L = private.L;
 local panel = private.Modules.WorldMapTemplate.Embed( CreateFrame( "Frame", nil, WorldMapDetailFrame ) );
-
-local ShowKey = true;
 
 panel.KeyMinScale = 0.50; -- Minimum effective scale to render the key at
 panel.KeyMaxSize = 3; -- If the key takes up more than this fraction of the canvas, hide it
 
 
-	local function WorldMapFrameOnHide()
-		_NPCScanOverlayKey:Hide();
-	end
+local function WorldMapFrameOnHide()
+	_NPCScanOverlayKey:Hide();
+end
 
-	local function WorldMapFrameOnShow()
-		if private.Options.ShowKey then
-			_NPCScanOverlayKey:Show()
-		end
+local function WorldMapFrameOnShow()
+	if private.Options.ShowKey then
+		_NPCScanOverlayKey:Show()
 	end
+end
 
 function panel:OnHide ( ... )
 	_NPCScanOverlayKey:Hide();
@@ -35,12 +33,12 @@ function panel:OnShow ( ... )
 	return self.super.OnShow( self, ... );
 end
 
-do
 	local Points = { "BOTTOMLEFT", "BOTTOMRIGHT", "TOPRIGHT" };
 	local Point = 0;
+do
 	--- Moves the key to a different corner if it gets in the way of the mouse.
 	function panel:KeyOnEnter ()
-		if   IsShiftKeyDown() then
+		if (private.Options.LockSwap and not IsShiftKeyDown()) or (not private.Options.LockSwap and IsShiftKeyDown() )then
 			self:ClearAllPoints();
 			self:SetPoint( Points[ Point % #Points + 1 ] );
 			Point = Point + 1;
@@ -105,7 +103,15 @@ do
 		end
 		
 		Line.Text:SetTextColor( R, G, B );
-		Line:SetScript( "OnEnter", function() private.FlashRoute(NpcID) end );
+		Line:SetScript( "OnEnter", function()
+			if (private.Options.LockSwap and not IsShiftKeyDown()) or (not private.Options.LockSwap and IsShiftKeyDown() )then
+				_NPCScanOverlayKey:ClearAllPoints();
+				_NPCScanOverlayKey:SetPoint( Points[ Point % #Points + 1 ] );
+				Point = Point + 1;
+			elseif (private.Options.LockSwap and IsShiftKeyDown()) or (not private.Options.LockSwap and not IsShiftKeyDown() )then
+				private.FlashRoute(NpcID) 
+			end
+		end );
 		Line:SetScript( "OnLeave", function() private.FlashStop(NpcID) end );
 		Line:SetHeight(Line.Text:GetStringHeight())
 		Width = max( Width, Line.Text:GetStringWidth() );
@@ -178,7 +184,7 @@ end
 --- Shows a *world map* tooltip similar to the quest objective toggle button.
 function panel:ToggleOnEnter ()
 	WorldMapTooltip:SetOwner( self, "ANCHOR_TOPLEFT" );
-	WorldMapTooltip:SetText( L.BUTTON_TOOLTIP_LINE2.."\n"..L.BUTTON_TOOLTIP_LINE3, nil, nil, nil, nil, 1 );
+	WorldMapTooltip:SetText( L.MODULE_WORLDMAP_TOGGLE, nil, nil, nil, nil, 1 );
 end
 
 --- Hides the *world map* tooltip.
@@ -190,34 +196,58 @@ end
 function panel:ToggleOnClick (button)
 	if button == "LeftButton" then
 		if( IsShiftKeyDown() ) then
-			NSO_KeyToggleOnClick()
+			private.WorldMapKey_ToggleOnClick()
 		else
 		-- for LeftButton, toggle the module Enabled or Disabled
-			if ( private.Options.Modules[ "WorldMap" ] ) then
-				private.Modules.Disable( "WorldMap" );
-			else
-				private.Modules.Enable( "WorldMap" );
-			end
+		private.WorldMapPaths_ToggleOnClick()
 		end
 	end
 end
 
---- Toggles the module like a checkbox.
-function NSO_ToggleOnClick ()
-				local enable = _NPCScanOverlayOptions.Modules.WorldMap
-				if enable then
-					private.Modules.Disable( "WorldMap" )
-				else
-					private.Modules.Enable( "WorldMap" )
-				end
+--- Shows a *world map* tooltip similar to the quest objective toggle button.
+function panel:KeyToggleOnEnter ()
+	WorldMapTooltip:SetOwner( self, "ANCHOR_TOPLEFT" );
+	WorldMapTooltip:SetText( L.MODULE_WORLDMAP_KEYTOGGLE, nil, nil, nil, nil, 1 );
 end
 
---Toggles the display of id key frame 
-function NSO_KeyToggleOnClick ()
-	if not private.Options.ShowKey == nil then
-		private.Options.ShowKey = true
-	end
+--- Hides the *world map* tooltip.
+function panel:KeyToggleOnLeave ()
+	WorldMapTooltip:Hide();
+end
 
+--- Toggles the module and key
+function panel:KeyToggleOnClick (button)
+	if button == "LeftButton" then
+		private.WorldMapKey_ToggleOnClick()
+	end
+end
+
+function private.SetPathIconTexture()
+	local texture
+	if private.Options.Modules.WorldMap then
+		texture= private.PathToggleIconTexture_Enabled
+	else
+		texture= private.PathToggleIconTexture_Disabled
+	end
+	_NPCScanPathToggle.Normal:SetTexture(texture)
+end
+
+--- Toggles the module like a checkbox.
+function private.WorldMapPaths_ToggleOnClick()
+	local enable = _NPCScanOverlayOptions.Modules.WorldMap
+	if private.Options.Modules[ "WorldMap" ]  then
+		private.Modules.Disable( "WorldMap" )
+	else
+		private.Modules.Enable( "WorldMap" )
+	end
+	private.SetPathIconTexture()
+end
+
+--Sets the texture for the World Map Mob Key Toggle Icon
+
+
+--Toggles the display of Mpb key frame 
+function private.WorldMapKey_ToggleOnClick()
 	if private.Options.ShowKey then
 		_NPCScanOverlayKey:Hide()
 		private.Options.ShowKey = false;
@@ -225,6 +255,18 @@ function NSO_KeyToggleOnClick ()
 		_NPCScanOverlayKey:Show()
 		private.Options.ShowKey = true;
 	end
+	private.SetKeyIconTexture()
+end
+
+--Sets the texture for the World Map Mob Key Toggle Icon
+function private.SetKeyIconTexture()
+local texture
+	if private.Options.ShowKey then
+		texture= private.KeyToggleIconTexture_Enabled
+	else
+		texture= private.KeyToggleIconTexture_Disabled
+	end
+	_NPCScanKeyToggle.KeyNormal:SetTexture(texture)
 end
 
 
@@ -338,7 +380,7 @@ function panel:OnLoad ( ... )
 	Key:RegisterForDrag("LeftButton")
 	Key:SetScript("OnMouseDown",FrameMove )
 	Key:SetScript("OnMouseUp", FrameStop )
-	Key:SetClampedToScreen( true )
+	Key:SetClampedToScreen(true)
 	Key:SetUserPlaced(true)
 
 
@@ -378,22 +420,35 @@ function panel:OnLoad ( ... )
 		end
 	end
 
-
--- Add toggle button
-	local Toggle = CreateFrame( "CheckButton", nil, WorldMapButton );
+-- Add path toggle button to world map
+	local Toggle = CreateFrame( "CheckButton", "_NPCScanPathToggle", WorldMapButton );
 	self.Toggle = Toggle;
 	Toggle:SetScript( "OnClick", panel.ToggleOnClick );
 	Toggle:SetScript( "OnEnter", panel.ToggleOnEnter );
 	Toggle:SetScript( "OnLeave", panel.ToggleOnLeave );
+
 	local Normal = Toggle:CreateTexture();
 	Toggle.Normal = Normal;
-	Normal:SetTexture( [[Interface\Icons\INV_Misc_EngGizmos_20]] );
 	Normal:SetAllPoints();
 	Toggle:RegisterForClicks("AnyUp")
-	Toggle:SetNormalTexture( Normal );
-	Toggle:SetSize( 22, 22 );
+	Toggle:SetSize( 20, 20 );
 	Toggle:ClearAllPoints()
-	Toggle:SetPoint("BOTTOMLEFT", WorldMapButton, "TOPLEFT", 0,10)
+	Toggle:SetPoint("BOTTOMLEFT", WorldMapButton, "TOPLEFT", 1,5)
+
+-- Add key toggle button to world map
+	local KeyToggle = CreateFrame( "CheckButton", "_NPCScanKeyToggle", WorldMapButton );
+	self.KeyToggle = KeyToggle;
+	KeyToggle:SetScript( "OnClick", panel.KeyToggleOnClick );
+	KeyToggle:SetScript( "OnEnter", panel.KeyToggleOnEnter );
+	KeyToggle:SetScript( "OnLeave", panel.KeyToggleOnLeave );
+
+	local KeyNormal = KeyToggle:CreateTexture();
+	KeyToggle.KeyNormal = KeyNormal;
+	KeyNormal:SetAllPoints();
+	KeyToggle:RegisterForClicks("AnyUp")
+	KeyToggle:SetSize( 20, 20 );
+	KeyToggle:ClearAllPoints()
+	KeyToggle:SetPoint("BOTTOM", Toggle, "TOP", 0,0)
 	
 	--WorldMapFrame:HookScript( "OnHide", WorldMapFrameOnHide );
 	--WorldMapFrame:HookScript( "OnShow", WorldMapFrameOnShow );
@@ -417,7 +472,7 @@ function panel:OnUnload ( ... )
 	return self.super.OnUnload( self, ... );
 end
 
---- Enables the WorldMap range ring.
+-- Enables the WorldMap range ring.
 -- @return True if changed.
 function panel.RangeRingSetEnabled ( Enable )
 	if ( Enable ~= private.Options.ModulesExtra[ "WorldMap" ].RangeRing ) then
@@ -436,7 +491,7 @@ function panel.RangeRingSetEnabled ( Enable )
 	end
 end
 
---- Synchronizes custom settings to options table.
+--Synchronizes custom settings to options table.
 function panel:OnSynchronize ( OptionsExtra )
 	self.RangeRingSetEnabled( OptionsExtra.RangeRing ~= false );
 end
@@ -447,7 +502,7 @@ local Config = panel.Config;
 local Checkbox = CreateFrame( "CheckButton", "$parentRangeRing", Config, "InterfaceOptionsCheckButtonTemplate" );
 Config.RangeRing = Checkbox;
 
---- Toggles the range ring when clicked.
+--Toggles the range ring when clicked.
 function Checkbox.setFunc ( Enable )
 	panel.RangeRingSetEnabled( Enable == "1" );
 end

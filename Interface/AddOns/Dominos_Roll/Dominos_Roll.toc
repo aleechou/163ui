@@ -7,5 +7,4 @@
 rollBar.lua
 
 ## Title: |cff880303[网易有爱]|r 多米诺_ROLL点框
-## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014061002
