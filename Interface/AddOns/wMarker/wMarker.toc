@@ -26,4 +26,4 @@ Bindings.xml
 
 ## Title: |cff880303[网易有爱]|r 标记助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014061001
