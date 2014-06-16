@@ -36,7 +36,7 @@
 
 ### Gemplus 宝石助手
 
-* fix:修复了再未启用Auctionlite拍卖助手时可能会报错的问题。
+* fix:修复了在未启用Auctionlite拍卖助手时可能会报错的问题。
 
 ### 新增插件
 

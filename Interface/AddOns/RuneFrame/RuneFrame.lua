@@ -12,12 +12,12 @@ local L = {}
 setmetatable(L,Addon.localMt)
 
 if GetLocale()=='zhTW' then
-	L["大脚符文条"] = "大腳符文條"
+	L["符文条"] = "符文條"
 	L["使用滚轮缩放符文条"] = "使用滾輪縮放符文條"
 	L["鼠标点击拖拽移动符文条"] = "鼠標點擊拖拽移動符文條"
 	L["点击职业图标锁定/解锁符文条"] = "點擊職業圖標鎖定/解鎖符文條"
 elseif GetLocale() =='enUS' then
-	L["大脚符文条"] = "BigFoot RuneFrame"
+	L["符文条"] = "RuneFrame"
 	L["鼠标点击拖拽移动符文条"] = "Drag here to move Rune frame"
 	L["使用滚轮缩放符文条"] = "Mouse wheel to zoom Rune frame in/out"
 	L["点击职业图标锁定/解锁符文条"] = "Click on Class Icon to lock/unlock rune frame."
@@ -41,7 +41,7 @@ local powerText
 local db = {}
 
 local function __OnHeaderEnter(frame)
-	ShowNewbieTooltip(L["大脚符文条"],L["使用滚轮缩放符文条"],L["鼠标点击拖拽移动符文条"],L["点击职业图标锁定/解锁符文条"])
+	ShowNewbieTooltip(L["符文条"],L["使用滚轮缩放符文条"],L["鼠标点击拖拽移动符文条"],L["点击职业图标锁定/解锁符文条"])
 end
 
 local function __OnHeaderLeave(frame)

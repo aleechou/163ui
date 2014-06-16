@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("CompactRaid", {
     title = "团队框架增强",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "NORMAL",
     optionsAfterLogin = 1,
     tags = { TAG_RAID },
