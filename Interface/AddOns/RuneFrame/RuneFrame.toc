@@ -10,6 +10,6 @@ Libs\AceLibs.xml
 Core.lua
 RuneFrame.lua
 
-## Title: |cff880303[网易有爱]|r PVP冷卻
+## Title: |cff880303[网易有爱]|r DK符文条
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014061601
