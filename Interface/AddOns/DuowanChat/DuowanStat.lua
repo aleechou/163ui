@@ -28,7 +28,6 @@ end
 -- DOTO: 更新属性数据
 function D:UpdateStat()
 	self.data = {};
-
 	self.data["CLASS"], self.data["CLASS_EN"] = UnitClass("player");
 	self.data["LV"] = UnitLevel("player");
 	self.data["HP"] = UnitHealthMax("player");
@@ -51,19 +50,17 @@ function D:UpdateStat()
 	self.data["MHIT"] = GetCombatRating(6);					--命中等级
 	self.data["MCRIT"] = GetCritChance();					--爆击率%
 	self.data["MEXPER"] = GetExpertise();					--精准
-	self.data["MHASTE"] = GetMeleeHaste();					--急速%
 	--远程
 	self.data["RAP"] = self:UnitRangedAttackPower();			--强度
 	self.data["RHIT"] = GetCombatRating(7);					--命中等级
 	self.data["RCRIT"] = GetRangedCritChance();				--爆击率%
-	self.data["RHASTE"] = GetRangedHaste();					--急速%
 	--self.data["MRPEN"] = GetArmorPenetration();				--护甲穿透%
 	--法术
 	self.data["SSP"] = self:GetSpellBonusDamage();				--伤害加成
 	self.data["SHP"] = GetSpellBonusHealing();				--治疗加成
 	self.data["SHIT"] = GetCombatRating(8);					--命中等级
 	self.data["SCRIT"] = self:GetSpellCritChance();				--爆击率
-	self.data["SHASTE"] = UnitSpellHaste("player");				--急速%
+	self.data["SHASTE"] = GetCombatRating(20);				--急速等级
 	self.data["SMR"] = floor(GetManaRegen()*5);				--法力回复（每5秒）
 	self.data["SPEN"] = GetSpellPenetration();				--法术穿透
 
@@ -91,85 +88,82 @@ function D:GenerateStatText(detail)
 	if (self.data["TALENT"]) then
 		text = text .. "，" .. self.data["TALENT"];
 	end
-	text = text .. ("，"..STAT_AVERAGE_ITEM_LEVEL.."%d".." (已装备%d"):format(GetAverageItemLevel())..(GearScoreL and ",ＧＳ="..GearScoreL:GetPlayerInfo("player")..")" or ")"); --"物品等级%d（已装备%d）"
-	if (detail) then
-		local talentName = self:GetMainTalentName();
+	text = text .. ("，%s:%d"):format(L["ILV"], self.data["ILV"]);
+		if (detail) then
+		--local talentName = self:GetMainTalentName();
+		local specIndex = GetSpecialization();
 		if (UnitPowerType("player") == 0) then
-			text = text..(", %d%s，%d%s"):format(self.data["HP"], L["HP"], self.data["MP"], L["MP"]);
+			text = text..("，%d%s，%d%s"):format(self.data["HP"], L["HP"], self.data["MP"], L["MP"]);
 		else
-			text = text..(", %d%s"):format(self.data["HP"], L["HP"]);
+			text = text..("，%d%s"):format(self.data["HP"], L["HP"]);
 		end
 		if self.data["CLASS_EN"] == "MAGE" or self.data["CLASS_EN"] == "WARLOCK" then
 			text = text..self:GetSpellText();
-		end
-		if self.data["CLASS_EN"] == "ROGUE" then
+		elseif self.data["CLASS_EN"] == "ROGUE" then
 			text = text..self:GetMeleeText();
-		end
-		if self.data["CLASS_EN"] == "HUNTER" then
+		elseif self.data["CLASS_EN"] == "HUNTER" then
 			text = text..self:GetRangedText();
-		end
-		if self.data["CLASS_EN"] == "DRUID" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
+		elseif self.data["CLASS_EN"] == "DRUID" then
+			if (specIndex == 1) then
 				text = text..self:GetSpellText();
-			elseif talentName == select(2, GetSpecializationInfo(2)) then
-				if self.data["DODGE"] > 30 then
-					text = text..self:GetTankText();
-				else
-					text = text..self:GetMeleeText();
-				end
-			elseif talentName == select(2, GetSpecializationInfo(3)) then
-				text = text..self:GetHealText();
-			else
+			elseif (specIndex == 2) then
 				text = text..self:GetMeleeText();
-			end
-		end
-		if self.data["CLASS_EN"] == "SHAMAN" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
-				text = text..self:GetSpellText();
-			elseif talentName == select(2, GetSpecializationInfo(2)) then
-				text = text..self:GetMeleeText();
-			elseif talentName == select(2, GetSpecializationInfo(3)) then
-				text = text..self:GetHealText();
-			else
-				text = text..self:GetMeleeText();
-			end
-		end
-		if self.data["CLASS_EN"] == "PALADIN" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
-				text = text..self:GetHealText();
-			elseif talentName == select(2, GetSpecializationInfo(2)) then
+			elseif (specIndex == 3) then
 				text = text..self:GetTankText();
-			elseif talentName == select(2, GetSpecializationInfo(3)) then
+			elseif (specIndex == 4) then
+				text = text..self:GetHealText();
+			else
 				text = text..self:GetMeleeText();
+			end			
+		elseif self.data["CLASS_EN"] == "SHAMAN" then
+			if (specIndex == 1) then
+				text = text..self:GetSpellText();
+			elseif (specIndex == 2) then
+				text = text..self:GetMeleeText();
+			elseif (specIndex == 3) then
+				text = text..self:GetHealText();
 			else
 				text = text..self:GetMeleeText();
 			end
-		end
-		if self.data["CLASS_EN"] == "PRIEST" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
+		elseif self.data["CLASS_EN"] == "PALADIN" then
+			if (specIndex == 1) then
+				text = text..self:GetHealText();
+			elseif (specIndex == 2) then
+				text = text..self:GetTankText();
+			elseif (specIndex == 3) then
+				text = text..self:GetMeleeText();
+			else
+				text = text..self:GetMeleeText();
+			end			
+		elseif self.data["CLASS_EN"] == "PRIEST" then
+			if (specIndex == 1) then
 				text = text..self:GetSpellAndHealText();
-			elseif talentName == select(2, GetSpecializationInfo(2)) then
+			elseif (specIndex == 2) then
 				text = text..self:GetHealText();
-			elseif talentName == select(2, GetSpecializationInfo(3)) then
+			elseif (specIndex == 3) then
 				text = text..self:GetSpellText();
 			else
 				text = text..self:GetSpellText();
 			end
-		end
-		if self.data["CLASS_EN"] == "WARRIOR" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
-				text = text..self:GetMeleeText();
-			elseif talentName == select(2, GetSpecializationInfo(2)) then
-				text = text..self:GetMeleeText();
-			elseif talentName == select(2, GetSpecializationInfo(3)) then
-				text = text..self:GetTankText();
+		elseif self.data["CLASS_EN"] == "WARRIOR" then
+			if (specIndex == 3) then
+				text = text..self:GetTankText();			
 			else
 				text = text..self:GetMeleeText();
 			end
-		end
-		if self.data["CLASS_EN"] == "DEATHKNIGHT" then
-			if talentName == select(2, GetSpecializationInfo(1)) then
+		elseif self.data["CLASS_EN"] == "DEATHKNIGHT" then
+			if (specIndex == 1) then
+				text = text..self:GetTankText();			
+			else
+				text = text..self:GetMeleeText();
+			end		
+		elseif self.data["CLASS_EN"] == "MONK" then
+			if (specIndex == 1) then
 				text = text..self:GetTankText();
+			elseif (specIndex == 2) then
+				text = text..self:GetHealText();
+			elseif (specIndex == 3) then
+				text = text..self:GetMeleeText();
 			else
 				text = text..self:GetMeleeText();
 			end
@@ -194,9 +188,9 @@ function D:GetSpellText()
 	text = text..(", %d%s"):format(self.data["SSP"], L["SSP"]);
 	text = text..(", %d%s"):format(self.data["SHIT"], L["HIT"]);
 	text = text..(", %.1f%%%s"):format(self.data["SCRIT"], L["CRIT"]);
-	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], STAT_HASTE);
+	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], L["HASTE"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 	if self.data["PvPSET"] then
 		text = text..(", %d%s"):format(self.data["SPEN"], L["SPEN"]);
@@ -209,10 +203,10 @@ function D:GetHealText()
 	text = text..self:GetPvPSpecText();
 	text = text..(", %d%s"):format(self.data["SHP"], L["SHP"]);	
 	text = text..(", %.1f%%%s"):format(self.data["SCRIT"], L["CRIT"]);
-	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], STAT_HASTE);
+	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], L["HASTE"]);
 	text = text..(", %d/%s"):format(self.data["SMR"], L["SMR"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 	return text;
 end
@@ -224,10 +218,10 @@ function D:GetSpellAndHealText()
 	text = text..(", %d%s"):format(self.data["SHP"], L["SHP"]);	
 	text = text..(", %d%s"):format(self.data["SHIT"], L["HIT"]);	
 	text = text..(", %.1f%%%s"):format(self.data["SCRIT"], L["CRIT"]);
-	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], STAT_HASTE);
+	text = text..(", %.1f%%%s"):format(self.data["SHASTE"], L["HASTE"]);
 	text = text..(", %d/%s"):format(self.data["SMR"], L["SMR"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 
 	if self.data["PvPSET"] then
@@ -243,9 +237,9 @@ function D:GetMeleeText()
 	text = text..(", %d%s"):format(self.data["MHIT"], L["HIT"]);	
 	text = text..(", %.1f%%%s"):format(self.data["MCRIT"], L["CRIT"]);
 	text = text..(", %.1f%%%s"):format(self.data["MEXPER"], L["EXPER"]);
-	text = text..(", %.1f%%%s"):format(self.data["MHASTE"], STAT_HASTE);
+	text = text..(", %.1f%%%s"):format(self.data["MHASTE"], L["HASTE"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 	--text = text..(", %.1f%%%s"):format(self.data["MRPEN"], L["MRPEN"]);
 
@@ -258,9 +252,9 @@ function D:GetRangedText()
 	text = text..(", %d%s"):format(self.data["RAP"], L["AP"]);
 	text = text..(", %d%s"):format(self.data["RHIT"], L["HIT"]);
 	text = text..(", %.1f%%%s"):format(self.data["RCRIT"], L["CRIT"]);
-    text = text..(", %.1f%%%s"):format(self.data["RHASTE"], STAT_HASTE);
+    text = text..(", %.1f%%%s"):format(self.data["RHASTE"], L["HASTE"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 	--text = text..(", %.1f%%%s"):format(self.data["MRPEN"], L["MRPEN"]);
 
@@ -276,7 +270,7 @@ function D:GetTankText()
 	text = text..(", %.1f%%%s"):format(self.data["BLOCK"], L["BLOCK"]);
 	text = text..(", %d%s"):format(self.data["ARMOR"], L["ARMOR"]);
 	if (self.data["MST"]) then
-		text = text..(", %d%s"):format(self.data["MST"], ITEM_MOD_MASTERY_RATING_SHORT);
+		text = text..(", %d%s"):format(self.data["MST"], L["MST"]);
 	end
 
 	return text;
