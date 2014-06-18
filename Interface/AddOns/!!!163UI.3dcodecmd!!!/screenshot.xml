@@ -1,0 +1,326 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.blizzard.com/wow/ui/  ../UI.xsd" xmlns="http://www.blizzard.com/wow/ui/">
+	<Button name="Cmd3DCode_ButtonTemplate" virtual="true">
+		<Size x="25" y="25" />
+	</Button>
+	<Frame name="Cmd3DCode_ShottingMaskFrame" virtual="false" parent="UIParent" toplevel="true" frameStrata="TOOLTIP" hidden="true">
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="0" y="0" />
+			</Anchor>
+			<Anchor point="BOTTOMRIGHT">
+				<Offset x="0" y="0" />
+			</Anchor>
+		</Anchors>
+		<Frames>
+			<Frame name="$parentTemplate" />
+			<Frame inherts="$parentTemplate" name="$parentTOPLEFT" />
+			<Frame inherts="$parentTemplate" name="$parentTOP" />
+			<Frame inherts="$parentTemplate" name="$parentTOPRIGHT" />
+			<Frame inherts="$parentTemplate" name="$parentLEFT" />
+			<Frame inherts="$parentTemplate" name="$parentRIGHT" />
+			<Frame inherts="$parentTemplate" name="$parentBOTTOMLEFT" />
+			<Frame inherts="$parentTemplate" name="$parentBOTTOM" />
+			<Frame inherts="$parentTemplate" name="$parentBOTTOMRIGHT" />
+			<Frame name="Cmd3DCode_ViewFinderFrame" toplevel="true" movable="true" resizable="true" enableMouse="true">
+				<Size x="400" y="300" />
+				<Anchors>
+					<Anchor point="CENTER" />
+				</Anchors>
+				<ResizeBounds>
+					<minResize x="100" y="75" />
+				</ResizeBounds>
+				<Frames>
+					<Button name="$parentResizeCorner">
+						<Size x="16" y="16" />
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset x="-1" y="1" />
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnMouseDown>
+								local parent = self:GetParent()
+								parent:StartSizing()
+								parent:SetScript("OnUpdate",Cmd3DCode_UpdateViewFinderFrames)
+							</OnMouseDown>
+							<OnMouseUp>
+								local parent = self:GetParent()
+								parent:StopMovingOrSizing()
+								parent:SetScript("OnUpdate",nil)
+								Cmd3DCode_UpdateViewFinderFrames()
+							</OnMouseUp>
+						</Scripts>
+						<NormalTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Up" />
+						<PushedTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Down" />
+						<HighlightTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Highlight" />
+					</Button>
+					<Button name="$parentDragHeader">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="0" y="0" />
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset x="0" y="0" />
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnMouseDown>
+								local parent = self:GetParent()
+								parent:StartMoving()
+								parent:SetScript("OnUpdate",Cmd3DCode_UpdateViewFinderFrames)
+							</OnMouseDown>
+							<OnMouseUp>
+								local parent = self:GetParent()
+								parent:StopMovingOrSizing()
+								parent:SetScript("OnUpdate",nil)
+								Cmd3DCode_UpdateViewFinderFrames()
+							</OnMouseUp>
+						</Scripts>
+					</Button>
+					<Button name="$parentCancel" inherits="UIPanelCloseButton">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT">
+								<Offset x="5" y="0" />
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								Cmd3DCode_ShottingMaskFrame:Hide()
+							</OnClick>
+							<OnEnter>
+								
+							</OnEnter>
+							<OnLeave>
+								
+							</OnLeave>
+						</Scripts>
+					</Button>
+					<Button name="$parentDone" inherits="Cmd3DCode_ButtonTemplate">
+						<Anchors>
+							<Anchor point="RIGHT" relativeTo="$parentCancel" relativePoint="LEFT" />
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								Cmd3DCode_Screenshot_TakePhoto(false)
+							</OnClick>
+							<OnEnter>
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("截取屏幕")
+								GameTooltip:AddLine("[快捷键：回车 (或空格)]")
+								GameTooltip:Show()
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide()
+							</OnLeave>
+						</Scripts>
+						<NormalTexture file="Interface\AddOns\WowLua\images\new" />
+						<HighlightTexture file="Interface\AddOns\WowLua\images\highlight" />
+					</Button>
+					<Button name="$parentFullScreen" inherits="Cmd3DCode_ButtonTemplate">
+						<Anchors>
+							<Anchor point="RIGHT" relativeTo="$parentDone" relativePoint="LEFT" />
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								Cmd3DCode_Screenshot_TakePhoto(true)
+							</OnClick>
+							<OnEnter>
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("全屏")
+								GameTooltip:AddLine("[快捷键：Ctrl+回车]")
+								GameTooltip:Show()
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide()
+							</OnLeave>
+						</Scripts>
+						<NormalTexture file="Interface\AddOns\WowLua\images\new" />
+						<HighlightTexture file="Interface\AddOns\WowLua\images\highlight" />
+					</Button>
+
+					<CheckButton name="$parent_ChkBtn_HideUI" inherits="OptionsCheckButtonTemplate" checked="false">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="0"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+					        <OnLoad>
+					            _G[self:GetName().."Text"]:SetText("隐藏UI")
+					        </OnLoad>
+					    </Scripts>
+					</CheckButton>
+
+					<CheckButton name="$parent_ChkBtn_SaveSrcPic" inherits="OptionsCheckButtonTemplate" checked="false">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+					        <OnLoad>
+					            _G[self:GetName().."Text"]:SetText("保存截图")
+					        </OnLoad>
+					    </Scripts>
+					</CheckButton>
+
+				</Frames>
+				<Layers>
+					<Layer>
+						<FontString name="$parentFontString" text="取景器" justifyV="TOP" justifyH="LEFT">
+							<Anchors>
+								<Anchor x="20" y="-20" point="TOPLEFT" relativeTo="$parent" />
+							</Anchors>
+							<FontHeight val="12" />
+							<Color r="1" g="0.8" b="1" />
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnKeyDown>
+						if key=="ESCAPE" then
+							Cmd3DCode_ShottingMaskFrame:Hide()
+						elseif key=="ENTER" or key=="SPACE" then
+							Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown())
+						else
+							self:SetPropagateKeyboardInput(true)
+							return
+						end
+
+						self:SetPropagateKeyboardInput(false)
+						return false
+					</OnKeyDown>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+
+
+	<!-- 
+	<Frame name="Cmd3DCode_Screenshot_PreviewFrame" virtual="false" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="400" y="300" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="165" y="-247" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Frame name="$parent_Picture">
+				<Size>
+					<AbsDimension x="200" y="200" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="19" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+					<BackgroundInsets>
+						<AbsInset left="11" right="12" top="12" bottom="11" />
+					</BackgroundInsets>
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</Frame>
+			<Button name="$parent_BtnClose" inherits="UIPanelButtonTemplate" text="关闭">
+				<Size>
+					<AbsDimension x="75" y="23" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="306" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_BtnShare" inherits="UIPanelButtonTemplate" text="分享">
+				<Size>
+					<AbsDimension x="75" y="23" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="306" y="-58" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parent_BtnTuya" inherits="UIPanelButtonTemplate" text="涂鸦">
+				<Size>
+					<AbsDimension x="75" y="23" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="306" y="-98" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="FontString1" inherits="GameFontNormal" text="您可以在聊天输入框内按 Ctrl+C 发送图片">
+					<Size>
+						<AbsDimension x="362" y="20" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="19" y="-242" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnMouseDown>
+				self:StartMoving()
+			</OnMouseDown>
+			<OnMouseUp>
+				self:StopMovingOrSizing()
+			</OnMouseUp>
+		</Scripts>
+	</Frame>
+	-->
+
+
+	<Button name="Cmd3DCode_Screenshot_ChatFrameButton" text="图">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.point = "BOTTOMLEFT"
+				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.relativePoint = "TOPLEFT"
+				ToggleDropDownMenu(1,nil,Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn,self:GetName(),0,0)
+			</OnClick>
+		</Scripts>
+		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+		<NormalFont style="DialogButtonNormalText"/>
+	</Button>
+</Ui>
