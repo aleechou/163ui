@@ -9,14 +9,21 @@ var child_process = require("child_process")
 var Steps = require("ocsteps")
 
 
-
 var srcdir = __dirname+"/../Interface/AddOns"
 var workdir = __dirname+"/workdir"
 var packagesdir = workdir + "/packages"
+var targetDirName = process.argv[2] 
 var targetdir
 var addonsIndexJson = workdir + "/addons-index.json"
 var addonsIndexTar = workdir + "/addons-index.zip"
-
+var outputTocOptions = {
+	'Version': 1
+	, '163UI-Version': 1
+	, 'Title': 1
+	, 'Title-zhCN': 1
+	, 'Note': 1
+	, 'Note-zhCN': 1
+}
 
 // 检查 workdir 是否存在
 if( !fs.existsSync(workdir) || !fs.statSync(workdir).isDirectory() ){
@@ -49,32 +56,35 @@ Steps()
 
 	// 确定输出目录
 	.step(function(){
-		var targetDirName = new Date().Format("yyyyMMdd")
+		if(!targetDirName){
+			targetDirName = new Date().Format("yyyyMMdd")
+			fs.readdir(packagesdir,this.holdButThrowError(function(err,names){
 
-		fs.readdir(packagesdir,this.holdButThrowError(function(err,names){
+				var idx = "01"
+				names.forEach(function(fname){
+					if( fname.substr(0,targetDirName.length) == targetDirName ){
+						idx = parseInt(fname.substr(targetDirName.length)) + 1
+						return false
+					}
+				})
 
-			var idx = "01"
-			names.forEach(function(fname){
-				if( fname.substr(0,targetDirName.length) == targetDirName ){
-					idx = parseInt(fname.substr(targetDirName.length)) + 1
-					return false
-				}
-			})
+				idx = idx.toString()
+				idx.length==1 && (idx="0"+idx)
 
-			idx = idx.toString()
-			idx.length==1 && (idx="0"+idx)
-
-			targetDirName+= idx
-			targetdir = packagesdir + '/' + targetDirName
-			addonsJson.lastVersion = targetDirName
-			addonsJson.addonsDirUrl = addonsJson.packagesUrl + '/' + targetDirName
-
-			fs.exists(targetdir,this.hold(function(exists){
-				if(!exists){
-				    fs.mkdir(targetdir,this.holdButThrowError())
-				    console.log("create target dir",targetdir)
-				}
+				targetDirName+= idx
 			}))
+		}
+	})
+	.step(function(){
+		targetdir = packagesdir + '/' + targetDirName
+		addonsJson.lastVersion = targetDirName
+		addonsJson.addonsDirUrl = addonsJson.packagesUrl + '/' + targetDirName
+
+		fs.exists(targetdir,this.hold(function(exists){
+			if(!exists){
+			    fs.mkdir(targetdir,this.holdButThrowError())
+			    console.log("create target dir",targetdir)
+			}
 		}))
 	})
 /*
@@ -92,7 +102,7 @@ Steps()
 		}
 	})
 */
-	// 打包扩展
+	// 打包插件
 	.step(function(){
 
 		this.each(addonsJson.addons,function(i,addon){
@@ -123,6 +133,11 @@ Steps()
 	    		})
 
 		})
+	})
+
+	// 打包离线包
+	.step(function(){
+		// todo ...
 	})
 
 
@@ -213,7 +228,7 @@ function parseToc(addonName){
 
 		// config option
 		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-		if(res && res[1]){
+		if(res && res[1] && outputTocOptions[res[1]] ){
 			toc.metainfo[ res[1] ] = res[2] ;
 		}
     }
@@ -232,7 +247,7 @@ function parseToc(addonName){
 		}) ;
     }
 
-    findfiles("") ;
+    //findfiles("") ;
     
     //console.log("found files:",Object.keys(toc.files).length) ;
 
