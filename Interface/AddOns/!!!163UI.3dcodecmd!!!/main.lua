@@ -18,10 +18,6 @@ errro=Ó,
 Ê a==Í Ò a=Ó Æ
 e[t]=a
 Æ
-Ê(LoggingChat())Ò
-Ä
-LoggingChat(1);
-Æ
 Ì e="3dcodecmd$Yin2"
 Ì e="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
@@ -58,10 +54,10 @@ a=a+1
 Ì r=0
 Ì d=time()
 Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
-e:SetFrameStrata("TOOLTIP")
-e:SetFrameLevel(128)
 e:EnableKeyboard(Ó);
 e:SetPropagateKeyboardInput(Ó);
+e:SetFrameStrata("TOOLTIP")
+e:SetFrameLevel(128)
 e:SetScript("OnKeyDown",É(t,e,...)
 Ê IsControlKeyDown()Á IsAltKeyDown()Á(e=="PAGEUP"Ï e=="PAGEDOWN")Ò
 Ê e=="PAGEDOWN"Ò

@@ -1,8 +1,8 @@
 ## Title: |cff880303[网易有爱]|r !!客户端
-## Version: 1.2.1
+## Version: 1.1.0
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014062001
+## 163UI-Version: 2014060702
 ## X-Vendor: NetEase
 
 
@@ -10,8 +10,6 @@ threeDimensionsCode.lua
 treehole.lua
 savepipe.lua
 buffhacking.lua
-screenshot.xml
-screenshot.lua
 main.lua
 
 test.lua
