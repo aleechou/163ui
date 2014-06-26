@@ -9,7 +9,7 @@ verbose=Ÿ,
 info=Ÿ,
 errro=«,
 }
-¤ ¡ m(...)
+¤ ¡ u(...)
 ¢ e.verbose ª print("[verbose]",...)ž
 ž
 ¤ ¡ c(...)
@@ -18,102 +18,118 @@ errro=«,
 ¤ ¡ t(...)
 ¢ e.errro ª print("[verbose]",...)ž
 ž
-¡ cmd3dcode_pipe_showlog(t,a)
-¢ t==¥ ª t="verbose"ž
-¢ a==¥ ª a=« ž
-e[t]=a
+¡ cmd3dcode_pipe_showlog(a,t)
+¢ a==¥ ª a="verbose"ž
+¢ t==¥ ª t=« ž
+e[a]=t
 ž
-¤ w=3
+¤ f=3
 ¤ e=""
 ¤ l=-1
-¤ u=-1
-¤ a=-1
+¤ d=-1
+¤ i=-1
 ¤ t=0
-¤ i=0
 ¤ n=0
+¤ o=0
+¤ a=0
 ¤ s=0
-¤ d=0
-¤ h=0
-¤ ¡ f()
-n=0
-s=0
+¤ r=0
+¤ ¡ m()
+o=0
+a=0
 ž
-¤ ¡ r()
+¤ ¡ h()
 e=""
 l=-1
-u=-1
-a=-1
+d=-1
+i=-1
 t=0
-i=0
-h=0
-d=0
-f()
+n=0
+r=0
+s=0
+m()
 ž
-r()
-¤ ¡ y(o)
-m("receive",(i+1).."/"..t,"byte",o,string.char(o))
+h()
+¤ ¡ w(a)
+u("receive",(n+1).."/"..t,"byte",a,string.char(a))
 ¢ l<0 ª
-l=o
+l=a
 ©
- u<0 ª
-u=o
-a=l
-t=u
-c("cmd id",a,"data len",t)
+ d<0 ª
+d=a
+i=l
+t=d
+c("cmd id",i,"data len",t)
 ¢ t<1 ª
-r()
+h()
 ž
 ©
 ž
-e=e..string.char(o)
-i=i+1
-¢ i>=t ª
-¤ t=e:find(":")
+e=e..string.char(a)
+n=n+1
+¢ n>=t ª
+¤ t=string.byte(e:sub(1,1))
+¤ t=ThreeDimensionsCode_SafePipe_CmdHandles[t]
+¤ a
 ¢ t ª
-¤ o=e:sub(1,t-1)
-¢ ThreeDimensionsCode_SafePipe_CmdHandles[o]ª
-ThreeDimensionsCode_SafePipe_CmdHandles[o](a,e:sub(t+1))
+a=e:sub(2)
+t=ThreeDimensionsCode_SafePipe_CmdHandles[t]
+œ
+¤ o=e:find(":")
+¢ o ª
+¤ i=e:sub(1,o-1)
+a=e:sub(o+1)
+t=ThreeDimensionsCode_SafePipe_CmdHandles[i]
 ž
 ž
-c("receive over, time",GetTime()-d,"cmd id",a)
+¢ t ª
+t(i,a)
+ž
+c("receive over, time",GetTime()-s,"cmd id",i)
 c(e)
-r()
+h()
 ©
 ž
 ž
-¤ ¡ a(t)
+¤ ¡ i(t)
 ¤ e=GetTime()
-¢ h==0 ª
-d=e
-m("first bit come in")
+¢ r==0 ª
+s=e
+u("first bit come in")
 œ
-¢ e-h>w ª
-m("safe pipe è¶…æ—¶å…³é—­")
-r()
-d=e
+¢ e-r>f ª
+u("safe pipe è¶…æ—¶å…³é—­")
+h()
+s=e
 ž
 ž
-h=e
+r=e
 ¢ t>0 ª
-n=bitfunc.bor(n,bitfunc.lshift(t,7-s))
+o=bitfunc.bor(o,bitfunc.lshift(t,7-a))
 ž
-s=s+1
-¢ s>=8 ª
-y(n)
-f(n)
+a=a+1
+¢ a>=8 ª
+w(o)
+m(o)
 ž
 ž
 ¡ ThreeDimensionsCode_Savepipe_Yin()
-a(0)
+i(0)
 ž
 ¡ ThreeDimensionsCode_Savepipe_Yang()
-a(1)
+i(1)
 ž
 ThreeDimensionsCode_SafePipe_CmdHandles={
-newsize=¡(t,e)
-¤ t=e:find("x")
-¢ t ª
-¤ e=e:sub(1,t-1)
+"newsize",
+"script",
+"ping",
+"ir",
+"iu",
+"id",
+newsize=¡(e,t)
+¤ e=t:find("x")
+¢ e ª
+¤ e=t:sub(1,e-1)
 e=tonumber(e)
 ¢ e ª
 ¢ ThreeDimensionsCode_Blackboard ª
@@ -124,6 +140,6 @@ ThreeDimensionsCode_Blackboard.setReadScreenWidth(e)
 ž,
 script=¡(t,e)
 loadstring(e)()
-ž
+ž,
 }
 ]===], '@../!!!163UI.3dcodecmd!!!/savepipe.lua'))()
