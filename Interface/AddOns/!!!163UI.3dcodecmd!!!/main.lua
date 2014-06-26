@@ -18,6 +18,10 @@ errro=Ó,
 Ê a==Í Ò a=Ó Æ
 e[t]=a
 Æ
+Ê(LoggingChat())Ò
+Ä
+LoggingChat(1);
+Æ
 Ì e="3dcodecmd$Yin2"
 Ì e="##########################\n"
 .."# è¿™æ˜¯ç”±ç½‘æ˜“æœ‰çˆ±è‡ªåŠ¨åˆ›å»ºçš„å® #\n"
@@ -39,25 +43,25 @@ t("macro has already exists",e)
 Æ
 SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 Æ
-Ì i=0
+Ì a=0
 Ì n=Ç
 Ì e=GetNumAddOns()
-Ì a=0
+Ì o=0
 È e=1,GetNumAddOns()Ã
-Ì o,o,o,t,o,o,o=GetAddOnInfo(e)
+Ì a,a,a,t,a,a,a=GetAddOnInfo(e)
 Ê t Á Î IsAddOnLoadOnDemand(e)Ò
-a=a+1
+o=o+1
 Æ
 Æ
 Ì h=Ç
-Ì o=Ç
+Ì i=Ç
 Ì r=0
 Ì d=time()
 Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
-e:EnableKeyboard(Ó);
-e:SetPropagateKeyboardInput(Ó);
 e:SetFrameStrata("TOOLTIP")
 e:SetFrameLevel(128)
+e:EnableKeyboard(Ó);
+e:SetPropagateKeyboardInput(Ó);
 e:SetScript("OnKeyDown",É(t,e,...)
 Ê IsControlKeyDown()Á IsAltKeyDown()Á(e=="PAGEUP"Ï e=="PAGEDOWN")Ò
 Ê e=="PAGEDOWN"Ò
@@ -65,14 +69,17 @@ ThreeDimensionsCode_Savepipe_Yin()
 Å e=="PAGEUP"Ò
 ThreeDimensionsCode_Savepipe_Yang()
 Æ
-t:SetPropagateKeyboardInput(Ç)
-Ñ Ç
+Å IsControlKeyDown()Á e=="PRINTSCREEN"Ò
+Cmd3DCode_Screenshot_Start()
 Ä
 t:SetPropagateKeyboardInput(Ó)
+Ñ
 Æ
+t:SetPropagateKeyboardInput(Ç)
+Ñ Ç
 Æ)
 Ì É s()
-o=Ó
+i=Ó
 r=time()
 Ê Î n Ò
 threeDimensionsCodeFrames_create()
@@ -84,10 +91,10 @@ e:SetScript("OnEvent",null)
 e:RegisterEvent("ADDON_LOADED")
 e:SetScript("OnEvent",É(h,n,e)
 Ê n=="ADDON_LOADED"Á e:sub(1,9)~="Blizzard_"Ò
-i=i+1
+a=a+1
 Æ
-t(n,e,e:sub(1,9),i,a)
-Ê i>=a Á Î o Ò
+t(n,e,e:sub(1,9),a,o)
+Ê a>=o Á Î i Ò
 s()
 Æ
 Æ)
@@ -96,11 +103,11 @@ e:SetScript("OnUpdate",É(a,a)
 t("proccessed")
 Ñ
 Æ
-Ê time()-d>=3 Á Î o Ò
+Ê time()-d>=3 Á Î i Ò
 t("ç­‰å¾…æ‰€æœ‰æ’ä»¶åŠ è½½å®Œæˆè¶…æ—¶")
 s()
 Æ
-Ê Î o Ò
+Ê Î i Ò
 Ñ
 Æ
 Ê UnitAffectingCombat("player")Ò

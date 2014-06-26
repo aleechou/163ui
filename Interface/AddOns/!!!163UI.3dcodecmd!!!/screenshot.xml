@@ -189,7 +189,7 @@
 						if key=="ESCAPE" then
 							Cmd3DCode_ShottingMaskFrame:Hide()
 						elseif key=="ENTER" or key=="SPACE" then
-							Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown())
+							Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown() and true or false)
 						else
 							self:SetPropagateKeyboardInput(true)
 							return
@@ -354,6 +354,9 @@
 	</Frame>
 
 
+
+
+
 	<!-- 
 	<Frame name="Cmd3DCode_Screenshot_PreviewFrame" virtual="false" movable="true" enableMouse="true">
 		<Size>
@@ -468,6 +471,34 @@
 				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.point = "BOTTOMLEFT"
 				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.relativePoint = "TOPLEFT"
 				ToggleDropDownMenu(1,nil,Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn,self:GetName(),0,0)
+			</OnClick>
+		</Scripts>
+		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+		<NormalFont style="DialogButtonNormalText"/>
+	</Button>
+
+	<Button name="ExternalPicturesThumb_BtnScrawl" text="涂">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				ThreeDimensionsCode_Send("scrawl",self.picidx..","..self.picid)
+			</OnClick>
+		</Scripts>
+		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+		<NormalFont style="DialogButtonNormalText"/>
+	</Button>
+
+	<Button name="ExternalPicturesThumb_BtnOpenInBrowser" text="浏">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				if self.url then
+            		ThreeDimensionsCode_Send("openurl",self.url)
+				end
 			</OnClick>
 		</Scripts>
 		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
