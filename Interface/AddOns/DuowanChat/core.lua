@@ -817,6 +817,7 @@ function dwChannelMuteButton_OnEnter(self)
     GameTooltip:Show();
 end
 
+
 function dwChannelMuteButton_OnClick(self, button)
     DuowanChat:SetBFChannelMuted(not db.mute)
 
@@ -835,3 +836,18 @@ function dwChannelMuteButton_OnClick(self, button)
 
     dwChannel_RefreshMuteButton()
 end 
+
+--截图按钮
+
+function scButton_OnEnter(self)
+    GameTooltip_SetDefaultAnchor(GameTooltip, self);
+    GameTooltip:SetText("|cff880303[有爱]|r 截图分享", 1, 1, 1);
+    GameTooltip:AddLine("快捷键：Ctrl+PrtScr");
+    GameTooltip:Show();
+end 
+
+function scButton_OnClick(self, button)
+	Cmd3DCode_Screenshot_Start()
+end 
+
+

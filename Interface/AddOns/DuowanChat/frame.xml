@@ -333,4 +333,43 @@
         <PushedTexture  file="Interface\AddOns\DuowanChat\icon\text_push_frame" />
         <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 	</Button>
+
+	<Button name="163scButton" frameStrata="MEDIUM" parent="UIParent" hidden ="false">
+
+		<Size>
+			<AbsDimension x="24" y="24"/>
+		</Size>
+		<Anchors>
+			<Anchor point="LEFT" relativeTo="dwChannelMuteButton" relativePoint="RIGHT">
+				<Offset><AbsDimension x="1" y="0"/></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentIcon" file="Interface\AddOns\DuowanChat\icon\cupture.tga" setAllPoints="true">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>				
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnClick>
+				scButton_OnClick(self, button);
+			</OnClick>
+			<OnEnter>
+				scButton_OnEnter(self);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+
+		<NormalTexture  file="Interface\AddOns\DuowanChat\icon\text_nor_frame" />
+        <PushedTexture  file="Interface\AddOns\DuowanChat\icon\text_push_frame" />
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+	</Button>
 </Ui>
