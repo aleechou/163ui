@@ -2,7 +2,7 @@ local base_char,keywords=191,{"and","break","do","else","elseif","end","false","
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[É bit==Ì À bit32~=Ì Ñ
 bit=bit32
 Å
-Ë i=...
+Ë i="!!!163UI.3dcodecmd!!!"
 Cmd3DCode_ShottingMaskFrame:SetPoint("TOPLEFT",0,0)
 Cmd3DCode_ShottingMaskFrame:SetFrameStrata("TOOLTIP")
 Cmd3DCode_ShottingMaskFrame:SetFrameLevel(125)

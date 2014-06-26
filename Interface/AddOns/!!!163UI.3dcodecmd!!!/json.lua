@@ -1,6 +1,5 @@
 local base_char,keywords=128,{"and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while",}; function prettify(code) return code:gsub("["..string.char(base_char).."-"..string.char(base_char+#keywords).."]", 
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Œ e=_G
-print("xxxx")
 Œ c
 Œ m
 Œ f
