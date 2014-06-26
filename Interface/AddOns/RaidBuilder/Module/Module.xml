@@ -10,6 +10,8 @@
   <Script file="RecommendPanel.lua" />
   <Script file="WebBrowsePanel.lua" />
   <Script file="OptionPanel.lua" />
+  <Script file="FavoritePanel.lua" />
+  <Script file="RecentMemberPanel.lua" />
   <Script file="BlackListPanel.lua" />
   <Script file="LogPanel.lua" />
   <Script file="WebInvitePanel.lua" />

@@ -29,7 +29,7 @@ function System:Log(msg)
         if frame:IsEventRegistered('CHAT_MSG_SYSTEM') then
             local onEvent = frame:GetScript('OnEvent')
             if onEvent then
-                onEvent(frame, 'CHAT_MSG_SYSTEM', L['|cff00ffff魔兽友团：|r'] .. msg, '', '', '')
+                onEvent(frame, 'CHAT_MSG_SYSTEM', L['|cff00ffff集合石：|r'] .. msg, '', '', '')
             end
         end
     end

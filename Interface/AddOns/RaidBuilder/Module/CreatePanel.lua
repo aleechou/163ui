@@ -109,47 +109,67 @@ function CreatePanel:OnInitialize()
     SummaryWidget:SetObject(SummaryBox)
     SummaryBox:GetEditBox():SetMaxBytes(46)
 
+    local function CheckError()
+        local err, content = self:CheckError()
+        if err then
+            if content then
+                self.ErrorText:SetText(content)
+                self.CreateButton:Hide()
+            else
+                self.ErrorText:SetText('')
+                self.CreateButton:Show()
+            end
+        else
+            self.ErrorText:SetText('')
+            self.CreateButton:Show()
+        end
+    end
+
     local TankBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
     TankBox:SetPoint('BOTTOMLEFT', 40, 0)
     TankBox:SetStyle('TANK')
+    TankBox:SetCallback('OnValueChanged', CheckError)
 
     local HealerBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
     HealerBox:SetPoint('LEFT', TankBox, 'RIGHT', 40, 0)
     HealerBox:SetStyle('HEALER')
+    HealerBox:SetCallback('OnValueChanged', CheckError)
 
     local DamagerBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
     DamagerBox:SetPoint('LEFT', HealerBox, 'RIGHT', 40, 0)
     DamagerBox:SetStyle('DAMAGER')
+    DamagerBox:SetCallback('OnValueChanged', CheckError)
 
     local NoneBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
     NoneBox:SetPoint('LEFT', DamagerBox, 'RIGHT', 40, 0)
     NoneBox:SetStyle('NONE')
+    NoneBox:SetCallback('OnValueChanged', CheckError)
 
-    local MinLevel = GUI:GetClass('InputBox2'):New(LevelWidget)
+    local MinLevel = GUI:GetClass('NumericBox'):New(LevelWidget)
     MinLevel:SetPoint('BOTTOMLEFT', 10, 10)
-    MinLevel:SetSize(80, 40)
-    MinLevel:SetNumeric(true)
-    MinLevel:SetMaxLetters(2)
+    MinLevel:SetSize(64, 40)
+    MinLevel:SetMinMaxValues(1, MAX_PLAYER_LEVEL)
+    MinLevel:SetCallback('OnValueChanged', CheckError)
 
-    local MaxLevel = GUI:GetClass('InputBox2'):New(LevelWidget)
-    MaxLevel:SetPoint('BOTTOMRIGHT', -10, 10)
-    MaxLevel:SetSize(80, 40)
-    MaxLevel:SetNumeric(true)
-    MaxLevel:SetMaxLetters(2)
+    local MaxLevel = GUI:GetClass('NumericBox'):New(LevelWidget)
+    MaxLevel:SetPoint('BOTTOMRIGHT', -26, 10)
+    MaxLevel:SetSize(64, 40)
+    MaxLevel:SetMinMaxValues(1, MAX_PLAYER_LEVEL)
+    MaxLevel:SetCallback('OnValueChanged', CheckError)
 
-    local ItemLevel = GUI:GetClass('InputBox2'):New(ItemWidget)
+    local ItemLevel = GUI:GetClass('NumericBox'):New(ItemWidget)
     ItemLevel:SetPoint('BOTTOMLEFT', 20, 10)
-    ItemLevel:SetPoint('BOTTOMRIGHT', -20, 10)
+    ItemLevel:SetPoint('BOTTOMRIGHT', -36, 10)
     ItemLevel:SetHeight(40)
-    ItemLevel:SetNumeric(true)
-    ItemLevel:SetMaxLetters(3)
+    ItemLevel:SetMinMaxValues(0, 600)
+    ItemLevel:SetValueStep(10)
 
-    local PVPRating = GUI:GetClass('InputBox2'):New(PVPWidget)
+    local PVPRating = GUI:GetClass('NumericBox'):New(PVPWidget)
     PVPRating:SetPoint('BOTTOMLEFT', 20, 10)
-    PVPRating:SetPoint('BOTTOMRIGHT', -20, 10)
+    PVPRating:SetPoint('BOTTOMRIGHT', -36, 10)
     PVPRating:SetHeight(40)
-    PVPRating:SetNumeric(true)
-    PVPRating:SetMaxLetters(4)
+    PVPRating:SetMinMaxValues(0, 4000)
+    PVPRating:SetValueStep(100)
 
     local Password = GUI:GetClass('InputBox2'):New(PwdWidget)
     Password:SetPoint('BOTTOMLEFT', 20, 10)
@@ -185,6 +205,9 @@ function CreatePanel:OnInitialize()
     CreateButton:SetText(L['创建活动'])
     CreateButton:Disable()
 
+    local ErrorText = self:CreateFontString(nil, 'OVERLAY', 'GameFontRed')
+    ErrorText:SetPoint('CENTER', CreateButton)
+
     local Blocker = CreateFrame('Frame', nil, self)
     Blocker:SetAllPoints(self)
     Blocker:SetToplevel(true)
@@ -193,7 +216,7 @@ function CreatePanel:OnInitialize()
     Blocker:SetScript('OnMouseWheel', function() end)
 
     local bg = Blocker:CreateTexture(nil, 'OVERLAY')
-    bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background]])
+    bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background-Dark]])
     bg:SetAllPoints(Blocker)
 
     local BlockerText = Blocker:CreateFontString(nil, 'OVERLAY', 'QuestFont_Super_Huge')
@@ -227,6 +250,7 @@ function CreatePanel:OnInitialize()
     self.Blocker = Blocker
     self.BlockerText = BlockerText
     self.CreateButton = CreateButton
+    self.ErrorText = ErrorText
 
     Filter:SetCallback('OnSelectChanged', function(_, data)
         self.Mode:SetMenuTable(GetEventModeMenuTable(data.value))
@@ -244,6 +268,7 @@ function CreatePanel:OnInitialize()
     end)
 
     self:SetScript('OnShow', self.OnShow)
+    self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'OnShow')
 end
 
 function CreatePanel:OnShow()
@@ -257,6 +282,8 @@ function CreatePanel:OnShow()
         self.Filter:Disable()
         self.YiXinButton:Enable()
         self.ShareButton:Enable()
+
+        self.CreateButton:SetText(L['更新活动'])
     else
         self.Filter:SetValue(nil)
         self.Mode:SetValue(nil)
@@ -266,6 +293,8 @@ function CreatePanel:OnShow()
         self.Filter:Enable()
         self.YiXinButton:Disable()
         self.ShareButton:Disable()
+
+        self.CreateButton:SetText(L['创建活动'])
     end
     self:Refresh()
 end
@@ -309,12 +338,15 @@ function CreatePanel:Update()
     local eventCode = self.Filter:GetValue()
     local nonBlock = isLeader and eventCode and self.Mode:GetValue()
 
+    self.MinLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
+    self.MaxLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
+
     self.Blocker:SetShown(not nonBlock)
     self.CreateButton:SetEnabled(nonBlock)
     self.BlockerText:SetText(isLeader and L['请选择活动类型及活动形式'] or L['你不是队长，不能创建活动'])
 
     if eventCode then
-        self.PVPRating:SetEnabled(bit.band(TYPE_MATCH, eventCode) >= EVENT_TYPE_BG)
+        self.PVPRating:SetEnabled(bit.band(EVENT_MATCH_TYPE, eventCode) == EVENT_TYPE_ARENA)
     end
 end
 
@@ -326,19 +358,19 @@ function CreatePanel:GetVisibleNumber(box)
     return box:IsVisible() and box:GetNumber() or 0
 end
 
-function CreatePanel:GetMemberRole(role)
-    local tt = self:GetVisibleNumber(self.TankNumber)
-    local th = self:GetVisibleNumber(self.HealerNumber)
-    local td = self:GetVisibleNumber(self.DamagerNumber)
-    local tn = self:GetVisibleNumber(self.NoneNumber)
+-- function CreatePanel:GetMemberRole(role)
+--     local tt = self:GetVisibleNumber(self.TankNumber)
+--     local th = self:GetVisibleNumber(self.HealerNumber)
+--     local td = self:GetVisibleNumber(self.DamagerNumber)
+--     local tn = self:GetVisibleNumber(self.NoneNumber)
 
-    local ct = role == 'TANK' and 1 or 0
-    local ch = role == 'HEALER' and 1 or 0
-    local cd = role == 'DAMAGER' and 1 or 0
-    local cn = role == 'NONE' and 1 or 0
+--     local ct = role == 'TANK' and 1 or 0
+--     local ch = role == 'HEALER' and 1 or 0
+--     local cd = role == 'DAMAGER' and 1 or 0
+--     local cn = role == 'NONE' and 1 or 0
 
-    return PackMemberRole(ct, tt, ch, th, cd, td, cn, tn)
-end
+--     return PackMemberRole(ct, tt, ch, th, cd, td, cn, tn)
+-- end
 
 function CreatePanel:CheckMemberRole(maxMember)
     local tank   = self:GetVisibleNumber(self.TankNumber)
@@ -408,6 +440,7 @@ function CreatePanel:CreateEvent()
     end
 
     RaidBuilder:ShowModule('RolePanel', function(role)
+        event:SetRoleCurrent(role, 1)
         GroupCache:SetCurrentRole(role)
         Logic:CreateEvent(
             eventCode,
@@ -420,14 +453,52 @@ function CreatePanel:CreateEvent()
             crossRealm,
             forceVerify,
             password,
-            self:GetMemberRole(role),
+            event:GetMemberRole(),
             rules)
 
-        self:OnShow()
+        -- self:OnShow()
     end, event)
 end
 
 function CreatePanel:QuickToggle(eventCode, eventMode)
     self.Filter:SetValue(eventCode)
     self.Mode:SetValue(eventMode)
+end
+
+function CreatePanel:CheckError()
+    local eventCode = self.Filter:GetValue()
+    if not eventCode then
+        return true
+    end
+    local _maxMember = GetEventMaxMember(eventCode)
+
+    if not self:CheckMemberRole(_maxMember) then
+        return true, format(L['职责总人数不能小于2或大于%d'], _maxMember)
+    end
+
+    local minLevel = self.MinLevel:GetNumber()
+    local maxLevel = self.MaxLevel:GetNumber()
+    local _minLevel = GetEventMinLevel(eventCode)
+
+    if maxLevel > MAX_PLAYER_LEVEL then
+        return true, format(L['等级最高不能超过%d'], MAX_PLAYER_LEVEL)
+    end
+    if minLevel < _minLevel then
+        return true, format(L['这个活动等级最低不能低于%d'], _minLevel)
+    end
+    if minLevel > maxLevel then
+        return true, L['最低等级不能超过最高等级']
+    end
+
+    local event = Event:New()
+    event:SetRoleTotal('TANK', self:GetVisibleNumber(self.TankNumber))
+    event:SetRoleTotal('HEALER', self:GetVisibleNumber(self.HealerNumber))
+    event:SetRoleTotal('DAMAGER', self:GetVisibleNumber(self.DamagerNumber))
+    event:SetRoleTotal('NONE', self:GetVisibleNumber(self.NoneNumber))
+    event:SetMinLevel(minLevel)
+    event:SetMaxLevel(maxLevel)
+
+    if event:GetRoleTotalAll() > 5 and minLevel < 10 then
+        return true, L['大于5人的活动，最低等级不能低于10级']
+    end
 end

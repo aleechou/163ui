@@ -86,7 +86,7 @@ end
 
 function DataBroker:NECLOUD_READY()
     self.notReady = nil
-    self.Object.text = L['友团聊天']
+    self.Object.text = ADDON_NAME
     self.Object.loading = nil
     self:Refresh()
 end
@@ -98,7 +98,7 @@ end
 function DataBroker:Refresh()
     if CloudUI:IsSlientMode() then
         self.Object.icon = ADDON_LOGO
-        self.Object.text = L['友团聊天']
+        self.Object.text = ADDON_NAME
         self.Object.flash = nil
         self.Object.slient = true
     else
@@ -111,10 +111,10 @@ function DataBroker:Refresh()
         if unread > 0 then
             local data = GetUnreadList()[1]
             self.Object.icon = GetChatIcon(data.chatType, data.target)
-            self.Object.text = L['友团聊天'] .. ' ' .. (unread + join)
+            self.Object.text = ADDON_NAME .. ' ' .. (unread + join)
         else
             self.Object.icon = ADDON_LOGO
-            self.Object.text = L['友团聊天']
+            self.Object.text = ADDON_NAME
         end
     end
 end
@@ -128,7 +128,7 @@ function DataBroker:Toggle()
         return
     end
     if UnitFactionGroup('player') == 'Neutral' then
-        LibStub('NetEaseGUI-1.0'):CallWarningDialog(L['中立阵营不能使用友团聊天'])
+        LibStub('NetEaseGUI-1.0'):CallWarningDialog(L['中立阵营不能使用集合石聊天'])
         return
     end
     local list = GetUnreadList()
@@ -141,5 +141,5 @@ function DataBroker:Toggle()
 end
 
 function DataBroker:ShowNewVersion(url)
-    LibStub('NetEaseGUI-1.0'):CallUrlDialog(url, L['发现友团聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)
+    LibStub('NetEaseGUI-1.0'):CallUrlDialog(url, L['发现集合石聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)
 end

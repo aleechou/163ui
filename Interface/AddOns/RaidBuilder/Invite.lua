@@ -10,20 +10,40 @@ function Invite:OnInitialize()
     self.accepted = {}
     self.bnToons = {}
     self.bnFriends = {}
+    self.normalFriends = {}
 
     self.inviteQueue = self.db.profile.inviteQueue
     self.inviteBNets = self.db.profile.inviteBNets
 
     self.inviteBNetTimers = {}
+    self.lastInviteRequest = 0
 
     self:RegisterEvent('PLAYER_LOGIN')
     self:RegisterEvent('CHAT_MSG_SYSTEM')
     self:RegisterEvent('GROUP_ROSTER_UPDATE', 'CheckRaid')
     self:RegisterEvent('BN_FRIEND_INVITE_ADDED')
+    self:RegisterBucketEvent('FRIENDLIST_UPDATE', 3, 'CacheNormalFriends')
     self:RegisterBucketEvent('BN_FRIEND_INFO_CHANGED', 1, 'CacheBNetToons')
 
     self:SecureHook('BNToastFrame_Show')
     self:SecureHook('PendingList_Scroll')
+
+    self:SecureHook('BNet_EnableToasts')
+    self:SecureHook('BNet_DisableToasts')
+
+    ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_INLINE_TOAST_ALERT', function(_, _, ...)
+        local action = ...
+        if action == 'FRIEND_REQUEST' then
+            if time() - self.lastInviteRequest < 2 then
+                return true
+            end
+        elseif action == 'BATTLETAG_FRIEND_ADDED' or action == 'FRIEND_ONLINE' then
+            local id, _, battleTag = BNGetFriendInfoByID(select(13, ...))
+            if battleTag and (self:IsInQueue(nil, battleTag) or self.accepted[id]) then
+                return true
+            end
+        end
+    end)
 end
 
 ---- Cache
@@ -43,11 +63,14 @@ function Invite:PLAYER_LOGIN(event)
     end
 
     self:CacheBNetToons()
+    self:CacheNormalFriends()
+    self:StartCheckTimer()
     self:CheckInviteTimeout()
     self:Start()
 end
 
 function Invite:CacheBNetToons()
+    wipe(self.accepted)
     wipe(self.bnToons)
     wipe(self.bnFriends)
     for i = 1, BNGetNumFriends() do
@@ -57,9 +80,10 @@ function Invite:CacheBNetToons()
                 local _, toonName, client, realmName, _, faction = BNGetFriendToonInfo(i, toonIndex)
                 if client == 'WoW' and faction == UnitFactionGroup('player') then
                     local name = Ambiguate(GetFullName(toonName, (realmName:gsub('%s+', ''))), 'none')
+                    
+                    battleTag = battleTag or ''
 
                     self.bnToons[name] = battleTag
-
                     self:StopBNetInviteTimer(name, battleTag)
                 end
             end
@@ -77,16 +101,26 @@ end
 ---- AutoBNetAccept
 function Invite:BN_FRIEND_INVITE_ADDED()
     local playerName = UnitFullName('player')
+    local now = time()
 
     for i = 1, BNGetNumFriendInvites() do
         local tag, id, stamp, leaderName, selfName = self:GetFriendInviteInfo(i)
         if tag == 'RaidBuilder' then
-            if playerName == selfName and AppliedCache:IsApplied(leaderName, true) then
-                BNAcceptFriendInvite(id)
+            if playerName == selfName then
+                if AppliedCache:IsApplied(leaderName, true) then
+                    BNAcceptFriendInvite(id)
+                    self.accepted[id] = true
+                    self.lastInviteRequest = now
+                end
             end
         elseif tag == 'RaidBuilder-Web' then
             BNToastFrame_AddToast(5, 'RaidBuilder-Web')
+            self.lastInviteRequest = now
         end
+    end
+
+    if self.lastInviteRequest ~= now and GetCVarBool('showToastWindow') then
+        BNToastFrame_AddToast(5)
     end
 end
 
@@ -102,10 +136,27 @@ end
 
 ---- Hook
 
+function Invite:BN_FRIEND_ACCOUNT_ONLINE(_, id)
+    local id, _, battleTag = BNGetFriendInfoByID(id)
+    if battleTag and (self:IsInQueue(nil, battleTag) or self.accepted[id]) then
+        return
+    end
+    BNToastFrame_AddToast(1, id)
+end
+
+function Invite:BNet_EnableToasts()
+    BNToastFrame:UnregisterEvent('BN_FRIEND_INVITE_ADDED')
+    BNToastFrame:UnregisterEvent('BN_FRIEND_ACCOUNT_ONLINE')
+    self:RegisterEvent('BN_FRIEND_ACCOUNT_ONLINE')
+end
+
+function Invite:BNet_DisableToasts()
+    self:UnregisterEvent('BN_FRIEND_ACCOUNT_ONLINE')
+end
+
 function Invite:BNToastFrame_Show()
     if BNToastFrame.toastType == 5 and BNToastFrame.toastData == 'RaidBuilder-Web' then
-        BNToastFrameDoubleLine:SetText(L['收到一个|cff00ffff友团集合石|r活动请求，请验证是否合法。'])
-        BNToastFrame_RemoveToast(5, nil)
+        BNToastFrameDoubleLine:SetText(L['收到一个|cff00ffff集合石|r预约活动请求，请验证是否合法。'])
     end
 end
 
@@ -289,6 +340,7 @@ function Invite:OnTimer()
             local status, noAction = self:Do(info)
             if not status then
                 tremove(self.inviteQueue, i)
+                self:RemoveBNetFriend(nil, info.battleTag)
             else
                 if info.status < status then
                     info.status = status
@@ -426,7 +478,7 @@ end
 ---- CheckTimeout
 
 function Invite:StartCheckTimer()
-    if not checkTimer then
+    if not self.checkTimer then
         self.checkTimer = self:ScheduleRepeatingTimer('CheckInviteTimeout', 20)
     end
 end
@@ -453,8 +505,12 @@ function Invite:CheckInviteTimeout()
     local count = #self.inviteQueue
     if count > 0 then
         for i = #self.inviteQueue, 1, -1 do
-            if self:IsInviteTimeout(self.inviteQueue[i]) then
+            local v = self.inviteQueue[i]
+            if self:IsInviteTimeout(v) then
                 tremove(self.inviteQueue, i)
+
+                self:RemoveBNetFriend(nil, v.battleTag)
+                MemberCache:RemoveMember(v.name)
             end
         end
         self:SendMessage('RAIDBUILDER_INVITE_STATUS_UPDATE')
@@ -462,4 +518,26 @@ function Invite:CheckInviteTimeout()
         self:CancelTimer(self.checkTimer)
         self.checkTimer = nil
     end
+end
+
+function Invite:AddFriend(name, realm, battleTag)
+    if self.realms[realm] then
+        AddFriend(format('%s-%s', name, realm))
+    else
+        BNSendFriendInvite(battleTag)
+    end
+end
+
+function Invite:CacheNormalFriends()
+    wipe(self.normalFriends)
+    for i = 1, GetNumFriends() do
+        local name = GetFriendInfo(i)
+        if name then
+            self.normalFriends[name] = true
+        end
+    end
+end
+
+function Invite:UnitIsFriend(name, realm, battleTag)
+    return self.normalFriends[name] or self.normalFriends[format('%s-%s', name, realm)] or self:IsBNetFriend(battleTag)
 end

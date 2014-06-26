@@ -14,12 +14,19 @@ function MemberCache:OnInitialize()
 
     self:RegisterMessage('RAIDBUILDER_EVENT_LOADED')
     self:ScheduleRepeatingTimer('CheckMemberList', CHECK_INTERVAL)
-    self:RegisterBucketEvent({'GROUP_ROSTER_UPDATE', 'PLAYER_LOGIN'}, 10, 'GROUP_ROSTER_UPDATE')
+
+    self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 10)
+    self:RegisterBucketEvent('PLAYER_LOGIN', 5)
+end
+
+function MemberCache:PLAYER_LOGIN()
+    self:UnregisterBucket('PLAYER_LOGIN')
+    self:GROUP_ROSTER_UPDATE()
     self:CheckMemberList()
 end
 
 function MemberCache:GROUP_ROSTER_UPDATE()
-    for i, v in ipairs(self.db.profile.memberList) do
+    for i, v in ripairs(self.db.profile.memberList) do
         if UnitInGroup(v) then
             self:RemoveMember(v, true)
         end
@@ -29,7 +36,7 @@ end
 
 function MemberCache:CheckMemberList()
     local now = time()
-    for i, v in ipairs(self.db.profile.memberList) do
+    for i, v in ripairs(self.db.profile.memberList) do
         local member = self:GetMemberInfo(v)
         if member then
             if now - member:GetApplyTime() > MEMBER_TIMEOUT then
@@ -57,7 +64,7 @@ function MemberCache:RefreshMemberList()
     self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
 end
 
-function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
+function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId, isLFG, comment)
     tDeleteItem(self.db.profile.memberList, target)
 
     local proxy = {
@@ -72,6 +79,8 @@ function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel,
         Progression = progression,
         ApplyTime = time(),
         MsgId = msgId,
+        IsLFG = isLFG,
+        Comment = comment,
     }
 
     tinsert(self.db.profile.memberList, target)
@@ -114,4 +123,14 @@ function MemberCache:GetMemberInfo(target)
     self.memberCache[target] = self.memberCache[target] or Member:New(proxy)
     self.memberCache[target]:SetProxy(proxy)
     return self.memberCache[target]
+end
+
+function MemberCache:ClearLFG()
+    for i, v in ripairs(self.db.profile.memberList) do
+        local member = self:GetMemberInfo(v)
+        if member:GetIsLFG() then
+            self:RemoveMember(v, true)
+        end
+    end
+    self:RefreshMemberList()
 end

@@ -13,7 +13,7 @@ local WAIT_HEADER = {
             return member:GetNameText(), nil, nil, nil, member:GetMemberLogoTexture()
         end,
         sortHandler = function(member)
-            return format('%04d%s', member:GetMemberLogoIndex(), member:GetName())
+            return format('%04d%s', member:GetMemberLogoIndex(), strpadright(member:GetName(), 40))
         end
     },
     {
@@ -48,7 +48,7 @@ local WAIT_HEADER = {
             return member:GetLevel()
         end,
         sortHandler = function(member)
-            return member:GetLevel()
+            return 999 - member:GetLevel()
         end
     },
     {
@@ -59,50 +59,16 @@ local WAIT_HEADER = {
             return member:GetItemLevel()
         end,
         sortHandler = function(member)
-            return member:GetItemLevel()
+            return 9999 - member:GetItemLevel()
         end
     },
-    -- {
-    --     key = 'Haste',
-    --     text = L['急速'],
-    --     width = 70,
-    --     showHandler = function(member)
-    --         return member:GetStatInfo(STAT_HASTE)
-    --     end,
-    --     sortHandler = function(member)
-    --         return member:GetStatInfo(STAT_HASTE) or 0
-    --     end,
-    -- },
-    -- {
-    --     key = 'Mastery',
-    --     text = L['精通'],
-    --     width = 70,
-    --     showHandler = function(member)
-    --         return member:GetStatInfo(STAT_MASTERY)
-    --     end,
-    --     sortHandler = function(member)
-    --         return member:GetStatInfo(STAT_MASTERY) or 0
-    --     end,
-    -- },
-    -- {
-    --     key = 'Hit',
-    --     text = L['命中'],
-    --     width = 70,
-    --     showHandler = function(member)
-    --         return member:GetStatInfo(STAT_HIT)
-    --     end,
-    --     sortHandler = function(member)
-    --         return member:GetStatInfo(STAT_HIT) or 0
-    --     end,
-    -- },
     {
         key = 'Msg',
         text = L['说明'],
         width = 200,
         style = 'LEFT',
         showHandler = function(member)
-            -- return EVENT_QUICK_MSG_DATATABLE[member:GetMsgId()]
-            return QUICK_MSG_NAMES[member:GetMsgId()]
+            return member:GetMessage()
         end,
     },
     {
@@ -166,6 +132,20 @@ function WaitPanel:OnInitialize()
         EventCache:RestoreCurrentEvent()
         self:Refresh()
     end)
+
+    -- local LFGButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    -- LFGButton:SetPoint('LEFT', RestoreButton, 'RIGHT')
+    -- LFGButton:SetSize(120, 22)
+    -- LFGButton:SetText('LFG')
+    -- LFGButton:SetScript('OnClick', function()
+    --     local event = EventCache:GetCurrentEvent()
+    --     if event then
+    --         LFG:Request(event:GetEventCode())
+    --     end
+    -- end)
+    -- LFGButton:SetScript('OnHide', function()
+    --     SearchLFGLeave()
+    -- end)
 
     self.WaitList = WaitList
     self.NotLeader = NotLeader

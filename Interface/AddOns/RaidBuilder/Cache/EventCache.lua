@@ -94,10 +94,20 @@ function EventCache:GetEventCount()
     return count
 end
 
+function EventCache:GetFavoriteCount()
+    local count = 0
+    for _, event in pairs(self.eventCache) do
+        if event:IsInFavorite() then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 function EventCache:CheckEventList()
     local now = time()
     for leader, event in pairs(self.eventCache) do
-        if now - EVENT_TIMEOUT > event:GetTimeStamp() then
+        if now - event:GetTimeStamp() > EVENT_TIMEOUT then
             self:RemoveEvent(leader)
         end
     end

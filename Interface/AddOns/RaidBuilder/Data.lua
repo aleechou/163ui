@@ -7,19 +7,17 @@ end
 
 MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
 
-DIFF_MATCH = 0xFF000000
-TYPE_MATCH = 0x00FF0000
-NAME_MATCH = 0x0000FFFF
+EVENT_MATCH_TYPE = 0x0F000000
+EVENT_MATCH_WVER = 0x00F00000
+EVENT_MATCH_ID   = 0x000FF000
 
-EVENT_TYPE_RAID     = 0x010000
-EVENT_TYPE_DUNGEON  = 0x020000
-EVENT_TYPE_SCENARIO = 0x040000
-EVENT_TYPE_BG       = 0x080000
-EVENT_TYPE_ARENA    = 0x100000
-EVENT_TYPE_RECOMMEND= 0x200000
-EVENT_TYPE_MISC     = 0x400000
-
-EVENT_CODE_RECOMMEND= 0x200001
+EVENT_TYPE_RAID     = 0x01000000
+EVENT_TYPE_DUNGEON  = 0x02000000
+EVENT_TYPE_SCENARIO = 0x03000000
+EVENT_TYPE_ARENA    = 0x04000000
+EVENT_TYPE_QUEST    = 0x08000000
+EVENT_TYPE_RECOMMEND= 0x0A000000
+EVENT_TYPE_MISC     = 0x0F000000
 
 INVITE_STATUS_UNKNOWN   = 0x00
 INVITE_STATUS_QUEUE     = 0x01
@@ -34,75 +32,6 @@ INVITE_STATUS_NAMES = {
     [INVITE_STATUS_JOINED]      = L['已加入'],
     [INVITE_STATUS_UNKNOWN]     = L['未组队'],
 }
-
-EVENT_NAMES = setmetatable({
-
-    [EVENT_TYPE_RAID]       = L['团队副本'],
-    [EVENT_TYPE_DUNGEON]    = L['地下城'],
-    [EVENT_TYPE_SCENARIO]   = L['场景战役'],
-    [EVENT_TYPE_BG]         = L['战场'],
-    [EVENT_TYPE_ARENA]      = L['PvP'],
-    [EVENT_TYPE_RECOMMEND]  = L['本周悬赏'],
-    [EVENT_TYPE_MISC]       = L['其他'],
-
-    [0x01011a52] = L['决战奥格瑞玛-25人'],
-    [0x02011a52] = L['决战奥格瑞玛-10人'],
-    [0x04011a52] = L['决战奥格瑞玛-弹性'],
-    [0x000119de] = L['雷电王座'],
-    [0x000117b3] = L['永春台'],
-    [0x00011899] = L['恐惧之心'],
-    [0x000117ed] = L['魔古山宝库'],
-
-    [0x0001ffff] = L['斡耳朵斯'],
-    [0x0001fffe] = L['四大天神'],
-    [0x0001fffd] = L['世界Boss一波流'],
-
-    [0x00011704] = L['巨龙之魂'],
-    [0x0001165b] = L['火焰之地'],
-    [0x00011606] = L['风神王座'],
-    [0x000113e6] = L['黑翼血环'],
-    [0x000114d6] = L['暮光堡垒'],
-    [0x000115e0] = L['巴拉丁监狱'],
-
-    [0x000112cc] = L['冰冠堡垒'],
-    [0x0001137b] = L['红玉圣殿'],
-    [0x00011272] = L['十字军的试炼'],
-    [0x000110b1] = L['奥杜尔'],
-    [0x0001118d] = L['黑曜石圣殿'],
-    [0x00011194] = L['永恒之眼'],
-    [0x000111fb] = L['阿尔卡冯的宝库'],
-
-    [0x0008ffff] = L['随机战场 '],
-    [0x000801e9] = L['战歌峡谷'],
-    [0x000802d6] = L['双子峰'],
-    [0x000802f9] = L['吉尔尼斯之战'],
-    [0x000803e6] = L['寇魔古寺'],
-    [0x000802d7] = L['碎银矿脉'],
-    [0x00080211] = L['阿拉希盆地'],
-    [0x00080236] = L['风暴之眼'],
-    [0x0008025f] = L['远古海滩'],
-    [0x00080451] = L['深风峡谷'],
-    [0x0008001e] = L['奥特兰克山谷'],
-    [0x00080274] = L['征服之岛'],
-
-    [0x00100001] = L['2v2'],
-    [0x00100002] = L['3v3'],
-    [0x00100003] = L['5v5'],
-    [0x00100004] = L['评级战场'],
-    [0x00100005] = L['随机战场'],
-
-}, {__index = function(o, code)
-    if code == EVENT_CODE_RECOMMEND then
-        return RemoteDataCache:GetCurrentRecommend() or UNKNOWN
-    end
-    return UNKNOWN
-end})
-
-EVENT_TYPES = {}
-
-for code, name in pairs(EVENT_NAMES) do
-    EVENT_TYPES[name] = code
-end
 
 ROLE_DATA = {
     TANK = {
@@ -143,31 +72,6 @@ CLASS_NAMES = {}
 for i = 1, GetNumClasses() do
     local name, tag, id = GetClassInfo(i)
     CLASS_NAMES[tag] = name
-end
-
-EVENT_MODE_TYPES = {}
-EVENT_MODE_NAMES = {
-    [ 1] = L['Roll'],
-    [ 2] = L['金团'],
-    [ 3] = L['成就'],
-    [ 4] = L['开荒'],
-    [ 5] = L['冲分'],
-    [ 6] = L['屠城'],
-    [ 7] = L['其他'],
-    [ 8] = L['幻化'],
-    [ 9] = L['自强'],
-    [10] = L['刷勇气'],
-    [11] = L['刷正义'],
-    [12] = L['刷征服'],
-    [13] = L['刷荣誉'],
-    [14] = L['挑战'],
-    [15] = L['冲分'],
-    [16] = L['混分'],
-}
-EVENT_MODE_MENUTABLE = {}
-
-for i, v in ipairs(EVENT_MODE_NAMES) do
-    EVENT_MODE_TYPES[v] = i
 end
 
 SPEC_STATS = {
@@ -264,11 +168,6 @@ for i = 1, 4 do
     tinsert(_PARTY_UNITS, 'party' .. i)
 end
 
-EVENT_MINLEVELS = {}
-EVENT_MAXMEMBERS = {}
-EVENT_DEFAULT_MEMBERROLES = {}
-EVENT_ALLOW_CROSSREALMS = {}
-
 -- UNIT_LOGO
 UNIT_LOGO_NETEASE   = 10
 UNIT_LOGO_DEV       = 20
@@ -295,9 +194,9 @@ local LOGO_SIZE = 20
 UNIT_LOGO_NAMES = {
     -- [UNIT_LOGO_NONE     ] = NONE,
     [UNIT_LOGO_NETEASE  ] = L['网易官方活动'],
-    [UNIT_LOGO_DEV      ] = L['友团插件开发者'],
-    [UNIT_LOGO_TOTAL    ] = L['友团总榜团长'],
-    [UNIT_LOGO_MONTH    ] = L['友团月榜团长'],
+    [UNIT_LOGO_DEV      ] = L['集合石开发团队'],
+    [UNIT_LOGO_TOTAL    ] = L['集合石总榜团长'],
+    [UNIT_LOGO_MONTH    ] = L['集合石月榜团长'],
     [UNIT_LOGO_90303A   ] = L['90303人气团长'],
     [UNIT_LOGO_90303B   ] = L['90303人气团长'],
     [UNIT_LOGO_90303C   ] = L['90303人气团长'],
@@ -366,4 +265,62 @@ for i, v in ipairs(QUICK_MSG_NAMES) do
         text = v,
         value = i,
     })
+end
+
+EVENT_TYPES = {}
+
+for i, v in pairs(EVENT_NAMES) do
+    EVENT_TYPES[v] = i
+end
+
+do
+    OLD_EVENT_CODE = {
+        [0x010000]   = EVENT_TYPES['团队副本'],
+        [0x020000]   = EVENT_TYPES['地下城'],
+        [0x040000]   = EVENT_TYPES['场景战役'],
+        [0x100000]   = EVENT_TYPES['PvP'],
+        [0x200000]   = EVENT_TYPES['本周悬赏'],
+        [0x400000]   = EVENT_TYPES['其它'],
+
+        [0x200001]   = EVENT_TYPES['本周悬赏'],
+
+        [0x01011a52] = EVENT_TYPES['决战奥格瑞玛-25人'],
+        [0x02011a52] = EVENT_TYPES['决战奥格瑞玛-10人'],
+        [0x04011a52] = EVENT_TYPES['决战奥格瑞玛-弹性'],
+        [0x000119de] = EVENT_TYPES['雷电王座'],
+        [0x000117b3] = EVENT_TYPES['永春台'],
+        [0x00011899] = EVENT_TYPES['恐惧之心'],
+        [0x000117ed] = EVENT_TYPES['魔古山宝库'],
+
+        [0x0001ffff] = EVENT_TYPES['斡耳朵斯'],
+        [0x0001fffe] = EVENT_TYPES['四大天神'],
+        [0x0001fffd] = EVENT_TYPES['世界Boss一波流'],
+
+        [0x00011704] = EVENT_TYPES['巨龙之魂'],
+        [0x0001165b] = EVENT_TYPES['火焰之地'],
+        [0x00011606] = EVENT_TYPES['风神王座'],
+        [0x000113e6] = EVENT_TYPES['黑翼血环'],
+        [0x000114d6] = EVENT_TYPES['暮光堡垒'],
+        [0x000115e0] = EVENT_TYPES['巴拉丁监狱'],
+
+        [0x000112cc] = EVENT_TYPES['冰冠堡垒'],
+        [0x0001137b] = EVENT_TYPES['红玉圣殿'],
+        [0x00011272] = EVENT_TYPES['十字军的试炼'],
+        [0x000110b1] = EVENT_TYPES['奥杜尔'],
+        [0x0001118d] = EVENT_TYPES['黑曜石圣殿'],
+        [0x00011194] = EVENT_TYPES['永恒之眼'],
+        [0x000111fb] = EVENT_TYPES['阿尔卡冯的宝库'],
+
+        [0x00100001] = EVENT_TYPES['2v2'],
+        [0x00100002] = EVENT_TYPES['3v3'],
+        [0x00100003] = EVENT_TYPES['5v5'],
+        [0x00100004] = EVENT_TYPES['评级战场'],
+        [0x00100005] = EVENT_TYPES['随机战场'],
+    }
+
+    OLD_EVENT_MAP = {}
+
+    for k, v in pairs(OLD_EVENT_CODE) do
+        OLD_EVENT_MAP[v] = k
+    end
 end

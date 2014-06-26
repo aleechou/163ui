@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridView', 4
+local WIDGET, VERSION = 'DataGridView', 6
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridView = GUI:NewClass(WIDGET, GUI:GetClass('ListView'), VERSION)
@@ -9,8 +9,40 @@ end
 
 function DataGridView:Constructor()
     self.sortButtons = {}
+    self.sortCache = setmetatable({}, {
+        __mode = 'k',
+        __index = function(o, k)
+            local value = self:MakeSortValue(k)
+            o[k] = value
+            return value
+        end,
+    })
     self:SetCallback('OnItemCreated', self.OnItemCreated)
     self:SetCallback('OnItemFormatted', self.OnItemFormatted)
+end
+
+function DataGridView:MakeSortValue(object)
+    local value, base
+    if type(object) == 'table' and object.BaseSortHandler then
+        base = object:BaseSortHandler()
+    end
+    if self.sortHandler then
+        value = self.sortHandler(object)
+    end
+    if not base then
+        return value
+    else
+        if type(value) == 'number' then
+            if value < 0 then
+                return format('%044.4f', value) .. base
+            else
+                return format('%045.4f', value) .. base
+            end
+        else
+            value = strsub(tostring(value), 1, 50)
+            return value .. strrep(value, 50 - #value) .. base
+        end
+    end
 end
 
 function DataGridView:OnItemCreated(button)
@@ -118,8 +150,12 @@ function DataGridView:SetSortHandler(sortHandler)
     else
         self.sortDesc = not self.sortDesc
     end
+    if sortHandler ~= self.sortHandler then
+        wipe(self.sortCache)
+    end
     self.sortHandler = sortHandler
-    self:Sort()
+    -- self:Sort()
+    -- self:UpdateFilter()
     self:Refresh()
 end
 
@@ -140,6 +176,8 @@ function DataGridView:Update()
             button:SetArrowStyle('NONE')
         end
     end
+    self:Sort()
+    self:UpdateFilter()
     orig_Update(self)
 end
 
@@ -151,11 +189,11 @@ function DataGridView:Sort()
     if type(itemList) == 'table' then
         if self.sortDesc then
             sort(itemList, function(a, b)
-                return self.sortHandler(a) > self.sortHandler(b)
+                return self.sortCache[a] > self.sortCache[b]
             end)
         else
             sort(itemList, function(a, b)
-                return self.sortHandler(a) < self.sortHandler(b)
+                return self.sortCache[a] < self.sortCache[b]
             end)
         end
     end
@@ -164,6 +202,7 @@ end
 local orig_SetItemList = DataGridView.SetItemList
 function DataGridView:SetItemList(itemList)
     orig_SetItemList(self, itemList)
-    self:Sort()
+    -- self:Sort()
+    -- self:UpdateFilter()
     self:Refresh()
 end

@@ -30,14 +30,12 @@ function TeamNotice:GROUP_ROSTER_UPDATE()
     local cache = self:GetMemberCache()
     local event = EventCache:GetCurrentEvent()
     if event then
-        local content = L.TEAM_NOTICE_CONTENT:format(event:GetEventName())
-
         if self:IsFirstRaidLeader() then
-            SendChatMessage(content, IsInRaid(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or 'RAID')
+            SendChatMessage(L.TEAM_NOTICE_CONTENT:format(event:GetEventName()), IsInRaid(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or 'RAID')
         elseif UnitIsGroupLeader('player') then
             for name in pairs(cache) do
                 if not self.memberCache[name] then
-                    SendChatMessage(content, 'WHISPER', nil, name)
+                    SendChatMessage(L.TEAM_NOTICE_CONTENT_UNIT:format(event:GetEventName(), GetRoleInfo(GroupCache:GetUnitRole(name) or 'NONE')), 'WHISPER', nil, name)
                 end
             end
         end

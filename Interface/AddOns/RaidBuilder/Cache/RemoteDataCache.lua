@@ -27,6 +27,16 @@ function RemoteDataCache:OnInitialize()
         self:SendMessage('RAIDBUILDER_RECOMMENDDATA_CHANGED', data)
     end)
 
+    local FinderData = DataCache:NewObject('FinderData')
+    FinderData:SetCallback('OnCacheChanged', function(self, cache)
+        if type(cache) == 'table' then
+            self:SetData(cache)
+        end
+    end)
+    FinderData:SetCallback('OnDataChanged', function(_, data)
+        self:SendMessage('RAIDBUILDER_FINDERDATA_CHANGED', data)
+    end)
+
     self.LogoData = LogoData
     self.MonthData = MonthData
     self.TotalData = TotalData
@@ -36,7 +46,7 @@ end
 function RemoteDataCache:FormatRecommendData(cache)
     local control, eventName, level, maxMembers, roleNum = cache[1]:match('([@!]?)([^ !@]*)#(%d+)#(%d+)#(.*)%s*$')
 
-    InsertMenuTable(L['本周悬赏'], eventName, 0x00200001, control, level, maxMembers, roleNum, true)
+    -- InsertMenuTable(L['本周悬赏'], eventName, 0x00200001, control, level, maxMembers, roleNum, true)
 
     self:SetData(eventName)
 end

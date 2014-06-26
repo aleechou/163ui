@@ -1,13 +1,12 @@
 ## Interface: 50400
 ## Title: Raid Builder
-## Title-zhCN: |cffff565e[友团]|r 组团模块
+## Title-zhCN: |cffff565e[集合石]|r 组团模块
 ## Notes-zhCN: 帮助您更好的组建队伍
-## Version: 50400.15
+## Version: 50400.16
 ## OptionalDeps: WowSocial_UI
 ## SavedVariables: RAIDBUILDER_UI_DB
 ## SavedVariablesPerCharacter: RAIDBUILDER_CHARACTER_DB
 ## X-WoWBox-Ver: 1
 Load.xml
-
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052903
+## 163UI-Version: 2014062601

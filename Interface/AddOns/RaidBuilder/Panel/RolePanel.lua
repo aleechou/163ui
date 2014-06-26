@@ -35,7 +35,7 @@ function RolePanel:OnInitialize()
         self:UpdateAcceptButton()
     end)
     RoleList:SetCallback('OnItemEnter', function(frame, button, role)
-        GameTooltip_SetDefaultAnchor(GameTooltip, button)
+        GameTooltip:SetOwner(button, 'ANCHOR_TOP')
         GameTooltip:SetText(select(2, GetRoleInfo(role)), nil, nil, nil, nil, true)
         if not self:IsRoleValid(role) then
             GameTooltip:AddLine(L['你的等级、物品等级或职业不符合要求，不能选择该职责。'], RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true)
@@ -161,17 +161,13 @@ function RolePanel:SetArguments(callback, event)
 
     local hasPassword = event and event:GetHasPassword() or nil
     local isSelf = event and (event:IsSelf() or not event:GetLeader()) or nil
-    local QuickMsg = event and EVENT_QUICK_MSG_MENUTABLE[event:GetEventMode()] or nil
 
     local height = 160
     if hasPassword then
         height = height + 30
     end
     if not isSelf then
-        height = height + 30
-        if QuickMsg then
-            height = height + 26
-        end
+        height = height + 50
     end
 
     if isSelf then
@@ -179,12 +175,8 @@ function RolePanel:SetArguments(callback, event)
         self.HelpButton:Hide()
         self.RoleList:SetPoint('TOP', 0, -50)
     else
-        if QuickMsg then
-            self.QuickMsg:Show()
-            self.QuickMsg:SetValue(nil)
-        else
-            self.QuickMsg:Hide()
-        end
+        self.QuickMsg:Show()
+        self.QuickMsg:SetValue(nil)
         self.HelpButton:Show()
         self.RoleList:SetPoint('TOP', 0, -80)
 

@@ -89,9 +89,11 @@ end
 
 function Event:ToSocket()
     local leader = self:GetLeader()
+    local eventCode = OLD_EVENT_MAP[self:GetEventCode()] or self:GetEventCode()
     return  leader ~= UnitName('player') and leader or nil,
             self:GetTimeStamp(),
-            self:GetEventCode(),
+            -- self:GetEventCode(),
+            eventCode,
             self:GetEventMode(),
             self:GetMinLevel(),
             self:GetMaxLevel(),
@@ -122,6 +124,11 @@ function Event:FromSocket(...)
             leaderItemLevel, leaderPVPRating, leaderProgression, faction, fans, realm, source = ...
     summary = self:TextFilter(summary:gsub('\n', ''))
 
+    self.baseSortValue = nil
+    self.eventCodeSortValue = nil
+
+    eventCode = OLD_EVENT_CODE[eventCode] or eventCode
+    
     self:SetLeader(leader)
     self:SetTimeStamp(timeStamp)
     self:SetEventCode(eventCode)
@@ -151,27 +158,80 @@ function Event:GetEventName()
     return EVENT_NAMES[self:GetEventCode()] or UNKNOWN
 end
 
-function Event:Match(eventCode, usable, noPassword, leader)
-    if usable and not self:IsUsable() then
+local function _IsMatch(filterCode, eventCode)
+    local f1, f2, f3, f4, f5 = GetEventCodeInfo(filterCode)
+    local e1, e2, e3, e4, e5 = GetEventCodeInfo(eventCode)
+
+    if f1 ~= e1 then
+        return false
+    end
+    if f2 ~= 0 and f2 ~= e2 then
+        return false
+    end
+    if f3 ~= 0 and f3 ~= e3 then
+        return false
+    end
+    if f4 ~= 0 and f4 ~= e4 then
+        return false
+    end
+    if f5 ~= 0 and bit.band(f5, e5) == 0 then
+        return false
+    end
+    return true
+end
+
+local MatchCache = setmetatable({}, {
+    __index = function(o, filterCode)
+        o[filterCode] = setmetatable({}, {
+            __index = function(o, eventCode)
+                o[eventCode] = _IsMatch(filterCode, eventCode)
+                return o[eventCode]
+            end
+        })
+        return o[filterCode]
+    end
+})
+
+function Event:Match(leader, eventCode, usable, noPassword, favorite)
+    -- if usable then
+    --     if not self:IsUsable() then
+    --         return false
+    --     end
+    --     for k, v in pairs(GetPlayerRoles()) do
+    --         if v and not self:IsRoleFull(k) then
+    --             return true
+    --         end
+    --     end
+    --     return false
+    -- end
+    if usable and (not self:IsUsable() or not self:IsRoleUsable()) then
         return false
     end
     if noPassword and self:GetHasPassword() then
         return false
     end
+    if favorite and not self:IsInFavorite() then
+        return false
+    end
     if leader and leader ~= '' and not self:GetLeader():lower():match(leader:lower()) then
         return false
     end
-    if eventCode == 0 or eventCode == self:GetEventCode() then
+    if not eventCode or eventCode == 0 or eventCode == self:GetEventCode() then
         return true
     end
-    if bit.band(eventCode, 0xFF00FFFF) == 0 then
-        return bit.band(eventCode, self:GetEventCode()) > 0
-    end
-    return false
+    return MatchCache[eventCode][self:GetEventCode()]
 end
 
 function Event:IsUsable()
     return self:IsLevelValid() and self:IsItemLevelValid() and self:IsPVPRatingValid()
+end
+
+function Event:IsRoleUsable()
+    for k, v in pairs(GetPlayerRoles()) do
+        if v and not self:IsRoleFull(k) then
+            return true
+        end
+    end
 end
 
 function Event:IsLevelValid()
@@ -215,15 +275,11 @@ function Event:SetCurrentMemberRole(ct, ch, cd, cn)
 end
 
 function Event:IsSelf()
-    return self:GetLeader() == UnitName('player')
+    return UnitIsUnit('player', self:GetLeader() or 'none')
 end
 
 function Event:IsInEvent()
-    for _, unit in ipairs(GetGroupUnitList()) do
-        if UnitName(unit) == self:GetLeader() then
-            return true
-        end
-    end
+    return UnitIsGroupLeader(self:GetLeader())
 end
 
 function Event:GetLeaderClassText()
@@ -249,7 +305,7 @@ function Event:GetLeaderText(full)
 end
 
 function Event:IsArenaEvent()
-    return bit.band(self:GetEventCode(), TYPE_MATCH) == EVENT_TYPE_ARENA
+    return bit.band(self:GetEventCode(), EVENT_MATCH_TYPE) == EVENT_TYPE_ARENA
 end
 
 function Event:GetLeaderBTag()
@@ -260,11 +316,16 @@ function Event:IsApplied()
     return AppliedCache:IsApplied(self:GetLeader())
 end
 
+function Event:IsInFavorite()
+    return Profile:IsInFavorite(self:GetLeaderBattleTag())
+end
+
 function Event:IsMemberFull()
-    return  self:IsRoleFull('TANK') and
+    return self:GetRoleCurrentAll() >= self:GetRoleTotalAll() or
+            (self:IsRoleFull('TANK') and
             self:IsRoleFull('HEALER') and
             self:IsRoleFull('DAMAGER') and
-            self:IsRoleFull('NONE')
+            self:IsRoleFull('NONE'))
 end
 
 function Event:IsRoleFull(role)
@@ -328,4 +389,23 @@ function Event:GetLeaderLogoTooltip()
     if logoName then
         return GetUnitLogoTexture(name, btag) .. logoName
     end
+end
+
+function Event:BaseSortHandler()
+    if not self.baseSortValue then
+        self.baseSortValue = format('%08x%02x%02x%s',
+            self:GetEventCode(),
+            self:GetEventMode(),
+            self:GetStatusSortValue(),
+            strpadright(self:GetLeader(), 40))
+    end
+    return self.baseSortValue
+end
+
+function Event:GetStatusSortValue()
+    return  self:IsSelf() and 1 or
+            self:IsInEvent() and 2 or
+            self:IsApplied() and 3 or
+            self:IsInFavorite() and 4 or
+            self:GetHasPassword() and 5 or 6
 end

@@ -45,40 +45,49 @@ local function _UnitGetRole(unit)
 end
 
 local function CreateMenuTable(unit)
-    local role = GroupCache:GetUnitRole(UnitName(unit)) or UnitGroupRolesAssigned(unit) or 'NONE'
-    local isCanSetRole = UnitIsGroupLeader('player') and not InCombatLockdown() and UnitInGroup(unit)
+    local name = UnitName(unit)
+    local role = GroupCache:GetUnitRole(name) or UnitGroupRolesAssigned(unit) or 'NONE'
+    local playerIsLeader = UnitIsGroupLeader('player')
+    local isCanSetRole = playerIsLeader and not InCombatLockdown() and UnitInGroup(unit)
+    local isPlayer = UnitIsUnit('player', unit)
+    local unitInfo = GroupCache:GetUnitInfo(name)
+    local unitBtag = unitInfo and unitInfo:GetBattleTag()
+
+    local T, H, D
+    if isCanSetRole then
+        T, H, D = UnitGetAvailableRoles(unit)
+    end
 
     local menuTable =
         {
             {
-                text = function(button)
-                    return UnitName(unit)
-                end,
+                text = name,
                 isTitle = true,
             },
             {
-                text = WHISPER,
-                disabled = function(data, button)
-                    return UnitIsUnit('player', unit)
+                text = SEND_BATTLETAG_REQUEST,
+                disabled = isPlayer or not UnitIsConnected(unit),
+                func = function()
+                    BNCheckBattleTagInviteToUnit(unit)
                 end,
-                func = function(button)
-                    ChatFrame_SendTell(UnitName(unit), ChatFrame1)
+            },
+            {
+                text = WHISPER,
+                disabled = isPlayer,
+                func = function()
+                    ChatFrame_SendTell(name, ChatFrame1)
                 end,
             },
             {
                 text = INSPECT,
-                disabled = function(data, button)
-                    return UnitIsUnit('player', unit)
-                end,
-                func = function(button)
+                disabled = isPlayer,
+                func = function()
                     InspectUnit(unit)
                 end,
             },
             {
                 text = PARTY_UNINVITE,
-                disabled = function(data, button)
-                    return not UnitIsGroupLeader('player') or UnitIsUnit('player', unit)
-                end,
+                disabled = not playerIsLeader or isPlayer,
                 func = function(button)
                     UninviteUnit(unit)
                 end,
@@ -86,17 +95,13 @@ local function CreateMenuTable(unit)
             {
                 text = RAID_TARGET_ICON,
                 hasArrow = true,
-                disabled = function(data, button)
-                    return not UnitIsGroupLeader('player')
-                end,
+                disabled = not playerIsLeader,
                 menuTable = raidTargetItem,
             },
             {
-                text = L['设置友团职责'],
+                text = L['设置集合石职责'],
                 hasArrow = true,
-                disabled = function(data, button)
-                    return (not UnitInRaid(unit) and not UnitInParty(unit)) or not UnitIsGroupLeader('player')
-                end,
+                disabled = (not UnitInRaid(unit) and not UnitInParty(unit)) or not playerIsLeader,
                 menuTable =
                 {
                     {
@@ -105,7 +110,7 @@ local function CreateMenuTable(unit)
                         checked = function()
                             return _UnitGetRole(unit) == 'TANK'
                         end,
-                        disabled = not isCanSetRole or not UnitGetAvailableRoles(unit),
+                        disabled = not isCanSetRole or not T,
                         func = function(button)
                             _UnitSetRole(unit, 'TANK')
                         end,
@@ -116,7 +121,7 @@ local function CreateMenuTable(unit)
                         checked = function()
                             return _UnitGetRole(unit) == 'HEALER'
                         end,
-                        disabled = not isCanSetRole or not select(2, UnitGetAvailableRoles(unit)),
+                        disabled = not isCanSetRole or not H,
                         func = function(button)
                             _UnitSetRole(unit, 'HEALER')
                         end,
@@ -127,7 +132,7 @@ local function CreateMenuTable(unit)
                         checked = function()
                             return _UnitGetRole(unit) == 'DAMAGER'
                         end,
-                        disabled = not isCanSetRole or not select(3, UnitGetAvailableRoles(unit)),
+                        disabled = not isCanSetRole or not D,
                         func = function(button)
                             _UnitSetRole(unit, 'DAMAGER')
                         end,
@@ -147,16 +152,23 @@ local function CreateMenuTable(unit)
             },
             {
                 text = L['加入黑名单'],
+                disabled = isPlayer or not unitBtag,
+                func = function()
+                    BlackListPanel:Add(unitBtag)
+                end,
+            },
+            {
+                text = L['添加关注'],
                 disabled = function(data, button)
                     local member = GroupCache:GetUnitInfo(UnitName(unit))
                     return not member or not member:GetBattleTag() or UnitIsUnit('player', unit)
                 end,
-                func = function(button)
+                func = function()
                     local member = GroupCache:GetUnitInfo(UnitName(unit))
                     if member then
-                        BlackListPanel:Add(member:GetBattleTag())
+                        FavoritePanel:Add(member:GetBattleTag())
                     end
-                end,
+                end
             },
             {
                 text = CANCEL,
@@ -169,24 +181,20 @@ local function CreateMenuTable(unit)
             local menu = {
                 text = L['|cff33ff99邀请入群|r'],
                 hasArrow = true,
-                disabled = function(data, button)
-                    return UnitIsUnit(unit, 'player')
-                end,
+                disabled = isPlayer,
                 menuTable = {},
             }
             for i, v in ipairs(chatGroupList) do
                 tinsert(menu.menuTable, {
                         text = v.text,
                         value = v.target,
-                        disabled = function(data, button)
-                            return UnitIsUnit(unit, 'player')
-                        end,
+                        disabled = isPlayer,
                         func = function(button, data)
                             InviteChatGroup(data.value, UnitFullName(unit))
                         end,
                     })
             end
-            tinsert(menuTable, #menuTable - 1, menu)
+            tinsert(menuTable, #menuTable - 2, menu)
         end
     end
 

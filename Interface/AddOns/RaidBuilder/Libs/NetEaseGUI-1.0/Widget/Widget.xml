@@ -25,12 +25,11 @@
   <Script file="ControlButton.lua" />
   <Script file="QRCodeWidget.lua" />
   <Script file="ShineWidget.lua" />
-  <Script file="DatePicker.lua" />
-  <Script file="TimePicker.lua" />
   <Script file="BorderLabel.lua" />
   <Script file="SortButton.lua" />
   <Script file="DataGridViewGridItem.lua" />
   <Script file="SummaryHtml.lua" />
   <Script file="InTabPanel.lua" />
   <Script file="TitleButton.lua" />
+  <Script file="NumericBox.lua" />
 </Ui>

@@ -10,7 +10,11 @@ function Profile:OnInitialize()
         },
         global = {
             blackList = {},
-            setting = {},
+            setting = {
+                signin = {},
+            },
+            favorites = {},
+            recentlist = {},
         }
     }
 
@@ -74,10 +78,70 @@ function Profile:SetReferenced(result)
     self.db.global.setting.reference = result
 end
 
-function Profile:IsSignIn()
-    return self.db.global.setting.signin == date('%Y-%m-%d')
+function Profile:IsSignIn(id)
+    return self.db.global.setting.signin[id] == date('%Y-%m-%d')
 end
 
-function Profile:SetSignIn()
-    self.db.global.setting.signin = date('%Y-%m-%d')
+function Profile:SetSignIn(id)
+    self.db.global.setting.signin[id] = date('%Y-%m-%d')
+end
+
+function Profile:AddFavorite(battleTag, reason)
+    self.db.global.favorites[battleTag] = {
+        reason = reason,
+        recordDate = time(),
+    }
+    self:SendMessage('RAIDBUILDER_FAVORITES_UPDATE')
+end
+
+function Profile:DeleteFavorite(battleTag)
+    self.db.global.favorites[battleTag] = nil
+    self:SendMessage('RAIDBUILDER_FAVORITES_UPDATE')
+end
+
+function Profile:GetFavorites()
+    return self.db.global.favorites
+end
+
+function Profile:IsInFavorite(battleTag)
+    return self.db.global.favorites[battleTag]
+end
+
+function Profile:AddRecentList(name, realm, race, class, level, battleTag, from)
+    local list = self.db.global.recentlist
+    self.RecentCache = self.RecentCache or {}
+
+    if #list >= 80 then
+        tremove(list, #list)
+    end
+
+    local signature = name .. realm .. from .. date('%Y-%m-%d', time())
+    if self.RecentCache[signature] then
+        return
+    else
+        self.RecentCache[signature] = true
+    end
+
+    for i, v in ipairs(list) do
+        if v.name == name and v.realm == realm and v.from == from and date('%Y-%m-%d', v.recordDate) == date('%Y-%m-%d', time()) then
+            return
+        end
+    end
+    
+    tinsert(list, 1, {
+        name        = name,
+        realm       = realm,
+        race        = race,
+        class       = class,
+        level       = level,
+        battleTag   = battleTag,
+        from        = from,
+        recordDate  = time(),
+    })
+
+    self:SendMessage('RAIDBUILDER_RECENTLIST_UPDATE')
+end
+
+function Profile:GetRecentList()
+    return self.db.global.recentlist
 end

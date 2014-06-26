@@ -1,7 +1,7 @@
 
 local GUI = assert(LibStub('NetEaseGUI-1.0'), 'NetEaseGUI-DropMenu-1.0 requests NetEaseGUI')
 
-local WIDGET, VERSION = 'DropMenu', 2
+local WIDGET, VERSION = 'DropMenu', 3
 local DropMenu = GUI:NewClass(WIDGET, GUI:GetClass('GridView'), VERSION, 'Owner')
 if not DropMenu then
     return
@@ -140,6 +140,10 @@ function DropMenu:OpenMenu(level, menuTable, owner, ...)
         if check(v.hidden, v, owner) then
             tremove(menuTable, i)
         end
+    end
+
+    for i = level + 1, #_MenuList do
+        _MenuList[i]:Hide()
     end
 
     local Menu = _MenuList[level]

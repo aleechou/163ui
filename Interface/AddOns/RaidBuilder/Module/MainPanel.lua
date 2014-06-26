@@ -7,8 +7,8 @@ local addonName = ...
 
 function MainPanel:OnInitialize()
     self:SetSize(832, 447)
-    self:SetText(L['魔兽友团'] .. ' Beta')
-    self:SetIcon([[INTERFACE\ICONS\INV_Misc_GroupNeedMore]])
+    self:SetText(ADDON_NAME .. ' Beta')
+    self:SetIcon([[Interface\AddOns\RaidBuilder\Media\WebEvent]])
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
     self:SetTopHeight(80)
@@ -20,7 +20,7 @@ function MainPanel:OnInitialize()
     if IsAddOnLoaded('WowSocial_UI') then
         self:CreateTitleButton{
             title = L['意见建议'],
-            texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
+            texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
             coords = {0, 32/256, 0, 0.5},
             callback = function()
                 local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
@@ -32,7 +32,7 @@ function MainPanel:OnInitialize()
 
         local AnnButton = self:CreateTitleButton{
             title = L['公告'],
-            texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
+            texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
             coords = {96/256, 128/256, 0, 0.5},
             callback = function()
                 local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
@@ -43,9 +43,9 @@ function MainPanel:OnInitialize()
         }
 
         self:CreateTitleButton{
-            title = L['友团聊天'],
-            texture = [[Interface\AddOns\RaidBuilder\Media\DataBroker]],
-            coords = {0.75, 1, 0, 1},
+            title = L['集合石聊天'],
+            texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
+            -- coords = {0.75, 1, 0, 1},
             callback = function()
                 local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
                 if CloudUI then
@@ -136,11 +136,10 @@ function MainPanel:InitBlocker()
     Blocker:SetFrameLevel(99)
 
     local bg = Blocker:CreateTexture(nil, 'BACKGROUND')
-    bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background]])
+    bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background-Dark]])
     bg:SetAllPoints(Blocker)
 
     local SummaryBox = CreateFrame('Frame', nil, Blocker)
-    SummaryBox:SetSize(400, 330)
     SummaryBox:SetPoint('CENTER')
     SummaryBox:SetBackdrop{
         edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
@@ -150,31 +149,37 @@ function MainPanel:InitBlocker()
     SummaryBox:SetBackdropBorderColor(1, 1, 1, 1)
 
     local Html = GUI:GetClass('SummaryHtml'):New(SummaryBox)
-    Html:SetSize(360, 380)
     Html:SetPoint('TOP', 0, -20)
 
     local Icon = Html:CreateTexture(nil, 'OVERLAY')
     Icon:SetPoint('TOPRIGHT')
     Icon:SetSize(64, 64)
 
+    SummaryBox:SetScript('OnSizeChanged', function(_, width, height)
+        Html:SetSize(width - 40, height)
+    end)
+
     self.Blocker = Blocker
     Blocker.Html = Html
     Blocker.Icon = Icon
+    Blocker.SummaryBox = SummaryBox
     return Blocker
 end
 
 function MainPanel:SetBlocker(blockType)
     if blockType == 'MISSBNET' then
-        local Blocker = self.Blocker or self.InitBlocker()
+        local Blocker = self.Blocker or self:InitBlocker()
         Blocker.Html:SetText(L.MissBattleTagSummary)
         Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
         Blocker.Icon:SetDesaturated(true)
+        Blocker.SummaryBox:SetSize(550, 350)
         Blocker:Show()
     elseif blockType == 'NEUTRAL' then
-        local Blocker = self.Blocker or self.InitBlocker()
+        local Blocker = self.Blocker or self:InitBlocker()
         Blocker.Html:SetText(L.NeutralDisabled)
         Blocker.Icon:SetTexture([[INTERFACE\Timer\Panda-Logo]])
         Blocker.Icon:SetDesaturated(false)
+        Blocker.SummaryBox:SetSize(400, 270)
         Blocker:Show()
     elseif self.Blocker then
         self.Blocker:Hide()
@@ -182,7 +187,6 @@ function MainPanel:SetBlocker(blockType)
 end
 
 function MainPanel:UpdateBlocker()
-    local Blocker = self.Blocker or self:InitBlocker()
     if UnitFactionGroup('player') == 'Neutral' then
         return self:SetBlocker('NEUTRAL')
     end
@@ -203,7 +207,7 @@ local EVENT_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLeaderLevel', },
     { text = L['装等：'],      method = 'GetLeaderItemLevel', },
     { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
-    { text = L['易信粉丝：'],  method = 'GetLeaderFans', },
+    { text = L['团长粉丝：'],  method = 'GetLeaderFans', },
     { text = '',               method = 'GetLeaderLogoTooltip'},
     { text = ' ', },
     { text = L['形式：'],      method = 'GetEventModeText', },
@@ -227,6 +231,9 @@ function MainPanel:OpenEventTooltip(event)
         else
             local value, r, g, b = event[v.method](event, unpack(v))
             if value then
+                if v.method == 'GetSummary' and #value > 25 and not value:find('[^%w]+') then
+                    value = value:gsub('(%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w)','%1\n')
+                end
                 GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
             end
         end
@@ -258,7 +265,7 @@ local MEMBER_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLevel', },
     { text = L['装等：'],      method = 'GetItemLevel', },
     { text = L['PVP：'],       method = 'GetPVPRating', },
-    { text = L['易信粉丝：'],  method = 'GetFans', },
+    { text = L['团长粉丝：'],  method = 'GetFans', },
 }
 
 function MainPanel:OpenWaitTooltip(member)

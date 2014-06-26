@@ -1,5 +1,5 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 7)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 9)
 if not GUI then
     return
 end
@@ -119,7 +119,7 @@ StaticPopupDialogs['NETEASE_COPY_URL'] = {
     maxLetters = 2000,
 }
 
-function GUI:CallWarningDialog(text, showAlert)
+function GUI:CallWarningDialog(text, showAlert, key, callback, ...)
     local t = wipe(StaticPopupDialogs['NECLOUD_CONFIRM_DIALOG'])
 
     t.text = text
@@ -128,7 +128,14 @@ function GUI:CallWarningDialog(text, showAlert)
     t.button1 = OKAY
     t.showAlert = showAlert
 
-    return StaticPopup_Show('NECLOUD_CONFIRM_DIALOG')
+    if type(callback) == 'function' then
+        local args = {...}
+        t.OnAccept = function()
+            callback(unpack(args))
+        end
+    end
+
+    return StaticPopup_Show('NECLOUD_CONFIRM_DIALOG', nil, nil, key)
 end
 
 function GUI:CallMessageDialog(text, callback, key, ...)
@@ -140,9 +147,8 @@ function GUI:CallMessageDialog(text, callback, key, ...)
     t.button1 = OKAY
     t.button2 = CANCEL
 
-    local args = {...}
-
     if type(callback) == 'function' then
+        local args = {...}
         t.OnAccept = function()
             callback(true, nil, unpack(args))
         end

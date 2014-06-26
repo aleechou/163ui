@@ -74,27 +74,46 @@ function GetPlayerStats(role)
     return stats
 end
 
-local _RAID_CATEGORIES = { 15164, 15096, 14823 }
 local _REAL_EVENTNAME = {
-    [0x00011194] = '玛里苟斯',
-    [0x000111fb] = '冬拥湖',
-    [0x0001118d] = '龙神之厅',
+    [0x1DFEF00] = '玛里苟斯',
+    [0x1DFFF00] = '冬拥湖',
+    [0x1DFDF00] = '龙神之厅',
+    [0x1B7B601] = '决战奥格瑞玛',
+    [0x1B7B602] = '决战奥格瑞玛',
+    [0x1B7B604] = '决战奥格瑞玛',
+    [0x1B7B608] = '决战奥格瑞玛',
+}
+
+local _RAID_WVER_CATEGORIES = {
+    [0xB00000] = 15164,
+    [0xC00000] = 15096,
+    [0xD00000] = 14823,
 }
 
 local _RAID_DATA = setmetatable({}, {__index = function(o, eventCode)
     local data = { bossNames = {}, modes = {} }
-    local name = _REAL_EVENTNAME[eventCode] or strsplit('-', EVENT_NAMES[eventCode])
 
-    local id, fullName, bossName, modeName, mode, index
-    local bossIndexCache = {}
+    local wver = bit.band(eventCode, EVENT_MATCH_WVER)
+    local category = _RAID_WVER_CATEGORIES[wver]
 
-    for _, category in ipairs(_RAID_CATEGORIES) do
+    if category then
+        local name = _REAL_EVENTNAME[eventCode] or strsplit('-', EVENT_NAMES[eventCode] or '')
+        local id, fullName, bossName, modeName, mode, index
+        local bossIndexCache = {}
+
         for i = 1, GetCategoryNumAchievements(category) do
             id, fullName = GetAchievementInfo(category, i)
 
             if fullName:match(name) then
                 bossName, modeName = fullName:match('^([^ ]+) ?\-? ?(.*（.*）)$')
                 if bossName then
+                    bossName = bossName:gsub('^杀死', '')
+                                       :gsub('^击败', '')
+                                       :gsub('^消灭', '')
+                                       :gsub('^解救', '')
+                                       :gsub('^战胜', '')
+                                       :gsub('之死$', '')
+
                     if not bossIndexCache[bossName] then
                         tinsert(data.bossNames, bossName)
 
@@ -114,22 +133,22 @@ local _RAID_DATA = setmetatable({}, {__index = function(o, eventCode)
                 end
             end
         end
-    end
 
-    -- TOC的最后BOSS
-    if eventCode == 0x00011272 then
-        tinsert(data.bossNames, '完成十字军的试炼')
+        -- TOC的最后BOSS
+        if eventCode == 0x1DFBF00 then
+            tinsert(data.bossNames, '完成十字军的试炼')
 
-        data[1][5] = { 4044, 4046 }
-        data[2][5] = { 4045, 4047 }
-    end
-
-    for k in pairs(data) do
-        if type(k) == 'number' then
-            tinsert(data.modes, k)
+            data[1][5] = { 4044, 4046 }
+            data[2][5] = { 4045, 4047 }
         end
+
+        for k in pairs(data) do
+            if type(k) == 'number' then
+                tinsert(data.modes, k)
+            end
+        end
+        sort(data.modes)
     end
-    sort(data.modes)
 
     o[eventCode] = data
     return data
@@ -144,7 +163,7 @@ local function _IsCompleted(list)
 end
 
 function GetPlayerRaidProgression(eventCode)
-    if bit.band(eventCode, TYPE_MATCH) ~= EVENT_TYPE_RAID then
+    if bit.band(eventCode, EVENT_MATCH_TYPE) ~= EVENT_TYPE_RAID then
         return
     end
     local data = _RAID_DATA[eventCode]
@@ -170,10 +189,10 @@ function GetRaidBossNames(eventCode)
 end
 
 function GetPlayerPVPRating(eventCode)
-    if bit.band(eventCode, TYPE_MATCH) ~= EVENT_TYPE_ARENA then
+    if bit.band(eventCode, EVENT_MATCH_TYPE) ~= EVENT_TYPE_ARENA then
         return 0
     end
-    local index = bit.band(eventCode, NAME_MATCH)
+    local index = bit.band(eventCode, EVENT_MATCH_ID)
     index = index > 4 and 4 or index
     return (GetPersonalRatedInfo(index)) or 0
 end
@@ -197,6 +216,14 @@ function PlayerIsRoleValid(role)
     roleCache.DAMAGER = UnitGetAvailableRoles('player')
 
     return roleCache[role]
+end
+
+function GetPlayerRoles()
+    roleCache.TANK,
+    roleCache.HEALER,
+    roleCache.DAMAGER = UnitGetAvailableRoles('player')
+
+    return roleCache
 end
 
 function tonumberall(...)
@@ -266,7 +293,7 @@ function FormatProgressionTitle(progession)
     if #sb == 0 then
         return
     end
-    return  table.concat(sb, '/')
+    return table.concat(sb, '/')
 end
 
 local function FormatProgressionTex(value, bossIndex)
@@ -343,17 +370,17 @@ function GetEventMinLevel(eventCode)
     return EVENT_MINLEVELS[eventCode] or 1
 end
 
-function SetEventMinLevel(eventCode, minLevel)
-    EVENT_MINLEVELS[eventCode] = tonumber(minLevel)
-end
+-- function SetEventMinLevel(eventCode, minLevel)
+--     EVENT_MINLEVELS[eventCode] = tonumber(minLevel)
+-- end
 
 function GetEventMaxMember(eventCode)
     return EVENT_MAXMEMBERS[eventCode] or 40
 end
 
-function SetEventMaxMember(eventCode, maxMember)
-    EVENT_MAXMEMBERS[eventCode] = tonumber(maxMember)
-end
+-- function SetEventMaxMember(eventCode, maxMember)
+--     EVENT_MAXMEMBERS[eventCode] = tonumber(maxMember)
+-- end
 
 function GetEventDefaultMemberRole(eventCode)
     local roles = EVENT_DEFAULT_MEMBERROLES[eventCode]
@@ -364,17 +391,18 @@ function GetEventDefaultMemberRole(eventCode)
     end
 end
 
-function SetEventDefaultMemberRole(eventCode, memberRole)
-    EVENT_DEFAULT_MEMBERROLES[eventCode] = {tonumberall(strsplit(',', memberRole or '0,0,0,0'))}
-end
+-- function SetEventDefaultMemberRole(eventCode, memberRole)
+--     EVENT_DEFAULT_MEMBERROLES[eventCode] = {tonumberall(strsplit(',', memberRole or '0,0,0,0'))}
+-- end
 
 function GetEventAllowCrossRealm(eventCode)
-    return EVENT_ALLOW_CROSSREALMS[eventCode]
+    -- return EVENT_ALLOW_CROSSREALMS[eventCode]
+    return true
 end
 
-function SetEventAllowCrossRealm(eventCode, flag)
-    EVENT_ALLOW_CROSSREALMS[eventCode] = flag or nil
-end
+-- function SetEventAllowCrossRealm(eventCode, flag)
+--     -- EVENT_ALLOW_CROSSREALMS[eventCode] = flag or nil
+-- end
 
 function FormatBattleTag(battleTag)
     if battleTag then
@@ -387,7 +415,7 @@ function FormatBattleTag(battleTag)
 end
 
 function GetEventModeMenuTable(eventCode)
-    return EVENT_MODE_MENUTABLE[bit.band(eventCode, TYPE_MATCH)]
+    return EVENT_MODE_MENUTABLE[bit.band(eventCode, EVENT_MATCH_TYPE)]
 end
 
 function GetUnitLogoIndex(name, btag)
@@ -438,6 +466,20 @@ function _format(str, ...)
     return str
 end
 
+function strpadright(str, width, char)
+    if char and #char > 1 then
+        error('char error', 2)
+    end
+    return str .. strrep(char or ' ', width - #str)
+end
+
+-- function strpadleft(str, width, char)
+--     if char and #char > 1 then
+--         error('char error', 2)
+--     end
+--     return strrep(char or ' ', width - #str) .. str
+-- end
+
 if IsAddOnLoaded('WowSocial') then
     local function _GetWowSocialEnv()
         BuildEnv('WowSocial')
@@ -456,4 +498,28 @@ if IsAddOnLoaded('WowSocial') then
     for i, v in ipairs(ExportFuncs) do
         _ENV[v] = WowSocialEnv[v]
     end
+end
+
+
+local function riter(t, i)
+    i = i - 1
+    if i > 0 then
+        return i, t[i]
+    end
+end
+
+function ripairs(t)
+    assert(type(t) == 'table')
+    
+    return riter, t, #t + 1
+end
+
+function GetEventCodeInfo(eventCode)
+    local cate = bit.band(0x0F000000, eventCode)
+    local sub  = bit.band(0x00F00000, eventCode)
+    local id   = bit.band(0x000FF000, eventCode)
+    local diff = bit.band(0x00000F00, eventCode)
+    local area = bit.band(0x000000FF, eventCode)
+
+    return cate, sub, id, diff, area
 end

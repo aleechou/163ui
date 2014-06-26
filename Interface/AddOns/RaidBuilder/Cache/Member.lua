@@ -28,6 +28,8 @@ local attr = {
     'ApplyTime',
     'Fans',
     'MsgId',
+    'IsLFG',
+    'Comment',
 }
 
 for i, v in ipairs(attr) do
@@ -77,5 +79,16 @@ end
 function Member:GetMessage()
     local msgId = self:GetMsgId()
 
-    return msgId and MESSAGE_DATA[msgId] or ''
+    return msgId and QUICK_MSG_NAMES[msgId] or self:GetComment()
+end
+
+function Member:BaseSortHandler()
+    if not self.baseSortValue then
+        self.baseSortValue = format('%7s%12s%04d',
+            self:GetRole(),
+            self:GetClass(),
+            9999 - self:GetItemLevel()
+        )
+    end
+    return self.baseSortValue
 end

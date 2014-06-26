@@ -66,3 +66,23 @@ function WebOperationGrid:Constructor()
     GotoButton:SetScript('OnClick', ButtonOnClick)
     GotoButton.Handler = 'OnItemGoto'
 end
+
+local RecentOperationGrid = RaidBuilder:NewClass('RecentOperationGrid', GUI:GetClass('DataGridViewGridItem'))
+
+function RecentOperationGrid:Constructor()
+    local AddFriendButton = CreateFrame('Button', nil, self)
+    AddFriendButton:SetSize(16, 16)
+    AddFriendButton:SetPoint('LEFT', 15, 0)
+    AddFriendButton:SetNormalTexture([[INTERFACE\BUTTONS\UI-PlusButton-Up]])
+    AddFriendButton:SetPushedTexture([[INTERFACE\BUTTONS\UI-PlusButton-Down]])
+    AddFriendButton:SetDisabledTexture([[INTERFACE\BUTTONS\UI-PlusButton-Disabled]])
+    AddFriendButton:SetHighlightTexture([[INTERFACE\BUTTONS\UI-PlusButton-Hilight]], 'ADD')
+    AddFriendButton:SetScript('OnClick', ButtonOnClick)
+    AddFriendButton.Handler = 'OnAddFriend'
+
+    GUI:SetTooltip(AddFriendButton, 'ANCHOR_RIGHT', ADD_FRIEND)
+end
+
+function RecentOperationGrid:SetStatus(status)
+    self:SetShown(status)
+end

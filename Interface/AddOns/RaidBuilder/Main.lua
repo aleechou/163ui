@@ -1,6 +1,9 @@
 
 BuildEnv(...)
 
+_G.BINDING_HEADER_RAIDBUILDER = ADDON_NAME
+_G.BINDING_NAME_RAIDBUILDER_TOGGLE = L['打开主界面']
+
 GUI = LibStub('NetEaseGUI-1.0')
 
 RaidBuilder = LibStub('AceAddon-3.0'):NewAddon('RaidBuilder',

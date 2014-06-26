@@ -6,7 +6,7 @@ WebBrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'We
 local WEB_HEADER = {
     {
         key = 'EventName',
-        text = L['副本名称'],
+        text = L['活动名称'],
         style = 'LEFT',
         width = 200,
         showHandler = function(event)
@@ -88,10 +88,7 @@ local WEB_HEADER = {
         key = 'Option',
         text = L['操作'],
         width = 70,
-        class = RaidBuilder:GetClass('WebOperationGrid'),
-        showHandler = function(event)
-            return
-        end,
+        class = RaidBuilder:GetClass('WebOperationGrid')
     },
 }
 

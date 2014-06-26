@@ -21,7 +21,7 @@ function WebInviteButton:Constructor(parent)
 
     local Message = self:CreateFontString(nil, 'ARTWORK', 'FriendsFont_Small')
     Message:SetPoint('TOPRIGHT', parent, 'TOPRIGHT', -20, -30)
-    Message:SetText(L['友团集合石活动请求'])
+    Message:SetText(L['集合石网站预约活动请求'])
 end
 
 function WebInviteButton:SetInfo(stamp, leaderName, selfName, eventId, eventSource)
@@ -35,7 +35,7 @@ end
 
 function WebInviteButton:OnEnter()
     GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-    GameTooltip:SetText(L['友团集合石活动请求'], 1, 1, 1)
+    GameTooltip:SetText(L['集合石网站预约活动请求'], 1, 1, 1)
     GameTooltip:AddDoubleLine(L['邀请团长：'], self.leaderName)
     GameTooltip:AddDoubleLine(L['邀请角色：'], self.selfName .. (self.isCurrentCharacter and '' or L['|cffff0000(非当前角色)|r']))
     GameTooltip:AddDoubleLine(L['邀请时间：'], self.inviteTime)

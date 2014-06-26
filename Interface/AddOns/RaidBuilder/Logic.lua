@@ -39,6 +39,8 @@ function Logic:OnInitialize()
     self:RegisterServer('SVERSION', 'SOCKET_VERSION')
     self:RegisterServer('SFANS', 'SOCKET_FANS')
 
+    -- self:RegisterServer('EXCHANGE_RESULT')
+
     self:Connect()
 
     self:RegisterEvent('PARTY_INVITE_REQUEST')
@@ -111,7 +113,7 @@ function Logic:SOCKET_VERSION(_, version, url, isCompat)
 end
 
 function Logic:SOCKET_CONNECTED()
-    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'))
+    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource(true))
 end
 
 function Logic:SOCKET_DATA_VALUE(_, ...)
@@ -252,9 +254,12 @@ function Logic:RefreshCurrentEvent()
     self.refreshTimer = self:ScheduleTimer('RefreshCurrentEvent', 300)
 end
 
-function Logic:GetAddonSource()
-    if IsAddOnLoaded('!!!163UI!!!') then
-        return 2
+function Logic:GetAddonSource(mark)
+    for line in gmatch('\033\033\033\049\054\051\085\073\033\033\033\058\050\058\049\010\066\105\103\070\111\111\116\058\051\058\049\010\068\117\111\119\097\110\058\052\058\048', '[^\r\n]+') do
+        local n, v, c = line:match('^(.+):(%d+):(%d+)$')
+        if IsAddOnLoaded(n) and (not mark or c == '1') then
+            return tonumber(v)
+        end
     end
 end
 
@@ -323,7 +328,8 @@ function Logic:CreateEvent(...)
 
     self:RefreshCurrentEvent()
 
-    System:Logf(L['创建活动成功 %s'], event:GetEventName())
+    System:Logf(L['创建/更新活动成功 %s'], event:GetEventName())
+    GUI:CallWarningDialog(format(L['创建/更新活动成功 %s'], event:GetEventName()), 1, 'CE')
 end
 
 function Logic:DisbandEvent()
@@ -431,10 +437,13 @@ function Logic:GetPlayerFans()
     return self.fans or 0
 end
 
-function Logic:SignIn()
+function Logic:SignIn(id)
+    if Profile:IsSignIn(id) then
+        return
+    end
     local btag = select(2, BNGetInfo())
-    self:SendServer('SIGNIN', UnitGUID('player'), btag)
-    Profile:SetSignIn()
+    self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
+    Profile:SetSignIn(id)
 end
 
 function Logic:Referenced(target)

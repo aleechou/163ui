@@ -68,7 +68,7 @@ function SettingPanel:OnInitialize()
             },
             key = {
                 type = 'keybinding',
-                name = L['打开/关闭友团组团按键设置'],
+                name = L['打开/关闭集合石组团按键设置'],
                 width = 'full',
                 order = 6,
                 get = function()
@@ -110,21 +110,21 @@ function SettingPanel:OnInitialize()
     
     -- for k, v in pairs(group.children[1].children) do
     --     if v.type == 'Keybinding' then
-    --         v.msgframe.msg:SetText(L['点击按键以绑定命令->友团组团，点击ESC或者再次点击按钮取消设置。'])
+    --         v.msgframe.msg:SetText(L['点击按键以绑定命令->集合石组团，点击ESC或者再次点击按钮取消设置。'])
     --     end
     -- end
 
-    local SignInButton = BigButton:New(self)
-    SignInButton:SetPoint('TOPRIGHT', -20, -20)
-    SignInButton:SetText(Profile:IsSignIn() and L['今日已签到'] or L['签到'])
-    SignInButton:SetEnabled(not Profile:IsSignIn())
-    SignInButton:SetScript('OnClick', function(self)
-        Logic:SignIn()
-        self:Disable()
-        self:SetText(L['今日已签到'])
-        System:Message(L['今日签到成功'])
-    end)
-    SignInButton:Hide()
+    -- local SignInButton = BigButton:New(self)
+    -- SignInButton:SetPoint('TOPRIGHT', -20, -20)
+    -- SignInButton:SetText(Profile:IsSignIn() and L['今日已签到'] or L['签到'])
+    -- SignInButton:SetEnabled(not Profile:IsSignIn())
+    -- SignInButton:SetScript('OnClick', function(self)
+    --     Logic:SignIn()
+    --     self:Disable()
+    --     self:SetText(L['今日已签到'])
+    --     System:Message(L['今日签到成功'])
+    -- end)
+    -- SignInButton:Hide()
 
     local ReferenceButton = BigButton:New(self)
     -- ReferenceButton:SetPoint('TOPRIGHT', SignInButton, 'BOTTOMRIGHT', 0, -10)
@@ -142,5 +142,16 @@ function SettingPanel:OnInitialize()
         end, nil, nil, 255)
     end)
     -- ReferenceButton:Hide()
+
+    -- local RewardButton = BigButton:New(self)
+    -- RewardButton:SetPoint('TOPRIGHT', ReferenceButton, 'BOTTOMRIGHT', 0, -30)
+    -- RewardButton:SetText('领奖')
+    -- RewardButton:SetScript('OnClick', function(self)
+    --     GUI:CallInputDialog(L['请输入兑换码'], function(result, text)
+    --         if result then
+    --             Logic:Exchange(text)
+    --         end
+    --     end, 'NetEaseExchange')
+    -- end)
 end
 

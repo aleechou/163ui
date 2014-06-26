@@ -48,6 +48,17 @@ function RoleTip:Load()
             Label = Label,
         }
     end
+
+    -- local TotalIcon = self:CreateTexture(nil, 'ARTWORK')
+    -- TotalIcon:SetTexture([[Interface\Addons\RaidBuilder\Media\DataBroker]])
+    -- TotalIcon:SetTexCoord(0.5, 0.75, 0, 1)
+    -- TotalIcon:SetSize(20, 20)
+
+    -- local TotalLabel = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
+    -- TotalLabel:SetPoint('LEFT', TotalIcon, 'RIGHT', 3, 0)
+
+    -- self.TotalIcon = TotalIcon
+    -- self.TotalLabel = TotalLabel
 end
 
 RoleTip:Load()
@@ -82,6 +93,13 @@ function RoleTip:Open(anchor, event)
             self.rightLabel = Label
         end
     end
+
+    -- self.TotalLabel:SetText(format('%s%d/%d|r',
+    --     event:IsMemberFull() and RED_FONT_COLOR_CODE or HIGHLIGHT_FONT_COLOR_CODE,
+    --     event:GetRoleCurrentAll(),
+    --     event:GetRoleTotalAll()))
+    -- self.TotalIcon:SetPoint('LEFT', self.rightLabel, 'RIGHT', 5, 0)
+    -- self.rightLabel = self.TotalLabel
 
     self:Refresh()
 end

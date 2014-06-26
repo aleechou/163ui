@@ -3,15 +3,15 @@ BuildEnv(...)
 
 local addonName = ...
 
-local DataBroker = RaidBuilder:NewModule('DataBroker', 'AceEvent-3.0')
+local DataBroker = RaidBuilder:NewModule('DataBroker', 'AceEvent-3.0', 'NetEaseGUI-DropMenu-1.0')
 
 local LDB = LibStub('LibDataBroker-1.1')
 
 local ICON1 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:0:32:0:32|t]]
 local ICON2 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:32:65:0:32|t]]
 local ICON3 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:64:95:0:32|t]]
--- local DATA_BROKER_FORMAT = ('%s%%d   %s%%d   %s%%d'):format(ICON1, ICON2, ICON3)
-local DATA_BROKER_FORMAT = ('%s%%d      %s%%d'):format(ICON1, ICON2)
+local ICON4 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32:96:128:0:32|t]]
+local DATA_BROKER_FORMAT = ('%s%%d   %s%%d   %s%%d'):format(ICON1, ICON2, ICON4)
 
 function DataBroker:OnInitialize()
     self.db = RaidBuilder:GetDB()
@@ -24,6 +24,7 @@ function DataBroker:OnInitialize()
         OnEnter = function(owner)
             local isLeader = EventCache:GetCurrentEvent()
             local eventCount = EventCache:GetEventCount()
+            local favCount = EventCache:GetFavoriteCount()
             local groupCount = GetNumGroupMembers()
             local appliedCount = isLeader and MemberCache:GetMemberCount() or AppliedCache:Count()
             local appliedText = isLeader and L['申请人数'] or L['申请中活动']
@@ -33,11 +34,17 @@ function DataBroker:OnInitialize()
             GameTooltip:AddDoubleLine(ICON1 .. appliedText, appliedCount, 1, 1, 1, 1, 1, 1)
             GameTooltip:AddDoubleLine(ICON2 .. L['活动总数'], eventCount, 1, 1, 1, 1, 1, 1)
             GameTooltip:AddDoubleLine(ICON3 .. L['团队人数'], groupCount, 1, 1, 1, 1, 1, 1)
+            GameTooltip:AddDoubleLine(ICON4 .. L['关注团长的活动'], favCount, 1, 1, 1, 1, 1, 1)
             GameTooltip:Show()
         end,
 
-        OnClick = function()
-            self:Toggle()
+        OnClick = function(owner, button)
+            GameTooltip:Hide()
+            if button == 'RightButton' then
+                self:ToggleMenu(owner, self:CreateMenuTable())
+            else
+                self:Toggle()
+            end
         end
     })
 
@@ -68,6 +75,7 @@ function DataBroker:OnInitialize()
     end
     if BrokerObject.OnClick then
         BrokerPanel:SetScript('OnClick', BrokerObject.OnClick)
+        BrokerPanel:RegisterForClicks('anyUp')
     end
 
     local BrokerText = BrokerPanel:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
@@ -102,6 +110,7 @@ function DataBroker:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_MEMBER_LIST_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_FAVORITES_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_NEW_VERSION')
     self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED')
     self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE')
@@ -139,10 +148,10 @@ end
 function DataBroker:Refresh()
     local memberCount = MemberCache:GetMemberCount()
     local eventCount = EventCache:GetEventCount()
-    local groupCount = GetNumGroupMembers()
+    local favCount = EventCache:GetFavoriteCount()
     local appliedCount = EventCache:GetCurrentEvent() and memberCount or AppliedCache:Count()
 
-    self.BrokerObject.text = DATA_BROKER_FORMAT:format(appliedCount, eventCount, groupCount)
+    self.BrokerObject.text = DATA_BROKER_FORMAT:format(appliedCount, eventCount, favCount)
     self.BrokerObject.flash = memberCount > 0 or nil
 end
 
@@ -183,5 +192,61 @@ function DataBroker:RAIDBUILDER_WEBSUPPORT_UPDATE(_, isWorking)
 end
 
 function DataBroker:ShowNewVersion(url)
-    GUI:CallUrlDialog(url, L['发现友团组团新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)
+    GUI:CallUrlDialog(url, L['发现集合石组团新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)
+end
+
+function DataBroker:CreateMenuTable()
+    local event = EventCache:GetCurrentEvent()
+    return {
+        {
+            text = L['打开主界面'],
+            func = function()
+                self:Toggle()
+            end
+        },
+        {
+            text = L['分享插件'],
+            func = function()
+                RaidBuilder:ShowModule('SharePanel',
+                    L['分享插件'],
+                    L.ADDON_SHARE_CONTENT,
+                    true)
+            end
+        },
+        {
+            text = L['活动通告'],
+            disabled = not GroupCache:GetCurrentEventCode(),
+            func = function()
+                local content = GroupCache:GetAnnouncementContent()
+                if not content then
+                    return
+                end
+                RaidBuilder:ShowModule('SharePanel', L['活动通告'], content)
+            end
+        },
+        {
+            text = L['易信通知'],
+            disabled = not event,
+            func = function()
+                RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+            end
+        },
+        {
+            text = L['恢复活动'],
+            disabled = not EventCache:IsCurrentEventPaused() or not event or event:IsMemberFull(),
+            func = function()
+                EventCache:RestoreCurrentEvent()
+            end
+        },
+        {
+            text = L['解散活动'],
+            disabled = not EventCache:GetCurrentEvent(),
+            confirm = L['你确定要解散这个活动？'],
+            func = function(result)
+                if result then
+                    Logic:DisbandEvent()
+                end
+            end
+        },
+    }
 end

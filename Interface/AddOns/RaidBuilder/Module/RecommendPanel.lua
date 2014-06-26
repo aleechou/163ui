@@ -97,8 +97,8 @@ function RecommendPanel:OnInitialize()
     self.Title = Title
     self.EventList = EventList
 
-    self.eventCode = EVENT_CODE_RECOMMEND
-    self.eventMode = EVENT_MODE_TYPES[L['其他']]
+    self.eventCode = EVENT_TYPE_RECOMMEND
+    self.eventMode = 7
 
     self:RegisterMessage('RAIDBUILDER_RECOMMENDDATA_CHANGED')
 

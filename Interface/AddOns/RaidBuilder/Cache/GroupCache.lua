@@ -50,7 +50,7 @@ function GroupCache:SaveUnitInfo(target, battleTag, class, level, itemLevel, pvp
         self:SetUnitRole(target, role)
     end
 
-    self:SendMessage('RAIDBUILDER_UNIT_INFO_UPDATE')
+    self:SendMessage('RAIDBUILDER_UNIT_INFO_UPDATE', member)
 end
 
 function GroupCache:RemoveUnit(target)

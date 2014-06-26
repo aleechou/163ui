@@ -3,16 +3,8 @@ BuildEnv(...)
 
 BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
-local function _EventCodeSortHandler(event)
-    local typeId = bit.band(event:GetEventCode(), TYPE_MATCH)
-    local diffId = bit.band(event:GetEventCode(), DIFF_MATCH)
-    local nameId = bit.band(event:GetEventCode(), NAME_MATCH)
-
-    return bit.lshift(typeId, 8) + bit.lshift(0xFFFF - nameId, 8) + bit.rshift(diffId, 24)
-end
-
 local function _NormalSortHandler(event)
-    return format('%04d%08x', event:GetLeaderLogoIndex(), _EventCodeSortHandler(event))
+    return format('%04d%08x', event:GetLeaderLogoIndex(), event:GetEventCode())
 end
 
 local BROWSE_HEADER = {
@@ -23,28 +15,32 @@ local BROWSE_HEADER = {
         width = 25,
         showHandler = function(event)
             if event:IsSelf() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 128/256, 160/256, 0, 0.5 -- [[INTERFACE\GROUPFRAME\UI-Group-LeaderIcon]]
+                return nil, nil, nil, nil, [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]], 128/256, 160/256, 0, 0.5
             elseif event:IsInEvent() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 32/256, 64/256, 0, 0.5 -- [[INTERFACE\CHATFRAME\UI-ChatConversationIcon]]
+                return nil, nil, nil, nil, [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]], 32/256, 64/256, 0, 0.5
             elseif event:IsApplied() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 160/256, 192/256, 0, 0.5 -- [[INTERFACE\HELPFRAME\HelpIcon-ReportLag]]
+                return nil, nil, nil, nil, [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]], 160/256, 192/256, 0, 0.5
             elseif event:GetHasPassword() then
-                return nil, nil, nil, nil, 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons', 192/256, 224/256, 0, 0.5 -- [[INTERFACE\PetBattles\PetBattle-LockIcon]]
+                return nil, nil, nil, nil, [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]], 192/256, 224/256, 0, 0.5
+            elseif event:IsInFavorite() then
+                return nil, nil, nil, nil, [[INTERFACE\COMMON\ReputationStar]], 0, 1/2, 0, 1/2
             end
         end,
         sortHandler = function(event)
-            return event:IsSelf() and 1 or event:IsInEvent() and 2 or event:IsApplied() and 3 or event:GetHasPassword() and 4 or 5
+            return event:GetStatusSortValue()
         end,
     },
     {
         key = 'EventName',
-        text = L['副本名称'],
+        text = L['活动名称'],
         style = 'LEFT',
         width = 150,
         showHandler = function(event)
             return event:GetEventName(), 1, 0.82, 0
         end,
-        sortHandler = _EventCodeSortHandler
+        sortHandler = function(event)
+            return event:GetEventCode()
+        end,
     },
     {
         key = 'EventMode',
@@ -60,7 +56,7 @@ local BROWSE_HEADER = {
     },
     {
         key = 'MemberRole',
-        text = L['人数'],
+        text = L['人数'] .. '         ' .. L['可申请'],
         width = 145,
         class = RaidBuilder:GetClass('MemberRoleGrid'),
         sortHandler = function(event)
@@ -70,6 +66,22 @@ local BROWSE_HEADER = {
             grid:SetEvent(event)
         end
     },
+    -- {
+    --     -- key = 'MemberTotal',
+    --     key = 'MemberRole',
+    --     text = L['人数'],
+    --     width = 65,
+    --     style = 'ICONTEXT',
+    --     sortHandler = function(event)
+    --         return event:GetRoleCurrentAll() - event:GetRoleTotalAll()
+    --     end,
+    --     showHandler = function(event)
+    --         local color = event:IsMemberFull() and RED_FONT_COLOR or HIGHLIGHT_FONT_COLOR
+
+    --         return event:GetRoleCurrentAll() .. '/' .. event:GetRoleTotalAll(), color.r, color.g, color.b, 
+    --             [[Interface\Addons\RaidBuilder\Media\DataBroker]], 0.5, 0.75, 0, 1
+    --     end
+    -- },
     {
         key = 'Level',
         text = L['等级'],
@@ -120,7 +132,7 @@ local BROWSE_HEADER = {
             return event:GetLeaderText(), nil, nil, nil, event:GetLeaderLogoTexture()
         end,
         sortHandler = function(event)
-            return format('%04d%s', event:GetLeaderLogoIndex(), event:GetLeader())
+            return format('%04d%s', event:GetLeaderLogoIndex(), strpadright(event:GetLeader(), 40))
         end
     },
     {
@@ -135,12 +147,19 @@ local BROWSE_HEADER = {
 }
 
 function BrowsePanel:OnInitialize()
-    GUI:Embed(self, 'Owner')
+    GUI:Embed(self, 'Owner', 'Refresh')
 
     MainPanel:RegisterPanel(L['查找活动'], self, 5, 90)
 
-    local function Refresh()
-        self:Refresh()
+    local function RefreshFilter()
+        local leader = self.LeaderInput:GetText()
+        local filter = self.Filter:GetValue()
+        local usable = self.Usable:GetChecked() or nil
+        local encrypt = self.Encrypt:GetChecked() or nil
+        local favorite = self.Favorite:GetChecked() or nil
+        local eventCode = filter ~= 0 and filter or nil
+
+        self.EventList:SetFilterText(leader, eventCode, usable, encrypt, favorite)
     end
 
     local FilterLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
@@ -153,7 +172,7 @@ function BrowsePanel:OnInitialize()
     Filter:SetMenuTable(EVENT_FILTER_MENUTABLE)
     Filter:SetValue(0)
     Filter:SetText(L['全部'])
-    Filter:SetCallback('OnSelectChanged', Refresh)
+    Filter:SetCallback('OnSelectChanged', RefreshFilter)
 
     local LeaderLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
     LeaderLabel:SetPoint('LEFT', Filter, 'RIGHT', 10, 0)
@@ -162,19 +181,25 @@ function BrowsePanel:OnInitialize()
     local LeaderInput = GUI:GetClass('SearchBox'):New(self)
     LeaderInput:SetPoint('LEFT', LeaderLabel, 'RIGHT', 5, 0)
     LeaderInput:SetSize(140, 15)
-    LeaderInput:SetScript('OnTextChanged', Refresh)
+    LeaderInput:SetScript('OnTextChanged', RefreshFilter)
 
     local Usable = GUI:GetClass('CheckBox'):New(self)
     Usable:SetPoint('LEFT', LeaderInput, 'RIGHT', 10, 0)
     Usable:SetSize(20, 20)
     Usable:SetText(L['符合条件'])
-    Usable:SetScript('OnClick', Refresh)
+    Usable:SetScript('OnClick', RefreshFilter)
 
     local Encrypt = GUI:GetClass('CheckBox'):New(self)
     Encrypt:SetPoint('LEFT', Usable, 'RIGHT', 80, 0)
     Encrypt:SetSize(20, 20)
     Encrypt:SetText(L['没有密码'])
-    Encrypt:SetScript('OnClick', Refresh)
+    Encrypt:SetScript('OnClick', RefreshFilter)
+
+    local Favorite = GUI:GetClass('CheckBox'):New(self)
+    Favorite:SetPoint('LEFT', Encrypt, 'RIGHT', 80, 0)
+    Favorite:SetSize(20, 20)
+    Favorite:SetText(L['仅关注'])
+    Favorite:SetScript('OnClick', RefreshFilter)
 
     local BanButton = GUI:GetClass('ClearButton'):New(self)
     BanButton:Hide()
@@ -190,6 +215,7 @@ function BrowsePanel:OnInitialize()
     EventList:SetSelectMode('RADIO')
     EventList:SetSortHandler(_NormalSortHandler)
     EventList:SetItemSpacing(1)
+    EventList:SetItemList({})
     EventList:SetCallback('OnGridEnter', function(_, grid, event, key)
         if key == 'MemberRole' then
             RoleTip:Open(grid, event)
@@ -226,6 +252,10 @@ function BrowsePanel:OnInitialize()
     end)
     EventList:SetCallback('OnRefresh', function(frame)
         self.EmptySummary:SetShown(frame:GetItemCount() == 0)
+        self:UpdateSelecttedEvent()
+    end)
+    EventList:RegisterFilter(function(event, ...)
+        return event:Match(...)
     end)
 
     EventList:InitHeader(BROWSE_HEADER)
@@ -241,19 +271,36 @@ function BrowsePanel:OnInitialize()
     JoinButton:SetSize(120, 22)
     JoinButton:SetText(L['申请加入'])
     JoinButton:SetScript('OnClick', function()
-        self:JoinEvent()
+        self:OnJoinClick()
     end)
 
     local TotalEvents = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
     TotalEvents:SetPoint('BOTTOMRIGHT', self:GetOwner(), -7, 7)
 
-    local IconSummary = self:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmallLeft')
-    IconSummary:SetPoint('BOTTOMLEFT', self:GetOwner(), 10, 3)
-    IconSummary:SetFormattedText(
-        -- '|TINTERFACE\\GROUPFRAME\\UI-Group-LeaderIcon:15|t %s |TINTERFACE\\CHATFRAME\\UI-ChatConversationIcon:15|t %s |TINTERFACE\\HELPFRAME\\HelpIcon-ReportLag:15|t %s |TINTERFACE\\PetBattles\\PetBattle-LockIcon:15|t %s', 
-        -- L['团长'], L['在团'], L['申请'], L['加密'])
-        '|TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:128:160:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:32:64:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:160:192:0:32|t %s |TInterface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons:16:16:0:0:256:64:192:224:0:32|t %s', 
-        L['我的'], L['已加入'], L['申请中'], L['加密'])
+    local IconSummary = CreateFrame('Button', nil, self)
+    IconSummary:SetSize(50, 16)
+    IconSummary:SetPoint('BOTTOMLEFT', self:GetOwner(), 10, 5)
+    local icon = IconSummary:CreateTexture(nil, 'OVERLAY')
+    icon:SetSize(16, 16)
+    icon:SetPoint('LEFT')
+    icon:SetTexture([[INTERFACE\COMMON\ReputationStar]])
+    icon:SetTexCoord(0, 0.5, 0, 0.5)
+    local label = IconSummary:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
+    label:SetPoint('LEFT', icon, 'RIGHT', 2, 0)
+    label:SetText(L['图示'])
+
+    IconSummary:SetScript('OnEnter', function(button)
+        GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
+        GameTooltip:SetText(L['图示'])
+        GameTooltip:AddLine(format([[|TInterface\AddOns\RaidBuilder\Media\RaidbuilderIcons:16:16:0:0:256:64:128:160:0:32|t %s]], L['我的活动']), 1, 1, 1)
+        GameTooltip:AddLine(format([[|TInterface\AddOns\RaidBuilder\Media\RaidbuilderIcons:16:16:0:0:256:64:32:64:0:32|t %s]], L['已加入活动']), 1, 1, 1)
+        GameTooltip:AddLine(format([[|TInterface\AddOns\RaidBuilder\Media\RaidbuilderIcons:16:16:0:0:256:64:160:192:0:32|t %s]], L['申请中活动']), 1, 1, 1)
+        GameTooltip:AddLine(format([[|TInterface\AddOns\RaidBuilder\Media\RaidbuilderIcons:16:16:0:0:256:64:192:224:0:32|t %s]], L['加密活动']), 1, 1, 1)
+        GameTooltip:AddLine(format([[|TINTERFACE\COMMON\ReputationStar:16:16:0:0:32:32:0:16:0:16|t %s]], L['关注团长的活动']), 1, 1, 1)
+
+        GameTooltip:Show()
+    end)
+    IconSummary:SetScript('OnLeave', GameTooltip_Hide)
 
     self.JoinButton = JoinButton
     self.Filter = Filter
@@ -261,6 +308,7 @@ function BrowsePanel:OnInitialize()
     self.EventList = EventList
     self.TotalEvents = TotalEvents
     self.Encrypt = Encrypt
+    self.Favorite = Favorite
     self.LeaderInput = LeaderInput
     self.EmptySummary = EmptySummary
 
@@ -280,19 +328,17 @@ function BrowsePanel:OnInitialize()
     self:RegisterBucketMessage({'RAIDBUILDER_APPLIED_UPDATE', 'RAIDBUILDER_EVENT_LIST_UPDATE'}, 1, 'Refresh')
 end
 
-function BrowsePanel:Refresh()
-    local item = self.EventList:GetSelectedItem()
-    local events, total = self:GetEventList(
-        self.Filter:GetValue(),
-        self.Usable:GetChecked(),
-        self.Encrypt:GetChecked(),
-        self.LeaderInput:GetText())
-    self.EventList:SetItemList(events)
-    self.EventList:SetSelectedItem(item)
-    self.TotalEvents:SetText((L['申请中 %d/%d 活动总数 %d/%d']):format(AppliedCache:Count(), AppliedCache:Max(), #events, total))
+function BrowsePanel:Update()
+    self.EventList:SetItemList(self:GetEventList())
+    self.TotalEvents:SetText((L['申请中 %d/%d 活动总数 %d/%d']):format(
+        AppliedCache:Count(),
+        AppliedCache:Max(),
+        self.EventList:GetItemCount(),
+        EventCache:GetEventCount()))
 end
 
 function BrowsePanel:UpdateSelecttedEvent(event)
+    event = event or self.EventList:GetSelectedItem()
     if not event or event:IsSelf() or event:IsInEvent() then
         self.JoinButton:Disable()
         self.JoinButton:SetText(L['申请加入'])
@@ -305,24 +351,17 @@ function BrowsePanel:UpdateSelecttedEvent(event)
     end
 end
 
-function BrowsePanel:GetEventList(eventCode, usable, noPassword, leader)
-    local equipLevel = GetAverageItemLevel()
-    local level = UnitLevel('player')
-
+function BrowsePanel:GetEventList()
     local list = {}
-    local num = 0
     for _, event in EventCache:IterateEvents() do
         -- if not event:IsMemberFull() then
-            if event:Match(eventCode, usable, noPassword, leader) then
                 tinsert(list, event)
-            end
-            num = num + 1
         -- end
     end
-    return list, num
+    return list
 end
 
-function BrowsePanel:JoinEvent()
+function BrowsePanel:OnJoinClick()
     local event = self.EventList:GetItem(self.EventList:GetSelected())
     if not event then
         return
@@ -339,16 +378,25 @@ function BrowsePanel:JoinEvent()
     else
         if AppliedCache:Count() > AppliedCache:Max() then
             System:Error(L['申请队列已经满员，请等待或取消之前的申请'])
-        elseif EventCache:GetCurrentEvent() then
-            System:Error(L['你正在组织一个活动，不能申请其它活动'])
         elseif IsInGroup() then
             System:Error(L['你已经在一个队伍中，不能申请其它活动。'])
+        elseif EventCache:GetCurrentEvent() then
+            GUI:CallMessageDialog(L['你正在组织一个活动，是否解散活动以申请其它活动？'], function(result)
+                if result then
+                    Logic:DisbandEvent()
+                    self:JoinEvent(event)
+                end
+            end)
         else
-            RaidBuilder:ShowModule('RolePanel', function(role, password, msgId)
-                Logic:JoinEvent(event, role, password, msgId)
-            end, event)
+            self:JoinEvent(event)
         end
     end
+end
+
+function BrowsePanel:JoinEvent(event)
+    RaidBuilder:ShowModule('RolePanel', function(role, password, msgId)
+        Logic:JoinEvent(event, role, password, msgId)
+    end, event)
 end
 
 function BrowsePanel:QuickToggle(code)

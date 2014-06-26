@@ -4,7 +4,7 @@ BuildEnv(...)
 local L = LibStub('AceLocale-3.0'):NewLocale('WowSocial_UI', 'zhCN', true)
 if not L then return end
 
-ADDON_NAME = '友团聊天'
+ADDON_NAME = '集合石聊天'
 _G.BINDING_HEADER_NECLOUD = ADDON_NAME
 _G.BINDING_NAME_NECLOUD_TOGGLE = '切换面板'
 
@@ -99,7 +99,7 @@ L['PvP'] = true
 L['|cffff0000试玩账号无法发送消息。|r'] = true
 L['下载链接：'] = true
 L['个人设置'] = true
-L['中立阵营不能使用友团聊天'] = true
+L['中立阵营不能使用集合石聊天'] = true
 L['举报'] = true
 L['任务'] = true
 L['你不是该群的群主'] = true
@@ -130,10 +130,10 @@ L['加入'] = true
 L['加入群组%s失败，%s。'] = true
 L['加入群组'] = true
 L['勿扰模式'] = true
-L['友团组团'] = true
-L['友团聊天'] = true
+L['集合石组团'] = true
+L['集合石聊天'] = true
 L['发呆'] = true
-L['发现友团聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'] = true
+L['发现集合石聊天新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'] = true
 L['发现新版本'] = true
 L['发送'] = true
 L['发送通知'] = true

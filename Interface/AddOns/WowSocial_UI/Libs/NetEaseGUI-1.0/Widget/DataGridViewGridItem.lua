@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridViewGridItem', 3
+local WIDGET, VERSION = 'DataGridViewGridItem', 4
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridViewGridItem = GUI:NewClass(WIDGET, 'Button', VERSION)
@@ -36,8 +36,9 @@ local STYLES = {
         self.Icon:SetSize(width or 16, height or width or 16)
         self.Text:ClearAllPoints()
         self.Text:SetPoint('LEFT', self.Icon, 'RIGHT', 2, 0)
-        self.Text:SetPoint('TOPRIGHT')
-        self.Text:SetPoint('BOTTOMRIGHT')
+        -- self.Text:SetPoint('TOPRIGHT')
+        -- self.Text:SetPoint('BOTTOMRIGHT')
+        self.Text:SetPoint('RIGHT')
         self:SetNormalFontObject('GameFontHighlightSmallLeft')
     end,
 }

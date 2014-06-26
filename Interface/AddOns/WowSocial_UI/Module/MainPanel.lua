@@ -12,7 +12,7 @@ function MainPanel:OnInitialize()
     self.chatTypes = {}
     self:EnableTabFrame(nil)
     self:InitControl()
-    self:SetText(L['友团聊天'])
+    self:SetText(ADDON_NAME)
 
     self:RegisterChatType('RECOMMEND',
         [[INTERFACE\ICONS\Achievement_Arena_5v5_7]],
@@ -239,7 +239,7 @@ function MainPanel:InitControl()
     }
     
     self:CreateTitleButton{
-        title = L['友团组团'],
+        title = L['集合石组团'],
         texture = [[Interface\AddOns\RaidBuilder\Media\Icon]],
         callback = function()
             local RaidBuilder = LibStub('AceAddon-3.0'):GetAddon('RaidBuilder')

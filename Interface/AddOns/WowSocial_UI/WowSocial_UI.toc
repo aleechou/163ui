@@ -1,10 +1,10 @@
 ## Interface: 50400
 ## Title: WoW Social UI
-## Title-zhCN: |cffff565e[友团]|r 聊天群界面模块
-## Notes-zhCN: 魔兽社交插件的群组界面
+## Title-zhCN: |cffff565e[集合石]|r 聊天群界面模块
+## Notes-zhCN: 魔兽集合石聊天插件的群组界面
 ## Dependencies: WowSocial
 ## SavedVariables: WOWSOCIAL_DB_UI
 ## X-WoWBox-Ver: 1
 Load.xml
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052903
+## 163UI-Version: 2014062601

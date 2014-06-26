@@ -1,6 +1,6 @@
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local View = GUI:NewEmbed('Refresh', 1)
+local View = GUI:NewEmbed('Refresh', 2)
 if not View then
     return
 end
@@ -11,6 +11,9 @@ local function Refresh(self)
 
     if type(self.Fire) == 'function' then
     	self:Fire('OnRefresh')
+    end
+    if type(self._Select_OnRefresh) == 'function' then
+        self:_Select_OnRefresh()
     end
 end
 
