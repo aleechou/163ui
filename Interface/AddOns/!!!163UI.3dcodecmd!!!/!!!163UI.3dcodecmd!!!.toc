@@ -1,8 +1,8 @@
 ## Title: |cff880303[网易有爱]|r !!客户端
-## Version: 1.2.3
+## Version: 1.2.4
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014062601
+## 163UI-Version: 2014062602
 ## X-Vendor: NetEase
 
 

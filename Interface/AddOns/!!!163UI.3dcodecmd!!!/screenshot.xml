@@ -320,7 +320,7 @@
 				
 			</Layer>
 			<Layer>
-				<Texture name="Texture1" file="Interface\AddOns\!!!163UI.3dcodecmd!!!-src\Textures\schelp2.tga">
+				<Texture name="Texture1" file="Interface\AddOns\!!!163UI.3dcodecmd!!!\Textures\schelp2.tga">
 					<Size>
 						<AbsDimension x="250" y="128" />
 					</Size>
@@ -333,7 +333,7 @@
 				</Texture>
 			</Layer>
 			<Layer>
-				<Texture name="Texture1" file="Interface\AddOns\!!!163UI.3dcodecmd!!!-src\Textures\schelp1.tga">
+				<Texture name="Texture1" file="Interface\AddOns\!!!163UI.3dcodecmd!!!\Textures\schelp1.tga">
 					<Size>
 						<AbsDimension x="250" y="128" />
 					</Size>

@@ -47,7 +47,7 @@ UIDropDownMenu_AddButton(e,o)
 Ì É r(e,t)
 Ì e=CreateFrame("Button",e,UIParent,"UIDropDownMenuTemplate")
 e:ClearAllPoints()
-e:SetPoint("CENTER",0,0)
+e:SetPoint("TOPLEFT",UIParent,"BOTTOMRIGHT")
 e:Show()
 UIDropDownMenu_Initialize(e,t,"MENU")
 Ñ e
