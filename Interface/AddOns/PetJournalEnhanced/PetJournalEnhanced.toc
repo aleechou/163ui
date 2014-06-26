@@ -47,5 +47,6 @@ modules\DropdownMenu.lua
 modules\HookedFunctions.lua
 
 
-## Title: |cff880303[网易有爱]|r PetJournalEnhanced
+## Title: |cff880303[网易有爱]|r 小宠物增强
 ## X-Vendor: NetEase
+## 163UI-Version: 2014062601

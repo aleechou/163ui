@@ -4,7 +4,7 @@
     --desc = "",
     defaultEnable = 1,
     load = "NORMAL",
-    -- minimap = "LibDBIcon10_Dominos",
+
 minimap = "LibDBIcon10_Dominos",
     tags = { TAG_INTERFACE, TAG_BIG, },
     icon = 'Interface\\Addons\\Dominos\\Dominos',
