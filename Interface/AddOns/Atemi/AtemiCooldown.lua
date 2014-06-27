@@ -85,7 +85,7 @@ function AtemiCooldown:BindToNameplate(nameplate)
 		if self.db.showTooltips then
 			self.icon:SetScript("OnEnter", function()
 				GameTooltip:ClearLines()
-				GameTooltip:AddSpellByID(self.spellID)
+				--GameTooltip:AddSpellByID(self.spellID)
 				GameTooltip:Show()
 			end)
 			self.icon:SetScript("OnLeave", function()

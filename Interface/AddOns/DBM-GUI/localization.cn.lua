@@ -10,7 +10,7 @@ L.MainFrame 				= "Deadly Boss Mods"
 
 L.TranslationByPrefix		= "本地化："
 L.TranslationBy 			= "Diablohu & yleaf"
-L.Website					= "拜访我们的讨论与支持论坛:|cFF73C2FBhttp://bbs.ngacn.cc/read.php?tid=5397726&page=1|r"
+L.Website					= " "
 L.WebsiteButton				= "论坛"
 L.SoundMM					= "|cFFC3C2FB[查看配音介绍]|r"
 
