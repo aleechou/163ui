@@ -7,5 +7,5 @@
 bar.lua
 controller.lua
 
-## Title: |cff880303[网易有爱]|r Dominos_特殊能量条
-## 163UI-Version: 2014061002
+## Title: |cff880303[网易有爱]|r 多米诺_特殊能量条
+## 163UI-Version: 2014062801
