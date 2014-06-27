@@ -626,7 +626,7 @@ function UUI.Top.Create(main)
     :un()
     soundSlider.func = function(self, v) BlizzardOptionsPanel_SetCVarSafe("Sound_MasterVolume", v/100) PlaySound("igMainMenuOpen") end
     soundSlider.parent = DropDownList1; --StopCounting
-    DropDownList1:HookScript("OnHide", function() main.setting.soundPanel:Hide() end)
+
     -- //音量
 
     main.reload = TplPanelButton(main,nil, UUI.PANEL_BUTTON_HEIGHT):Set3Fonts(UUI.FONT_PANEL_BUTTON)
@@ -673,7 +673,7 @@ end
 function UUI.Top.QuickSettingDropDownMenuInitialize(frame, level, menuList)
     --UIDropDownMenu_SetAnchor(main.setting.drop, 0, 0, "TOPRIGHT", main.setting.dropbutton, "BOTTOMRIGHT")
     frame.point = "TOPRIGHT"; frame.relativePoint = "BOTTOMRIGHT";
-
+	DropDownList1:HookScript("OnHide", function() UUI().setting.soundPanel:Hide() end)
     local info = UIDropDownMenu_CreateInfo();
     info.isNotRadio = 1; info.notCheckable = 1; info.isTitle = 1; info.justifyH = "CENTER"; info.text = L["网易有爱快捷设置"];
     UIDropDownMenu_AddButton(info);
