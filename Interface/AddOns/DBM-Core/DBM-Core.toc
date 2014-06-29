@@ -9,7 +9,8 @@
 ## DefaultState: enabled
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
-
+## X-Mush-Project-Father: DBM-GUI
+## X-Mush-Packaged-Version: 1
 embeds.xml
 Libs\LibChatAnims\LibChatAnims.xml
 Libs\LibSharedMedia-3.0\lib.xml
@@ -30,4 +31,4 @@ DBM-HudMap.lua
 
 
 ## X-Vendor: NetEase
-## 163UI-Version: 2014062701
+## 163UI-Version: 2014062901

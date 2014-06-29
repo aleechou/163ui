@@ -7,8 +7,9 @@
 ## X-Curse-Project-Name: JPack
 ## X-Curse-Project-ID: jpack
 ## X-Curse-Repository-ID: wow/jpack/mainline
-## X-Mush-Project-Father: Combuctor
-## X-Mush-Packaged-Version: 1
+## X-Mush-Project-Name: JPack
+## X-Mush-Packaged-Version: 17
+## X-Mush-UpdateVer: 17
 
 localization.lua
 JPack_Ex.lua
