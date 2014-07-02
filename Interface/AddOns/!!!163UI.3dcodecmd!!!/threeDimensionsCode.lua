@@ -44,7 +44,7 @@ receiving={
 1
 },
 }
-­ ª t(e,t)
+­ ª i(e,t)
 ­ e=CreateFrame("frame",e,®)
 e:SetWidth(2)
 e:SetHeight(2)
@@ -52,32 +52,40 @@ e:SetPoint(t,0,0)
 e.texture=e:CreateTexture(®,"BACKGROUND")
 ² e
 §
-­ e=t("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
-­ t=t("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
-e:SetFrameLevel(128)
+­ t=i("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
+­ e=i("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
 t:SetFrameLevel(128)
+e:SetFrameLevel(128)
 ThreeDimensionsCode_SignalLamp={
 keepAlive=ª()
 « o<0 ³
 ThreeDimensionsCode_SignalLamp.desireWidth()
 ¥
-e.texture:SetTexture(unpack(a.keepAlive))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.keepAlive))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.keepAlive))
+e.texture:SetAllPoints(e)
 §
 §,
 desireWidth=ª()
-e.texture:SetTexture(unpack(a.desireWidth))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.desireWidth))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.desireWidth))
+e.texture:SetAllPoints(e)
 §,
 receiving=ª()
-e.texture:SetTexture(unpack(a.receiving))
-e.texture:SetAllPoints(e)
 t.texture:SetTexture(unpack(a.receiving))
 t.texture:SetAllPoints(t)
+e.texture:SetTexture(unpack(a.receiving))
+e.texture:SetAllPoints(e)
+§,
+hide=ª()
+t:Hide()
+e:Hide()
+§,
+show=ª()
+t:Show()
+e:Show()
 §,
 }
 §
