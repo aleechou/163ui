@@ -5,7 +5,7 @@
 
 ## OptionalDeps: 163Core, !!!Ace3, !!!Libs
 ## SavedVariablesPerCharacter: U1DB
-## SavedVariables: U1DBG
+## SavedVariables: U1DBG,NGSwordsUI,NGSSymbolsUI
 
 #file order is very important: DEBUG > Core > RunFirst > AceEvent > 163UI
 

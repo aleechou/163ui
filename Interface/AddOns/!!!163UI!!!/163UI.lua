@@ -22,6 +22,13 @@ CoreAddEvent("CURRENT_TAGS_UPDATED")
 CoreAddEvent("ADDON_SELECTED")
 CoreAddEvent("DB_LOADED")
 
+
+local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
+function NoGoldSeller163ui:OnInitialize()
+	NGSSymbols = NGSSymbolsUI or NGSSymbols
+	NGSwords = NGSwordsUI or NGSwords	
+end
+
 local defaultDB = {
     --checkVendor = 1, --没有网易标记的插件但是在整合包列表中，是否算网易的。现在用 UI163_USER_MODE
     selectedTag = "NETEASE",

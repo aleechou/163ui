@@ -6,7 +6,7 @@ local NGSkilled=0
 local NGSreport=0
 local NGSid2=0
 local NGSmatchs=2 --在這裡修改關鍵字配對個數.找到n個關鍵字則屏蔽,就改此處為n/在这里修改关键词配对个数.找到n个关键词则屏蔽,就改此处为n
-local NGSSymbols={" ",
+NGSSymbols={" ",
 	"_",
 	"~",
 	"'",
