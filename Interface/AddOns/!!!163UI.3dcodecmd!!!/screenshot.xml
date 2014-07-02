@@ -345,6 +345,7 @@
 					<TexCoords left="0" right="1" top="0" bottom="1" />
 				</Texture>
 			</Layer>
+
 		</Layers>
 		<Scripts>
 			<OnLoad>self:RegisterForDrag("LeftButton");</OnLoad>
@@ -462,6 +463,7 @@
 	-->
 
 
+
 	<Button name="Cmd3DCode_Screenshot_ChatFrameButton" text="图">
 		<Size>
 			<AbsDimension x="32" y="32"/>
@@ -477,31 +479,98 @@
 		<NormalFont style="DialogButtonNormalText"/>
 	</Button>
 
-	<Button name="ExternalPicturesThumb_BtnScrawl" text="涂">
-		<Size>
-			<AbsDimension x="32" y="32"/>
-		</Size>
-		<Scripts>
-			<OnClick>
-				ThreeDimensionsCode_Send("scrawl",self.picidx..","..self.picid)
-			</OnClick>
-		</Scripts>
-		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
-		<NormalFont style="DialogButtonNormalText"/>
-	</Button>
+	<Frame name="ExternalPicturesThumbFrame" hidden="true">
 
-	<Button name="ExternalPicturesThumb_BtnOpenInBrowser" text="浏">
 		<Size>
-			<AbsDimension x="32" y="32"/>
+			<AbsDimension x="20" y="20"/>
 		</Size>
-		<Scripts>
-			<OnClick>
-				if self.url then
-            		ThreeDimensionsCode_Send("openurl",self.url)
-				end
-			</OnClick>
-		</Scripts>
-		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
-		<NormalFont style="DialogButtonNormalText"/>
-	</Button>
+
+		<Frames>
+
+			<Frame name="$parent_UrlFrame">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT">
+						<Offset x="28" y="0" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="300" y="10"/>
+				</Size>
+				<Scripts>
+					<OnMouseDown>
+						<![CDATA[
+						local text = self.text:GetText()
+						if text:sub(1,17)=="http://w.163.com/" then
+							local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+							if not ChatFrameEditBox:IsShown() or ChatFrame1EditBox:GetAlpha()<1 then
+								ChatEdit_ActivateChat(ChatFrameEditBox)
+							end
+							ChatFrameEditBox:SetText(text)
+							ChatFrameEditBox:HighlightText()
+						end
+						]]>
+					</OnMouseDown>
+				</Scripts>
+			</Frame>
+
+			<Button name="$parent_BtnSaveAs" text="存">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT">
+						<Offset x="-2" y="10" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Scripts>
+					<OnClick>
+						if self.picidx then
+							local arg = {
+								addonName = "!!!163UI.3dcodecmd!!!" ,
+								picidx = self.picidx ,
+								title = date("WOW截图-%Y年%m月%d日-%H.%M.%S",self.picitem.time) ,
+							}
+		            		ThreeDimensionsCode_Send("saveimage",json_encode(arg))
+		            	end
+					</OnClick>
+				</Scripts>
+				<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+				<NormalFont style="DialogButtonNormalText"/>
+			</Button>
+
+			<Button name="$parent_BtnOpenInBrowser" text="浏">
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="$parent_BtnSaveAs" relativePoint="TOP">
+						<Offset x="0" y="-5" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Scripts>
+					<OnClick>
+						if self.url then
+		            		ThreeDimensionsCode_Send("openurl",self.url)
+						end
+					</OnClick>
+				</Scripts>
+				<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+				<NormalFont style="DialogButtonNormalText"/>
+			</Button>
+
+			<Button name="$parent_BtnScrawl" text="涂">
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="$parent_BtnOpenInBrowser" relativePoint="TOP">
+						<Offset x="0" y="-5" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+				<NormalFont style="DialogButtonNormalText"/>
+			</Button>
+		</Frames>
+	</Frame>
+
 </Ui>
