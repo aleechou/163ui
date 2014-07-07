@@ -464,20 +464,21 @@
 
 
 
-	<Button name="Cmd3DCode_Screenshot_ChatFrameButton" text="图">
+	<Button name="Cmd3DCode_Screenshot_ChatFrameButtonTemplate" text="图" virtual="true">
 		<Size>
 			<AbsDimension x="32" y="32"/>
 		</Size>
 		<Scripts>
-			<OnClick>
+			<OnMouseDown>
 				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.point = "BOTTOMLEFT"
 				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.relativePoint = "TOPLEFT"
 				ToggleDropDownMenu(1,nil,Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn,self:GetName(),0,0)
-			</OnClick>
+			</OnMouseDown>
 		</Scripts>
 		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
 		<NormalFont style="DialogButtonNormalText"/>
 	</Button>
+
 
 	<Frame name="ExternalPicturesThumbFrame" hidden="true">
 

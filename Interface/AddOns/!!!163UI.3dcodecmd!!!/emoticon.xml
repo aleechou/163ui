@@ -1,0 +1,219 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.blizzard.com/wow/ui/  ../UI.xsd" xmlns="http://www.blizzard.com/wow/ui/">
+
+
+	<Button name="Cmd3DCode_Emoticon_ChatFrameButtonTemplate" text="表" virtual="true">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Scripts>
+			<OnMouseDown>
+				Cmd3DCode_EmoticonFrame:Show()
+			</OnMouseDown>
+		</Scripts>
+		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+		<NormalFont style="DialogButtonNormalText"/>
+	</Button>
+
+	<Button name="Cmd3DCode_Emoticon_PictureTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="64" y="64" />
+		</Size>
+		<Frames>
+			<CheckButton name="$parent_ChkBtn" inherits="UICheckButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset x="-2" y="2" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="16" y="16" />
+				</Size>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer>
+				<Texture name="$parent_Texture">
+					<Size>
+						<AbsDimension x="250" y="128" />
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnMouseDown>
+				<![CDATA[
+				if self.picid then
+					local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+					if not ChatFrameEditBox:IsShown() or ChatFrame1EditBox:GetAlpha()<1 then
+						ChatEdit_ActivateChat(ChatFrameEditBox)
+					end
+					ChatFrameEditBox:SetText( ChatFrameEditBox:GetText().."[表情 "..self.picid.."]" )
+
+					Cmd3DCode_EmoticonFrame:Hide()
+				end
+				]]>
+			</OnMouseDown>
+		</Scripts>
+	</Button>
+
+
+	<Frame name="Cmd3DCode_EmoticonFrame" frameStrata="TOOLTIP" parent="UIParent" hidden="true" enableKeyBoard="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="450" y="300"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="BOTTOMRIGHT">
+				<Offset x="3" y="-9" />
+			</Anchor>
+		</Anchors>
+		<Backdrop  bgFile="Interface\DialogFrame\UI-DialogBox-Gold-Background" tile="true">
+			<EdgeSize>
+				<AbsValue val="7"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>		
+			<OnLoad>
+				if WorldFrame:GetScript("OnMouseUp") then
+					WorldFrame:HookScript("OnMouseUp",function() 
+						Cmd3DCode_EmoticonFrame:Hide()
+					end) 
+				else 
+					WorldFrame:SetScript("OnMouseUp",function()
+						Cmd3DCode_EmoticonFrame:Hide()
+					end)
+				end
+			</OnLoad>
+			<OnKeyDown>
+				if key=="ESCAPE" then
+					self:Hide()
+				else
+					self:SetPropagateKeyboardInput(true)
+					return
+				end
+
+				self:SetPropagateKeyboardInput(false)
+				return false
+			</OnKeyDown>
+		</Scripts>	
+
+		<Frames>
+
+			<Button name="$parent_BtnImport" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="导入表情..">
+				<Size>
+					<AbsDimension x="100" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-5" y="-5" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						<![CDATA[
+		            	ThreeDimensionsCode_Send("emoticon/import","!!!163UI.3dcodecmd!!!")
+
+						Cmd3DCode_CheckoutClientAndPrompt()
+						]]>
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_BtnRemove" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="删除">
+				<Size>
+					<AbsDimension x="50" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_BtnImport" relativePoint="LEFT">
+						<Offset x="-5" y="0" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parent_BtnAllCheck" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="全选">
+				<Size>
+					<AbsDimension x="50" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_BtnRemove" relativePoint="LEFT">
+						<Offset x="-5" y="0" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parent_BtnAllRevert" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="反选">
+				<Size>
+					<AbsDimension x="50" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_BtnAllCheck" relativePoint="LEFT">
+						<Offset x="-5" y="0" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			
+			<Button name="$parent_BtnNextPage" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="&gt;">
+				<Size>
+					<AbsDimension x="20" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset x="-5" y="5" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						<![CDATA[
+						if Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum<Cmd3DCode_EmoticonFrame_TxtPageNum.totalpages then
+							Cmd3DCode_Emoticon_ShowPage(Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum+1)
+						end
+						]]>
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="$parent_BtnPrevPage" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="&lt;">
+				<Size>
+					<AbsDimension x="20" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_BtnNextPage" relativePoint="LEFT">
+						<Offset x="-50" y="0" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						<![CDATA[
+						if Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum>1 then
+							Cmd3DCode_Emoticon_ShowPage(Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum-1)
+						end
+						]]>
+					</OnClick>
+				</Scripts>
+			</Button>
+
+		</Frames>	
+
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_TxtPageNum" inherits="GameFontHighlight" text="1/1">
+					<Anchors>
+						<Anchor point="RIGHT" relativeTo="$parent_BtnNextPage" relativePoint="LEFT">
+							<Offset x="-10" y="0" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+
+	</Frame>	
+
+
+</Ui>
