@@ -126,6 +126,13 @@ ThreeDimensionsCode_SafePipe_CmdHandles={
 "ir",
 "iu",
 "id",
+"xx",
+"xx",
+"xx",
+"emoticon/start-upload",
+"emoticon/upload-error",
+"emoticon/changed",
+"emoticon/not-start/another-working",
 newsize=¡(e,t)
 ¤ e=t:find("x")
 ¢ e ª

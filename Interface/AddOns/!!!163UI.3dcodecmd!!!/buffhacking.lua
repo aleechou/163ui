@@ -255,4 +255,11 @@ buff163uiLinkage_offline:Hide()
 � Toggle3DCodeCmdBuff(e)
 i()
 �
-]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
+� Cmd3DCode_CheckoutClientAndPrompt()
+� time()-n>45 �
+print("|cFFCD853F 没有检测到有爱客户端，无法完成操作，请启动有爱客户端继续。 |r")
+� �
+�
+� �
+�
+�]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
