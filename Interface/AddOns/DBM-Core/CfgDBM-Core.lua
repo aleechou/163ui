@@ -1,3 +1,12 @@
+
+local DBTCreateBar_Origin
+local function DBTCreateBar_Hacker (...)
+    if not DBTCreateBar_Origin then return end
+    local bar = DBTCreateBar_Origin(...)
+    bar.frame:Hide() -- 隐藏计时条
+    return bar
+end
+
 U1RegisterAddon("DBM-Core", {
     title = "首领模块",
     defaultEnable = 1,
@@ -19,6 +28,35 @@ U1RegisterAddon("DBM-Core", {
     --children = {"^DBM%-*"},
 
     --[------ Options --------
+    {
+        var="timerbar",
+        text="显示DBM计时条(包括小型计时条和大型计时条)",
+        tip="说明`显示DBM的计时条。",
+        callback = function(cfg, v, loading)
+
+            -- 初始化
+            if loading then
+                DBTCreateBar_Origin = DBT.CreateBar
+            end
+            
+            if(v)then
+                DBT.CreateBar = DBTCreateBar_Origin
+            else
+                DBT.CreateBar = DBTCreateBar_Hacker
+            end
+
+            -- 遍历所有已经创建的计时条，显示或隐藏他们
+            if not loading then
+                for bar in DBM.Bars:GetBarIterator() do
+                    if v then
+                        bar.frame:Show()
+                    else
+                        bar.frame:Hide()
+                    end
+                end
+            end
+        end,
+    },
     {
         var="range",
         text="显示DBM距离提示窗",
