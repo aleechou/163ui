@@ -64,7 +64,7 @@ end
 
 U1RegisterAddon("Masque", {
     title = "按钮美化",
-    defaultEnable = 1,
+    defaultEnable = 0,
     --optionsAfterVar = 1,
     minimap = "LibDBIcon10_Masque",
     load = "NORMAL", --支持其他第三方插件

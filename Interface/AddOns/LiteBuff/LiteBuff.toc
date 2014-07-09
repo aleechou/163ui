@@ -11,6 +11,7 @@
 ## X-Curse-Project-Name: LiteBuff
 ## X-Curse-Project-ID: LiteBuff
 ## X-Curse-Repository-ID: wow/litebuff/mainline
+## LoadOnDemand: 1
 
 Includes\InterfaceOptionPage-1.0.lua
 Includes\LibScanTip.lua

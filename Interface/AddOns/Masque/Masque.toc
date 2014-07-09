@@ -18,6 +18,7 @@
 ## X-Curse-Project-ID: masque
 ## X-Curse-Repository-ID: wow/masque/mainline
 ## 163UI-Version: 2014060201
+## LoadOnDemand: 1
 
 # Libraries
 Libs\LibStub\Libstub.lua
