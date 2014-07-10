@@ -21,6 +21,7 @@
 			<Frame inherts="$parentTemplate" name="$parentBOTTOMLEFT" />
 			<Frame inherts="$parentTemplate" name="$parentBOTTOM" />
 			<Frame inherts="$parentTemplate" name="$parentBOTTOMRIGHT" />
+
 			<Frame name="Cmd3DCode_ViewFinderFrame" toplevel="true" movable="true" resizable="true" enableMouse="true">
 				<Size x="400" y="300" />
 				<Anchors>
@@ -138,11 +139,27 @@
 						</Scripts>
 					</Button>
 
-					<CheckButton name="$parent_ChkBtn_HideUI" inherits="OptionsCheckButtonTemplate" checked="false">
+
+					<CheckButton name="$parent_ChkBtn_SaveSrcPic" inherits="OptionsCheckButtonTemplate" checked="false">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
 								<Offset>
 									<AbsDimension x="0" y="0"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+					        <OnLoad>
+					            _G[self:GetName().."Text"]:SetText("保存截图")
+					        </OnLoad>
+					    </Scripts>
+					</CheckButton>
+
+					<CheckButton name="$parent_ChkBtn_HideUI" inherits="OptionsCheckButtonTemplate" checked="false">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -153,18 +170,23 @@
 					    </Scripts>
 					</CheckButton>
 
-					<CheckButton name="$parent_ChkBtn_SaveSrcPic" inherits="OptionsCheckButtonTemplate" checked="false">
+
+
+					<CheckButton name="$parent_ChkBtn_AttachPrtScr" inherits="OptionsCheckButtonTemplate" checked="true">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+							<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
+									<AbsDimension x="0" y="0"></AbsDimension>
 								</Offset>
 							</Anchor>
 						</Anchors>
 						<Scripts>
 					        <OnLoad>
-					            _G[self:GetName().."Text"]:SetText("保存截图")
+					            _G[self:GetName().."Text"]:SetText("WOW截屏完成后自动打开")
 					        </OnLoad>
+					        <OnClick>
+					            Cmd3DCode_Settings.screenshot.attachPrtScr = self:GetChecked() and true or false
+					        </OnClick>
 					    </Scripts>
 					</CheckButton>
 
