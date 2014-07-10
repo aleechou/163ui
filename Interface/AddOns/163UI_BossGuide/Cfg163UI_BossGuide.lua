@@ -1,6 +1,6 @@
 U1RegisterAddon("163UI_BossGuide", {
     title = "副本小攻略",
-    defaultEnable = 1,
+    defaultEnable = 0,
     frames = {"BossGuideFrame"},
 
     tags = { TAG_RAID, },

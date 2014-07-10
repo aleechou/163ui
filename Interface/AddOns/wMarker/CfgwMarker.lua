@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("wMarker", {
     title = "全能标记助手",
-    defaultEnable = 1,
+    defaultEnable = 0,
     load = "NORMAL",
     secure = 1,
 	nopic = 1,
