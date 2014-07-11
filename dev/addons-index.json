@@ -24,19 +24,23 @@
 	
    , "client": {
    	"Windows": {
-    		"lastVersion": "3.2.6"
-    		, "upgraderFilename": "3.2.6-setup.exe"
-   		, "upgraderUrl": "http://wowui.w.163.com/163wui/setup/3.2.6-setup.exe"
-   		, "upgraderMD5": "bda12d053d4c7f3f550449af8ac1fc5d"
-      , "portableUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.2.6.rar"
+    		"lastVersion": "3.2.9"
+    		, "upgraderFilename": "3.2.9-setup.exe"
+   		, "upgraderUrl": "http://wowui.w.163.com/163wui/setup/3.2.9-setup.exe"
+		, "size": "13M"
+   		, "upgraderMD5": "2122236cce04d0ece8a2b6dc9019e25d"
+		, "portableMD5": "19592A7AF74898FEC8B96771B70EDE8B"
+      , "portableUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.2.9.rar"
    	}
   	, "OSX": {
    		"lastVersion": "3.1.8"
    		, "upgraderFilename": "163ui-v3.1.8-osx.dmg"
    		, "upgraderUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.1.8-osx.dmg"
+		, "size": "36M"
    		, "upgraderMD5": "ooxx"
+		, "portableMD5": "92F6AB14FD36A6D6592312066EB3B99F"
       , "portableUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.1.8-Mac.dmg"
 	}
   }
-    , "offlinePackageUrl": "http://file.ws.126.net/game/wowui/163ui/offline/2014061004.rar"
+    , "offlinePackageUrl": "http://file.ws.126.net/game/wowui/163ui/offline/163ui-v3.2.9-0710-2.rar"
 }
