@@ -24,13 +24,13 @@
 	
    , "client": {
    	"Windows": {
-    		"lastVersion": "3.2.9"
-    		, "upgraderFilename": "3.2.9-setup.exe"
-   		, "upgraderUrl": "http://wowui.w.163.com/163wui/setup/3.2.9-setup.exe"
+    	"lastVersion": "3.2.10"
+    	, "upgraderFilename": "3.2.10-setup.exe"
+   		, "upgraderUrl": "http://wowui.w.163.com/163wui/setup/3.2.10-setup.exe"
 		, "size": "13M"
-   		, "upgraderMD5": "2122236cce04d0ece8a2b6dc9019e25d"
-		, "portableMD5": "19592A7AF74898FEC8B96771B70EDE8B"
-      , "portableUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.2.9.rar"
+   		, "upgraderMD5": "5a519935abd849f45694ec36c9838ad3"
+		, "portableMD5": "A5C660803771190C566084C2986BE60E"
+      , "portableUrl": "http://wowui.w.163.com/163wui/release/163ui-v3.2.10.rar"
    	}
   	, "OSX": {
    		"lastVersion": "3.1.8"
