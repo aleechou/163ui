@@ -17,4 +17,4 @@ frame.xml
 
 ## Title: |cff880303[网易有爱]|r 聊天增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014062602
+## 163UI-Version: 2014071201
