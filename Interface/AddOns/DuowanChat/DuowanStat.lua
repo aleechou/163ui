@@ -60,7 +60,9 @@ function D:UpdateStat()
 	self.data["SHP"] = GetSpellBonusHealing();				--治疗加成
 	self.data["SHIT"] = GetCombatRating(8);					--命中等级
 	self.data["SCRIT"] = self:GetSpellCritChance();				--爆击率
-	self.data["SHASTE"] = GetCombatRating(20);				--急速等级
+	self.data["MHASTE"] = GetCombatRatingBonus(18);				--急速等级 CR_HASTE_MELEE 
+	self.data["RHASTE"] = GetCombatRatingBonus(19);				--急速等级 CR_HASTE_RANGED 
+	self.data["SHASTE"] = GetCombatRatingBonus(20);				--急速等级 CR_HASTE_SPELL 
 	self.data["SMR"] = floor(GetManaRegen()*5);				--法力回复（每5秒）
 	self.data["SPEN"] = GetSpellPenetration();				--法术穿透
 

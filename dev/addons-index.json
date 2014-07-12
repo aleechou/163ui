@@ -18,6 +18,7 @@
     , "ignore": {
     	"!!!163UI.3dcodecmd!!!-src":1
     	, "WowLua":1
+      , "AddonManager": 1
     }
 
     , "packagesUrl": "http://file.ws.126.net/game/wowui/163ui/_packages"
