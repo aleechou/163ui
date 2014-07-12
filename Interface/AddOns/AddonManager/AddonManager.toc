@@ -1,0 +1,21 @@
+## Interface: 50400
+## X-BigfootType: 1
+## X-BigfootDesc: AddonManager插件管理器插件，可以在游戏内禁用、启用插件，查看插件占用的CPU、内存，回收优化内存等功能。
+## Title: Addon Manager
+## Notes: Manage and monitor your addons in-game
+## DefaultState: enabled
+## Author: Crepusculu of Stormrage US
+## Version: 10
+## SavedVariables: AddonManagerSaved
+
+localization\enUS.lua
+localization\frFR.lua
+localization\deDE.lua
+localization\koKR.lua
+localization\zhCN.lua
+localization\zhTW.lua
+localization\ruRU.lua
+localization\esES.lua
+localization\esMX.lua
+Table.lua
+AddonManager.lua
