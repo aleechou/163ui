@@ -25,8 +25,16 @@ CoreAddEvent("DB_LOADED")
 
 local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
 function NoGoldSeller163ui:OnInitialize()
-	NGSSymbols = NGSSymbolsUI or NGSSymbols
-	NGSwords = NGSwordsUI or NGSwords	
+	if(NGSSymbolsUI)then
+		NGSSymbols = NGSSymbolsUI
+	else
+		NGSSymbolsUI = NGSSymbols
+	end
+	if(NGSwordsUI)then
+		NGSwords = NGSwordsUI
+	else
+		NGSwordsUI = NGSwords
+	end
 end
 
 local defaultDB = {
