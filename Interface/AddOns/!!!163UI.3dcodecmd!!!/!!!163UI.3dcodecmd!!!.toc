@@ -1,9 +1,10 @@
-## Title: |cff880303[网易有爱]|r !!客户端 v1.2.6
-## Version: 1.2.6
+## Title: |cff880303[网易有爱]|r !!客户端 v1.2.11
+## Version: 1.2.11
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014063001
+## 163UI-Version: 2014071101
 ## X-Vendor: NetEase
+## SavedVariables: Cmd3DCode_Settings
 
 
 json.lua
@@ -13,6 +14,9 @@ savepipe.lua
 buffhacking.lua
 screenshot.xml
 screenshot.lua
+emoticon.xml
+External\Emoticons\emoticons.lua
+emoticon.lua
 main.lua
 
 test.lua

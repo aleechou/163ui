@@ -163,7 +163,7 @@ options = {
 	},
 	HugeBarsEnabled = {
 		type = "boolean",
-		default = true,
+		default = false,
 	},
 	HugeWidth = {
 		type = "number",

@@ -3,6 +3,7 @@
 ## Title: ChatFilter
 ## Notes: 简单的聊天过滤插件，过滤重复及广告信息，过滤多行宏，合并显示切换天赋时的学会/忘却技能，合并显示获得成就，合并显示制造物品。
 ## Author: aliluya555
+## SavedVariablesPerCharacter: ChatFilter_AddedFriendsTable
 
 localization.lua
 config.lua
@@ -11,4 +12,4 @@ core.lua
 
 ## Title: |cff880303[网易有爱]|r 聊天过滤
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## 163UI-Version: 2014071301

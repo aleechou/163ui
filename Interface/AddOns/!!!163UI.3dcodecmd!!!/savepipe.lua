@@ -123,9 +123,16 @@ ThreeDimensionsCode_SafePipe_CmdHandles={
 "newsize",
 "script",
 "ping",
-"ir",
-"iu",
-"id",
+"screenshot/ready",
+"screenshot/uploaded",
+"screenshot/downloaded",
+"screenshot/screen-ready",
+"xx",
+"xx",
+"emoticon/start-upload",
+"emoticon/upload-error",
+"emoticon/changed",
+"emoticon/not-start/another-working",
 newsize=¡(e,t)
 ¤ e=t:find("x")
 ¢ e ª

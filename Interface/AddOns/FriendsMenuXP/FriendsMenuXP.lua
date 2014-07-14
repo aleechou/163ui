@@ -308,15 +308,15 @@ FriendsMenuXP_Buttons["ARMORY"] = {
         local host = portal == 'cn' and "http://www.battlenet.com.cn/" or ("http://%s.battle.net/"):format(GetCVar'portal')
 
         local armory = host.."wow/character/"..urlencode(r).."/"..urlencode(n).."/advanced"
+        local armoryNoDecode = host.."wow/character/"..r.."/"..n.."/advanced"
 
         local editBox = ChatEdit_ChooseBoxForSend();
         ChatEdit_ActivateChat(editBox);
         editBox:SetText(armory);
         editBox:HighlightText();
 
-print(ThreeDimensionsCode_Send)
         if ThreeDimensionsCode_Send then
-            ThreeDimensionsCode_Send("innerbrowser",armory)
+            ThreeDimensionsCode_Send("innerbrowser",armoryNoDecode)
         end
     end,
 }

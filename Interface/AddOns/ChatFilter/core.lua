@@ -226,6 +226,7 @@ end
 
 ChatFilter:RegisterEvent("ADDON_LOADED")
 ChatFilter:RegisterEvent("PLAYER_ENTERING_WORLD")
+ChatFilter:RegisterEvent("VARIABLES_LOADED")
 
 ChatFilter:SetScript("OnEvent", function(self, event)
 	if (not Config.Enabled) then return end
@@ -280,6 +281,19 @@ ChatFilter:SetScript("OnEvent", function(self, event)
 				end
 			end
 		end
+	elseif (event == "VARIABLES_LOADED") then
+		if not ChatFilter_AddedFriendsTable then 
+			ChatFilter_AddedFriendsTable = {}
+		end
+
+		-- 清理 ChatFilter_AddedFriendsTable 里残留的临时好友
+		for k in pairs(ChatFilter_AddedFriendsTable) do
+			print(GetTime(), "清理残留的临时好友",k)
+			RemoveFriend(k)
+			ChatFilter_AddedFriendsTable[k] = nil
+		end
+
+		ChatFilter_AddedFriendsTable = AddedTable
 	end
 end)
 

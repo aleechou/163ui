@@ -1,7 +1,7 @@
 U1RegisterAddon("Accountant_Classic", { 
     title = "收支统计",
     tags = {TAG_TRADING},
-    defaultEnable = 1,
+    defaultEnable = 0,
 
     minimap = "AccountantButton",
 
