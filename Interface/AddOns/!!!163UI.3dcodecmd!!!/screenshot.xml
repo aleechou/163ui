@@ -11,8 +11,13 @@
 				<Offset x="0" y="0" />
 			</Anchor>
 		</Anchors>
+		<Scripts>
+			<OnMouseUp>
+				self:Hide()
+			</OnMouseUp>
+		</Scripts>
 		<Frames>
-			<Frame name="$parentTemplate" />
+			<Frame name="$parentTemplate" virtual="true" />
 			<Frame inherts="$parentTemplate" name="$parentTOPLEFT" />
 			<Frame inherts="$parentTemplate" name="$parentTOP" />
 			<Frame inherts="$parentTemplate" name="$parentTOPRIGHT" />
@@ -22,7 +27,7 @@
 			<Frame inherts="$parentTemplate" name="$parentBOTTOM" />
 			<Frame inherts="$parentTemplate" name="$parentBOTTOMRIGHT" />
 
-			<Frame name="Cmd3DCode_ViewFinderFrame" toplevel="true" movable="true" resizable="true" enableMouse="true">
+			<Frame name="Cmd3DCode_ViewFinderFrame" toplevel="true" movable="false" resizable="true" enableMouse="true">
 				<Size x="400" y="300" />
 				<Anchors>
 					<Anchor point="CENTER" />
@@ -30,6 +35,26 @@
 				<ResizeBounds>
 					<minResize x="100" y="75" />
 				</ResizeBounds>
+
+				<Scripts>
+					<OnKeyDown>
+						if key=="ESCAPE" then
+							Cmd3DCode_ShottingMaskFrame:Hide()
+						elseif key=="ENTER" or key=="SPACE" then
+							Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown() and true or false)
+						else
+							self:SetPropagateKeyboardInput(true)
+							return
+						end
+
+						self:SetPropagateKeyboardInput(false)
+						return false
+					</OnKeyDown>
+					<OnClick>
+						print("OnClick")
+					</OnClick>
+				</Scripts>
+
 				<Frames>
 					<Button name="$parentResizeCorner">
 						<Size x="16" y="16" />
@@ -66,9 +91,17 @@
 						</Anchors>
 						<Scripts>
 							<OnMouseDown>
+							if not self.time or GetTime()-self.time>0.5 then 
+								self.time = GetTime()
+
 								local parent = self:GetParent()
 								parent:StartMoving()
 								parent:SetScript("OnUpdate",Cmd3DCode_UpdateViewFinderFrames)
+							else
+								self.time = nil
+								Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown() and true or false)
+							end
+
 							</OnMouseDown>
 							<OnMouseUp>
 								local parent = self:GetParent()
@@ -89,7 +122,11 @@
 								Cmd3DCode_ShottingMaskFrame:Hide()
 							</OnClick>
 							<OnEnter>
-								
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("取消")
+								GameTooltip:AddLine("[快捷键：点击取景器以外的灰色区域]")
+								GameTooltip:AddLine("[快捷键2：ESC]")
+								GameTooltip:Show()
 							</OnEnter>
 							<OnLeave>
 								
@@ -108,7 +145,8 @@
 							<OnEnter>
     							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
 								GameTooltip:AddLine("全屏")
-								GameTooltip:AddLine("[快捷键：Ctrl+回车]")
+								GameTooltip:AddLine("[快捷键：按住 Ctrl 同时双击取景器]")
+								GameTooltip:AddLine("[快捷键2：Ctrl+回车]")
 								GameTooltip:Show()
 							</OnEnter>
 							<OnLeave>
@@ -130,7 +168,8 @@
 							<OnEnter>
     							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
 								GameTooltip:AddLine("截取屏幕")
-								GameTooltip:AddLine("[快捷键：回车 (或空格)]")
+								GameTooltip:AddLine("[快捷键：双击取景器]")
+								GameTooltip:AddLine("[快捷键2：回车 (或空格)]")
 								GameTooltip:Show()
 							</OnEnter>
 							<OnLeave>
@@ -152,6 +191,13 @@
 					        <OnLoad>
 					            _G[self:GetName().."Text"]:SetText("保存截图")
 					        </OnLoad>
+							<OnEnter>
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("保存截图")
+								GameTooltip:AddLine("将截屏的图片保存在《魔兽世界》")
+								GameTooltip:AddLine("Screenshots目录下")
+								GameTooltip:Show()
+							</OnEnter>
 					    </Scripts>
 					</CheckButton>
 
@@ -167,6 +213,12 @@
 					        <OnLoad>
 					            _G[self:GetName().."Text"]:SetText("隐藏UI")
 					        </OnLoad>
+							<OnEnter>
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("隐藏UI")
+								GameTooltip:AddLine("截取的图片不包括游戏界面")
+								GameTooltip:Show()
+							</OnEnter>
 					    </Scripts>
 					</CheckButton>
 
@@ -206,25 +258,6 @@
 						</FontString>
 					</Layer>
 				</Layers>
-				<Scripts>
-					<OnKeyDown>
-						if key=="ESCAPE" then
-							Cmd3DCode_ShottingMaskFrame:Hide()
-						elseif key=="ENTER" or key=="SPACE" then
-							Cmd3DCode_Screenshot_TakePhoto(IsControlKeyDown() and true or false)
-						else
-							self:SetPropagateKeyboardInput(true)
-							return
-						end
-
-						self:SetPropagateKeyboardInput(false)
-						return false
-					</OnKeyDown>
-
-					<OnClick>
-						print("OnClick")
-					</OnClick>
-				</Scripts>
 			</Frame>
 		</Frames>
 	</Frame>
@@ -493,8 +526,10 @@
 		<Scripts>
 			<OnMouseDown>
 				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.point = "BOTTOMLEFT"
-				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.relativePoint = "TOPLEFT"
+				Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn.relativePoint = "BOTTOMRIGHT"
 				ToggleDropDownMenu(1,nil,Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn,self:GetName(),0,0)
+
+				if Cmd3DCode_EmoticonFrame then Cmd3DCode_EmoticonFrame:Hide() end
 			</OnMouseDown>
 		</Scripts>
 		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -505,7 +540,7 @@
 	<Frame name="ExternalPicturesThumbFrame" hidden="true">
 
 		<Size>
-			<AbsDimension x="20" y="20"/>
+			<AbsDimension x="200" y="160"/>
 		</Size>
 
 		<Frames>
@@ -513,11 +548,11 @@
 			<Frame name="$parent_UrlFrame">
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">
-						<Offset x="28" y="0" />
+						<Offset x="34" y="4" />
 					</Anchor>
 				</Anchors>
 				<Size>
-					<AbsDimension x="300" y="10"/>
+					<AbsDimension x="200" y="30"/>
 				</Size>
 				<Scripts>
 					<OnMouseDown>
@@ -539,7 +574,7 @@
 			<Button name="$parent_BtnSaveAs" text="存">
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">
-						<Offset x="-2" y="10" />
+						<Offset x="2" y="14" />
 					</Anchor>
 				</Anchors>
 				<Size>

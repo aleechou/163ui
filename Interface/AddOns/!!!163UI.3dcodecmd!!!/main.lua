@@ -60,22 +60,26 @@ o=o+1
 Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
 e:SetFrameStrata("TOOLTIP")
 e:SetFrameLevel(128)
-e:EnableKeyboard(Ó);
+e:EnableKeyboard(Ó)
 e:SetPropagateKeyboardInput(Ó);
-e:SetScript("OnKeyDown",É(t,e,...)
-Ê IsControlKeyDown()Á IsAltKeyDown()Á(e=="PAGEUP"Ï e=="PAGEDOWN")Ò
-Ê e=="PAGEDOWN"Ò
+e.PropagateKeyboardInput=Ó
+e:SetScript("OnKeyDown",É(a,t,...)
+Ê IsControlKeyDown()Á IsAltKeyDown()Á(t=="PAGEUP"Ï t=="PAGEDOWN")Ò
+Ê t=="PAGEDOWN"Ò
 ThreeDimensionsCode_Savepipe_Yin()
-Å e=="PAGEUP"Ò
+Å t=="PAGEUP"Ò
 ThreeDimensionsCode_Savepipe_Yang()
 Æ
-Å IsControlKeyDown()Á e=="PRINTSCREEN"Ò
+Å IsControlKeyDown()Á t=="PRINTSCREEN"Ò
 Cmd3DCode_Screenshot_Start()
 Ä
-t:SetPropagateKeyboardInput(Ó)
+Ê Î e.PropagateKeyboardInput Ò
+a:SetPropagateKeyboardInput(Ó)
+Æ
 Ñ
 Æ
-t:SetPropagateKeyboardInput(Ç)
+e.PropagateKeyboardInput=Ç
+a:SetPropagateKeyboardInput(Ç)
 Ñ Ç
 Æ)
 Ì É s()
