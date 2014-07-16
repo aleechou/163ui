@@ -1,0 +1,78 @@
+## Interface: 50400
+## Title: Broker_CPU
+## Title-zhTW: |cff880303[FishUi]|r 系統監控 Broker_CPU
+## Title-zhCN: |cff880303[FishUi]|r 系统监控 Broker_CPU
+## Notes: A lightweight Data Broker plugin to visualize AddOn CPU/Memory usage, Framerate, Latency.
+## Notes-zhTW: 一個支持LDB類信息條的系統監控小插件。
+## Notes-zhCN: 一个支持LDB类信息条的系统监控小插件。
+## Author: Merah
+## Version: 50001
+## X-Website: https://brokercpu.googlecode.com
+## X-Email: ad@heapoverflow.com
+## X-Category: Miscellaneous, Development Tools
+# OptionalDeps: LibQTip-1.0, LibDBIcon-1.0
+## SavedVariables: BROKERCPUDB
+
+# LoadManagers: AddonLoader
+# X-LoadOn-Always: delayed
+
+
+Broker_CPU.lua
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Title: |cff880303[FishUi]|r 系統監控 Broker_CPU
+## X-Vendor: NetEase
+
