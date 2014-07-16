@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("ExtraCD", { 
     title = "内置CD监控",
-    defaultEnable = 1,
+    defaultEnable = 0,
     tags = { TAG_COMBATINFO, },
     secure = 1,
     nopic= 1,
