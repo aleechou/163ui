@@ -1,43 +1,35 @@
 local base_char,keywords=192,{"and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while",}; function prettify(code) return code:gsub("["..string.char(base_char).."-"..string.char(base_char+#keywords).."]", 
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì h="!!!163UI.3dcodecmd!!!"
-È t=1,10 Ã
-Ì e=CreateFrame("Frame","Cmd3DCode_Emoticon_ChatFrameButton"..t,_G["ChatFrame"..t.."EditBox"],"Cmd3DCode_Emoticon_ChatFrameButtonTemplate")
-e:SetPoint("LEFT","Cmd3DCode_Screenshot_ChatFrameButton"..t,"RIGHT",-8,0)
-Ì a=e:CreateTexture()
-a:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
-a:SetAllPoints(e)
-Ì a=e:CreateFontString()
-a:SetFontObject(GameFontNormalSmall)
-a:SetText("è¡¨")
-a:SetAllPoints(e)
+É createChatLeftBtn(o,e,a,t,i)
+Ì e=CreateFrame("Frame",e,t,a)
+e:SetPoint("BOTTOM",t,"TOP",0,i)
+e.t=e:CreateTexture()
+e.t:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
+e.t:SetAllPoints(e)
+e.fontstring=e:CreateFontString()
+e.fontstring:SetFontObject(GameFontNormalSmall)
+e.fontstring:SetText(o)
+e.fontstring:SetAllPoints(e)
 e:Show()
-_G["ChatFrame"..t.."EditBox"].btnemoticon=e
+Ñ e
 Æ
-hooksecurefunc("ChatEdit_DeactivateChat",É(e)
-Ê e.btnemoticon Ò
-e.btnemoticon:Hide()
-Æ
-Æ)
-hooksecurefunc("ChatEdit_ActivateChat",É(e)
-Ê e.btnemoticon Ò
-e.btnemoticon:Show()
-Æ
-Æ)
-Ì i=Cmd3DCode_CustomEmoticonsDB
-Ê Î i Ò i={}Æ
-Ê Î i.emoticons Ò i.emoticons={}Æ
+createChatLeftBtn("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate",ChatFrameMenuButton,5)
+createChatLeftBtn("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",Cmd3DCode_Emoticon_ChatFrameButton,-2)
+Ì o=Cmd3DCode_CustomEmoticonsDB
+Ê Î o Ò o={}Æ
+Ê Î o.emoticons Ò o.emoticons={}Æ
 Ì e=6
 Ì t=3
-Ì n=8
+Ì r=8
 Ì s=8
-Ì d=14
-Ì r=35
+Ì n=14
+Ì i=35
 Ì É a(o,t)
 Ì a="Cmd3DCode_Emoticon_Thumb"..o
 Ê Î _G[a]Á Î t Ò
 Ì t=CreateFrame("Frame",a,Cmd3DCode_EmoticonFrame,"Cmd3DCode_Emoticon_PictureTemplate")
-Ì a=o%e*(s+t:GetWidth())+d
-Ì e=-floor(o/e)*(n+t:GetHeight())-r
+Ì a=o%e*(s+t:GetWidth())+n
+Ì e=-floor(o/e)*(r+t:GetHeight())-i
 t:SetPoint("TOPLEFT",a,e)
 t.texture=_G[t:GetName().."_Texture"]
 t.checkbutton=_G[t:GetName().."_ChkBtn"]
@@ -54,27 +46,27 @@ e:Hide()
 Æ
 Ì d=(n-1)*t*e
 Ì r=n*t*e-1
-Ì o=0
+Ì i=0
 Ì s=0
-È i,e Ë pairs(i.emoticons)Ã
+È o,e Ë pairs(o.emoticons)Ã
 Ê Î e.type Ò
 e.texture="Interface\\AddOns\\"..h.."\\External\\Emoticons\\"..e.filename
-e.picid=i
+e.picid=o
 e.type="emoticon"
 Æ
-Ê o>=d Á o<=r Ò
+Ê i>=d Á i<=r Ò
 Ì t=a(s)
-Ì o,a=calExternalPictureSize(e,64,64)
+Ì i,a=calExternalPictureSize(e,64,64)
 t.texture:SetTexture(e.texture)
-t.texture:SetWidth(o)
+t.texture:SetWidth(i)
 t.texture:SetHeight(a)
-t.picid=i
+t.picid=o
 t:Show()
 s=s+1
 Æ
-o=o+1
+i=i+1
 Æ
-Ì e=ceil(o/(t*e))
+Ì e=ceil(i/(t*e))
 Ê e<1 Ò e=1 Æ
 Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum=n
 Cmd3DCode_EmoticonFrame_TxtPageNum.totalpages=e

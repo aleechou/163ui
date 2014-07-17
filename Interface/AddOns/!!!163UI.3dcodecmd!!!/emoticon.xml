@@ -7,7 +7,11 @@
 		</Size>
 		<Scripts>
 			<OnMouseDown>
-				Cmd3DCode_EmoticonFrame:Show()
+				if Cmd3DCode_EmoticonFrame:IsVisible() then
+					Cmd3DCode_EmoticonFrame:Hide()
+				else
+					Cmd3DCode_EmoticonFrame:Show()
+				end
 			</OnMouseDown>
 		</Scripts>
 		<NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -65,8 +69,8 @@
 			<AbsDimension x="450" y="300"/>
 		</Size>
 		<Anchors>
-			<Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="BOTTOMRIGHT">
-				<Offset x="3" y="-9" />
+			<Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="BOTTOMLEFT">
+				<Offset x="-4" y="-9" />
 			</Anchor>
 		</Anchors>
 		<Backdrop  bgFile="Interface\DialogFrame\UI-DialogBox-Gold-Background" tile="true">
@@ -106,6 +110,22 @@
 		</Scripts>	
 
 		<Frames>
+
+			<Button name="$parent_BtnClose" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="X">
+				<Size>
+					<AbsDimension x="50" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="5" y="0" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
 
 			<Button name="$parent_BtnImport" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="导入表情..">
 				<Size>
