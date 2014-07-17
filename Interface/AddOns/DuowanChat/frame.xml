@@ -334,6 +334,7 @@
         <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 	</Button>
 
+	<!--
 	<Button name="163scButton" frameStrata="MEDIUM" parent="UIParent" hidden ="false">
 
 		<Size>
@@ -372,4 +373,5 @@
         <PushedTexture  file="Interface\AddOns\DuowanChat\icon\text_push_frame" />
         <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 	</Button>
+	-->
 </Ui>
