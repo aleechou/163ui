@@ -27,6 +27,7 @@ UUI.DropDownItems = QuickMenus or {
     "dbm-core/range",
     "163ui_bossguide/",
     "!!!163ui!!!/displayLinkageStatusAsBuff",
+    "!!!163ui!!!/displayScrshotEmoticonBtn",
 }
 
 --[[------------------------------------------------------------
