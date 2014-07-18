@@ -32,4 +32,5 @@
   <Script file="InTabPanel.lua" />
   <Script file="TitleButton.lua" />
   <Script file="NumericBox.lua" />
+  <Script file="Feedback.lua" />
 </Ui>

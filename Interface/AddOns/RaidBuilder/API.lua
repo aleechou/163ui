@@ -188,12 +188,22 @@ function GetRaidBossNames(eventCode)
     return _RAID_DATA[eventCode].bossNames
 end
 
+local PVP_INDEXS = {
+    [0x4001001] = 1,
+    [0x4001002] = 2,
+    [0x4001003] = 3,
+    [0x4008001] = 4,
+}
+
+function IsHasPVPRating(eventCode)
+    return PVP_INDEXS[eventCode]
+end
+
 function GetPlayerPVPRating(eventCode)
-    if bit.band(eventCode, EVENT_MATCH_TYPE) ~= EVENT_TYPE_ARENA then
+    local index = PVP_INDEXS[eventCode]
+    if not index then
         return 0
     end
-    local index = bit.band(eventCode, EVENT_MATCH_ID)
-    index = index > 4 and 4 or index
     return (GetPersonalRatedInfo(index)) or 0
 end
 

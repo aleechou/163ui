@@ -1,5 +1,5 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 9)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 10)
 if not GUI then
     return
 end
@@ -213,6 +213,10 @@ function GUI:CallUrlDialog(url, title, showAlert)
         dialog.editBox:SetCursorPosition(0)
         dialog.editBox:SetFocus()
     end
+end
+
+function GUI:CallFeedbackDialog(addonName, callback)
+    self.Feedback:Open(addonName, callback)
 end
 
 function GUI:IsDialogVisible(key)

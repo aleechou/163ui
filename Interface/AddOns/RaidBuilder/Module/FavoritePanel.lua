@@ -104,15 +104,19 @@ function FavoritePanel:Add(btag, callback)
          return
     end
 
-    GUI:CallInputDialog(format(L['你确定将 |cffffd100%s|r 加入关注列表吗？'], btag), function(result, text)
-        if result then
-            Profile:AddFavorite(btag, text)
-            Logic:SendServer('SFAV', btag, 1)
-            if type(callback) == 'function' then
-                callback()
+    if Profile:IsInFavorite(btag) then
+        GUI:CallWarningDialog(L['|cffffd100%s|r 已经在关注列表。']:format(btag))
+    else
+        GUI:CallInputDialog(format(L['你确定将 |cffffd100%s|r 加入关注列表吗？'], btag), function(result, text)
+            if result then
+                Profile:AddFavorite(btag, text)
+                Logic:SendServer('SFAV', btag, 1)
+                if type(callback) == 'function' then
+                    callback()
+                end
             end
-        end
-    end, nil, L['好团长'], 255)
+        end, nil, L['好团长'], 255)
+    end
 end
 
 function FavoritePanel:Del(btag)

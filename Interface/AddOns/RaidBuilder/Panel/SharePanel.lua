@@ -103,7 +103,7 @@ function SharePanel:OnInitialize()
     self.ShareButton = ShareButton
     self.ShareList = ShareList
     self.ShareContent = ShareContent
-    self.db = RaidBuilder:GetDB().profile
+    self.db = Profile:GetCharacterDB().profile
 end
 
 function SharePanel:Share()
@@ -117,7 +117,7 @@ function SharePanel:Share()
     end
 
     if item.value == 'YIXIN' then
-        RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+        RaidBuilder:ShowModule('YixinConfirm', Profile:IsYiXinValid(), L['今日已达发送上限'])
     elseif item.value == 'BN_INLINE_TOAST_BROADCAST' then
         BNSetCustomMessage(content)
     elseif item.value == 'GROUP' then

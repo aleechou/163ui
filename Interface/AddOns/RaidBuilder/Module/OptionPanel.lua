@@ -17,9 +17,7 @@ function SettingPanel:OnInitialize()
     GUI:Embed(self, 'Owner')
     OptionPanel:RegisterPanel(L['设置'], self, 0)
 
-    self.db = RaidBuilder:GetDB()
-
-    self.minimapPack = self.db.profile.settings.minimapPack
+    self.db = Profile:GetCharacterDB()
 
     local options = {
         type = 'group',
@@ -66,11 +64,23 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = 5,
             },
+
+            socialEnabled = {
+                type = 'toggle',
+                name = function()
+                    return RaidBuilder:IsSocialServerEnabled() and L['开启集合石聊天'] or L['集合石聊天模块服务器调试中']
+                end,
+                width = 'full',
+                order = 6,
+                disabled = function()
+                    return not RaidBuilder:IsSocialServerEnabled()
+                end
+            },
             key = {
                 type = 'keybinding',
                 name = L['打开/关闭集合石组团按键设置'],
                 width = 'full',
-                order = 6,
+                order = 7,
                 get = function()
                     return GetBindingKey('RAIDBUILDER_TOGGLE')
                 end,

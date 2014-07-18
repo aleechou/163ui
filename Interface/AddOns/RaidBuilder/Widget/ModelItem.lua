@@ -57,6 +57,16 @@ function ModelItem:Constructor(parent)
     AssistantIcon:SetPoint('TOPLEFT', 5, 0)
     AssistantIcon:SetSize(20, 20)
 
+    local FavButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    FavButton:SetPoint('BOTTOM', 0, 5)
+    FavButton:SetSize(50, 22)
+    FavButton:SetText(L['关注'])
+    FavButton:SetScript('OnClick', function()
+        if self:GetBattleTag() then
+            FavoritePanel:Add(self:GetBattleTag())
+        end
+    end)
+
     self.Model = Model
     self.Name = Name
     self.RoleIcon = RoleIcon
@@ -64,6 +74,7 @@ function ModelItem:Constructor(parent)
     self.UnitState = UnitState
     self.YiXinButton = YiXinButton
     self.AssistantIcon = AssistantIcon
+    self.FavButton = FavButton
 end
 
 function ModelItem:UpdateGroupAssistant()
@@ -200,6 +211,7 @@ function ModelItem:SetUnit(unitId, isShowModel)
         Model:ClearModel()
     end
 
+    self:UpdateFavButton()
     self:UpdateClassColor()
     self:UpdateName()
     self:UpdateRoleIcon()
@@ -229,4 +241,15 @@ end
 
 function ModelItem:GetName()
     return self._name
+end
+
+function ModelItem:GetBattleTag()
+    local member = GroupCache:GetUnitInfo(UnitName(self:GetUnitId()))
+
+    return member and member:GetBattleTag() or nil
+end
+
+function ModelItem:UpdateFavButton()
+    local unit = self:GetUnitId()
+    self.FavButton:SetShown(UnitIsGroupLeader(unit) and self:GetBattleTag() and not UnitIsUnit('player', unit))
 end

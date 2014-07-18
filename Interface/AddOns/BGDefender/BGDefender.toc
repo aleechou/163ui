@@ -1,0 +1,19 @@
+﻿## Interface: 50400
+## Title: BGDefender
+## Title-zhCN:  |cff880303[网易有爱]|r PVP通报 BGDefender
+## Notes: announce incoming enemies in battle grounds with a single mouse click
+## Notes-zhTW: 一個小框架方便跟對戰場內的其他玩家交流或求助.
+## Notes-zhCN: 一个小框架方便跟对战场内的其他玩家交流或求助.
+## Version: 1.6.6
+## Author: Shaboo Frostmourne (Based on ABDefender by Riel Kil'Jaeden GER EU, based on FaraFrames by Farang).  Updated by Shoogi of Wyrmrest Accord
+## OptionalDeps:
+## SavedVariables:
+## SavedVariablesPerCharacter: BGD_Prefs
+
+BGDefender.xml
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014071901
+
+
+

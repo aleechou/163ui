@@ -25,7 +25,7 @@ function WebSupport:OnInitialize()
     self:RegisterEvent('ZONE_CHANGED_NEW_AREA', 'UpdateZone')
     self:RegisterEvent('PLAYER_ENTERING_WORLD', 'UpdateZone')
 
-    self.db = RaidBuilder:GetDB().profile.webInvite
+    self.db = Profile:GetCharacterDB().profile.webInvite
 
     if not self.db.record or time() - self.db.record > 3600 then
         wipe(self.db)

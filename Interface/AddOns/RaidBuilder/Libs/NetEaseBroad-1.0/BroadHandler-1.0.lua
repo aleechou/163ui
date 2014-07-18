@@ -13,7 +13,7 @@ local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandl
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
 local Base64 = assert(LibStub('NetEaseBase64-1.0', true), 'BroadHandler-1,0 requires NetEaseBase64-1.0')
 
-local MAJOR, MINOR = 'BroadHandler-1.0', 7
+local MAJOR, MINOR = 'BroadHandler-1.0', 8
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not BroadHandler then return end
 
@@ -287,4 +287,24 @@ if not BroadHandler.hooked then
     end)
 
     BroadHandler.hooked = true
+end
+
+if not BroadHandler.chatFilter then
+    local function AddMessageFilter(event, filter)
+        local list = ChatFrame_GetMessageEventFilters(event)
+        if list then
+            ChatFrame_RemoveMessageEventFilter(event, filter)
+            tinsert(list, 1, filter)
+        else
+            ChatFrame_AddMessageEventFilter(event, filter)
+        end
+    end
+
+    AddMessageFilter('CHAT_MSG_CHANNEL', function(_, _, _, _, _, _, _, _, _, _, channelName)
+        if BroadHandler.usedChannels[channelName] then
+            return true
+        end
+    end)
+
+    BroadHandler.chatFilter = true
 end

@@ -3,7 +3,9 @@
 ## Title-zhCN: |cffff565e[集合石]|r 聊天群记录模块
 ## Notes-zhCN: 魔兽集合石聊天群插件的聊天记录，关闭该插件|cffff0000将不|r保存聊天记录
 ## Dependencies: WowSocial
+## LoadOnDemand: 1
+## LoadWith: WowSocial
 ## SavedVariablesPerCharacter: WOWSOCIAL_DB_CHATLOG
 ## X-WoWBox-Ver: 1
 ## X-Vendor: NetEase
-## 163UI-Version: 2014062601
+## 163UI-Version: 2014071901

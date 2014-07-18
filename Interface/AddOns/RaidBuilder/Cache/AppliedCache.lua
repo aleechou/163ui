@@ -7,7 +7,7 @@ local CHECK_INTERVAL = 60
 local APPLIED_TIMEOUT = 1200
 
 function AppliedCache:OnInitialize()
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
     self.Limit = 15
 
     self:ScheduleRepeatingTimer('CheckAppliedList', CHECK_INTERVAL)

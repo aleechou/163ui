@@ -1,7 +1,7 @@
 
 local GUI = assert(LibStub('NetEaseGUI-1.0'), 'NetEaseGUI-DropMenu-1.0 requests NetEaseGUI')
 
-local WIDGET, VERSION = 'DropMenu', 3
+local WIDGET, VERSION = 'DropMenu', 4
 local DropMenu = GUI:NewClass(WIDGET, GUI:GetClass('GridView'), VERSION, 'Owner')
 if not DropMenu then
     return
@@ -101,12 +101,12 @@ function DropMenu:OnItemFormatted(button, data)
     local isTitle = data.isTitle
     local disabled = check(data.disabled, data, self:GetOwner())
 
-    if isTitle then
-        button:Disable()
-        button:SetDisabledFontObject('GameFontNormalSmallLeft')
-    elseif disabled then
+    if disabled then
         button:Disable()
         button:SetDisabledFontObject('GameFontDisableSmallLeft')
+    elseif isTitle then
+        button:Disable()
+        button:SetDisabledFontObject('GameFontNormalSmallLeft')
     else
         button:Enable()
     end

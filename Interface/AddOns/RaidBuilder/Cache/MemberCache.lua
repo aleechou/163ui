@@ -7,7 +7,7 @@ local CHECK_INTERVAL = 60
 local MEMBER_TIMEOUT = 900
 
 function MemberCache:OnInitialize()
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
     
     self.memberCache = {}
     self.memberList = {}
@@ -16,13 +16,13 @@ function MemberCache:OnInitialize()
     self:ScheduleRepeatingTimer('CheckMemberList', CHECK_INTERVAL)
 
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 10)
-    self:RegisterBucketEvent('PLAYER_LOGIN', 5)
 end
 
-function MemberCache:PLAYER_LOGIN()
-    self:UnregisterBucket('PLAYER_LOGIN')
-    self:GROUP_ROSTER_UPDATE()
-    self:CheckMemberList()
+function MemberCache:OnEnable()
+    self:ScheduleTimer(function()
+        self:GROUP_ROSTER_UPDATE()
+        self:CheckMemberList()
+    end, 5)
 end
 
 function MemberCache:GROUP_ROSTER_UPDATE()

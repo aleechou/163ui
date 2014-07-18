@@ -37,7 +37,7 @@ function CreatePanel:OnInitialize()
         L['你每天有3次机会向关注你的玩家发送活动通知。']
     )
     YiXinButton:SetScript('OnClick', function()
-        RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+        RaidBuilder:ShowModule('YixinConfirm', Profile:IsYiXinValid(), L['今日已达发送上限'])
     end)
 
     local ShareButton = Button:New(self)
@@ -346,7 +346,12 @@ function CreatePanel:Update()
     self.BlockerText:SetText(isLeader and L['请选择活动类型及活动形式'] or L['你不是队长，不能创建活动'])
 
     if eventCode then
-        self.PVPRating:SetEnabled(bit.band(EVENT_MATCH_TYPE, eventCode) == EVENT_TYPE_ARENA)
+        if IsHasPVPRating(eventCode) then
+            self.PVPRating:Enable()
+        else
+            self.PVPRating:Disable()
+            self.PVPRating:SetNumber(0)
+        end
     end
 end
 
@@ -354,29 +359,11 @@ function CreatePanel:SetEvent(event)
     self.event = event
 end
 
-function CreatePanel:GetVisibleNumber(box)
-    return box:IsVisible() and box:GetNumber() or 0
-end
-
--- function CreatePanel:GetMemberRole(role)
---     local tt = self:GetVisibleNumber(self.TankNumber)
---     local th = self:GetVisibleNumber(self.HealerNumber)
---     local td = self:GetVisibleNumber(self.DamagerNumber)
---     local tn = self:GetVisibleNumber(self.NoneNumber)
-
---     local ct = role == 'TANK' and 1 or 0
---     local ch = role == 'HEALER' and 1 or 0
---     local cd = role == 'DAMAGER' and 1 or 0
---     local cn = role == 'NONE' and 1 or 0
-
---     return PackMemberRole(ct, tt, ch, th, cd, td, cn, tn)
--- end
-
 function CreatePanel:CheckMemberRole(maxMember)
-    local tank   = self:GetVisibleNumber(self.TankNumber)
-    local healer = self:GetVisibleNumber(self.HealerNumber)
-    local damager= self:GetVisibleNumber(self.DamagerNumber)
-    local none   = self:GetVisibleNumber(self.NoneNumber)
+    local tank   = self.TankNumber:GetNumber()
+    local healer = self.HealerNumber:GetNumber()
+    local damager= self.DamagerNumber:GetNumber()
+    local none   = self.NoneNumber:GetNumber()
 
     local all = tank + healer + damager + none
     if all < 2 or all > maxMember then
@@ -428,10 +415,10 @@ function CreatePanel:CreateEvent()
     local rules = self.RulesBox:GetText()
 
     local event = Event:New()
-    event:SetRoleTotal('TANK', self:GetVisibleNumber(self.TankNumber))
-    event:SetRoleTotal('HEALER', self:GetVisibleNumber(self.HealerNumber))
-    event:SetRoleTotal('DAMAGER', self:GetVisibleNumber(self.DamagerNumber))
-    event:SetRoleTotal('NONE', self:GetVisibleNumber(self.NoneNumber))
+    event:SetRoleTotal('TANK', self.TankNumber:GetNumber())
+    event:SetRoleTotal('HEALER', self.HealerNumber:GetNumber())
+    event:SetRoleTotal('DAMAGER', self.DamagerNumber:GetNumber())
+    event:SetRoleTotal('NONE', self.NoneNumber:GetNumber())
     event:SetMinLevel(minLevel)
     event:SetMaxLevel(maxLevel)
 
@@ -491,10 +478,10 @@ function CreatePanel:CheckError()
     end
 
     local event = Event:New()
-    event:SetRoleTotal('TANK', self:GetVisibleNumber(self.TankNumber))
-    event:SetRoleTotal('HEALER', self:GetVisibleNumber(self.HealerNumber))
-    event:SetRoleTotal('DAMAGER', self:GetVisibleNumber(self.DamagerNumber))
-    event:SetRoleTotal('NONE', self:GetVisibleNumber(self.NoneNumber))
+    event:SetRoleTotal('TANK', self.TankNumber:GetNumber())
+    event:SetRoleTotal('HEALER', self.HealerNumber:GetNumber())
+    event:SetRoleTotal('DAMAGER', self.DamagerNumber:GetNumber())
+    event:SetRoleTotal('NONE', self.NoneNumber:GetNumber())
     event:SetMinLevel(minLevel)
     event:SetMaxLevel(maxLevel)
 

@@ -110,7 +110,6 @@ function YixinConfirm:OnInitialize()
 
     self:SetScript('OnHide', StaticPopupSpecial_Hide)
     
-    self.db = RaidBuilder:GetDB()
     self.Error = Error
     self.SendButton = SendButton
 end

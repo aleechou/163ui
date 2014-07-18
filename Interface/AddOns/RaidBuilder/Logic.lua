@@ -37,7 +37,7 @@ function Logic:OnInitialize()
     self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
     self:RegisterServer('SDH', 'SOCKET_DATA_HASH')
     self:RegisterServer('SVERSION', 'SOCKET_VERSION')
-    self:RegisterServer('SFANS', 'SOCKET_FANS')
+    self:RegisterServer('SARGS', 'SOCKET_ARGS')
 
     -- self:RegisterServer('EXCHANGE_RESULT')
 
@@ -113,7 +113,7 @@ function Logic:SOCKET_VERSION(_, version, url, isCompat)
 end
 
 function Logic:SOCKET_CONNECTED()
-    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource(true))
+    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource())
 end
 
 function Logic:SOCKET_DATA_VALUE(_, ...)
@@ -205,8 +205,10 @@ function Logic:SOCKET_DATA_HASH(_, key, hash)
     DataCache:SaveHash(key, hash)
 end
 
-function Logic:SOCKET_FANS(_, count)
-    self.fans = count
+function Logic:SOCKET_ARGS(_, fans, socialEnabled)
+    self.fans = fans
+
+    RaidBuilder:SetSocialEnabled(socialEnabled)
 end
 
 function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
@@ -276,7 +278,7 @@ function Logic:CreateEvent(...)
     local leaderProgression = GetPlayerRaidProgression(eventCode)
     local leaderPVPRating = GetPlayerPVPRating(eventCode)
     local faction = UnitFactionGroup('player')
-    local source = self:GetAddonSource()
+    local source = self:GetAddonSource(true)
 
     local event = EventCache:CacheEvent(
         leader,
@@ -394,7 +396,7 @@ function Logic:SendYiXinNotify()
     if not event then
         return
     end
-    local db = RaidBuilder:GetDB().profile.yiXin
+    local db = Profile:GetCharacterDB().profile.yiXin
     local resetTime = GetGameDateTime(true)
     local now = GetGameDateTime()
     db.times = db.lastSend < resetTime and now > resetTime and 1 or db.times + 1

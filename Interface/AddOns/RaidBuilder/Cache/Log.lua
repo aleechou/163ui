@@ -4,7 +4,7 @@ BuildEnv(...)
 Log = RaidBuilder:NewModule('Log', 'AceEvent-3.0', 'AceTimer-3.0')
 
 function Log:OnInitialize()
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
 end
 
 function Log:InsertLog(msg)

@@ -1,6 +1,6 @@
 ﻿U1RegisterAddon("ChatFilter", { 
     title = "聊天过滤",
-    defaultEnable = 1,
+    defaultEnable = 0,
     tags = { TAG_CHAT, },
     secure = 1,
 nopic = 1,

@@ -193,7 +193,7 @@ if not SocketClient.chatFilter then
         end
     end)
 
-    ChatFrame_AddMessageEventFilter('CHAT_MSG_WHISPER_INFORM', function(_, _, msg, sender)
+    local function InformFilter(_, _, msg, sender)
         if msg:match('<NETEASE>') then
             return true
         end
@@ -202,17 +202,22 @@ if not SocketClient.chatFilter then
                 return true
             end
         end
-    end)
+    end
+
+    ChatFrame_AddMessageEventFilter('CHAT_MSG_WHISPER_INFORM', InformFilter)
     
     FloatingChatFrameManager:SetScript('OnEvent', nil)
     FloatingChatFrameManager:SetScript('OnEvent', function(self, event, ...)
-        local filters = ChatFrame_GetMessageEventFilters(event)
-        if filters then
-            for _, filterFunc in pairs(filters) do
-                if filterFunc(self, event, ...) then
-                    return
-                end
-            end
+        -- local filters = ChatFrame_GetMessageEventFilters(event)
+        -- if filters then
+        --     for _, filterFunc in pairs(filters) do
+        --         if filterFunc(self, event, ...) then
+        --             return
+        --         end
+        --     end
+        -- end
+        if event == 'CHAT_MSG_WHISPER_INFORM' and InformFilter(self, event, ...) then
+            return
         end
         FloatingChatFrameManager_OnEvent(self, event, ...)
     end)

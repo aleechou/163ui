@@ -44,7 +44,7 @@ DataCache = RaidBuilder:NewModule('DataCache', 'AceSerializer-3.0')
 function DataCache:OnInitialize()
     self.hashCache = {}
     self.objects = {}
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetGlobalDB().global.serverDatas
 end
 
 function DataCache:NewObject(key)
@@ -65,7 +65,7 @@ end
 function DataCache:SaveHash(key, hash)
     self.hashCache[key] = hash
 
-    local data = self.db.profile.serverDatas[key]
+    local data = self.db[key]
     if data then
         self:SaveData(key, data)
     end
@@ -84,10 +84,10 @@ function DataCache:SaveData(key, data)
         return
     end
 
-    local isNew = self.db.profile.serverDatas[key] ~= data
+    local isNew = self.db[key] ~= data
 
     self.hashCache[key] = nil
-    self.db.profile.serverDatas[key] = data
+    self.db[key] = data
 
     local object = self:GetObject(key)
     if not object then
