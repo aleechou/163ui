@@ -34,17 +34,17 @@ LoggingChat(1);
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yang()"
-Ì É e(e,o,a)
+Ì É e(e,a,o)
 Ê Î GetMacroBody(e)Ò
-CreateMacro(e,"INV_MISC_QUESTIONMARK",o,Í)
-t("create macro",e);
+CreateMacro(e,"INV_MISC_QUESTIONMARK",a,Í)
+t("create macro",e)
 Ä
 t("macro has already exists",e)
 Æ
-SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
+SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,o,e)
 Æ
-Ì a=0
-Ì n=Ç
+Ì o=0
+Ì s=Ç
 Ì e=GetNumAddOns()
 Ì i=0
 È e=1,GetNumAddOns()Ã
@@ -53,9 +53,12 @@ SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 i=i+1
 Æ
 Æ
-É createChatLeftBtn(o,i,e,t,a)
-Ì e=CreateFrame("Frame",i,t,e)
-e:SetPoint("BOTTOM",t,"TOP",0,a)
+Ì É a(o,a,e,t,i)
+Ì e=CreateFrame("Frame",a,UIParent,e)
+Ê t Ò
+e:SetPoint("LEFT",t,"RIGHT",i,0)
+Æ
+e:SetFrameStrata("DIALOG")
 e.t=e:CreateTexture()
 e.t:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
 e.t:SetAllPoints(e)
@@ -64,11 +67,69 @@ e.fontstring:SetFontObject(GameFontNormalSmall)
 e.fontstring:SetText(o)
 e.fontstring:SetAllPoints(e)
 e:Show()
+Ê GetCVar("chatStyle")~="classic"Ò
+e:SetAlpha(.35)
+hooksecurefunc("ChatEdit_DeactivateChat",É(t)
+e:SetAlpha(.35)
+Æ)
+hooksecurefunc("ChatEdit_ActivateChat",É(t)
+e:SetAlpha(1)
+Æ)
+Æ
 Ñ e
 Æ
-Ì r=Ç
-Ì o=Ç
-Ì h=0
+Ì É e(...)
+Æ
+Ì É e(...)
+print("_",...)
+Æ
+É Toggle3DCodeCmdChatFrameBtnShown()
+Ê Î Cmd3DCode_Emoticon_ChatFrameButton Ï Î Cmd3DCode_Screenshot_ChatFrameButton Ò
+Ñ
+Æ
+Ì e=Î Î(U1DB Á U1DB.configs Á U1DB.configs["!!!163ui!!!/displayScrshotEmoticonBtn"]=="_NIL")
+Ê e Ò
+Cmd3DCode_Emoticon_ChatFrameButton:Hide()
+Cmd3DCode_Screenshot_ChatFrameButton:Hide()
+È e=1,10 Ã
+Ì t,i,o,n,a=_G["ChatFrame"..e.."EditBox"]:GetPoint()
+Ê t=="TOPLEFT"Ò
+_G["ChatFrame"..e.."EditBox"]:SetPoint(t,i,o,-5,a)
+Æ
+Æ
+Ä
+Cmd3DCode_Emoticon_ChatFrameButton:Show()
+Cmd3DCode_Screenshot_ChatFrameButton:Show()
+È e=1,10 Ã
+Ì t,i,o,n,a=_G["ChatFrame"..e.."EditBox"]:GetPoint()
+_G["ChatFrame"..e.."EditBox"]:SetPoint(t,i,o,13,a)
+Æ
+Cmd3DCode_Emoticon_ChatFrameButton:SetWidth(32)
+Cmd3DCode_Emoticon_ChatFrameButton:SetHeight(32)
+Cmd3DCode_Screenshot_ChatFrameButton:SetWidth(32)
+Cmd3DCode_Screenshot_ChatFrameButton:SetHeight(32)
+Cmd3DCode_Emoticon_ChatFrameButton:ClearAllPoints()
+Cmd3DCode_Emoticon_ChatFrameButton:SetPoint("RIGHT",ChatFrame1EditBox,"LEFT",8.4,0)
+Cmd3DCode_Screenshot_ChatFrameButton:ClearAllPoints()
+Cmd3DCode_Screenshot_ChatFrameButton:SetPoint("RIGHT",Cmd3DCode_Emoticon_ChatFrameButton,"LEFT",8,0)
+Æ
+Æ
+Ì É l()
+Ì e=a("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate")
+Ì e=a("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",e,-6)
+Toggle3DCodeCmdChatFrameBtnShown()
+Ê dwChannelMuteButton Ò
+SetOrHookScript(dwChannelMuteButton,"OnShow",Toggle3DCodeCmdChatFrameBtnShown)
+SetOrHookScript(dwChannelMuteButton,"OnHide",Toggle3DCodeCmdChatFrameBtnShown)
+Æ
+Ê DWCChatTab18 Ò
+SetOrHookScript(DWCChatTab18,"OnShow",Toggle3DCodeCmdChatFrameBtnShown)
+SetOrHookScript(DWCChatTab18,"OnHide",Toggle3DCodeCmdChatFrameBtnShown)
+Æ
+Æ
+Ì h=Ç
+Ì a=Ç
+Ì r=0
 Ì d=time()
 Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
 e:SetFrameStrata("TOOLTIP")
@@ -95,57 +156,50 @@ e.PropagateKeyboardInput=Ç
 a:SetPropagateKeyboardInput(Ç)
 Ñ Ç
 Æ)
-Ì É s()
-Ì a=createChatLeftBtn("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate",ChatFrameMenuButton,5)
-Ì i=createChatLeftBtn("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",Cmd3DCode_Emoticon_ChatFrameButton,-2)
-Ê dwChannelMuteButton Ò
-a:ClearAllPoints()
-a:SetPoint("LEFT",dwChannelMuteButton,"RIGHT",0,0)
-i:ClearAllPoints()
-i:SetPoint("LEFT",a,"RIGHT",-6,0)
-Æ
-o=Ó
-h=time()
-Ê Î n Ò
+Ì É n()
+a=Ó
+r=time()
+e:SetScript("OnEvent",null)
+Ê Î s Ò
 threeDimensionsCodeFrames_create()
-n=Ó
+s=Ó
 t("åˆ›å»º threeDimensionsCodeFrames_create()")
 Æ
-e:SetScript("OnEvent",null)
+l()
 Æ
 e:RegisterEvent("ADDON_LOADED")
-e:SetScript("OnEvent",É(h,n,e)
-Ê n=="ADDON_LOADED"Á e:sub(1,9)~="Blizzard_"Ò
-a=a+1
+e:SetScript("OnEvent",É(h,s,e)
+Ê s=="ADDON_LOADED"Á e:sub(1,9)~="Blizzard_"Ò
+o=o+1
 Æ
-t(n,e,e:sub(1,9),a,i)
-Ê a>=i Á Î o Ò
-s()
+t(s,e,e:sub(1,9),o,i)
+Ê o>=i Á Î a Ò
+n()
 Æ
 Æ)
-e:SetScript("OnUpdate",É(a,a)
-Ê r Ò
+e:SetScript("OnUpdate",É(o,o)
+Ê h Ò
 t("proccessed")
 Ñ
 Æ
-Ê time()-d>=3 Á Î o Ò
+Ê time()-d>=3 Á Î a Ò
 t("ç­‰å¾…æ‰€æœ‰æ’ä»¶åŠ è½½å®Œæˆè¶…æ—¶")
-s()
+n()
 Æ
-Ê Î o Ò
+Ê Î a Ò
 Ñ
 Æ
 Ê UnitAffectingCombat("player")Ò
 t("in combat, wait over")
 Ñ
 Æ
-Ê time()-h>=0 Ò
+Ê time()-r>=0 Ò
 DeleteMacro("3dcodecmd$Yin")
 DeleteMacro("3dcodecmd$Yin2")
 DeleteMacro("3dcodecmd$Yang")
 DeleteMacro("3dcodecmd$Yang2")
 ThreeDimensionsCode_SignalLamp.desireWidth();
-r=Ó
+h=Ó
 e:SetScript("OnUpdate",Í)
 Æ
 Æ)
@@ -161,8 +215,8 @@ ThreeDimensionsCode_Send("hi",t);
 print('make frames',GetTime()-e)
 Æ
 É ThreeDimensionsCode_IsFramesCreated()
-Ñ n
+Ñ s
 Æ
 É ThreeDimensionsCode_Tell_AllAddOnsLoaded()
-Ñ s()
+Ñ n()
 Æ]===], '@../!!!163UI.3dcodecmd!!!/main.lua'))()
