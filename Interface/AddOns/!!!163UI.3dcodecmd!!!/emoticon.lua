@@ -1,35 +1,20 @@
 local base_char,keywords=192,{"and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while",}; function prettify(code) return code:gsub("["..string.char(base_char).."-"..string.char(base_char+#keywords).."]", 
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ì h="!!!163UI.3dcodecmd!!!"
-É createChatLeftBtn(o,e,a,t,i)
-Ì e=CreateFrame("Frame",e,t,a)
-e:SetPoint("BOTTOM",t,"TOP",0,i)
-e.t=e:CreateTexture()
-e.t:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
-e.t:SetAllPoints(e)
-e.fontstring=e:CreateFontString()
-e.fontstring:SetFontObject(GameFontNormalSmall)
-e.fontstring:SetText(o)
-e.fontstring:SetAllPoints(e)
-e:Show()
-Ñ e
-Æ
-createChatLeftBtn("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate",ChatFrameMenuButton,5)
-createChatLeftBtn("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",Cmd3DCode_Emoticon_ChatFrameButton,-2)
-Ì o=Cmd3DCode_CustomEmoticonsDB
-Ê Î o Ò o={}Æ
-Ê Î o.emoticons Ò o.emoticons={}Æ
+Ì i=Cmd3DCode_CustomEmoticonsDB
+Ê Î i Ò i={}Æ
+Ê Î i.emoticons Ò i.emoticons={}Æ
 Ì e=6
 Ì t=3
-Ì r=8
+Ì n=8
 Ì s=8
-Ì n=14
-Ì i=35
+Ì r=14
+Ì d=35
 Ì É a(o,t)
 Ì a="Cmd3DCode_Emoticon_Thumb"..o
 Ê Î _G[a]Á Î t Ò
 Ì t=CreateFrame("Frame",a,Cmd3DCode_EmoticonFrame,"Cmd3DCode_Emoticon_PictureTemplate")
-Ì a=o%e*(s+t:GetWidth())+n
-Ì e=-floor(o/e)*(r+t:GetHeight())-i
+Ì a=o%e*(s+t:GetWidth())+r
+Ì e=-floor(o/e)*(n+t:GetHeight())-d
 t:SetPoint("TOPLEFT",a,e)
 t.texture=_G[t:GetName().."_Texture"]
 t.checkbutton=_G[t:GetName().."_ChkBtn"]
@@ -46,27 +31,27 @@ e:Hide()
 Æ
 Ì d=(n-1)*t*e
 Ì r=n*t*e-1
-Ì i=0
+Ì o=0
 Ì s=0
-È o,e Ë pairs(o.emoticons)Ã
+È i,e Ë pairs(i.emoticons)Ã
 Ê Î e.type Ò
 e.texture="Interface\\AddOns\\"..h.."\\External\\Emoticons\\"..e.filename
-e.picid=o
+e.picid=i
 e.type="emoticon"
 Æ
-Ê i>=d Á i<=r Ò
+Ê o>=d Á o<=r Ò
 Ì t=a(s)
-Ì i,a=calExternalPictureSize(e,64,64)
+Ì a,o=calExternalPictureSize(e,64,64)
 t.texture:SetTexture(e.texture)
-t.texture:SetWidth(i)
-t.texture:SetHeight(a)
-t.picid=o
+t.texture:SetWidth(a)
+t.texture:SetHeight(o)
+t.picid=i
 t:Show()
 s=s+1
 Æ
-i=i+1
+o=o+1
 Æ
-Ì e=ceil(i/(t*e))
+Ì e=ceil(o/(t*e))
 Ê e<1 Ò e=1 Æ
 Cmd3DCode_EmoticonFrame_TxtPageNum.pagenum=n
 Cmd3DCode_EmoticonFrame_TxtPageNum.totalpages=e
@@ -119,8 +104,8 @@ Cmd3DCode_CheckoutClientAndPrompt()
 Æ,
 }
 ThreeDimensionsCode_SafePipe_CmdHandles["emoticon/start-upload"]=É(t,e)
-Ì t,e=strsplit(",",e)
-print("æ­£åœ¨ä¸Šä¼ è¡¨æƒ…å›¾ç‰‡",(t+1).."/"..e,"...")
+Ì e,t=strsplit(",",e)
+print("æ­£åœ¨ä¸Šä¼ è¡¨æƒ…å›¾ç‰‡",(e+1).."/"..t,"...")
 Æ
 ThreeDimensionsCode_SafePipe_CmdHandles["emoticon/upload-error"]=É()
 print("è¡¨æƒ…å›¾ç‰‡ä¸Šä¼ é‡åˆ°é”™è¯¯")

@@ -281,9 +281,9 @@ function DWC_RefreshPosition()
         end
     end
 	for i=1, 10 do
-		local point,rel,relp=_G["ChatFrame"..i.."EditBox"]:GetPoint()
+		local point,rel,relp,x=_G["ChatFrame"..i.."EditBox"]:GetPoint()
         if point == "TOPLEFT" then
-		    _G["ChatFrame"..i.."EditBox"]:SetPoint(point,rel,relp,xo,yo)
+		    _G["ChatFrame"..i.."EditBox"]:SetPoint(point,rel,relp,x,yo)
         end
     end
     refreshing = nil

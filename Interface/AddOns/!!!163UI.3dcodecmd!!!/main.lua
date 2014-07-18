@@ -13,10 +13,10 @@ errro=Ó,
 Ì É a(...)
 Ê e.errro Ò print("[verbose]",...)Æ
 Æ
-É cmd3dcode_main_showlog(t,a)
-Ê t==Í Ò t="verbose"Æ
-Ê a==Í Ò a=Ó Æ
-e[t]=a
+É cmd3dcode_main_showlog(a,t)
+Ê a==Í Ò a="verbose"Æ
+Ê t==Í Ò t=Ó Æ
+e[a]=t
 Æ
 Ê(LoggingChat())Ò
 Ä
@@ -46,16 +46,29 @@ SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 Ì a=0
 Ì n=Ç
 Ì e=GetNumAddOns()
-Ì o=0
+Ì i=0
 È e=1,GetNumAddOns()Ã
 Ì a,a,a,t,a,a,a=GetAddOnInfo(e)
 Ê t Á Î IsAddOnLoadOnDemand(e)Ò
-o=o+1
+i=i+1
 Æ
 Æ
-Ì h=Ç
-Ì i=Ç
-Ì r=0
+É createChatLeftBtn(o,i,e,t,a)
+Ì e=CreateFrame("Frame",i,t,e)
+e:SetPoint("BOTTOM",t,"TOP",0,a)
+e.t=e:CreateTexture()
+e.t:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
+e.t:SetAllPoints(e)
+e.fontstring=e:CreateFontString()
+e.fontstring:SetFontObject(GameFontNormalSmall)
+e.fontstring:SetText(o)
+e.fontstring:SetAllPoints(e)
+e:Show()
+Ñ e
+Æ
+Ì r=Ç
+Ì o=Ç
+Ì h=0
 Ì d=time()
 Ì e=CreateFrame("frame","3DCodeCmdInit",UIParent)
 e:SetFrameStrata("TOOLTIP")
@@ -83,8 +96,16 @@ a:SetPropagateKeyboardInput(Ç)
 Ñ Ç
 Æ)
 Ì É s()
-i=Ó
-r=time()
+Ì a=createChatLeftBtn("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate",ChatFrameMenuButton,5)
+Ì i=createChatLeftBtn("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",Cmd3DCode_Emoticon_ChatFrameButton,-2)
+Ê dwChannelMuteButton Ò
+a:ClearAllPoints()
+a:SetPoint("LEFT",dwChannelMuteButton,"RIGHT",0,0)
+i:ClearAllPoints()
+i:SetPoint("LEFT",a,"RIGHT",-6,0)
+Æ
+o=Ó
+h=time()
 Ê Î n Ò
 threeDimensionsCodeFrames_create()
 n=Ó
@@ -97,34 +118,34 @@ e:SetScript("OnEvent",É(h,n,e)
 Ê n=="ADDON_LOADED"Á e:sub(1,9)~="Blizzard_"Ò
 a=a+1
 Æ
-t(n,e,e:sub(1,9),a,o)
-Ê a>=o Á Î i Ò
+t(n,e,e:sub(1,9),a,i)
+Ê a>=i Á Î o Ò
 s()
 Æ
 Æ)
 e:SetScript("OnUpdate",É(a,a)
-Ê h Ò
+Ê r Ò
 t("proccessed")
 Ñ
 Æ
-Ê time()-d>=3 Á Î i Ò
+Ê time()-d>=3 Á Î o Ò
 t("ç­‰å¾…æ‰€æœ‰æ’ä»¶åŠ è½½å®Œæˆè¶…æ—¶")
 s()
 Æ
-Ê Î i Ò
+Ê Î o Ò
 Ñ
 Æ
 Ê UnitAffectingCombat("player")Ò
 t("in combat, wait over")
 Ñ
 Æ
-Ê time()-r>=0 Ò
+Ê time()-h>=0 Ò
 DeleteMacro("3dcodecmd$Yin")
 DeleteMacro("3dcodecmd$Yin2")
 DeleteMacro("3dcodecmd$Yang")
 DeleteMacro("3dcodecmd$Yang2")
 ThreeDimensionsCode_SignalLamp.desireWidth();
-h=Ó
+r=Ó
 e:SetScript("OnUpdate",Í)
 Æ
 Æ)

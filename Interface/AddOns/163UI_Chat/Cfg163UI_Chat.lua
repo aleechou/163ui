@@ -78,25 +78,26 @@ U1RegisterAddon("163UI_Chat", {
         callback = function(cfg, v, loading)
             for i=1, 10 do
                 local editBox = _G["ChatFrame"..i.."EditBox"]
-                local _, rel = editBox:GetPoint()
+                local _, rel, _, x = editBox:GetPoint()
                 if editBox then
                     local offset = U1CfgFindChild(cfg, "offset")
                     offset = U1LoadDBValue(offset) or 0
+
                     if v then
                         editBox:ClearAllPoints()
-                        editBox:SetPoint("BOTTOMLEFT", rel, "TOPLEFT", -5, 20+offset)
-                        editBox:SetPoint("BOTTOMRIGHT", rel, "TOPRIGHT", 5, 20+offset)
+                        editBox:SetPoint("BOTTOMLEFT", rel, "TOPLEFT", x, 20+offset)
+                        editBox:SetPoint("BOTTOMRIGHT", rel, "TOPRIGHT", x, 20+offset)
                     elseif not loading then
                         editBox:ClearAllPoints()
-                        editBox:SetPoint("TOPLEFT", rel, "BOTTOMLEFT", -5, -2)
-                        editBox:SetPoint("TOPRIGHT", rel, "BOTTOMRIGHT", 5, -2)
+                        editBox:SetPoint("TOPLEFT", rel, "BOTTOMLEFT", x, -2)
+                        editBox:SetPoint("TOPRIGHT", rel, "BOTTOMRIGHT", x, -2)
                     end
                 end
             end
         end,
         {
             var = "offset",
-            default = 0,
+            default = 10,
             type= "spin",
             range = {-100, 100, 10},
             text = "位置偏移量",

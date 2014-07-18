@@ -370,19 +370,31 @@ U1RegisterAddon("!!!163UI!!!", {
     },
     
     {
-        text = L["有爱客户端"], type = "text",
+        text = L["有爱客户端相关"], type = "text",
         {
             var = "displayLinkageStatusAsBuff",
             default = true,
             text = "有爱连接状态显示为Buff",
-            tip = "说明`关闭此选项不会导致有爱连接断开，以及影响签到的时间积累",
+            tip = "说明`关闭此选项*不会*导致有爱连接断开，以及影响签到的时间积累",
             callback = function(cfg, v, loading)
                 if Toggle3DCodeCmdBuff  then
                     Toggle3DCodeCmdBuff()
                 end
             end
         },
+        {
+            var = "displayScrshotEmoticonBtn",
+            default = true,
+            text = "显示有爱截图和表情按钮",
+            tip = "说明`在聊天条里显示爱有截图和自定义表情按钮",
+            callback = function(cfg, v, loading)
+                if Toggle3DCodeCmdChatFrameBtnShown  then
+                    Toggle3DCodeCmdChatFrameBtnShown()
+                end
+            end
+        },
     },
+    
 });
 
 U1RegisterAddon("!!!163UI.pics!!!", { title = "插件说明图片", hide = 1, defaultEnable = 0 });
