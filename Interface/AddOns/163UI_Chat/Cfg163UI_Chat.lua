@@ -76,21 +76,34 @@ U1RegisterAddon("163UI_Chat", {
         type = "checkbox",
         text = "输入框位于窗口顶部",
         callback = function(cfg, v, loading)
+
+            local offset = U1CfgFindChild(cfg, "offset")
+            offset = U1LoadDBValue(offset) or 0
+            
             for i=1, 10 do
                 local editBox = _G["ChatFrame"..i.."EditBox"]
                 local _, rel, _, x = editBox:GetPoint()
                 if editBox then
-                    local offset = U1CfgFindChild(cfg, "offset")
-                    offset = U1LoadDBValue(offset) or 0
 
                     if v then
                         editBox:ClearAllPoints()
                         editBox:SetPoint("BOTTOMLEFT", rel, "TOPLEFT", x, 20+offset)
                         editBox:SetPoint("BOTTOMRIGHT", rel, "TOPRIGHT", x, 20+offset)
+
                     elseif not loading then
                         editBox:ClearAllPoints()
                         editBox:SetPoint("TOPLEFT", rel, "BOTTOMLEFT", x, -2)
                         editBox:SetPoint("TOPRIGHT", rel, "BOTTOMRIGHT", x, -2)
+                    end
+                end
+            end
+
+            if v then
+                -- 如果聊天窗口在顶部，挪开密语按钮
+                if WhisperPopTipFrame and WhisperPopTipFrame:IsVisible() then
+                    local p,r,rp,x,y = WhisperPopTipFrame:GetPoint()
+                    if p=="BOTTOM" and r==FriendsMicroButton and y<30 and x<300 then
+                        WhisperPopTipFrame:SetPoint("BOTTOM",FriendsMicroButton,"TOP",x,24)
                     end
                 end
             end
