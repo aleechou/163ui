@@ -193,7 +193,7 @@ Steps()
 
 
 	.step(function(){
-		
+
 		addonsJson.addonsDirUrl = addonsJson.packagesUrl
 
 		// 清理一些不需要发布的信息
@@ -250,7 +250,7 @@ Steps()
 	})
 	.step(function(){
 		child_process.exec(
-			"md2html history.md > history.html",{cwd:__dirname+"/workdir"}, this.holdButThrowError()
+			"md2html -f history.md > history.html",{cwd:__dirname+"/workdir"}, this.holdButThrowError()
 		)
 	})
 
