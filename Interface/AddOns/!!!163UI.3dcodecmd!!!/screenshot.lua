@@ -2,8 +2,8 @@ local base_char,keywords=192,{"and","break","do","else","elseif","end","false","
   function (c) return keywords[c:byte()-base_char]; end) end return assert(loadstring(prettify[===[Ê bit==Í Á bit32~=Í Ò
 bit=bit32
 Æ
-Ì t="!!!163UI.3dcodecmd!!!"
-Ì a
+Ì a="!!!163UI.3dcodecmd!!!"
+Ì e
 Cmd3DCode_ShottingMaskFrame.texture_screenshot=Cmd3DCode_ShottingMaskFrame:CreateTexture()
 Cmd3DCode_ShottingMaskFrame.texture_screenshot:SetAllPoints(Cmd3DCode_ShottingMaskFrame)
 Cmd3DCode_ShottingMaskFrame.texture_screenshot:Hide()
@@ -17,27 +17,27 @@ Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic:SetChecked(Cmd3DCode_ViewFinderFrame
 o:RegisterEvent("SCREENSHOT_SUCCEEDED")
 o:RegisterEvent("SCREENSHOT_FAILED")
 o:RegisterEvent("VARIABLES_LOADED")
-o:SetScript("OnEvent",É(o,e)
-Ê e=="SCREENSHOT_SUCCEEDED"Ï e=="SCREENSHOT_FAILED"Ò
+o:SetScript("OnEvent",É(o,t)
+Ê t=="SCREENSHOT_SUCCEEDED"Ï t=="SCREENSHOT_FAILED"Ò
 Ê o.onScreenshotFinished Ò
-o:onScreenshotFinished(e)
+o:onScreenshotFinished(t)
 Ä
-Ê e=="SCREENSHOT_SUCCEEDED"Ò
-Ê a.screenshot.attachPrtScr==Ç Ò
+Ê t=="SCREENSHOT_SUCCEEDED"Ò
+Ê e.screenshot.attachPrtScr==Ç Ò
 Ñ
 Æ
 Ì e={
 meta={time=time()},
-texture="Interface\\AddOns\\"..t.."\\External\\Image\\"..ExternalPictures_FetchUnusedPicIdx()..".tga",
+texture="Interface\\AddOns\\"..a.."\\External\\Image\\"..ExternalPictures_FetchUnusedPicIdx()..".tga",
 }
 ThreeDimensionsCode_Send("screenshot-load",json_encode(e))
 Æ
 Æ
-Å e=="VARIABLES_LOADED"Ò
+Å t=="VARIABLES_LOADED"Ò
 Ê Î Cmd3DCode_Settings Ò Cmd3DCode_Settings={}Æ
-a=Cmd3DCode_Settings
-Ê Î a.screenshot Ò a.screenshot={}Æ
-Cmd3DCode_ViewFinderFrame_ChkBtn_AttachPrtScr:SetChecked(a.screenshot.attachPrtScr~=Ç)
+e=Cmd3DCode_Settings
+Ê Î e.screenshot Ò e.screenshot={}Æ
+Cmd3DCode_ViewFinderFrame_ChkBtn_AttachPrtScr:SetChecked(e.screenshot.attachPrtScr~=Ç)
 Æ
 Æ)
 ThreeDimensionsCode_SafePipe_CmdHandles["screenshot/screen-ready"]=É(t,e)
@@ -69,31 +69,31 @@ CoreUIEnableTooltip(ExternalPicturesThumbFrame_BtnScrawl,"æ¶‚é¸¦")
 CoreUIEnableTooltip(ExternalPicturesThumbFrame_BtnOpenInBrowser,"åœ¨æµè§ˆå™¨ä¸­æ‰“å¼€")
 CoreUIEnableTooltip(ExternalPicturesThumbFrame_UrlFrame,"æˆªå›¾å·²ç»åŒæ­¥åˆ°ç½‘æ˜“æœåŠ¡å™¨ï¼Œç‚¹å‡»å¤åˆ¶ç½‘å€")
 É Cmd3DCode_UpdateViewFinderFrames()
-Ì d=UIParent:GetWidth()
-Ì r=UIParent:GetHeight()
+Ì r=UIParent:GetWidth()
+Ì d=UIParent:GetHeight()
 Ì t,e,a,o=Cmd3DCode_ViewFinderFrame:GetRect()
 Ê Î t Ï Î e Ï Î a Ï Î e Ò
 Ñ
 Æ
-Ì h=d-t-a
-Ì i=r-e-o
+Ì i=r-t-a
+Ì s=d-e-o
 Ì n=t+a
-Ì s=e+o
-Cmd3DCode_ShottingMaskFrame:SetWidth(d)
-Cmd3DCode_ShottingMaskFrame:SetHeight(r)
+Ì h=e+o
+Cmd3DCode_ShottingMaskFrame:SetWidth(r)
+Cmd3DCode_ShottingMaskFrame:SetHeight(d)
 Cmd3DCode_ShottingMaskFrameTOPLEFT:SetWidth(t)
-Cmd3DCode_ShottingMaskFrameTOPLEFT:SetHeight(i)
-Cmd3DCode_ShottingMaskFrameTOPLEFT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",0,s)
+Cmd3DCode_ShottingMaskFrameTOPLEFT:SetHeight(s)
+Cmd3DCode_ShottingMaskFrameTOPLEFT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",0,h)
 Cmd3DCode_ShottingMaskFrameTOP:SetWidth(a)
-Cmd3DCode_ShottingMaskFrameTOP:SetHeight(i)
-Cmd3DCode_ShottingMaskFrameTOP:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",t,s)
-Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetWidth(h)
-Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetHeight(i)
-Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",n,s)
+Cmd3DCode_ShottingMaskFrameTOP:SetHeight(s)
+Cmd3DCode_ShottingMaskFrameTOP:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",t,h)
+Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetWidth(i)
+Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetHeight(s)
+Cmd3DCode_ShottingMaskFrameTOPRIGHT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",n,h)
 Cmd3DCode_ShottingMaskFrameLEFT:SetWidth(t)
 Cmd3DCode_ShottingMaskFrameLEFT:SetHeight(o)
 Cmd3DCode_ShottingMaskFrameLEFT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",0,e)
-Cmd3DCode_ShottingMaskFrameRIGHT:SetWidth(h)
+Cmd3DCode_ShottingMaskFrameRIGHT:SetWidth(i)
 Cmd3DCode_ShottingMaskFrameRIGHT:SetHeight(o)
 Cmd3DCode_ShottingMaskFrameRIGHT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",n,e)
 Cmd3DCode_ShottingMaskFrameBOTTOMLEFT:SetWidth(t)
@@ -102,7 +102,7 @@ Cmd3DCode_ShottingMaskFrameBOTTOMLEFT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMa
 Cmd3DCode_ShottingMaskFrameBOTTOM:SetWidth(a)
 Cmd3DCode_ShottingMaskFrameBOTTOM:SetHeight(e)
 Cmd3DCode_ShottingMaskFrameBOTTOM:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",t,0)
-Cmd3DCode_ShottingMaskFrameBOTTOMRIGHT:SetWidth(h)
+Cmd3DCode_ShottingMaskFrameBOTTOMRIGHT:SetWidth(i)
 Cmd3DCode_ShottingMaskFrameBOTTOMRIGHT:SetHeight(e)
 Cmd3DCode_ShottingMaskFrameBOTTOMRIGHT:SetPoint("BOTTOMLEFT",Cmd3DCode_ShottingMaskFrame,"BOTTOMLEFT",n,0)
 Æ
@@ -119,11 +119,11 @@ Cmd3DCode_ViewFinderFrame:SetMovable(Ó)
 Cmd3DCode_ViewFinderFrame:SetResizable(Ó)
 Cmd3DCode_ViewFinderFrame:SetClampedToScreen(Ó)
 Cmd3DCode_ViewFinderFrameDone:SetClampedToScreen(Ó)
-Cmd3DCode_ViewFinderFrameDone:SetNormalTexture("Interface\\AddOns\\"..t.."\\Textures\\cupture.tga")
+Cmd3DCode_ViewFinderFrameDone:SetNormalTexture("Interface\\AddOns\\"..a.."\\Textures\\cupture.tga")
 Cmd3DCode_ViewFinderFrameFullScreen:SetClampedToScreen(Ó)
-Cmd3DCode_ViewFinderFrameFullScreen:SetNormalTexture("Interface\\AddOns\\"..t.."\\Textures\\fullscreen.tga")
+Cmd3DCode_ViewFinderFrameFullScreen:SetNormalTexture("Interface\\AddOns\\"..a.."\\Textures\\fullscreen.tga")
 Cmd3DCode_ViewFinderFrameCancel:SetClampedToScreen(Ó)
-É Cmd3DCode_Screenshot_Start(e,a)
+É Cmd3DCode_Screenshot_Start(e,t)
 Cmd3DCode_ViewFinderFrame:SetWidth(400)
 Cmd3DCode_ViewFinderFrame:SetHeight(300)
 Cmd3DCode_ViewFinderFrame:SetPoint("CENTER",Cmd3DCode_ShottingMaskFrame,"CENTER",0,0)
@@ -134,7 +134,7 @@ Cmd3DCode_ShottingMaskFrame.shottime=e
 Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic.orivalue=Î Î Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic:GetChecked()
 Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic:SetChecked(Ó)
 Cmd3DCode_ViewFinderFrame_ChkBtn_HideUI:Hide()
-Ì e="Interface\\AddOns\\"..t.."\\External\\Image\\"..a..".tga"
+Ì e="Interface\\AddOns\\"..a.."\\External\\Image\\"..t..".tga"
 Cmd3DCode_ShottingMaskFrame.texture_screenshot:SetTexture(e)
 Cmd3DCode_ShottingMaskFrame.texture_screenshot:Show()
 Ä
@@ -143,12 +143,15 @@ Cmd3DCode_ViewFinderFrame_ChkBtn_HideUI:Show()
 Cmd3DCode_ShottingMaskFrame.texture_screenshot:Hide()
 Æ
 Æ
-Ì a=ChatFrame1EditBox:CreateFontString()
-a:SetFontObject(GameFontNormalSmall)
-a:SetPoint("TOPLEFT")
-a:SetPoint("BOTTOMRIGHT")
-a:Hide()
-Ì É i(e,t)
+È e=1,10 Ã
+Ì e=_G["ChatFrame"..e.."EditBox"]
+e.frmPicUploading=e:CreateFontString()
+e.frmPicUploading:SetFontObject(GameFontNormalSmall)
+e.frmPicUploading:SetPoint("TOPLEFT")
+e.frmPicUploading:SetPoint("BOTTOMRIGHT")
+e.frmPicUploading:Hide()
+Æ
+Ì É t(e,t)
 e=e*t
 Ì a,e=math.modf(e,1)
 e=e>=.5 Á 1 Ï 0
@@ -184,35 +187,35 @@ print("åŠ è½½å¤–éƒ¨è¾¾åˆ°ä¸Šé™ï¼Œä½ éœ€è¦é‡è½½ç•Œé¢æ¸…ç†å·²åŠ è½½å›¾ç‰‡åç
 Æ
 Cmd3DCode_Screenshot_CapturePictures={}
 Cmd3DCode_Screenshot_ExternalPictures={}
-Ì É n(a)
+Ì É i(t)
 Ì e=ExternalPictures_FetchUnusedPicIdx()
 Ì t={
-texture="Interface\\AddOns\\"..t.."\\External\\Image\\"..e..".tga",
+texture="Interface\\AddOns\\"..a.."\\External\\Image\\"..e..".tga",
 width=0,
 height=0,
 loaded=Ç,
 uploaded=Ç,
 idx=e,
-time=a,
-title=date("æˆªå›¾ %H:%M:%S",a),
+time=t,
+title=date("æˆªå›¾ %H:%M:%S",t),
 }
 Cmd3DCode_Screenshot_CapturePictures[e]=t
 Ñ t
 Æ
-Ì É w(e,o,i)
-Ì a=ExternalPictures_FetchUnusedPicIdx()
-Ì t={
-texture="Interface\\AddOns\\"..t.."\\External\\Image\\"..a..".tga",
+Ì É p(t,o,i)
+Ì e=ExternalPictures_FetchUnusedPicIdx()
+Ì e={
+texture="Interface\\AddOns\\"..a.."\\External\\Image\\"..e..".tga",
 width=0,
 height=0,
 downloaded=Ç,
-idx=a,
-picid=e,
+idx=e,
+picid=t,
 channel=o,
 from=i,
 }
-Cmd3DCode_Screenshot_ExternalPictures[e]=t
-Ñ t
+Cmd3DCode_Screenshot_ExternalPictures[t]=e
+Ñ e
 Æ
 É calExternalPictureSize(e,a,t)
 Ê e.width<=a Á e.height<=t Ò
@@ -231,26 +234,26 @@ Cmd3DCode_Screenshot_ExternalPictures[e]=t
 Ê Î e Ò
 Ñ
 Æ
-Ì a,o=160,120
+Ì t,o=160,120
 Ê e.loaded Ò
-a,o=calExternalPictureSize(e,a,o)
+t,o=calExternalPictureSize(e,t,o)
 ExternalPicturesThumbFrame.thumb:SetTexture(e.texture)
 Ä
-ExternalPicturesThumbFrame.thumb:SetTexture("Interface\\AddOns\\"..t.."\\Textures\\external-pic-loading.tga")
+ExternalPicturesThumbFrame.thumb:SetTexture("Interface\\AddOns\\"..a.."\\Textures\\external-pic-loading.tga")
 Æ
-ExternalPicturesThumbFrame.thumb:SetWidth(a)
+ExternalPicturesThumbFrame.thumb:SetWidth(t)
 ExternalPicturesThumbFrame.thumb:SetHeight(o)
 ExternalPicturesThumbFrame.thumb.picidx=i
 Ñ ExternalPicturesThumbFrame.thumb
 Æ
-É Cmd3DCode_Screenshot_CapturePictures_FromPicId(t)
-È a,e Ë pairs(Cmd3DCode_Screenshot_CapturePictures)Ã
-Ê e.picid==t Ò
-Ñ e
+É Cmd3DCode_Screenshot_CapturePictures_FromPicId(e)
+È a,t Ë pairs(Cmd3DCode_Screenshot_CapturePictures)Ã
+Ê t.picid==e Ò
+Ñ t
 Æ
 Æ
 Ê Cmd3DCode_CustomEmoticonsDB Á Cmd3DCode_CustomEmoticonsDB.emoticons Ò
-Ì e=Cmd3DCode_CustomEmoticonsDB.emoticons[t]
+Ì e=Cmd3DCode_CustomEmoticonsDB.emoticons[e]
 Ê e Ò
 Ñ e
 Æ
@@ -294,44 +297,44 @@ t(e)
 e.onceHandles={}
 Æ
 Æ
-É Cmd3DCode_Screenshot_TakePhoto(t)
-Ì r=UIParent:IsVisible()
+É Cmd3DCode_Screenshot_TakePhoto(n)
+Ì h=UIParent:IsVisible()
 Ì a=Cmd3DCode_ViewFinderFrame_ChkBtn_HideUI:GetChecked()Á Ó Ï Ç
-Ì h=Î Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic:GetChecked()
+Ì r=Î Cmd3DCode_ViewFinderFrame_ChkBtn_SaveSrcPic:GetChecked()
 Ì e=Cmd3DCode_ShottingMaskFrame.shottime Á Cmd3DCode_ShottingMaskFrame.shottime Ï time()
 Cmd3DCode_ShottingMaskFrame:Hide()
 Ì É s()
-Ì r=n(e)
-Ì o,s=GetPlayerMapPosition("player")
-Ì d,n=UnitFactionGroup("player")
+Ì s=i(e)
+Ì o,i=GetPlayerMapPosition("player")
+Ì d,h=UnitFactionGroup("player")
 Ì e={
-texture=r.texture,
-delSrcPic=h,
+texture=s.texture,
+delSrcPic=r,
 meta={
 time=e,
 hideui=a,
-fullscreen=t,
+fullscreen=n,
 realm=GetRealmName(),
 character=GetUnitName("player"),
 zone=GetZoneText(),
 subzone=GetSubZoneText(),
 lng=o,
-lat=s,
+lat=i,
 race=UnitRace("player"),
-faction=n,
+faction=h,
 class=UnitClass("player"),
 gender=UnitSex("player"),
 level=UnitLevel("player"),
 },
 }
-Ê Î t Ò
+Ê Î n Ò
 Ì o=UIParent:GetWidth()
-Ì t=UIParent:GetHeight()
-Ì n,s,h,a=Cmd3DCode_ViewFinderFrame:GetRect()
-e.left=i(n/o,100)
-e.top=(1-i(s/t,100))-i(a/t,100)
-e.width=i(h/o,100)
-e.height=i(a/t,100)
+Ì a=UIParent:GetHeight()
+Ì h,n,s,i=Cmd3DCode_ViewFinderFrame:GetRect()
+e.left=t(h/o,100)
+e.top=(1-t(n/a,100))-t(i/a,100)
+e.width=t(s/o,100)
+e.height=t(i/a,100)
 Æ
 ThreeDimensionsCode_Send("screenshot",json_encode(e))
 Ê time()-cmd3dcode_lastPingTime()>45 Ò
@@ -358,7 +361,7 @@ ThreeDimensionsCode_SignalLamp.show()
 Ê e~="jpg"Ò
 SetCVar("screenshotFormat",e)
 Æ
-Ê a Á r Ò
+Ê a Á h Ò
 UIParent:Show()
 Æ
 s()
@@ -378,26 +381,26 @@ whileDead=Ó,
 hideOnEscape=Ó,
 preferredIndex=3,
 }
-Ì É i(t)
-Ì a=Cmd3DCode_Screenshot_CapturePictures[t]
+Ì É n(e)
+Ì a=Cmd3DCode_Screenshot_CapturePictures[e]
 Ê Î a Ò
-print("æœªèƒ½æ‰¾åˆ°åºå·ä¸º",t,"çš„æˆªå›¾")
+print("æœªèƒ½æ‰¾åˆ°åºå·ä¸º",e,"çš„æˆªå›¾")
 Ñ
 Æ
-Ì e=ChatEdit_ChooseBoxForSend()
-Ê Î e:IsShown()Ï ChatFrame1EditBox:GetAlpha()<1 Ò
-ChatEdit_ActivateChat(e)
+Ì t=ChatEdit_ChooseBoxForSend()
+Ê Î t:IsShown()Ï ChatFrame1EditBox:GetAlpha()<1 Ò
+ChatEdit_ActivateChat(t)
 Æ
-e:SetText("["..a.title.." "..t.."]")
+t:SetText("["..a.title.." "..e.."]")
 Æ
 É Cmd3DCode_Screenshot_ShowExternalPic(e,t)
 Ì t=Cmd3DCode_Screenshot_CapturePictures[t]
 Ê Î t Ò
 Ñ
 Æ
-Ì o,a=calExternalPictureSize(t,e:GetWidth(),e:GetHeight())
-e:SetWidth(o)
-e:SetHeight(a)
+Ì a,o=calExternalPictureSize(t,e:GetWidth(),e:GetHeight())
+e:SetWidth(a)
+e:SetHeight(o)
 Ì a=e:CreateTexture(Í,"BACKGROUND")
 a:SetTexture(t.texture)
 a:SetAllPoints(e)
@@ -405,10 +408,10 @@ a:SetAllPoints(e)
 Ì e=CreateFrame("Button","Cmd3DCode_Screenshot_ChatFrameButton_MenuBtn",UIParent,"UIDropDownMenuTemplate")
 e:Hide()
 UIDropDownMenu_Initialize(e,É(e,a)
-Ì s=_G["DropDownList"..(a Ï 1)]
+Ì i=_G["DropDownList"..(a Ï 1)]
 Ì e=1
 Ê#Cmd3DCode_Screenshot_CapturePictures Ò
-È n,o Ë pairs(Cmd3DCode_Screenshot_CapturePictures)Ã
+È s,o Ë pairs(Cmd3DCode_Screenshot_CapturePictures)Ã
 Ê o.loaded Á e<=25 Ò
 Ì t=UIDropDownMenu_CreateInfo()
 t.notCheckable=Ó
@@ -416,7 +419,7 @@ t.text=o.title
 t.arg1=o
 t.func=É(t,e)
 Ê e.uploaded Ò
-i(e.idx)
+n(e.idx)
 Ä
 print("æˆªå›¾å°šæœªä¸Šä¼ åˆ°ç½‘æ˜“æœ‰çˆ±æœåŠ¡å™¨ï¼Œè¯·ç­‰å¾…...")
 Æ
@@ -425,12 +428,12 @@ UIDropDownMenu_AddButton(t,a)
 Ì t=_G["DropDownList"..a.."Button"..e]
 Ê t Ò
 t.isExternalPic=Ó
-t.externalPicIdx=n
+t.externalPicIdx=s
 t.externalPicItem=o
 t.__scrshot_onenter=É(e,...)
 Ì t=Cmd3DCode_Screenshot_ExternalPicture_Thumb(e.externalPicIdx)
 Ê Î t Ò Ñ Æ
-ExternalPicturesThumbFrame:SetPoint("BOTTOMLEFT",s,"BOTTOMRIGHT",10,0)
+ExternalPicturesThumbFrame:SetPoint("BOTTOMLEFT",i,"BOTTOMRIGHT",10,0)
 ExternalPicturesThumbFrame:Show()
 Ê e.externalPicItem.picid Ò
 Ì e="http://w.163.com/"..e.externalPicItem.picid
@@ -478,7 +481,7 @@ GameTooltip:Hide()
 e=e+1
 Æ,"MENU")
 ExternalPicturesThumbFrame_BtnScrawl:SetScript("OnClick",É(e)
-Ì t=n(e.picitem.time)
+Ì t=i(e.picitem.time)
 t.title=e.picitem.title.."(æ¶‚é¸¦)"
 Ì e={
 addonName="!!!163UI.3dcodecmd!!!",
@@ -517,10 +520,10 @@ e:__scrshot_onleave(...)
 Æ
 Æ)
 Æ
-Ì n="%[.+w%.163%.com%/(%w+).+%]"
-Ì É r(e,t)
+Ì i="%[.+w%.163%.com%/(%w+).+%]"
+Ì É l(e,t)
 Ğ
-startpos,endpos,picid=string.find(e,n)
+startpos,endpos,picid=string.find(e,i)
 Ê startpos Ò
 e=e:sub(0,startpos-1)
 ..(t(picid)Ï"")..e:sub(endpos+1)
@@ -528,53 +531,62 @@ e=e:sub(0,startpos-1)
 Ô Î startpos
 Ñ e
 Æ
-Ì É h(e,a,i)
+Ì É i(e,i,t)
 Ê Î e Ò Ñ"unkown picture"Æ
-Ì o=e.texture Ï"Interface\\AddOns\\"..t.."\\External\\Image\\"..e.idx..".tga"
-Ì t,a=calExternalPictureSize(e,a,i)
+Ì o=e.texture Ï"Interface\\AddOns\\"..a.."\\External\\Image\\"..e.idx..".tga"
+Ì a,t=calExternalPictureSize(e,i,t)
 Ê e.type=="emoticon"Ò
-Ñ"|T"..o..":"..a..":"..t.."|t"
+Ñ"|T"..o..":"..t..":"..a.."|t"
 Ä
-Ñ"|Hviewpic:"..e.picid.."|h|T"..o..":"..a..":"..t.."|t|h"
+Ñ"|Hviewpic:"..e.picid.."|h|T"..o..":"..t..":"..a.."|t|h"
 Æ
 Æ
 ThreeDimensionsCode_SafePipe_CmdHandles["screenshot/ready"]=É(t,e)
-Ì t,i,o=strsplit(",",e)
+Ì t,o,a=strsplit(",",e)
 t=tonumber(t)
 Ì e=Cmd3DCode_Screenshot_CapturePictures[t]
 Ê Î e Ò
 print("Cmd3DCode_Screenshot_CapturePictures[picidx] not exits",t)
 Ñ
 Æ
-e.width=tonumber(i)Ï 0
-e.height=tonumber(o)Ï 0
+e.width=tonumber(o)Ï 0
+e.height=tonumber(a)Ï 0
 e.loaded=Ó
-print("æ­£åœ¨ä¸Šä¼  "..e.title.." ...")
-a:SetText("æ­£åœ¨ä¸Šä¼  "..e.title.." ...")
-a:Show()
+È t=1,10 Ã
+Ê _G["ChatFrame"..t.."Tab"]:IsVisible()Ò
+_G["ChatFrame"..t]:AddMessage("æ­£åœ¨ä¸Šä¼  "..e.title.." ...")
+Ì t=_G["ChatFrame"..t.."EditBox"]
+t.frmPicUploading:SetText("æ­£åœ¨ä¸Šä¼  "..e.title.." ...")
+t.frmPicUploading:Show()
+Æ
+Æ
 Æ
 ThreeDimensionsCode_SafePipe_CmdHandles["screenshot/uploaded"]=É(t,e)
-Ì t,o=strsplit(",",e)
+Ì t,a=strsplit(",",e)
 t=tonumber(t)
 Ì e=Cmd3DCode_Screenshot_CapturePictures[t]
 Ê Î e Ò
 Ñ
 Æ
-a:Hide()
-Ê o=="!"Ò
+È e=1,10 Ã
+Ê _G["ChatFrame"..e.."Tab"]:IsVisible()Ò
+_G["ChatFrame"..e.."EditBox"].frmPicUploading:Hide()
+Æ
+Æ
+Ê a=="!"Ò
 print(e.title,"ä¸Šä¼ å¤±è´¥")
 Ñ
 Ä
 print(e.title,"ä¸Šä¼ å®Œæˆ")
 Æ
-Ì a="http://w.163.com/"..o
-Cmd3DCode_Screenshot_ExternalPictures[o]=e
+Ì o="http://w.163.com/"..a
+Cmd3DCode_Screenshot_ExternalPictures[a]=e
 e.uploaded=Ó
-e.picid=o
-i(t)
+e.picid=a
+n(t)
 Cmd3DCode_Screenshot_CapturePictures_EmitUploded(t)
 Æ
-Ì É l(t,...)
+Ì É r(t,...)
 È e=1,select("#",...),2 Ã
 Ì e,a=select(e,...)
 Ê t==a Ò
@@ -583,7 +595,7 @@ Cmd3DCode_Screenshot_CapturePictures_EmitUploded(t)
 Æ
 Ñ Í
 Æ
-Ì É d(t,...)
+Ì É h(t,...)
 È e=1,select("#",...)Ã
 Ê select(e,...)==t Ò
 Ñ e
@@ -591,11 +603,11 @@ Cmd3DCode_Screenshot_CapturePictures_EmitUploded(t)
 Æ
 Ñ Ç
 Æ
-Ì É i(e)
-Ì t=GetRealmName()
-Ì a=#e-(#t+1)
-Ê e:sub(a+2)==t Ò
-Ñ e:sub(1,a)
+Ì É n(e)
+Ì a=GetRealmName()
+Ì t=#e-(#a+1)
+Ê e:sub(t+2)==a Ò
+Ñ e:sub(1,t)
 Ä
 Ñ e
 Æ
@@ -613,55 +625,55 @@ print("æœªèƒ½æ‰¾åˆ°IDä¸º",o,"çš„æˆªå›¾")
 e.downloaded=Ó
 e.width=tonumber(a)
 e.height=tonumber(t)
-Ì t="|Hplayer:"..e.from.author.."|h["..i(e.from.author).."]|h: å‘æ¥äº†å›¾ç‰‡ "
-t=t.."[ "..h(e,80,60).." ]"
-È a=1,10 Ã
-Ê _G["ChatFrame"..a.."Tab"]:IsVisible()Ò
-Ì o,n,i,s
+Ì t="|Hplayer:"..e.from.author.."|h["..n(e.from.author).."]|h: å‘æ¥äº†å›¾ç‰‡ "
+t=t.."[ "..i(e,80,60).." ]"
+È o=1,10 Ã
+Ê _G["ChatFrame"..o.."Tab"]:IsVisible()Ò
+Ì a,s,i,n
 Ê e.from.msgtype=="CHANNEL"Ò
-o=d(e.from.channel,GetChatWindowChannels(a))
-Ê o Ò
-Ì a=l(e.from.channel,GetChannelList())
-n,i,s=GetMessageTypeColor("CHANNEL"..a)
+a=h(e.from.channel,GetChatWindowChannels(o))
+Ê a Ò
+Ì a=r(e.from.channel,GetChannelList())
+s,i,n=GetMessageTypeColor("CHANNEL"..a)
 t="["..e.from.channelString.."] "..t
 Æ
 Ä
-o=d(e.from.msgtype,GetChatWindowMessages(a))
-n,i,s=GetMessageTypeColor(e.from.msgtype)
+a=h(e.from.msgtype,GetChatWindowMessages(o))
+s,i,n=GetMessageTypeColor(e.from.msgtype)
 Æ
-Ê o Ò
-_G["ChatFrame"..a]:AddMessage(t,n,i,s,e.from.guid)
-Æ
-Æ
+Ê a Ò
+_G["ChatFrame"..o]:AddMessage(t,s,i,n,e.from.guid)
 Æ
 Æ
-Ì n=0
-Ì É e(t,s,a,e,f,d,c,u,m,y,o,p,i,l,...)
-a=r(a,É(t)
-Ê s=="CHAT_MSG_WHISPER_INFORM"Ï e==GetUnitName("player",Ç).."-"..GetRealmName()Ò
-Ì e=Cmd3DCode_Screenshot_CapturePictures_FromPicId(t)
-Ì e=h(e,80,60)
+Æ
+Æ
+Ì h=0
+Ì É e(e,r,a,t,u,d,w,f,y,m,n,c,o,s,...)
+a=l(a,É(e)
+Ê r=="CHAT_MSG_WHISPER_INFORM"Ï t==GetUnitName("player",Ç).."-"..GetRealmName()Ò
+Ì e=Cmd3DCode_Screenshot_CapturePictures_FromPicId(e)
+Ì e=i(e,80,60)
 Ñ"[ "..e.." ]"
 Ä
-Ê i>n Ò
-n=i
+Ê o>h Ò
+h=o
 Ì a={
-author=e,
-msgtype=s:sub(10),
-channel=o,
+author=t,
+msgtype=r:sub(10),
+channel=n,
 channelString=d,
-guid=l,
+guid=s,
 }
-Ì a=w(t,o,a)
+Ì a=p(e,n,a)
 Ê time()-cmd3dcode_lastPingTime()>45 Ò
-print("æ”¶åˆ°æ¥è‡ª"..e.."çš„æˆªå›¾: w.163.com/"..t.." ,è¯·å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯æ˜¾ç¤ºæ­¤å›¾")
+print("æ”¶åˆ°æ¥è‡ª"..t.."çš„æˆªå›¾: w.163.com/"..e.." ,è¯·å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯æ˜¾ç¤ºæ­¤å›¾")
 Æ
-ThreeDimensionsCode_Send("loadpic",a.texture..","..t)
+ThreeDimensionsCode_Send("loadpic",a.texture..","..e)
 Æ
 Ñ""
 Æ
 Æ)
-Ñ#a<1,a,e,f,d,c,u,m,y,o,p,i,l,...
+Ñ#a<1,a,t,u,d,w,f,y,m,n,c,o,s,...
 Æ
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL",e)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY",e)
@@ -681,25 +693,25 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND",e)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK",e)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_DND",e)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER",e)
-Ì i=250
-Ì É n(t,e)
-Ê Î t:IsShown()Ò
+Ì t=250
+Ì É n(a,e)
+Ê Î a:IsShown()Ò
 e.cachedText=Í
 Ñ
 Æ
-i=math.max(t:GetWidth(),i)
-Ì t=e:GetText()Ï""
-Ê t==e.cachedText Ò Ñ Æ
-Ì t=r(t,É(e)
+t=math.max(a:GetWidth(),t)
+Ì a=e:GetText()Ï""
+Ê a==e.cachedText Ò Ñ Æ
+Ì a=l(a,É(e)
 Ì e=Cmd3DCode_Screenshot_ExternalPictures_FromPicId(e)
 Ê Î e Ò Ñ""Æ
 Ê e.width<=0 Ò Ñ""Æ
-Ñ h(e,100,75)
+Ñ i(e,100,75)
 Æ)
-Ê#t>0 Ò
-e:SetText(t)
-e.cachedText=t
-e:SetWidth(math.min(e:GetStringWidth(),i-14))
+Ê#a>0 Ò
+e:SetText(a)
+e.cachedText=a
+e:SetWidth(math.min(e:GetStringWidth(),t-14))
 Æ
 Æ
 Ì É i()
@@ -755,7 +767,11 @@ e=e:sub(1,t-1)
 ChatEdit_ChooseBoxForSend():SetText(e)
 Æ)
 hooksecurefunc("AutoCompleteEditBox_OnEscapePressed",É()
-a:Hide()
+È e=1,10 Ã
+Ê _G["ChatFrame"..e.."Tab"]:IsVisible()Ò
+_G["ChatFrame"..e.."EditBox"].frmPicUploading:Hide()
+Æ
+Æ
 Æ)
 Ì e=CreateFrame("FRAME","Cmd3DCode_Screenshot_PicViewer",UIParent)
 e:SetFrameStrata("TOOLTIP")
@@ -784,7 +800,7 @@ t:SetWidth(403)
 t:SetHeight(300)
 t.texture=t:CreateTexture(Í,"BACKGROUND")
 t.texture:SetAllPoints(t)
-Ì a={
+Ì o={
 viewpic=É(o,a,a,a,a,a)
 Ì a=Cmd3DCode_Screenshot_ExternalPictures[o]
 Ê Î a Ò
@@ -798,13 +814,13 @@ e:Show()
 Æ
 }
 Ì s=SetItemRef
-É SetItemRef(e,n,o,i)
+É SetItemRef(e,i,n,a)
 Ì t,h=strmatch(e,"^(.+):(.+)$")
-Ê Î a[t]Ò
-s(e,n,o,i)
+Ê Î o[t]Ò
+s(e,i,n,a)
 Ñ
 Æ
-a[t](h,e,n,o,i)
+o[t](h,e,i,n,a)
 Æ
 SLASH_3DCODECMDSCREENSHOT1="/ss"
 SlashCmdList["3DCODECMDSCREENSHOT"]=É()Cmd3DCode_Screenshot_Start()Æ]===], '@../!!!163UI.3dcodecmd!!!/screenshot.lua'))()
