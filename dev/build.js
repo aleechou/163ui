@@ -275,12 +275,12 @@ function mkU1PackageMeta(meta,cb){
 	Steps(
 		function(){
 			md5file("workdir/"+meta["upgraderFile"],this.holdButThrowError(function(err,md5){
-				meta["upgraderMD5"] = md5.toUpperCase()
+				meta["upgraderMD5"] = md5
 			}))
 		}
 		, function(){
 			md5file("workdir/"+meta["portableFile"],this.holdButThrowError(function(err,md5){
-				meta["portableMD5"] = md5.toUpperCase()
+				meta["portableMD5"] = md5
 			}))
 
 		}
