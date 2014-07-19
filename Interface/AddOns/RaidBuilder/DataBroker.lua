@@ -14,7 +14,7 @@ local ICON4 = [[|TInterface\AddOns\RaidBuilder\Media\DataBroker:12:12:0:0:128:32
 local DATA_BROKER_FORMAT = ('%s%%d   %s%%d   %s%%d'):format(ICON1, ICON2, ICON4)
 
 function DataBroker:OnInitialize()
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
 
     local BrokerObject = LDB:NewDataObject('RaidBuilder', {
         type = 'data source',
@@ -172,7 +172,7 @@ function DataBroker:RAIDBUILDER_SETTING_CHANGED(_, key, value, onUser)
         self.Minimap:SetShown(value)
     elseif key == 'panel' then
         self.BrokerPanel:SetShown(value)
-    elseif key == 'minimapPack' then
+    elseif key == 'minimapPack' or key == 'socialEnabled' then
         if onUser then
             GUI:CallWarningDialog(L['这项设置将在下次载入插件时生效。'], true)
         end
@@ -228,7 +228,7 @@ function DataBroker:CreateMenuTable()
             text = L['易信通知'],
             disabled = not event,
             func = function()
-                RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+                RaidBuilder:ShowModule('YixinConfirm', Profile:IsYiXinValid(), L['今日已达发送上限'])
             end
         },
         {

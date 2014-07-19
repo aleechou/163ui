@@ -34,7 +34,7 @@ local BROWSE_HEADER = {
         key = 'EventName',
         text = L['活动名称'],
         style = 'LEFT',
-        width = 150,
+        width = 175,
         showHandler = function(event)
             return event:GetEventName(), 1, 0.82, 0
         end,
@@ -57,7 +57,7 @@ local BROWSE_HEADER = {
     {
         key = 'MemberRole',
         text = L['人数'] .. '         ' .. L['可申请'],
-        width = 145,
+        width = 135,
         class = RaidBuilder:GetClass('MemberRoleGrid'),
         sortHandler = function(event)
             return event:GetRoleCurrentAll() - event:GetRoleTotalAll()

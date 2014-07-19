@@ -1,0 +1,21 @@
+
+DATEVERSION=$1
+PKGPATH=$2
+IGNOREADDONS=$3
+
+echo "pack full offline ..."
+cp $PKGPATH workdir/offline/163ui-full-offline-${DATEVERSION}.rar
+rm -r workdir/tmp/data/packages
+mkdir -p workdir/tmp/data/packages
+cp workdir/packages/*  workdir/tmp/data/packages/
+cd workdir/tmp
+rar a ../offline/163ui-full-offline-${DATEVERSION}.rar data
+cd -
+echo "done"
+
+
+echo "pack offline ..."
+cd ../Interface/AddOns
+rar a -inul ${IGNOREADDONS}  ../../dev/workdir/offline/163ui-offline-${DATEVERSION}.rar * 
+cd -
+echo "done"

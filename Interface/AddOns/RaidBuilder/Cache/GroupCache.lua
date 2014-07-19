@@ -6,10 +6,9 @@ GroupCache = RaidBuilder:NewModule('GroupCache', 'AceEvent-3.0', 'AceTimer-3.0',
 function GroupCache:OnInitialize()
     self.unitCache = {}
 
-    self.db = RaidBuilder:GetDB().profile.groupCacheProfile
+    self.db = Profile:GetCharacterDB().profile.groupCacheProfile
 
     self:RegisterBucketEvent({
-        'PLAYER_LOGIN',
         'GROUP_JOINED',
         'GROUP_ROSTER_UPDATE',
     }, 5, 'RefreshPlayerInfo')
@@ -26,6 +25,10 @@ function GroupCache:OnInitialize()
         self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'GROUP_ROSTER_UPDATE')
         self:GROUP_ROSTER_UPDATE()
     end, 30)
+end
+
+function GroupCache:OnEnable()
+    self:ScheduleTimer('RefreshPlayerInfo', 5)
 end
 
 function GroupCache:SaveUnitInfo(target, battleTag, class, level, itemLevel, pvpRating, stats, progression, fans, role)

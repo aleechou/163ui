@@ -7,7 +7,7 @@ local addonName = ...
 
 function MainPanel:OnInitialize()
     self:SetSize(832, 447)
-    self:SetText(ADDON_NAME .. ' Beta')
+    self:SetText(L['集合石'] .. ' Beta')
     self:SetIcon([[Interface\AddOns\RaidBuilder\Media\WebEvent]])
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -17,31 +17,35 @@ function MainPanel:OnInitialize()
     self:SetScript('OnDragStart', self.StartMoving)
     self:SetScript('OnDragStop', self.StopMovingOrSizing)
 
+    self:CreateTitleButton{
+        title = L['意见建议'],
+        texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
+        coords = {0, 32/256, 0, 0.5},
+        callback = function()
+            GUI:CallFeedbackDialog(addonName, function(result, text)
+                Logic:SendServer('SFEEDBACK', addonName, GetAddOnMetadata(addonName, 'Version'), text)
+            end)
+        end
+    }
+
+    local AnnButton = self:CreateTitleButton{
+        title = L['公告'],
+        texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
+        coords = {96/256, 128/256, 0, 0.5},
+        callback = function()
+            RaidBuilder:ToggleModule('AnnPanel')
+        end
+    }
+
+    self:RegisterMessage('RAIDBUILDER_ANNOUNCEMENT_UPDATE', function(_, hasUnread)
+        if hasUnread then
+            AnnButton:PlayAnimation()
+        else
+            AnnButton:StopAnimation()
+        end
+    end)
+
     if IsAddOnLoaded('WowSocial_UI') then
-        self:CreateTitleButton{
-            title = L['意见建议'],
-            texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
-            coords = {0, 32/256, 0, 0.5},
-            callback = function()
-                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-                if CloudUI then
-                    CloudUI.Feedback:Open(addonName, GetAddOnMetadata(addonName, 'Version'))
-                end
-            end
-        }
-
-        local AnnButton = self:CreateTitleButton{
-            title = L['公告'],
-            texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
-            coords = {96/256, 128/256, 0, 0.5},
-            callback = function()
-                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-                if CloudUI then
-                    CloudUI:ToggleModule('AnnPanel')
-                end
-            end
-        }
-
         self:CreateTitleButton{
             title = L['集合石聊天'],
             texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
@@ -53,14 +57,6 @@ function MainPanel:OnInitialize()
                 end
             end
         }
-
-        self:RegisterMessage('NECLOUD_ANNOUNCEMENT_UPDATE', function(_, hasUnread)
-            if hasUnread then
-                AnnButton:PlayAnimation()
-            else
-                AnnButton:StopAnimation()
-            end
-        end)
     end
 
     self:CreateTitleButton{
@@ -93,21 +89,32 @@ function MainPanel:OnInitialize()
     --     end
     -- }
 
-    self:RegisterBucketEvent({'PLAYER_LOGIN', 'BN_CONNECTED', 'BN_DISCONNECTED'}, 1, 'UpdateBlocker')
+    self:RegisterBucketEvent({'BN_CONNECTED', 'BN_DISCONNECTED'}, 1, 'UpdateBlocker')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
     self:HookScript('OnShow', self.OnShow)
     self:HookScript('OnHide', self.OnHide)
 
-    self.GameTooltip = CreateFrame('GameTooltip', 'RaidBuilderTooltip', UIParent, 'GameTooltipTemplate')
+    local GameTooltip = CreateFrame('GameTooltip', 'RaidBuilderTooltip', UIParent, 'GameTooltipTemplate')
 
-    local SourceTexture = self.GameTooltip:CreateTexture(nil, 'ARTWORK')
+    local SourceTexture = GameTooltip:CreateTexture(nil, 'ARTWORK')
     SourceTexture:SetSize(64, 64)
-    SourceTexture:SetPoint('CENTER', self.GameTooltip, 'TOPRIGHT')
+    SourceTexture:SetPoint('CENTER', GameTooltip, 'TOPRIGHT')
 
-    self.GameTooltip.SourceTexture = SourceTexture
+    GameTooltip.SourceTexture = SourceTexture
+
+    GameTooltip:SetScript('OnHide', function(self)
+        self.SourceTexture:Hide()
+    end)
+
+    self.GameTooltip = GameTooltip
+end
+
+function MainPanel:OnEnable()
+    self:UpdateBlocker()
 end
 
 function MainPanel:OnShow()
+    RequestRatedInfo()
     self:UpdateBlocker()
     self:Refresh()
     self:SelectPanel(MainPanel:GetCurrentPanel())
@@ -115,6 +122,7 @@ end
 
 function MainPanel:OnHide()
     self.currentPanel = self:GetSelectedPanel()
+    self.GameTooltip:Hide()
 end
 
 function MainPanel:GetCurrentPanel()
@@ -251,9 +259,10 @@ function MainPanel:OpenEventTooltip(event)
 
     GameTooltip:Show()
 
+    local icon = SOURCE_ICONS[event:GetSource()]
     if event:GetSource() then
         GameTooltip.SourceTexture:Show()
-        GameTooltip.SourceTexture:SetTexture(format([[Interface\AddOns\RaidBuilder\Media\Mark\%d]], event:GetSource()))
+        GameTooltip.SourceTexture:SetTexture(icon)
     else
         GameTooltip.SourceTexture:Hide()
     end

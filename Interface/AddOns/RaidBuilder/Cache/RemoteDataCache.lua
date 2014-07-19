@@ -37,6 +37,10 @@ function RemoteDataCache:OnInitialize()
         self:SendMessage('RAIDBUILDER_FINDERDATA_CHANGED', data)
     end)
 
+    DataCache:NewObject('AnnData'):SetCallback('OnCacheChanged', function(self, cache)
+        Profile:AddAnnData(cache.title, cache.content)
+    end)
+
     self.LogoData = LogoData
     self.MonthData = MonthData
     self.TotalData = TotalData

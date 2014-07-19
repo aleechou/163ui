@@ -249,7 +249,7 @@ function CurrentPanel:OnInitialize()
         L['你每天有3次机会向关注你的玩家发送活动通知。']
     )
     YiXinButton:SetScript('OnClick', function()
-        RaidBuilder:ShowModule('YixinConfirm', RaidBuilder:IsYiXinValid(), L['今日已达发送上限'])
+        RaidBuilder:ShowModule('YixinConfirm', Profile:IsYiXinValid(), L['今日已达发送上限'])
     end)
     YiXinButton:Disable()
 
@@ -446,13 +446,17 @@ function CurrentPanel:OnInitialize()
     self.RulesButton = RulesButton
     self.Size = {x = self:GetWidth(), y = self:GetHeight()}
 
-    self:RegisterBucketEvent({'PLAYER_LOGIN', 'GROUP_ROSTER_UPDATE'}, 1, 'UpdateGroup')
+    self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1, 'UpdateGroup')
     self:RegisterEvent('RAID_TARGET_UPDATE', 'UpdateRaidTarget')
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroup')
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE', 'UpdateRules')
     self:ScheduleRepeatingTimer('OnTimer', 5)
+end
+
+function CurrentPanel:OnEnable()
+    self:ScheduleTimer('UpdateGroup', 1)
 end
 
 function CurrentPanel:RAIDBUILDER_UNIT_INFO_UPDATE()

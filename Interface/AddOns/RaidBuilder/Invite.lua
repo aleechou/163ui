@@ -4,7 +4,7 @@ BuildEnv(...)
 Invite = RaidBuilder:NewModule('Invite', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0', 'AceBucket-3.0', 'AceSerializer-3.0')
 
 function Invite:OnInitialize()
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
 
     self.realms = {}
     self.accepted = {}
@@ -18,7 +18,6 @@ function Invite:OnInitialize()
     self.inviteBNetTimers = {}
     self.lastInviteRequest = 0
 
-    self:RegisterEvent('PLAYER_LOGIN')
     self:RegisterEvent('CHAT_MSG_SYSTEM')
     self:RegisterEvent('GROUP_ROSTER_UPDATE', 'CheckRaid')
     self:RegisterEvent('BN_FRIEND_INVITE_ADDED')
@@ -47,9 +46,7 @@ function Invite:OnInitialize()
 end
 
 ---- Cache
-function Invite:PLAYER_LOGIN(event)
-    self:UnregisterEvent(event)
-
+function Invite:OnEnable(event)
     local realms = GetAutoCompleteRealms() or {(GetRealmName():gsub('%s+', ''))}
     for i, v in ipairs(realms) do
         self.realms[v] = true

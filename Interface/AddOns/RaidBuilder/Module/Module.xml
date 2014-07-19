@@ -15,4 +15,5 @@
   <Script file="BlackListPanel.lua" />
   <Script file="LogPanel.lua" />
   <Script file="WebInvitePanel.lua" />
+  <Script file="AnnPanel.lua" />
 </Ui>

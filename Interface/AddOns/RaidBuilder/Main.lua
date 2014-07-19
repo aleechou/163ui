@@ -13,65 +13,11 @@ RaidBuilder = LibStub('AceAddon-3.0'):NewAddon('RaidBuilder',
     'LibClass-1.0')
 
 function RaidBuilder:OnInitialize()
-    local default = {
-        profile = {
-            eventCache = {},
-            memberList = {},
-            memberCache = {},
-            appliedCache = {},
-            logs = {},
-            serverDatas = {},
-            yiXin = {
-                times = 0,
-                lastSend = GetGameDateTime(),
-            },
-            minimap = {
-                minimapPos = 243,
-            },
-            settings = {
-                minimap = true,
-                minimapPack = false,
-                panel = UnitFactionGroup('player') ~= 'Neutral',
-                panelLock = false,
-                storage = { point = 'TOP', x = 0, y = -20},
-                teamNotice = true,
-            },
-            inviteQueue = {},
-            inviteBNets = {},
-            webInvite = {},
-            sharecontent = false,
-
-            groupCacheProfile = {
-                unitCache = {},
-                unitRoles = {},
-            },
-        }
-    }
-
-    self.db = LibStub('AceDB-3.0'):New('RAIDBUILDER_CHARACTER_DB', default)
-
     self:RawHook('PromoteToLeader', 'PromoteToLeader', true)
     self:RawHook('LeaveParty', 'LeaveParty', true)
-
-    self:RegisterEvent('PLAYER_LOGIN', function()
-        self:UnregisterEvent('PLAYER_LOGIN')
-
-        local settings = {
-            'minimap',
-            'minimapPack',
-            'panel',
-            'panelLock',
-            'teamNotice',
-        }
-
-        for _, key in ipairs(settings) do
-            self:SendMessage('RAIDBUILDER_SETTING_CHANGED', key, self.db.profile.settings[key])
-        end
-    end)
 end
 
-function RaidBuilder:PromoteToLeader(...)
-    local arg1, arg2 = ...
+function RaidBuilder:PromoteToLeader(arg1, arg2)
     if EventCache:GetCurrentEvent() then
         GUI:CallMessageDialog(L['当前正在组织活动，转移队长将解散当前活动，是否继续？'], function(result)
             if result then
@@ -97,12 +43,14 @@ function RaidBuilder:LeaveParty()
     end
 end
 
-function RaidBuilder:GetDB()
-    return self.db
+function RaidBuilder:SetSocialEnabled(flag)
+    self.socialServerEnabled = flag
+
+    if flag and Profile:IsSocialEnabled() then
+        LoadAddOn('WowSocial')
+    end
 end
 
-function RaidBuilder:IsYiXinValid()
-    local db = self:GetDB().profile.yiXin
-    local flag = db.times > 2 and db.lastSend > GetGameDateTime(true) and 0 or 1
-    return flag == 1
+function RaidBuilder:IsSocialServerEnabled()
+    return self.socialServerEnabled
 end

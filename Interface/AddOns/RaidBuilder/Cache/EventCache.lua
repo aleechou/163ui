@@ -9,14 +9,13 @@ local EVENT_TIMEOUT  = 900
 function EventCache:OnInitialize()
     self.eventCache = {}
 
-    self.db = RaidBuilder:GetDB()
+    self.db = Profile:GetCharacterDB()
 
-    self:RegisterEvent('PLAYER_LOGIN')
     self:RegisterMessage('RAIDBUILDER_BLACKLIST_UPDATE')
     self:ScheduleRepeatingTimer('CheckEventList', CHECK_INTERVAL)
 end
 
-function EventCache:PLAYER_LOGIN()
+function EventCache:OnEnable()
     local now = time()
     local p = self.db.profile.currentEvent
     if p then
@@ -51,6 +50,11 @@ function EventCache:CacheEvent(leader, ...)
 
     local crossRealm = GetEventAllowCrossRealm(event:GetEventCode())
     if not crossRealm and event:GetCrossRealm() then
+        self:RemoveEvent(leader)
+        return
+    end
+
+    if not EVENT_NAMES[event:GetEventCode()] then
         self:RemoveEvent(leader)
         return
     end

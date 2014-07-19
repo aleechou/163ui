@@ -324,3 +324,8 @@ do
         OLD_EVENT_MAP[v] = k
     end
 end
+
+SOURCE_ICONS = {
+    [2] = [[Interface\AddOns\RaidBuilder\Media\Mark\2]],
+    [3] = [[Interface\AddOns\RaidBuilder\Media\Mark\3]],
+}

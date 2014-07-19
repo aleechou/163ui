@@ -2,11 +2,12 @@
 ## Title: WoW Social
 ## Title-zhCN: |cffff565e[集合石]|r 聊天群核心模块
 ## Notes-zhCN: 魔兽集合石聊天群插件的主框架
-## Version: 50400.16
+## Version: 50400.17
 ## OptionalDeps: WowSocial_ChatLog, WhisperPop
+## LoadOnDemand: 1
 ## SavedVariables: WOWSOCIAL_DB_USER, WOWSOCIAL_DB_MISC
 ## SavedVariablesPerCharacter: WOWSOCIAL_DB_GROUP
 ## X-WoWBox-Ver: 1
 Load.xml
 ## X-Vendor: NetEase
-## 163UI-Version: 2014062601
+## 163UI-Version: 2014071901
