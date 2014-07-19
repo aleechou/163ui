@@ -7,13 +7,16 @@ var zipdir = require("zip-dir")
 var EasyZip = require('easy-zip').EasyZip
 var child_process = require("child_process")
 var Steps = require("ocsteps")
+var _path = require("path")
 
 
 var srcdir = __dirname+"/../Interface/AddOns"
 var workdir = __dirname+"/workdir"
 var packagesdir = workdir + "/packages"
+var offlinedir = workdir + "/offline"
 var targetDirName = process.argv[2] 
-var targetdir
+var datenum
+var targetdir = packagesdir
 var addonsIndexJson = workdir + "/addons-index.json"
 var addonsIndexTar = workdir + "/addons-index.zip"
 var outputTocOptions = {
@@ -53,7 +56,7 @@ fs.readdirSync(srcdir)
 },addonsJson.addons)
 
 Steps()
-
+/*
 	// 确定输出目录
 	.step(function(){
 		if(!targetDirName){
@@ -87,27 +90,29 @@ Steps()
 			}
 		}))
 	})
-/*
+*/
+
+	.step(function(){
+		mkU1PackageMeta(addonsJson.client.Windows,this.hold())
+	})
+	.step(function(){
+		mkU1PackageMeta(addonsJson.client.OSX,this.hold())
+	})
+
 	// 清除 packages
 	.step(function(){
-    	child_process.execFile("rm", ["-r",packagesdir], {}, this.hold())
+    	child_process.execFile("rm", ["-r",packagesdir], {}, this.hold(console.error))
 	})
 	.step(function(err){
-		if(err){
-			console.log("can not clear packages folder")
-			console.log(err)
-		}
-		else {
-			fs.mkdir(packagesdir,this.holdButThrowError())
-		}
+		fs.mkdir(packagesdir,this.hold(console.error))
 	})
-*/
+
 	// 打包插件
 	.step(function(){
-
 		this.each(addonsJson.addons,function(i,addon){
 
     		var tarpath = targetdir+"/"+addon.name+".zip" ;
+    		console.log(tarpath)
 
     		child_process.execFile(
     			"zip", [tarpath,"-r","."], {cwd: srcdir+"/"+addon.name}, this.hold()
@@ -137,13 +142,55 @@ Steps()
 
 	// 打包离线包
 	.step(function(){
-		// todo ...
+		datenum = new Date().Format("yyyy.MM.dd")
+		fs.readdir(offlinedir,this.holdButThrowError(function(err,names){
+			var idx = "01"
+			names.forEach(function(fname){
+				var res = /^163ui\-offline\-([^\-]+)\-(\d+)\.rar$/.exec(fname)
+				if(res && datenum==res[1]){
+					idx = parseInt(res[2])+1
+				}
+			})
+
+			idx = idx.toString()
+			idx.length<=1 && (idx="0"+idx)
+
+			datenum+= "-"+idx
+		}))
+	})
+	.step(function(){
+		var ignoreAddOns = ""
+		for(var addonName in addonsJson.ignore){
+			ignoreAddOns+= " -x"+addonName.replace(/\!/g,"\\!")
+		}
+		var release = this.hold()
+		var proc = child_process.spawn("sh", [
+			__dirname+"/mk-offline-pkg"
+			, datenum
+			, "workdir/"+addonsJson.client.Windows.portableFile
+			, ignoreAddOns
+		])
+		proc.stdout.on('data',function(data){process.stdout.write(data.toString())})
+		proc.stderr.on('data',function(data){process.stdout.write(data.toString())})
+		proc.on('close',function(){release()});
+	})
+	.step(function(){
+		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "163ui-offline-"+datenum+".rar"
+		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "163ui-full-offline-"+datenum+".rar"
 	})
 
 
 	.step(function(){
+
+		// 清理一些不需要发布的信息
+		delete addonsJson.client.Windows["upgraderFile"]
+		delete addonsJson.client.Windows["portableFile"]
+		delete addonsJson.client.OSX["upgraderFile"]
+		delete addonsJson.client.OSX["portableFile"]
+		delete addonsJson.downloadUrlPrefix
+		delete addonsJson.ignore
+
 	    console.log("make addons-index.json file ...",addonsIndexJson)
-	    addonsJson.ignore = undefined
 	    fs.writeFileSync(addonsIndexJson,JSON.stringify(addonsJson,null,2))
 	    fs.exists(addonsIndexTar,this.hold())
 	})
@@ -205,6 +252,35 @@ Steps()
 		console.log("done")
 	}) ()
 
+
+function mkU1PackageMeta(meta,cb){
+
+	meta.upgraderFilename = _path.basename(meta["upgraderFile"])
+
+	Steps(
+		function(){
+			md5file("workdir/"+meta["upgraderFile"],this.holdButThrowError(function(err,md5){
+				meta["upgraderMD5"] = md5.toUpperCase()
+			}))
+		}
+		, function(){
+			md5file("workdir/"+meta["portableFile"],this.holdButThrowError(function(err,md5){
+				meta["portableMD5"] = md5.toUpperCase()
+			}))
+
+		}
+		, function(){
+			fs.stat("workdir/"+meta["portableFile"],this.hold(function(err,stats){
+				meta["size"] = Math.floor(stats.size / 1024 / 1024)+"M"
+			}))
+		}
+		, function(){
+			meta["upgraderUrl"] = addonsJson.downloadUrlPrefix + meta["upgraderFile"]
+			meta["portableUrl"] = addonsJson.downloadUrlPrefix + meta["portableFile"]
+		}
+	)
+	.done(cb) ()
+}
 
 
 function parseToc(addonName){
