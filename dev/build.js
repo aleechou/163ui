@@ -28,6 +28,7 @@ var outputTocOptions = {
 	, 'Note-zhCN': 1
 }
 
+
 // 检查 workdir 是否存在
 if( !fs.existsSync(workdir) || !fs.statSync(workdir).isDirectory() ){
     console.error("can not found workdir, please link to.")
@@ -44,6 +45,17 @@ var indexjson = require("./index.json")
 var addonsJson = require("./addons-index.json")
 addonsJson.addons = []
 if(!addonsJson.ignore) addonsJson.ignore = {}
+
+// 读取 config.json
+try{
+	var config = require("./config.json")
+	if(config["addons-index"]){
+		for(var key in config["addons-index"])
+			addonsJson[key] = config["addons-index"][key]
+	}
+}catch(e) {
+	config = {}
+}
 
 // 过滤并加载插件包
 fs.readdirSync(srcdir)
@@ -175,12 +187,14 @@ Steps()
 		proc.on('close',function(){release()});
 	})
 	.step(function(){
-		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "163ui-offline-"+datenum+".rar"
-		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "163ui-full-offline-"+datenum+".rar"
+		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-offline-"+datenum+".rar"
+		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".rar"
 	})
 
 
 	.step(function(){
+		
+		addonsJson.addonsDirUrl = addonsJson.packagesUrl
 
 		// 清理一些不需要发布的信息
 		delete addonsJson.client.Windows["upgraderFile"]
@@ -188,6 +202,7 @@ Steps()
 		delete addonsJson.client.OSX["upgraderFile"]
 		delete addonsJson.client.OSX["portableFile"]
 		delete addonsJson.downloadUrlPrefix
+		delete addonsJson.packagesUrl
 		delete addonsJson.ignore
 
 	    console.log("make addons-index.json file ...",addonsIndexJson)
@@ -275,8 +290,8 @@ function mkU1PackageMeta(meta,cb){
 			}))
 		}
 		, function(){
-			meta["upgraderUrl"] = addonsJson.downloadUrlPrefix + meta["upgraderFile"]
-			meta["portableUrl"] = addonsJson.downloadUrlPrefix + meta["portableFile"]
+			meta["upgraderUrl"] = addonsJson.downloadUrlPrefix + "/" + meta["upgraderFile"]
+			meta["portableUrl"] = addonsJson.downloadUrlPrefix + "/" + meta["portableFile"]
 		}
 	)
 	.done(cb) ()

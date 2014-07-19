@@ -24,7 +24,7 @@
         "WowLua": 1, 
         "AddonManager": 1
     }, 
-    "downloadUrlPrefix": "http://wowui.w.163.com/163wui/", 
+    "downloadUrlPrefix": "http://wowui.w.163.com/163wui", 
     "packagesUrl": "http://wowui.w.163.com/163wui/packages", 
     "client": {
         "Windows": {
