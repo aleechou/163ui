@@ -2,7 +2,7 @@
 ## Version: 1.2.17
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014071902
+## 163UI-Version: 2014071903
 ## X-Vendor: NetEase
 ## SavedVariables: Cmd3DCode_Settings
 
