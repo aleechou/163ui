@@ -179,7 +179,7 @@ Steps()
 		var proc = child_process.spawn("sh", [
 			__dirname+"/mk-offline-pkg"
 			, datenum
-			, __dirname+"/workdir/"+addonsJson.client.Windows.portableFile
+			, "workdir/"+addonsJson.client.Windows.portableFile
 			, ignoreAddOns
 		])
 		proc.stdout.on('data',function(data){process.stdout.write(data.toString())})
@@ -188,7 +188,7 @@ Steps()
 	})
 	.step(function(){
 		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-offline-"+datenum+".rar"
-		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".zip"
+		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".rar"
 	})
 
 

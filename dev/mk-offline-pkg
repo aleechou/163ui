@@ -4,12 +4,12 @@ PKGPATH=$2
 IGNOREADDONS=$3
 
 echo "pack full offline ..."
-mkdir -p workdir/tmp/offline-packing
-cd workdir/tmp/offline-packing
-unrar x $PKGPATH
-mkdir -p 网易有爱/data/packages
-cp ../../packages/* 网易有爱/data/packages/
-zip -r ../../offline/163ui-full-offline-${DATEVERSION}.zip * 
+cp $PKGPATH workdir/offline/163ui-full-offline-${DATEVERSION}.rar
+rm -r workdir/tmp/data/packages
+mkdir -p workdir/tmp/网易有爱/data/packages
+cp workdir/packages/*  workdir/tmp/网易有爱/data/packages/
+cd workdir/tmp
+rar a ../offline/163ui-full-offline-${DATEVERSION}.rar 网易有爱
 cd -
 echo "done"
 
