@@ -6,10 +6,10 @@ IGNOREADDONS=$3
 echo "pack full offline ..."
 cp $PKGPATH workdir/offline/163ui-full-offline-${DATEVERSION}.rar
 rm -r workdir/tmp/data/packages
-mkdir -p workdir/tmp/缃戞槗鏈夌埍/data/packages
-cp workdir/packages/*  workdir/tmp/缃戞槗鏈夌埍/data/packages/
+mkdir -p workdir/tmp/网易有爱/data/packages
+cp workdir/packages/*  workdir/tmp/网易有爱/data/packages/
 cd workdir/tmp
-rar a ../offline/163ui-full-offline-${DATEVERSION}.rar 缃戞槗鏈夌埍
+rar a ../offline/163ui-full-offline-${DATEVERSION}.rar 网易有爱
 cd -
 echo "done"
 
