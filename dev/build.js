@@ -179,7 +179,7 @@ Steps()
 		var proc = child_process.spawn("sh", [
 			__dirname+"/mk-offline-pkg"
 			, datenum
-			, "workdir/"+addonsJson.client.Windows.portableFile
+			, __dirname+"/workdir/"+addonsJson.client.Windows.portableFile
 			, ignoreAddOns
 		])
 		proc.stdout.on('data',function(data){process.stdout.write(data.toString())})

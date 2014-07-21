@@ -16,6 +16,6 @@ echo "done"
 
 echo "pack offline ..."
 cd ../Interface/AddOns
-rar a -inul ${IGNOREADDONS}  ../../dev/workdir/offline/163ui-offline-${DATEVERSION}.zip * 
+rar a -inul ${IGNOREADDONS}  ../../dev/workdir/offline/163ui-offline-${DATEVERSION}.rar * 
 cd -
 echo "done"
