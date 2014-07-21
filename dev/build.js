@@ -188,7 +188,7 @@ Steps()
 	})
 	.step(function(){
 		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-offline-"+datenum+".rar"
-		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".rar"
+		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".zip"
 	})
 
 
