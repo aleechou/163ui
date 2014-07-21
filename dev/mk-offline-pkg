@@ -10,7 +10,7 @@ mkdir -p workdir/tmp/packing/网易有爱/data/packages
 cp workdir/packages/*  workdir/tmp/packing/网易有爱/data/packages/
 cd workdir/tmp/packing
 # convmv * -f utf8 -t gbk --notest
-7zr a ../offline/163ui-full-offline-${DATEVERSION}.rar *
+7z a ../offline/163ui-full-offline-${DATEVERSION}.rar *
 cd -
 echo "done"
 
