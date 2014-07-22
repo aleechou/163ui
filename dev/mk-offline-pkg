@@ -1,15 +1,16 @@
-
+ï»¿
 DATEVERSION=$1
 PKGPATH=$2
 IGNOREADDONS=$3
 
 echo "pack full offline ..."
 cp $PKGPATH workdir/offline/163ui-full-offline-${DATEVERSION}.rar
-rm -r workdir/tmp/data/packages
-mkdir -p workdir/tmp/ÍøÒ×ÓÐ°®/data/packages
-cp workdir/packages/*  workdir/tmp/ÍøÒ×ÓÐ°®/data/packages/
-cd workdir/tmp
-rar a ../offline/163ui-full-offline-${DATEVERSION}.rar ÍøÒ×ÓÐ°®
+rm -r workdir/tmp/packing/ç½‘æ˜“æœ‰çˆ±/data/packages
+mkdir -p workdir/tmp/packing/ç½‘æ˜“æœ‰çˆ±/data/packages
+cp workdir/packages/*  workdir/tmp/packing/ç½‘æ˜“æœ‰çˆ±/data/packages/
+cd workdir/tmp/packing
+convmv ç½‘æ˜“æœ‰çˆ± -f utf8 -t gbk  --notest
+rar a ../../offline/163ui-full-offline-${DATEVERSION}.rar *
 cd -
 echo "done"
 
