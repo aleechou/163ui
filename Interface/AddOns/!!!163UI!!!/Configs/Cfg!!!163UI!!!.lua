@@ -403,6 +403,12 @@ U1RegisterAddon("!!!163UI.3dcodecmd!!!", {
 	hide = 1, 
 	defaultEnable = 1 
 });
+U1RegisterAddon("!NoTaint", { 
+	title = "污染过滤",   
+	hide = 1, 
+	defaultEnable = 1 
+});
+
 if(not GetCVar) then return end
 
 do

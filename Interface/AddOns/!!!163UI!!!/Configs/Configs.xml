@@ -21,6 +21,9 @@
     <Include file="..\..\BattlegroundTargets\CfgBattlegroundTargets.lua"/>
     <Include file="..\..\Atemi\CfgAtemi.lua"/>
     <Include file="..\..\!BaudErrorFrame\Cfg!BaudErrorFrame.lua"/>
+	<Include file="..\..\BGDefender\CfgBGDefender.lua"/>
+	<Include file="..\..\ChannelClean\CfgChannelClean.lua"/>
+	<Include file="..\..\Healers-Have-To-Die\CfgHealers-Have-To-Die.lua"/>	
     <Include file="..\..\!tdDropDown\Cfg!tdDropDown.lua"/>
     <Include file="..\..\RaidAchievement\CfgRaidAchievement.lua"/>
 	<Include file="..\..\SellOMatic2\CfgSellOMatic2.lua"/>
