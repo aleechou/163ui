@@ -8,4 +8,4 @@
 ## X-WoWBox-Ver: 1
 Load.xml
 ## X-Vendor: NetEase
-## 163UI-Version: 2014071901
+## 163UI-Version: 2014072601
