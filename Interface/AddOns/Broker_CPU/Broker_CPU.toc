@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Title: Broker_CPU
-## Title-zhTW: |cff880303[FishUi]|r 系統監控 Broker_CPU
-## Title-zhCN: |cff880303[FishUi]|r 系统监控 Broker_CPU
+## Title-zhTW: |cff880303[网易有爱]|r 系統監控 Broker_CPU
+## Title-zhCN: |cff880303[网易有爱]|r 系统监控 Broker_CPU
 ## Notes: A lightweight Data Broker plugin to visualize AddOn CPU/Memory usage, Framerate, Latency.
 ## Notes-zhTW: 一個支持LDB類信息條的系統監控小插件。
 ## Notes-zhCN: 一个支持LDB类信息条的系统监控小插件。
