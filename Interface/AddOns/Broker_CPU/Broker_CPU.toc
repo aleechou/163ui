@@ -73,6 +73,6 @@ Broker_CPU.lua
 
 
 
-## Title: |cff880303[FishUi]|r 系統監控 Broker_CPU
+## Title: |cff880303[网易有爱]|r 系統監控 Broker_CPU
 ## X-Vendor: NetEase
 

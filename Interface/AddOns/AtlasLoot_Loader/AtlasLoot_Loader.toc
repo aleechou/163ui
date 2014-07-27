@@ -1,7 +1,7 @@
 ﻿## Interface: 50400
 ## Title: AL_Loader
-## Title-zhTW: |cff880303[FishUi]|r 副本掉落 [载入程序]
-## Title-zhCN: |cff880303[FishUi]|r 副本掉落 [载入程序]
+## Title-zhTW: |cff880303[网易有爱]|r 副本掉落 [载入程序]
+## Title-zhCN: |cff880303[网易有爱]|r 副本掉落 [载入程序]
 ## Notes: AtlasLoot Loader
 ## Notes-zhTW: AtlasLoot物品掉落載入程式
 ## Notes-zhCN: AtlasLoot物品掉落载入程式
