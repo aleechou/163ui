@@ -1,8 +1,8 @@
-## Title: |cff880303[网易有爱]|r !!客户端 v1.2.17
-## Version: 1.2.17
+## Title: |cff880303[网易有爱]|r !!客户端 v1.2.18
+## Version: 1.2.18
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014071903
+## 163UI-Version: 2014072801
 ## X-Vendor: NetEase
 ## SavedVariables: Cmd3DCode_Settings
 
