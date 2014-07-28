@@ -179,11 +179,34 @@
 					</Button>
 
 
-					<CheckButton name="$parent_ChkBtn_SaveSrcPic" inherits="OptionsCheckButtonTemplate" checked="false">
+					<CheckButton name="$parent_ChkBtn_Public" inherits="OptionsCheckButtonTemplate" checked="false">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
 								<Offset>
 									<AbsDimension x="0" y="0"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+					        <OnLoad>
+					            _G[self:GetName().."Text"]:SetText("公开分享")
+					        </OnLoad>
+							<OnEnter>
+    							GameTooltip:SetOwner(self,'ANCHOR_BOTTOMLEFT')
+								GameTooltip:AddLine("分享到互联网")
+								GameTooltip:AddLine("截取的图片会分享到网易网站上")
+								GameTooltip:AddLine("如果截图内容涉及到隐私或敏感信息，")
+								GameTooltip:AddLine("请务必取消该选项")
+								GameTooltip:Show()
+							</OnEnter>
+					    </Scripts>
+					</CheckButton>
+
+					<CheckButton name="$parent_ChkBtn_SaveSrcPic" inherits="OptionsCheckButtonTemplate" checked="false">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -205,7 +228,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
 								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
+									<AbsDimension x="0" y="-40"></AbsDimension>
 								</Offset>
 							</Anchor>
 						</Anchors>
