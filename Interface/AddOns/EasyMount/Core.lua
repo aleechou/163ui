@@ -67,7 +67,7 @@ local function HasFlag(num, flag)
 	return band(num, flag) == flag
 end
 
-local VENDOR_MOUNTS = { [61425] = 1, [61447] = 1, [122708] = 1}
+local VENDOR_MOUNTS = { [61425] = 1, [61447] = 1, [122708] = 1, [122729]=1,}
 local TAQ_BETTLES = { [25953] = 1, [26054] = 1, [26055] = 1, [26056] = 1, }
 
 function BuildMountList()
@@ -115,6 +115,7 @@ function BuildMountList()
 			else
 				AddMountSpell("ground", data)
 			end
+
 			if VENDOR_MOUNTS[id] then
 				AddMountSpell("vendors", data)
 			end
@@ -261,3 +262,4 @@ frame:SetScript("OnEvent", function(self, event, arg1, ...)
 		end
 	end
 end)
+
