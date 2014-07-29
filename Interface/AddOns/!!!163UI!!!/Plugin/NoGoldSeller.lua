@@ -139,7 +139,7 @@ else if (GetLocale() == "zhCN") then
     NGSrep="本次登录到现在已经截获|cff00ff00%d|r条广告信息。"
     NGSturnoff="|cff00ff00NoGoldSeller:出售金币广告信息屏蔽插件已经停用。输入/NGS启用。|r"
     NGSturnon="|cff00ff00NoGoldSeller:出售金币广告信息屏蔽插件已经启用。输入/NGS停用。|r"
-    NGSrepFreq=500; --(简体中文)在这里修改报告频率。n条消息报告一次，就该此处为n。
+    NGSrepFreq=1000; --(简体中文)在这里修改报告频率。n条消息报告一次，就该此处为n。
   else
     DEFAULT_CHAT_FRAME:AddMessage("請注意!\nNoGoldSeller只能在zhTW,zhCN下運行,不支持您現在的遊戲語言版本!已經自行禁用.")
 	DEFAULT_CHAT_FRAME:AddMessage("WARNING!\nNoGoldSeller: This addon ONLY fits for Traditional Chinese (zhTW) & Simplified Chinese (zhCN) realms. Unsupport your game client. It has automatically disabled now.")
