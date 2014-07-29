@@ -7,5 +7,5 @@ if ( GetLocale() == "zhCN" ) then
 	FMXP_BUTTON_ADD_GUILD = "邀请入会"
 	FMXP_BUTTON_GET_NAME = "复制名字"
 	FMXP_BUTTON_ACHIEVEMENTS = "对比成就"
-	FMXP_BUTTON_ARMORY = "英雄榜"
+	FMXP_BUTTON_ARMORY = "英雄榜(内置浏览器)"
 end
