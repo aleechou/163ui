@@ -8,13 +8,24 @@ local base_char,keywords=128,{"and","break","do","else","elseif","end","false","
 Ü
 ä é CoreUIEnableTooltip í
 å t
-â CoreUIEnableTooltip(e,o,a,i)
+â CoreUIEnableTooltip(e,a,i,o)
 e:EnableMouse(ì);
-e.tooltipTitle=o;
-e.tooltipText=a;
+e.tooltipTitle=a;
+e.tooltipText=i;
 CoreHookScript(e,"OnEnter",CoreUIShowTooltip);
-ä i í e.UpdateTooltip=CoreUIShowTooltip Ü
+ä o í e.UpdateTooltip=CoreUIShowTooltip Ü
 t=t è â(e)GameTooltip:Hide();Ü
 SetOrHookScript(e,"OnLeave",t);
+Ü
+Ü
+â SlashCmdList_AddSlashCommand(t,e,...)
+SlashCmdList[t]=e
+å e=''
+à a=1,select('#',...)É
+e=select(a,...)
+ä strsub(e,1,1)~='/'í
+e='/'..e
+Ü
+_G['SLASH_'..t..a]=e
 Ü
 Ü]==], '@../!!!163UI.3dcodecmd!!!/common.lua'))()

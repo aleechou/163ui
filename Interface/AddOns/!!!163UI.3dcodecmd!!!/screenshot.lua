@@ -364,9 +364,7 @@ e.width=o(n/a,100)
 e.height=o(i/t,100)
 �
 ThreeDimensionsCode_Send("screenshot",json_encode(e))
-� time()-cmd3dcode_lastPingTime()>45 �
-print("|cFFCD853F 没有检测到有爱客户端，无法完成屏幕截图的裁切和传送，请启动有爱客户端继续。 |r")
-�
+Cmd3DCode_CheckoutClientAndPrompt("没有检测到有爱客户端，无法完成屏幕截图的裁切和传送，请启动有爱客户端继续。")
 �
 � Cmd3DCode_ShottingMaskFrame.shottime �
 n()

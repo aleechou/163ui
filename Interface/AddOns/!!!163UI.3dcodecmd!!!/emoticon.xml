@@ -127,7 +127,7 @@
 				</Scripts>
 			</Button>
 
-			<Button name="$parent_BtnImport" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="导入表情..">
+			<Button name="$parent_BtnImport" inherits="UIPanelButtonTemplate" setAllPoints="true" enableMouse="true" text="添加表情..">
 				<Size>
 					<AbsDimension x="100" y="25" />
 				</Size>

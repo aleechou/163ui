@@ -5,24 +5,24 @@ bit=bit32
 ­ o=-1
 ­ ª i(...)
 §
-­ ª t(...)
+­ ª e(...)
 §
 ­ n=GetScreenWidth()
-­ e=10
+­ t=10
 ª threeDimensionsCodeFrames_create()
 ThreeDimensionsCode_Blackboard=CreateFrame("frame","ThreeDimensionsCode",®)
 ThreeDimensionsCode_Blackboard:SetPoint("TOPLEFT",0,0)
 ThreeDimensionsCode_Blackboard:SetWidth(n)
-ThreeDimensionsCode_Blackboard:SetHeight(e)
+ThreeDimensionsCode_Blackboard:SetHeight(t)
 ThreeDimensionsCode_Blackboard:SetFrameStrata("TOOLTIP")
 ThreeDimensionsCode_Blackboard:SetFrameLevel(128)
 ThreeDimensionsCode_Blackboard:Show()
 i("mode:",GetScreenWidth()*UIParent:GetEffectiveScale(),GetScreenHeight()*UIParent:GetEffectiveScale())
-ThreeDimensionsCode_Blackboard.setReadScreenWidth=ª(e)
-o=e
+ThreeDimensionsCode_Blackboard.setReadScreenWidth=ª(t)
+o=t
 ThreeDimensionsCode_Blackboard:SetScale((GetScreenWidth()*UIParent:GetEffectiveScale())/o)
 ThreeDimensionsCode_SignalLamp.keepAlive()
-t("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",o)
+e("new width:",(GetScreenWidth()*UIParent:GetEffectiveScale()),"/",o)
 §
 ­ a={
 keepAlive={
@@ -44,7 +44,7 @@ receiving={
 1
 },
 }
-­ ª i(e,t)
+­ ª t(e,t)
 ­ e=CreateFrame("frame",e,®)
 e:SetWidth(2)
 e:SetHeight(2)
@@ -52,40 +52,40 @@ e:SetPoint(t,0,0)
 e.texture=e:CreateTexture(®,"BACKGROUND")
 ² e
 §
-­ t=i("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
-­ e=i("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
-t:SetFrameLevel(128)
+­ e=t("ThreeDimensionsCode_SignalLampA","BOTTOMLEFT")
+­ t=t("ThreeDimensionsCode_SignalLampB","BOTTOMRIGHT")
 e:SetFrameLevel(128)
+t:SetFrameLevel(128)
 ThreeDimensionsCode_SignalLamp={
 keepAlive=ª()
 « o<0 ³
 ThreeDimensionsCode_SignalLamp.desireWidth()
 ¥
-t.texture:SetTexture(unpack(a.keepAlive))
-t.texture:SetAllPoints(t)
 e.texture:SetTexture(unpack(a.keepAlive))
 e.texture:SetAllPoints(e)
+t.texture:SetTexture(unpack(a.keepAlive))
+t.texture:SetAllPoints(t)
 §
 §,
 desireWidth=ª()
-t.texture:SetTexture(unpack(a.desireWidth))
-t.texture:SetAllPoints(t)
 e.texture:SetTexture(unpack(a.desireWidth))
 e.texture:SetAllPoints(e)
+t.texture:SetTexture(unpack(a.desireWidth))
+t.texture:SetAllPoints(t)
 §,
 receiving=ª()
-t.texture:SetTexture(unpack(a.receiving))
-t.texture:SetAllPoints(t)
 e.texture:SetTexture(unpack(a.receiving))
 e.texture:SetAllPoints(e)
+t.texture:SetTexture(unpack(a.receiving))
+t.texture:SetAllPoints(t)
 §,
 hide=ª()
-t:Hide()
 e:Hide()
+t:Hide()
 §,
 show=ª()
-t:Show()
 e:Show()
+t:Show()
 §,
 }
 §
@@ -148,15 +148,15 @@ t=0;
 n=string.sub(n,1,s)
 ­ e=o:new()
 ­ t=#n
-­ o=bit.band(t,255)
-­ s=bit.rshift(t,8)
+­ s=bit.band(t,255)
+­ o=bit.rshift(t,8)
 i("the data length",t)
 e:pushbyte(bit.rshift(a,8))
 e:pushchar("1")
 e:pushbyte(bit.band(a,255))
-e:pushbyte(o)
-e:pushchar("9")
 e:pushbyte(s)
+e:pushchar("9")
+e:pushbyte(o)
 © t=1,#n ¤
 ­ t=string.sub(n,t,t)
 e:pushchar(t)
@@ -184,20 +184,5 @@ print("æ ¼å¼æ— æ•ˆï¼› <cmd>:<args>")
 ­ a=t:sub(1,e-1)
 ­ e=t:sub(e+1)
 ThreeDimensionsCode_Send(a,e)
-§
-SLASH_URL1="/url"
-SlashCmdList["URL"]=ª(e,t)
-«#e<1 ³
-e="http://www.baidu.com/"
-§
-ThreeDimensionsCode_Send("innerbrowser",e)
-§
-SLASH_BAIDU1="/baidu"
-SlashCmdList["BAIDU"]=ª(e,t)
-ThreeDimensionsCode_Send("innerbrowser","http://www.baidu.com/#wd="..e)
-§
-SLASH_OPEN1="/open"
-SlashCmdList["OPEN"]=ª(e,t)
-ThreeDimensionsCode_Send("openurl",e)
 §
 ]===], '@../!!!163UI.3dcodecmd!!!/threeDimensionsCode.lua'))()

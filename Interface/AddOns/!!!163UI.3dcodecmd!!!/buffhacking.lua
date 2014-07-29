@@ -10,25 +10,25 @@ verbose=Ç,
 info=Ç,
 errro=Ó,
 }
-Ì É o(...)
+Ì É t(...)
 Ê e.verbose Ò print("[verbose]",...)Æ
 Æ
-Ì É t(...)
+Ì É a(...)
 Ê e.info Ò print("[verbose]",...)Æ
 Æ
-Ì É t(...)
+Ì É a(...)
 Ê e.errro Ò print("[verbose]",...)Æ
 Æ
-É cmd3dcode_buff_showlog(t,a)
-Ê t==Í Ò t="verbose"Æ
-Ê a==Í Ò a=Ó Æ
-e[t]=a
+É cmd3dcode_buff_showlog(a,t)
+Ê a==Í Ò a="verbose"Æ
+Ê t==Í Ò t=Ó Æ
+e[a]=t
 Æ
-Ì a=0
-Ì t=Ç
+Ì o=0
+Ì a=Ç
 Ì i=0
 Ì l=Ç
-Ì n={
+Ì s={
 screenshot={
 text="æˆªå›¾å‘é€",
 notCheckable=Ó,
@@ -44,7 +44,7 @@ U1Frame:Show()
 Æ,
 }
 }
-Ì É s(t,o)
+Ì É n(t,o)
 Ì e=UIDropDownMenu_CreateInfo()
 È t,a Ë pairs(t)Ã
 e[t]=a
@@ -59,48 +59,48 @@ e:Show()
 UIDropDownMenu_Initialize(e,t,"MENU")
 Ñ e
 Æ
-Ì É r(a)
-Ì e=CreateFrame("button","buff163uiLinkage_"..a,BuffFrame)
+Ì É r(t)
+Ì e=CreateFrame("button","buff163uiLinkage_"..t,BuffFrame)
 e:SetWidth(BUFF_BUTTON_HEIGHT)
 e:SetHeight(BUFF_BUTTON_HEIGHT)
-Ì t=e:CreateTexture(Í,"BACKGROUND")
-t:SetTexture("Interface\\AddOns\\"..d.."\\Textures\\logo-"..a..".tga")
-t:SetAllPoints(e)
+Ì a=e:CreateTexture(Í,"BACKGROUND")
+a:SetTexture("Interface\\AddOns\\"..d.."\\Textures\\logo-"..t..".tga")
+a:SetAllPoints(e)
 Ñ e
 Æ
 r("online")
 buff163uiLinkage_online:SetScript("OnEnter",É(i)
 Ì e=""
-Ì o=0
-Ê a<60 Ò
+Ì t=0
+Ê o<60 Ò
 e="ä¸åˆ°1åˆ†é’Ÿ"
 Ä
-o=floor(a/60)
-Ì t=floor(o/60)
-Ê t>0 Ò
-e=t.."å°æ—¶"
+t=floor(o/60)
+Ì a=floor(t/60)
+Ê a>0 Ò
+e=a.."å°æ—¶"
 Æ
-mindisplay=o%60
+mindisplay=t%60
 Ê mindisplay>0 Ò
 e=e..mindisplay.."åˆ†é’Ÿ"
 Æ
 Æ
 GameTooltip:SetOwner(i,'ANCHOR_BOTTOMLEFT')
-Ê t Ò
+Ê a Ò
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cff00aa00[å·²è¿æ¥]|r")
 Ä
 GameTooltip:AddLine("æœ‰çˆ±è¿æ¥ |cffFFCC00[å·²è¿æ¥ï¼Œæœªç™»å½•]|r")
 Æ
 GameTooltip:AddLine('|cffffffffä»Šæ—¥åœ¨çº¿ï¼š|r'..e)
-Ê Î t Ò
+Ê Î a Ò
 GameTooltip:AddLine('|cffffffffè¯·ç™»é™†ç½‘æ˜“é€šè¡Œè¯ï¼Œ|r')
 GameTooltip:AddLine('|cffffffffä»¥ä¾¿ç§¯ç´¯çš„åœ¨çº¿æ—¶é—´å®Œæˆç­¾åˆ°ä»»åŠ¡|r')
 Ä
 Ê l Ò
 GameTooltip:AddLine('|cffffffffå•å‡»Buffå›¾æ ‡å®Œæˆç­¾åˆ°|r')
 Ä
-Ê o<30 Ò
-GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-o)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
+Ê t<30 Ò
+GameTooltip:AddLine('|cffffffffè¿˜æœ‰'..(30-t)..'åˆ†é’Ÿå®Œæˆç­¾åˆ°|r')
 Æ
 Æ
 Æ
@@ -116,8 +116,8 @@ ToggleDropDownMenu(1,Í,e.menu,e:GetName(),0,0)
 Æ
 Æ)
 buff163uiLinkage_online.menu=h("buff163uiLinkage_online",É(t,e)
-s(n.u1console,e)
-s(n.screenshot,e)
+n(s.u1console,e)
+n(s.screenshot,e)
 Æ)
 r("offline")
 buff163uiLinkage_offline:SetScript("OnEnter",É(e)
@@ -166,36 +166,36 @@ buff163uiLinkage_offline:SetScript("OnLeave",É(e)
 GameTooltip:Hide()
 Æ)
 buff163uiLinkage_offline.menu=h("buff163uiLinkage_offline",É(t,e)
-s(n.screenshot,e)
+n(s.screenshot,e)
 Æ)
 Ì É n()
-Ì t={BuffFrame:GetChildren()}
+Ì a={BuffFrame:GetChildren()}
 Ì e=0
-o("ShownBuffNumber()-------------")
-È a,t Ë ipairs(t)Ã
+t("ShownBuffNumber()-------------")
+È a,t Ë ipairs(a)Ã
 Ê t:IsVisible()Á t~=buff163uiLinkage_offline Á t~=buff163uiLinkage_online Ò
 e=e+1
 Æ
 Æ
 e=e-DEBUFF_ACTUAL_DISPLAY
-Ì t,i,i,a=GetWeaponEnchantInfo()
-Ê t Ò e=e+1 Æ
+Ì o,i,i,a=GetWeaponEnchantInfo()
+Ê o Ò e=e+1 Æ
 Ê a Ò e=e+1 Æ
 Ê ConsolidatedBuffs:IsVisible()Ò
 e=e+1
 Æ
-o("ShownBuffNumber()",e)
+t("ShownBuffNumber()",e)
 Ñ e
 Æ
-Ì É s(t)
+Ì É s(o)
 Ì e=n()
 Ì a=floor(e/BUFFS_PER_ROW)
 Ì a=-a*(BUFF_ROW_SPACING+BUFF_BUTTON_HEIGHT)
 Ì i=e%BUFFS_PER_ROW
 Ì i=i*(BUFF_HORIZ_SPACING-BUFF_BUTTON_HEIGHT)
-o("index:",e,"x",i,"y",a)
-t:SetPoint("TOPRIGHT",i,a)
-t:Show()
+t("index:",e,"x",i,"y",a)
+o:SetPoint("TOPRIGHT",i,a)
+o:Show()
 Æ
 Ì É n(e)
 Ê U1DB Á U1DB.configs Á U1DB.configs["!!!163ui!!!/displayLinkageStatusAsBuff"]=="_NIL"Ò
@@ -207,12 +207,12 @@ buff163uiLinkage_online:Hide()
 e=time()
 Æ
 Ê GetCVar("gxWindow")=="0"Ï e-i>=45 Ò
-o("display offline buff")
+t("display offline buff")
 buff163uiLinkage_offline:Show()
 buff163uiLinkage_online:Hide()
 s(buff163uiLinkage_offline)
 Ä
-o("display online buff")
+t("display online buff")
 buff163uiLinkage_online:Show()
 buff163uiLinkage_offline:Hide()
 s(buff163uiLinkage_online)
@@ -229,26 +229,26 @@ s=e
 Æ)
 ThreeDimensionsCode_SafePipe_CmdHandles["ping"]=É(s,e)
 Ê#e<1 Ò
-Ê t Ò
+Ê a Ò
 print("|cff00aa00æœ‰çˆ±å®¢æˆ·ç«¯å·²é€€å‡ºç™»å½•çŠ¶æ€|r")
 Æ
-t=Ç
+a=Ç
 Ä
-Ê Î t Ò
+Ê Î a Ò
 print("|cff00aa00æœ‰çˆ±å®¢æˆ·ç«¯å·²ç™»å½•ç½‘æ˜“é€šè¡Œè¯|r")
 Æ
-t=Ó
-Ì i=string.byte(e:sub(1,1))
-Ì n=string.byte(e:sub(2,2))
-Ì t=0
+a=Ó
+Ì n=string.byte(e:sub(1,1))
+Ì i=string.byte(e:sub(2,2))
+Ì a=0
 Ì s=Ç
-a=bitfunc.bor(bitfunc.lshift(n,8),i)
+o=bitfunc.bor(bitfunc.lshift(i,8),n)
 Ê#e>2 Ò
-t=string.byte(e:sub(3,3))
-Ì e=bitfunc.band(t,1)
-a=bitfunc.bor(bitfunc.lshift(e,16),a)
+a=string.byte(e:sub(3,3))
+Ì e=bitfunc.band(a,1)
+o=bitfunc.bor(bitfunc.lshift(e,16),o)
 Æ
-o("ping","#"..#e,i,n,t,a)
+t("ping","#"..#e,n,i,a,o)
 Æ
 n()
 i=time()
@@ -263,11 +263,19 @@ buff163uiLinkage_offline:Hide()
 É Toggle3DCodeCmdBuff(e)
 n()
 Æ
-É Cmd3DCode_CheckoutClientAndPrompt()
-Ê time()-i>45 Ò
-print("|cFFCD853F æ²¡æœ‰æ£€æµ‹åˆ°æœ‰çˆ±å®¢æˆ·ç«¯ï¼Œæ— æ³•å®Œæˆæ“ä½œï¼Œè¯·å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯ç»§ç»­ã€‚ |r")
-Ñ Ç
-Ä
+É Cmd3DCode_CheckoutClient()
+Ñ time()-i<45
+Æ
+É Cmd3DCode_CheckoutClientAndPrompt(e)
+Ê Cmd3DCode_CheckoutClient()Ò
 Ñ Ó
+Ä
+e="|cFFCD853F"..(e Ï"æ²¡æœ‰æ£€æµ‹åˆ°æœ‰çˆ±å®¢æˆ·ç«¯ï¼Œæ— æ³•å®Œæˆæ“ä½œï¼Œè¯·å¯åŠ¨æœ‰çˆ±å®¢æˆ·ç«¯ç»§ç»­ã€‚").."|r"
+È t=1,10 Ã
+Ê _G["ChatFrame"..t]:IsVisible()Ò
+_G["ChatFrame"..t]:AddMessage(e)
+Æ
+Æ
+Ñ Ç
 Æ
 Æ]===], '@../!!!163UI.3dcodecmd!!!/buffhacking.lua'))()
