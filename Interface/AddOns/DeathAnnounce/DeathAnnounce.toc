@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 50400
 ## Title: |cFEFF0000[Z]|rDeathAnnounce
 ## SavedVariables: DEATH_ANNOUNCE, DEATH_ANNOUNCE_OFF
 ## Notes: announces death of friendly units in raidchat
@@ -13,5 +13,5 @@ Localization.lua
 
 ## Title: |cff880303[网易有爱]|r DeathAnnounce
 ## X-Vendor: NetEase
-## 163UI-Version: 2014071301
+## 163UI-Version: 2014073001
 
