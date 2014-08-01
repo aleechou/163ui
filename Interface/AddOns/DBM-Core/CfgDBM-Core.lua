@@ -3,7 +3,9 @@ local DBTCreateBar_Origin
 local function DBTCreateBar_Hacker (...)
     if not DBTCreateBar_Origin then return end
     local bar = DBTCreateBar_Origin(...)
-    bar.frame:Hide() -- 隐藏计时条
+    if bar then
+        bar.frame:Hide() -- 隐藏计时条
+    end
     return bar
 end
 
