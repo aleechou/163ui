@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'SummaryHtml', 2
+local WIDGET, VERSION = 'SummaryHtml', 3
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local SummaryHtml = GUI:NewClass(WIDGET, 'SimpleHTML', VERSION)
@@ -30,7 +30,8 @@ function SummaryHtml:OnHyperlinkClick(link)
     elseif linkType == 'help' then
         self:OpenHelper(data)
     elseif linkType == 'urlIndex' then
-        LoadURLIndex(data)
+        -- LoadURLIndex(data)
+        StaticPopup_Show("CONFIRM_LAUNCH_URL", nil, nil, {index = data})
     end
 end
 

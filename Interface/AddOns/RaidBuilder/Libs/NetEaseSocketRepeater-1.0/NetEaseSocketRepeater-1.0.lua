@@ -3,7 +3,7 @@ local SocketClient = assert(LibStub('NetEaseSocketClient-1.0', true), 'NetEaseRe
 local Socket = assert(LibStub('NetEaseSocket-1.0', true), 'NetEaseRepeater-1.0 requests NetEaseSocket-1.0')
 local AceEvent = assert(LibStub('AceEvent-3.0', true), 'NetEaseRepeater-1.0 requests AceEvent-3.0')
 
-local MAJOR, MINOR = 'NetEaseSocketRepeater-1.0', 3
+local MAJOR, MINOR = 'NetEaseSocketRepeater-1.0', 4
 local Repeater,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not Repeater then return end
 
@@ -25,8 +25,6 @@ function Repeater:OnLoad()
     else
         self.realms[GetRealmName():gsub('%s+', '')] = true
     end
-
-    self:UnregisterEvent('PLAYER_LOGIN')
 end
 
 function Repeater:Connect()
@@ -76,4 +74,11 @@ function Repeater:Embed(target)
     target.SendSocket = Repeater.SendSocket
 end
 
-Repeater:RegisterEvent('PLAYER_LOGIN', 'OnLoad')
+if IsLoggedIn() then
+    Repeater:OnLoad()
+else
+    Repeater:RegisterEvent('PLAYER_LOGIN', function()
+        Repeater:OnLoad()
+        Repeater:UnregisterEvent('PLAYER_LOGIN')
+    end)
+end

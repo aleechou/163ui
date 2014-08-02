@@ -261,3 +261,14 @@ end
 function Profile:IsSocialEnabled()
     return self.characterdb.profile.settings.socialEnabled
 end
+
+function Profile:SaveVersion()
+    self.globaldb.global.version = GetAddOnMetadata('RaidBuilder', 'Version')
+end
+
+function Profile:IsNewVersion()
+    local pVersion = tonumber(self.globaldb.global.version) or 0
+    local cVersion = tonumber(GetAddOnMetadata('RaidBuilder', 'Version')) or 0
+
+    return pVersion < cVersion
+end

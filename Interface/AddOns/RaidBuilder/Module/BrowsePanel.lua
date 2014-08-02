@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0')
+BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0', 'NetEaseGUI-DropMenu-1.0')
 
 local function _NormalSortHandler(event)
     return format('%04d%08x', event:GetLeaderLogoIndex(), event:GetEventCode())
@@ -162,6 +162,14 @@ function BrowsePanel:OnInitialize()
         self.EventList:SetFilterText(leader, eventCode, usable, encrypt, favorite)
     end
 
+    local HelpButton = CreateFrame('Button', nil, self, 'MainHelpPlateButton')
+    HelpButton:SetPoint('TOPLEFT', self:GetOwner(), 39, 20)
+    HelpButton:SetScript('OnClick', function()
+        self:ToggleHelpPlate()
+    end)
+
+    MainPanel:AddHelpButton(HelpButton)
+
     local FilterLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
     FilterLabel:SetPoint('TOPLEFT', self:GetOwner(), 'TOPLEFT', 80, -40)
     FilterLabel:SetText(L['活动类型'])
@@ -201,12 +209,12 @@ function BrowsePanel:OnInitialize()
     Favorite:SetText(L['仅关注'])
     Favorite:SetScript('OnClick', RefreshFilter)
 
-    local BanButton = GUI:GetClass('ClearButton'):New(self)
-    BanButton:Hide()
-    BanButton:SetScript('OnClick', function(button)
-        BlackListPanel:Add(button.data)
-    end)
-    GUI:SetTooltip(BanButton, 'ANCHOR_RIGHT', L['加入到黑名单'])
+    -- local BanButton = GUI:GetClass('ClearButton'):New(self)
+    -- BanButton:Hide()
+    -- BanButton:SetScript('OnClick', function(button)
+    --     BlackListPanel:Add(button.data)
+    -- end)
+    -- GUI:SetTooltip(BanButton, 'ANCHOR_RIGHT', L['加入到黑名单'])
 
     local EventList = GUI:GetClass('DataGridView'):New(self)
     EventList:SetAllPoints(self)
@@ -227,21 +235,10 @@ function BrowsePanel:OnInitialize()
                 GameTooltip:Show()
             end
         end
-        if event and not event:IsSelf() then
-            BanButton:SetParent(grid:GetParent())
-            BanButton:ClearAllPoints()
-            BanButton:SetPoint('RIGHT')
-            BanButton:SetFrameLevel(grid:GetFrameLevel() + 10)
-            BanButton:Show()
-            BanButton.data = event:GetLeaderBattleTag()
-        end
     end)
     EventList:SetCallback('OnGridLeave', function()
         RoleTip:Hide()
         GameTooltip:Hide()
-        if not BanButton:IsMouseOver() then
-            BanButton:Hide()
-        end
         MainPanel:CloseTooltip()
     end)
     EventList:SetCallback('OnSelectChanged', function(_, index, event)
@@ -249,6 +246,9 @@ function BrowsePanel:OnInitialize()
     end)
     EventList:SetCallback('OnItemEnter', function(_, index, event)
         MainPanel:OpenEventTooltip(event)
+    end)
+    EventList:SetCallback('OnItemMenu', function(_, button, event)
+        self:ToggleEventMenu(button, event)
     end)
     EventList:SetCallback('OnRefresh', function(frame)
         self.EmptySummary:SetShown(frame:GetItemCount() == 0)
@@ -271,7 +271,7 @@ function BrowsePanel:OnInitialize()
     JoinButton:SetSize(120, 22)
     JoinButton:SetText(L['申请加入'])
     JoinButton:SetScript('OnClick', function()
-        self:OnJoinClick()
+        self:JoinOrLeaveEvent(self.EventList:GetItem(self.EventList:GetSelected()))
     end)
 
     local TotalEvents = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
@@ -302,6 +302,7 @@ function BrowsePanel:OnInitialize()
     end)
     IconSummary:SetScript('OnLeave', GameTooltip_Hide)
 
+    self.HelpButton = HelpButton
     self.JoinButton = JoinButton
     self.Filter = Filter
     self.Usable = Usable
@@ -319,6 +320,7 @@ function BrowsePanel:OnInitialize()
         end
     end)
     self:SetScript('OnHide', function()
+        HelpPlate_Hide()
         RaidBuilder:HideModule('RolePanel')
     end)
 
@@ -361,8 +363,7 @@ function BrowsePanel:GetEventList()
     return list
 end
 
-function BrowsePanel:OnJoinClick()
-    local event = self.EventList:GetItem(self.EventList:GetSelected())
+function BrowsePanel:JoinOrLeaveEvent(event)
     if not event then
         return
     end
@@ -401,4 +402,96 @@ end
 
 function BrowsePanel:QuickToggle(code)
     self.Filter:SetValue(code)
+end
+
+local helpPlate = {
+    FramePos = { x = -10,          y = 75 },
+    FrameSize = { width = 830, height = 425 },
+    {
+        ButtonPos = { x = 300,   y = -5 },
+        HighLightBox = { x = 60, y = -5, width = 765, height = 45 },
+        ToolTipDir = "DOWN",
+        ToolTipText = L.BrowseHelp1,
+    },
+    {
+        ButtonPos = { x = 370,  y = -190 },
+        HighLightBox = { x = 5, y = -55, width = 820, height = 338 },
+        ToolTipDir = "RIGHT",
+        ToolTipText = L.BrowseHelp2,
+    },
+    {
+        ButtonPos = { x = 90,  y = -389 },
+        HighLightBox = { x = 5, y = -397, width = 130, height = 28 },
+        ToolTipDir = "UP",
+        ToolTipText = L.BrowseHelp3,
+    },
+    {
+        ButtonPos = { x = 300,  y = -389 },
+        HighLightBox = { x = 300, y = -397, width = 200, height = 28 },
+        ToolTipDir = "UP",
+        ToolTipText = L.BrowseHelp4,
+    },
+    {
+        ButtonPos = { x = 550,  y = -389 },
+        HighLightBox = { x = 550, y = -397, width = 275, height = 28 },
+        ToolTipDir = "UP",
+        ToolTipText = L.BrowseHelp5,
+    },
+}
+
+function BrowsePanel:ToggleHelpPlate()
+    if helpPlate and not HelpPlate_IsShowing(helpPlate) then
+        HelpPlate_Show(helpPlate, self, self.HelpButton, true )
+    else
+        HelpPlate_Hide(true)
+    end
+end
+
+function BrowsePanel:ToggleEventMenu(button, event)
+    self:ToggleMenu(button, {
+        {
+            text = event:GetEventName(),
+            isTitle = true,
+        },
+        -- {
+        --     text = L['密语'],
+        --     func = function()
+        --         local name = event:GetLeader()
+        --         ChatFrame_SendTell(Invite:IsSameRealm(name) and name or name:gsub('-', '@'), ChatFrame1)
+        --     end,
+        -- },
+        {
+            text = event:IsApplied() and L['取消申请'] or L['申请加入'],
+            disabled = event:IsSelf() or event:IsInEvent(),
+            func = function()
+                self:JoinOrLeaveEvent(event)
+            end,
+        },
+        {
+            text = L['添加关注'],
+            disabled = event:IsSelf(),
+            func = function()
+                FavoritePanel:Add(event:GetLeaderBattleTag())
+            end
+        },
+        {
+            text = L['加入黑名单'],
+            disabled = event:IsSelf(),
+            func = function()
+                BlackListPanel:Add(event:GetLeaderBattleTag())
+            end
+        },
+        {
+            text = L['举报'],
+            disabled = event:IsSelf(),
+            confirmInput = true,
+            confirmDefault = L['广告'],
+            confirm = L['你确定要举报玩家 |cffffd100%s|r 吗？\n请填写举报原因。']:format(event:GetLeaderBattleTag()),
+            func = function(result, input)
+                if result then
+                    Logic:ReportEvent(input, event)
+                end
+            end
+        }
+    }, 'cursor')
 end

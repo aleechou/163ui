@@ -3,6 +3,7 @@
   <Include file="Libs\Embeds.xml" />
   <Include file="Localization\Localization.xml" />
   <Script file="EventData.lua" />
+  <Script file="ChangeLog.lua" />
   <Script file="Data.lua" />
   <Script file="API.lua" />
   <Script file="MenuTable.lua" />

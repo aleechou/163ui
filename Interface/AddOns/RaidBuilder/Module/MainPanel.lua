@@ -80,6 +80,15 @@ function MainPanel:OnInitialize()
         end
     }
 
+    self:CreateTitleButton{
+        title = L['插件简介'],
+        texture = [[Interface\AddOns\RaidBuilder\Media\RaidbuilderIcons]],
+        coords = {224/256, 1, 0.5, 1},
+        callback = function()
+            self:ToggleChangeLog()
+        end
+    }
+
     -- self:CreateTitleButton{
     --     title = L['每日签到'],
     --     texture = 'Interface\\AddOns\\RaidBuilder\\Media\\RaidbuilderIcons',
@@ -107,6 +116,8 @@ function MainPanel:OnInitialize()
     end)
 
     self.GameTooltip = GameTooltip
+
+    self.helpButtons = {}
 end
 
 function MainPanel:OnEnable()
@@ -118,6 +129,10 @@ function MainPanel:OnShow()
     self:UpdateBlocker()
     self:Refresh()
     self:SelectPanel(MainPanel:GetCurrentPanel())
+
+    if Profile:IsNewVersion() then
+        self:ToggleChangeLog(true)
+    end
 end
 
 function MainPanel:OnHide()
@@ -137,7 +152,7 @@ function MainPanel:InitBlocker()
     local Blocker = CreateFrame('Frame', nil, self)
     Blocker:SetPoint('BOTTOMLEFT', 0, -30)
     Blocker:SetPoint('TOPRIGHT', 0, -20)
-    Blocker:SetToplevel(true)
+    -- Blocker:SetToplevel(true)
     Blocker:EnableMouse(true)
     Blocker:EnableMouseWheel(true)
     Blocker:SetScript('OnMouseWheel', function() end)
@@ -177,17 +192,24 @@ end
 function MainPanel:SetBlocker(blockType)
     if blockType == 'MISSBNET' then
         local Blocker = self.Blocker or self:InitBlocker()
+        Blocker.SummaryBox:SetSize(550, 350)
         Blocker.Html:SetText(L.MissBattleTagSummary)
         Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
         Blocker.Icon:SetDesaturated(true)
-        Blocker.SummaryBox:SetSize(550, 350)
         Blocker:Show()
     elseif blockType == 'NEUTRAL' then
         local Blocker = self.Blocker or self:InitBlocker()
+        Blocker.SummaryBox:SetSize(400, 270)
         Blocker.Html:SetText(L.NeutralDisabled)
         Blocker.Icon:SetTexture([[INTERFACE\Timer\Panda-Logo]])
         Blocker.Icon:SetDesaturated(false)
-        Blocker.SummaryBox:SetSize(400, 270)
+        Blocker:Show()
+    elseif blockType == 'TRIALACCOUNT' then
+        local Blocker = self.Blocker or self:InitBlocker()
+        Blocker.SummaryBox:SetSize(400, 300)
+        Blocker.Html:SetText(L.TrialAccountSummary)
+        Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
+        Blocker.Icon:SetDesaturated(true)
         Blocker:Show()
     elseif self.Blocker then
         self.Blocker:Hide()
@@ -195,8 +217,14 @@ function MainPanel:SetBlocker(blockType)
 end
 
 function MainPanel:UpdateBlocker()
+    if not self:IsShown() then
+        return
+    end
     if UnitFactionGroup('player') == 'Neutral' then
         return self:SetBlocker('NEUTRAL')
+    end
+    if IsTrialAccount() then
+        return self:SetBlocker('TRIALACCOUNT')
     end
     if not BNConnected() then
         return self:SetBlocker('MISSBNET')
@@ -326,4 +354,97 @@ end
 
 function MainPanel:CloseTooltip()
     self.GameTooltip:Hide()
+end
+
+function MainPanel:CreateChangeLog()
+    local ChangeLogFrame = CreateFrame('Frame', nil, self)
+    ChangeLogFrame:SetPoint('BOTTOMLEFT', 5, 5)
+    ChangeLogFrame:SetPoint('TOPRIGHT', -5, -25)
+    -- ChangeLogFrame:SetToplevel(true)
+    ChangeLogFrame:EnableMouse(true)
+    ChangeLogFrame:EnableMouseWheel(true)
+    ChangeLogFrame:SetScript('OnMouseWheel', function() end)
+    ChangeLogFrame:SetFrameLevel(89)
+    ChangeLogFrame:Hide()
+    ChangeLogFrame:SetBackdrop{
+        edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+        bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
+        insets = { left = 2, right = 2, top = 2, bottom = 2 },
+        tileSize = 16, edgeSize = 16, tile=true
+    }
+    ChangeLogFrame:SetBackdropBorderColor(1, 0.82, 0)
+    ChangeLogFrame:SetScript('OnShow', function()
+        Profile:SaveVersion()
+        self:HideHelpButtons()
+    end)
+    ChangeLogFrame:SetScript('OnHide', function()
+        self:ShowHelpButtons()
+    end)
+
+    local Title = ChangeLogFrame:CreateFontString(nil, 'OVERLAY', 'QuestFont_Super_Huge')
+    Title:SetPoint('TOPLEFT', 50, -50)
+    Title:SetText(L['集合石'])
+    Title:SetFont(Title:GetFont(), 32)
+
+    local EnterButton = CreateFrame('Button', nil, ChangeLogFrame, 'UIPanelButtonTemplate')
+    EnterButton:SetPoint('BOTTOMLEFT', 50, 30)
+    EnterButton:SetSize(120, 36)
+    EnterButton:SetText(L['开始体验'])
+    EnterButton:SetScript('OnClick', function()
+        self:ToggleChangeLog()
+    end)
+
+    local HelpButton = CreateFrame('Button', nil, ChangeLogFrame, 'UIPanelButtonTemplate')
+    HelpButton:SetPoint('BOTTOMLEFT', EnterButton, 'TOPLEFT', 0, 10)
+    HelpButton:SetSize(120, 36)
+    HelpButton:SetText(L['新手指引'])
+    HelpButton:SetScript('OnClick', function()
+        self:ToggleChangeLog()
+        self:SelectPanel(BrowsePanel)
+        BrowsePanel:QuickToggle()
+        BrowsePanel:ToggleHelpPlate()
+    end)
+
+    local portraitFrame = ChangeLogFrame:CreateTexture(nil, 'OVERLAY', 'UI-Frame-Portrait')
+    portraitFrame:SetAllPoints(self.portraitFrame)
+    local portrait = ChangeLogFrame:CreateTexture(nil, 'OVERLAY', nil, -1)
+    portrait:SetAllPoints(self.portrait)
+    SetPortraitToTexture(portrait, [[Interface\AddOns\RaidBuilder\Media\WebEvent]])
+
+    local Frame = GUI:GetClass('ScrollFrame'):New(ChangeLogFrame)
+    Frame:SetPoint('TOPLEFT', 400, -20)
+    Frame:SetPoint('BOTTOMRIGHT', -20, 20)
+
+    local ChangeLog = GUI:GetClass('SummaryHtml'):New(Frame)
+    -- ChangeLog:SetSpacing('p', 5)
+    ChangeLog:SetSpacing('h2', 20)
+    Frame:SetScrollChild(ChangeLog)
+    ChangeLog:SetText(ADDON_CHANGE_LOG)
+
+    self.ChangeLogFrame = ChangeLogFrame
+
+    return ChangeLogFrame
+end
+
+function MainPanel:ToggleChangeLog(force)
+    local Frame = self.ChangeLogFrame or self:CreateChangeLog()
+
+    Frame:SetShown(force or not Frame:IsShown())
+end
+
+function MainPanel:AddHelpButton(button)
+    tinsert(self.helpButtons, button)
+end
+
+function MainPanel:HideHelpButtons()
+    for _, button in ipairs(self.helpButtons) do
+        button:Hide()
+    end
+    HelpPlate_Hide()
+end
+
+function MainPanel:ShowHelpButtons()
+    for _, button in ipairs(self.helpButtons) do
+        button:Show()
+    end
 end

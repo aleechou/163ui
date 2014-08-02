@@ -64,7 +64,6 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = 5,
             },
-
             socialEnabled = {
                 type = 'toggle',
                 name = function()
@@ -153,15 +152,6 @@ function SettingPanel:OnInitialize()
     end)
     -- ReferenceButton:Hide()
 
-    -- local RewardButton = BigButton:New(self)
-    -- RewardButton:SetPoint('TOPRIGHT', ReferenceButton, 'BOTTOMRIGHT', 0, -30)
-    -- RewardButton:SetText('领奖')
-    -- RewardButton:SetScript('OnClick', function(self)
-    --     GUI:CallInputDialog(L['请输入兑换码'], function(result, text)
-    --         if result then
-    --             Logic:Exchange(text)
-    --         end
-    --     end, 'NetEaseExchange')
-    -- end)
+    self.ReferenceButton = ReferenceButton
 end
 

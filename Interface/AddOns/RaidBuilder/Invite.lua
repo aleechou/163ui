@@ -538,3 +538,8 @@ end
 function Invite:UnitIsFriend(name, realm, battleTag)
     return self.normalFriends[name] or self.normalFriends[format('%s-%s', name, realm)] or self:IsBNetFriend(battleTag)
 end
+
+function Invite:IsSameRealm(name)
+    local realm = name:match('%-(.+)$')
+    return not realm or self.realms[realm]
+end

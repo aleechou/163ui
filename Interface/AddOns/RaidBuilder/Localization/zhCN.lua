@@ -41,6 +41,7 @@ L['|cffff0000注意：该记录仅储存在本地配置中|r'] = true
 L['|cffff0000注意：黑名单仅储存在本地配置中|r'] = true
 L['|cffff0000记录您最近参加的集合石活动人员名单（80名）|r'] = true
 L['|cffffd100%s|r 已经在关注列表。'] = true
+L['举报'] = true
 L['人员已满'] = true
 L['人数'] = true
 L['人气主播'] = true
@@ -63,6 +64,7 @@ L['你确定将 |cffffd100%s|r 加入关注列表吗？'] = true
 L['你确定将 |cffffd100%s|r 加入黑名单吗？'] = true
 L['你确定将 |cffffd100%s|r 移出关注列表吗？'] = true
 L['你确定将 |cffffd100%s|r 移出黑名单吗？'] = true
+L['你确定要举报玩家 |cffffd100%s|r 吗？\n请填写举报原因。'] = true
 L['你确定要取消申请这个活动？'] = true
 L['你确定要解散这个活动？'] = true
 L['使用手机推送功能后，将会把本次活动信息通过易信消息发送到关注你的玩家手机上。'] = true
@@ -117,12 +119,14 @@ L['已加入'] = true
 L['已加入活动'] = true
 L['已取消申请加入%s的活动。'] = true
 L['已填写推荐'] = true
+L['已成功提交举报信息。'] = true
 L['已提交申请加入|cffffd100%s|r的活动。'] = true
 L['广告'] = true
 L['开启团队通告'] = true
 L['开启集合石聊天'] = true
 L['开团'] = true
 L['开团时间'] = true
+L['开始体验'] = true
 L['开始邀请'] = true
 L['弹性'] = true
 L['当前人数'] = true
@@ -155,10 +159,12 @@ L['排名'] = true
 L['排行榜'] = true
 L['推荐人'] = true
 L['推荐人填写成功'] = true
+L['插件简介'] = true
 L['操作'] = true
 L['操作记录'] = true
 L['收到一个|cff00ffff集合石|r预约活动请求，请验证是否合法。'] = true
 L['攻强：'] = true
+L['新手指引'] = true
 L['易信下载二维码'] = true
 L['易信推送'] = true
 L['易信通知'] = true
@@ -336,6 +342,25 @@ L.MissBattleTagSummary = [[
 </html>
 ]]
 
+L.TrialAccountSummary = [[
+<html>
+<body>
+<h3>试玩帐号不可用</h3>
+<br/>
+<p>试玩帐号不能使用战网相关功能。</p>
+<p>]] .. ADDON_TITLE .. [[依赖战网昵称好友功能。</p>
+<br/>
+<h2>|HurlIndex:2|h[点击此处升级你的账号]|h</h2>
+<br/>
+<p>如果您无法解决这个问题，请尝试重新登录或前往论坛寻求帮助。</p>
+<br/>
+<h1>论坛：</h1>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
+<br/>
+</body>
+</html>
+]]
+
 L.NeutralDisabled = [[
 <html>
 <body>
@@ -403,4 +428,30 @@ L.RecommendSummary = [[
 <p>此外，在每周的所有中奖玩家中，我们将额外抽出一名玩家获得《魔兽世界：熊猫人之谜》典藏版一份。</p>
 </body>
 </html>
+]]
+
+L.BrowseHelp1 = [[
+活动类型：下拉列表选择你想要参加的活动
+
+团长查找：输入团长名字精确查找
+
+复选框：辅助你筛选所有的活动
+]]
+
+L.BrowseHelp2 = [[
+活动呈现界面，可以在这里寻找自己喜欢的活动。
+
+鼠标悬停：可以查看活动队长的具体信息。
+]]
+
+L.BrowseHelp3 = [[
+鼠标悬浮：活动当前的状态图示
+]]
+
+L.BrowseHelp4 = [[
+选择你要加入的队伍后，单击申请加入按钮。
+]]
+
+L.BrowseHelp5 = [[
+你申请的活动数量以及当前团队总数量
 ]]

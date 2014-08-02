@@ -1,6 +1,6 @@
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local View = GUI:NewEmbed('Select', 2)
+local View = GUI:NewEmbed('Select', 3)
 if not View then
     return
 end
@@ -17,7 +17,7 @@ local _SelectModes = {
     },
     RADIO = {
         SetSelected = function(self, index)
-            if index ~= self.selected then
+            if index ~= self.selected or self.selectedItem ~= self:GetItem(index) then
                 self.selected = index
                 self.selectedItem = self:GetItem(index)
                 self:Refresh()

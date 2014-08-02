@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridViewGridItem', 4
+local WIDGET, VERSION = 'DataGridViewGridItem', 5
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridViewGridItem = GUI:NewClass(WIDGET, 'Button', VERSION)
@@ -101,10 +101,12 @@ function DataGridViewGridItem:Constructor(parent, style)
     self:SetScript('OnClick', self.OnClick)
     self:SetScript('OnEnter', self.OnEnter)
     self:SetScript('OnLeave', self.OnLeave)
+
+    self:RegisterForClicks('anyUp')
 end
 
-function DataGridViewGridItem:OnClick()
-    self:GetParent():Click()
+function DataGridViewGridItem:OnClick(...)
+    self:GetParent():Click(...)
 end
 
 function DataGridViewGridItem:OnEnter()

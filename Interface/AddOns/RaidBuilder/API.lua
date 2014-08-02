@@ -533,3 +533,25 @@ function GetEventCodeInfo(eventCode)
 
     return cate, sub, id, diff, area
 end
+
+-- function MakeChatEvent(event, ...)
+--     for i = 1, NUM_CHAT_WINDOWS do
+--         local frame = _G['ChatFrame' .. i]
+--         if frame and frame:IsEventRegistered(event) then
+--             local script = frame:GetScript('OnEvent')
+--             if script then
+--                 script(frame, event, ...)
+--             end
+--         end
+--     end
+-- end
+
+-- local orig_SendChatMessage = SendChatMessage
+-- function _G.SendChatMessage(text, chatType, language, channel)
+--     if chatType == 'WHISPER' and channel:find('@') then
+--         Logic:SendServer('WHISPER', channel, text)
+--         MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, '', 0, 0, nil, nil, 0, '')
+--     else
+--         orig_SendChatMessage(text, chatType, language, channel)
+--     end
+-- end

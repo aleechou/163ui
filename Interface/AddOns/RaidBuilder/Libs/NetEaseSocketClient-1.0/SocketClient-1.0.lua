@@ -12,7 +12,7 @@ local AceSerializer = assert(LibStub('AceSerializer-3.0', true), 'NetEaseSocketC
 local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'NetEaseSocketClient-1.0 requires CallbackHandler-1.0')
 local CTL = assert(ChatThrottleLib, "NetEaseSocketClient-1.0 requires ChatThrottleLib")
 
-local MAJOR, MINOR = 'SocketClient-1.0', 6
+local MAJOR, MINOR = 'SocketClient-1.0', 10
 local SocketClient,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not SocketClient then return end
 
@@ -33,6 +33,7 @@ AceTimer:Embed(SocketClient)
 AceSerializer:Embed(SocketClient)
 
 SocketClient._Objects = SocketClient._Objects or {}
+SocketClient._ConnectQueue = SocketClient._ConnectQueue or {}
 SocketClient.status = SOCKET_NORMAL
 
 local _Meta = {__index = SocketClient}
@@ -45,12 +46,16 @@ function SocketClient:New()
         'UnregisterServer',
         'UnregisterAllServer').Fire
 
-    object.realms = {}
-    object.index = 1
-
     self._Objects[object] = true
 
     return setmetatable(object, _Meta)
+end
+
+function SocketClient:PLAYER_LOGIN()
+    for handler, v in pairs(self._ConnectQueue) do
+        handler:Connect(v.prefix, v.target, v.interval, v.noUserInfo)
+        self._ConnectQueue[handler] = nil
+    end
 end
 
 function SocketClient:OnCommReceived(prefix, data, distribution, target)
@@ -99,20 +104,31 @@ function SocketClient:DealPacket(target, ok, cmd, ...)
     self:Fire(cmd, ...)
 end
 
-function SocketClient:Connect(prefix, name, interval, noUserInfo)
-    self.prefix = prefix
-    self.name = name
-    self.status = SOCKET_CONNECT
+function SocketClient:Connect(prefix, target, interval, noUserInfo)
+    if IsLoggedIn() then
+        self.prefix = prefix
+        self.target = Ambiguate(target .. '-' .. (GetAutoCompleteRealms() or { GetRealmName():gsub('%s+', '') })[1], 'none')
+        self.status = SOCKET_CONNECT
 
-    self:UnregisterAllComm()
-    self:RegisterComm(prefix, 'OnCommReceived')
+        self:UnregisterAllComm()
+        self:RegisterComm(prefix, 'OnCommReceived')
 
-    if not interval or interval < 5 then
-        interval = 5
+        if not interval or interval < 5 then
+            interval = 5
+        end
+        self.interval = interval
+        self.noUserInfo = noUserInfo
+        self:TryConnect()
+    else
+        self._ConnectQueue[self] = {
+            prefix = prefix,
+            interval = interval,
+            target = target,
+            noUserInfo = noUserInfo,
+        }
+
+        AceEvent.RegisterEvent(SocketClient, 'PLAYER_LOGIN')
     end
-    self.interval = interval
-    self.noUserInfo = noUserInfo
-    self:TryConnect()
 end
 
 function SocketClient:TryConnect()
@@ -123,7 +139,7 @@ end
 
 function SocketClient:Disconnect()
     self:UnregisterAllComm()
-    self.name = nil
+    self.target = nil
     self.prefix = nil
     self.status = nil
 
@@ -131,22 +147,12 @@ function SocketClient:Disconnect()
 end
 
 function SocketClient:GetTarget()
-    if self:IsConnecting() then
-        GetAutoCompleteRealms(self.realms)
-        if #self.realms == 0 then
-            self.target = self.name
-        else
-            self.target = self.name .. '-' .. self.realms[self.index]
-            self.index = self.index % #self.realms + 1
-        end
-    end
     return self.target
 end
 
-function SocketClient:SetTarget(name)
+function SocketClient:SetTarget(target)
     self.status = SOCKET_READY
-    self.target = name
-    self.targetOffline = ERR_CHAT_PLAYER_NOT_FOUND_S:format(name)
+    self.target = target
 end
 
 function SocketClient:Send(cmd, ...)
@@ -177,18 +183,21 @@ function SocketClient:IsConnecting()
 end
 
 if not SocketClient.chatFilter then
+    local NOT_FOUND_MATCH = ERR_CHAT_PLAYER_NOT_FOUND_S:format('(.+)')
     ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(_, _, msg)
+        local name = msg:match(NOT_FOUND_MATCH)
+        if not name then
+            return
+        end
+
+        name = Ambiguate(name, 'none')
+
         for handler in pairs(SocketClient._Objects) do
-            if handler:IsReady() then
-                if handler.targetOffline == msg then
+            if handler.target == name then
+                if handler:IsReady() then
                     handler:Disconnect()
-                    return true
                 end
-            end
-            if handler.name then
-                if msg:match(ERR_CHAT_PLAYER_NOT_FOUND_S:format(handler.name .. '%-?(.*)')) then
-                    return true
-                end 
+                return true
             end
         end
     end)
@@ -208,14 +217,6 @@ if not SocketClient.chatFilter then
     
     FloatingChatFrameManager:SetScript('OnEvent', nil)
     FloatingChatFrameManager:SetScript('OnEvent', function(self, event, ...)
-        -- local filters = ChatFrame_GetMessageEventFilters(event)
-        -- if filters then
-        --     for _, filterFunc in pairs(filters) do
-        --         if filterFunc(self, event, ...) then
-        --             return
-        --         end
-        --     end
-        -- end
         if event == 'CHAT_MSG_WHISPER_INFORM' and InformFilter(self, event, ...) then
             return
         end

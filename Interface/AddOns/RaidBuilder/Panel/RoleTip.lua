@@ -108,6 +108,12 @@ function RoleTip:Update()
     if not self.rightLabel then
         self:Hide()
     else
-        self:SetWidth(self.rightLabel:GetRight() - self:GetLeft() + 20)
+        local left = self:GetLeft()
+        local right = self.rightLabel:GetRight()
+        if not left or not right then
+            self:Refresh()
+        else
+            self:SetWidth(right - left + 20)
+        end
     end
 end

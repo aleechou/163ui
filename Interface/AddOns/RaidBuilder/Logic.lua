@@ -12,8 +12,7 @@ Logic = RaidBuilder:NewModule('Logic',
     'AceBucket-3.0')
 
 function Logic:OnInitialize()
-    self:ConnectBroad('CHANNEL', L.RaidBuilderChannel)
-    self:RegisterBroad('BROAD_DISCONNECTED')
+    self:RegisterBroad('BROAD_DISCONNECTED', 'BroadConnect')
     self:RegisterBroad('BROAD_CONNECTED', 'RefreshCurrentEvent')
 
     self:RegisterBroad('BEI', 'BROAD_EVENT_INFO')
@@ -29,7 +28,7 @@ function Logic:OnInitialize()
     self:RegisterSocket('SER', 'SOCKET_EVENT_REFUSE')
     self:RegisterSocket('GUI', 'GROUP_UNIT_INFO')
     
-    self:RegisterServer('SOCKET_DISCONNECTED', 'Connect')
+    self:RegisterServer('SOCKET_DISCONNECTED', 'ServerConnect')
     self:RegisterServer('SOCKET_CONNECTED')
     self:RegisterServer('SEI', 'SOCKET_EVENT_INFO')
     self:RegisterServer('SED', 'SOCKET_EVENT_DISBAND')
@@ -39,9 +38,11 @@ function Logic:OnInitialize()
     self:RegisterServer('SVERSION', 'SOCKET_VERSION')
     self:RegisterServer('SARGS', 'SOCKET_ARGS')
 
-    -- self:RegisterServer('EXCHANGE_RESULT')
+    self:RegisterServer('EXCHANGE_RESULT')
+    self:RegisterServer('WHISPER_INFORM')
 
-    self:Connect()
+    self:ServerConnect()
+    self:BroadConnect()
 
     self:RegisterEvent('PARTY_INVITE_REQUEST')
     self:RegisterEvent('GROUP_JOINED')
@@ -51,8 +52,16 @@ function Logic:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_CURRENT_ROLE_UPDATE', 'RefreshCurrentEvent')
 end
 
-function Logic:Connect()
-    self:ConnectServer('NERB', 'WOWCLOUD1')
+function Logic:ServerConnect()
+    if not IsTrialAccount() then
+        self:ConnectServer('NERB', 'WOWCLOUD1')
+    end
+end
+
+function Logic:BroadConnect()
+    if not IsTrialAccount() then
+        self:ConnectBroad('CHANNEL', L.RaidBuilderChannel)
+    end
 end
 
 local ADDON_NAME = ...
@@ -80,10 +89,6 @@ function Logic:GROUP_JOINED()
 end
 
 ---- Broad
-
-function Logic:BROAD_DISCONNECTED()
-    self:ConnectBroad('CHANNEL', L.RaidBuilderChannel)
-end
 
 function Logic:BROAD_EVENT_INFO(event, sender, leader, ...)
     local leader = Ambiguate(leader or sender, 'none')
@@ -452,4 +457,18 @@ function Logic:Referenced(target)
     local btag = select(2, BNGetInfo())
     self:SendServer('REFERENCE', UnitGUID('player'), btag, target)
     Profile:SetReferenced(target)
+end
+
+function Logic:EXCHANGE_RESULT(event, content)
+    GUI:CallWarningDialog(content)
+end
+
+function Logic:ReportEvent(input, event)
+    self:SendServer('SREPORT', input, event:GetLeaderBattleTag(), event:GetLeader(), event:GetSummary())
+
+    System:Log(L['已成功提交举报信息。'])
+end
+
+function Logic:WHISPER_INFORM(event, from, text)
+    MakeChatEvent('CHAT_MSG_WHISPER', text, from, '', '', nil, '', 0, 0, nil, nil, 0, '')
 end

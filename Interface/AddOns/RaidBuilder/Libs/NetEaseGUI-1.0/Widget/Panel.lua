@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'Panel', 3
+local WIDGET, VERSION = 'Panel', 4
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local Panel = GUI:NewClass(WIDGET, 'Frame.NetEasePanelTemplate', VERSION)
@@ -233,6 +233,7 @@ function Panel:RegisterPanel(name, panel, padding, topHeight, bottomHeight)
     panel:SetPoint('TOPLEFT', padding, -padding)
     panel:SetPoint('BOTTOMRIGHT', -padding, padding)
     panel:SetScript('OnShow', OnShow)
+    panel:SetFrameLevel(10)
 end
 
 function Panel:UnregisterPanel(name)

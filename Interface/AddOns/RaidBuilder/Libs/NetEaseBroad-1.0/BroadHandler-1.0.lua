@@ -13,7 +13,7 @@ local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandl
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
 local Base64 = assert(LibStub('NetEaseBase64-1.0', true), 'BroadHandler-1,0 requires NetEaseBase64-1.0')
 
-local MAJOR, MINOR = 'BroadHandler-1.0', 8
+local MAJOR, MINOR = 'BroadHandler-1.0', 11
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not BroadHandler then return end
 
@@ -46,6 +46,7 @@ function BroadHandler:OnChannelReady()
     if self.channelReady then
         return
     end
+
     self:UnregisterBucket('CHANNEL_UI_UPDATE')
     self:UnregisterBucket('CHAT_MSG_CHANNEL')
     self:UnregisterBucket('CHAT_MSG_CHANNEL_NOTICE')
@@ -60,7 +61,7 @@ function BroadHandler:OnChannelReady()
         end
     until not v
 end
-BroadHandler:RegisterBucketEvent({'CHANNEL_UI_UPDATE', 'CHAT_MSG_CHANNEL_NOTICE', 'CHAT_MSG_CHANNEL'}, 5, 'OnChannelReady')
+BroadHandler:RegisterBucketEvent({'CHANNEL_UI_UPDATE', 'CHAT_MSG_CHANNEL_NOTICE', 'CHAT_MSG_CHANNEL'}, 10, 'OnChannelReady')
 BroadHandler:ScheduleTimer('OnChannelReady', 30)
 
 ---- Lua APIs
@@ -290,21 +291,37 @@ if not BroadHandler.hooked then
 end
 
 if not BroadHandler.chatFilter then
-    local function AddMessageFilter(event, filter)
-        local list = ChatFrame_GetMessageEventFilters(event)
-        if list then
-            ChatFrame_RemoveMessageEventFilter(event, filter)
-            tinsert(list, 1, filter)
-        else
-            ChatFrame_AddMessageEventFilter(event, filter)
-        end
-    end
-
-    AddMessageFilter('CHAT_MSG_CHANNEL', function(_, _, _, _, _, _, _, _, _, _, channelName)
+    local function BroadChatFilter(self, event, _, _, _, _, _, _, _, _, channelName)
         if BroadHandler.usedChannels[channelName] then
             return true
         end
-    end)
+    end
 
+    local orig_ChatFrame_ConfigEventHandler = ChatFrame_ConfigEventHandler
+    function ChatFrame_ConfigEventHandler(self, event, ...)
+        if event == 'CHAT_MSG_CHANNEL' and BroadChatFilter(self, event, ...) then
+            return true
+        end
+        return orig_ChatFrame_ConfigEventHandler(self, event, ...)
+    end
+    
     BroadHandler.chatFilter = true
+end
+
+do
+    local function disableFilter()
+        SetCVar('profanityFilter', 0)
+        if BNFeaturesEnabledAndConnected() then
+            BNSetMatureLanguageFilter(false)
+        end
+    end
+
+    if IsLoggedIn() then
+        pcall(disableFilter)
+    else
+        BroadHandler:RegisterEvent('PLAYER_LOGIN', function()
+            pcall(disableFilter)
+            BroadHandler:UnregisterEvent('PLAYER_LOGIN')
+        end)
+    end
 end

@@ -174,7 +174,8 @@ local function _IsMatch(filterCode, eventCode)
     if f4 ~= 0 and f4 ~= e4 then
         return false
     end
-    if f5 ~= 0 and bit.band(f5, e5) == 0 then
+    -- if f5 ~= 0 and bit.band(f5, e5) == 0 then
+    if f5 ~= 0 and f5 ~= e5 then
         return false
     end
     return true
