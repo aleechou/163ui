@@ -11,6 +11,14 @@
 * 经过一段时间的实测发现 ChannelClean 的拦截效果不如 ChatFilter ；因此移除ChannelClean，重新换回了 ChatFilter，同时优化了 ChatFilter 的占用，并处理掉了自动乱加好友的问题
 
 
+2014-08-01
+===
+
+### DBM
+
+* fix: 一处计时条的错误，该错误会还会导致也些boss技能的倒计时失效
+
+
 2014-07-30/01
 ===
 
