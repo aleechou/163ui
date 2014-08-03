@@ -5,6 +5,7 @@
 ## Author: Tuller
 ## Dependencies: OmniCC
 ## LoadOnDemand: 1
+## 163UI-Version: 2014080301
 
 libs\libs.xml
 localization\localization.xml
