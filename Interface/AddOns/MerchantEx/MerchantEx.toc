@@ -15,6 +15,6 @@ Locales\zhTW.lua
 Core.lua
 OptionFrame.lua
 
-## Title: |cff880303[网易有爱]|r 交易助手
+## Title: |cff880303[网易有爱]|r 自动修理售卖
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014080301
