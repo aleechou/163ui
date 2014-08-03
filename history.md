@@ -1,4 +1,10 @@
 
+2014-08-03/01
+===
+
+* 修正 MerchantEx、PetJournalEnhanced 的中文名称
+
+
 2014-07-30/01
 ===
 
