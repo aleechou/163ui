@@ -8,7 +8,8 @@
         "idTip", 
         "GoGoMount", 
         "zTip",
-        "ChannelClean"
+        "ChannelClean",
+        "tdCooldown2"
     ], 
     "conflictive": {
         "foo": [

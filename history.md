@@ -1,14 +1,25 @@
 
-2014-08-03/01
+2014-08-03/03
 ===
+
+### 聊天过滤
+
+* 经过一段时间的实测发现 ChannelClean 的拦截效果不如 ChatFilter ；因此移除ChannelClean，重新换回了 ChatFilter，同时优化了 ChatFilter 的占用，并处理掉了自动乱加好友的问题
+
+### 技能冷却
+
+* 将占用很高的 tdCooldown2 替换为 OmniCC
+
+### HatTrick(头盔、披风快捷选项)
+
+* fix: 人物装备面板里的头盔、披风 显示/隐藏 的勾选按钮错位
+
+	> 此修正由 `ElenBD(落叶之舞@霜狼)` 提交
 
 ### 更正插件的中文名称
 
 * 修正 MerchantEx、PetJournalEnhanced 的中文名称
 
-### 聊天过滤
-
-* 经过一段时间的实测发现 ChannelClean 的拦截效果不如 ChatFilter ；因此移除ChannelClean，重新换回了 ChatFilter，同时优化了 ChatFilter 的占用，并处理掉了自动乱加好友的问题
 
 
 2014-08-01/01

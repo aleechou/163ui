@@ -6,7 +6,7 @@
 ## Notes-zhCN: 给所有的技能冷却动画添加文字显示及冷却后的效果。
 ## Author: Tuller
 ## Version: 5.4.1
-## 163UI-Version: 2014080303
+## 163UI-Version: 2014080304
 ## X-Vendor: NetEase
 ## SavedVariables: OmniCC4Config
 
