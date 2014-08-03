@@ -122,6 +122,7 @@
 
     <Include file="..\..\tdCore\CfgtdCore.lua"/>
     <Include file="..\..\tdCooldown2\CfgtdCooldown2.lua"/>
+    <Include file="..\..\OmniCC\CfgOmniCC.lua"/>
 
     <Include file="Custom.xml"/>
     <Include file="CfgCustom.lua"/>
