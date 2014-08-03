@@ -34,39 +34,49 @@ local L = {
 }
 
 
-local hcheck = NewCheckBox(PaperDollFrame, 22,
-                              "TOPLEFT", CharacterHeadSlot, "BOTTOMRIGHT", 5, 5)
-hcheck:SetScript("OnClick", function() ShowHelm(not ShowingHelm()) end)
--- hcheck:SetScript("OnEnter", function(self)
---  	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
--- 	GameTooltip:SetText(L.helmtip)
--- end)
--- hcheck:SetScript("OnLeave", function() GameTooltip:Hide() end)
-hcheck:RegisterEvent("UNIT_MODEL_CHANGED")
-hcheck:SetToplevel(true)
+local GameTooltip = GameTooltip 
+local helmcb = CreateFrame("CheckButton", nil, PaperDollFrame) 
+helmcb:ClearAllPoints() 
+helmcb:SetSize(22,22) 
+helmcb:SetFrameLevel(31) 
+helmcb:SetPoint("TOPLEFT", CharacterHeadSlot, "RIGHT", 5, 5) 
+helmcb:SetScript("OnClick", function() ShowHelm(not ShowingHelm()) end) 
+helmcb:SetScript("OnEnter", function(self) 
+   GameTooltip:SetOwner(self, "ANCHOR_RIGHT") 
+   GameTooltip:SetText("头盔") 
+end) 
+helmcb:SetScript("OnLeave", function() GameTooltip:Hide() end) 
+helmcb:SetScript("OnEvent", function() helmcb:SetChecked(ShowingHelm()) end) 
+helmcb:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up") 
+helmcb:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down") 
+helmcb:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight") 
+helmcb:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+ helmcb:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check") 
+helmcb:RegisterEvent("UNIT_MODEL_CHANGED") 
 
-
-local ccheck = NewCheckBox(PaperDollFrame, 22,
-                              "TOPLEFT", CharacterBackSlot, "BOTTOMRIGHT", 5, 5)
-ccheck:SetScript("OnClick", function() ShowCloak(not ShowingCloak()) end)
--- ccheck:SetScript("OnEnter", function(self)
--- 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
--- 	GameTooltip:SetText(L.cloaktip)
--- end)
--- ccheck:SetScript("OnLeave", function() GameTooltip:Hide() end)
-ccheck:RegisterEvent("UNIT_MODEL_CHANGED")
-ccheck:SetToplevel(true)
+local cloakcb = CreateFrame("CheckButton", nil, PaperDollFrame) 
+cloakcb:ClearAllPoints() 
+cloakcb:SetSize(22,22) 
+cloakcb:SetFrameLevel(31) 
+cloakcb:SetPoint("TOPLEFT", CharacterBackSlot, "RIGHT", 5, 5) 
+cloakcb:SetScript("OnClick", function() ShowCloak(not ShowingCloak()) end) 
+cloakcb:SetScript("OnEnter", function(self) 
+   GameTooltip:SetOwner(self, "ANCHOR_RIGHT") 
+   GameTooltip:SetText("披风") 
+end) 
+cloakcb:SetScript("OnLeave", function() GameTooltip:Hide() end) 
+cloakcb:SetScript("OnEvent", function() cloakcb:SetChecked(ShowingCloak()) end) 
+cloakcb:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up") 
+cloakcb:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down") 
+cloakcb:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight") 
+cloakcb:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+ cloakcb:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check") 
+cloakcb:RegisterEvent("UNIT_MODEL_CHANGED") 
 
 
 local function OnLoad()
-	hcheck:SetChecked(ShowingHelm())
-	ccheck:SetChecked(ShowingCloak())
+	helmcb:SetChecked(ShowingHelm()) 
+	cloakcb:SetChecked(ShowingCloak())
 end
-
 aceEvent:RegisterEvent("UNIT_MODEL_CHANGED", OnLoad)
 aceEvent:RegisterEvent("PLAYER_LOGIN", OnLoad)
-
-
--- Honestly not sure why this fixes it on the initial load, but whatever
-hcheck:SetFrameLevel(31)
-ccheck:SetFrameLevel(31)
