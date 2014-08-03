@@ -47,6 +47,6 @@ modules\DropdownMenu.lua
 modules\HookedFunctions.lua
 
 
-## Title: |cff880303[网易有爱]|r 宠物快速排序
+## Title: |cff880303[网易有爱]|r 宠物搜索过滤
 ## X-Vendor: NetEase
-## 163UI-Version: 2014080301
+## 163UI-Version: 2014080302

@@ -1,5 +1,5 @@
 U1RegisterAddon("PetJournalEnhanced", {
-    title = "宠物手册增强",
+    title = "宠物搜索过滤",
     defaultEnable = 0,
     nopic = true,
 
