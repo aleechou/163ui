@@ -8,7 +8,7 @@
         "idTip", 
         "GoGoMount", 
         "zTip",
-        "ChatFilter"
+        "ChannelClean"
     ], 
     "conflictive": {
         "foo": [
