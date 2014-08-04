@@ -1,0 +1,14 @@
+## Interface: 50400
+## X-BigfootType: 6
+## X-BigfootDesc: |cFF4488FF此模块依赖于 tullaRange|r
+## Title: tullaRange Config
+## Notes: GUI based configuration for tullaRange
+## Author: Tuller
+## Dependencies: tullaRange
+## LoadOnDemand: 1
+## 163UI-Version: 2014080401
+## Title-zhCN: |cff880303[网易有爱]|r 技能超距提示-配置界面
+tullaRangeConfig.lua
+localization\localization.xml
+widgets\widgets.xml
+panels\panels.xml

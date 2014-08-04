@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="colorSelector.lua"/>
+	<Script file="optionsPanel.lua"/>
+	<Script file="slider.lua"/>
+</Ui>
