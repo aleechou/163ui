@@ -34,6 +34,7 @@ U1RegisterAddon("DBM-Core", {
         var="timerbar",
         text="显示DBM计时条(包括小型计时条和大型计时条)",
         tip="说明`显示DBM的计时条。",
+        default=1,
         callback = function(cfg, v, loading)
 
             -- 初始化
