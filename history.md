@@ -3,7 +3,7 @@
 
 ### 鼠标提示
 
-* 由于 `TinyTip` 占用过高，同时还会引起幻化NPC的属性面板抖动，将 TinyTac 替换为 `TipTac` 和 `EquippedItemLevelTooltip`
+* 由于 `TinyTip` 占用过高，同时还会引起幻化NPC的属性面板抖动，将 TinyTip 替换为了 `TipTac`和`EquippedItemLevelTooltip`
 
 
 2014-08-04/02
