@@ -165,9 +165,14 @@ TT_DefaultConfig["showBuffs"] = false
 TT_DefaultConfig["showDebuffs"] = false
 TT_DefaultConfig["showGuildRank"] = true
 TT_DefaultConfig["hideUFTipsInCombat"] = true
-TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
 TT_DefaultConfig["anchorFrameUnitType"] = "parent"
 TT_DefaultConfig["anchorFrameTipType"] = "parent"
+TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
+TT_DefaultConfig["anchorWorldTipType"] = "mouse"
+TT_DefaultConfig["anchorWorldTipPoint"] = "BOTTOMLEFT"
+TT_DefaultConfig["anchorWorldUnitPoint"] = "BOTTOMLEFT"
+TT_DefaultConfig["anchorFrameTipPoint"] = "RIGHT"
+TT_DefaultConfig["anchorFrameUnitPoint"] = "RIGHT"
 TT_DefaultConfig["enableChatHoverTips"] = true
 TT_DefaultConfig["hideFactionText"] = true
 TT_DefaultConfig["barsCondenseValues"] = true
@@ -175,6 +180,57 @@ TT_DefaultConfig["if_showSpellIdAndRank"] = true
 TT_DefaultConfig["overrideFade"] = true
 TT_DefaultConfig["top"] = 777
 TT_DefaultConfig["left"] = 30
+TT_DefaultConfig["mouseOffsetX"] = 45
+TT_DefaultConfig["mouseOffsetY"] = -10
+--
+-- 暴雪样式
+for k,v in pairs({
+	["fontSizeDelta"] = 2,
+	["classification_elite"] = "|r等级 %s (精英)",
+	["overrideFade"] = false,
+	["tipBackdropEdge"] = "Interface\\Tooltips\\UI-Tooltip-Border",
+	["hideWorldTips"] = false,
+	["backdropEdgeSize"] = 16,
+	["tipBackdropBG"] = "Interface\\Tooltips\\UI-Tooltip-Background",
+	["fontFlags"] = "",
+	["tipColor"] = {
+		0.09, -- [1]
+		0.09, -- [2]
+		0.19, -- [3]
+		1, -- [4]
+	},
+	["hideDefaultBar"] = false,
+	["healthBar"] = false,
+	["colRace"] = "|cffffffff",
+	["tipBorderColor"] = {
+		1, -- [1]
+		1, -- [2]
+		1, -- [3]
+		1, -- [4]
+	},
+	["classification_normal"] = "|r等级 %s",
+	["colLevel"] = "|cffc0c0c0",
+	["reactColoredBorder"] = false,
+	["classification_minus"] = "|r等级 -%s",
+	["fontSize"] = 12,
+	["classification_rare"] = "|r等级 %s (稀有)",
+	["colorGuildByReaction"] = true,
+	["reactColoredBackdrop"] = false,
+	["classification_trivial"] = "|r等级 ~%s",
+	["classification_worldboss"] = "|r等级 %s (首领)",
+	["manaBar"] = false,
+	["classification_rareelite"] = "|r等级 %s (稀有精英)",
+	["targetYouText"] = "<<你>>",
+	["classColoredBorder"] = false,
+	["gradientTip"] = false,
+	["fontFace"] = "Fonts\\FRIZQT__.TTF",
+	["colorNameByClass"] = false,
+	["colSameGuild"] = "|cffff32ff",
+	["backdropInsets"] = 5,
+	["powerBar"] = false,
+}) do
+	TT_DefaultConfig[k] = v
+end
 --
 -- ----------------------------------------
 
