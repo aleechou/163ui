@@ -215,8 +215,8 @@ TT_DefaultConfig["anchorFrameUnitType"] = "parent"
 TT_DefaultConfig["anchorFrameTipType"] = "parent"
 TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
 TT_DefaultConfig["anchorWorldTipType"] = "mouse"
-TT_DefaultConfig["anchorWorldTipPoint"] = "BOTTOMLEFT"
-TT_DefaultConfig["anchorWorldUnitPoint"] = "BOTTOMLEFT"
+TT_DefaultConfig["anchorWorldTipPoint"] = "TOPLEFT"
+TT_DefaultConfig["anchorWorldUnitPoint"] = "TOPLEFT"
 TT_DefaultConfig["anchorFrameTipPoint"] = "RIGHT"
 TT_DefaultConfig["anchorFrameUnitPoint"] = "RIGHT"
 TT_DefaultConfig["enableChatHoverTips"] = true
@@ -227,7 +227,7 @@ TT_DefaultConfig["overrideFade"] = true
 TT_DefaultConfig["top"] = 777
 TT_DefaultConfig["left"] = 30
 TT_DefaultConfig["mouseOffsetX"] = 45
-TT_DefaultConfig["mouseOffsetY"] = -10
+TT_DefaultConfig["mouseOffsetY"] = -45
 --
 -- ----------------------------------------
 
