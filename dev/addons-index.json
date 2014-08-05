@@ -9,7 +9,8 @@
         "GoGoMount", 
         "zTip",
         "ChannelClean",
-        "tdCooldown2"
+        "tdCooldown2",
+        "TinyTip"
     ], 
     "conflictive": {
         "foo": [

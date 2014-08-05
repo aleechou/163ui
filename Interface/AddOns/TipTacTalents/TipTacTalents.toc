@@ -1,0 +1,19 @@
+## Interface: 50400
+## Version: 13.09.21
+## Title: TipTacTalents
+## Title-zhCN: |cff880303[网易有爱]|r TipTacTalents (天赋信息)
+## Title-zhTW: |cff880303[网易有爱]|r TipTacTalents (天賦信息)
+## Author: Aezay (Earthen Ring EU)
+## Author-zhCN: Aezay (Earthen Ring EU), Localized by springsnow (Feathermoon CN)
+## Notes: Adds Talent Spec to Player Tooltips
+## Notes-zhCN: 添加天赋专精到玩家提示信息
+## Notes-zhTW: 添加天賦專精到玩家提示信息
+## Dependencies: TipTac
+## X-Vendor: NetEase
+## 163UI-Version: 2014080501
+Libs\AceLocale-3.0\AceLocale-3.0.lua
+Libs\LibStub\LibStub.lua
+Local_enUS.lua
+Local_zhCN.lua
+Local_zhTW.lua
+core.lua

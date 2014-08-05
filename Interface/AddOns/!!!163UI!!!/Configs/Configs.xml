@@ -106,7 +106,6 @@
     <Include file="..\..\TargetButton\CfgTargetButton.lua"/>
     <Include file="..\..\wMarker\CfgwMarker.lua"/>
     <Include file="..\..\TheBurningTrade\CfgTheBurningTrade.lua"/>
-    <Include file="..\..\TinyTip\CfgTinyTip.lua"/>
     <Include file="..\..\TradeForwarder\CfgTradeForwarder.lua"/>
     <Include file="..\..\TradeLog\CfgTradeLog.lua"/>
     <Include file="..\..\TradeTabs\CfgTradeTabs.lua"/>
@@ -121,9 +120,10 @@
     <Include file="..\..\tekability\Cfgtekability.lua"/>
 
     <Include file="..\..\tdCore\CfgtdCore.lua"/>
-    <Include file="..\..\tdCooldown2\CfgtdCooldown2.lua"/>
     <Include file="..\..\OmniCC\CfgOmniCC.lua"/>
     <Include file="..\..\tullaRange\CfgtullaRange.lua"/>
+    <Include file="..\..\TipTac\CfgTipTac.lua"/>
+    <Include file="..\..\EquippedItemLevelTooltip\CfgEquippedItemLevelTooltip.lua"/>
 
     <Include file="Custom.xml"/>
     <Include file="CfgCustom.lua"/>

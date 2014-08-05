@@ -1,0 +1,397 @@
+-----------------------------------------------------------------------------
+ Version 2.1.1
+-----------------------------------------------------------------------------
+
+  * Updated TOC for 5.3.
+  
+  * Added preliminary support for a possible solution to the problem of
+    detecting item upgrades.  Thanks to Cyna on wowinterface.com for
+	providing a link to a forum post with the work-around.
+
+-----------------------------------------------------------------------------
+ Version 2.1.0
+-----------------------------------------------------------------------------
+
+  * Did away with the options in the slash command and added a simple GUI
+    interface for configuration which is accessible via '/eailt' slash
+	command.
+
+  * Removed unused libraries from the Libs directory.
+  
+  * Fixed another small conflict with TipTac when the items list is not
+    displayed.
+
+-----------------------------------------------------------------------------
+ Version 2.0.9
+-----------------------------------------------------------------------------
+
+  * Refined the inspect function(s).
+  
+  * Added addon.InspectDelay to control how often an inspect request can
+    be sent.  Essentially this controls the throttling of NotifyInspect.
+	
+  * Fixed a conflict with another tooltip addon.
+  
+  * Added /eailt slash command to configure addon settings in-game.
+    Variables no longer available at the top of the .lua file for
+	configuration.
+
+-----------------------------------------------------------------------------
+ Version 2.0.8
+-----------------------------------------------------------------------------
+
+  * Fixed a problem with attempting to check specialization on characters
+    below level 10.
+
+  * Fixed tooltip sizing issues with the default GameTooltip (also
+    compatible with TipTac) so information should no longer appear
+	outside of the tooltip or overlap other information.
+
+-----------------------------------------------------------------------------
+ Version 2.0.7
+-----------------------------------------------------------------------------
+
+  * Fixed a problem that was causing the tooltip to become jumpy and not
+    show all information within the constraints of the tooltip at first.
+
+-----------------------------------------------------------------------------
+ Version 2.0.6
+-----------------------------------------------------------------------------
+
+  * Specialization replaced Talents in tooltip.  Point distribution will
+    not be shown, but the particular Specialization will be shown.
+  
+  * LibQTip-1.0 embedded to provide a better tooltip for the LDB plugin.
+  
+  * Specialization added to the LDB plugin tooltip.
+
+-----------------------------------------------------------------------------
+ Version 2.0.5
+-----------------------------------------------------------------------------
+
+  * Discovered and fixed various miscellaneous error messages.
+  
+  * Added compatibility for beta and in-turn for the upcoming expansion's
+    API changes.
+
+  * Talent info will no longer be displayed in tooltip as of MoP.  The
+    talent setup would require showing a line for each chosen talent as
+	there are no longer distinct trees.
+	
+  * Hopefully removed error spam when in arenas/BGs.
+
+-----------------------------------------------------------------------------
+ Version 2.0.4
+-----------------------------------------------------------------------------
+
+  * Fixed an error on login.
+
+-----------------------------------------------------------------------------
+ Version 2.0.3
+-----------------------------------------------------------------------------
+
+  * Colorized item names in tooltip.
+
+  * Added AceComm and AceSerializer libraries for addon communication
+    to be alerted by other users of the addon on new versions and
+    share item information with raid/party members without scanning
+    them.
+
+  * Resorted the items in tooltip so they stay in a static order and
+    and added showing empty/not scanned slots (not scanned are the
+    ones blizzard has not given us information on yet).
+
+  * Added table pruning so database does not exceed 50 records.
+
+  * Added talents to tooltip (can be toggled with lua variable near
+    top of Core.lua file).
+
+-----------------------------------------------------------------------------
+ Version 2.0.2
+-----------------------------------------------------------------------------
+
+  * Found some timer problems and disabled those timers
+    for now.
+
+-----------------------------------------------------------------------------
+ Version 2.0.1
+-----------------------------------------------------------------------------
+
+  * Removed automatic group scanning until I get it working
+    as it should.
+
+-----------------------------------------------------------------------------
+ Version 2.0.0
+-----------------------------------------------------------------------------
+
+  * Fixed small bug that was counting too many items for
+    some players.
+
+  * Added your items to tooltip when mousing over yourself
+    just like when mousing over other players.
+
+-----------------------------------------------------------------------------
+ Version 2.0.0
+-----------------------------------------------------------------------------
+
+  * Converted the addon to use the Ace Libraries.
+
+  * Revamped a lot of old functions.
+
+  * Added list of items equipped to tooltip with item levels
+    as well as the usual equipped average item level.
+
+-----------------------------------------------------------------------------
+ Version 1.4.4
+-----------------------------------------------------------------------------
+
+  * Removed the TitanPanel specific support and added
+    LDB support instead. Tested with ChocolateBar and
+    seems to work fine.
+
+-----------------------------------------------------------------------------
+ Version 1.4.3
+-----------------------------------------------------------------------------
+
+  * Removed login message.
+
+  * Added a preliminary version of TitanEAILT for
+    compatibility with Titan Panel. It is TitanDefense modified
+    to work for EAILT.
+
+-----------------------------------------------------------------------------
+ Version 1.4.2
+-----------------------------------------------------------------------------
+
+  * Cumulative small adjustments and tweaks.
+
+-----------------------------------------------------------------------------
+ Version 1.4.1
+-----------------------------------------------------------------------------
+
+  * Hopefully fixed a bug that was causing an error message.
+
+  * Various unspecified small tweaks.
+
+-----------------------------------------------------------------------------
+ Version 1.4.0
+-----------------------------------------------------------------------------
+
+  * Fairly major rewrite of the code.
+
+  * Removed addon communication and guild roster feature(s).
+
+  * Made the addon double scan people to obtain accurate information.
+
+  * Addon now only tracks equipped item level of people who have been
+    scanned during the current session.
+
+-----------------------------------------------------------------------------
+ Version 1.3.9
+-----------------------------------------------------------------------------
+
+  * Updated the code and did some cleaning.
+
+  * Added a delay before updating tooltip which should force the addon to wait
+    a few seconds until all the information about a person's ilvl is available.
+
+-----------------------------------------------------------------------------
+ Version 1.3.8
+-----------------------------------------------------------------------------
+
+  * Added an in-game configuration which can be accessed via "/ilvl", "/eailt" or
+    "/eail". This eliminates the need to edit any of the lua files for configuration
+    and I eventually hope to expand on this section adding useful information
+    and more configuration options for further customization.
+
+-----------------------------------------------------------------------------
+ Version 1.3.7
+-----------------------------------------------------------------------------
+
+  * Resolved an issue with large number of decimal places being displayed for
+    your own gear.
+
+  * Added two variables to the top of the Core.lua file. EAILT_DEC and
+    EAILT_IGNORE_EMPTY. EAILT_DEC is the number of decimal places to
+    display and EAILT_IGNORE_EMPTY changes whether empty equipment
+    slots are ignore when determining ilvl. Blizzard does not care if you have
+    three pieces of gear on or sixteen, they will calculate item level as if
+    you had sixteen (seventeen in the case of dual wield) items equipped.
+    These two variables may become an in-game config later, but for now
+    they give a quick and dirty way for users to customize the addon just
+    a bit.
+
+-----------------------------------------------------------------------------
+ Version 1.3.6
+-----------------------------------------------------------------------------
+
+  * More debugging and tweaking.
+
+-----------------------------------------------------------------------------
+ Version 1.3.5
+-----------------------------------------------------------------------------
+
+  * More debugging and tweaking trying to get everything working inspite of
+    the limitation imposed by Blizzard.
+
+  * Thanks to Fastlane [Hellscream] for his assistance in testing and input
+    which ultimately has led to what I hope are some improvements.
+
+-----------------------------------------------------------------------------
+ Version 1.3.4
+-----------------------------------------------------------------------------
+
+  * Debugging code.
+
+-----------------------------------------------------------------------------
+ Version 1.3.3
+-----------------------------------------------------------------------------
+
+  * Revised some code to hopefully make things run smoother.
+
+  * Added background scanning for raid/party to collect item levels without
+    having to mouseover people. Hope to add a frame in the near future to
+    display party/raid item levels in order from highest to lowest.
+
+-----------------------------------------------------------------------------
+ Version 1.3.3
+-----------------------------------------------------------------------------
+
+  * Changed the way item level was calculated slightly so the numbers would
+    coincide with blizzard's numbers. Previously the addon ignored empty slots,
+    but blizzard does not ignore those slots when calculating equipped item
+    levels. Now my addon won't ignore them either. If someone is half dressed
+    their item level will reflect their lack of equipment.
+
+-----------------------------------------------------------------------------
+ Version 1.3.3
+-----------------------------------------------------------------------------
+
+  * Tweaked the tooltip update to hopefully overcome an issue that was leaving
+    some people stuck on an infinite "Loading..." message in their tooltip.
+
+-----------------------------------------------------------------------------
+ Version 1.3.2
+-----------------------------------------------------------------------------
+
+  * Fixed a capitalization mistake which was causing the addon not to function.
+
+-----------------------------------------------------------------------------
+ Version 1.3.1
+-----------------------------------------------------------------------------
+
+  * Updated TOC for 4.3.
+
+  * Hopefully resolved the issues that arose with 4.3 and transmogrified gear
+    giving inaccurate item levels.
+
+  * Hopefully tooltips no longer require you to "re-mouseover" a player to get
+    their information, but automatically update the tooltip instead.
+
+  * Removed player item level from the paperdoll frame since blizzard made theirs
+    "Item Level: equipped / average" thus making it pointless for me to add the
+    information.
+
+  * Added 2 decimal points to the item equipped item level.
+
+  * Hopefully eliminated some of the error messages displayed in the chat frame
+    for things like mousing over a person under the affects of "Herbouflage".
+
+-----------------------------------------------------------------------------
+ Version 1.2.0
+-----------------------------------------------------------------------------
+
+  * More debugging fixed (hopefully) some more little nuances and got some
+    features finally working like they should.
+
+-----------------------------------------------------------------------------
+ Version 1.1.9
+-----------------------------------------------------------------------------
+
+  * Did a little more debugging found an error where sometimes
+    the realm was nil and concatinating it with unit name was
+    causing an error. This is the same error reported by
+    JohnDoe03.
+
+-----------------------------------------------------------------------------
+ Version 1.1.8
+-----------------------------------------------------------------------------
+
+  * Did a little debugging hopefully if other people in your party
+    even from other realms are using the addon then it will
+    properly show their item levels.
+
+-----------------------------------------------------------------------------
+ Version 1.1.7
+-----------------------------------------------------------------------------
+
+  * Updated the .TOC for patch 4.2.
+
+-----------------------------------------------------------------------------
+ Version 1.1.6
+-----------------------------------------------------------------------------
+
+  * Tweak the internal addon communication to eliminate the "You
+    are not in a raid group." message while in battle grounds.
+
+-----------------------------------------------------------------------------
+ Version 1.1.5
+-----------------------------------------------------------------------------
+
+  * Updated the .TOC for patch 4.1.
+
+-----------------------------------------------------------------------------
+ Version 1.1.4
+-----------------------------------------------------------------------------
+
+  * More tweaking to eliminate bugs. One of which reported by
+    Meneldor.
+
+-----------------------------------------------------------------------------
+ Version 1.1.3
+-----------------------------------------------------------------------------
+
+  * Unspecified bug fix.
+
+-----------------------------------------------------------------------------
+ Version 1.1.2
+-----------------------------------------------------------------------------
+
+  * More tweaking to eliminate bugs.
+
+  * Added "Equipped iLvl" to the paperdoll frame. Open your character
+    paperdoll frame and look under the general stats and it will be
+    located right above your blizzard item level.
+
+-----------------------------------------------------------------------------
+ Version 1.1.1
+-----------------------------------------------------------------------------
+
+  * Fixed an issue with tooltips not populating the information.
+
+  * Added a small frame under guild member detail frame to show
+    item level equipped and average of guild members who also
+    use the addon or that you have "scanned" yourself. (Note:
+    The information is not saved between sessions to cut down
+    on database size and to force you to get the freshest data
+    for PUGs.)
+
+-----------------------------------------------------------------------------
+ Version 1.1.0
+-----------------------------------------------------------------------------
+
+  * I discovered a problem with the Blizzard code and wrote a little
+    patch to get rid of the error.
+
+  * Added new feature which uses SendAddonMessage() to share
+    your equipped item level and your average item level from
+    Blizzard with your party/raid members. This is so you will get
+    more information a little bit sooner. Even if you are not in
+    inspect range if the other members of your party/raid have
+    the addon you'll get their information asap.
+
+-----------------------------------------------------------------------------
+ Version 1.0.0
+-----------------------------------------------------------------------------
+
+  * Original Release
