@@ -160,34 +160,10 @@ local TT_DefaultConfig = {
 
 -- ----------------------------------------
 -- 有爱设置showGuildRank
---
-TT_DefaultConfig["showBuffs"] = false
-TT_DefaultConfig["showDebuffs"] = false
-TT_DefaultConfig["showGuildRank"] = true
-TT_DefaultConfig["hideUFTipsInCombat"] = true
-TT_DefaultConfig["anchorFrameUnitType"] = "parent"
-TT_DefaultConfig["anchorFrameTipType"] = "parent"
-TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
-TT_DefaultConfig["anchorWorldTipType"] = "mouse"
-TT_DefaultConfig["anchorWorldTipPoint"] = "BOTTOMLEFT"
-TT_DefaultConfig["anchorWorldUnitPoint"] = "BOTTOMLEFT"
-TT_DefaultConfig["anchorFrameTipPoint"] = "RIGHT"
-TT_DefaultConfig["anchorFrameUnitPoint"] = "RIGHT"
-TT_DefaultConfig["enableChatHoverTips"] = true
-TT_DefaultConfig["hideFactionText"] = true
-TT_DefaultConfig["barsCondenseValues"] = true
-TT_DefaultConfig["if_showSpellIdAndRank"] = true
-TT_DefaultConfig["overrideFade"] = true
-TT_DefaultConfig["top"] = 777
-TT_DefaultConfig["left"] = 30
-TT_DefaultConfig["mouseOffsetX"] = 45
-TT_DefaultConfig["mouseOffsetY"] = -10
---
--- 暴雪样式
+--    暴雪样式
 for k,v in pairs({
 	["fontSizeDelta"] = 2,
 	["classification_elite"] = "|r等级 %s (精英)",
-	["overrideFade"] = false,
 	["tipBackdropEdge"] = "Interface\\Tooltips\\UI-Tooltip-Border",
 	["hideWorldTips"] = false,
 	["backdropEdgeSize"] = 16,
@@ -231,6 +207,27 @@ for k,v in pairs({
 }) do
 	TT_DefaultConfig[k] = v
 end
+TT_DefaultConfig["showBuffs"] = false
+TT_DefaultConfig["showDebuffs"] = false
+TT_DefaultConfig["showGuildRank"] = true
+TT_DefaultConfig["hideUFTipsInCombat"] = true
+TT_DefaultConfig["anchorFrameUnitType"] = "parent"
+TT_DefaultConfig["anchorFrameTipType"] = "parent"
+TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
+TT_DefaultConfig["anchorWorldTipType"] = "mouse"
+TT_DefaultConfig["anchorWorldTipPoint"] = "BOTTOMLEFT"
+TT_DefaultConfig["anchorWorldUnitPoint"] = "BOTTOMLEFT"
+TT_DefaultConfig["anchorFrameTipPoint"] = "RIGHT"
+TT_DefaultConfig["anchorFrameUnitPoint"] = "RIGHT"
+TT_DefaultConfig["enableChatHoverTips"] = true
+TT_DefaultConfig["hideFactionText"] = true
+TT_DefaultConfig["barsCondenseValues"] = true
+TT_DefaultConfig["if_showSpellIdAndRank"] = true
+TT_DefaultConfig["overrideFade"] = true
+TT_DefaultConfig["top"] = 777
+TT_DefaultConfig["left"] = 30
+TT_DefaultConfig["mouseOffsetX"] = 45
+TT_DefaultConfig["mouseOffsetY"] = -10
 --
 -- ----------------------------------------
 
