@@ -5,7 +5,7 @@ local NGSenable=1
 local NGSkilled=0
 local NGSreport=0
 local NGSid2=0
-local NGSmatchs=2 --在這裡修改關鍵字配對個數.找到n個關鍵字則屏蔽,就改此處為n/在这里修改关键词配对个数.找到n个关键词则屏蔽,就改此处为n
+local NGSmatchs=1 --在這裡修改關鍵字配對個數.找到n個關鍵字則屏蔽,就改此處為n/在这里修改关键词配对个数.找到n个关键词则屏蔽,就改此处为n
 NGSSymbols={" ",
 	"_",
 	"~",
@@ -265,7 +265,19 @@ local subcmdfuncs = {
 		DEFAULT_CHAT_FRAME:AddMessage(NGSturnoff)
 		NGSenable=1
 	end ,
+	["?web"] = function(...)
+		local url = "http://bbs.game.163.com/forum.php?mod=viewthread&tid=179662797"
+        if ThreeDimensionsCode_Send and Cmd3DCode_CheckoutClientAndPrompt and Cmd3DCode_CheckoutClientAndPrompt("没有检测到有爱客户端，无法启动有爱内置浏览器") then
+            ThreeDimensionsCode_Send("innerbrowser",url)
+        else
+        	print(url)
+        end
+	end ,
 	["?"] = function(...)
+		print("[查看详细的使用教程(内置浏览器)]")
+		print(" /ngs ?web")
+		print(" ")
+
 		print("[启用NoGoldSeller聊天框过滤]")
 		print(" /ngs on")
 		print(" ")
@@ -295,6 +307,8 @@ local subcmdfuncs = {
 		print("[查看已添加的关键词和过滤字符]")
 		print(" /ngs -l")
 		print(" ")
+
+		
 	end ,
 }
 subcmdfuncs["+"] = subcmdfuncs["+keyword"]
@@ -303,6 +317,12 @@ subcmdfuncs["-"] = subcmdfuncs["-keyword"]
 subcmdfuncs["-k"] = subcmdfuncs["-keyword"]
 subcmdfuncs["+s"] = subcmdfuncs["+symbols"]
 subcmdfuncs["-s"] = subcmdfuncs["-symbols"]
+subcmdfuncs["+K"] = subcmdfuncs["+keyword"]
+subcmdfuncs["-K"] = subcmdfuncs["-keyword"]
+subcmdfuncs["+S"] = subcmdfuncs["+symbols"]
+subcmdfuncs["-S"] = subcmdfuncs["-symbols"]
+subcmdfuncs["ON"] = subcmdfuncs["on"]
+subcmdfuncs["OFF"] = subcmdfuncs["off"]
 
 SLASH_NGS1 = "/nogoldseller";
 SLASH_NGS2 = "/NGS";
