@@ -197,10 +197,10 @@ for k,v in pairs({
 	["manaBar"] = false,
 	["classification_rareelite"] = "|r等级 %s (稀有精英)",
 	["targetYouText"] = "<<你>>",
-	["classColoredBorder"] = false,
 	["gradientTip"] = false,
 	["fontFace"] = "Fonts\\FRIZQT__.TTF",
-	["colorNameByClass"] = false,
+	["colorNameByClass"] = true,
+	["classColoredBorder"] = true,
 	["colSameGuild"] = "|cffff32ff",
 	["backdropInsets"] = 5,
 	["powerBar"] = false,
@@ -210,6 +210,7 @@ end
 TT_DefaultConfig["showBuffs"] = false
 TT_DefaultConfig["showDebuffs"] = false
 TT_DefaultConfig["showGuildRank"] = true
+TT_DefaultConfig["hideAllTipsInCombat"] = true
 TT_DefaultConfig["hideUFTipsInCombat"] = true
 TT_DefaultConfig["anchorFrameUnitType"] = "parent"
 TT_DefaultConfig["anchorFrameTipType"] = "parent"
@@ -228,6 +229,7 @@ TT_DefaultConfig["top"] = 777
 TT_DefaultConfig["left"] = 30
 TT_DefaultConfig["mouseOffsetX"] = 45
 TT_DefaultConfig["mouseOffsetY"] = -45
+TT_DefaultConfig["targetYouText"] = "|cff880303<<你>>|r"
 --
 -- ----------------------------------------
 
