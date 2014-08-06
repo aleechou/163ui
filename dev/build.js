@@ -190,6 +190,7 @@ Steps()
 		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-offline-"+datenum+".rar"
 		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".rar"
 		addonsJson.fullOfflinePackageUrl = addonsJson.offlinePackageUrl // 临时用 离线包替代完整离线包
+		addonsJson.lastReleaseDate = new Date().Format("yyyy/MM/dd")
 	})
 
 
