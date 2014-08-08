@@ -31,9 +31,9 @@
     "packagesUrl": "http://wowui.w.163.com/163wui/packages", 
     "client": {
         "Windows": {
-            "lastVersion": "3.2.14", 
-            "upgraderFile": "setup/3.2.14-setup.exe", 
-            "portableFile": "release/163ui-v3.2.14.rar"
+            "lastVersion": "3.2.15", 
+            "upgraderFile": "setup/3.2.15-setup.exe", 
+            "portableFile": "release/163ui-v3.2.15.rar"
         }, 
         "OSX": {
             "lastVersion": "3.2.14", 
