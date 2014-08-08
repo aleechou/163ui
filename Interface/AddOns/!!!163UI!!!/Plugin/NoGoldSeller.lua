@@ -230,7 +230,6 @@ local function diffTable(t1,t2)
 	local removed = {}
 	for _, v in pairs(t2) do
 		local i = isInTable(t1,v)
-		print(v,i)
 		if i then
 			table.remove(t1,i)
 			tinsert(removed,v)
@@ -238,18 +237,26 @@ local function diffTable(t1,t2)
 	end
 	return removed
 end
+local function escapewordlst(...)
+	local lst = {}
+	for i=1, select("#",...) do
+		local word = select(i,...)
+		tinsert(lst,word)
+	end
+	return lst
+end
 local subcmdfuncs = {
 	["+keyword"] = function(...)
-		print("添加关键词：",unpack(mergeTable(NGSwords,{...})))
+		print("添加关键词：",unpack(mergeTable(NGSwords,escapewordlst(...))))
 	end ,
 	["-keyword"] = function(...)
-		print("移除关键词：",unpack(diffTable(NGSwords,{...})))
+		print("移除关键词：",unpack(diffTable(NGSwords,escapewordlst(...))))
 	end ,
 	["+symbols"] = function(...)
-		print("添加过滤字符：",unpack(mergeTable(NGSSymbols,{...})))
+		print("添加过滤字符：",unpack(mergeTable(NGSSymbols,escapewordlst(...))))
 	end ,
 	["-symbols"] = function(...)
-		print("移除过滤字符：",unpack(diffTable(NGSSymbols,{...})))
+		print("移除过滤字符：",unpack(diffTable(NGSSymbols,escapewordlst(...))))
 	end ,
 	["-l"] = function()
 		print("NoGoldSeller 使用中的关键词：")
@@ -263,7 +270,7 @@ local subcmdfuncs = {
 	end ,
 	["off"] = function(...)
 		DEFAULT_CHAT_FRAME:AddMessage(NGSturnoff)
-		NGSenable=1
+		NGSenable=nil
 	end ,
 	["?web"] = function(...)
 		local url = "http://bbs.game.163.com/forum.php?mod=viewthread&tid=179662797"
