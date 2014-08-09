@@ -340,7 +340,7 @@ function TipTypeFuncs:item(link,linkToken,id)
 		for i = 2, self:NumLines() do
 			local line = _G[self:GetName().."TextLeft"..i];
 			if (line and (line:GetText() or ""):match(ITEM_LEVEL.."+")) then
-				line:SetText(nil);
+				--line:SetText(nil);
 			end
 			if (line and (line:GetText() or ""):match("^"..UPGRADE)) then
 				line:SetText(nil);
