@@ -221,7 +221,6 @@ TT_DefaultConfig["anchorWorldUnitPoint"] = "TOPLEFT"
 TT_DefaultConfig["anchorFrameTipPoint"] = "RIGHT"
 TT_DefaultConfig["anchorFrameUnitPoint"] = "RIGHT"
 TT_DefaultConfig["enableChatHoverTips"] = true
-TT_DefaultConfig["hideFactionText"] = true
 TT_DefaultConfig["barsCondenseValues"] = true
 TT_DefaultConfig["if_showSpellIdAndRank"] = true
 TT_DefaultConfig["overrideFade"] = true
@@ -560,8 +559,13 @@ local function ModifyUnitTooltip()
 		lineInfo[#lineInfo + 1] = class;
 		u.classEng = classEng;
 		-- name
-		lineOne[#lineOne + 1] = (cfg.colorNameByClass and (TT_ClassColors[classEng] or COL_WHITE) or reaction);
-		lineOne[#lineOne + 1] = (cfg.nameType == "marysueprot" and u.rpName) or (cfg.nameType == "original" and u.originalName) or (cfg.nameType == "title" and UnitPVPName(unit)) or name;
+		lineOne[#lineOne + 1] = "|cffaaaaaa" -- (cfg.colorNameByClass and (TT_ClassColors[classEng] or COL_WHITE) or reaction);
+		local line = (cfg.nameType == "marysueprot" and u.rpName) or (cfg.nameType == "original" and u.originalName) or (cfg.nameType == "title" and UnitPVPName(unit)) or name;
+		local color = (cfg.colorNameByClass and (TT_ClassColors[classEng] or COL_WHITE) or reaction) 
+		line = line:gsub(name, color .. name .. "|r")
+
+		lineOne[#lineOne + 1] = line
+
 		if (realm) and (realm ~= "") and (cfg.showRealm ~= "none") then
 			if (cfg.showRealm == "show") then
 				lineOne[#lineOne + 1] = " - ";
@@ -586,6 +590,7 @@ local function ModifyUnitTooltip()
 			GameTooltipTextLeft2:SetFormattedText(cfg.showGuildRank and guildRank and "%s<%s> %s%s" or "%s<%s>",guildColor,guild,COL_LIGHTGRAY,guildRank);
 			lineInfoIndex = (lineInfoIndex + 1);
 		end
+
 	-- BattlePets
 	elseif (isPetWild or isPetCompanion) then
 		lineOne[#lineOne + 1] = reaction;
@@ -660,9 +665,12 @@ local function ModifyUnitTooltip()
 	end
 	-- Line One
 	GameTooltipTextLeft1:SetFormattedText(("%s"):rep(#lineOne),unpack(lineOne));
+	-- print( string.format(("%s"):rep(#lineOne),unpack(lineOne)):gsub("%|","I") )
+
 	-- Info Line
 	local gttLine = _G["GameTooltipTextLeft"..lineInfoIndex];
 	gttLine:SetFormattedText(("%s"):rep(#lineInfo),unpack(lineInfo));
+
 	gttLine:SetTextColor(1,1,1);
 end
 
@@ -1368,7 +1376,9 @@ local function ApplyTipTacAppearance(first)
 		SetupHealthAndPowerBar();
 	end
 	UpdateHealthAndPowerBar();
-	-- Remove PVP Line, which makes the tip look a bit bad -- MoP: Now removes alliance and horde faction text as well -- 5.4: Added removal of the coalesced realm line(s)
+	-- Remove PVP Line, which makes the tip look a bit bad
+	-- MoP: Now removes alliance and horde faction text as well
+	-- 5.4: Added removal of the coalesced realm line(s)
 	for i = 2, gtt:NumLines() do
 		local line = _G["GameTooltipTextLeft"..i];
 		local text = line:GetText();

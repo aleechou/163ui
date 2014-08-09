@@ -10,7 +10,7 @@
 ## Notes-zhTW: 高度可定制的提示信息增強插件
 ## SavedVariables: TipTac_Config
 ## X-Vendor: NetEase
-## 163UI-Version: 2014080601
+## 163UI-Version: 2014080901
 
 Libs\AceLocale-3.0\AceLocale-3.0.lua
 Libs\LibStub\LibStub.lua
