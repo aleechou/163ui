@@ -23,7 +23,7 @@
 		</Scripts>
 	</Frame>
 
-    <Font name="WowLuaMonoFont" font="Interface\AddOns\WowLua\fonts\VeraMono.ttf">
+    <Font name="WowLuaMonoFont" inherits="GameFontNormal">
 		<FontHeight val="14"/>
     </Font>
 

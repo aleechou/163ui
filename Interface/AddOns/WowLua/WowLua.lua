@@ -134,6 +134,7 @@ local function processSpecialCommands(txt)
 end
 
 function WowLua:ProcessLine(text)
+
 	WowLuaFrameCommandEditBox:SetText("")
 	
 	if processSpecialCommands(text) then
@@ -155,20 +156,20 @@ function WowLua:ProcessLine(text)
 		self.cmd = self.cmd .. "\n" .. text
 		self.orig = self.orig .. "\n" .. text
 	else
-		self.cmd = text
-		self.orig = text
+		self.cmd = " " .. text
+		self.orig = " " .. text
 	end
 
 	-- Trim the command before we run it
 	self.cmd = string.trim(self.cmd)
 
 	-- Process the current command
-	local func,err = loadstring(self.cmd)
+	local func,err = loadstring("print(" .. self.cmd .. ")")
 
 	-- Fail to compile?  Give it a return
 	-- Check to see if this just needs a return in front of it
 	if not func then
-		local newfunc,newerr = loadstring("print(" .. self.cmd .. ")")
+		local newfunc,newerr = loadstring(self.cmd)
 		if newfunc then
 			func,err = newfunc,newerr
 		end
