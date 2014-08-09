@@ -53,10 +53,10 @@ SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 o=o+1
 Æ
 Æ
-Ì É n(a,e,i,t,o)
-Ì e=CreateFrame("Frame",e,UIParent,i)
+Ì É n(a,e,o,t,i)
+Ì e=CreateFrame("Frame",e,UIParent,o)
 Ê t Ò
-e:SetPoint("LEFT",t,"RIGHT",o,0)
+e:SetPoint("LEFT",t,"RIGHT",i,0)
 Æ
 e:SetFrameStrata("DIALOG")
 e.t=e:CreateTexture()
@@ -89,8 +89,8 @@ e:SetAlpha(1)
 Cmd3DCode_Emoticon_ChatFrameButton:Hide()
 Cmd3DCode_Screenshot_ChatFrameButton:Hide()
 È e=1,10 Ã
-Ì i,o,a,n,t=_G["ChatFrame"..e.."EditBox"]:GetPoint()
-_G["ChatFrame"..e.."EditBox"]:SetPoint(i,o,a,-5,t)
+Ì o,a,i,n,t=_G["ChatFrame"..e.."EditBox"]:GetPoint()
+_G["ChatFrame"..e.."EditBox"]:SetPoint(o,a,i,-5,t)
 Æ
 Ä
 Cmd3DCode_Emoticon_ChatFrameButton:Show()
@@ -111,7 +111,7 @@ Cmd3DCode_Screenshot_ChatFrameButton:ClearAllPoints()
 Cmd3DCode_Screenshot_ChatFrameButton:SetPoint("RIGHT",Cmd3DCode_Emoticon_ChatFrameButton,"LEFT",8,0)
 Æ
 Æ
-Ì É d()
+Ì É u()
 Ì e=n("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate")
 Ì t=n("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",e,-6)
 Toggle3DCodeCmdChatFrameBtnShown()
@@ -137,7 +137,7 @@ e:EnableKeyboard(Ó)
 e:SetPropagateKeyboardInput(Ó);
 e.PropagateKeyboardInput=Ó
 e:SetScript("OnKeyDown",É(a,t,...)
-Ê IsControlKeyDown()Á IsAltKeyDown()Á(t=="PAGEUP"Ï t=="PAGEDOWN")Ò
+Ê IsAltKeyDown()Á(t=="PAGEUP"Ï t=="PAGEDOWN")Ò
 Ê t=="PAGEDOWN"Ò
 ThreeDimensionsCode_Savepipe_Yin()
 Å t=="PAGEUP"Ò
@@ -155,6 +155,7 @@ e.PropagateKeyboardInput=Ç
 a:SetPropagateKeyboardInput(Ç)
 Ñ Ç
 Æ)
+Ì d={}
 Ì É n()
 a=Ó
 r=time()
@@ -164,7 +165,13 @@ threeDimensionsCodeFrames_create()
 s=Ó
 t("åˆ›å»º threeDimensionsCodeFrames_create()")
 Æ
-d()
+u()
+È e=1,GetNumBindings()Ã
+Ì e={select(2,GetBinding(e))}
+È t,e Ë pairs(e)Ã
+d[e]=1
+Æ
+Æ
 Æ
 e:RegisterEvent("ADDON_LOADED")
 e:SetScript("OnEvent",É(h,s,e)

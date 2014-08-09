@@ -336,7 +336,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="FontString1" Font="Fonts/ARHei.TTF" justifyH="LEFT" justifyV="TOP" text="1、有爱截图分享功能需要插件与客户端协作完成，请确保您已经开启了|cff880303[网易有爱]|r客户端。">
+				<FontString name="FontString1" Font="Fonts/ARHei.TTF" justifyH="LEFT" justifyV="TOP" text="1、有爱截图分享功能需要插件与客户端协作完成，请确保您已经开启了|cff880303有爱|r客户端。">
 				<Color r="1" g="1" b="1" a="1"/>
 					<FontHeight>
 					<AbsValue val="13"/>
@@ -381,7 +381,7 @@
 					</Anchors>
 				</FontString>
 				
-				<FontString name="FontString1" Font="Fonts/ARHei.TTF" justifyH="LEFT" justifyV="TOP" text="为了您和好友更畅快的分享图片，快邀请您的好友安装|cff880303[网易有爱]|r，畅享截图吧！">
+				<FontString name="FontString1" Font="Fonts/ARHei.TTF" justifyH="LEFT" justifyV="TOP" text="为了您和好友更畅快的分享图片，快邀请您的好友安装|cff880303有爱|r，畅享截图吧！">
 				<Color r="1" g="1" b="1" a="1"/>
 					<FontHeight>
 					<AbsValue val="13"/>
