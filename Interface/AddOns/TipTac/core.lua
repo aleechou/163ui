@@ -333,6 +333,56 @@ local petLevelLineIndex;
 --                                   TipTac Anchor Creation & Events                                  --
 --------------------------------------------------------------------------------------------------------
 
+
+local Corpse_COLORS = {r=0.54, g=0.54, b=0.54}	-- 尸体颜色（灰色）
+local FACTION_COLORS = {
+    [5]		= "33CC33",				-- 友好（绿色）
+    [6]		= "33CCCC",				-- 尊敬（湖蓝）
+    [7]		= "FF6633",				-- 崇敬（橙色）
+    [8]		= "DD33DD",				-- 崇拜（紫色）
+}
+
+-- 转换颜色格式
+local function ParseColor(color, hex)
+    if hex then
+        return format("%2x%2x%2x",color.r*255,color.g*255,color.b*255)
+    else
+        return color.r, color.g, color.b, 1
+    end
+end
+-- 死亡或已被选取
+local function DeadOrTapped(unit)
+    if UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) then
+        return 1
+    elseif (UnitHealth(unit) <= 0 and not UnitIsPlayer(unit))
+            or (UnitIsPlayer(unit) and UnitIsDeadOrGhost(unit)) then
+        return 2
+    else
+        return 0
+    end
+end
+
+-- 获取阵营、声望
+local function UnitFactionString(unit)
+    local reaction = UnitReaction(unit, "player")
+    if not reaction then return 0 end
+
+    if reaction < 5 then
+        tmp = ParseColor(FACTION_BAR_COLORS[reaction], true)
+    else
+        tmp = FACTION_COLORS[reaction]
+    end
+    if DeadOrTapped(unit) > 0 then
+        tmp = ParseColor(Corpse_COLORS, true)
+    end
+    tmp2 = GetText("FACTION_STANDING_LABEL"..reaction, UnitSex("player"))
+    return format("|cFF%s%s|r", tmp, tmp2)
+end
+
+
+
+
+
 tt:SetWidth(114);
 tt:SetHeight(24);
 tt:SetBackdrop({ bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", tile = true, tileSize = 8, edgeSize = 12, insets = { left = 2, right = 2, top = 2, bottom = 2 } });
@@ -637,7 +687,7 @@ local function ModifyUnitTooltip()
 		end
 		lineInfo[#lineInfo + 1] = " ";
 		lineInfo[#lineInfo + 1] = cfg.colRace;
-		lineInfo[#lineInfo + 1] = class;
+		lineInfo[#lineInfo + 1] = class .. " " .. UnitFactionString(u.token) ;
 	end
 	-- Target
 	if (cfg.showTarget ~= "none") then
