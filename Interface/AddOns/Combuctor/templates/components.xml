@@ -222,10 +222,10 @@
 				self:SetPoint('TOP', self:GetParent().TitleText)
 			</OnLoad>
 			<OnMouseDown>
-        if self:GetParent().sets.position then
+        --if self:GetParent().sets.position then
           self.isMoving = true
           self:GetParent():StartMoving()
-        end
+        --end
 			</OnMouseDown>
 			<OnMouseUp>
 				if self.isMoving then

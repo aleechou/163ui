@@ -69,3 +69,9 @@ L.Trade = '商业'
 L.Shards = '碎片'
 L.SoulShard = '灵魂碎片'
 L.Usable = '可使用道具'
+
+
+L.HighlightItemsByQuality = '边框染色:物品品质' 
+L.HighlightUnusableItems = '边框染色:不可用物品'
+L.HighlightSetItems = '边框染色:装备'
+L.HighlightQuestItems = '边框染色:任务物品'
