@@ -3,7 +3,7 @@ U1RegisterAddon("EN_UnitFrames", {
     load = "LOGIN",
     secure = 1,
     optionsAfterVar = 1,
-    defaultEnable = 0,
+    defaultEnable = 1,
     --frames = {"EUF_FocusFrame"}, --EN_Focus自己记录了
 
     modifer = "魔盒 蘑菇",

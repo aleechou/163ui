@@ -196,7 +196,6 @@ for k,v in pairs({
 	["classification_worldboss"] = "|r等级 %s (首领)",
 	["manaBar"] = false,
 	["classification_rareelite"] = "|r等级 %s (稀有精英)",
-	["targetYouText"] = "<<你>>",
 	["gradientTip"] = false,
 	["fontFace"] = "Fonts\\FRIZQT__.TTF",
 	["colorNameByClass"] = true,
@@ -228,7 +227,7 @@ TT_DefaultConfig["top"] = 777
 TT_DefaultConfig["left"] = 30
 TT_DefaultConfig["mouseOffsetX"] = 45
 TT_DefaultConfig["mouseOffsetY"] = -45
-TT_DefaultConfig["targetYouText"] = "|cff880303<<你>>|r"
+TT_DefaultConfig["targetYouText"] = "|cffff0000<<你>>|r"
 --
 -- ----------------------------------------
 
