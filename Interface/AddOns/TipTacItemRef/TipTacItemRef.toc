@@ -10,7 +10,7 @@
 ## Notes-zhTW: 增強物品提示信息
 ## Dependencies: TipTac
 ## X-Vendor: NetEase
-## 163UI-Version: 2014080901
+## 163UI-Version: 2014081301
 Libs\AceLocale-3.0\AceLocale-3.0.lua
 Libs\LibStub\LibStub.lua
 Local_enUS.lua

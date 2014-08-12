@@ -269,8 +269,8 @@ function ttif:DoHooks()
 			end
 			hooksecurefunc(tip,"SetHyperlink",SetHyperlink_Hook);
 			hooksecurefunc(tip,"SetUnitAura",SetUnitAura_Hook);
-			hooksecurefunc(tip,"SetUnitBuff",SetUnitAura_Hook);
-			hooksecurefunc(tip,"SetUnitDebuff",SetUnitAura_Hook);
+			hooksecurefunc(tip,"SetUnitBuff",SetUnitBuff_Hook);
+			hooksecurefunc(tip,"SetUnitDebuff",SetUnitDebuff_Hook);
 			tip:HookScript("OnTooltipSetItem",OnTooltipSetItem);
 			tip:HookScript("OnTooltipSetSpell",OnTooltipSetSpell);
 			tip:HookScript("OnTooltipCleared",OnTooltipCleared);
