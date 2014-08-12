@@ -1,4 +1,4 @@
 node_modules
 workdir
 throw
-config.json
+config*.json

@@ -8,6 +8,11 @@ var EasyZip = require('easy-zip').EasyZip
 var child_process = require("child_process")
 var Steps = require("ocsteps")
 var _path = require("path")
+var ArgumentParser = require("argparse").ArgumentParser
+
+var parser = new ArgumentParser()
+parser.addArgument(['-p','--offline-package'],{nargs:0,help:"pack offline pakcage"})
+var args = parser.parseArgs()
 
 
 var srcdir = __dirname+"/../Interface/AddOns"
@@ -27,7 +32,6 @@ var outputTocOptions = {
 	, 'Note': 1
 	, 'Note-zhCN': 1
 }
-
 
 // 检查 workdir 是否存在
 if( !fs.existsSync(workdir) || !fs.statSync(workdir).isDirectory() ){
@@ -189,7 +193,6 @@ Steps()
 	.step(function(){
 		addonsJson.offlinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-offline-"+datenum+".rar"
 		addonsJson.fullOfflinePackageUrl = addonsJson.downloadUrlPrefix + "/offline/163ui-full-offline-"+datenum+".rar"
-		addonsJson.fullOfflinePackageUrl = addonsJson.offlinePackageUrl // 临时用 离线包替代完整离线包
 		addonsJson.lastReleaseDate = new Date().Format("yyyy/MM/dd")
 	})
 
