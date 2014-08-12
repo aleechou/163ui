@@ -30,6 +30,7 @@
     }, 
     "downloadUrlPrefix": "http://wowui.w.163.com/163wui", 
     "packagesUrl": "http://wowui.w.163.com/163wui/packages", 
+    "backupAddonsDirUrl": "http://wowui.chou.im/packages", 
     "client": {
         "Windows": {
             "lastVersion": "3.2.15", 
