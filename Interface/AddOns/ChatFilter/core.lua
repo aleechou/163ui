@@ -287,11 +287,13 @@ ChatFilter:SetScript("OnEvent", function(self, event)
 		end
 
 		-- 清理 ChatFilter_AddedFriendsTable 里残留的临时好友
+		--[[
 		for k in pairs(ChatFilter_AddedFriendsTable) do
 			print(GetTime(), "清理残留的临时好友",k)
 			RemoveFriend(k)
 			ChatFilter_AddedFriendsTable[k] = nil
 		end
+		]]
 
 		ChatFilter_AddedFriendsTable = AddedTable
 	end
