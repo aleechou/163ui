@@ -125,6 +125,8 @@ Steps()
 
 	// 打包插件
 	.step(function(){
+		return
+
 		this.each(addonsJson.addons,function(i,addon){
 
     		var tarpath = targetdir+"/"+addon.name+".zip" ;
@@ -177,7 +179,7 @@ Steps()
 	.step(function(){
 		var ignoreAddOns = ""
 		for(var addonName in addonsJson.ignore){
-			ignoreAddOns+= " -x"+addonName.replace(/\!/g,"\\!")
+			ignoreAddOns+= " -x"+addonName //.replace(/\!/g,"\\!")
 		}
 		var release = this.hold()
 		var proc = child_process.spawn("sh", [
