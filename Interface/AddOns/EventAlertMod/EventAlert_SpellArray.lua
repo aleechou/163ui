@@ -1484,7 +1484,7 @@ function EventAlert_LoadSpellArray()
 		},
 		-- Target Alert / 目標提醒區
 		["TARITEMS"] = {
-			[172] = {enable=true, self=true,},      -- Corruption / 腐蝕術
+			[146739] = {enable=true, self=true,},      -- Corruption / 腐蝕術
 			[348] = {enable=true, self=true,},      -- Immolate / 獻祭
 			[686] = {enable=true, self=true,},      -- 末日災厄
 			[603] = {enable=true, self=true,},      -- 暗影箭
