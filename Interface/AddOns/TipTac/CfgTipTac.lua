@@ -83,7 +83,7 @@ U1RegisterAddon("TipTac", {
 
     {
         var="disableMouseFollowWhenCombat",
-        text="战斗时禁用鼠标跟随",
+        text="战斗时禁止鼠标跟随",
         tip="说明`在战斗时禁止提示框跟随鼠标，以避免造成视觉干扰，提示框会固定显示在屏幕的右下角（和魔兽原生机制一致）。",
         default=true,
         callback = function(cfg,v)
