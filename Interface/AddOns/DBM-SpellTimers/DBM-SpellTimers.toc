@@ -16,7 +16,7 @@
 ## Notes-esES: Crea barras para cd largos o duracion de cds
 ## LoadOnDemand: 0
 ## RequiredDeps: DBM-Core 
-## 163UI-Version: 2014060801
+## 163UI-Version: 2014081601
 ## DefaultState: enabled
 ## Author: Nitram and Tandanu
 ## URL: http://www.deadlybossmods.com
