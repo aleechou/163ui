@@ -209,8 +209,6 @@ end
 TT_DefaultConfig["showBuffs"] = false
 TT_DefaultConfig["showDebuffs"] = false
 TT_DefaultConfig["showGuildRank"] = true
-TT_DefaultConfig["hideAllTipsInCombat"] = true
-TT_DefaultConfig["hideUFTipsInCombat"] = true
 TT_DefaultConfig["anchorFrameUnitType"] = "parent"
 TT_DefaultConfig["anchorFrameTipType"] = "parent"
 TT_DefaultConfig["anchorWorldUnitType"] = "mouse"
@@ -1498,3 +1496,15 @@ function tt:ApplyGeneralAppearance(first)
 		SetupAuras();
 	end
 end
+
+
+
+
+
+
+
+
+-------------------------------------------------
+-- by alee
+
+_GTTHook_OnUpdate = GTTHook_OnUpdate

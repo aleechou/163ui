@@ -1,4 +1,9 @@
 
+
+local disableMouseFollowWhenCombat =  nil
+local disableMouseFollowWhenCombat_offsetX = -160
+local disableMouseFollowWhenCombat_offsetY = 50
+
 U1RegisterAddon("TipTac", {
     title = "鼠标提示信息增强",
     defaultEnable = 1,
@@ -68,13 +73,68 @@ U1RegisterAddon("TipTac", {
     },
     --]]
 
-
     {
         text="配置选项",
         callback = function(cfg, v, loading)
             SlashCmdList["TipTac"]("")
         end,
     },
+
+
+    {
+        var="disableMouseFollowWhenCombat",
+        text="战斗时禁用鼠标跟随",
+        tip="说明`在战斗时禁止提示框跟随鼠标，以避免造成视觉干扰，提示框会固定显示在屏幕的右下角（和魔兽原生机制一致）。",
+        default=true,
+        callback = function(cfg,v)
+            disableMouseFollowWhenCombat = v
+        end ,
+
+
+        {
+            var = "disableMouseFollowWhenCombat_offsetX",
+            default = disableMouseFollowWhenCombat_offsetX,
+            type= "spin",
+            range = {-100000, 100000, 10},
+            text = "横向偏移(X)",
+            tip = "说明`提示框右下角相对屏幕右下角对齐后的*横向(X)*偏移值",
+            callback = function(cfg, v, loading)
+                disableMouseFollowWhenCombat_offsetX = v
+            end,
+        } ,
+        {
+            var = "disableMouseFollowWhenCombat_offsetY",
+            default = disableMouseFollowWhenCombat_offsetY,
+            type= "spin",
+            range = {-100000, 100000, 10},
+            text = "纵向偏移(Y)",
+            tip = "说明`提示框右下角相对屏幕右下角对齐后的*纵向(Y)*偏移值",
+            callback = function(cfg, v, loading)
+                disableMouseFollowWhenCombat_offsetY = v
+            end,
+        } ,
+    },
+
 });
 
 --如果提供 UI163_USER_MODE = 1 则不需要写alwaysRegister，而且插件会列在有爱整合里，如果不提供USER_MODE，只写alwaysRegister，则插件会列在分类里，但仍然在单体插件里，而不是有爱整合里
+
+
+-- 给 GTTHook_OnUpdate 套一层壳，判断如果在战斗中，则鼠标固定显示在屏幕右下角
+local oriHookScript = GameTooltip.HookScript
+GameTooltip.HookScript = function(self,eventname,func,...)
+    if eventname=="OnUpdate" and func==_GTTHook_OnUpdate then
+        func = function(self,...)
+            if disableMouseFollowWhenCombat and UnitAffectingCombat("player") then
+                self:ClearAllPoints()
+                self:SetPoint("BOTTOMRIGHT",UIParent,"BOTTOMRIGHT",disableMouseFollowWhenCombat_offsetX,disableMouseFollowWhenCombat_offsetY)
+                return
+            else
+                return _GTTHook_OnUpdate(self,...)
+            end
+        end
+    end
+    return oriHookScript(self,eventname,func,...)
+end
+--[[
+]]
