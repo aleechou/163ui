@@ -580,7 +580,8 @@ function addon:NotifyInspect(unitID)
 end
 
 function addon:INSPECT_READY(_, unitGUID)
-	local ilvl, items, PVPitems = addon:GetUnitItemLevelGUID(unitGUID)
+
+	local ilvl, items, PVPitems, outOfRange = addon:GetUnitItemLevelGUID(unitGUID)
 	local index, tbl = addon:search('guid', unitGUID)
 	local count = 0
 	local spec = "..."
@@ -596,11 +597,11 @@ function addon:INSPECT_READY(_, unitGUID)
 		addon:Inspect(addon:GetUnitByGUID(unitGUID))
 	end
 	
-	if ilvl then
+	--if ilvl then
 		addon:insert({
 			['guid'] = unitGUID,
 			['name'] = select(6, GetPlayerInfoByGUID(unitGUID)),
-			['equipped'] = ilvl,
+			['equipped'] = outOfRange and "(距离过远)" or ilvl,
 			['items'] = items,
 			['PVPitems'] = PVPitems,
 			['spec'] = spec,
@@ -608,7 +609,7 @@ function addon:INSPECT_READY(_, unitGUID)
 		})
 
 		addon:UpdateTooltip()
-	end
+	--end
 end
 
 --[[function addon:ADDON_LOADED(_, name)
@@ -762,12 +763,12 @@ function addon:OnTooltipSetUnit()
 	addon:Inspect(unit)
 	
 	if unit and UnitGUID(unit) == UnitGUID("player") then
-		local ilvl, items = addon:GetUnitItemLevel("player")
+		local ilvl, items, _, outOfRange = addon:GetUnitItemLevel("player")
 	
 		addon:insert({
 			['guid'] = UnitGUID("player"),
 			['name'] = UnitName("player"),
-			['equipped'] = ilvl,
+			['equipped'] = outOfRange and "(距离过远)" or ilvl,
 			['items'] = items,
 			['PVPitems'] = PVPitems,
 			['spec'] = addon:GetSpec(false),
@@ -799,12 +800,13 @@ function addon:OnTooltipSetUnit()
 			end
 		end
 	elseif unit and UnitIsPlayer(unit) then
+
 		if addon.settings.profile.show_spec and not addon:showSpecFilter() and UnitLevel(unit) >= 10 then
 			self:AddLine(L["Spec:"].." |cffffffff...")
 			self:Show()
 		end
 		
-		self:AddLine(L["iLvl:"].." |cffff8000...", 1, 1, 1)
+		self:AddLine(L["iLvl:"].." |cffff8000"..(CheckInteractDistance(unit,1) and "..." or "<距离过远>"), 1, 1, 1)
 		if not self.fadeOut then self:Show() end
 		
 		if addon.settings.profile.show_items then
@@ -832,12 +834,14 @@ function addon:TooltipOnHide()
 end
 
 function addon:UpdateTooltip()
+
 	if GameTooltip:GetUnit() then
 		local name, unit = GameTooltip:GetUnit()
 
 		if not unit or not UnitIsPlayer(unit) then return end
 		
 		local index, data = addon:search('guid', UnitGUID(unit))
+					
 		
 		if index then
 			local found
@@ -854,7 +858,6 @@ function addon:UpdateTooltip()
 			end
 			
 			found = addon:searchTT(L["iLvl:"])
-			
 			if found then
 				if data.PVPitems and data.PVPitems > 0 then
 					_G["GameTooltipTextLeft"..found]:SetFormattedText(L["iLvl:"].." |cffff8000%s|r "..L["PVP:"].."|cffff8000%s", data.equipped, data.PVPitems)
@@ -938,10 +941,12 @@ end]]
 -----------------------------------------------
 
 function addon:Inspect(unit)
+
 	addon:CancelTimer(addon.inspectTimer, true)
 	
 	if unit and UnitExists(unit) and not UnitIsUnit(unit, "player") then
 		if CanInspect(unit, false) and CheckInteractDistance(unit, 1) and ( GetTime() - lastInspectRequest ) >= addon.settings.profile.inspectDelay and not ( ( InspectFrame and InspectFrame:IsVisible() ) or ( Examiner and Examiner:IsVisible() ) ) then
+			
 			NotifyInspect(unit)
 		else
 			addon.inspectTimer = addon:ScheduleTimer("Inspect", addon.settings.profile.inspectDelay, unit)
@@ -997,12 +1002,17 @@ function addon:GetUnitItemLevel(unit)
 	local sum, count
 	local PVPitems = 0
 
-	if unit and UnitIsPlayer(unit) and CheckInteractDistance(unit, 1) then
+	if not CheckInteractDistance(unit, 1) then
+		return nil,nil,nil,true
+	end
+
+	if unit and UnitIsPlayer(unit) then
+
 		for i=1, 17, 1 do
 			local link = GetInventoryItemLink(unit, i)
 			local name, _, quality, itemLevel = GetItemInfo(link or 0)
 			local color = select(4, GetItemQualityColor(quality or 1))
-			
+
 			if itemLevel and itemLevel > 0 and i ~= 4 then
 				local upgrade = string.match(link, ":(%d+)\124h%[")
 				if upgrade then
@@ -1035,6 +1045,7 @@ function addon:GetUnitItemLevel(unit)
 				end
 			end
 		end
+
 		
 		if (sum or 0) >= (count or 0) and (count or 0) > 0 then
 			return addon:Round(sum/count), items, PVPitems
@@ -1042,6 +1053,7 @@ function addon:GetUnitItemLevel(unit)
 			return nil, nil, nil
 		end
 	end
+
 end
 
 function addon:GetUnitItemLevelGUID(unitGUID)
