@@ -573,7 +573,7 @@ function EventAlert_LoadSpellArray()
 		},
 		-- Target Alert / 目標提醒區
 		["TARITEMS"] = {
-			[1978] = {enable=true, self=true,},     -- 毒蛇釘刺
+			[118253] = {enable=true, self=true,},     -- 毒蛇釘刺
 			[1130] = {enable=true, self=true,},     -- 獵人印記
 			[19503] = {enable=true, self=true,},    -- 驅散射擊
 			[63468] = {enable=true, self=true,},    -- 穿透射擊

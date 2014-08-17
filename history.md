@@ -6,6 +6,10 @@
 
 fix: 两处错误
 
+### 技能特效报警 (EventAlertMod)
+
+* fix: 毒蛇钉刺技能ID 更正为 DEBUG ID
+
 
 2014-08-16/01
 ===
