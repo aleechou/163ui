@@ -597,7 +597,7 @@ function addon:INSPECT_READY(_, unitGUID)
 		addon:Inspect(addon:GetUnitByGUID(unitGUID))
 	end
 	
-	--if ilvl then
+	if ilvl or outOfRange then
 		addon:insert({
 			['guid'] = unitGUID,
 			['name'] = select(6, GetPlayerInfoByGUID(unitGUID)),
@@ -609,7 +609,7 @@ function addon:INSPECT_READY(_, unitGUID)
 		})
 
 		addon:UpdateTooltip()
-	--end
+	end
 end
 
 --[[function addon:ADDON_LOADED(_, name)
@@ -1002,7 +1002,8 @@ function addon:GetUnitItemLevel(unit)
 	local sum, count
 	local PVPitems = 0
 
-	if not CheckInteractDistance(unit, 1) then
+	local s, out = pcall(CheckInteractDistance,unit,1)
+	if s and not out then
 		return nil,nil,nil,true
 	end
 
