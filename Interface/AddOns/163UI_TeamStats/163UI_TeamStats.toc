@@ -15,4 +15,4 @@ TeamStatsUI.lua
 
 ## Title: |cff880303[网易有爱]|r 团员信息统计
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014081801
