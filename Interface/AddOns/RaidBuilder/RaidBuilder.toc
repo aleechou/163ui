@@ -7,6 +7,5 @@
 ## SavedVariablesPerCharacter: RAIDBUILDER_CHARACTER_DB
 ## X-WoWBox-Ver: 1
 Load.xml
-
 ## X-Vendor: NetEase
-## 163UI-Version: 2014082001
+## 163UI-Version: 2014082002
