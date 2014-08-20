@@ -8,7 +8,7 @@
     change    
 ]]--
 
-local WIDGET, VERSION = 'EditBox', 4
+local WIDGET, VERSION = 'EditBox', 5
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local EditBox = GUI:NewClass(WIDGET, 'Frame', VERSION)
@@ -326,4 +326,14 @@ end
 
 function EditBox:SetMaxBytes(maxBytes)
     self:GetEditBox():SetMaxBytes(maxBytes)
+end
+
+function EditBox:SetSinglelLine()
+    self.Prompt:SetJustifyH('CENTER') 
+    self.Prompt:SetJustifyV('MIDDLE')
+    self.Prompt:SetAllPoints(true)
+    self.EditBox:SetAllPoints(true)
+    self.EditBox:SetMultiLine(false)
+    self.EditBox:SetHitRectInsets(0,0,0,0)
+    self.EditBox:SetJustifyH('CENTER')
 end

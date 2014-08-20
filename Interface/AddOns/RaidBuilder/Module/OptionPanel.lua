@@ -58,11 +58,20 @@ function SettingPanel:OnInitialize()
                     return not self.db.profile.settings.panel
                 end
             },
+            eventPusher = {
+                type = 'toggle',
+                name = L['开启活动推送'],
+                width = 'full',
+                order = 5,
+                disabled = function()
+                    return not self.db.profile.settings.panel
+                end
+            },
             teamNotice = {
                 type = 'toggle',
                 name = L['开启团队通告'],
                 width = 'full',
-                order = 5,
+                order = 6,
             },
             socialEnabled = {
                 type = 'toggle',
@@ -70,7 +79,7 @@ function SettingPanel:OnInitialize()
                     return RaidBuilder:IsSocialServerEnabled() and L['开启集合石聊天'] or L['集合石聊天模块服务器调试中']
                 end,
                 width = 'full',
-                order = 6,
+                order = 7,
                 disabled = function()
                     return not RaidBuilder:IsSocialServerEnabled()
                 end
@@ -79,7 +88,7 @@ function SettingPanel:OnInitialize()
                 type = 'keybinding',
                 name = L['打开/关闭集合石组团按键设置'],
                 width = 'full',
-                order = 7,
+                order = 8,
                 get = function()
                     return GetBindingKey('RAIDBUILDER_TOGGLE')
                 end,

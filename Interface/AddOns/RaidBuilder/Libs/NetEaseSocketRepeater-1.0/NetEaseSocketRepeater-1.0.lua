@@ -28,7 +28,7 @@ function Repeater:OnLoad()
 end
 
 function Repeater:Connect()
-    self:ConnectServer('NE_REPEATER', 'WOWCLOUD1', nil, true)
+    self:ConnectServer('NE_REPEATER', 'S1' .. UnitFactionGroup('player'), nil, true)
 end
 
 function Repeater:OnRepeater(_, prefix, sender, cmd, ...)

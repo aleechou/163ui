@@ -27,6 +27,9 @@ function Logic:OnInitialize()
     self:RegisterSocket('SEL', 'SOCKET_EVENT_LEAVE')
     self:RegisterSocket('SER', 'SOCKET_EVENT_REFUSE')
     self:RegisterSocket('GUI', 'GROUP_UNIT_INFO')
+
+    self:RegisterSocket('WHISPER')
+    self:RegisterServer('WHISPER_OFFLINE')
     
     self:RegisterServer('SOCKET_DISCONNECTED', 'ServerConnect')
     self:RegisterServer('SOCKET_CONNECTED')
@@ -39,7 +42,6 @@ function Logic:OnInitialize()
     self:RegisterServer('SARGS', 'SOCKET_ARGS')
 
     self:RegisterServer('EXCHANGE_RESULT')
-    self:RegisterServer('WHISPER_INFORM')
 
     self:ServerConnect()
     self:BroadConnect()
@@ -54,7 +56,7 @@ end
 
 function Logic:ServerConnect()
     if not IsTrialAccount() then
-        self:ConnectServer('NERB', 'WOWCLOUD1')
+        self:ConnectServer('NERB', 'S1' .. UnitFactionGroup('player'))
     end
 end
 
@@ -250,7 +252,7 @@ function Logic:RefreshCurrentEvent()
         event:SetCurrentMemberRole(_GetGroupRoles())
 
         if not EventCache:IsCurrentEventPaused() then
-            self:SendBroadMessage('BEI', event:ToSocket())
+            -- self:SendBroadMessage('BEI', event:ToSocket())
             self:SendServer('SEI', event:ToSocket())
         end
         if not EventCache:IsCurrentEventPaused() and event:IsMemberFull() then
@@ -469,6 +471,22 @@ function Logic:ReportEvent(input, event)
     System:Log(L['已成功提交举报信息。'])
 end
 
-function Logic:WHISPER_INFORM(event, from, text)
-    MakeChatEvent('CHAT_MSG_WHISPER', text, from, '', '', nil, '', 0, 0, nil, nil, 0, '')
+function Logic:WHISPER(event, from, text)
+    MakeChatEvent('CHAT_MSG_WHISPER', text, from:gsub('-', '@'), '', '', nil, 'RAIDBUILDER', 0, 0, nil, nil, 0, nil)
+end
+
+function Logic:WHISPER_OFFLINE(event, to)
+    SendSystemMessage(format(L['未找到名为“%s”的在线玩家。'], to:gsub('-', '@')))
+end
+
+function Logic:Exchange(text)
+    if not text or text == '' then
+        return
+    end
+
+    self:SendServer('EXCHANGE', text, UnitGUID('player'))
+end
+
+function Logic:EXCHANGE_RESULT(event, ...)
+    self:SendMessage('RAIDBUILDER_REWARD_RESULT', ...)
 end

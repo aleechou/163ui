@@ -9,6 +9,8 @@
   <Script file="LeaderboardPanel.lua" />
   <Script file="RecommendPanel.lua" />
   <Script file="WebBrowsePanel.lua" />
+  <Script file="MallPanel.lua" />
+  <Script file="RewardPanel.lua" />
   <Script file="OptionPanel.lua" />
   <Script file="FavoritePanel.lua" />
   <Script file="RecentMemberPanel.lua" />
@@ -16,4 +18,5 @@
   <Script file="LogPanel.lua" />
   <Script file="WebInvitePanel.lua" />
   <Script file="AnnPanel.lua" />
+  <Script file="EventPusher.lua" />
 </Ui>

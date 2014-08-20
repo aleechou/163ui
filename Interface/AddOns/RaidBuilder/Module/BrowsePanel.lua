@@ -66,22 +66,6 @@ local BROWSE_HEADER = {
             grid:SetEvent(event)
         end
     },
-    -- {
-    --     -- key = 'MemberTotal',
-    --     key = 'MemberRole',
-    --     text = L['人数'],
-    --     width = 65,
-    --     style = 'ICONTEXT',
-    --     sortHandler = function(event)
-    --         return event:GetRoleCurrentAll() - event:GetRoleTotalAll()
-    --     end,
-    --     showHandler = function(event)
-    --         local color = event:IsMemberFull() and RED_FONT_COLOR or HIGHLIGHT_FONT_COLOR
-
-    --         return event:GetRoleCurrentAll() .. '/' .. event:GetRoleTotalAll(), color.r, color.g, color.b, 
-    --             [[Interface\Addons\RaidBuilder\Media\DataBroker]], 0.5, 0.75, 0, 1
-    --     end
-    -- },
     {
         key = 'Level',
         text = L['等级'],
@@ -209,13 +193,6 @@ function BrowsePanel:OnInitialize()
     Favorite:SetText(L['仅关注'])
     Favorite:SetScript('OnClick', RefreshFilter)
 
-    -- local BanButton = GUI:GetClass('ClearButton'):New(self)
-    -- BanButton:Hide()
-    -- BanButton:SetScript('OnClick', function(button)
-    --     BlackListPanel:Add(button.data)
-    -- end)
-    -- GUI:SetTooltip(BanButton, 'ANCHOR_RIGHT', L['加入到黑名单'])
-
     local EventList = GUI:GetClass('DataGridView'):New(self)
     EventList:SetAllPoints(self)
     EventList:SetItemHeight(32)
@@ -246,6 +223,10 @@ function BrowsePanel:OnInitialize()
     end)
     EventList:SetCallback('OnItemEnter', function(_, index, event)
         MainPanel:OpenEventTooltip(event)
+        self.OnEnterHandler = true
+    end)
+    EventList:SetCallback('OnItemLeave', function()
+        self.OnEnterHandler = nil
     end)
     EventList:SetCallback('OnItemMenu', function(_, button, event)
         self:ToggleEventMenu(button, event)
@@ -285,10 +266,13 @@ function BrowsePanel:OnInitialize()
     icon:SetPoint('LEFT')
     icon:SetTexture([[INTERFACE\COMMON\ReputationStar]])
     icon:SetTexCoord(0, 0.5, 0, 0.5)
-    local label = IconSummary:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
+    local label = IconSummary:CreateFontString(nil, 'OVERLAY')
     label:SetPoint('LEFT', icon, 'RIGHT', 2, 0)
-    label:SetText(L['图示'])
-
+    IconSummary:SetFontString(label)
+    IconSummary:SetNormalFontObject('GameFontHighlightSmall')
+    IconSummary:SetHighlightFontObject('GameFontNormalSmall')
+    IconSummary:SetText(L['图示'])
+    
     IconSummary:SetScript('OnEnter', function(button)
         GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
         GameTooltip:SetText(L['图示'])
@@ -301,6 +285,25 @@ function BrowsePanel:OnInitialize()
         GameTooltip:Show()
     end)
     IconSummary:SetScript('OnLeave', GameTooltip_Hide)
+
+    local RecentButton = CreateFrame('Button', nil, self)
+    RecentButton:SetSize(110, 16)
+    RecentButton:SetPoint('LEFT', IconSummary, 'RIGHT', 20, 0)
+    local icon = RecentButton:CreateTexture(nil, 'OVERLAY')
+    icon:SetSize(16, 16)
+    icon:SetPoint('LEFT')
+    icon:SetTexture([[Interface\AddOns\RaidBuilder\Media\Icon]])
+    local label = RecentButton:CreateFontString(nil, 'OVERLAY')
+    label:SetPoint('LEFT', icon, 'RIGHT', 2, 0)
+    RecentButton:SetFontString(label)
+    RecentButton:SetNormalFontObject('GameFontHighlightSmall')
+    RecentButton:SetHighlightFontObject('GameFontNormalSmall')
+    RecentButton:SetText(L['最近的战友'])
+
+    RecentButton:SetScript('OnClick', function()
+        MainPanel:SelectPanel(OptionPanel)
+        OptionPanel:SelectPanel(RecentMemberPanel)
+    end)
 
     self.HelpButton = HelpButton
     self.JoinButton = JoinButton
@@ -331,7 +334,9 @@ function BrowsePanel:OnInitialize()
 end
 
 function BrowsePanel:Update()
-    self.EventList:SetItemList(self:GetEventList())
+    if not self.OnEnterHandler then
+        self.EventList:SetItemList(self:GetEventList())
+    end
     self.TotalEvents:SetText((L['申请中 %d/%d 活动总数 %d/%d']):format(
         AppliedCache:Count(),
         AppliedCache:Max(),
@@ -400,8 +405,11 @@ function BrowsePanel:JoinEvent(event)
     end, event)
 end
 
-function BrowsePanel:QuickToggle(code)
+function BrowsePanel:QuickToggle(code, item)
     self.Filter:SetValue(code)
+    if item then
+        self.EventList:SetSelectedItem(item)
+    end
 end
 
 local helpPlate = {
@@ -453,13 +461,13 @@ function BrowsePanel:ToggleEventMenu(button, event)
             text = event:GetEventName(),
             isTitle = true,
         },
-        -- {
-        --     text = L['密语'],
-        --     func = function()
-        --         local name = event:GetLeader()
-        --         ChatFrame_SendTell(Invite:IsSameRealm(name) and name or name:gsub('-', '@'), ChatFrame1)
-        --     end,
-        -- },
+        {
+            text = L['密语'],
+            func = function()
+                local name = event:GetLeader()
+                ChatFrame_SendTell(Invite:IsSameRealm(name) and name or name:gsub('-', '@'), ChatFrame1)
+            end,
+        },
         {
             text = event:IsApplied() and L['取消申请'] or L['申请加入'],
             disabled = event:IsSelf() or event:IsInEvent(),

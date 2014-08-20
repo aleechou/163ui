@@ -308,7 +308,7 @@ end
 
 local function FormatProgressionTex(value, bossIndex)
     local killed = bit.band(value, bit.lshift(1, bossIndex-1)) > 0
-    
+
     return killed and [[|TINTERFACE\FriendsFrame\StatusIcon-Online:16|t]] or [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
 end
 
@@ -445,7 +445,7 @@ function GetUnitLogoIndex(name, btag)
     if leaderboard then
         return leaderboard
     end
-    
+
     return UNIT_LOGO_NONE
 end
 
@@ -520,7 +520,7 @@ end
 
 function ripairs(t)
     assert(type(t) == 'table')
-    
+
     return riter, t, #t + 1
 end
 
@@ -534,24 +534,50 @@ function GetEventCodeInfo(eventCode)
     return cate, sub, id, diff, area
 end
 
--- function MakeChatEvent(event, ...)
---     for i = 1, NUM_CHAT_WINDOWS do
---         local frame = _G['ChatFrame' .. i]
---         if frame and frame:IsEventRegistered(event) then
---             local script = frame:GetScript('OnEvent')
---             if script then
---                 script(frame, event, ...)
---             end
---         end
---     end
--- end
+local CHAT_FLAG_RAIDBUILDER = '|TInterface\\AddOns\\Raidbuilder\\Media\\Icon:16:16:0:0:32:32:0:32:0:32|t'
+function MakeChatEvent(event, ...)
+    for i, v in ipairs(CHAT_FRAMES) do
+        local frame = _G[v]
+        if frame and frame:IsEventRegistered(event) then
+            local script = frame:GetScript('OnEvent')
+            if script then
+                -- script(frame, event, ...)
+                MakeMessage(frame, event, ...)
+            end
+        end
+    end
+end
 
--- local orig_SendChatMessage = SendChatMessage
--- function _G.SendChatMessage(text, chatType, language, channel)
---     if chatType == 'WHISPER' and channel:find('@') then
---         Logic:SendServer('WHISPER', channel, text)
---         MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, '', 0, 0, nil, nil, 0, '')
---     else
---         orig_SendChatMessage(text, chatType, language, channel)
---     end
--- end
+function MakeMessage(frame, event, text, target)
+    local chatType = strsub(event, 10)
+    local info = ChatTypeInfo[chatType]
+    local chatGroup = Chat_GetChatCategory(chatType)
+    local playerLink = format('|Hplayer:%s:0:%s:%s|h ', target, chatGroup, target)
+    local body = format(_G['CHAT_' .. chatType .. '_GET'] .. text, CHAT_FLAG_RAIDBUILDER .. playerLink .. '[' .. target .. ']|h')
+
+    if CHAT_TIMESTAMP_FORMAT then
+        body = format('%s%s', BetterDate(CHAT_TIMESTAMP_FORMAT, time()), body)
+    end
+
+    local accessID = ChatHistory_GetAccessID(chatGroup, target)
+    local typeID = ChatHistory_GetAccessID(chatType, chatTarget, nil)
+
+    frame:AddMessage(body, info.r, info.g, info.b, info.id, false, accessID, typeID)
+end
+
+local orig_SendChatMessage = SendChatMessage
+local lastSendTime = time()
+function _G.SendChatMessage(text, chatType, language, channel)
+    local realChannel = type(channel) == 'string' and channel:gsub('@', '-')
+    if realChannel and chatType == 'WHISPER' and channel:find('@') and not Invite:IsSameRealm(realChannel) then
+        if time() - lastSendTime > 1 then
+            Logic:SendSocket(realChannel, 'WHISPER', text)
+            MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, 'RAIDBUILDER', 0, 0, nil, nil, 0, nil)
+            lastSendTime = time()
+        else
+            SendSystemMessage(L['请勿频繁密语'])
+        end
+    else
+        orig_SendChatMessage(text, chatType, language, channel)
+    end
+end

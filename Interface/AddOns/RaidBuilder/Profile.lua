@@ -50,6 +50,7 @@ function Profile:OnInitialize()
                 storage = { point = 'TOP', x = 0, y = -20},
                 teamNotice = true,
                 socialEnabled = true,
+                eventPusher = true,
             },
 
             sharecontent = false,
