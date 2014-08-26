@@ -11,13 +11,7 @@
         "ChannelClean",
         "tdCooldown2",
         "!!!163UI.3dcodecmd!!!-src",
-        "TinyTip",
-        
-        "Combuctor",
-        "Combuctor_Config",
-        "Combuctor_Sets",
-        "JPack",
-        "JPack_Ex"
+        "TinyTip"
     ], 
     "conflictive": {
         "foo": [
