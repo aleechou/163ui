@@ -1,5 +1,5 @@
 --[[
-Copyright 2011-2013 João Cardoso
+Copyright 2011-2014 João Cardoso
 LibItemCache is distributed under the terms of the GNU General Public License.
 You can redistribute it and/or modify it under the terms of the license as
 published by the Free Software Foundation.
@@ -21,7 +21,6 @@ if not BagBrother or Lib:HasCache() then
 end
 
 local Cache = Lib:NewCache()
-
 local LAST_BANK_SLOT = NUM_BAG_SLOTS + NUM_BANKBAGSLOTS
 local FIRST_BANK_SLOT = NUM_BAG_SLOTS + 1
 local ITEM_COUNT = ';(%d+)$'
@@ -30,23 +29,36 @@ local ITEM_ID = '^(%d+)'
 
 --[[ Items ]]--
 
-function Cache:GetBag(realm, player, _, slot)
-	local bag = BrotherBags[realm][player].equip[slot]
-	if bag then
-		return strsplit(';', bag)
+function Cache:GetBag(realm, player, bag, tab, slot)
+	if tab then
+		local tab = self:GetGuildTab(realm, player, tab)
+		if tab then
+			local name, icon, view, deposit, withdraws, remaining = unpack(tab.info or {})
+			return name, icon, view, deposit, withdraws, remaining, true
+		end
+	else
+		return self:GetItem(realm, player, 'equip', nil, slot)
 	end
 end
 
-function Cache:GetItem(realm, player, bag, slot)
-	local bag = BrotherBags[realm][player][bag]
+function Cache:GetItem(realm, player, bag, tab, slot)
+	if tab then
+		bag = self:GetGuildTab(realm, player, tab)
+	else
+		bag = player and BrotherBags[realm][player][bag]
+	end
+
 	local item = bag and bag[slot]
 	if item then
 		return strsplit(';', item)
 	end
 end
 
-function Cache:GetMoney(realm, player)
-	return BrotherBags[realm][player].money
+function Cache:GetGuildTab(realm, player, tab)
+	local name = self:GetGuild(realm, player)
+	local guild = name and BrotherBags[realm][name .. '*']
+
+	return guild and guild[tab]
 end
 
 
@@ -85,17 +97,47 @@ function Cache:GetItemCount(bag, id, unique)
 end
 
 
+--[[ Others ]]--
+
+function Cache:GetGuild(realm, player)
+	return BrotherBags[realm][player].guild
+end
+
+function Cache:GetMoney(realm, player)
+	return BrotherBags[realm][player].money
+end
+
+
 --[[ Players ]]--
 
 function Cache:GetPlayer(realm, player)
 	player = BrotherBags[realm][player]
-	return player.class, player.race, player.sex
+	if player then
+		return player.class, player.race, player.sex
+	end
 end
 
 function Cache:DeletePlayer(realm, player)
-	BrotherBags[realm][player] = nil
+	local realm = BrotherBags[realm]
+	local guild = realm[player].guild
+	realm[player] = nil
+
+	for _, actor in pairs(realm) do
+		if actor.guild == guild then
+			return
+		end
+	end
+
+	realm[guild .. '*'] = nil
 end
 
 function Cache:GetPlayers(realm)
-	return BrotherBags[realm]
+	local players = {}
+	for name in pairs(BrotherBags[realm] or {}) do
+		if not name:find('*$') then
+			tinsert(players, name)
+		end
+	end
+
+	return players
 end

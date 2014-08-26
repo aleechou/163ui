@@ -5,8 +5,8 @@
 ## SavedVariablesPerCharacter: BagnonFrameSettings
 ## SavedVariables: BagnonGlobalSettings
 
-## Version: 5.4.9
-## OptionalDeps: LibStub, Ace3, BagBrother, ItemRack, Wardrobe, WoWUnit
+## OptionalDeps: BagBrother, ItemRack, Wardrobe, WoWUnit
+## Version: 5.4.15
 
 libs\libs.xml
 localization\localization.xml
@@ -19,5 +19,6 @@ info\info.xml
 settings\settings.xml
 components\components.xml
 
-## Title: |cff880303[网易有爱]|r Bagnon
+## Title: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase
+## 163UI-Version: 2014061001
