@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: tdPack
+## Author: ldz5
+## Version: 50100.04
+# Dependencies: tdCore
+## OptionalDeps: Bagnon, Combuctor, BaudBag
+## SavedVariables: TDDB_TDPACK
+
+load.xml
+
+## Title: |cff880303[网易有爱]|r tdPack
+## X-Vendor: NetEase
+## 163UI-Version: 2014082601
