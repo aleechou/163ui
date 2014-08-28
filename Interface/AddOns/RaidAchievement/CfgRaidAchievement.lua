@@ -8,6 +8,12 @@
     icon = [[Interface\Icons\Achievement_Quests_Completed_08]],
     desc = "自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字。",
 
+    {
+        type="button",
+        text="配置选项",
+        callback = function(cfg, v, loading) HideUIPanel(GameMenuFrame); PHOENIXSTYLEEASYACH_Command() end,
+    },
+    
 });
 
 --[[U1RegisterAddon("RaidAchievement_AchieveReminder", {title = '设置模块', protected = nil, hide = nil, });

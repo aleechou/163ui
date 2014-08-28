@@ -23,6 +23,16 @@ CoreAddEvent("ADDON_SELECTED")
 CoreAddEvent("DB_LOADED")
 
 
+local function processVariablesVersion(db)
+
+    -- 2014082901 换回简约背包，确保该插件被激活，同时禁用分类背包（如果没有别卸载的话）
+    if (db.verison or 0) < 2014082901 then
+        U1LoadAddOn("Bagnon",true)
+        U1ToggleAddon("combuctor",nil,nil,true,true)
+    end
+
+end
+
 local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
 function NoGoldSeller163ui:OnInitialize()
 	if(NGSSymbolsUI)then
@@ -1167,9 +1177,13 @@ function U1ToggleChildren(name, enabled, noset, deepToggleChildren, bundleSim)
 end
 --参数noset是父类关闭的时候关闭子类，不改变状态
 function U1ToggleAddon(name, enabled, noset, deepToggleChildren, bundleSim)
+
+    local info = addonInfo[name];
+    if not info then 
+        return 
+    end
     local reload = false;
     local status;
-    local info = addonInfo[name];
 
     if not bundleSim then startCapturing(name); end
 
@@ -1374,6 +1388,7 @@ end
 
 function U1:ADDON_LOADED(event, name)
     if(name==_)then
+
         --print("ADDON_LOADED1", db, U1DB, db==U1DB, db==defaultDB)
         db = U1DB or defaultDB;
         --print("ADDON_LOADED2", db, U1DB, db==U1DB, db==defaultDB)
@@ -1525,6 +1540,9 @@ function U1:ADDON_LOADED(event, name)
                 end
             end
         end
+
+        -- 处理 WTF/SavedVairables 的版本
+        processVariablesVersion(db)
     else
         --fix tooltip inspect error, still occur in 4.3
         if(name=="Blizzard_InspectUI")then
@@ -1555,6 +1573,7 @@ function U1:ADDON_LOADED(event, name)
     end
 
     processAceDBs(); --防止ace的小版本，每次都处理
+
 end
 
 function U1:VARIABLES_LOADED(calledFromLogin)
