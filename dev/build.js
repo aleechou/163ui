@@ -125,7 +125,6 @@ Steps()
 
 	// 打包插件
 	.step(function(){
-		return
 
 		this.each(addonsJson.addons,function(i,addon){
 
