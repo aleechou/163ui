@@ -31,13 +31,12 @@ local function processVariablesVersion(db)
         U1ToggleAddon("combuctor",nil,nil,true,true)
     end
 
-    if (db.verison or 0) < 2014082902 then
-        U1LoadAddOn("tdCore",true)
-        U1LoadAddOn("tdPack",true)
-    end
+    --if (db.verison or 0) < 2014082902 then
+        --U1LoadAddOn("tdCore",true)
+        --U1LoadAddOn("tdPack",true)
+    --end
 
-    --db.verison = tonumber(GetAddOnMetadata("!!!163UI!!!","X-163UI-Version")or"0")
-
+    db.verison = tonumber(GetAddOnMetadata("!!!163UI!!!","X-163UI-Version")or"0")
 end
 
 local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
