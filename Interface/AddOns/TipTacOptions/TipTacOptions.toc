@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Version: 13.09.21
 ## Title: TipTacOptions
 ## Title-zhCN: |cff880303[网易有爱]|r TipTacOptions (选项设置)

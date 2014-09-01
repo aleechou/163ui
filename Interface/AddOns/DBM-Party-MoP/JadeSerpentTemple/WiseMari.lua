@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(672, "DBM-Party-MoP", 1, 313)
+local mod	= DBM:NewMod(672, "DBM-Party-MoP", 1, 313)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10805 $"):sub(12, -3))
 mod:SetCreatureID(56448)
+mod:SetEncounterID(1418)
 mod:SetZone()
 mod:SetUsedIcons(8)
 
@@ -49,7 +49,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 106653 and args:IsPlayer() and self:AntiSpam(4, 1) then
 		specWarnShaResidue:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 
@@ -57,21 +56,15 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 106526 then--Call Water
 		timerLivingWater:Start()
 		specWarnLivingWater:Schedule(5.5)
-		sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\mobsoon.mp3")--準備小怪
 	elseif args.spellId == 106612 then--Bubble Burst (phase 2)
 		warnBubbleBurst:Show()
 		timerWashAway:Start()
-		sndWOP:Schedule(4, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ptwo.mp3")--P2
-		sndWOP:Schedule(5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(6, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(7, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)--120037 is a weak version of same spell by exit points, 115219 is the 50k per second icewall that will most definitely wipe your group if it consumes the room cause you're dps sucks.
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 115167 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnCorruptingWaters:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -81,8 +74,5 @@ function mod:UNIT_DIED(args)
 	if cid == 56511 then--Corrupt Living Water
 		addsRemaining = addsRemaining - 1
 		warnAddsLeft:Show(addsRemaining)
-		if addsRemaining == 0 then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\phasechange.mp3")--階段轉換
-		end
 	end
 end

@@ -1,5 +1,0 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="Localization.lua"/>
-	<Script file="Core.lua"/>
-	<Script file="OptionFrame.lua"/>
-</Ui>

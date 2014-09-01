@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(693, "DBM-Party-MoP", 6, 324)
+local mod	= DBM:NewMod(693, "DBM-Party-MoP", 6, 324)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10728 $"):sub(12, -3))
 mod:SetCreatureID(61567)
+mod:SetEncounterID(1465)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -36,7 +36,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSapResidue:Start()
 		if (args.amount or 1) >= 6 and self:AntiSpam(1, 2) then
 			specWarnSapResidue:Show(args.amount)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 		end
 	end
 end
@@ -46,11 +45,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 120001 then
 		warnDetonate:Show()
 		specWarnDetonate:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\aesoon.mp3")--準備AE
-		sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countfour.mp3")
-		sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(4.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
 		timerDetonate:Start()
 		timerDetonateCD:Start()
 	end

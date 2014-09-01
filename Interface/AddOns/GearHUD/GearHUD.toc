@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Notes: 模仿战争机器的齿轮血量提示, 在不同的阶段显示不同的材质
 ## SavedVariablesPerCharacter: GearHudSettings
 GearHUD.xml

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-BigfootType: 6
 ## X-BigfootDesc: |cFF4488FF此模块依赖于 tullaRange|r
 ## Title: tullaRange Config

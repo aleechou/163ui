@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod("BrawlRank8", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10121 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(48780)
 mod:SetZone()
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE"
+	"SPELL_AURA_APPLIED 142400 141396 141401 141371 141388",
+	"SPELL_AURA_APPLIED_DOSE 141396 141401"
 )
 
 --Boss Key

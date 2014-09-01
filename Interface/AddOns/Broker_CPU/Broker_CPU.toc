@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Broker_CPU
 ## Title-zhTW: |cff880303[网易有爱]|r 系統監控 Broker_CPU
 ## Title-zhCN: |cff880303[网易有爱]|r 系统监控 Broker_CPU

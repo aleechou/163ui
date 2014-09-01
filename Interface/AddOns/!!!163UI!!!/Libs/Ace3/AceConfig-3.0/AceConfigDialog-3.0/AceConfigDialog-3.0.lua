@@ -1,10 +1,10 @@
 --- AceConfigDialog-3.0 generates AceGUI-3.0 based windows based on option tables.
 -- @class file
 -- @name AceConfigDialog-3.0
--- @release $Id: AceConfigDialog-3.0.lua 1089 2013-09-13 14:32:35Z nevcairiel $
+-- @release $Id: AceConfigDialog-3.0.lua 1049 2012-04-02 13:22:10Z mikk $
 
 local LibStub = LibStub
-local MAJOR, MINOR = "AceConfigDialog-3.0", 58
+local MAJOR, MINOR = "AceConfigDialog-3.0", 157  --modify by eui.cc at 20130603 show spell detail
 local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
@@ -539,13 +539,20 @@ local function OptionOnMouseOver(widget, event)
 	local desc = GetOptionsMemberValue("desc", opt, options, path, appName)
 	local usage = GetOptionsMemberValue("usage", opt, options, path, appName)
 	local descStyle = opt.descStyle
-	
+
 	if descStyle and descStyle ~= "tooltip" then return end
+
+	if user.text and user.text:lower():find('|h') then
+		GameTooltip:SetHyperlink(user.text)
+		GameTooltip:Show()
+		return
+	end --modify by eui.cc at 20130603 show spell detail
 	
 	GameTooltip:SetText(name, 1, .82, 0, 1)
 	
 	if opt.type == "multiselect" then
 		GameTooltip:AddLine(user.text,0.5, 0.5, 0.8, 1)
+		
 	end	
 	if type(desc) == "string" then
 		GameTooltip:AddLine(desc, 1, 1, 1, 1)

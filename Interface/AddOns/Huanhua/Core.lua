@@ -17,8 +17,8 @@ function huanhua:OnEnable()
   self:SecureHookScript(ShoppingTooltip1, "OnTooltipCleared")
   self:SecureHookScript(ShoppingTooltip2, "OnTooltipSetItem")
   self:SecureHookScript(ShoppingTooltip2, "OnTooltipCleared")
-  self:SecureHookScript(ShoppingTooltip3, "OnTooltipSetItem")
-  self:SecureHookScript(ShoppingTooltip3, "OnTooltipCleared")
+  --self:SecureHookScript(ShoppingTooltip3, "OnTooltipSetItem")
+  --self:SecureHookScript(ShoppingTooltip3, "OnTooltipCleared")
   self:SecureHook("DressUpItemLink");
 end
 

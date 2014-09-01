@@ -1,14 +1,13 @@
 local mod	= DBM:NewMod("BrawlRank7", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9770 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(46798)
 mod:SetZone()
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED"
+	"SPELL_CAST_START 133212 125212 133465 133017",
+	"SPELL_AURA_APPLIED 133015 133018"
 )
 
 local warnRockets				= mod:NewCastAnnounce(133212, 4)

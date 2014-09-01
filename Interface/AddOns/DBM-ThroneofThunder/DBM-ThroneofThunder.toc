@@ -1,25 +1,27 @@
-﻿## Interface: 50400
-## X-Min-Interface: 50200
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of Thunder|r
-
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0雷电王座|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0雷霆王座(ToT)|r
+﻿## Interface: 60000
+## X-Min-Interface: 60000
+## Title:|cffff565e[TUWAN]|r DBM Throne of Thunder
+## Title-zhCN:|cff880303[网易有爱]|r DBM 雷电王座
+## Title-zhTW:|cff880303[网易有爱]|r DBM 雷霆王座
+## RequiredDeps: Tuwan
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core 
-## 163UI-Version: 2014060801
+## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMThroneofThunder_SavedVars, DBMThroneofThunder_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
-## X-DBM-Mod-Name: Throne of Thunder
-## X-DBM-Mod-Name-zhCN: 雷电王座
-## X-DBM-Mod-Name-zhTW: 雷霆王座  (ToT)
 ## X-DBM-Mod-Sort: 2
 ## X-DBM-Mod-MapID: 1098
 localization.en.lua
+localization.it.lua
+localization.kr.lua
 localization.cn.lua
+localization.es.lua
+localization.fr.lua
+localization.de.lua
+localization.ru.lua
 localization.tw.lua
 Jinrokh.lua
 Horridon.lua

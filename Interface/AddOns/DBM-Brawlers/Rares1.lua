@@ -1,14 +1,13 @@
 local mod	= DBM:NewMod("BrawlRare1", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9770 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(46265)
 mod:SetZone()
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS"
+	"SPELL_CAST_START 133398 133650 133262 135621 140868 140862 140886",
+	"SPELL_CAST_SUCCESS 133208 133250 140894 140912"
 )
 
 --Boss Key
@@ -56,7 +55,6 @@ function mod:SPELL_CAST_START(args)
 		timerBlueCrushCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnBlueCrush:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 		end
 	elseif args.spellId == 135621 then
 		warnStaticCharge:Show()
@@ -80,14 +78,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 --		timerEvilGlareCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnEvilGlare:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	elseif args.spellId == 133250 then
 		warnDestructolaser:Show()
 		timerDestructolaserCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnDestructolaser:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	elseif args.spellId == 140894 then
 		warnBoomingBoogaloo:Show()

@@ -31,7 +31,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
-local MAJOR, MINOR = "LibDualSpec-1.0", 9
+local MAJOR, MINOR = "LibDualSpec-1.0", 8
 assert(LibStub, MAJOR.." requires LibStub")
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
@@ -175,8 +175,8 @@ function mixin:CheckDualSpecState()
 		local newProfile = db.char.profile
 		db.char.talentGroup = lib.talentGroup
 		if newProfile ~= currentProfile then
-			db.char.profile = currentProfile
 			self:SetProfile(newProfile)
+			db.char.profile = currentProfile
 		end
 	end
 end

@@ -1,19 +1,20 @@
 local mod	= DBM:NewMod("Greench", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 9843 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11379 $"):sub(12, -3))
 mod:SetCreatureID(54499)
 mod:SetModelID(39021)
 mod:SetReCombatTime(10)
-mod:SetZone()
+mod:SetZone(0)--Eastern Kingdoms
+mod:DisableWBEngageSync()
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_CAST_START 101907",
+	"SPELL_CAST_SUCCESS 101873",
+	"SPELL_AURA_APPLIED 101860",
+	"SPELL_AURA_APPLIED_DOSE 101860",
 	"UNIT_SPELLCAST_SUCCEEDED target focus"
 )
 

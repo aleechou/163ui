@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Notes: 简易的符文插件RuneFrame
 ## Author: Terry@BF,独孤傲雪, 炽火 修改@Tarecgosa
 ## SavedVariables: RuneFrame_Config

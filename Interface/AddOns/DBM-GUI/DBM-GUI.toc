@@ -1,23 +1,38 @@
-﻿## Interface: 50400
-## X-Min-Interface: 50400
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFOptions GUI|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF设置界面|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF使用者介面|r
-## Notes: GUI for Deadly Boss Mods
-## Notes-zhCN: Deadly Boss Mods的设置界面
-## Notes-zhTW: Deadly Boss Mods的使用者介面
-## RequiredDeps: DBM-Core 
-## 163UI-Version: 2014062901
+﻿## Interface: 60000
+## X-Min-Interface: 60000
+## Title:|cffff565e[TUWAN]|r DBM Options GUI
+## Title-zhCN:|cff880303[网易有爱]|r DBM 设置界面
+## Title-zhTW:|cff880303[网易有爱]|r DBM 使用者介面
+## RequiredDeps: Tuwan
+## Notes: [TUWAN]GUI for Deadly Boss Mods
+## Notes-deDE: [TUWAN]Grafische Benutzeroberfläche für Deadly Boss Mods
+## Notes-zhCN: [兔玩]Deadly Boss Mods的设置界面
+## Notes-ruRU: [TUWAN]Графический интерфейс пользователя DBM
+## Notes-zhTW: [兔玩]Deadly Boss Mods的使用者介面
+## Notes-koKR: [TUWAN]죽이는 보스 모드를 위한 GUI
+## Notes-esES: [TUWAN]Gui para Deadly Boss Mods
+## Notes-esMX: [TUWAN]Gui para Deadly Boss Mods
+## Notes-frFR: [TUWAN]IUG pour Deadly Boss Mods
+## Notes-ptBR: [TUWAN]IU para o Deadly Boss Mods
+## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## DefaultState: enabled
 ## Author: Nitram and Tandanu
 ## URL: http://www.deadlybossmods.com
-## X-Mush-Project-Name: DBM-GUI
-## X-Mush-Packaged-Version: 95
-## X-Mush-UpdateVer: 95
+## X-Curse-Packaged-Version: r20140719223059
+## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
+## X-Curse-Project-ID: deadly-boss-mods-wod-beta
+## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
 localization.en.lua
+localization.de.lua
 localization.cn.lua
+localization.ru.lua
+localization.fr.lua
+localization.it.lua
 localization.tw.lua
+localization.kr.lua
+localization.es.lua
+localization.br.lua
 DBM-GUI_DropDown.xml
 DBM-GUI_Templates.xml
 DBM-GUI.lua

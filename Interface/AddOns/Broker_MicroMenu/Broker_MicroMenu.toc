@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: Broker: MicroMenu
 ## Version: v1.3.6
 ## Notes: 在信息栏中显示微型菜单

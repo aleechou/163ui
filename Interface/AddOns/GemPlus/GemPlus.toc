@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Version: 1.03
 ## Author: Abin
 ## 163UI-Version: 2014052802

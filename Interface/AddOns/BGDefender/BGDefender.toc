@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: BGDefender
 ## Title-zhCN:  |cff880303[网易有爱]|r PVP通报 BGDefender
 ## Notes: announce incoming enemies in battle grounds with a single mouse click

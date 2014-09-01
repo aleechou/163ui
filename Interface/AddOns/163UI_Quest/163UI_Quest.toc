@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Notes: 任务物品价格显示，及半自动交接任务功能
 ## Author: Abin,Warbaby
 163UI_Quest.lua

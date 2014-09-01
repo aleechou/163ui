@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(708, "DBM-Party-MoP", 5, 321)
+local mod	= DBM:NewMod(708, "DBM-Party-MoP", 5, 321)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10660 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10728 $"):sub(12, -3))
 mod:SetCreatureID(61442, 61444, 61445)--61442 (Kuai the Brute), 61453 (Mu'Shiba, Kuai's Add), 61444 (Ming the Cunning), 61445 (Haiyan the Unstoppable)
+mod:SetEncounterID(1442)
 mod:SetZone()
 
 --http://www.wowpedia.org/Clan_Leaders_of_the_Mogu
@@ -12,8 +12,6 @@ mod:RegisterKill("yell", L.Defeat)--Defeat off first line said after all are def
 mod:SetWipeTime(30)--Based on data, phase transitions are 10-16 seconds, 20 should be enough, but can raise if needed.
 
 mod:RegisterEventsInCombat(
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_START",
@@ -34,7 +32,6 @@ local specWarnShockwave		= mod:NewSpecialWarningMove(119922, mod:IsTank())--Not 
 local specWarnLightningBolt	= mod:NewSpecialWarningInterrupt(123654, false)
 local specWarnConflag		= mod:NewSpecialWarningTarget(120201, mod:IsHealer())
 --local specWarnMeteor		= mod:NewSpecialWarningTarget(120195, nil, nil, nil, true)
-local specWarnCC			= mod:NewSpecialWarningMove(120099)
 
 local timerRavage			= mod:NewTargetTimer(11, 119946)
 local timerRavageCD			= mod:NewCDTimer(20, 119946)
@@ -85,7 +82,6 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 119922 then
 		warnShockwave:Show()
 		specWarnShockwave:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\shockwave.mp3")--震懾波
 		timerShockwaveCD:Start(shockwaveCD)
 	elseif args.spellId == 119981 then
 		warnWhirlingDervish:Show()
@@ -101,12 +97,6 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		local target = DBM:GetUnitFullName(target)
 		warnMeteor:Show(target)
 		specWarnMeteor:Show(target)
-		if target == UnitName("player") then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3")--快回人群
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-			sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
-		end
 		timerMeteorCD:Start()
 	end
 end--]]
@@ -165,11 +155,3 @@ Notes
 5/2 14:15:57.932  SPELL_AURA_APPLIED,0xF130F004000049E0,"Ming the Cunning",0x10a48,0x0,0xF130F004000049E0,"Ming the Cunning",0x10a48,0x0,120100,"Magnetic Field",0x0,BUFF
 5/2 14:16:01.987  SPELL_AURA_REMOVED,0xF130F004000049E0,"Ming the Cunning",0x10a48,0x0,0xF130F004000049E0,"Ming the Cunning",0x10a48,0x0,120100,"Magnetic Field",0x0,BUFF
 --]]
-
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 120101 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnCC:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE

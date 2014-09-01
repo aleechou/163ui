@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: Blizzmove
 ## Title-zhTW: |cff880303[网易有爱]|r 框架移動
 ## Title-zhCN: |cff880303[网易有爱]|r 框架移动

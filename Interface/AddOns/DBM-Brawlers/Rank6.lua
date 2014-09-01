@@ -1,16 +1,15 @@
 local mod	= DBM:NewMod("BrawlRank6", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9886 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10953 $"):sub(12, -3))
 mod:SetModelID(39166)
 mod:SetZone()
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED"
+	"SPELL_CAST_START 39945",
+	"SPELL_AURA_APPLIED 134650 108043 134789 126209",
+	"SPELL_AURA_APPLIED_DOSE 108043 134789",
+	"SPELL_AURA_REMOVED 134650 126209"
 )
 
 local warnFallenKin				= mod:NewStackAnnounce(134789, 3)
@@ -38,7 +37,6 @@ function mod:SPELL_CAST_START(args)
 		warnChainLightning:Show()
 		timerChainLightningCD:Start()
 		if brawlersMod:PlayerFighting() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 			specWarnChainLightning:Show(args.sourceName)
 		end
 	end
@@ -60,9 +58,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerShadowStrikes:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnShadowStrikes:Show(args.destName)
-			if mod:IsMagicDispeller() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-			end
 		end
 	end
 end

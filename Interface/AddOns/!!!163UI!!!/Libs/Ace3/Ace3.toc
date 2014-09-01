@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Curse-Packaged-Version: Release-r1104
 ## X-Curse-Project-Name: Ace3
 ## X-Curse-Project-ID: ace3

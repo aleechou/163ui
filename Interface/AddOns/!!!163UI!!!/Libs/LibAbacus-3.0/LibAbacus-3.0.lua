@@ -115,7 +115,7 @@ elseif ( GetLocale() == "ruRU" ) then
 	L_UNDETERMINED = "Неопределено"
 end
 
-local inf = 1/0
+local inf = math.inf
 
 function Abacus:FormatMoneyExtended(value, colorize, textColor)
 	local gold = abs(value / 10000)

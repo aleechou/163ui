@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Web: http://forum.gamer.com.tw/C.php?bsn=05219&snA=585731
 ## Author: Whitep@雷鱗 (Thanks for ACDACD as previous author of 4.7.02)
 ## Version: 5.1.0.09

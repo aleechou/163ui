@@ -1,25 +1,28 @@
-﻿## Interface: 50400
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mogu'shan Vaults|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0魔古山寶庫  (MV)|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0魔古山宝库|r
+﻿## Interface: 60000
+## X-Min-Interface: 60000
+## Title:|cffff565e[TUWAN]|r DBM Mogu'shan Vaults
+## Title-zhCN:|cff880303[网易有爱]|r DBM 魔古山宝库
+## Title-zhTW:|cff880303[网易有爱]|r DBM 魔古山寶庫
+## RequiredDeps: Tuwan
 ## Author: MysticalOS
 ## LoadOnDemand: 1
-## RequiredDeps: DBM-Core 
-## 163UI-Version: 2014060801
+## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMMogushanVaults_SavedVars, DBMMogushanVaults_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
-## X-DBM-Mod-Name: Mogu'shan Vaults
-## X-DBM-Mod-Name-zhTW: 魔古山寶庫  (MV)
-## X-DBM-Mod-Name-zhCN: 魔古山宝库
 ## X-DBM-Mod-Sort: 5
 ## X-DBM-Mod-MapID: 1008
 localization.en.lua
+localization.es.lua
+localization.it.lua
+localization.kr.lua
+localization.de.lua
+localization.ru.lua
 localization.tw.lua
 localization.cn.lua
+localization.fr.lua
 StoneGuard.lua
 Feng.lua
 GarajalTheSpiritbinder.lua

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Version: 13.09.21
 ## Title: TipTacTalents
 ## Title-zhCN: |cff880303[网易有爱]|r TipTacTalents (天赋信息)

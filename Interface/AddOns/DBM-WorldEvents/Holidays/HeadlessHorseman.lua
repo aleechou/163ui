@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d285", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10679 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11027 $"):sub(12, -3))
 mod:SetCreatureID(23682, 23775)
 --mod:SetModelID(22351)--Model doesn't work/render for some reason.
 mod:SetZone()
@@ -14,7 +14,7 @@ mod:RegisterEvents(
 )
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
+	"SPELL_AURA_APPLIED 42380 42514",
 	"UNIT_SPELLCAST_SUCCEEDED target focus",
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_DIED"
@@ -31,10 +31,11 @@ local timerConflag				= mod:NewTargetTimer(4, 42380)
 local timerSquashSoul			= mod:NewTargetTimer(15, 42514)
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 42380 then					-- Conflagration
+	local spellId = args.spellId
+	if spellId == 42380 then					-- Conflagration
 		warnConflag:Show(args.destName)
 		timerConflag:Start(args.destName)
-	elseif args.spellId == 42514 then				-- Squash Soul
+	elseif spellId == 42514 then				-- Squash Soul
 		warnSquashSoul:Show(args.destName)
 		timerSquashSoul:Start(args.destName)
 	end

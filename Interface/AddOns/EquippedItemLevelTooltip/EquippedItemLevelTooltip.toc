@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: EquippedItemLevelTooltip
 ## Notes: Adds the equipped average item level of people to your tooltip.
 ## Notes-zhCN: 添加玩家已装备物品等级到你的提示信息中.

@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: GTFO
 ## Title-zhTW: |cff880303[网易有爱]|r 站位提醒 GTFO
 ## Title-zhCN: |cff880303[网易有爱]|r 站位提醒 GTFO

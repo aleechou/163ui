@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Lib: Dialog-1.0
 ## Notes: Replacement for the default UI's StaticPopup dialogs.
 ## Author: Torhal

@@ -1,4 +1,4 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 
 <!--<Button name="DBM_GUI_OptionsFramePanelButtonTemplate" virtual="true">
 		<ButtonText name="$parentText">
@@ -395,15 +395,6 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentSoundMM" inherits="GameFontNormal" text="">
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentWebsite" relativePoint="RIGHT">
-							<Offset>
-								<AbsDimension x="10" y="0"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
@@ -431,7 +422,7 @@
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" relativeTo="$parentOkay" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="-15" y="0"/>
+							<AbsDimension x="-20" y="0"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -440,58 +431,7 @@
 						self:SetText(DBM_GUI_Translations.WebsiteButton)
 					</OnShow>
 					<OnClick>
-						if GetLocale() == "zhTW" then
-							self:GetParent():Hide()
-							DBM:ShowGuildAD()
-						else
-							DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG)
-						end
-					</OnClick>
-				</Scripts>
-			</Button>			
-			<Button name="$parentcheck" inherits="UIPanelButtonTemplate" text="">
-				<Size>
-					<AbsDimension x="96" y="22"/>
-				</Size>
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-116" y="-16"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnShow>
-						self:SetText(DBM_GUI_Translations.Checkinstance)
-					</OnShow>
-					<OnClick>
-						if DBM:GetRaidRank() == 0 then
-							return DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
-						end
-						if DBM:GetGroupMembers() == 0 then
-							return DBM:AddMsg(DBM_ERROR_NO_RAID)
-						end
-						DBM:RequestInstanceInfo()
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parentcheck2" inherits="UIPanelButtonTemplate" text="">
-				<Size>
-					<AbsDimension x="96" y="22"/>
-				</Size>
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-16" y="-16"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnShow>
-						self:SetText(DBM_GUI_Translations.Checkver)
-					</OnShow>
-					<OnClick>
-						DBM:ShowVersions(false)
+						DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG)
 					</OnClick>
 				</Scripts>
 			</Button>

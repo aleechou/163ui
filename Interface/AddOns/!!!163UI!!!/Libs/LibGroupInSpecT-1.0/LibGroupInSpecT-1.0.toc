@@ -1,0 +1,15 @@
+﻿## Interface: 50200
+## Title: Lib: GroupInSpecT-1.0
+## Notes: Keeps track of group members and keeps an up-to-date cache of their specialization, talents and glyphs.
+## Version: r59
+## Author: Anyia of HordeYakka (Jubei'Thos)
+## X-Category: Library
+## X-Curse-Packaged-Version: r59
+## X-Curse-Project-Name: LibGroupInSpecT
+## X-Curse-Project-ID: libgroupinspect
+## X-Curse-Repository-ID: wow/libgroupinspect/mainline
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+
+lib.xml

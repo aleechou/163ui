@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(686, "DBM-Party-MoP", 3, 312)
+local mod	= DBM:NewMod(686, "DBM-Party-MoP", 3, 312)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10728 $"):sub(12, -3))
 mod:SetCreatureID(56884)
+mod:SetEncounterID(1306)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -11,9 +11,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_CAST_START",
-	"UNIT_SPELLCAST_SUCCEEDED boss1",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED"
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 local warnRingofMalice		= mod:NewSpellAnnounce(131521, 3)
@@ -24,7 +22,6 @@ local warnRisingHate		= mod:NewCastAnnounce(107356, 4, 5)
 local specWarnGrippingHatred= mod:NewSpecialWarningSwitch("ej5817")
 local specWarnHazeofHate	= mod:NewSpecialWarningYou(107087)
 local specWarnRisingHate	= mod:NewSpecialWarningInterrupt(107356, not mod:IsHealer())
-local specWarnDarkH			= mod:NewSpecialWarningMove(112933)
 
 local timerRingofMalice		= mod:NewBuffActiveTimer(15, 131521)
 local timerGrippingHartedCD	= mod:NewNextTimer(45.5, 115002)
@@ -54,7 +51,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnHazeofHate:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnHazeofHate:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zhgg.mp3")--憎恨過高
 		end
 	elseif args.spellId == 107356 then
 		warnRisingHate:Show()
@@ -67,7 +63,6 @@ function mod:SPELL_CAST_START(args)
 		warnGrippingHatred:Show()
 		specWarnGrippingHatred:Show()
 		timerGrippingHartedCD:Start()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_mop_zqkd.mp3")--紫球快打
 	end
 end
 
@@ -76,13 +71,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		DBM:EndCombat(self)
 	end
 end
-
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, _, _, _, overkill)
-	if spellId == 112933 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
-		specWarnDarkH:Show()
-		if not mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
-		end
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE

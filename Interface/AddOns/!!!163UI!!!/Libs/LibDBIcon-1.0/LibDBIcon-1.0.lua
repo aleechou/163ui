@@ -122,18 +122,9 @@ do
 		["TRICORNER-BOTTOMLEFT"] = {true, true, false, true},
 		["TRICORNER-BOTTOMRIGHT"] = {true, true, true, false},
 	}
-	
-	local defaultPos = 185;
+
 	function updatePosition(button)
-	-- XXX 163 目的是为了防止没有默认值的按钮都迭在一起
-    -- local angle = math.rad(button.db and button.db.minimapPos or button.minimapPos or 225)
-	   local pos = button.db and button.db.minimapPos or button.minimapPos
-		if(not pos) then
-			pos = defaultPos
-			defaultPos = defaultPos - 15
-		end
-		local angle = math.rad(pos)
-    -- XXX 163 end
+		local angle = math.rad(button.db and button.db.minimapPos or button.minimapPos or 225)
 		local x, y, q = math.cos(angle), math.sin(angle), 1
 		if x < 0 then q = q + 1 end
 		if y > 0 then q = q + 2 end
@@ -170,7 +161,6 @@ do
 
 	function onDragStart(self)
 		self:LockHighlight()
-		self:Raise() --XXX 163
 		self.isMouseDown = true
 		self.icon:UpdateCoord()
 		self:SetScript("OnUpdate", onUpdate)
@@ -203,7 +193,6 @@ local function createButton(name, object, db)
 	button.dataObject = object
 	button.db = db
 	button:SetFrameStrata("MEDIUM")
-	button:SetToplevel(true) --XXX 163
 	button:SetSize(31, 31)
 	button:SetFrameLevel(8)
 	button:RegisterForClicks("anyUp")

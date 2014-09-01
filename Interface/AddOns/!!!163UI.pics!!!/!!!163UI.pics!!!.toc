@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: |cff880303[网易有爱]|r 插件介绍图片
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014052801

@@ -1,25 +1,24 @@
-﻿local mod	= DBM:NewMod(849, "DBM-SiegeOfOrgrimmar", nil, 369)
+local mod	= DBM:NewMod(849, "DBM-SiegeOfOrgrimmar", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
-local sndBD		= mod:NewSound(nil, "SoundBD", mod:IsHealer())
 
-mod:SetRevision(("$Revision: 10646 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11291 $"):sub(12, -3))
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
+mod:SetEncounterID(1598)
 mod:SetZone()
 mod:SetUsedIcons(7)
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
+	"SPELL_CAST_START 143958 143330 143446 143491 143961 143962 143497 144396",
+	"SPELL_CAST_SUCCESS 143027 143423",
+	"SPELL_AURA_APPLIED 143959 143301 143198 143840 143546 143955 143812 143423",
+	"SPELL_AURA_REMOVED 143546 143955 143812",
+	"SPELL_DAMAGE 144357 144367 143009",
+	"SPELL_MISSED 144357 144367 143009",
 	"RAID_BOSS_WHISPER",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3",
+	"UNIT_HEALTH_FREQUENT boss1 boss2 boss3 boss4 boss5"
 )
 
 local Softfoot = EJ_GetSectionInfo(7889)
@@ -53,17 +52,19 @@ local warnMarked					= mod:NewTargetAnnounce(143840, 3)--Embodied Anguish
 --Sun Tenderheart
 local warnShaShear					= mod:NewCastAnnounce(143423, 3, 5, nil, false)
 local warnBane						= mod:NewCastAnnounce(143446, 4, nil, nil, mod:IsHealer())
-local warnCalamity					= mod:NewSpellAnnounce(143491, 4)
+local warnCalamity					= mod:NewAnnounce("warnCalamity", 4, 143491, nil, DBM_CORE_AUTO_ANNOUNCE_OPTIONS.cast:format(143491))
 ----Sun Tenderheart's Desperate Measures
 local warnDarkMeditation			= mod:NewSpellAnnounce(143546, 2)--Activation
 
+--All
+local specWarnMeasures				= mod:NewSpecialWarning("specWarnMeasures", nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.soon:format("ej7956"))
 --Rook Stonetoe
 local specWarnVengefulStrikes		= mod:NewSpecialWarningSpell(144396, mod:IsTank())
 local specWarnClash					= mod:NewSpecialWarningYou(143027)
+local specWarnKick					= mod:NewSpecialWarningMove(143007, not mod:IsTank())
 local specWarnCorruptedBrew			= mod:NewSpecialWarningYou(143019)
 local yellCorruptedBrew				= mod:NewYell(143019)
 local specWarnCorruptedBrewNear		= mod:NewSpecialWarningClose(143019)
-local specWarnClashMove				= mod:NewSpecialWarningMove(143010)
 ----Rook Stonetoe's Desperate Measures
 local specWarnMiserySorrowGloom		= mod:NewSpecialWarningSpell(143955)
 local specWarnCorruptionShock		= mod:NewSpecialWarningInterrupt(143958, mod:IsMelee())
@@ -78,68 +79,49 @@ local specWarnNoxiousPoison			= mod:NewSpecialWarningMove(144367)
 local specWarnMarkOfAnquish			= mod:NewSpecialWarningSpell(143812)
 local specWarnMarked				= mod:NewSpecialWarningYou(143840)
 local yellMarked					= mod:NewYell(143840, nil, false)
-local specWarnOC					= mod:NewSpecialWarningStack(144176, nil, 5)
 --Sun Tenderheart
-local specWarnShaShear				= mod:NewSpecialWarningInterrupt(143423)
-local specWarnShaShearYou			= mod:NewSpecialWarningYou(143423)
+local specWarnShaShear				= mod:NewSpecialWarningInterrupt(143423, false)
+local specWarnShaShearYou			= mod:NewSpecialWarningMoveAway(143423)--some heroic player request. Warning to move away from group so Sha shear not hit everyone.
 local yellShaShear					= mod:NewYell(143423)
-local specWarnBane					= mod:NewSpecialWarningSpell(143446, mod:IsHealer())
-local specWarnBaneDisp				= mod:NewSpecialWarningDispel(143446, mod:IsHealer())
-local specWarnCalamity				= mod:NewSpecialWarningSpell(143491, nil, nil, nil, 2)
+local specWarnCalamity				= mod:NewSpecialWarning("specWarnCalamity", nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell:format(143491), nil, 2)
 ----Sun Tenderheart's Desperate Measures
 local specWarnDarkMeditation		= mod:NewSpecialWarningSpell(143546)
 
 --Rook Stonetoe
 local timerVengefulStrikesCD		= mod:NewCDTimer(21, 144396, nil, mod:IsTank())
 local timerCorruptedBrewCD			= mod:NewCDTimer(11, 143019)--11-27
-local timerClashCD					= mod:NewCDTimer(49, 143027)--49 second next timer IF none of bosses enter a special between casts, otherwise always delayed by specials (and usually cast within 5 seconds after special ends)
+local timerClashCD					= mod:NewCDTimer(46, 143027)--46 second next timer IF none of bosses enter a special between casts, otherwise always delayed by specials (and usually cast within 5 seconds after special ends)
 ----Rook Stonetoe's Desperate Measures
 local timerDefiledGroundCD			= mod:NewCDTimer(10.5, 143961, nil, mod:IsTank())
 local timerInfernoStrikeCD			= mod:NewNextTimer(9.5, 143962)
+local timerInfernoStrike			= mod:NewBuffFadesTimer(7.7, 143962)
 --He Softfoot
 local timerGougeCD					= mod:NewCDTimer(30, 143330, nil, mod:IsTank())--30-41
-local timerGarroteCD				= mod:NewCDTimer(30, 143198, nil, mod:IsHealer())--30-46 (heroic 20-26)
+local timerGarroteCD				= mod:NewCDTimer(29, 143198, nil, mod:IsHealer())--30-46 (heroic 20-26)
 --Sun Tenderheart
 local timerBaneCD					= mod:NewCDTimer(17, 143446, nil, mod:IsHealer())--17-25 (heroic 13-20)
-local timerCalamityCD				= mod:NewCDTimer(40, 143491)--40-50 (when two can be cast in a row) Also affected by boss specials
+local timerCalamity					= mod:NewCastTimer(5, 143491, nil, mod:IsHealer())
+local timerCalamityCD				= mod:NewCDTimer(40, 143491, nil, mod:IsHealer())--40-50 (when two can be cast in a row) Also affected by boss specials
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
-mod:AddBoolOption("SetIconOnStrike")
-mod:AddBoolOption("RangeFrame", false)
+mod:AddSetIconOption("SetIconOnStrike", 143962, false)
+mod:AddRangeFrameOption(5, 143423, false)--For heroic. Need to chage smart range frame?
 
+--Upvales, don't need variables
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
-local strikeDebuff = GetSpellInfo(143962)--Cast spellid, Unconfirmed if debuff has same id or even name. Need to verify
+local calamitySpellText = GetSpellInfo(143491)
 
-local kicknum = 0
-
-----Grid----
-local GridStatus
-if Grid then
-	GridStatus = GridStatus or Grid:GetModule("GridStatus")
-end
-local canrecount = true
-local DebuffGuid = {}
---------Grid End----
-mod:AddBoolOption("InfoFrame", true, "sound")
-mod:AddBoolOption("BaneGridCount", false, "sound")
-
-local calacount = 0
-for i = 1, 4 do
-	mod:AddBoolOption("dr"..i, false, "sound")
-end
-mod:AddDropdownOption("optOC", {"imm", "five", "ten", "fift", "twty", "none"}, "imm", "sound")
-
-mod:AddDropdownOption("optDD", {"alldd", "DD1", "DD2", "DD3", "nodd"}, "alldd", "sound")
-
-local function MyJS()
-	if (mod.Options.dr1 and calacount == 1) or (mod.Options.dr2 and calacount == 2) or (mod.Options.dr3 and calacount == 3) or (mod.Options.dr4 and calacount == 4) then
-		return true
-	end
-	return false
-end
+--Not important, don't need to recover
+local isInfernoTarget = false
+--Important, needs recover
+mod.vb.sorrowActive = false
+mod.vb.calamityCount = 0
+mod.vb.warned71475 = 0
+mod.vb.warned71479 = 0
+mod.vb.warned71480 = 0
 
 function mod:BrewTarget(targetname, uId)
 	if not targetname then return end
@@ -147,24 +129,8 @@ function mod:BrewTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnCorruptedBrew:Show()
 		yellCorruptedBrew:Yell()
-		if not self:IsDifficulty("normal25", "heroic25") then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-		end
-	else
-		if uId then
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
-			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
-			if inRange and inRange < 6 then
-				specWarnCorruptedBrewNear:Show(targetname)
-				if not self:IsDifficulty("normal25", "heroic25") then					
-					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-				end
-			end
-		end
+	elseif self:CheckNearby(6, targetname) then
+		specWarnCorruptedBrewNear:Show(targetname)
 	end
 end
 
@@ -175,13 +141,21 @@ function mod:InfernoStrikeTarget(targetname, uId)
 		self:SetIcon(targetname, 7, 5)
 	end
 	if targetname == UnitName("player") then
---		specWarnInfernoStrike:Show()
---		yellInfernoStrike:Yell()
---		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runin.mp3") --快回人群
+		isInfernoTarget = true
+		specWarnInfernoStrike:Show()
+		yellInfernoStrike:Yell()
+		timerInfernoStrike:Start()
+	else
+		isInfernoTarget = false
 	end
 end
 
 function mod:OnCombatStart(delay)
+	isInfernoTarget = false
+	self.vb.calamityCount = 0
+	self.vb.warned71475 = 0
+	self.vb.warned71479 = 0
+	self.vb.warned71480 = 0
 	timerVengefulStrikesCD:Start(7-delay)
 	timerGarroteCD:Start(15-delay)
 	timerBaneCD:Start(15-delay)
@@ -189,245 +163,184 @@ function mod:OnCombatStart(delay)
 	timerGougeCD:Start(23-delay)
 	timerCalamityCD:Start(31-delay)
 	timerClashCD:Start(45-delay)
-	if self:IsDifficulty("lfr25") then--Might also be flex as well
-		berserkTimer:Start(900-delay)--15min confirmed
-	else
+	if self:IsHeroic() then
 		berserkTimer:Start(-delay)
+	else
+		berserkTimer:Start(900-delay)--15min confirmed in LFR, flex, normal
 	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
-	calacount = 0
-	kicknum = 0
-	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(EJ_GetSectionInfo(8017))
-		DBM.InfoFrame:Show(3, "FPHealth")
-	end
-	if GridStatus then
-		GridStatusBaneDbmCount:UpdateAllUnitAuras()
-	end
 end
 
 function mod:OnCombatEnd()
-	if self.Options.InfoFrame then
-		DBM.InfoFrame:Hide()
-	end
-	if GridStatus then
-		GridStatusBaneDbmCount:UpdateAllUnitAuras()
-	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
+	self:UnregisterShortTermEvents()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 143958 then
+	local spellId = args.spellId
+	if spellId == 143958 then
 		local source = args.sourceName
 		warnCorruptionShock:Show()
-		kicknum = kicknum + 1
-		if ((mod.Options.optDD == "DD1") and (kicknum == 1)) or ((mod.Options.optDD == "DD2") and (kicknum == 2)) or ((mod.Options.optDD == "DD3") and (kicknum == 3)) or ((mod.Options.optDD == "alldd") and (source == UnitName("target") or source == UnitName("focus"))) then
+		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnCorruptionShock:Show(source)
-			sndWOP:Cancel("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3")
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3") --快打斷
 		end
-		if ((mod.Options.optDD == "DD1") and (kicknum == 3)) or ((mod.Options.optDD == "DD2") and (kicknum == 1))  or ((mod.Options.optDD == "DD3") and (kicknum == 2)) then
-			sndWOP:Schedule(3, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
-		end
-		if kicknum == 3 then kicknum = 0 end
-	elseif args.spellId == 143330 then
+	elseif spellId == 143330 then
 		warnGouge:Show()
 		timerGougeCD:Start()
-	elseif args.spellId == 143446 then
+	elseif spellId == 143446 then
 		warnBane:Show()
-		specWarnBane:Show()
-		sndBD:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_ays.mp3") --暗言術準備
-		if self:IsDifficulty("heroic10", "heroic25") then
+		if self:IsHeroic() then
 			timerBaneCD:Start(13)--TODO, verify normal to see if it was changed too
 		else
 			timerBaneCD:Start()
 		end
-		canrecount = true
-	elseif args.spellId == 143491 then
-		calacount = calacount + 1
-		warnCalamity:Show()
-		specWarnCalamity:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_zxzb.mp3") --災禍準備
-		if MyJS() then
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\defensive.mp3") --注意減傷
+	elseif spellId == 143491 then
+		local perText = ""
+		if self:IsHeroic() then
+			self.vb.calamityCount = self.vb.calamityCount + 1
+			perText = " ("..((self.vb.calamityCount + 2) * 10).."%)"
 		end
-		sndWOP:Schedule(2.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countthree.mp3")
-		sndWOP:Schedule(3.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\counttwo.mp3")
-		sndWOP:Schedule(4.5, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\countone.mp3")
+		local displayText = calamitySpellText..perText
+		warnCalamity:Show(displayText)
+		specWarnCalamity:Show(displayText.."!")
+		timerCalamity:Start()
 		timerCalamityCD:Start()
-		if calacount == 4 then calacount = 0 end
-	elseif args.spellId == 143961 then
+	elseif spellId == 143961 then
 		warnDefiledGround:Show()
 		timerDefiledGroundCD:Start()
-	elseif args.spellId == 143962 then
+	elseif spellId == 143962 then
 		timerInfernoStrikeCD:Start()
-		self:BossTargetScanner(71481, "InfernoStrikeTarget", 0.5, 1)--Must be single scan with correct timing. mob changes target a lot and can grab many bad targets if timing not perfect.
-	elseif args.spellId == 143497 then
+		self:ScheduleMethod(0.2, "BossTargetScanner", args.sourceGUID, "InfernoStrikeTarget")
+	elseif spellId == 143497 then
 		warnBondGoldenLotus:Show()
-	elseif args.spellId == 144396 then
+	elseif spellId == 144396 then
 		warnVengefulStrikes:Show()
-		if mod:IsHealer() and self:AntiSpam(2, 3) then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_fcdj.mp3") --復仇打擊
-		end
 		timerVengefulStrikesCD:Start()
 		for i = 1, 5 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				specWarnVengefulStrikes:Show()--So show tank warning
-				if self:AntiSpam(2, 3) then
-					sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_fcdj.mp3")--復仇打擊
-				end
 			end
 		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 143027 then
+	local spellId = args.spellId
+	if spellId == 143027 then
 		warnClash:Show()
 		timerClashCD:Start()
 		if args:IsPlayer() then
 			specWarnClash:Show()
 		end
-	elseif args.spellId == 143423 then
+	elseif spellId == 143423 then
 		local source = args.sourceName
 		if source == UnitName("target") or source == UnitName("focus") then--Only warn if your target or focus, period, because if you aren't actually dpsing her, you just stay out of melee range and ignore this
---			warnShaShear:Show()
---			specWarnShaShear:Show(source)
+			warnShaShear:Show()
+			specWarnShaShear:Show(source)
 		end
-	elseif args.spellId == 143446 then
-		specWarnBaneDisp:Show()
-		sndBD:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\dispelnow.mp3")
-		self:Schedule(2, function() canrecount = false end)
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 143959 and args:IsPlayer() and self:AntiSpam(1.5, 2) then
+	local spellId = args.spellId
+	if spellId == 143959 and args:IsPlayer() and self:AntiSpam(1.5, 2) then
 		specWarnDefiledGround:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
-	elseif args.spellId == 143301 then--Stun debuff spellid
+	elseif spellId == 143301 then--Stun debuff spellid
 		warnGougeStun:Show(args.destName)
 		if not args:IsPlayer() then
 			specWarnGougeStunOther:Show(args.destName)
-			if mod:IsTank() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\tauntboss.mp3") --嘲諷BOSS
-			end
 		end
-	elseif args.spellId == 143198 then
-		warnGarrote:Show(args.destName)
-		if self:IsDifficulty("heroic10", "heroic25") then
-			timerGarroteCD:Start(20)--TODO, see if it's cast more often on heroic only, or if normal was also changed to 20
+	elseif spellId == 143198 then
+		warnGarrote:CombinedShow(1, args.destName)
+		if self:IsHeroic() then
+			timerGarroteCD:DelayedStart(1, 20)--TODO, see if it's cast more often on heroic only, or if normal was also changed to 20
 		else
-			timerGarroteCD:Start()
+			timerGarroteCD:DelayedStart(1)
 		end
-	elseif args.spellId == 143840 then
+	elseif spellId == 143840 then
 		warnMarked:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnMarked:Show(args.destName)
 			yellMarked:Yell()
-			if self.Options.optOC == "imm" then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_cdyj.mp3")--傳遞印記
-			end
 		end
 	--Special phases
-	elseif args.spellId == 143546 then--Dark Meditation
+	elseif spellId == 143546 then--Dark Meditation
+		self.vb.calamityCount = 0
 		warnDarkMeditation:Show()
 		specWarnDarkMeditation:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_amqh.mp3")--暗牧強化
 		timerBaneCD:Cancel()
+		timerCalamity:Cancel()
 		timerCalamityCD:Cancel()
-	elseif args.spellId == 143955 then--Misery, Sorrow, and Gloom
+	elseif spellId == 143955 then--Misery, Sorrow, and Gloom
+		self.vb.sorrowActive = true
 		warnMiserySorrowGloom:Show()
 		specWarnMiserySorrowGloom:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_wsqh.mp3")--武僧強化
 		timerVengefulStrikesCD:Cancel()
 		timerClashCD:Cancel()
 		timerCorruptedBrewCD:Cancel()
 		timerInfernoStrikeCD:Start(8)
 		timerDefiledGroundCD:Start(10)
-		kicknum = 0
-		if mod.Options.optDD == "DD1" then
-			sndWOP:Schedule(2, "Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\interruptsoon.mp3") --打斷準備
-		end
-	elseif args.spellId == 143812 then--Mark of Anguish
+		self:RegisterShortTermEvents(
+			"UNIT_DIED"--We register here to make sure we wipe variables on pull
+		)
+	elseif spellId == 143812 then--Mark of Anguish
 		warnMarkOfAnguish:Show()
 		specWarnMarkOfAnquish:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_dzqh.mp3")--盜賊強化
 		timerGougeCD:Cancel()
 		timerGarroteCD:Cancel()
 		timerCalamityCD:Cancel()--Can't be cast during THIS special
-	elseif args.spellId == 143434 then
-		if not GridStatus or not mod.Options.BaneGridCount then return end
-		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if cid == 71480 then
-			DebuffGuid[args.destGUID] = true
-			GridStatusBaneDbmCount:UpdateAllUnitAuras()
-		end
-	elseif args.spellId == 143423 then
-		warnShaShear:Show(args.destName)
-		if args:IsPlayer() then
-			specWarnShaShearYou:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runout.mp3")--離開人群
-		end
-	elseif args.spellId == 144176 then
-		local OCn = self.Options.optOC == "imm" and 2 or self.Options.optOC == "five" and 5 or self.Options.optOC == "ten" and 10 or self.Options.optOC == "fift" and 15 or self.Options.optOC == "twty" and 20 or self.Options.optOC == "none" and 0
-		if args:IsPlayer() and UnitDebuff("player", GetSpellInfo(143840)) then
-			if (args.amount or 1) >= OCn then
-				specWarnOC:Show(args.amount)
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_cdyj.mp3") --傳遞印記
-			end
-		end
+	elseif spellId == 143423 and args:IsPlayer() and self.vb.sorrowActive and not self:IsDifficulty("lfr25") and not isInfernoTarget then
+		specWarnShaShearYou:Show()
+		yellShaShear:Yell()
 	end
 end
-mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	--Special phases
-	if args.spellId == 143546 then--Dark Meditation
+	local spellId = args.spellId
+	if spellId == 143546 then--Dark Meditation
 		timerBaneCD:Start(10)
 		timerCalamityCD:Start(23)--Now back to not cast right away again.
-	elseif args.spellId == 143955 then--Misery, Sorrow, and Gloom
+	elseif spellId == 143955 then--Misery, Sorrow, and Gloom
+		self.vb.sorrowActive = false--Just in case UNIT_DIED doesn't fire.
 		timerDefiledGroundCD:Cancel()
 		timerInfernoStrikeCD:Cancel()
+		timerInfernoStrike:Cancel()
 		timerCorruptedBrewCD:Start(12)
 		timerVengefulStrikesCD:Start(18)
 		timerClashCD:Start(46)
-	elseif args.spellId == 143812 then--Mark of Anguish
+		self:UnregisterShortTermEvents()
+	elseif spellId == 143812 then--Mark of Anguish
 		timerGarroteCD:Start(12)--TODO, verify consistency in all difficulties
 		timerGougeCD:Start(23)--Seems to be either be exactly 23 or exactly 35. Not sure what causes it to switch.
-	elseif args.spellId == 143434 then
-		if not GridStatus or not mod.Options.BaneGridCount then return end
-		if DebuffGuid[args.destGUID] then
-			DebuffGuid[args.destGUID] = nil
-			canrecount = false
-			GridStatusBaneDbmCount:UpdateAllUnitAuras()
-		end
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 144357 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 3) then
 		specWarnDefiledGround:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3") --快躲開
 	elseif spellId == 144367 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 4) then
 		specWarnNoxiousPoison:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
-	elseif spellId == 143009 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
-		specWarnClashMove:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
+	elseif spellId == 143009 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 5) then
+		specWarnKick:Show()
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 71481 then--Sorrow
+		self.vb.sorrowActive = false
+	end
+end
+
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:143330") then--Emote giving ONLY to the person tanking boss. Better than scanning boss 1-5 for this one which fails from time to time
 		specWarnGouge:Show()--So show tank warning
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\turnaway.mp3") --快轉身
 	end
 end
 
@@ -435,205 +348,22 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 143019 then--Does not show in combat log on normal
 		self:BossTargetScanner(71475, "BrewTarget", 0.025)
 		timerCorruptedBrewCD:Start()
-		if self:IsDifficulty("normal25", "heroic25") then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\watchstep.mp3") --注意腳下
-		end
 	end
 end
 
-------------------------
-
-if not GridStatus then return end
-
-local fixduration = 0
-local flashicon
-local elapsed = 0
-local flashcount = {}
-local icon_prefix = "Interface\\AddOns\\DBM-Core\\textures\\count\\"
-local indicators = {}
-local counter = 0
-
-GridStatusBaneDbmCount = GridStatus:NewModule("GridStatusBaneDbmCount")
-
-GridStatusBaneDbmCount.defaultDB = {
-	dbm_grid_banecountmod = {
-		enable = true,
-		color = { r = 1, g = 1, b = 1, a = 1, ignore = true },
-		setflash = {[1] = false, [2] = false, [3] = false, [4] = false, [5] = false },
-		priority = 99,
-		range = false,
-		raidframecount = false,
-	}
-}
-
-function GridStatusBaneDbmCount:OnInitialize()
-	local GridStatusBaneDbmCountName = L.DBM_GridBaneCount
-	self.super.OnInitialize(self)	
-	local option = {}	
-	option["raidframecount"] = {
-		type = "toggle",
-		name = L.BaneRaidFrameCount,
-		order = 10,
-		get = function()
-			return GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.raidframecount
-		end,
-		set = function()
-			GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.raidframecount = not GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.raidframecount
-		end
-	}
-	local i
-	for i = 1, 5 do
-		option["setflash" .. i] = {
-			type = "toggle",
-			name = L.optBaneGridCount .. i,
-			order = 10 + i,
-			get = function()
-				return GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.setflash[i]
-			end,
-			set = function()
-				GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.setflash[i] = not GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.setflash[i]
-			end
-		}
-	end
-	self:RegisterStatus("dbm_grid_banecountmod", GridStatusBaneDbmCountName, option, true)
-end
-
-local function FlashIcon(self, elapsed)
-	local settings = GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod
-	for i, params in pairs(flashcount) do
-		local cd_start = params.start
-		local cd_duration = params.duration
-		if flashicon == params.queue then
-			flashicon = params.queue.."b"
-		else
-			flashicon = params.queue
-		end
-		GridStatusBaneDbmCount.core:SendStatusLost(i, "dbm_grid_banecountmod")
-		GridStatusBaneDbmCount.core:SendStatusGained(i, "dbm_grid_banecountmod",
-			settings.priority,
-			(settings.range and 40),
-			{r = settings.color.r, g = settings.color.g, b = settings.color.b, a = settings.color.a, ignore = true},
-			tostring(params.queue),
-			nil,
-			nil,
-			icon_prefix..flashicon..".tga",
-			cd_start,
-			cd_duration
-		)
-	end
-end
-
-function GridStatusBaneDbmCount:OnStatusEnable(status)
-	if status == "dbm_grid_banecountmod" then
-		self.CountFrame = CreateFrame("Frame")
-		self.CountFrame:SetScript("OnUpdate", function(self, e)
-			elapsed = elapsed + e
-			if elapsed >= 0.5 then
-				FlashIcon(self, elapsed)
-				elapsed = 0
-			end
-		end)
-		self.CountFrame:Show()
-	end
-end
-
-function GridStatusBaneDbmCount:OnStatusDisable(status)
-	if status == "dbm_grid_banecountmod" then
-		self.CountFrame:Hide()
-		self.core:SendStatusLostAllUnits("dbm_grid_banecountmod")
-	end
-end
-
-local function sortByGroupAsc(a,b)
-	if a.gp == b.gp then
-		if GridStatusBaneDbmCount.db.profile.dbm_grid_banecountmod.raidframecount then
-			return a.ui < b.ui
-		else
-			return a.n < b.n
-		end
-	else
-		return a.gp < b.gp
-	end
-end
-
-local function hasDebuff(unitid)
-	local i = 1
-	while true do
-		local name, _, _, _, _, duration, expirationTime = UnitDebuff(unitid, i)
-		if not name then
-			break
-		end
-		local debuffname = GetSpellInfo(143434)
-		if name == debuffname then
-			return duration, expirationTime
-		end
-		i = i + 1
-	end
-	return nil
-end
-
-function GridStatusBaneDbmCount:UpdateAllUnitAuras()
-	local settings = self.db.profile.dbm_grid_banecountmod	
-	local countsort = 0
-	local k = 0
-	local tbl = {}
-	if canrecount then
-		counter = 0
-		table.wipe(indicators)
-	end
-	table.wipe(flashcount)
-	
-	for unitid in DBM:GetGroupMembers() do
-		local guid = UnitGUID(unitid)
-		local name, subgroup
-		local index = UnitInRaid(unitid)
-		if UnitInRaid(unitid) then
-			name, _, subgroup = GetRaidRosterInfo(index)
-		end		
-		if subgroup then
-			table.insert(tbl, {ui = index, g = guid, n = name, gp = subgroup})
-			countsort = countsort + 1
+function mod:UNIT_HEALTH_FREQUENT(uId)
+	if self.vb.warned71475 == 2 and self.vb.warned71479 == 2 and self.vb.warned71480 == 2 then return end
+	local cId = self:GetUnitCreatureId(uId)
+	if cId == 71475 or cId == 71479 or cId == 71480 then
+		local hp = UnitHealth(uId) / UnitHealthMax(uId)
+		if hp < 0.71 and self.vb["warned"..cId] == 0 then
+			local bossName = UnitName(uId)
+			specWarnMeasures:Show(bossName)
+			self.vb["warned"..cId] = 1
+		elseif hp < 0.37 and self.vb["warned"..cId] == 1 then
+			local bossName = UnitName(uId)
+			specWarnMeasures:Show(bossName)
+			self.vb["warned"..cId] = 2
 		end
 	end
-
-	table.sort(tbl, sortByGroupAsc)
-  	for k = 1, countsort do
-		if DebuffGuid[tbl[k].g] then			
-			if not indicators[tbl[k].g] and canrecount then
-				counter = counter + 1
-				indicators[tbl[k].g] = counter
-			end			
-		end
-	end
-	
-	for unitid in DBM:GetGroupMembers() do
-		local guid = UnitGUID(unitid)
-		local count = indicators[guid]
-		local duration, expiration = hasDebuff(unitid)
-		if count and duration then
-			local cd_start = expiration - duration
-			local cd_duration
-			if fixduration then
-				cd_duration = fixduration
-			else
-				cd_duration = duration
-			end		
-			self.core:SendStatusGained(guid, "dbm_grid_banecountmod",
-				settings.priority,
-				(settings.range and 40),
-				{r = settings.color.r, g = settings.color.g, b = settings.color.b, a = settings.color.a, ignore = true},
-				tostring(count),
-				nil,
-				nil,
-				icon_prefix..count..".tga",
-				cd_start,
-				cd_duration
-			)
-			if settings.setflash[count] then
-				flashcount[guid] = {start = cd_start, duration = cd_duration, queue = count}
-			end
-		else
-			self.core:SendStatusLost(guid, "dbm_grid_banecountmod")
-		end
-	end 
 end

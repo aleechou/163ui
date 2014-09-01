@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: BossesKilled
 ## Notes: 在团队查找器右侧显示你在各个团队副本的进度。
 ## Author: wT

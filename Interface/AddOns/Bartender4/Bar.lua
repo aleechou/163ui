@@ -321,7 +321,7 @@ function Bar:SetConfigAlpha(alpha)
 		self.config.alpha = alpha
 	end
 	if not self.faded then
-		self:SetAlpha(self.config.alpha)
+		self:SetAlpha(self.config.alpha or 1)
 	end
 end
 

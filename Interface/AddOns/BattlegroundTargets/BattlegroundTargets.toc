@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: BattlegroundTargets
 ## Title-zhTW: |cff880303[网易有爱]|r PVP框體 BattlegroundTargets
 ## Title-zhCN: |cff880303[网易有爱]|r PVP框体 BattlegroundTargets

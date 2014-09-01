@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: SwingBar
 ## Title-zhTW: |cff880303[网易有爱]|r 攻擊計時
 ## Title-zhCN: |cff880303[网易有爱]|r 普攻计时

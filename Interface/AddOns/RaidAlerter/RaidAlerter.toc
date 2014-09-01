@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Author: SLore/xuewu
 ## Title: |cFF8000FFRaidAlerter|r
 ## Notes: RaidAlerter

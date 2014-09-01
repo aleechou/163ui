@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: yess
 ## Version: v2.4
 ## X-Email: starfire@fantasymail.de

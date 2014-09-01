@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Enigma Unit Frames
 # Title-zhCN: 头像增强 EN_UnitFrames
 ## Notes: Enhanced Unit Frames including HP/MP values, class, race, level tag, and more ...

@@ -9,6 +9,9 @@ local after40300 = select(4, GetBuildInfo())>40200 --if DEBUG_MODE then after403
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
+local AceTimer = LibStub:GetLibrary("AceTimer-3.0")
+
+
 lib.events = lib.events or  LibStub("CallbackHandler-1.0"):New(lib)
 lib.frame = lib.frame or CreateFrame("Frame", MAJOR.."_Frame")
 
@@ -159,7 +162,12 @@ end)
 function lib:IsNotBlocking()
     return waiting <=0 and not BlockingAllForNextManual
 end
-
+local r={}
+function CoreScheduleBucket(t,o,a,i)
+if not AceTimer then return end
+if r[t]then AceTimer:CancelTimer(r[t])end
+ r[t]=AceTimer:ScheduleTimer(function(...)r[t]=nil a(...)end, o, i)
+end
 --循环检查玩家的装备是否已经获取到
 function lib.CheckInspectItems(guid)
     local unit = lib:FindUnit(guid)

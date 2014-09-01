@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## LoadOnDemand: 0
 ## Title: TheBurningTrade
 ## Author: Warbaby@163.com

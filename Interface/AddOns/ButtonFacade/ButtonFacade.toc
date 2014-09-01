@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: ButtonFacade
 ## Version: 5.4.396
 ## Notes: 和MASQUE一起搭配使用，美化按钮

@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: AuctionLite
 ## Title-zhTW: |cff880303[网易有爱]|r 拍賣助手
 ## Title-zhCN: |cff880303[网易有爱]|r 拍卖助手

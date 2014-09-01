@@ -124,6 +124,7 @@
     <Include file="..\..\tullaRange\CfgtullaRange.lua"/>
     <Include file="..\..\TipTac\CfgTipTac.lua"/>
     <Include file="..\..\EquippedItemLevelTooltip\CfgEquippedItemLevelTooltip.lua"/>
+    <Include file="..\..\Bartender4\CfgBartender4.lua"/>
 
     <Include file="Custom.xml"/>
     <Include file="CfgCustom.lua"/>

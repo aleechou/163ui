@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: Broker: DurabilityInfo
 ## Notes: 在信息条中显示装备耐久
 ## Version: 1.18

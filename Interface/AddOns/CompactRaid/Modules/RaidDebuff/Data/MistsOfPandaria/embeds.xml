@@ -1,9 +1,0 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">	
-	<Script file="PartyDungeons.lua"/>
-	<Script file="HeartOfFear.lua"/>
-	<Script file="MoguShanVaults.lua"/>
-	<Script file="Panaria.lua"/>
-	<Script file="TerraceOfEndlessSpring.lua"/>
-	<Script file="ThroneofThunder.lua"/>
-	<Script file="SiegeofOrgrimmar.lua"/>
-</Ui>

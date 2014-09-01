@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: Bigger Tradeskill UI
 ## Author: Michel van de Wetering
 ## Version: 1.8

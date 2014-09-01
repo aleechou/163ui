@@ -6219,16 +6219,22 @@ do
 	trace("Tourist: Initializing continents...")
 	
 	for continentID, continentName in ipairs(continentNames) do
-		SetMapZoom(continentID)
+
+		local err,errmsg = pcall(SetMapZoom,continentID)
+
+		if not err then 
+			-- print(continentID,continentName,err,errmsg)
+		else
 		
-		if zones[continentName] then
-			-- Get map texture name and size in yards for the continent
-			zones[continentName].texture = GetMapInfo()
-			
-			local _, X1, Y1, X2, Y2 = GetCurrentMapZone()
-			zones[continentName].yards = X1 - X2
-			
-			trace("Continent yards for "..tostring(continentName)..": "..tostring(zones[continentName].yards))
+			if zones[continentName] then
+				-- Get map texture name and size in yards for the continent
+				zones[continentName].texture = GetMapInfo()
+				
+				local _, X1, Y1, X2, Y2 = GetCurrentMapZone()
+				zones[continentName].yards = X1 - X2
+				
+				trace("Continent yards for "..tostring(continentName)..": "..tostring(zones[continentName].yards))
+			end
 		end
 	end
 	
@@ -6240,11 +6246,11 @@ do
 	-- Note: the city highlights/icons on the zone maps can't be used because these return the name but no map data.
 	-- TODO: determine offset values
 
-	local kalimdorYards = zones[BZ["Kalimdor"]].yards
-	local eastkingYards = zones[BZ["Eastern Kingdoms"]].yards
-	local northrendYards = zones[BZ["Northrend"]].yards
-	local maelstromYards = zones[BZ["The Maelstrom"]].yards
-	local pandariaYards = zones[BZ["Pandaria"]].yards
+	local kalimdorYards = zones[BZ["Kalimdor"]].yards or 0
+	local eastkingYards = zones[BZ["Eastern Kingdoms"]].yards or 0
+	local northrendYards = zones[BZ["Northrend"]].yards or 0
+	local maelstromYards = zones[BZ["The Maelstrom"]].yards or 0
+	local pandariaYards = zones[BZ["Pandaria"]].yards or 0
 
 	zones[BZ["Orgrimmar"]].yards = 1739.375
 	zones[BZ["Orgrimmar"]].x_offset = 0 * kalimdorYards

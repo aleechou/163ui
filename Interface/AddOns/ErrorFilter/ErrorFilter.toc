@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: ErrorFilter
 ## Title-zhTW: |cff880303[网易有爱]|r 錯誤過濾
 ## Title-zhCN: |cff880303[网易有爱]|r 错误过滤

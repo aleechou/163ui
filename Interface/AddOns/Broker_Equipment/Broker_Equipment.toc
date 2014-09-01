@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: p3lim
 ## Version: 50200.21-Release
 ## Title: Broker:Equipment

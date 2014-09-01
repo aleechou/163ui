@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: d07.RiV (Iroared)
 ## Title: ReforgeLite
 ## Notes: 自动计算和重铸装备属性

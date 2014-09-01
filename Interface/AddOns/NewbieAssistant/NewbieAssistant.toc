@@ -1,5 +1,5 @@
 ﻿## Author: 网易
-## Interface: 50400
+## Interface: 60000
 ## Title: World of Warcraft Newbie Assistant
 ## Title-zhCN: 《魔兽世界》新兵助手插件
 ## Notes: Newbie Assistant

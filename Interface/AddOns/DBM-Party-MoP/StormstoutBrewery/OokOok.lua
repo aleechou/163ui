@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(668, "DBM-Party-MoP", 2, 302)
+local mod	= DBM:NewMod(668, "DBM-Party-MoP", 2, 302)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10728 $"):sub(12, -3))
 mod:SetCreatureID(56637)
+mod:SetEncounterID(1412)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -50,9 +50,6 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 106807 then
 		warnGroundPound:Show()
 		specWarnGroundPound:Show()
-		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
-		end
 		timerGroundPoundCD:Start()
 	end
 end

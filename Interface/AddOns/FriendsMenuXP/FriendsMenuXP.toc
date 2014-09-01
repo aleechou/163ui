@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: Warbaby @ 网易有爱 w.163.com/163ui
 ## Title: FriendsMenuXP
 ## Notes: Greatly extends the player drop down menu without secure taint.

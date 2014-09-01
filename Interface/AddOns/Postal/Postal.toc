@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Version: 3.5.1
 ## Author: Xinhuan
 ## X-Credits: Ammo, Rabbit, Grennon, Mikk

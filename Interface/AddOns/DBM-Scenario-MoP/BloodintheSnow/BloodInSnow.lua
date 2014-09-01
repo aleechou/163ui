@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d646", "DBM-Scenario-MoP")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10296 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10859 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterCombat("scenario", 1130)
@@ -29,7 +29,7 @@ local specWarnZandalarBanner= mod:NewSpecialWarningSwitch(142669)
 
 --Farastu
 local timerIceSpikesCD		= mod:NewCDTimer(10, 132980)
-local timerFrozenSolidCD	= mod:NewCDTimer(25, 141407)
+local timerFrozenSolidCD	= mod:NewCDTimer(20, 141407)
 
 mod:RemoveOption("HealthFrame")
 

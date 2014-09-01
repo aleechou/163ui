@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: TargetButton
 ## Notes: This little improvement adds buttons to the targeting frame when a friendly player is selected. 
 # Title-zhCN: |CFFFF8000辅助|R 目标按钮

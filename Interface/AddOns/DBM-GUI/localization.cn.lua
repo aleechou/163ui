@@ -8,14 +8,7 @@ local L = DBM_GUI_Translations
 
 L.MainFrame 				= "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "本地化："
 L.TranslationBy 			= "Diablohu & yleaf"
-L.Website					= " "
-L.WebsiteButton				= "论坛"
-L.SoundMM					= "|cFFC3C2FB[查看配音介绍]|r"
-
-L.Checkinstance				= "检查进度"
-L.Checkver					= "检查版本"
 
 L.OTabBosses				= "模块"
 L.OTabOptions				= "选项"
@@ -26,7 +19,6 @@ L.TabCategory_CATA	 		= "大地的裂变"
 L.TabCategory_WOTLK 		= "巫妖王之怒"
 L.TabCategory_BC 			= "燃烧的远征"
 L.TabCategory_CLASSIC 		= "经典旧世"
-L.TabCategory_PVP 			= "PvP"
 L.TabCategory_OTHER    		= "其它"
 
 L.BossModLoaded 			= "%s状态"
@@ -42,7 +34,6 @@ L.Button_OK 				= '确定'
 L.Button_Cancel 			= '取消'
 L.Button_LoadMod 			= '加载插件'
 L.Mod_Enabled				= "开启模块"
-L.Mod_Reset					= "恢复默认设置"
 L.Reset 					= "重置"
 
 L.Enable  					= "开启"
@@ -56,30 +47,17 @@ L.IconsInUse				= "该模块使用到的团队标记"
 L.BossStatistics			= "首领统计"
 L.Statistic_Kills			= "击杀："
 L.Statistic_Wipes			= "失败："
-L.Statistic_Incompletes		= "完成:"--For scenarios, TODO, figure out a clean way to replace any Statistic_Wipes with Statistic_Incompletes for scenario mods
 L.Statistic_BestKill		= "最好成绩："
 
--- Tab: General Core Options
-L.General 					= "DBM核心综合设置"
+-- Tab: General Options
+L.General 					= "DBM综合设置"
 L.EnableDBM 				= "启用DBM"
 L.EnableMiniMapIcon			= "显示小地图图标"
-L.SetPlayerRole				= "自动设置角色类型"
 L.UseMasterVolume			= "使用游戏总声道播放音频"
 L.DisableCinematics			= "在副本时自动跳过游戏内过场动画"
 L.DisableCinematicsOutside	= "在副本外时自动跳过游戏内过场动画"
-L.LFDEnhance			= "允许关闭音效后播放团队确认音"
-L.AutologBosses				= "自动开启战斗记录"
-L.AdvancedAutologBosses			= "自动开启战斗记录(使用Transcriptor插件)"
-L.LogOnlyRaidBosses			= "只记录首领战斗"
+L.SKT_Enabled				= "永远显示最速击杀计时条（无论该首领的相关设置如何）"
 L.Latency_Text				= "设定启用同步功能的最高延迟阀值：%d"
-
--- Tab: General Timer Options
-L.TimerGeneral 				= "DBM计时条综合设置"
-L.SKT_Enabled				= "总是显示最速胜利计时条(覆盖首领特定的选项)"
-L.ChallengeTimerOptions			= "设置挑战模式最佳记录计时条"
-L.ChallengeTimerPersonal		= "个人"
-L.ChallengeTimerGuild			= "公会"
-L.ChallengeTimerRealm			= "服务器"
 
 L.ModelOptions				= "3D模型选项"
 L.EnableModels				= "在首领选项中启用3D模型"
@@ -112,19 +90,16 @@ L.InfoRaidWarning			= [[你可以对团队警报的文本颜色及其位置进�
 在这里会显示诸如“玩家X受到了Y效果的影响”之类的信息。]]
 L.ColorResetted 			= "该颜色设置已重置"
 L.ShowWarningsInChat 		= "在聊天窗口中显示警报"
-L.ShowChatTime			 	= "聊天窗口警报信息前添加时间标签"
 L.ShowFakedRaidWarnings 	= "以伪装团队警报信息的方式显示警报内容"
 L.WarningIconLeft 			= "左侧显示图标"
 L.WarningIconRight 			= "右侧显示图标"
-L.WarningIconChat 			= "在聊天框显示图标"
-L.ShowCountdownText			= "显示倒数文字"
 L.RaidWarnMessage 			= "感谢您使用Deadly Boss Mods"
 L.BarWhileMove 				= "可移动团队警报"
 L.RaidWarnSound				= "发出团队警报时播放声音"
-L.CountdownVoice			= "设置语音包"
-L.SpecialWarnSound			= "针对你的角色发出特殊警报时播放声音"
+L.CountdownVoice			= "倒数时播放语音"
+L.SpecialWarnSound			= "针对你或你的角色发出特殊警报时播放声音"
 L.SpecialWarnSound2			= "针对所有人发出特殊警报时播放声音"
-L.SpecialWarnSound3			= "针对毁灭性技能的特殊警报播放声音"
+L.SpecialWarnSound3			= "针对非常重要事件的特殊警报播放声音，这些事件若不注意往往会造成灭团"
 
 -- Tab: Generalwarnings
 L.Tab_GeneralMessages 		= "综合信息"
@@ -166,26 +141,14 @@ L.ClickThrough				= "禁用鼠标点击事件（允许你点击计时条后面�
 L.Panel_SpecWarnFrame		= "特殊警报"
 L.Area_SpecWarn				= "特殊警报设置"
 L.SpecWarn_Enabled			= "显示首领技能特殊警报"
-L.SpecWarn_FlashFrame		= "特殊警报屏幕边缘泛光"
-L.SpecWarn_ShakeFrame		= "为毁灭性的技能闪烁屏幕"
-L.SpecWarn_AdSound		= "启用特别警告高级声音选项（需要UI重载）"
-L.SpecWarn_FlashColor		= "泛光顏色 (%d)"
-L.SpecWarn_FlashDur		= "泛光持续时间: %0.1f"
-L.SpecWarn_FlashAlpha		= "泛光透明度: %0.1f"
+L.SpecWarn_FlashFrame		= "特殊警报时屏幕边缘泛光"
 L.SpecWarn_Font				= "特殊警报字体"
 L.SpecWarn_DemoButton		= "测试警报"
 L.SpecWarn_MoveMe			= "设置位置"
-L.SpecWarn_FontSize			= "字体大小: %d"
+L.SpecWarn_FontSize			= "字体大小"
 L.SpecWarn_FontColor		= "字体颜色"
 L.SpecWarn_FontType			= "选择字体"
 L.SpecWarn_ResetMe			= "重置"
-
-L.Panel_LTSpecWarnFrame		= "长效特殊警报"
-L.Area_LTSpecWarn			= "长效特殊警报设置"
-L.LTSpecWarn_Enabled		= "显示长效特殊警报"
-L.LTSpecWarn_Font			= "长效特殊警报字体"
-L.TestWarningEnd			= "范例只存在五秒，但真实的长效特别警告会长时间的存在於你的屏幕上直到触发取消事件"
-
 
 -- Tab: HealthFrame
 L.Panel_HPFrame				= "生命值框体"
@@ -198,11 +161,12 @@ L.BarWidth					= "计量条宽度: %d"
 -- Tab: Spam Filter
 L.Panel_SpamFilter				= "全局及信息过滤"
 L.Area_SpamFilter				= "信息过滤设置"
+L.HideBossEmoteFrame			= "隐藏团队首领表情框体"
 L.SpamBlockBossWhispers			= "战斗中过滤DBM密语警报"
 L.BlockVersionUpdateNotice		= "禁用升级提示"
-L.ShowBigBrotherOnCombatStart	= "战斗开始时使用Big Brother检测增益情况"
+L.ShowBBOnCombatStart			= "战斗开始时使用Big Brother检测增益情况"
 L.BigBrotherAnnounceToRaid		= "报告Big Brother的检测结果给团队"
-L.StripServerName				= "警告和计时器中不显示服务器名"
+L.SpamBlockSayYell				= "隐藏聊天窗口中的使用聊天泡泡的警报信息"
 
 L.Area_SpamFilter_Outgoing		= "全局过滤设置"
 L.SpamBlockNoShowAnnounce		= "不显示警报或播放警报音效"
@@ -213,20 +177,8 @@ L.SpamBlockNoInfoFrame			= "不显示信息监视器"
 
 L.Area_PullTimer				= "开怪倒计时过滤设置"
 L.DontShowPT					= "不显示开怪倒计时条"
-L.DontShowPTCountdownText		= "不显示开怪倒计时动画"
+L.DontShowPTCountdownText		= "不显示开怪倒计时文字"
 L.DontPlayPTCountdown			= "不播放开怪倒计时语音"
-L.DontShowPTText				= "不显示开怪倒计时文字"
-L.DontShowPTNoID				= "不显示不同区域发送的倒计时"
-L.PT_Threshold					= "不显示高於%d秒的倒计时动画"
-
-L.Panel_HideBlizzard				= "隐藏暴雪框架"
-L.Area_HideBlizzard				= "隐藏暴雪框架选项"
-L.HideBossEmoteFrame				= "首领战中隐藏团队首领表情框体"
-L.HideWatchFrame				= "首领战中隐藏任务追踪框体"
-L.SpamBlockSayYell				= "隐藏聊天窗口中的使用聊天泡泡的警报信息"
-L.DisableCinematics				= "自动跳过游戏内过场动画"
-L.AfterFirst					= "仅第一次播放"
-L.Always					= "总是跳过"
 
 -- Misc
 L.FontHeight	= 20

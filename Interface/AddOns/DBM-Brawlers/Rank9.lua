@@ -1,16 +1,16 @@
 local mod	= DBM:NewMod("BrawlRank9", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 10689 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(47854)
 mod:SetZone()
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED"
+	"SPELL_CAST_START 142621 141104 138845 142583",
+	"SPELL_CAST_SUCCESS 141013",
+	"SPELL_AURA_APPLIED_DOSE 138901",
+	"SPELL_AURA_REMOVED_DOSE 138901",
+	"SPELL_AURA_REMOVED 138901"
 )
 
 --Boss Key
@@ -42,7 +42,6 @@ function mod:SPELL_CAST_START(args)
 		warnCompleteHeal:Show()
 		if brawlersMod:PlayerFighting() then
 			specWarnCompleteHeal:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\kickcast.mp3")
 		end
 	elseif args.spellId == 141104 then
 		warnHammerFist:Show()
@@ -59,7 +58,6 @@ function mod:SPELL_CAST_START(args)
 		timerDivineCircleCD:Start()
 		if args:IsPlayer() then
 			specWarnDivineCircle:Show()
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")
 		end
 	end
 end
@@ -82,3 +80,4 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 	end
 end
 mod.SPELL_AURA_REMOVED = mod.SPELL_AURA_APPLIED_DOSE
+mod.SPELL_AURA_REMOVED_DOSE = mod.SPELL_AURA_APPLIED_DOSE

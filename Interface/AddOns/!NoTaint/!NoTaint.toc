@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: !NoTaint
 ## Title-zhCN: |cff880303[网易有爱]|r 污染屏蔽
 ## Author: warbaby

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: 幻化提示
 ## Title-zhCN:幻化提示
 ## Author: Rabbit

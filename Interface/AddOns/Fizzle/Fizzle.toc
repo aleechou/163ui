@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Title: Fizzle
 ## Title-zhTW: |cff880303[网易有爱]|r 裝備耐久 Fizzle
 ## Title-zhCN: |cff880303[网易有爱]|r 装备耐久 Fizzle

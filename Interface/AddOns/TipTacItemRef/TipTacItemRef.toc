@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Version: 14.05.24
 ## Title: TipTacItemRef
 ## Title-zhCN: |cff880303[网易有爱]|r TipTacItemRef (物品信息)

@@ -28,9 +28,9 @@ LibKeyBoundLocale10 = {
 	BindingsHelp = "将鼠标停留在按钮上，然后按下欲指定快捷键之后就能绑定。要清除目前绑定的按钮请按%s。";
 
 	-- This is the short display version you see on the Button
-	["Alt"] = "a-",
-	["Ctrl"] = "c-",
-	["Shift"] = "s-",
+	["Alt"] = "A",
+	["Ctrl"] = "C",
+	["Shift"] = "S",
 	["NumPad"] = "N",
 
 	["Backspace"] = "BS",

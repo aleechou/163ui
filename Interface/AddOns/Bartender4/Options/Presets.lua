@@ -89,9 +89,9 @@ local function BuildSingleProfile()
 
 	config = Bartender4.db:GetNamespace("PetBar").profile
 	SetBarLocation( config, "BOTTOM", -164, 164 + dy )
-	end
+end
 
-	local function BuildDoubleProfile()
+local function BuildDoubleProfile()
 	local dy, config
 	dy = 0
 	if not PresetsMod.showRepBar then
@@ -159,6 +159,8 @@ local function BuildSingleProfile()
 		SetBarLocation( config, "BOTTOM", -460, 135 + dy )
 	end
 end
+
+
 
 local function BuildBlizzardProfile()
 	local dy, config
@@ -236,6 +238,8 @@ function PresetsMod:ResetProfile(type)
 		BuildDoubleProfile()
 	elseif type == "SINGLE" then
 		BuildSingleProfile()
+	elseif type == "163UI" then
+		Bartender4_Build163UIProfile()
 	end
 	Bartender4:UpdateModuleConfigs()
 end
@@ -243,14 +247,14 @@ end
 function PresetsMod:OnEnable()
 	Bartender4.finishedLoading = true
 	if self.applyBlizzardOnEnable then
-		self:ResetProfile("BLIZZARD")
+		self:ResetProfile("163UI")
 		self.applyBlizzardOnEnable = nil
 	end
 end
 
 function PresetsMod:SetupOptions()
 	if not self.options then
-		PresetsMod.defaultType = "BLIZZARD"
+		PresetsMod.defaultType = "163UI"
 		self.showXPBar = true
 		self.showRepBar = true
 		local otbl = {
@@ -268,7 +272,7 @@ function PresetsMod:SetupOptions()
 				order = 10,
 				type = "select",
 				name = L["Presets"],
-				values = { BLIZZARD = L["Blizzard interface"], DOUBLE = L["Two bars wide"], SINGLE = L["Three bars stacked"], ZRESET = L["Full reset"] },
+				values = { BLIZZARD = L["Blizzard interface"], DOUBLE = L["Two bars wide"], SINGLE = L["Three bars stacked"], ["163UI"] = "有爱风格", ZRESET = L["Full reset"] },
 				get = function() return PresetsMod.defaultType end,
 				set = function(info, val) PresetsMod.defaultType = val end
 			},

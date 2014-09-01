@@ -1,4 +1,4 @@
-﻿-- *********************************************************
+-- *********************************************************
 -- **               Deadly Boss Mods - GUI                **
 -- **            http://www.deadlybossmods.com            **
 -- *********************************************************
@@ -44,9 +44,8 @@
 
 
 
-local revision =("$Revision: 10687 $"):sub(12, -3)
+local revision =("$Revision: 11511 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
-local fixeditframe = false
 
 local PanelPrototype = {}
 DBM_GUI = {}
@@ -232,7 +231,7 @@ local function MixinSharedMedia3(mediatype, mediatable)
 	if not soundsRegistered then
 		local LSM = LibStub("LibSharedMedia-3.0")
 		soundsRegistered = true
-		LSM:Register("sound", "Headless Horseman Laugh", [[Sound\Creature\HeadlessHorseman\Horseman_Laugh_01.ogg]])
+		LSM:Register("sound", "Headless Horseman: Laugh", [[Sound\Creature\HeadlessHorseman\Horseman_Laugh_01.ogg]])
 		LSM:Register("sound", "Yogg Saron: Laugh", [[Sound\Creature\YoggSaron\UR_YoggSaron_Slay01.ogg]])
 		LSM:Register("sound", "Loatheb: I see you", [[Sound\Creature\Loathstare\Loa_Naxx_Aggro02.ogg]])
 		LSM:Register("sound", "Lady Malande: Flee", [[Sound\Creature\LadyMalande\BLCKTMPLE_LadyMal_Aggro01.ogg]])
@@ -240,6 +239,35 @@ local function MixinSharedMedia3(mediatype, mediatable)
 		LSM:Register("sound", "Void Reaver: Marked", [[Sound\Creature\VoidReaver\TEMPEST_VoidRvr_Aggro01.ogg]])
 		LSM:Register("sound", "Kaz'rogal: Marked", [[Sound\Creature\KazRogal\CAV_Kaz_Mark02.ogg]])
 		LSM:Register("sound", "C'Thun: You Will Die!", [[Sound\Creature\CThun\CThunYouWillDIe.ogg]])
+		--Do to terrible coding in LSM formating, it's not possible to do this a nice looking way
+		if DBM.Options.CustomSounds >= 1 then
+			LSM:Register("sound", "DBM: Custom 1", [[Interface\AddOns\DBM-CustomSounds\Custom1.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 2 then
+			LSM:Register("sound", "DBM: Custom 2", [[Interface\AddOns\DBM-CustomSounds\Custom2.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 3 then
+			LSM:Register("sound", "DBM: Custom 3", [[Interface\AddOns\DBM-CustomSounds\Custom3.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 4 then
+			LSM:Register("sound", "DBM: Custom 4", [[Interface\AddOns\DBM-CustomSounds\Custom4.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 5 then
+			LSM:Register("sound", "DBM: Custom 5", [[Interface\AddOns\DBM-CustomSounds\Custom5.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 6 then
+			LSM:Register("sound", "DBM: Custom 6", [[Interface\AddOns\DBM-CustomSounds\Custom6.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 7 then
+			LSM:Register("sound", "DBM: Custom 7", [[Interface\AddOns\DBM-CustomSounds\Custom7.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 8 then
+			LSM:Register("sound", "DBM: Custom 8", [[Interface\AddOns\DBM-CustomSounds\Custom8.ogg]])
+		end
+		if DBM.Options.CustomSounds >= 9 then
+			LSM:Register("sound", "DBM: Custom 9", [[Interface\AddOns\DBM-CustomSounds\Custom9.ogg]])
+			if DBM.Options.CustomSounds > 9 then DBM.Options.CustomSounds = 9 end
+		end
 	end
 	-- sort LibSharedMedia keys alphabetically (case-insensitive)
 	local keytable = {}
@@ -370,11 +398,19 @@ do
 
 	local function replaceSpellLinks(id)
 		local spellId = tonumber(id)
-		local spellName = GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
+		local spellName = GetSpellInfo(spellId)
+		if not spellName then
+			spellName = DBM_CORE_UNKNOWN
+			DBM:Debug("Spell ID not exists: "..spellId)
+		end
 		return ("|cff71d5ff|Hspell:%d|h%s|h|r"):format(spellId, spellName)
 	end
 
 	local function replaceJournalLinks(id)
+		local check = EJ_GetSectionInfo(tonumber(id))
+		if not check then 
+			DBM:Debug("Journal ID not exists: "..id)
+		end
 		local link = select(9, EJ_GetSectionInfo(tonumber(id))) or DBM_CORE_UNKNOWN
 		return link:gsub("|h%[(.*)%]|h", "|h%1|h")
 	end
@@ -390,7 +426,7 @@ do
 			return
 		end
 		if type(name) == "number" then
-			return DBM:AddMsg("CreateCheckButton: error: expected string, received number:\""..name.."\".You probably called mod:NewTimer(optionId) with a spell id.")
+			return DBM:AddMsg("CreateCheckButton: error: expected string, received number. You probably called mod:NewTimer(optionId) with a spell id.")
 		end
 		local button = CreateFrame('CheckButton', FrameTitle..self:GetNewID(), self.frame, 'OptionsCheckButtonTemplate')
 		local buttonName = button:GetName()
@@ -407,7 +443,7 @@ do
 			name = name:gsub("%$journal:(%d+)", replaceJournalLinks)
 		end
 		local dropdown
-		if soundVal and DBM.Options.ShowAdvSWSounds then
+		if soundVal and DBM.Options.ShowAdvSWSound then
 			dropdown = self:CreateDropdown(nil,sounds,mod.Options[soundVal], function(value)
 				mod.Options[soundVal] = value
 				DBM:PlaySpecialWarningSound(value)
@@ -713,7 +749,7 @@ function PanelPrototype:AutoSetDimension()
 		if child.myheight and type(child.myheight) == "number" then
 			need_height = need_height + child.myheight
 		else
-			need_height = need_height + child:GetHeight() + 20
+			need_height = need_height + child:GetHeight() + 50
 		end
 	end
 
@@ -1047,7 +1083,7 @@ do
 
 	-- This function is for internal use.
 	-- places the selected tab on the container frame
-	function DBM_GUI_OptionsFrame:DisplayFrame(frame)
+	function DBM_GUI_OptionsFrame:DisplayFrame(frame, forcechange)
 		local container = _G[self:GetName().."PanelContainer"]
 
 		if not (type(frame) == "table" and type(frame[0]) == "userdata") or select("#", frame:GetChildren()) == 0 then
@@ -1055,7 +1091,7 @@ do
 			return
 		end
 
-		local changed = container.displayedFrame ~= frame
+		local changed = forcechange or (container.displayedFrame ~= frame)
 		if ( container.displayedFrame ) then
 			container.displayedFrame:Hide()
 		end
@@ -1152,33 +1188,6 @@ function UpdateAnimationFrame(mod)
 			PlaySoundFile(mod.modelSoundLong or 0)
 		end
 	end
-
---[[	** FANCY STUFF WE DO NOT USE FOR NOW **
-	DBM_BossPreview:SetModelScale(mod.modelScale or 0.5)
-
-	DBM_BossPreview.atime = 0
-	DBM_BossPreview.apos = 0
-	DBM_BossPreview.rotation = 0
-	DBM_BossPreview.modelRotation = mod.modelRotation or -60
-	DBM_BossPreview.modelOffsetX = mod.modelOffsetX or 0
-	DBM_BossPreview.modelOffsetY = mod.modelOffsetY or 0
-	DBM_BossPreview.modelOffsetZ = mod.modelOffsetZ or 0
-	DBM_BossPreview.modelscale = mod.modelScale or 0.5
-	DBM_BossPreview.modelMoveSpeed = mod.modelMoveSpeed or 1
-	DBM_BossPreview.pos_x = 0.5
-	DBM_BossPreview.pos_y = 0.1
-	DBM_BossPreview.pos_z = 0
-	DBM_BossPreview.alpha = 1
-	DBM_BossPreview.scale = 0
-	DBM_BossPreview.apos = 0
-	DBM_BossPreview:SetAlpha(DBM_BossPreview.alpha)
-	DBM_BossPreview:SetFacing( DBM_BossPreview.modelRotation  *math.pi/180)
-	DBM_BossPreview:SetPosition(
-		DBM_BossPreview.pos_z + DBM_BossPreview.modelOffsetZ,
-		DBM_BossPreview.pos_x + DBM_BossPreview.modelOffsetX,
-		DBM_BossPreview.pos_y + DBM_BossPreview.modelOffsetY)
-	DBM_BossPreview.enabled = true
---]]
 end
 
 local function CreateAnimationFrame()
@@ -1371,7 +1380,7 @@ local function CreateOptionsMenu()
 		----------------------------------------------
 		--             General Options              --
 		----------------------------------------------
-		local generaloptions = DBM_GUI_Frame:CreateArea(L.General, nil, 290, true)
+		local generaloptions = DBM_GUI_Frame:CreateArea(L.General, nil, 185, true)
 
 		local enabledbm = generaloptions:CreateCheckButton(L.EnableDBM, true)
 		enabledbm:SetScript("OnShow",  function() enabledbm:SetChecked(DBM:IsEnabled()) end)
@@ -1385,18 +1394,10 @@ local function CreateOptionsMenu()
 		MiniMapIcon:SetScript("OnShow", function(self)
 			self:SetChecked( DBM.Options.ShowMinimapButton )
 		end)
-		local SetPlayerRole				= generaloptions:CreateCheckButton(L.SetPlayerRole, true, nil, "SetPlayerRole")
 		local UseMasterVolume			= generaloptions:CreateCheckButton(L.UseMasterVolume, true, nil, "UseMasterVolume")
-		local LFDEnhance				= generaloptions:CreateCheckButton(L.LFDEnhance, true, nil, "LFDEnhance")
-		local AutologBosses				= generaloptions:CreateCheckButton(L.AutologBosses, true, nil, "AutologBosses")
-		local AdvancedAutologBosses
-		if Transcriptor then
-			AdvancedAutologBosses = generaloptions:CreateCheckButton(L.AdvancedAutologBosses, true, nil, "AdvancedAutologBosses")
-		end
-		local LogOnlyRaidBosses = generaloptions:CreateCheckButton(L.LogOnlyRaidBosses, true, nil, "LogOnlyRaidBosses")
 
 		local bmrange  = generaloptions:CreateButton(L.Button_RangeFrame)
-		bmrange:SetPoint('TOPLEFT', LogOnlyRaidBosses, "BOTTOMLEFT", 0, -5)
+		bmrange:SetPoint('TOPLEFT', UseMasterVolume, "BOTTOMLEFT", 0, -5)
 		bmrange:SetScript("OnClick", function(self)
 			if DBM.RangeCheck:IsShown() then
 				DBM.RangeCheck:Hide()
@@ -1434,11 +1435,12 @@ local function CreateOptionsMenu()
 		latencySlider:SetPoint('BOTTOMLEFT', bminfo, "BOTTOMLEFT", 10, -35)
 		latencySlider:HookScript("OnShow", function(self) self:SetValue(DBM.Options.LatencyThreshold) end)
 		latencySlider:HookScript("OnValueChanged", function(self) DBM.Options.LatencyThreshold = self:GetValue() end)
-
-		local generaltimeroptions = DBM_GUI_Frame:CreateArea(L.TimerGeneral, nil, 85)
+		----
+		local generaltimeroptions = DBM_GUI_Frame:CreateArea(L.TimerGeneral, nil, 125)
 		generaltimeroptions.frame:SetPoint('TOPLEFT', generaloptions.frame, "BOTTOMLEFT", 0, -20)
 
 		local SKT_Enabled	= generaltimeroptions:CreateCheckButton(L.SKT_Enabled, true, nil, "AlwaysShowSpeedKillTimer")
+		local CRT_Enabled	= generaltimeroptions:CreateCheckButton(L.CRT_Enabled, true, nil, "CRT_Enabled")
 
 		local challengeTimers = {
 			{	text	= L.Disable,				value	= "None" },
@@ -1451,10 +1453,10 @@ local function CreateOptionsMenu()
 			DBM.Options.ChallengeBest = value
 		end
 		)
-		ChallengeTimerDropDown:SetPoint("TOPLEFT", generaltimeroptions.frame, "TOPLEFT", 0, -50)
+		ChallengeTimerDropDown:SetPoint("TOPLEFT", generaltimeroptions.frame, "TOPLEFT", 0, -85)
 
 		--Model viewer options
-		local modelarea = DBM_GUI_Frame:CreateArea(L.ModelOptions, nil, 85)
+		local modelarea = DBM_GUI_Frame:CreateArea(L.ModelOptions, nil, 90)
 		modelarea.frame:SetPoint('TOPLEFT', generaltimeroptions.frame, "BOTTOMLEFT", 0, -20)
 
 		local enablemodels	= modelarea:CreateCheckButton(L.EnableModels,  true, nil, "EnableModels")--Needs someone smarter then me to hide/disable this option if not 4.0.6+
@@ -1471,49 +1473,6 @@ local function CreateOptionsMenu()
 		)
 		ModelSoundDropDown:SetPoint("TOPLEFT", modelarea.frame, "TOPLEFT", 0, -50)
 
-		-- Pizza Timer (create your own timer menu)
-		local pizzaarea = DBM_GUI_Frame:CreateArea(L.PizzaTimer_Headline, nil, 85)
-		pizzaarea.frame:SetPoint('TOPLEFT', modelarea.frame, "BOTTOMLEFT", 0, -20)
-
-		local textbox = pizzaarea:CreateEditBox(L.PizzaTimer_Title, "Pizza!", 175)
-		local hourbox = pizzaarea:CreateEditBox(L.PizzaTimer_Hours, "0", 25)
-		local minbox  = pizzaarea:CreateEditBox(L.PizzaTimer_Mins, "15", 25)
-		local secbox  = pizzaarea:CreateEditBox(L.PizzaTimer_Secs, "0", 25)
-
-		textbox:SetMaxLetters(17)
-		textbox:SetPoint('TOPLEFT', 30, -25)
-		hourbox:SetNumeric()
-		hourbox:SetMaxLetters(2)
-		hourbox:SetPoint('TOPLEFT', textbox, "TOPRIGHT", 20, 0)
-		minbox:SetNumeric()
-		minbox:SetMaxLetters(2)
-		minbox:SetPoint('TOPLEFT', hourbox, "TOPRIGHT", 20, 0)
-		secbox:SetNumeric()
-		secbox:SetMaxLetters(2)
-		secbox:SetPoint('TOPLEFT', minbox, "TOPRIGHT", 20, 0)
-
-		local BcastTimer = pizzaarea:CreateCheckButton(L.PizzaTimer_BroadCast)
-		local okbttn  = pizzaarea:CreateButton(L.PizzaTimer_ButtonStart)
-		okbttn:SetPoint('TOPLEFT', textbox, "BOTTOMLEFT", -7, -8)
-		BcastTimer:SetPoint("TOPLEFT", okbttn, "TOPRIGHT", 10, 3)
-
-		pizzaarea.frame:SetScript("OnShow", function(self)
-			if DBM:GetRaidRank() == 0 then
-				BcastTimer:Hide()
-			else
-				BcastTimer:Show()
-			end
-		end)
-
-		okbttn:SetScript("OnClick", function()
-			local time = (hourbox:GetNumber() * 60*60) + (minbox:GetNumber() * 60) + secbox:GetNumber()
-			if textbox:GetText() and time > 0 then
-				DBM:CreatePizzaTimer(time,  textbox:GetText(), BcastTimer:GetChecked())
-			end
-		end)
-
-		-- END Pizza Timer
-		--
 		DBM_GUI_Frame:SetMyOwnHeight()
 	end
 
@@ -1525,6 +1484,8 @@ local function CreateOptionsMenu()
 		local generalCoreArea = generalWarningPanel:CreateArea(L.CoreMessages, nil, 120, true)
 --		generalCoreArea:CreateCheckButton(L.ShowLoadMessage, true, nil, "ShowLoadMessage")--Only here as a note, this is commented out so inexperienced users don't disable this, but an option for advanced users who want to manually change the value from true to false
 		generalCoreArea:CreateCheckButton(L.ShowPizzaMessage, true, nil, "ShowPizzaMessage")
+		generalCoreArea:CreateCheckButton(L.ShowCombatLogMessage, true, nil, "ShowCombatLogMessage")
+		generalCoreArea:CreateCheckButton(L.ShowTranscriptorMessage, true, nil, "ShowTranscriptorMessage")
 
 		local generalMessagesArea = generalWarningPanel:CreateArea(L.CombatMessages, nil, 135, true)
 		generalMessagesArea:CreateCheckButton(L.ShowEngageMessage, true, nil, "ShowEngageMessage")
@@ -1546,10 +1507,10 @@ local function CreateOptionsMenu()
 		--            Raid Warning Colors            --
 		-----------------------------------------------
 		local RaidWarningPanel = DBM_GUI_Frame:CreateNewPanel(L.Tab_RaidWarning, "option")
-		local raidwarnoptions = RaidWarningPanel:CreateArea(L.RaidWarning_Header, nil, 250, true)
+		local raidwarnoptions = RaidWarningPanel:CreateArea(L.RaidWarning_Header, nil, 280, true)
 
 		local ShowWarningsInChat 	= raidwarnoptions:CreateCheckButton(L.ShowWarningsInChat, true, nil, "ShowWarningsInChat")
-		local ShowChatTime			= raidwarnoptions:CreateCheckButton(L.ShowChatTime, true, nil, "ShowChatTime")
+		local ShowSWarningsInChat 	= raidwarnoptions:CreateCheckButton(L.ShowSWarningsInChat, true, nil, "ShowSWarningsInChat")
 		local ShowFakedRaidWarnings = raidwarnoptions:CreateCheckButton(L.ShowFakedRaidWarnings,  true, nil, "ShowFakedRaidWarnings")
 		local WarningIconLeft		= raidwarnoptions:CreateCheckButton(L.WarningIconLeft,  true, nil, "WarningIconLeft")
 		local WarningIconRight 		= raidwarnoptions:CreateCheckButton(L.WarningIconRight,  true, nil, "WarningIconRight")
@@ -1569,29 +1530,22 @@ local function CreateOptionsMenu()
 				DBM.Options.RaidWarningSound = value
 			end
 		)
-		RaidWarnSoundDropDown:SetPoint("TOPLEFT", ShowCountdownText, "BOTTOMLEFT", 10, -20)
+		RaidWarnSoundDropDown:SetPoint("TOPLEFT", ShowCountdownText, "BOTTOMLEFT", 10, -10)
 
 		local countSounds = {
-			{	text	= DBM_CORE_SOUND_NOFILE,	value 	= "None"},
+			{	text	= "Moshne (Male)",	value 	= "Mosh"},
+			{	text	= "Corsica (Female)",value 	= "Corsica"},
+			{	text	= "Koltrane (Male)",value 	= "Kolt"},
+			{	text	= "None",value 	= "None"},
 		}
-		if #DBM.Soundfile > 0 and DBM.Soundfile[#DBM.Soundfile].Path then
-			table.wipe(countSounds)
-			for i = 1, #DBM.Soundfile do
-				tinsert(countSounds, {
-					text			= DBM.Soundfile[i].Name,
-					value			= DBM.Soundfile[i].Path,
-				})
-			end
-		end
 		local CountSoundDropDown = raidwarnoptions:CreateDropdown(L.CountdownVoice, countSounds,
 		DBM.Options.CountdownVoice, function(value)
 			DBM.Options.CountdownVoice = value
-			PlaySoundFile("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\movesoon.mp3", "Master")
-			DBM:ShowSoundMM()
+			DBM:PlayCountSound(1, DBM.Options.CountdownVoice)
 		end
 		)
-		CountSoundDropDown:SetPoint("LEFT", RaidWarnSoundDropDown, "RIGHT", 30, 0)
---[[		
+		CountSoundDropDown:SetPoint("TOPLEFT", RaidWarnSoundDropDown, "TOPLEFT", 0, -40)
+		
 		local countSounds2 = {
 			{	text	= "Mosh (Male)",	value 	= "Mosh"},
 			{	text	= "Corsica (Female)",value 	= "Corsica"},
@@ -1604,9 +1558,9 @@ local function CreateOptionsMenu()
 		end
 		)
 		CountSoundDropDown2:SetPoint("LEFT", CountSoundDropDown, "RIGHT", 60, 0)
-]]
+
 		--Raid Warning Colors
-		local raidwarncolors = RaidWarningPanel:CreateArea(L.RaidWarnColors, nil, 170, true)
+		local raidwarncolors = RaidWarningPanel:CreateArea(L.RaidWarnColors, nil, 150, true)
 
 		local color1 = raidwarncolors:CreateColorSelect(64)
 		local color2 = raidwarncolors:CreateColorSelect(64)
@@ -1683,14 +1637,14 @@ local function CreateOptionsMenu()
 					anchorFrame.texture:SetWidth(32)
 					anchorFrame.texture:SetHeight(32)
 					anchorFrame:SetScript("OnMouseDown", function(self)
-						RaidWarningFrame:SetMovable(1)
+						RaidWarningFrame:SetMovable(true)
 						RaidWarningFrame:StartMoving()
 						DBM:Unschedule(hideme)
 						DBM.Bars:CancelBar(L.BarWhileMove)
 					end)
 					anchorFrame:SetScript("OnMouseUp", function(self)
 						RaidWarningFrame:StopMovingOrSizing()
-						RaidWarningFrame:SetMovable(0)
+						RaidWarningFrame:SetMovable(false)
 						local point, _, _, xOfs, yOfs = RaidWarningFrame:GetPoint(1)
 						DBM.Options.RaidWarningPosition.Point = point
 						DBM.Options.RaidWarningPosition.X = xOfs
@@ -1728,7 +1682,7 @@ local function CreateOptionsMenu()
 		--------------------------------------
 		local BarSetupPanel = DBM_GUI_Frame:CreateNewPanel(L.BarSetup, "option")
 
-		local BarSetup = BarSetupPanel:CreateArea(L.AreaTitle_BarSetup, nil, 240, true)
+		local BarSetup = BarSetupPanel:CreateArea(L.AreaTitle_BarSetup, nil, 360, true)
 
 		local movemebutton = BarSetup:CreateButton(L.MoveMe, 100, 16)
 		movemebutton:SetPoint('BOTTOMRIGHT', BarSetup.frame, "TOPRIGHT", 0, -1)
@@ -1738,7 +1692,7 @@ local function CreateOptionsMenu()
 
 		local maindummybar = DBM.Bars:CreateDummyBar()
 		maindummybar.frame:SetParent(BarSetup.frame)
-		maindummybar.frame:SetPoint('BOTTOM', BarSetup.frame, "TOP", 0, -65)
+		maindummybar.frame:SetPoint("BOTTOM", BarSetup.frame, "TOP", 0, -35)
 		maindummybar.frame:SetScript("OnUpdate", function(self, elapsed) maindummybar:Update(elapsed) end)
 		do
 			-- little hook to prevent this bar from changing size/scale
@@ -1751,14 +1705,9 @@ local function CreateOptionsMenu()
 			end
 		end
 
-		local iconleft = BarSetup:CreateCheckButton(L.BarIconLeft, nil, nil, nil, "IconLeft")
-		local iconright = BarSetup:CreateCheckButton(L.BarIconRight, nil, nil, nil, "IconRight")
-		iconleft:SetPoint('BOTTOMRIGHT', maindummybar.frame, "TOPLEFT", -5, 5)
-		iconright:SetPoint('BOTTOMLEFT', maindummybar.frame, "TOPRIGHT", 5, 5)
-
 		local color1 = BarSetup:CreateColorSelect(64)
 		local color2 = BarSetup:CreateColorSelect(64)
-		color1:SetPoint('TOPLEFT', BarSetup.frame, "TOPLEFT", 20, -80)
+		color1:SetPoint('TOPLEFT', BarSetup.frame, "TOPLEFT", 20, -60)
 		color2:SetPoint('TOPLEFT', color1, "TOPRIGHT", 20, 0)
 
 		local color1reset = BarSetup:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
@@ -1822,28 +1771,19 @@ local function CreateOptionsMenu()
 				DBM.Bars:SetOption("Texture", value)
 			end
 		)
-		TextureDropDown:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 210, -80)
+		TextureDropDown:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 210, -55)
 
-		local ExpandUpwards = BarSetup:CreateCheckButton(L.ExpandUpwards, false, nil, nil, "ExpandUpwards")
-		ExpandUpwards:SetPoint("TOPLEFT", TextureDropDown, "BOTTOMLEFT", 0, -10)
+		local Styles = {
+			{	text	= L.BarDBM,				value	= "DBM" },
+			{	text	= L.BarBigWigs,			value 	= "BigWigs" }
+		}
 
-		local FillUpBars = BarSetup:CreateCheckButton(L.FillUpBars, false, nil, nil, "FillUpBars")
-		FillUpBars:SetPoint("TOP", ExpandUpwards, "BOTTOM", 0, 5)
-
-		local ClickThrough = BarSetup:CreateCheckButton(L.ClickThrough, false, nil, nil, "ClickThrough")
-		ClickThrough:SetPoint("TOPLEFT", color1reset, "BOTTOMLEFT", -7, -5)
-
-		-- Functions for the next 2 Areas
-		local function createDBTOnShowHandler(option)
-			return function(self)
-				self:SetValue(DBM.Bars:GetOption(option))
+		local StyleDropDown = BarSetup:CreateDropdown(L.BarStyle, Styles,
+			DBM.Bars:GetOption("Style"), function(value)
+				DBM.Bars:SetOption("Style", value)
 			end
-		end
-		local function createDBTOnValueChangedHandler(option)
-			return function(self)
-				DBM.Bars:SetOption(option, self:GetValue())
-			end
-		end
+		)
+		StyleDropDown:SetPoint("TOPLEFT", TextureDropDown, "BOTTOMLEFT", 0, -10)
 
 		local Fonts = MixinSharedMedia3("font", {
 			{	text	= "Default",		value 	= STANDARD_TEXT_FONT,			font = STANDARD_TEXT_FONT		},
@@ -1856,12 +1796,74 @@ local function CreateOptionsMenu()
 			function(value)
 				DBM.Bars:SetOption("Font", value)
 			end)
-		FontDropDown:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 210, -200)
+		FontDropDown:SetPoint("TOPLEFT", StyleDropDown, "BOTTOMLEFT", 0, -10)
+
+		local iconleft = BarSetup:CreateCheckButton(L.BarIconLeft, nil, nil, nil, "IconLeft")
+		iconleft:SetPoint("TOPLEFT", FontDropDown, "BOTTOMLEFT", 10, 0)
+
+		local iconright = BarSetup:CreateCheckButton(L.BarIconRight, nil, nil, nil, "IconRight")
+		iconright:SetPoint("LEFT", iconleft, "LEFT", 130, 0)
+
+		local ExpandUpwards = BarSetup:CreateCheckButton(L.ExpandUpwards, false, nil, nil, "ExpandUpwards")
+		ExpandUpwards:SetPoint("TOPLEFT", iconleft, "BOTTOMLEFT", 0, 0)
+
+		local FillUpBars = BarSetup:CreateCheckButton(L.FillUpBars, false, nil, nil, "FillUpBars")
+		FillUpBars:SetPoint("TOPLEFT", iconright, "BOTTOMLEFT", 0, 0)
+
+		local ClickThrough = BarSetup:CreateCheckButton(L.ClickThrough, false, nil, nil, "ClickThrough")
+		ClickThrough:SetPoint("TOPLEFT", ExpandUpwards, "BOTTOMLEFT", 0, 0)
+
+		-- Functions for bar setup
+		local function createDBTOnShowHandler(option)
+			return function(self)
+				if option == "EnlargeBarsPercent" then
+					self:SetValue(DBM.Bars:GetOption(option) * 100)
+				else
+					self:SetValue(DBM.Bars:GetOption(option))
+				end
+			end
+		end
+		local function createDBTOnValueChangedHandler(option)
+			return function(self)
+				if option == "EnlargeBarsPercent" then
+					DBM.Bars:SetOption(option, self:GetValue() / 100)
+					self:SetValue(DBM.Bars:GetOption(option) * 100)
+				else
+					DBM.Bars:SetOption(option, self:GetValue())
+					self:SetValue(DBM.Bars:GetOption(option))
+				end
+				
+			end
+		end
 
 		local FontSizeSlider = BarSetup:CreateSlider(L.Bar_FontSize, 7, 18, 1)
-		FontSizeSlider:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -202)
+		FontSizeSlider:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -175)
 		FontSizeSlider:SetScript("OnShow", createDBTOnShowHandler("FontSize"))
 		FontSizeSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("FontSize"))
+
+		local BarHeightSlider = BarSetup:CreateSlider(L.Bar_Height, 10, 35, 1)
+		BarHeightSlider:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -215)
+		BarHeightSlider:SetScript("OnShow", createDBTOnShowHandler("Height"))
+		BarHeightSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("Height"))
+
+		local descriptionText = BarSetup:CreateText(L.Bar_DBMOnly, 400, nil, nil, "LEFT")
+		descriptionText:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -252)
+
+		local EnlargeTimeSlider = BarSetup:CreateSlider(L.Bar_EnlargeTime, 6, 30, 1)
+		EnlargeTimeSlider:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -285)
+		EnlargeTimeSlider:SetScript("OnShow", createDBTOnShowHandler("EnlargeBarsTime"))
+		EnlargeTimeSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("EnlargeBarsTime"))
+
+		local EnlargePerecntSlider = BarSetup:CreateSlider(L.Bar_EnlargePercent, 0, 50, 0.5)
+		EnlargePerecntSlider:SetPoint("TOPLEFT", BarSetup.frame, "TOPLEFT", 20, -325)
+		EnlargePerecntSlider:SetScript("OnShow", createDBTOnShowHandler("EnlargeBarsPercent"))
+		EnlargePerecntSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("EnlargeBarsPercent"))
+
+		local SparkBars = BarSetup:CreateCheckButton(L.BarSpark, false, nil, nil, "Spark")
+		SparkBars:SetPoint("TOPLEFT", ClickThrough, "BOTTOMLEFT", 0, -40)
+
+		local FlashBars = BarSetup:CreateCheckButton(L.BarFlash, false, nil, nil, "Flash")
+		FlashBars:SetPoint("TOPLEFT", SparkBars, "BOTTOMLEFT", 0, 0)
 
 		-----------------------
 		-- Small Bar Options --
@@ -1873,7 +1875,7 @@ local function CreateOptionsMenu()
 		smalldummybar.frame:SetPoint('BOTTOM', BarSetupSmall.frame, "TOP", 0, -35)
 		smalldummybar.frame:SetScript("OnUpdate", function(self, elapsed) smalldummybar:Update(elapsed) end)
 
-		local BarWidthSlider = BarSetup:CreateSlider(L.Slider_BarWidth, 100, 325, 1)
+		local BarWidthSlider = BarSetup:CreateSlider(L.Slider_BarWidth, 100, 400, 1)
 		BarWidthSlider:SetPoint("TOPLEFT", BarSetupSmall.frame, "TOPLEFT", 20, -90)
 		BarWidthSlider:SetScript("OnShow", createDBTOnShowHandler("Width"))
 		BarWidthSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("Width"))
@@ -1888,7 +1890,7 @@ local function CreateOptionsMenu()
 		BarOffsetXSlider:SetScript("OnShow", createDBTOnShowHandler("BarXOffset"))
 		BarOffsetXSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("BarXOffset"))
 
-		local BarOffsetYSlider = BarSetup:CreateSlider(L.Slider_BarOffSetY, -5, 25, 1)
+		local BarOffsetYSlider = BarSetup:CreateSlider(L.Slider_BarOffSetY, -5, 35, 1)
 		BarOffsetYSlider:SetPoint("TOPLEFT", BarOffsetXSlider, "BOTTOMLEFT", 0, -10)
 		BarOffsetYSlider:SetScript("OnShow", createDBTOnShowHandler("BarYOffset"))
 		BarOffsetYSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("BarYOffset"))
@@ -1907,7 +1909,7 @@ local function CreateOptionsMenu()
 		hugedummybar.enlarged = true
 		hugedummybar:ApplyStyle()
 
-		local HugeBarWidthSlider = BarSetupHuge:CreateSlider(L.Slider_BarWidth, 100, 325, 1)
+		local HugeBarWidthSlider = BarSetupHuge:CreateSlider(L.Slider_BarWidth, 100, 400, 1)
 		HugeBarWidthSlider:SetPoint("TOPLEFT", BarSetupHuge.frame, "TOPLEFT", 20, -105)
 		HugeBarWidthSlider:SetScript("OnShow", createDBTOnShowHandler("HugeWidth"))
 		HugeBarWidthSlider:HookScript("OnValueChanged", createDBTOnValueChangedHandler("HugeWidth"))
@@ -1936,9 +1938,7 @@ local function CreateOptionsMenu()
 		local specArea = specPanel:CreateArea(L.Area_SpecWarn, nil, 515, true)
 		local check1 = specArea:CreateCheckButton(L.SpecWarn_Enabled, true, nil, "ShowSpecialWarnings")
 		local check2 = specArea:CreateCheckButton(L.SpecWarn_FlashFrame, true, nil, "ShowFlashFrame")
-		local check3 = specArea:CreateCheckButton(L.SpecWarn_AdSound, true, nil, "ShowAdvSWSounds")
-		local flashbutton = specArea:CreateCheckButton(L.SpecWarn_ShakeFrame, true, nil, "ShowShakeFrame")
-		flashbutton:SetPoint('TOPLEFT', specArea.frame, "TOPLEFT", 200, -36)
+		local check3 = specArea:CreateCheckButton(L.SpecWarn_AdSound, true, nil, "ShowAdvSWSound")
 
 		local showbutton = specArea:CreateButton(L.SpecWarn_DemoButton, 120, 16)
 		showbutton:SetPoint('TOPRIGHT', specArea.frame, "TOPRIGHT", -5, -5)
@@ -1959,10 +1959,10 @@ local function CreateOptionsMenu()
 		local color0reset = specArea:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
 		color0reset:SetPoint('TOP', color0, "BOTTOM", 5, -10)
 		color0reset:SetScript("OnClick", function(self)
-				DBM.Options.SpecialWarningFontColor[1] = DBM.DefaultOptions.SpecialWarningFontColor[1]
-				DBM.Options.SpecialWarningFontColor[2] = DBM.DefaultOptions.SpecialWarningFontColor[2]
-				DBM.Options.SpecialWarningFontColor[3] = DBM.DefaultOptions.SpecialWarningFontColor[3]
-				color0:SetColorRGB(DBM.Options.SpecialWarningFontColor[1], DBM.Options.SpecialWarningFontColor[2], DBM.Options.SpecialWarningFontColor[3])
+				DBM.Options.SpecialWarningFontCol[1] = DBM.DefaultOptions.SpecialWarningFontCol[1]
+				DBM.Options.SpecialWarningFontCol[2] = DBM.DefaultOptions.SpecialWarningFontCol[2]
+				DBM.Options.SpecialWarningFontCol[3] = DBM.DefaultOptions.SpecialWarningFontCol[3]
+				color0:SetColorRGB(DBM.Options.SpecialWarningFontCol[1], DBM.Options.SpecialWarningFontCol[2], DBM.Options.SpecialWarningFontCol[3])
 				DBM:UpdateSpecialWarningOptions()
 				DBM:ShowTestSpecialWarning(nil, 1)
 		end)
@@ -1970,13 +1970,13 @@ local function CreateOptionsMenu()
 			local firstshow = true
 			color0:SetScript("OnShow", function(self)
 					firstshow = true
-					self:SetColorRGB(DBM.Options.SpecialWarningFontColor[1], DBM.Options.SpecialWarningFontColor[2], DBM.Options.SpecialWarningFontColor[3])
+					self:SetColorRGB(DBM.Options.SpecialWarningFontCol[1], DBM.Options.SpecialWarningFontCol[2], DBM.Options.SpecialWarningFontCol[3])
 			end)
 			color0:SetScript("OnColorSelect", function(self)
 					if firstshow then firstshow = false return end
-					DBM.Options.SpecialWarningFontColor[1] = select(1, self:GetColorRGB())
-					DBM.Options.SpecialWarningFontColor[2] = select(2, self:GetColorRGB())
-					DBM.Options.SpecialWarningFontColor[3] = select(3, self:GetColorRGB())
+					DBM.Options.SpecialWarningFontCol[1] = select(1, self:GetColorRGB())
+					DBM.Options.SpecialWarningFontCol[2] = select(2, self:GetColorRGB())
+					DBM.Options.SpecialWarningFontCol[3] = select(3, self:GetColorRGB())
 					color0text:SetTextColor(self:GetColorRGB())
 					DBM:UpdateSpecialWarningOptions()
 					DBM:ShowTestSpecialWarning(nil, 1)
@@ -2017,7 +2017,7 @@ local function CreateOptionsMenu()
 
 		local color1 = specArea:CreateColorSelect(64)
 		color1:SetPoint('TOPLEFT', color0, "TOPLEFT", 0, -105)
-		local color1text = specArea:CreateText(L.SpecWarn_FlashColor:format(1), 80)
+		local color1text = specArea:CreateText(L.SpecWarn_FlashColor, 80)
 		color1text:SetPoint("BOTTOM", color1, "TOP", 5, 4)
 		local color1reset = specArea:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
 		color1reset:SetPoint('TOP', color1, "BOTTOM", 5, -10)
@@ -2048,7 +2048,7 @@ local function CreateOptionsMenu()
 		
 		local color2 = specArea:CreateColorSelect(64)
 		color2:SetPoint('TOPLEFT', color1, "TOPLEFT", 0, -105)
-		local color2text = specArea:CreateText(L.SpecWarn_FlashColor:format(2), 80)
+		local color2text = specArea:CreateText(L.SpecWarn_FlashColor, 80)
 		color2text:SetPoint("BOTTOM", color2, "TOP", 5, 4)
 		local color2reset = specArea:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
 		color2reset:SetPoint('TOP', color2, "BOTTOM", 5, -10)
@@ -2079,7 +2079,7 @@ local function CreateOptionsMenu()
 		
 		local color3 = specArea:CreateColorSelect(64)
 		color3:SetPoint('TOPLEFT', color2, "TOPLEFT", 0, -105)
-		local color3text = specArea:CreateText(L.SpecWarn_FlashColor:format(3), 80)
+		local color3text = specArea:CreateText(L.SpecWarn_FlashColor, 80)
 		color3text:SetPoint("BOTTOM", color3, "TOP", 5, 4)
 		local color3reset = specArea:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
 		color3reset:SetPoint('TOP', color3, "BOTTOM", 5, -10)
@@ -2243,7 +2243,7 @@ local function CreateOptionsMenu()
 		resetbutton:SetScript("OnClick", function()
 				DBM.Options.ShowSpecialWarnings = DBM.DefaultOptions.ShowSpecialWarnings
 				DBM.Options.ShowFlashFrame = DBM.DefaultOptions.ShowFlashFrame
-				DBM.Options.ShowAdvSWSounds = DBM.DefaultOptions.ShowAdvSWSounds
+				DBM.Options.ShowAdvSWSound = DBM.DefaultOptions.ShowAdvSWSound
 				DBM.Options.SpecialWarningFont = DBM.DefaultOptions.SpecialWarningFont
 				DBM.Options.SpecialWarningSound = DBM.DefaultOptions.SpecialWarningSound
 				DBM.Options.SpecialWarningSound2 = DBM.DefaultOptions.SpecialWarningSound2
@@ -2269,13 +2269,13 @@ local function CreateOptionsMenu()
 				DBM.Options.SpecialWarningY = DBM.DefaultOptions.SpecialWarningY
 				check1:SetChecked(DBM.Options.ShowSpecialWarnings)
 				check2:SetChecked(DBM.Options.ShowFlashFrame)
-				check3:SetChecked(DBM.Options.ShowAdvSWSounds)
+				check3:SetChecked(DBM.Options.ShowAdvSWSound)
 				FontDropDown:SetSelectedValue(DBM.Options.SpecialWarningFont)
 				SpecialWarnSoundDropDown:SetSelectedValue(DBM.Options.SpecialWarningSound)
 				SpecialWarnSoundDropDown2:SetSelectedValue(DBM.Options.SpecialWarningSound2)
 				SpecialWarnSoundDropDown3:SetSelectedValue(DBM.Options.SpecialWarningSound3)
 				fontSizeSlider:SetValue(DBM.DefaultOptions.SpecialWarningFontSize)
-				color0:SetColorRGB(DBM.Options.SpecialWarningFontColor[1], DBM.Options.SpecialWarningFontColor[2], DBM.Options.SpecialWarningFontColor[3])
+				color0:SetColorRGB(DBM.Options.SpecialWarningFontCol[1], DBM.Options.SpecialWarningFontCol[2], DBM.Options.SpecialWarningFontCol[3])
 				color1:SetColorRGB(DBM.Options.SpecialWarningFlashCol1[1], DBM.Options.SpecialWarningFlashCol1[2], DBM.Options.SpecialWarningFlashCol1[3])
 				color2:SetColorRGB(DBM.Options.SpecialWarningFlashCol2[1], DBM.Options.SpecialWarningFlashCol2[2], DBM.Options.SpecialWarningFlashCol2[3])
 				color3:SetColorRGB(DBM.Options.SpecialWarningFlashCol3[1], DBM.Options.SpecialWarningFlashCol3[2], DBM.Options.SpecialWarningFlashCol3[3])
@@ -2290,104 +2290,6 @@ local function CreateOptionsMenu()
 		specPanel:SetMyOwnHeight()
 	end
 
-	do
-		local specPanel = DBM_GUI_Frame:CreateNewPanel(L.Panel_LTSpecWarnFrame, "option")
-		local specArea = specPanel:CreateArea(L.Area_LTSpecWarn, nil, 300, true)
-		local check1 = specArea:CreateCheckButton(L.LTSpecWarn_Enabled, true, nil, "ShowLTSpecialWarnings")
-
-		local showbutton = specArea:CreateButton(L.SpecWarn_DemoButton, 120, 16)
-		showbutton:SetPoint('TOPRIGHT', specArea.frame, "TOPRIGHT", -5, -5)
-		showbutton:SetNormalFontObject(GameFontNormalSmall)
-		showbutton:SetHighlightFontObject(GameFontNormalSmall)
-		showbutton:SetScript("OnClick", function() DBM:ShowTestLTSpecialWarning() end)
-
-		local movemebutton = specArea:CreateButton(L.SpecWarn_MoveMe, 120, 16)
-		movemebutton:SetPoint('TOPRIGHT', showbutton, "BOTTOMRIGHT", 0, -5)
-		movemebutton:SetNormalFontObject(GameFontNormalSmall)
-		movemebutton:SetHighlightFontObject(GameFontNormalSmall)
-		movemebutton:SetScript("OnClick", function() DBM:MoveLTSpecialWarning() end)
-
-		local color0 = specArea:CreateColorSelect(64)
-		color0:SetPoint('TOPLEFT', specArea.frame, "TOPLEFT", 20, -105)
-		local color0text = specArea:CreateText(L.SpecWarn_FontColor, 80)
-		color0text:SetPoint("BOTTOM", color0, "TOP", 5, 4)
-		local color0reset = specArea:CreateButton(L.Reset, 64, 10, nil, GameFontNormalSmall)
-		color0reset:SetPoint('TOP', color0, "BOTTOM", 5, -10)
-		color0reset:SetScript("OnClick", function(self)
-				DBM.Options.LTSpecialWarningFontColor[1] = DBM.DefaultOptions.LTSpecialWarningFontColor[1]
-				DBM.Options.LTSpecialWarningFontColor[2] = DBM.DefaultOptions.LTSpecialWarningFontColor[2]
-				DBM.Options.LTSpecialWarningFontColor[3] = DBM.DefaultOptions.LTSpecialWarningFontColor[3]
-				color0:SetColorRGB(DBM.Options.LTSpecialWarningFontColor[1], DBM.Options.LTSpecialWarningFontColor[2], DBM.Options.LTSpecialWarningFontColor[3])
-				DBM:UpdateLTSpecialWarningOptions()
-				DBM:ShowTestLTSpecialWarning()
-		end)
-		do
-			local firstshow = true
-			color0:SetScript("OnShow", function(self)
-					firstshow = true
-					self:SetColorRGB(DBM.Options.LTSpecialWarningFontColor[1], DBM.Options.LTSpecialWarningFontColor[2], DBM.Options.LTSpecialWarningFontColor[3])
-			end)
-			color0:SetScript("OnColorSelect", function(self)
-					if firstshow then firstshow = false return end
-					DBM.Options.LTSpecialWarningFontColor[1] = select(1, self:GetColorRGB())
-					DBM.Options.LTSpecialWarningFontColor[2] = select(2, self:GetColorRGB())
-					DBM.Options.LTSpecialWarningFontColor[3] = select(3, self:GetColorRGB())
-					color0text:SetTextColor(self:GetColorRGB())
-					DBM:UpdateLTSpecialWarningOptions()
-					DBM:ShowTestLTSpecialWarning()
-			end)
-		end
-		
-		local Fonts = MixinSharedMedia3("font", {
-			{	text	= "Default",		value 	= STANDARD_TEXT_FONT,			font = STANDARD_TEXT_FONT		},
-			{	text	= "Arial",			value 	= "Fonts\\ARIALN.TTF",			font = "Fonts\\ARIALN.TTF"		},
-			{	text	= "Skurri",			value 	= "Fonts\\skurri.ttf",			font = "Fonts\\skurri.ttf"		},
-			{	text	= "Morpheus",		value 	= "Fonts\\MORPHEUS.ttf",		font = "Fonts\\MORPHEUS.ttf"	}
-		})
-
-		local FontDropDown = specArea:CreateDropdown(L.SpecWarn_FontType, Fonts, DBM.Options.LTSpecialWarningFont,
-			function(value)
-				DBM.Options.LTSpecialWarningFont = value
-				DBM:UpdateLTSpecialWarningOptions()
-				DBM:ShowTestLTSpecialWarning()
-			end
-		)
-		FontDropDown:SetPoint("TOPLEFT", specArea.frame, "TOPLEFT", 130, -100)
-
-		local fontSizeSlider = specArea:CreateSlider(L.SpecWarn_FontSize, 16, 60, 1, 200)
-		fontSizeSlider:SetPoint('TOPLEFT', FontDropDown, "TOPLEFT", 20, -45)
-		do
-			local firstshow = true
-			fontSizeSlider:SetScript("OnShow", function(self)
-				firstshow = true
-				self:SetValue(DBM.Options.LTSpecialWarningFontSize)
-			end)
-			fontSizeSlider:HookScript("OnValueChanged", function(self)
-				if firstshow then firstshow = false return end
-				DBM.Options.LTSpecialWarningFontSize = self:GetValue()
-				DBM:UpdateLTSpecialWarningOptions()
-				DBM:ShowTestLTSpecialWarning()
-			end)
-		end
-		local resetbutton = specArea:CreateButton(L.SpecWarn_ResetMe, 120, 16)
-		resetbutton:SetPoint('BOTTOMRIGHT', specArea.frame, "BOTTOMRIGHT", -5, 5)
-		resetbutton:SetNormalFontObject(GameFontNormalSmall)
-		resetbutton:SetHighlightFontObject(GameFontNormalSmall)
-		resetbutton:SetScript("OnClick", function()
-				DBM.Options.ShowLTSpecialWarnings = DBM.DefaultOptions.ShowLTSpecialWarnings
-				DBM.Options.LTSpecialWarningFont = DBM.DefaultOptions.LTSpecialWarningFont
-				DBM.Options.LTSpecialWarningFontSize = DBM.DefaultOptions.LTSpecialWarningFontSize
-				DBM.Options.LTSpecialWarningPoint = DBM.DefaultOptions.LTSpecialWarningPoint
-				DBM.Options.LTSpecialWarningX = DBM.DefaultOptions.LTSpecialWarningX
-				DBM.Options.LTSpecialWarningY = DBM.DefaultOptions.LTSpecialWarningY
-				check1:SetChecked(DBM.Options.ShowLTSpecialWarnings)
-				FontDropDown:SetSelectedValue(DBM.Options.LTSpecialWarningFont)
-				fontSizeSlider:SetValue(DBM.DefaultOptions.LTSpecialWarningFontSize)
-				DBM:UpdateLTSpecialWarningOptions()
-		end)
-		specPanel:SetMyOwnHeight()
-	end	
-	
 	do
 		local hpPanel = DBM_GUI_Frame:CreateNewPanel(L.Panel_HPFrame, "option")
 		local hpArea = hpPanel:CreateArea(L.Area_HPFrame, nil, 150, true)
@@ -2440,21 +2342,27 @@ local function CreateOptionsMenu()
 
 	do
 		local spamPanel = DBM_GUI_Frame:CreateNewPanel(L.Panel_SpamFilter, "option")
-		local spamOutArea = spamPanel:CreateArea(L.Area_SpamFilter_Outgoing, nil, 150, true)
+		local spamOutArea = spamPanel:CreateArea(L.Area_SpamFilter_Outgoing, nil, 170, true)
 		spamOutArea:CreateCheckButton(L.SpamBlockNoShowAnnounce, true, nil, "DontShowBossAnnounces")
+		spamOutArea:CreateCheckButton(L.DontShowFarWarnings, true, nil, "DontShowFarWarnings")
 		spamOutArea:CreateCheckButton(L.SpamBlockNoSendWhisper, true, nil, "DontSendBossWhispers")
 		spamOutArea:CreateCheckButton(L.SpamBlockNoSetIcon, true, nil, "DontSetIcons")
 		spamOutArea:CreateCheckButton(L.SpamBlockNoRangeFrame, true, nil, "DontShowRangeFrame")
 		spamOutArea:CreateCheckButton(L.SpamBlockNoInfoFrame, true, nil, "DontShowInfoFrame")
+		spamOutArea:CreateCheckButton(L.SpamBlockNoHealthFrame, true, nil, "DontShowHealthFrame")
 
 		local spamArea = spamPanel:CreateArea(L.Area_SpamFilter, nil, 150, true)
 		spamArea:CreateCheckButton(L.StripServerName, true, nil, "StripServerName")
 		spamArea:CreateCheckButton(L.SpamBlockBossWhispers, true, nil, "SpamBlockBossWhispers")
 		spamArea:CreateCheckButton(L.BlockVersionUpdateNotice, true, nil, "BlockVersionUpdateNotice")
 		if BigBrother and type(BigBrother.ConsumableCheck) == "function" then
-			spamArea:CreateCheckButton(L.ShowBigBrotherOnCombatStart, true, nil, "ShowBigBrotherOnCombatStart")
+			spamArea:CreateCheckButton(L.ShowBBOnCombatStart, true, nil, "ShowBigBrotherOnCombatStart")
 			spamArea:CreateCheckButton(L.BigBrotherAnnounceToRaid, true, nil, "BigBrotherAnnounceToRaid")
 		end
+
+		local spamSpecArea = spamPanel:CreateArea(L.Area_SpecFilter, nil, 40, true)
+		spamSpecArea:CreateCheckButton(L.FilterTankSpec, true, nil, "FilterTankSpec")
+
 		local spamPTArea = spamPanel:CreateArea(L.Area_PullTimer, nil, 160, true)
 		spamPTArea:CreateCheckButton(L.DontShowPTNoID, true, nil, "DontShowPTNoID")
 		spamPTArea:CreateCheckButton(L.DontShowPT, true, nil, "DontShowPT")
@@ -2469,15 +2377,17 @@ local function CreateOptionsMenu()
 		
 		spamPTArea:AutoSetDimension()
 		spamArea:AutoSetDimension()
+		spamSpecArea:AutoSetDimension()
 		spamOutArea:AutoSetDimension()
 		spamPanel:SetMyOwnHeight()
 	end
-	
+
 	do
 		local hideBlizzPanel = DBM_GUI_Frame:CreateNewPanel(L.Panel_HideBlizzard, "option")
-		local hideBlizzArea = hideBlizzPanel:CreateArea(L.Area_HideBlizzard, nil, 140, true)
+		local hideBlizzArea = hideBlizzPanel:CreateArea(L.Area_HideBlizzard, nil, 160, true)
 		hideBlizzArea:CreateCheckButton(L.HideBossEmoteFrame, true, nil, "HideBossEmoteFrame")
-		hideBlizzArea:CreateCheckButton(L.HideWatchFrame, true, nil, "HideWatchFrame")
+		hideBlizzArea:CreateCheckButton(L.HideWatchFrame, true, nil, "HideObjectivesFrame")
+		hideBlizzArea:CreateCheckButton(L.HideTooltips, true, nil, "HideTooltips")
 		local filterYell	= hideBlizzArea:CreateCheckButton(L.SpamBlockSayYell, true, nil, "FilterSayAndYell")
 		
 		local movieOptions = {
@@ -2494,6 +2404,76 @@ local function CreateOptionsMenu()
 
 		hideBlizzPanel:SetMyOwnHeight()
 	end
+	
+	do
+		local extraFeaturesPanel 	= DBM_GUI_Frame:CreateNewPanel(L.Panel_ExtraFeatures, "option")
+		local chatAlertsArea		= extraFeaturesPanel:CreateArea(L.Area_ChatAlerts, nil, 100, true)
+		local RoleSpecAlert			= chatAlertsArea:CreateCheckButton(L.RoleSpecAlert, true, nil, "RoleSpecAlert")
+		local WorldBossAlert		= chatAlertsArea:CreateCheckButton(L.WorldBossAlert, true, nil, "WorldBossAlert")
+
+		local soundAlertsArea		= extraFeaturesPanel:CreateArea(L.Area_SoundAlerts, nil, 100, true)
+		local LFDEnhance			= soundAlertsArea:CreateCheckButton(L.LFDEnhance, true, nil, "LFDEnhance")
+		local WorldBossNearAlert	= soundAlertsArea:CreateCheckButton(L.WorldBossNearAlert, true, nil, "WorldBossNearAlert")
+		local AFKHealthWarning		= soundAlertsArea:CreateCheckButton(L.AFKHealthWarning, true, nil, "AFKHealthWarning")
+
+		local bossLoggingArea		= extraFeaturesPanel:CreateArea(L.Area_AutoLogging, nil, 100, true)
+		local AutologBosses			= bossLoggingArea:CreateCheckButton(L.AutologBosses, true, nil, "AutologBosses")
+		local AdvancedAutologBosses
+		if Transcriptor then
+			AdvancedAutologBosses	= bossLoggingArea:CreateCheckButton(L.AdvancedAutologBosses, true, nil, "AdvancedAutologBosses")
+		end
+		local LogOnlyRaidBosses		= bossLoggingArea:CreateCheckButton(L.LogOnlyRaidBosses, true, nil, "LogOnlyRaidBosses")
+
+		local inviteArea			= extraFeaturesPanel:CreateArea(L.Area_Invite, nil, 100, true)
+		local AutoAcceptFriendInvite= inviteArea:CreateCheckButton(L.AutoAcceptFriendInvite, true, nil, "AutoAcceptFriendInvite")
+		local AutoAcceptGuildInvite	= inviteArea:CreateCheckButton(L.AutoAcceptGuildInvite, true, nil, "AutoAcceptGuildInvite")
+
+		-- Pizza Timer (create your own timer menu)
+		local pizzaarea = extraFeaturesPanel:CreateArea(L.PizzaTimer_Headline, nil, 85, true)
+
+		local textbox = pizzaarea:CreateEditBox(L.PizzaTimer_Title, "Pizza!", 175)
+		local hourbox = pizzaarea:CreateEditBox(L.PizzaTimer_Hours, "0", 25)
+		local minbox  = pizzaarea:CreateEditBox(L.PizzaTimer_Mins, "15", 25)
+		local secbox  = pizzaarea:CreateEditBox(L.PizzaTimer_Secs, "0", 25)
+
+		textbox:SetMaxLetters(17)
+		textbox:SetPoint('TOPLEFT', 30, -25)
+		hourbox:SetNumeric()
+		hourbox:SetMaxLetters(2)
+		hourbox:SetPoint('TOPLEFT', textbox, "TOPRIGHT", 20, 0)
+		minbox:SetNumeric()
+		minbox:SetMaxLetters(2)
+		minbox:SetPoint('TOPLEFT', hourbox, "TOPRIGHT", 20, 0)
+		secbox:SetNumeric()
+		secbox:SetMaxLetters(2)
+		secbox:SetPoint('TOPLEFT', minbox, "TOPRIGHT", 20, 0)
+
+		local BcastTimer = pizzaarea:CreateCheckButton(L.PizzaTimer_BroadCast)
+		local okbttn  = pizzaarea:CreateButton(L.PizzaTimer_ButtonStart)
+		okbttn:SetPoint('TOPLEFT', textbox, "BOTTOMLEFT", -7, -8)
+		BcastTimer:SetPoint("TOPLEFT", okbttn, "TOPRIGHT", 10, 3)
+
+		pizzaarea.frame:SetScript("OnShow", function(self)
+			if DBM:GetRaidRank() == 0 then
+				BcastTimer:Hide()
+			else
+				BcastTimer:Show()
+			end
+		end)
+
+		okbttn:SetScript("OnClick", function()
+			local time = (hourbox:GetNumber() * 60*60) + (minbox:GetNumber() * 60) + secbox:GetNumber()
+			if textbox:GetText() and time > 0 then
+				DBM:CreatePizzaTimer(time,  textbox:GetText(), BcastTimer:GetChecked())
+			end
+		end)
+		-- END Pizza Timer
+		chatAlertsArea:AutoSetDimension()
+		soundAlertsArea:AutoSetDimension()
+		bossLoggingArea:AutoSetDimension()
+		inviteArea:AutoSetDimension()
+		extraFeaturesPanel:SetMyOwnHeight()
+	end
 
 	-- Set Revision // please don't translate this!
 	DBM_GUI_OptionsFrameRevision:SetText("Deadly Boss Mods "..DBM.DisplayVersion.." (r"..DBM.Revision..")")
@@ -2503,32 +2483,41 @@ local function CreateOptionsMenu()
 	DBM_GUI_OptionsFrameWebsite:SetText(L.Website)
 	local frame = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)
 	frame:SetAllPoints(DBM_GUI_OptionsFrameWebsite)
-	--frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG) end)
-	
-	DBM_GUI_OptionsFrameSoundMM:SetText(DBM_GUI_Translations.SoundMM)
-	local mmframe = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)
-	mmframe:SetAllPoints(DBM_GUI_OptionsFrameSoundMM)
-	mmframe:SetScript("OnMouseUp", function(...) DBM:ShowSoundMM() end)
+	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG) end)
 end
 DBM:RegisterOnGuiLoadCallback(CreateOptionsMenu, 1)
 
 do
+	local mfloor = math.floor
 	local function OnShowGetStats(stats, statsType, top1value1, top1value2, top1value3, top2value1, top2value2, top2value3, top3value1, top3value2, top3value3, bottom1value1, bottom1value2, bottom1value3, bottom2value1, bottom2value2, bottom2value3, bottom3value1, bottom3value2, bottom3value3)
 		return function(self)
 			top1value1:SetText( stats.normalKills )
 			top1value2:SetText( stats.normalPulls - stats.normalKills )
-			top1value3:SetText( stats.normalBestTime and ("%d:%02d"):format(math.floor(stats.normalBestTime / 60), stats.normalBestTime % 60) or "-" )
+			top1value3:SetText( stats.normalBestTime and ("%d:%02d"):format(mfloor(stats.normalBestTime / 60), stats.normalBestTime % 60) or "-" )
 			if statsType == 1 then--Party instance
 				top2value1:SetText( stats.heroicKills )
 				top2value2:SetText( stats.heroicPulls-stats.heroicKills )
-				top2value3:SetText( stats.heroicBestTime and ("%d:%02d"):format(math.floor(stats.heroicBestTime / 60), stats.heroicBestTime % 60) or "-" )
+				top2value3:SetText( stats.heroicBestTime and ("%d:%02d"):format(mfloor(stats.heroicBestTime / 60), stats.heroicBestTime % 60) or "-" )
 				top3value1:SetText( stats.challengeKills )
 				top3value2:SetText( stats.challengePulls-stats.challengeKills )
-				top3value3:SetText( stats.challengeBestTime and ("%d:%02d"):format(math.floor(stats.challengeBestTime / 60), stats.challengeBestTime % 60) or "-" )
+				top3value3:SetText( stats.challengeBestTime and ("%d:%02d"):format(mfloor(stats.challengeBestTime / 60), stats.challengeBestTime % 60) or "-" )
 			elseif statsType == 2 and stats.normal25Pulls and stats.normal25Pulls > 0 and stats.normal25Pulls > stats.normalPulls then--Fix for BC instance
 				top1value1:SetText( stats.normal25Kills )
 				top1value2:SetText( stats.normal25Pulls - stats.normal25Kills )
-				top1value3:SetText( stats.normal25BestTime and ("%d:%02d"):format(math.floor(stats.normal25BestTime / 60), stats.normal25BestTime % 60) or "-" )
+				top1value3:SetText( stats.normal25BestTime and ("%d:%02d"):format(mfloor(stats.normal25BestTime / 60), stats.normal25BestTime % 60) or "-" )
+			elseif statsType == 3 then--WoD 4 difficulty stats, TOP: Normal, LFR. BOTTOM. Heroic, Mythic
+				top1value1:SetText( stats.lfr25Kills )
+				top1value2:SetText( stats.lfr25Pulls-stats.lfr25Kills )
+				top1value3:SetText( stats.lfr25BestTime and ("%d:%02d"):format(mfloor(stats.lfr25BestTime / 60), stats.lfr25BestTime % 60) or "-" )
+				top2value1:SetText( stats.normalKills )
+				top2value2:SetText( stats.normalPulls - stats.normalKills )
+				top2value3:SetText( stats.normalBestTime and ("%d:%02d"):format(mfloor(stats.normalBestTime / 60), stats.normalBestTime % 60) or "-" )
+				bottom1value1:SetText( stats.heroicKills )
+				bottom1value2:SetText( stats.heroicPulls-stats.heroicKills )
+				bottom1value3:SetText( stats.heroicBestTime and ("%d:%02d"):format(mfloor(stats.heroicBestTime / 60), stats.heroicBestTime % 60) or "-" )
+				bottom2value1:SetText( stats.mythicKills )
+				bottom2value2:SetText( stats.mythicPulls-stats.mythicKills )
+				bottom2value3:SetText( stats.mythicBestTime and ("%d:%02d"):format(mfloor(stats.mythicBestTime / 60), stats.mythicBestTime % 60) or "-" )
 			else
 				top2value1:SetText( stats.normal25Kills )
 				top2value2:SetText( stats.normal25Pulls - stats.normal25Kills )
@@ -2542,9 +2531,6 @@ do
 				bottom2value1:SetText( stats.heroic25Kills )
 				bottom2value2:SetText( stats.heroic25Pulls-stats.heroic25Kills )
 				bottom2value3:SetText( stats.heroic25BestTime and ("%d:%02d"):format(math.floor(stats.heroic25BestTime / 60), stats.heroic25BestTime % 60) or "-" )
-				bottom3value1:SetText( stats.flexKills )
-				bottom3value2:SetText( stats.flexPulls-stats.flexKills )
-				bottom3value3:SetText( stats.flexBestTime and ("%d:%02d"):format(math.floor(stats.flexBestTime / 60), stats.flexBestTime % 60) or "-" )
 			end
 		end
 	end
@@ -2559,7 +2545,8 @@ do
 		local ptext = panel:CreateText(L.BossModLoaded:format(subtab and addon.subTabs[subtab] or addon.name), nil, nil, GameFontNormal)
 		ptext:SetPoint('TOPLEFT', panel.frame, "TOPLEFT", 10, -10)
 
-		local bossstats = 0
+		local singleline = 0
+		local doubleline = 0
 		local area = panel:CreateArea(nil, panel.frame:GetWidth() - 20, 0)
 		area.frame:SetPoint("TOPLEFT", 10, -25)
 		area.onshowcall = {}
@@ -2567,7 +2554,6 @@ do
 		for _, mod in ipairs(DBM.Mods) do
 			if mod.modId == addon.modId and (not subtab or subtab == mod.subTab) and not mod.isTrashMod and not mod.noStatistics then
 				local statsType = 0
-				bossstats = bossstats + 1
 				if not mod.stats then
 					mod.stats = { }
 				end
@@ -2578,8 +2564,8 @@ do
 				stats.heroicPulls = stats.heroicPulls or 0
 				stats.challengeKills = stats.challengeKills or 0
 				stats.challengePulls = stats.challengePulls or 0
-				stats.flexKills = stats.flexKills or 0
-				stats.flexPulls = stats.flexPulls or 0
+				stats.mythicKills = stats.mythicKills or 0
+				stats.mythicPulls = stats.mythicPulls or 0
 				stats.normal25Kills = stats.normal25Kills or 0
 				stats.normal25Pulls = stats.normal25Pulls or 0
 				stats.heroic25Kills = stats.heroic25Kills or 0
@@ -2626,7 +2612,7 @@ do
 				local bottom2value1		= area:CreateText("", nil, nil, GameFontNormalSmall, "LEFT")
 				local bottom2value2		= area:CreateText("", nil, nil, GameFontNormalSmall, "LEFT")
 				local bottom2value3		= area:CreateText("", nil, nil, GameFontNormalSmall, "LEFT")
-				local bottom3header		= area:CreateText("", nil, nil, GameFontHighlightSmall, "LEFT")--Row 2, 3rd column
+				local bottom3header		= area:CreateText("", nil, nil, GameFontDisableSmall, "LEFT")--Row 2, 3rd column
 				local bottom3text1		= area:CreateText(L.Statistic_Kills, nil, nil, GameFontNormalSmall, "LEFT")
 				local bottom3text2		= area:CreateText(L.Statistic_Wipes, nil, nil, GameFontNormalSmall, "LEFT")
 				local bottom3text3		= area:CreateText(L.Statistic_BestKill, nil, nil, GameFontNormalSmall, "LEFT")
@@ -2634,27 +2620,269 @@ do
 				local bottom3value2		= area:CreateText("", nil, nil, GameFontNormalSmall, "LEFT")
 				local bottom3value3		= area:CreateText("", nil, nil, GameFontNormalSmall, "LEFT")
 
-				--Set default position
-				top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
-				top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
-				top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
-				top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
-				top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
-				top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
-				top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
-
 				--Set enable or disable per mods.
-				if mod.oneFormat then
+				if mod.oneFormat then--Classic/BC Raids
 					statsType = 2--Fix for BC instance
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*5*(bossstats-1)))
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*5*singleline))
 					--Do not use top1 header.
 					top1text1:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+					top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+					top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+					top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+					top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+					top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
 					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*5 )
+					singleline = singleline + 1
 				elseif mod.type == "PARTY" or mod.type == "SCENARIO" then--If party or scenario instance have no heroic, we should use oneFormat.
 					statsType = 1
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*(bossstats-1)))
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*singleline))
 					if mod.hasChallenge then
-						--Use top1, top2 and top3 area.
+						if mod.onlyHeroic then
+							--Use top1 and top2 area.
+							top2header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+							top2text1:SetPoint("TOPLEFT", top2header, "BOTTOMLEFT", 20, -5)
+							top2text2:SetPoint("TOPLEFT", top2text1, "BOTTOMLEFT", 0, -5)
+							top2text3:SetPoint("TOPLEFT", top2text2, "BOTTOMLEFT", 0, -5)
+							top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+							top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+							top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+							top3header:SetPoint("LEFT", top2header, "LEFT", 150, 0)
+							top3text1:SetPoint("LEFT", top2text1, "LEFT", 150, 0)
+							top3text2:SetPoint("LEFT", top2text2, "LEFT", 150, 0)
+							top3text3:SetPoint("LEFT", top2text3, "LEFT", 150, 0)
+							top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
+							top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
+							top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
+						elseif mod.onlyNormal then
+							--Use top1 and top2 area.
+							top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+							top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+							top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+							top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+							top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+							top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+							top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+							top3header:SetPoint("LEFT", top1header, "LEFT", 150, 0)
+							top3text1:SetPoint("LEFT", top1text1, "LEFT", 150, 0)
+							top3text2:SetPoint("LEFT", top1text2, "LEFT", 150, 0)
+							top3text3:SetPoint("LEFT", top1text3, "LEFT", 150, 0)
+							top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
+							top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
+							top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
+						else
+							--Use top1, top2 and top3 area.
+							top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+							top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+							top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+							top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+							top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+							top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+							top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+							top2header:SetPoint("LEFT", top1header, "LEFT", 150, 0)
+							top2text1:SetPoint("LEFT", top1text1, "LEFT", 150, 0)
+							top2text2:SetPoint("LEFT", top1text2, "LEFT", 150, 0)
+							top2text3:SetPoint("LEFT", top1text3, "LEFT", 150, 0)
+							top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+							top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+							top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+							top3header:SetPoint("LEFT", top2header, "LEFT", 150, 0)
+							top3text1:SetPoint("LEFT", top2text1, "LEFT", 150, 0)
+							top3text2:SetPoint("LEFT", top2text2, "LEFT", 150, 0)
+							top3text3:SetPoint("LEFT", top2text3, "LEFT", 150, 0)
+							top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
+							top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
+							top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
+						end
+						--Set header text.
+						top1header:SetText(PLAYER_DIFFICULTY1)
+						top2header:SetText(PLAYER_DIFFICULTY2)
+						top3header:SetText(CHALLENGE_MODE)
+					elseif mod.onlyNormal then
+						--Like one format
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top1header:SetText(PLAYER_DIFFICULTY1)
+					elseif mod.onlyHeroic then
+						--Like one format
+						top2header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top2text1:SetPoint("TOPLEFT", top2header, "BOTTOMLEFT", 20, -5)
+						top2text2:SetPoint("TOPLEFT", top2text1, "BOTTOMLEFT", 0, -5)
+						top2text3:SetPoint("TOPLEFT", top2text2, "BOTTOMLEFT", 0, -5)
+						top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+						top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+						top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top2header:SetText(PLAYER_DIFFICULTY2)
+					else
+						--Use top1 and top2 area.
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+						top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
+						top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
+						top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
+						top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
+						top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+						top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+						top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top1header:SetText(PLAYER_DIFFICULTY1)
+						top2header:SetText(PLAYER_DIFFICULTY2)
+					end
+					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
+					singleline = singleline + 1
+				elseif mod.type == "RAID" and mod.noHeroic and not mod.hasMythic then--Early wrath
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*singleline))
+					--Use top1 and top2 area.
+					top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+					top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+					top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+					top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+					top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+					top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+					top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+					top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
+					top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
+					top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
+					top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
+					top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+					top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+					top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+					--Set header text.
+					top1header:SetText(RAID_DIFFICULTY1)
+					top2header:SetText(RAID_DIFFICULTY2)
+					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
+					singleline = singleline + 1
+				elseif mod.type == "RAID" and not mod.hasLFR and not mod.hasMythic then--Cata(except DS) and some wrath raids
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*singleline)-(L.FontHeight*10*doubleline))
+					if mod.onlyHeroic then
+						--Use top1, top2 area
+						bottom1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
+						bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
+						bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
+						bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
+						bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
+						bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
+						bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 220, 0)
+						bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 220, 0)
+						bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 220, 0)
+						bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 220, 0)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						bottom1header:SetText(RAID_DIFFICULTY3)
+						bottom1header:SetFontObject(GameFontHighlightSmall)
+						bottom2header:SetText(RAID_DIFFICULTY4)
+						bottom2header:SetFontObject(GameFontHighlightSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
+						singleline = singleline + 1
+					elseif mod.onlyNormal then
+						--Use top1, top2 area
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+						top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
+						top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
+						top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
+						top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
+						top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+						top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+						top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top1header:SetText(RAID_DIFFICULTY1)
+						top2header:SetText(RAID_DIFFICULTY2)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
+						singleline = singleline + 1
+					else
+						--Use top1, top2, bottom1 and bottom2 area.
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
+						top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
+						top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
+						top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
+						top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
+						top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
+						top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
+						top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+						bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
+						bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
+						bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
+						bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
+						bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
+						bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
+						bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
+						bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 220, 0)
+						bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 220, 0)
+						bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 220, 0)
+						bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 220, 0)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top1header:SetText(RAID_DIFFICULTY1)
+						top2header:SetText(RAID_DIFFICULTY2)
+						bottom1header:SetText(PLAYER_DIFFICULTY2)
+						bottom1header:SetFontObject(GameFontDisableSmall)
+						bottom2header:SetText(PLAYER_DIFFICULTY2)
+						bottom2header:SetFontObject(GameFontDisableSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
+						doubleline = doubleline + 1
+					end
+				elseif mod.type == "RAID" and not mod.hasMythic then--DS + All MoP raids(except SoO)
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*singleline)-(L.FontHeight*10*doubleline))
+					if mod.onlyHeroic then
+						--Use top1, top2 area
+						bottom1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
+						bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
+						bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
+						bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
+						bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
+						bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
+						bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 150, 0)
+						bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 150, 0)
+						bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 150, 0)
+						bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 150, 0)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						bottom1header:SetText(RAID_DIFFICULTY3)
+						bottom1header:SetFontObject(GameFontHighlightSmall)
+						bottom2header:SetText(RAID_DIFFICULTY4)
+						bottom2header:SetFontObject(GameFontHighlightSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
+						singleline = singleline + 1
+					else
+						--Use top1, top2, top3, bottom1 and bottom2 area.
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
 						top2header:SetPoint("LEFT", top1header, "LEFT", 150, 0)
 						top2text1:SetPoint("LEFT", top1text1, "LEFT", 150, 0)
 						top2text2:SetPoint("LEFT", top1text2, "LEFT", 150, 0)
@@ -2669,13 +2897,55 @@ do
 						top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
 						top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
 						top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
+						bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
+						bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
+						bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
+						bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
+						bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
+						bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
+						bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
+						bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 150, 0)
+						bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 150, 0)
+						bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 150, 0)
+						bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 150, 0)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
+						top1header:SetText(RAID_DIFFICULTY1)
+						top2header:SetText(RAID_DIFFICULTY2)
+						top3header:SetText(PLAYER_DIFFICULTY3)
+						bottom1header:SetText(PLAYER_DIFFICULTY2)
+						bottom1header:SetFontObject(GameFontDisableSmall)
+						bottom2header:SetText(PLAYER_DIFFICULTY2)
+						bottom2header:SetFontObject(GameFontDisableSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
+						doubleline = doubleline + 1
+					end
+				else--WoD Zone
+					statsType = 3
+					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*singleline)-(L.FontHeight*10*doubleline))
+					if mod.onlyMythic then -- future use
+						bottom2header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						bottom2text1:SetPoint("TOPLEFT", bottom2header, "BOTTOMLEFT", 20, -5)
+						bottom2text2:SetPoint("TOPLEFT", bottom2text1, "BOTTOMLEFT", 0, -5)
+						bottom2text3:SetPoint("TOPLEFT", bottom2text2, "BOTTOMLEFT", 0, -5)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
 						--Set header text.
-						top3header:SetText(CHALLENGE_MODE)
-						if mod.type == "SCENARIO" then
-							top3text2:SetText(L.Statistic_Incompletes)
-						end
+						bottom2header:SetText(PLAYER_DIFFICULTY6)--Mythic
+						bottom2header:SetFontObject(GameFontHighlightSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
+						singleline = singleline + 1
 					else
-						--Use top1 and top2 area.
+						--Use top1, top2, bottom1 and bottom2 area.
+						top1header:SetPoint("TOPLEFT", Title, "BOTTOMLEFT", 20, -5)
+						top1text1:SetPoint("TOPLEFT", top1header, "BOTTOMLEFT", 20, -5)
+						top1text2:SetPoint("TOPLEFT", top1text1, "BOTTOMLEFT", 0, -5)
+						top1text3:SetPoint("TOPLEFT", top1text2, "BOTTOMLEFT", 0, -5)
+						top1value1:SetPoint("TOPLEFT", top1text1, "TOPLEFT", 80, 0)
+						top1value2:SetPoint("TOPLEFT", top1text2, "TOPLEFT", 80, 0)
+						top1value3:SetPoint("TOPLEFT", top1text3, "TOPLEFT", 80, 0)
 						top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
 						top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
 						top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
@@ -2683,140 +2953,30 @@ do
 						top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
 						top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
 						top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
+						bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
+						bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
+						bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
+						bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
+						bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
+						bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
+						bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
+						bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 220, 0)
+						bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 220, 0)
+						bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 220, 0)
+						bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 220, 0)
+						bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
+						bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
+						bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
+						--Set header text.
+						top1header:SetText(PLAYER_DIFFICULTY3)--Raid Finder
+						top2header:SetText(PLAYER_DIFFICULTY1)--Normal
+						bottom1header:SetText(PLAYER_DIFFICULTY2)--Heroic
+						bottom1header:SetFontObject(GameFontHighlightSmall)
+						bottom2header:SetText(PLAYER_DIFFICULTY6)--Mythic
+						bottom2header:SetFontObject(GameFontHighlightSmall)
+						area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
+						doubleline = doubleline + 1
 					end
-					--Set header text.
-					top1header:SetText(PLAYER_DIFFICULTY1)
-					top2header:SetText(PLAYER_DIFFICULTY2)
-					if mod.type == "SCENARIO" then
-						top1text2:SetText(L.Statistic_Incompletes)
-						top2text2:SetText(L.Statistic_Incompletes)
-					end
-					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
-				elseif mod.type == "RAID" and mod.noHeroic then
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*6*(bossstats-1)))
-					--Use top1 and top2 area.
-					top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
-					top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
-					top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
-					top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
-					top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
-					top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
-					top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
-					--Set header text.
-					top1header:SetText(RAID_DIFFICULTY1)
-					top2header:SetText(RAID_DIFFICULTY2)
-					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*6 )
-				elseif mod.type == "RAID" and not mod.hasLFR then
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*10*(bossstats-1)))
-					--Use top1, top2, bottom1 and bottom2 area.
-					top2header:SetPoint("LEFT", top1header, "LEFT", 220, 0)
-					top2text1:SetPoint("LEFT", top1text1, "LEFT", 220, 0)
-					top2text2:SetPoint("LEFT", top1text2, "LEFT", 220, 0)
-					top2text3:SetPoint("LEFT", top1text3, "LEFT", 220, 0)
-					top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
-					top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
-					top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
-					bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
-					bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
-					bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
-					bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
-					bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
-					bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
-					bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
-					bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 220, 0)
-					bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 220, 0)
-					bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 220, 0)
-					bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 220, 0)
-					bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
-					bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
-					bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
-					--Set header text.
-					top1header:SetText(RAID_DIFFICULTY1)
-					top2header:SetText(RAID_DIFFICULTY2)
-					bottom1header:SetText(PLAYER_DIFFICULTY2)
-					bottom2header:SetText(PLAYER_DIFFICULTY2)
-					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
-				elseif mod.type == "RAID" and not mod.hasFlex then
-					--Use top1, top2, top3, bottom1 and bottom2 area.
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*10*(bossstats-1)))
-					top2header:SetPoint("LEFT", top1header, "LEFT", 150, 0)
-					top2text1:SetPoint("LEFT", top1text1, "LEFT", 150, 0)
-					top2text2:SetPoint("LEFT", top1text2, "LEFT", 150, 0)
-					top2text3:SetPoint("LEFT", top1text3, "LEFT", 150, 0)
-					top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
-					top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
-					top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
-					top3header:SetPoint("LEFT", top2header, "LEFT", 150, 0)
-					top3text1:SetPoint("LEFT", top2text1, "LEFT", 150, 0)
-					top3text2:SetPoint("LEFT", top2text2, "LEFT", 150, 0)
-					top3text3:SetPoint("LEFT", top2text3, "LEFT", 150, 0)
-					top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
-					top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
-					top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
-					bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
-					bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
-					bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
-					bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
-					bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
-					bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
-					bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
-					bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 150, 0)
-					bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 150, 0)
-					bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 150, 0)
-					bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 150, 0)
-					bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
-					bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
-					bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
-					top1header:SetText(RAID_DIFFICULTY1)
-					top2header:SetText(RAID_DIFFICULTY2)
-					top3header:SetText(PLAYER_DIFFICULTY3)
-					bottom1header:SetText(PLAYER_DIFFICULTY2)
-					bottom2header:SetText(PLAYER_DIFFICULTY2)
-					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
-				else--Uses everything
-					Title:SetPoint("TOPLEFT", area.frame, "TOPLEFT", 10, -10-(L.FontHeight*10*(bossstats-1)))
-					top2header:SetPoint("LEFT", top1header, "LEFT", 150, 0)
-					top2text1:SetPoint("LEFT", top1text1, "LEFT", 150, 0)
-					top2text2:SetPoint("LEFT", top1text2, "LEFT", 150, 0)
-					top2text3:SetPoint("LEFT", top1text3, "LEFT", 150, 0)
-					top2value1:SetPoint("TOPLEFT", top2text1, "TOPLEFT", 80, 0)
-					top2value2:SetPoint("TOPLEFT", top2text2, "TOPLEFT", 80, 0)
-					top2value3:SetPoint("TOPLEFT", top2text3, "TOPLEFT", 80, 0)
-					top3header:SetPoint("LEFT", top2header, "LEFT", 150, 0)
-					top3text1:SetPoint("LEFT", top2text1, "LEFT", 150, 0)
-					top3text2:SetPoint("LEFT", top2text2, "LEFT", 150, 0)
-					top3text3:SetPoint("LEFT", top2text3, "LEFT", 150, 0)
-					top3value1:SetPoint("TOPLEFT", top3text1, "TOPLEFT", 80, 0)
-					top3value2:SetPoint("TOPLEFT", top3text2, "TOPLEFT", 80, 0)
-					top3value3:SetPoint("TOPLEFT", top3text3, "TOPLEFT", 80, 0)
-					bottom1header:SetPoint("TOPLEFT", top1text3, "BOTTOMLEFT", -20, -5)
-					bottom1text1:SetPoint("TOPLEFT", bottom1header, "BOTTOMLEFT", 20, -5)
-					bottom1text2:SetPoint("TOPLEFT", bottom1text1, "BOTTOMLEFT", 0, -5)
-					bottom1text3:SetPoint("TOPLEFT", bottom1text2, "BOTTOMLEFT", 0, -5)
-					bottom1value1:SetPoint("TOPLEFT", bottom1text1, "TOPLEFT", 80, 0)
-					bottom1value2:SetPoint("TOPLEFT", bottom1text2, "TOPLEFT", 80, 0)
-					bottom1value3:SetPoint("TOPLEFT", bottom1text3, "TOPLEFT", 80, 0)
-					bottom2header:SetPoint("LEFT", bottom1header, "LEFT", 150, 0)
-					bottom2text1:SetPoint("LEFT", bottom1text1, "LEFT", 150, 0)
-					bottom2text2:SetPoint("LEFT", bottom1text2, "LEFT", 150, 0)
-					bottom2text3:SetPoint("LEFT", bottom1text3, "LEFT", 150, 0)
-					bottom2value1:SetPoint("TOPLEFT", bottom2text1, "TOPLEFT", 80, 0)
-					bottom2value2:SetPoint("TOPLEFT", bottom2text2, "TOPLEFT", 80, 0)
-					bottom2value3:SetPoint("TOPLEFT", bottom2text3, "TOPLEFT", 80, 0)
-					bottom3header:SetPoint("LEFT", bottom2header, "LEFT", 150, 0)
-					bottom3text1:SetPoint("LEFT", bottom2text1, "LEFT", 150, 0)
-					bottom3text2:SetPoint("LEFT", bottom2text2, "LEFT", 150, 0)
-					bottom3text3:SetPoint("LEFT", bottom2text3, "LEFT", 150, 0)
-					bottom3value1:SetPoint("TOPLEFT", bottom3text1, "TOPLEFT", 80, 0)
-					bottom3value2:SetPoint("TOPLEFT", bottom3text2, "TOPLEFT", 80, 0)
-					bottom3value3:SetPoint("TOPLEFT", bottom3text3, "TOPLEFT", 80, 0)
-					top1header:SetText(RAID_DIFFICULTY1)
-					top2header:SetText(RAID_DIFFICULTY2)
-					top3header:SetText(PLAYER_DIFFICULTY3)
-					bottom1header:SetText(PLAYER_DIFFICULTY2)
-					bottom2header:SetText(PLAYER_DIFFICULTY2)
-					bottom3header:SetText(PLAYER_DIFFICULTY4 or "Flexible")--Remove extra string in 5.4 live
-					area.frame:SetHeight( area.frame:GetHeight() + L.FontHeight*10 )
 				end
 
 				table.insert(area.onshowcall, OnShowGetStats(mod.stats, statsType, top1value1, top1value2, top1value3, top2value1, top2value2, top2value3, top3value1, top3value2, top3value3, bottom1value1, bottom1value2, bottom1value3, bottom2value1, bottom2value2, bottom2value3, bottom3value1, bottom3value2, bottom3value3))
@@ -2828,7 +2988,7 @@ do
 			end
 		end)
 		panel:SetMyOwnHeight()
-		DBM_GUI_OptionsFrame:DisplayFrame(panel.frame)
+		DBM_GUI_OptionsFrame:DisplayFrame(panel.frame, true)
 	end
 
 	local function LoadAddOn_Button(self)
@@ -2848,7 +3008,9 @@ do
 			if not Categories[addon.category] then
 				-- Create a Panel for "Wrath of the Lich King" "Burning Crusade" ...
 				local expLevel = GetExpansionLevel()
-				if expLevel == 4 then--Choose default expanded category based on players current expansion is.
+				if expLevel == 5 then--Choose default expanded category based on players current expansion is.
+					Categories[addon.category] = DBM_GUI:CreateNewPanel(L["TabCategory_"..addon.category:upper()] or L.TabCategory_Other, nil, (addon.category:upper()=="WOD"))
+				elseif expLevel == 4 then--Choose default expanded category based on players current expansion is.
 					Categories[addon.category] = DBM_GUI:CreateNewPanel(L["TabCategory_"..addon.category:upper()] or L.TabCategory_Other, nil, (addon.category:upper()=="MOP"))
 				elseif expLevel == 3 then
 					Categories[addon.category] = DBM_GUI:CreateNewPanel(L["TabCategory_"..addon.category:upper()] or L.TabCategory_Other, nil, (addon.category:upper()=="CATA"))
@@ -2944,17 +3106,6 @@ do
 			elseif	i == 8 then		icon:SetTexCoord(0.75,	1,		0.25,	0.5)
 			end
 		end
-		if mod.questId then
-			local icon = panel.frame:CreateTexture()
-			if IsQuestFlaggedCompleted(mod.questId) then
-				icon:SetTexture(READY_CHECK_READY_TEXTURE)--Already complete for week. (ie, recieved LFR loot, legendary quest chance, and rep off boss for week)
-			else
-				icon:SetTexture(READY_CHECK_NOT_READY_TEXTURE)--Not yet completed for week  (ie, has not yet recieved LFR loot, legendary quest chance, and rep off boss for week)
-			end
-			icon:SetPoint("TOPLEFT", panel.frame, "TOPRIGHT", -14, -20)--Meh, it's not ugly, but probably not right place or even coordinates for it, i plugged in random numbers and it looked ok!
-			icon:SetWidth(16)
-			icon:SetHeight(16)
-		end
 
 		local reset  = panel:CreateButton(L.Mod_Reset, 150, nil, nil, GameFontNormalSmall)
 		reset:SetPoint('TOPRIGHT', panel.frame, "TOPRIGHT", -14, -2)
@@ -2986,7 +3137,6 @@ do
 					addSpacer = true
 				elseif type(mod.Options[v]) == "boolean" then
 					lastButton = button
-					fixeditframe = false
 					if mod.Options[v .. "SpecialWarningSound"] then
 						button = catpanel:CreateCheckButton(mod.localization.options[v], true, nil, nil, nil, v .. "SpecialWarningSound", mod)
 					else
@@ -3014,39 +3164,10 @@ do
 						button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -6)
 						addSpacer = false
 					else
-						button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -20)
+						button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -10)
 					end
 					button:SetScript("OnShow", function(self)
 						self:SetSelectedValue(mod.Options[v])
-					end)
-				elseif mod.editboxes and mod.editboxes[v] then
-					lastButton = button
-					button = catpanel:CreateEditBox(mod.localization.options[v], mod.Options[v], mod.editboxes[v])
-					button:SetMaxLetters(50)
-					if not fixeditframe then
-						if addSpacer then
-							button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 30, -6)
-							addSpacer = false
-						else
-							button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 30, -20)
-						end
-						fixeditframe = true
-					else
-						if addSpacer then
-							button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -6)
-							addSpacer = false
-						else
-							button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -20)
-						end
-					end
-					button:SetScript("OnShow",  function(self)
-						self:SetText(mod.Options[v])
-					end)
-					button:SetScript("OnTextChanged", function(self)
-						mod.Options[v] = self:GetText()
-					end)
-					button:SetScript("OnEditFocusLost", function(self)
-						if mod.optionFuncs and mod.optionFuncs[v] then mod.optionFuncs[v]() end
 					end)
 				end
 			end

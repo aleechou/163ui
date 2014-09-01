@@ -1,5 +1,0 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
-  <Script file="Channel.lua" />
-  <Script file="Logic.lua" />
-</Ui>

@@ -80,7 +80,8 @@ if not lib then return end
 lib.events = lib.events or LibStub ("CallbackHandler-1.0"):New (lib)
 if not lib.events then error(MAJOR.." requires CallbackHandler") end
 
-
+local MAX_NUM_TALENT_TIERS = 7
+local MAX_NUM_TALENTS = 21
 local UPDATE_EVENT = "GroupInSpecT_Update"
 local REMOVE_EVENT = "GroupInSpecT_Remove"
 

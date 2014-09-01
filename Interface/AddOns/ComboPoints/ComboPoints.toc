@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: ComboPoints
 ## Notes: A movable, turnable, colourable combo point bar
 # Title-zhCN: |CFF8000FF职业|R 贼/德 连击点显示器

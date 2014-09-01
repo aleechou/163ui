@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: OmniCC
 ## Notes: Cooldown count for everything
 ## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时

@@ -7,11 +7,11 @@ local L
 L= DBM:GetModLocalization("Brawlers")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部:基本設置"
+	name = "鬥陣俱樂部:一般"
 })
 
 L:SetWarningLocalization({
-	warnQueuePosition	= "你的排名順位為:%d",
+	warnQueuePosition	= "你的目前順位為:%d",
 	specWarnYourNext	= "你是下一位!",
 	specWarnYourTurn	= "輪到你上場了!"
 })
@@ -20,7 +20,7 @@ L:SetOptionLocalization({
 	warnQueuePosition	= "提示你目前的順位",
 	specWarnYourNext	= "當你下一個上場時顯示特別警告",
 	specWarnYourTurn	= "輪到你上時顯示特別警告",
-	SpectatorMode		= "當旁觀戰鬥時顯示警告/計時器(旁觀者不會顯示個人的特別警告訊息)",
+	SpectatorMode		= "當旁觀戰鬥時顯示警告/計時器<br/>(旁觀者不會顯示個人的特別警告訊息)",
 	SpeakOutQueue		= "當順位更新數出你的順位"
 })
 
@@ -48,11 +48,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("BrawlRank1")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 1"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第1階"
 })
 
 ------------
@@ -61,11 +57,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank2")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 2"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第2階"
 })
 
 ------------
@@ -74,12 +66,11 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank3")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 3"
+	name = "鬥陣俱樂部:第3階"
 })
 
 L:SetOptionLocalization({
-	SetIconOnBlat	= "在真正的吞齧怪上設置圖示(骷髏)",
-	SoundWOP			= "語音警告：重要技能"
+	SetIconOnBlat	= "在真正的吞齧怪上設置圖示(骷髏)"
 })
 
 ------------
@@ -88,13 +79,13 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank4")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 4"
+	name = "鬥陣俱樂部:第4階"
 })
 
 L:SetOptionLocalization({
-	SetIconOnDominika	= "在真正的幻術師多明妮卡上設置圖示(骷髏)",
-	SoundWOP			= "語音警告：重要技能"
+	SetIconOnDominika	= "在真正的幻術師多明妮卡上設置圖示(骷髏)"
 })
+
 
 ------------
 -- Rank 5 --
@@ -102,11 +93,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank5")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 5"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第5階"
 })
 
 ------------
@@ -115,11 +102,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank6")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 6"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第6階"
 })
 
 ------------
@@ -128,11 +111,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank7")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 7"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第7階"
 })
 
 ------------
@@ -141,13 +120,8 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank8")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 8"
+	name = "鬥陣俱樂部:第8階"
 })
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
-})
-
 
 ------------
 -- Rank 9 --
@@ -155,11 +129,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRank9")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部: Rank 9"
-})
-
-L:SetOptionLocalization({
-	SoundWOP			= "語音警告：重要技能"
+	name = "鬥陣俱樂部:第9階"
 })
 
 -------------
@@ -168,12 +138,11 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRare1")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部:挑戰卡 1"
+	name = "鬥陣俱樂部:挑戰1"
 })
 
 L:SetOptionLocalization({
-	ArrowOnBoxing			= "DBM箭頭：$spell:140868 / $spell:140862 / $spell:140886",
-	SoundWOP			= "語音警告：重要技能"
+	ArrowOnBoxing	= "為$spell:140868和$spell:140862和$spell:140886顯示DBM箭頭"
 })
 
 -------------
@@ -182,17 +151,16 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlRare2")
 
 L:SetGeneralLocalization({
-	name = "鬥陣俱樂部:挑戰卡 2"
+	name = "鬥陣俱樂部:挑戰2"
 })
 
 L:SetWarningLocalization({
-	specWarnRPS			= "使用 %s!"
+	specWarnRPS			= "出%s!"
 })
 
 L:SetOptionLocalization({
-	specWarnRPS			= "特别警告： $spell:141206",
-	SpeakOutStrikes			= "語音警告： $spell:141190 的堆疊層數",
-	SoundWOP			= "語音警告：重要技能"
+	specWarnRPS			= "為$spell:141206該出什麼的時候顯示特別警告",
+	SpeakOutStrikes		= "數出$spell:141190的攻擊次數"
 })
 
 L:SetMiscLocalization({

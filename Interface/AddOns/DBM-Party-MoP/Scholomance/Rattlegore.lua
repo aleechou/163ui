@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(665, "DBM-Party-MoP", 7, 246)
+local mod	= DBM:NewMod(665, "DBM-Party-MoP", 7, 246)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 10805 $"):sub(12, -3))
 mod:SetCreatureID(59153)
+mod:SetEncounterID(1428)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -40,7 +40,6 @@ function mod:OnCombatStart(delay)
 	timerBoneSpikeCD:Start(6.5-delay)
 	if not UnitDebuff("player", boned) then
 		specWarnGetBoned:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\getboned.mp3")--快拿骨甲
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(L.PlayerDebuffs)
@@ -59,9 +58,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerRusting:Start()
 		if (args.amount or 0) >= 5 and self:AntiSpam(1, 3) then
 			specWarnRusting:Show(args.amount)
-			if mod:IsTank() then
-				sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\justrun.mp3")--快跑
-			end
 		end
 	end
 end		
@@ -70,12 +66,8 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 113996 and args:IsPlayer() then
 		specWarnGetBoned:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\getboned.mp3")--快拿骨甲
 	elseif args.spellId == 113765 then
 		timerRusting:Cancel()
-		if mod:IsTank() then
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\safenow.mp3")--安全
-		end
 	end
 end
 
@@ -86,9 +78,8 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)--120037 is a weak version of same spell by exit points, 115219 is the 50k per second icewall that will most definitely wipe your group if it consumes the room cause you're dps sucks.
-	if (spellId == 114009 or spellId == 115365) and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 114009 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnSoulFlame:Show()
-		sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\runaway.mp3")--快躲開
 	end
 end

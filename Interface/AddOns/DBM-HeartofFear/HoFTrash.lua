@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod("HoFTrash", "DBM-HeartofFear")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 10579 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11184 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
+	"SPELL_CAST_START 125877",
 	"UNIT_SPELLCAST_SUCCEEDED target focus"
 )
 
@@ -16,7 +16,7 @@ local warnUnseenStrike			= mod:NewTargetAnnounce(122949, 4, 123017)
 local warnDispatch				= mod:NewSpellAnnounce(125877, 3)
 
 local specWarnUnseenStrike		= mod:NewSpecialWarningYou(123017)
-local specWarnUnseenStrikeOther	= mod:NewSpecialWarningTarget(123017)
+local specWarnUnseenStrikeOther	= mod:NewSpecialWarningMoveTo(123017)
 local yellUnseenStrike			= mod:NewYell(122949)
 local specWarnDispatch			= mod:NewSpecialWarningInterrupt(125877)
 
@@ -27,8 +27,10 @@ mod:RemoveOption("SpeedKillTimer")
 mod:AddBoolOption("UnseenStrikeArrow")
 
 local spellName = GetSpellInfo(122949)
+local scanTime = 0
 
 local function findUnseen()
+	scanTime = scanTime + 1
 	for uId in DBM:GetGroupMembers() do
 		local name = DBM:GetUnitFullName(uId)
 		if UnitDebuff(uId, spellName) then
@@ -45,7 +47,9 @@ local function findUnseen()
 			return
 		end
 	end
-	mod:Schedule(0.1, findUnseen)
+	if scanTime < 10 then
+		mod:Schedule(0.1, findUnseen)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -67,6 +71,7 @@ end
 
 function mod:OnSync(msg)
 	if msg == "UnseenTrash" then
+		scanTime = 0
 		findUnseen()
 	end
 end
