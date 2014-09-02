@@ -1,0 +1,7 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="UserCache.lua" />
+  <Script file="ChatGroup.lua" />
+  <Script file="ChatLogCache.lua" />
+  <Script file="ChatGroupCache.lua" />
+</Ui>

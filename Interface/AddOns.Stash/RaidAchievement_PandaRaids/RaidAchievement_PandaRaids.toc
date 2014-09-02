@@ -1,0 +1,19 @@
+## Interface: 50400
+## Title: RA_PandariaRaids
+## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [潘达利亚团队]
+## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [潘达利亚团队]
+## Notes: RaidAchievement Pandaria Raids Module
+## Notes-zhTW: 自動檢測你所在的副本類型加載相應的模塊，檢測通報副本成就的失敗與否，顯示失敗的原因和失敗者的名字。如演示圖，顯示成就失敗，並顯示導致成就失敗的隊友名字.
+## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
+## Author: Shurshik
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+## SavedVariablesPerCharacter: prraspisokon
+
+RaidAchievement_PandaRaids.lua
+RaidAchievement_PandaRaids.xml
+RaidAchievement_PandaRaidsbosses.lua
+
+## Title: |cff880303[网易有爱]|r 成就助手 [潘达利亚团队]
+## X-Vendor: NetEase
+## 163UI-Version: 2014052801

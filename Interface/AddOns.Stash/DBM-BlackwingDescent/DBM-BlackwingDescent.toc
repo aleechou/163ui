@@ -1,0 +1,25 @@
+﻿## Interface: 50400
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Blackwing Descent|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0黑翼陷窟|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0黑翼血环|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
+## SavedVariablesPerCharacter: DBMBlackwingDescent_SavedVars, DBMBlackwingDescent_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: CATA
+## X-DBM-Mod-MapID: 669
+## X-DBM-Mod-Sort: 104
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+DarkIronGolemCouncil.lua
+Magmaw.lua
+Atramedes.lua
+Chimaeron.lua
+Maloriak.lua
+Nefarian.lua
+BWDTrash.lua

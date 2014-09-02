@@ -1,0 +1,16 @@
+## Interface: 50400
+## Author: kunda
+## Title: GridStatusRaidIcons
+## Notes: 在团队框架中增加目标/目标的目标高亮
+## Version: 40300-1
+## Dependencies: Grid
+## X-Curse-Packaged-Version: 40300-1
+## X-Curse-Project-Name: GridStatusRaidIcons
+## X-Curse-Project-ID: grid-status-raid-icons
+## X-Curse-Repository-ID: wow/grid-status-raid-icons/mainline
+
+embeds.xml
+
+## Title: |cff880303[网易有爱]|r Grid目标显示组件
+## X-Vendor: NetEase
+## 163UI-Version: 2014060201

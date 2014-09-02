@@ -1,0 +1,23 @@
+﻿## Interface: 50400
+## X-Min-Interface: 50400
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Proving Grounds-MoP|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0白虎寺試練場|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0白虎寺试练场|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
+## SavedVariablesPerCharacter: DBMProvingGroundsMoP_SavedVars, DBMProvingGroundsMoP_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: SCENARIO
+## X-DBM-Mod-Category: MOP
+## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-Mod-Name: Proving Grounds (MoP)
+## X-DBM-Mod-Name-zhTW: 白虎寺試練場
+## X-DBM-Mod-Name-zhCN: 白虎寺试练场
+## X-DBM-Mod-Sort: 40
+## X-DBM-Mod-MapID: 1148
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+PGWhiteTiger.lua

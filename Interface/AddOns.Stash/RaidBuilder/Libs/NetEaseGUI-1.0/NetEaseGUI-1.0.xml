@@ -1,0 +1,8 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="NetEaseGUI.lua" />
+  <Include file="Template\Template.xml" />
+  <Include file="Embed\Embed.xml" />
+  <Include file="View\View.xml" />
+  <Include file="Widget\Widget.xml" />
+</Ui>

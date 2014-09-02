@@ -1,0 +1,23 @@
+## Interface: 50400
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Crusaders' Coliseum|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0十字軍試煉|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0十字军的试炼|r
+## Author: Nitram
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core 
+## 163UI-Version: 2014060801
+## SavedVariablesPerCharacter: DBMColiseum_SavedVars, DBMColiseum_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-MapID: 649
+## X-DBM-Mod-Sort: 202
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+NorthrendBeasts.lua
+Jaraxxus.lua
+Champions.lua
+Twins.lua
+Anub'arak.lua

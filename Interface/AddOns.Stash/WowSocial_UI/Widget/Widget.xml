@@ -1,0 +1,12 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="SpecTabButton.lua" />
+  <Script file="UnitButton.lua" />
+  <Script file="EventButton.lua" />
+  <Script file="SearchGroupButton.lua" />
+  <Script file="MemberButton.lua" />
+  <Script file="MessageButton.lua" />
+  <Script file="ChatTabButton.lua" />
+  <Script file="JoinButton.lua" />
+  <Script file="MessageBoxItem.lua" />
+</Ui>

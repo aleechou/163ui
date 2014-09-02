@@ -1,0 +1,8 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Include file="Frame\load.xml"/>
+	<Include file="Monitor\load.xml"/>
+	<Include file="Group\load.xml"/>
+	<Include file="Master\load.xml"/>
+	<Include file="Options\load.xml"/>
+</Ui>

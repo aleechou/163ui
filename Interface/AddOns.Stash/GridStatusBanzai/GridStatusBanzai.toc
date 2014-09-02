@@ -1,0 +1,15 @@
+## Interface: 50400
+## Title: GridStatusBanzai
+
+## Dependencies: Grid
+## OptionalDeps: Ace3
+## X-Curse-Packaged-Version: 1.04.29
+## X-Curse-Project-Name: GridStatusBanzai
+## X-Curse-Project-ID: gridstatusbanzai
+## X-Curse-Repository-ID: wow/gridstatusbanzai/mainline
+
+embeds.xml
+
+## Title: |cff880303[网易有爱]|r Grid快捷仇恨目标
+## X-Vendor: NetEase
+## 163UI-Version: 2014060201

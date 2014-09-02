@@ -1,0 +1,24 @@
+﻿## Interface: 50400
+## Title: QuestHubber
+## Title-zhTW: |cff880303[网易有爱]|r 任務搜索
+## Title-zhCN: |cff880303[网易有爱]|r 任务搜索
+## Notes: Pins on the World Map for quests you have not completed yet
+## Notes-zhTW: 提供讀取系統任務資料庫，告訴你的未做任務目標位置，起始任務怪在哪裡找到.
+## Notes-zhCN: 提供读取系统任务资料库，告诉你的未做任务目标位置，起始任务怪在哪裡找到.
+## Author: pigmonkey
+## Version: v14
+## SavedVariables: QuestHubberDB
+
+Libs\LibGratuity-3.0\lib.xml
+
+Locale\enUS.lua
+Locale\zhCN.lua
+Locale\zhTW.lua
+
+QuestHubber.lua
+Modules\Load.xml
+
+
+## Title: |cff880303[网易有爱]|r 任务搜索
+## X-Vendor: NetEase
+## 163UI-Version: 2014062901
