@@ -1,6 +1,6 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Terrace of Endless Spring
+## Title:|cffff565e[163UI]|r DBM Terrace of Endless Spring
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 永春台
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 豐泉台
 
@@ -14,6 +14,8 @@
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-Sort: 3
 ## X-DBM-Mod-MapID: 996
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 localization.en.lua
 localization.kr.lua
 localization.de.lua

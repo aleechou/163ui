@@ -1,6 +1,6 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Skin-Classic Timer Skin
+## Title:|cffff565e[163UI]|r DBM Skin-Classic Timer Skin
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 皮肤-经典计时条
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 外觀-傳統計時器
 
@@ -14,6 +14,10 @@
 ## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
 ## X-Curse-Project-ID: deadly-boss-mods-wod-beta
 ## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
+
 Skin.lua
 TimerSkin.xml
 

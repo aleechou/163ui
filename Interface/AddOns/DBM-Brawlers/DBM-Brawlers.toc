@@ -1,8 +1,10 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Brawlers
+## Title:|cffff565e[163UI]|r DBM Brawlers
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 搏击俱乐部
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 鬥陣俱樂部
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 
 ## Author: MysticalOS
 ## LoadOnDemand: 1

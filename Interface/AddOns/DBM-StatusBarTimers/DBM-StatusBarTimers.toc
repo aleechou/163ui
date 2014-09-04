@@ -1,0 +1,22 @@
+﻿## Interface: 60000
+## X-Min-Interface: 60000
+## Title:|cff880303[163UI]|r DBM Bar Timers
+## Title-zhCN:|cff880303[网易有爱]|r DBM 状态条计时器
+## Title-zhTW:|cff880303[网易有爱]|r DBM 狀態條計時器
+## Notes: [163UI]DBM - status bar timer library
+## Notes-koKR: [163UI]DBM 바 표시에 필요한 애드온입니다.
+## Notes-zhTW: [网易有爱]DBM 狀態條計時器函式庫
+## Notes-zhCN: [网易有爱]DBM 状态条计时器函数库
+## SavedVariablesPerCharacter: DBT_PersistentOptions
+## LoadOnDemand: 0
+## DefaultState: enabled
+## X-Website: http://www.deadlybossmods.com
+## X-Curse-Packaged-Version: r20140719223059
+## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
+## X-Curse-Project-ID: deadly-boss-mods-wod-beta
+## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
+
+DBT-Template.xml
+DBT.lua

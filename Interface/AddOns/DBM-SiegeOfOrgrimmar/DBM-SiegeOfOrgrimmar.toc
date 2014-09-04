@@ -1,6 +1,6 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Siege of Orgrimmar
+## Title:|cffff565e[163UI]|r DBM Siege of Orgrimmar
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 决战奥格瑞玛
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 圍攻奧格瑪
 
@@ -16,6 +16,8 @@
 ## X-DBM-Mod-Sort: 1
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-Block-Movie-Skip-ItemID: 105930,105931,105932,105933,105934,105935
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 localization.en.lua
 localization.de.lua
 localization.kr.lua

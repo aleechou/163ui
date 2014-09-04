@@ -1,10 +1,10 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Core
+## Title:|cffff565e[163UI]|r DBM Core
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 首领报警模块核心
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 首领报警模块核心
-## Notes: [TUWAN]首领报警模块
-## Notes-zhCN: [兔玩]首领报警模块
+## Notes: [163UI]首领报警模块
+## Notes-zhCN: [网易有爱]首领报警模块
 ## Dependencies: DBM-StatusBarTimers
 
 ## OptionalDependencies: LibSharedMedia-3.0, LibChatAnims
@@ -17,6 +17,9 @@
 ## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
 ## X-Curse-Project-ID: deadly-boss-mods-wod-beta
 ## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml

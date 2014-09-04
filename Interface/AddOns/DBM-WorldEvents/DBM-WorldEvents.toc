@@ -1,6 +1,6 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM World Events
+## Title:|cffff565e[163UI]|r DBM World Events
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 世界事件
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 世界事件
 
@@ -38,6 +38,8 @@
 ## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
 ## X-Curse-Project-ID: deadly-boss-mods-wod-beta
 ## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 localization.en.lua
 localization.ru.lua
 localization.fr.lua

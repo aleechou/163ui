@@ -1,6 +1,6 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Pandaria
+## Title:|cffff565e[163UI]|r DBM Pandaria
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 潘达利亚
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 潘達利亞
 
@@ -15,6 +15,8 @@
 ## X-DBM-Mod-Sort: 6
 ## X-DBM-Mod-MapID: 870,1064
 ## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 localization.en.lua
 localization.de.lua
 localization.es.lua

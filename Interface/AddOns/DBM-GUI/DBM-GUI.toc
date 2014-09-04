@@ -1,19 +1,19 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
-## Title:|cffff565e[TUWAN]|r DBM Options GUI
+## Title:|cffff565e[163UI]|r DBM Options GUI
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 设置界面
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 使用者介面
 
-## Notes: [TUWAN]GUI for Deadly Boss Mods
-## Notes-deDE: [TUWAN]Grafische Benutzeroberfläche für Deadly Boss Mods
-## Notes-zhCN: [兔玩]Deadly Boss Mods的设置界面
-## Notes-ruRU: [TUWAN]Графический интерфейс пользователя DBM
-## Notes-zhTW: [兔玩]Deadly Boss Mods的使用者介面
-## Notes-koKR: [TUWAN]죽이는 보스 모드를 위한 GUI
-## Notes-esES: [TUWAN]Gui para Deadly Boss Mods
-## Notes-esMX: [TUWAN]Gui para Deadly Boss Mods
-## Notes-frFR: [TUWAN]IUG pour Deadly Boss Mods
-## Notes-ptBR: [TUWAN]IU para o Deadly Boss Mods
+## Notes: [163UI]GUI for Deadly Boss Mods
+## Notes-deDE: [163UI]Grafische Benutzeroberfläche für Deadly Boss Mods
+## Notes-zhCN: [网易有爱]Deadly Boss Mods的设置界面
+## Notes-ruRU: [163UI]Графический интерфейс пользователя DBM
+## Notes-zhTW: [网易有爱]Deadly Boss Mods的使用者介面
+## Notes-koKR: [163UI]죽이는 보스 모드를 위한 GUI
+## Notes-esES: [163UI]Gui para Deadly Boss Mods
+## Notes-esMX: [163UI]Gui para Deadly Boss Mods
+## Notes-frFR: [163UI]IUG pour Deadly Boss Mods
+## Notes-ptBR: [163UI]IU para o Deadly Boss Mods
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## DefaultState: enabled
@@ -23,6 +23,8 @@
 ## X-Curse-Project-Name: Deadly Boss Mods WoD Beta
 ## X-Curse-Project-ID: deadly-boss-mods-wod-beta
 ## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
+## X-Vendor: NetEase
+## 163UI-Version: 2014090401
 localization.en.lua
 localization.de.lua
 localization.cn.lua
