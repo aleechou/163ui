@@ -1,8 +1,8 @@
 ## Interface: 60000
 ## Title: |cff880303[网易有爱]|r !!控制台和基本库
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090403
-## X-163UI-Version: 2014090403
+## 163UI-Version: 2014090404
+## X-163UI-Version: 2014090404
 
 ## OptionalDeps: 163Core, !!!Ace3, !!!Libs
 ## SavedVariablesPerCharacter: U1DB

@@ -24,6 +24,8 @@ CoreAddEvent("DB_LOADED")
 
 
 local addonToLoadSecure, addonToLoad = {}, {}
+local disabledAddonsInInit = {}
+UI163_AddOnsLoadTime = {} -- 从 2014.9.3 6.0国服维护以后， DisableAddOn() 不会影响 GetAddOnInfo() 返回的结果 enabled
 
 local function dbLoaded(db)
 
@@ -200,7 +202,9 @@ function U1ConfigsLoaded()
         end
         --把true条件去掉就是默认的不变，加上就是默认的也是VARIABLE_LOADED之后加载
         if (v.registered and v.load~="NORMAL") and k~=strlower(_) then
+            -- print("DisableAddOn()",k)
             DisableAddOn(k);
+            disabledAddonsInInit[k] = 1
         end
 
         if v.dummy then
@@ -1132,14 +1136,17 @@ function U1LoadAddOnBackend(name)
     end
 
     --没有加载子插件，在ToggleAddOn时会加载，而初始则是自底向上的加
+    if not select(4, GetAddOnInfo(name)) or disabledAddonsInInit[name] then 
+        EnableAddOn(name) --需要加载的时候再启用. --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
+    end
 
-    if not select(4, GetAddOnInfo(name)) then EnableAddOn(name) end --需要加载的时候再启用. --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
-
-    --print("before", name, GetTime())
+    local startTime = GetTime()
     capturing = name
     local status, loaded, reason = safecall(LoadAddOn, name);
     capturing = nil
-    --print("after", name, GetTime())
+
+    UI163_AddOnsLoadTime[name] = GetTime() - startTime
+
     if loaded then
         local info = U1GetAddonInfo(name);
         if info.runAfterLoad then pcall(info.runAfterLoad, info, name) end

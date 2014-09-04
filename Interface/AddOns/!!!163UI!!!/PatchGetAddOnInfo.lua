@@ -4,7 +4,7 @@ GetAddOnInfoByIdx = GetAddOnInfo
 
 local mapAddOnName2Idx = {}
 for i=1, GetNumAddOns() do
-	local name = GetAddOnInfo(i)
+	local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
 	mapAddOnName2Idx[name:lower()] = i
 end
 
