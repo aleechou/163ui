@@ -17,7 +17,12 @@
         "Combuctor_Config",
         "Combuctor_Sets",
         "JPack",
-        "JPack_Ex"
+        "JPack_Ex",
+
+        "TipTac" ,
+        "BossesKilled" ,
+        "AuctionLite" ,
+        "ButtonFacade" 
 
     ], 
     "conflictive": {
