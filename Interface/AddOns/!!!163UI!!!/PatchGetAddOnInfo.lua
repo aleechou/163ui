@@ -1,18 +1,27 @@
--- 9月4日国服内测版 维护以后，GetAddOnInfo() 无法使用 name 作为参数
+-- 9月4日国服内测版 维护以后，GetAddOnInfo(),GetAddOnDependencies() 无法使用 name 作为参数
 
 GetAddOnInfoByIdx = GetAddOnInfo
 
 local mapAddOnName2Idx = {}
 for i=1, GetNumAddOns() do
 	local name = GetAddOnInfo(i)
-	mapAddOnName2Idx[name] = i
+	mapAddOnName2Idx[name:lower()] = i
 end
-function GetAddOnInfoByName(name)
-	if mapAddOnName2Idx[name] then
-		return GetAddOnInfoByIdx(mapAddOnName2Idx[name])
+
+local function mkfunc(funcByIdx)
+	return function(idxOrName)
+
+		-- name 转换为 idx
+		if type(idxOrName)=="string" then
+			idxOrName = mapAddOnName2Idx[idxOrName:lower()]
+			if not idxOrName then
+				return
+			end
+		end
+
+		return funcByIdx(idxOrName)
 	end
 end
 
-GetAddOnInfo = function (idxOrName)
-	return (type(idxOrName)=="string" and GetAddOnInfoByName or GetAddOnInfoByIdx) (idxOrName)
-end
+GetAddOnInfo = mkfunc(GetAddOnInfo)
+GetAddOnDependencies = mkfunc(GetAddOnDependencies)

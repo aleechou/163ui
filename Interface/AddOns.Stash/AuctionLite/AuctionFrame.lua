@@ -39,11 +39,11 @@ function AuctionLite:AuctionFrameTab_OnClick_Hook(tab, arg)
     --BuyName:SetFocus();
   elseif index == SellTabIndex then
     AuctionFrameTopLeft:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-TopLeft");
-    AuctionFrameTop:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-AUCTION-Top");
-    AuctionFrameTopRight:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-AUCTION-TopRight");
-    AuctionFrameBotLeft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-AUCTION-BotLeft");
-    AuctionFrameBot:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-AUCTION-Bot");
-    AuctionFrameBotRight:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-AUCTION-BotRight");
+    AuctionFrameTop:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-Top");
+    AuctionFrameTopRight:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-TopRight");
+    AuctionFrameBotLeft:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-BotLeft");
+    AuctionFrameBot:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-Bot");
+    AuctionFrameBotRight:SetTexture("Interface\\AddOns\\AuctionLite\\Images\\SellFrame-BotRight");
     AuctionFrameSell:Show();
   end
 end

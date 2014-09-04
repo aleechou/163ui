@@ -237,6 +237,7 @@ function AuctionLite:GetListing(kind, i)
   local link = self:RemoveUniqueId(GetAuctionItemLink(kind, i));
   local name, texture, count, quality, canUse, level,
         levelColHeader, minBid, minIncrement, buyout, bidAmount,
+        --warbaby edit
         highBidder, bidderFullName, owner, ownerFullName, sold = GetAuctionItemInfo(kind, i);
 
   -- Figure out the true minimum bid.
@@ -250,12 +251,13 @@ function AuctionLite:GetListing(kind, i)
     end
   end
 
-  -- Craete a listing object with all this data.
+  -- Create a listing object with all this data.
   local listing = {
     link = link, name = name, texture = texture, count = count,
     quality = quality, canUse = canUse, level = level,
     bid = bid, minBid = minBid, minIncrement = minIncrement,
     buyout = buyout, bidAmount = bidAmount,
+    --warbaby edit
     highBidder = highBidder, bidderFullName = bidderFullName, owner = owner, ownerFullName = ownerFullName, sold = sold
   };
 

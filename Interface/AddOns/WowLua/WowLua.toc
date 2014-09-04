@@ -1,4 +1,4 @@
-## Interface: 40300
+## Interface: 60000
 ## Title: WowLua
 ## Version: v40300-1.0.2-71bf340 
 ## Author: Cladhaire
