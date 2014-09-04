@@ -1,8 +1,8 @@
 ## Interface: 60000
 ## Title: |cff880303[网易有爱]|r !!控制台和基本库
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090104
-## X-163UI-Version: 2014090104
+## 163UI-Version: 2014090401
+## X-163UI-Version: 2014090401
 
 ## OptionalDeps: 163Core, !!!Ace3, !!!Libs
 ## SavedVariablesPerCharacter: U1DB
@@ -13,6 +13,8 @@
 #U1DBG 23K, U1DB.addons=25K, configs=3K, tags=2K, frames=3K,
 
 Core\_DEV\DEBUG_MODE.lua
+
+PatchGetAddOnInfo.lua
 
 RunFirst.lua
 
