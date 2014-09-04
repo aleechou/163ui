@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Brawlers
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 搏击俱乐部
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 鬥陣俱樂部
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

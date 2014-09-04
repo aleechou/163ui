@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Siege of Orgrimmar
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 决战奥格瑞玛
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 圍攻奧格瑪
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

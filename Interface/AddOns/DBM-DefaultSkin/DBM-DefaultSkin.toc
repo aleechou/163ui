@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Skin-Classic Timer Skin
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 皮肤-经典计时条
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 外觀-傳統計時器
-## RequiredDeps: Tuwan
+
 ## LoadOnDemand: 0
 ## RequiredDeps: DBM-Core, DBM-StatusBarTimers
 ## X-DBM-Timer-Skin: 1

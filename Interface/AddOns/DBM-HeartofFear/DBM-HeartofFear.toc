@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Heart of Fear
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 恐惧之心
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 恐懼之心
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

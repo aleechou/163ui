@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Pandaria
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 潘达利亚
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 潘達利亞
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS/nBlueWiz
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

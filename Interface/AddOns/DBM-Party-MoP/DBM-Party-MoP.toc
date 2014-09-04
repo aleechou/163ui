@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Party-MoP
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 5人本-熊猫人之谜
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 隊伍首領-潘達利亞之謎
-## RequiredDeps: Tuwan
+
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMPartyMoP_SavedVars, DBMPartyMoP_SavedStats

@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Scenario-MoP
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 场景战役
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 事件-潘達利亞之謎
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS/Arta
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

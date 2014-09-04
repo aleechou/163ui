@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM World Events
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 世界事件
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 世界事件
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

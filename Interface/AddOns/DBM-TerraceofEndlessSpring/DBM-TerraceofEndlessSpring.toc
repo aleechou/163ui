@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Terrace of Endless Spring
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 永春台
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 豐泉台
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

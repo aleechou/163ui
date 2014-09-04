@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Throne of Thunder
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 雷电王座
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 雷霆王座
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

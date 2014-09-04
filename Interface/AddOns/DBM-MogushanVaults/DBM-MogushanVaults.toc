@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Mogu'shan Vaults
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 魔古山宝库
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 魔古山寶庫
-## RequiredDeps: Tuwan
+
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

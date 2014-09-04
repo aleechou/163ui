@@ -3,7 +3,7 @@
 ## Title:|cffff565e[TUWAN]|r DBM Options GUI
 ## Title-zhCN:|cff880303[网易有爱]|r DBM 设置界面
 ## Title-zhTW:|cff880303[网易有爱]|r DBM 使用者介面
-## RequiredDeps: Tuwan
+
 ## Notes: [TUWAN]GUI for Deadly Boss Mods
 ## Notes-deDE: [TUWAN]Grafische Benutzeroberfläche für Deadly Boss Mods
 ## Notes-zhCN: [兔玩]Deadly Boss Mods的设置界面

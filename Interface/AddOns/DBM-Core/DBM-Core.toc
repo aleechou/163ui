@@ -6,7 +6,7 @@
 ## Notes: [TUWAN]首领报警模块
 ## Notes-zhCN: [兔玩]首领报警模块
 ## Dependencies: DBM-StatusBarTimers
-## RequiredDeps: Tuwan
+
 ## OptionalDependencies: LibSharedMedia-3.0, LibChatAnims
 ## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
 ## LoadOnDemand: 0
