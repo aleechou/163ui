@@ -1,7 +1,8 @@
 ## Interface: 50400
 ## Title: |cff880303[网易有爱]|r !!控制台和基本库
 ## X-Vendor: NetEase
-## 163UI-Version: 2014080801
+## 163UI-Version: 2014090901
+## X-163UI-Version: 2014090901
 
 ## OptionalDeps: 163Core, !!!Ace3, !!!Libs
 ## SavedVariablesPerCharacter: U1DB

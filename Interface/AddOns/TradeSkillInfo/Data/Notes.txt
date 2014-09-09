@@ -1,0 +1,70 @@
+TODO: (Updated 10/25/2007)
+
+* Add Drum recipes to vendors
+* Fix remaining Enchanting Oils to actually work
+
+
+Specialcases = When there are several combines that yield the same itemid
+[itemid] = "index1,index2,..."
+[indexi] = "itemid"
+
+
+Combines
+[index]spell|skill|components|recipe|yield|itemid
+index = itemid or -enchantid or specialcase
+spell = spellId of the skill to craft the itemid
+	if negative, TSI will use itemId as combine name, otherwise spellId.
+	negative cases are useful for Scroll of Enchant ...
+skill =
+	A = Alchemy
+	B = Blacksmithing
+	D = Enchanting
+	E = Engineering
+	I = Inscription
+	J = Jewelcrafting
+	L = Leatherworking
+	T = Tailoring
+	W = Cooking
+	X = First Aid
+	Y = Mining
+	# = level
+components =
+  itemid[:num] ...
+recipe = recipeid (Optional)
+yield = how many the combine makes (Optional)
+itemid = itemid crafted if it differs from index (Optional)
+
+
+Components
+[itemid] = "source"
+source
+	V = Vendor (Only items with unlimited supply)
+	D = Dropped
+	C = Crafted
+	M = Mined
+	H = Herbalism
+	S = Skinned
+	F = Fished
+	E = Disenchanted
+	G = Gathered (No skill required)
+	P = Pickpocketed
+
+
+Zones
+[index]name
+
+
+Vendors
+[index]name|zone|faction|location|comment
+
+
+Recipes
+[recipeid]#|source|price|level
+# = combine id
+source
+	D = Drop
+	V = Vendor
+	Q = Quest
+	# index to table vendors
+price = Vendor sell price (Optional)
+level = faction rank needed (Optional)
