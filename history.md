@@ -1,3 +1,16 @@
+2014-09-29/01
+===
+
+### 商业技能百科 (TradeSkillInfo)
+
+* 增加插件 TradeSkillInfo
+* 解决了 TradeSkillInfo 和 拍卖搜索(BaudAuction)插件的 拍卖行配方无法染色的冲突; 使用这两款单体插件的玩家请改用有爱的版本。
+
+### 首领模块 (DBM)
+
+* 增加了 PvP战场报警计时模块 (DBM-PvP)
+
+
 2014-08-29/02
 ===
 
