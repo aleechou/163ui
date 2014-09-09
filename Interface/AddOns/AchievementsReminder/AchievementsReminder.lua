@@ -3,7 +3,7 @@ function icllonload()
 
 iclllocaleuim()
 
-if GetLocale()=="zhTW" or GetLocale()=="zhCN" then
+if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocale()=="zhCN" or GetLocale()=="frFR" or GetLocale()=="koKR" or GetLocale()=="esES" or GetLocale()=="esMX" or GetLocale()=="ptBR" then
 iclllocaleui()
 end
 

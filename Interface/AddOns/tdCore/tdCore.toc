@@ -1,0 +1,12 @@
+## Interface: 50400
+## Title: tdCore
+## Author: ldz5
+## Version: 50100.06
+## SavedVariables: TDDB_TDCORE
+
+load.xml
+
+## Title: |cff880303[网易有爱]|r tdCore
+## X-Vendor: NetEase
+
+## 163UI-Version: 2014082601

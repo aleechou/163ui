@@ -1,0 +1,13 @@
+<Bindings>
+	<Binding name="BAGNON_TOGGLE" header="BAGNON">
+		Bagnon:ToggleFrame('inventory')
+	</Binding>
+	<Binding name="BAGNON_BANK_TOGGLE">
+		Bagnon:ToggleFrame('bank')
+	</Binding>
+	<Binding name="BAGNON_VAULT_TOGGLE">
+		if LoadAddOn('Bagnon_VoidStorage') then
+			Bagnon:ToggleFrame('voidstorage')
+		end
+	</Binding>
+</Bindings>

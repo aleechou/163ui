@@ -23,6 +23,23 @@ CoreAddEvent("ADDON_SELECTED")
 CoreAddEvent("DB_LOADED")
 
 
+local addonToLoadSecure, addonToLoad = {}, {}
+
+local function dbLoaded(db)
+
+    -- 2014082901 换回简约背包，确保该插件被激活，同时禁用分类背包（如果没有别卸载的话）
+    if (db.verison or 0) < 2014082901 then
+        U1LoadAddOn("Bagnon",true)
+        U1ToggleAddon("combuctor",nil,nil,true,true)
+    end
+
+    if (db.verison or 0) < 2014082904 then
+        tinsert(addonToLoad, "tdPack")
+    end
+
+    db.verison = tonumber(GetAddOnMetadata("!!!163UI!!!","X-163UI-Version")or"0")
+end
+
 local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
 function NoGoldSeller163ui:OnInitialize()
 	if(NGSSymbolsUI)then
@@ -1167,9 +1184,13 @@ function U1ToggleChildren(name, enabled, noset, deepToggleChildren, bundleSim)
 end
 --参数noset是父类关闭的时候关闭子类，不改变状态
 function U1ToggleAddon(name, enabled, noset, deepToggleChildren, bundleSim)
+
+    local info = addonInfo[name];
+    if not info then 
+        return 
+    end
     local reload = false;
     local status;
-    local info = addonInfo[name];
 
     if not bundleSim then startCapturing(name); end
 
@@ -1374,10 +1395,14 @@ end
 
 function U1:ADDON_LOADED(event, name)
     if(name==_)then
+
         --print("ADDON_LOADED1", db, U1DB, db==U1DB, db==defaultDB)
         db = U1DB or defaultDB;
         --print("ADDON_LOADED2", db, U1DB, db==U1DB, db==defaultDB)
         U1DB = db;
+
+        dbLoaded(U1DB)
+
         --处理老版本的插件开关
         if db.addons then
             local test = db.addons[strlower(name)]
@@ -1403,7 +1428,11 @@ function U1:ADDON_LOADED(event, name)
         --设置职业相关的插件信息, 不修改Enable状态，直接从addonInfo里去掉
         for k, info in pairs(addonInfo) do
             if(info._classAddon and not U1AddonHasTag(k, engClass))then
-                if(info.originEnabled)then tinsert(addonsToEnable, k); end  --这里保存下来，VARIABLES_LOADED时打开，这样就不会加载这个插件了
+                if(info.originEnabled)then
+                    tinsert(addonsToEnable, k);  --这里保存下来，VARIABLES_LOADED时打开，这样就不会加载这个插件了
+                else
+                    print(k,info.originEnabled)
+                end
                 for tag, tinfo in pairs(tagInfo) do
                     if(U1AddonHasTag(k, tag)) then tinfo.num = tinfo.num -1 end
                 end
@@ -1438,8 +1467,11 @@ function U1:ADDON_LOADED(event, name)
                     enabled = info.defaultEnable
                     if info.load=="NORMAL" then --只管关不管开, 因为既然默认没开, 那肯定是玩家之前用过了
                         if not enabled and info.originEnabled then
+        print("DisableAddOn",name)
                             DisableAddOn(name)
                         elseif enabled and info.vendor and not info.originEnabled then
+
+        print("EnableAddOn",name)
                             EnableAddOn(name) --若没有此处理，则用户初次运行时，插件全部关闭，没有U1DB，!BaudErrorFrame就无法加载
                         end
                     end
@@ -1555,6 +1587,7 @@ function U1:ADDON_LOADED(event, name)
     end
 
     processAceDBs(); --防止ace的小版本，每次都处理
+
 end
 
 function U1:VARIABLES_LOADED(calledFromLogin)
@@ -1580,7 +1613,7 @@ function U1:VARIABLES_LOADED(calledFromLogin)
 end
 
 --loadTimer是PLAYER_ENTERING_WORLD和REGEN_ENABLE共用的.
-local addonToLoadSecure, addonToLoad = {}, {}
+--local addonToLoadSecure, addonToLoad = {}, {}
 local loadTimer, loadTimerSecure
 local secureLoadAnnounced = false
 local needSecureLoadAnnounced = false
