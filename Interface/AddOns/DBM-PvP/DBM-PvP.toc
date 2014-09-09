@@ -44,7 +44,6 @@
 ## X-DBM-Mod-Name-ptBR: JxJ
 ## X-DBM-Mod-MapID: 529,489,30,628,566,998,726,727,761
 ## X-DBM-Mod-Sort: 999
-## 163UI-Version: 2014090701
 localization.en.lua
 localization.de.lua
 localization.tw.lua
@@ -67,4 +66,4 @@ Battlegrounds\Warsong.lua
 Arenas\Arenas.lua
 
 
-## 163UI-Version: 2014060701
+## 163UI-Version: 2014090901
