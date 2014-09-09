@@ -1,0 +1,79 @@
+## Interface: 50400
+## Title: TradeSkillInfo
+## Notes: Complete tradeskill information.
+## Notes-zhTW: 完整的商業技能百科
+## Notes-zhCN: 完整的商业技能百科
+## Notes-esES: Informarcion Completa de las Habilidades de Comercio
+## Notes-koKR: 전문기술 정보의 모든 것!
+## Author: Ethan Centaurai
+## Version: v2.2.15
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced
+## SavedVariables: TradeskillInfoDB, TradeskillInfoUIDB
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+## X-Credits: Dys, wmrojer, Evenue, Fieroivan, Viruscamp, CMTitan
+## X-Icon: Interface\Icons\INV_Elemental_SpiritOfHarmony_2
+## X-Category: Professions
+## X-Curse-Packaged-Version: v2.2.15
+## X-Curse-Project-Name: TradeSkillInfo
+## X-Curse-Project-ID: tradeskill-info
+## X-Curse-Repository-ID: wow/tradeskill-info/mainline
+
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceAddon-3.0\AceAddon-3.0.lua
+Libs\AceEvent-3.0\AceEvent-3.0.lua
+Libs\AceHook-3.0\AceHook-3.0.lua
+Libs\AceDB-3.0\AceDB-3.0.lua
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.lua
+Libs\AceConsole-3.0\AceConsole-3.0.lua
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.lua
+Libs\LibBabble-Faction-3.0\lib.xml
+Libs\LibBabble-Zone-3.0\lib.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+#@end-no-lib-strip@
+
+Locale\enUS.lua
+Locale\ruRU.lua
+Locale\deDE.lua
+Locale\esES.lua
+Locale\koKR.lua
+Locale\zhCN.lua
+Locale\zhTW.lua
+Locale\frFR.lua
+
+TradeskillInfo.lua
+DataBroker.lua
+
+Data\Components.lua
+Data\Recipes.lua
+Data\SpecialCases.lua
+Data\TradeskillData.lua
+
+Data\Professions\Alchemy.lua
+Data\Professions\Blacksmithing.lua
+Data\Professions\Cooking.lua
+Data\Professions\Enchanting.lua
+Data\Professions\Engineering.lua
+Data\Professions\FirstAid.lua
+Data\Professions\Inscription.lua
+Data\Professions\Jewelcrafting.lua
+Data\Professions\Leatherworking.lua
+Data\Professions\Mining.lua
+Data\Professions\Tailoring.lua
+
+TradeskillInfoOptions.lua
+
+#@debug@
+# TradeSkillInfoUI\TradeSkillInfoUI.lua
+# TradeSkillInfoUI\TradeSkillInfoUI.xml
+#@end-debug@
+
+
+## X-Vendor: NetEase
+## 163UI-Version: 2014090901
+PatchBy163UI.lua
