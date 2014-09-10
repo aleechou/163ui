@@ -19,7 +19,7 @@ local defaultSettings = {
 		["point"] = "TOPLEFT",
 		["y"] = -170,
 		["x"] = 25,
-		["itemFrameColumns"] = 14
+		["itemFrameColumns"] = 14,
 		["dataBrokerObject"] = "Broker Currency",
 	},
 	["bank"] = {
