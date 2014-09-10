@@ -21,7 +21,7 @@ components\components.xml
 
 ## Title: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase
-## 163UI-Version: 2014091001
-## X-163UI-Version: 2014091001
+## 163UI-Version: 2014091002
+## X-163UI-Version: 2014091002
 
 Patch-by163UI.lua

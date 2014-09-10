@@ -12,17 +12,22 @@ local defaultSettings = {
 		["point"] = "TOPLEFT",
 		["y"] = -170,
 		["x"] = 25,
+		["itemFrameColumns"] = 14,
+		["dataBrokerObject"] = "Broker Currency",
 	},
 	["voidstorage"] = {
 		["point"] = "TOPLEFT",
 		["y"] = -170,
 		["x"] = 25,
+		["itemFrameColumns"] = 14
+		["dataBrokerObject"] = "Broker Currency",
 	},
 	["bank"] = {
 		["point"] = "TOPLEFT",
 		["y"] = -170,
 		["x"] = 25,
 		["itemFrameColumns"] = 18,
+		["dataBrokerObject"] = "Broker Currency",
 		
 	},
 }
