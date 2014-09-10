@@ -58,8 +58,8 @@ function Bagnon.Frame:PlaceTitleFrame()
 	
 	local packButton = PackButton:GetPackButton(self)
 	local frameID = self:GetFrameID()
-	if (frameID == 'inventory' or frameID) == 'bank' and packButton and frame then
-		-- frame:SetPoint('RIGHT', packButton, 'LEFT', -4, 0)
+	if (frameID=='inventory' or frameID=='bank') and packButton and frame then
+		frame:SetPoint('RIGHT', packButton, 'LEFT', -4, 0)
 	end
 	return w, h
 end
