@@ -314,10 +314,6 @@ FriendsMenuXP_Buttons["ARMORY"] = {
         ChatEdit_ActivateChat(editBox);
         editBox:SetText(armory);
         editBox:HighlightText();
-
-        if ThreeDimensionsCode_Send and Cmd3DCode_CheckoutClientAndPrompt and Cmd3DCode_CheckoutClientAndPrompt("没有检测到有爱客户端，无法启动有爱内置浏览器") then
-            ThreeDimensionsCode_Send("innerbrowser",armoryNoDecode)
-        end
     end,
 }
 
@@ -1092,3 +1088,5 @@ hooksecurefunc("UIDropDownMenu_StopCounting", function(self)
         end
     end
 end)
+
+
