@@ -685,6 +685,11 @@ function BaudAuctionBrowseScrollBar_Update()
                 Highlight:Show();
             end
             Entry:Show();
+
+
+            if TradeskillInfo and TradeskillInfo.ColoringAH then
+                TradeskillInfo:ColoringAH( SearchResults[Index][14], getglobal(Entry:GetName().."Texture") )
+            end
         end
     end
 end

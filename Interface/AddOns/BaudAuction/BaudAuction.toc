@@ -10,4 +10,6 @@ BaudAuction.xml
 
 ## Title: |cff880303[网易有爱]|r BaudAuction
 ## X-Vendor: NetEase
-## 163UI-Version: 2014061003
+## 163UI-Version: 2014090901
+
+Patch-by163UI.lua

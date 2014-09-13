@@ -9,6 +9,8 @@ localization.zhCN.lua
 localization.zhTW.lua
 FriendsMenuXP.xml
 
+
 ## Title: |cff880303[网易有爱]|r 玩家菜单增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014072901
+## 163UI-Version: 2014091101
+Patch-by163UI.lua
