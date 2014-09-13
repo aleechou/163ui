@@ -10,6 +10,13 @@ local config163UI = {
                 ["point"] = "BOTTOM",
             },
             ["enabled"] = true,
+
+            ["visibility"] = {
+                ["stance"] = {
+                    true, -- [1]
+                    [0] = false,
+                },
+            },
         }, -- [1]
         nil, -- [2]
         {
@@ -52,6 +59,21 @@ local config163UI = {
             },
             ["enabled"] = true,
         }, -- [6]
+        {
+            ["enabled"] = true,
+            ["version"] = 3,
+            ["position"] = {
+                ["y"] = 52,
+                ["x"] = -232.000016869274,
+                ["point"] = "BOTTOM",
+            },
+            ["visibility"] = {
+                ["stance"] = {
+                    false, -- [1]
+                    [0] = true,
+                },
+            },
+        }, -- [7]
     } ,
     ["BagBar"] = {
         ["version"] = 3,

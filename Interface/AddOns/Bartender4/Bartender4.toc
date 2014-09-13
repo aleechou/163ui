@@ -21,7 +21,7 @@
 ## SavedVariables: Bartender4DB
 
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090402
+## 163UI-Version: 2014090501
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
