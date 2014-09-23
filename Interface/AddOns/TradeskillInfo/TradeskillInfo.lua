@@ -89,7 +89,7 @@ function TradeskillInfo:OnInitialize()
 			TooltipKnownBy     = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipLearnableBy = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipAvailableTo = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
-			TooltipMarketValue = true,
+			TooltipMarketValue = false,
 			TooltipID = false,
 			TooltipStack = false,
 
@@ -292,7 +292,7 @@ function TradeskillInfo:HookTradeSkillUI()
 		local fsSkillText = TradeSkillDetailScrollChildFrame:CreateFontString("TradeskillInfoSkillText", "BACKGROUND", "GameFontHighlightSmall")
 		local fsProfitText = TradeSkillDetailScrollChildFrame:CreateFontString("TradeskillInfoProfitText", "BACKGROUND", "GameFontHighlightSmall")
 
-		fsSkillText:SetPoint("TOPLEFT", 5, -52)
+		fsSkillText:SetPoint("TOPLEFT", 54, -40)
 		fsProfitText:SetPoint("TOPLEFT", fsSkillText, "TOPRIGHT")
 	end
 
@@ -415,8 +415,8 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 		if self:ShowingSkillLevel() then
 			-- Insert skill required.
 			if TradeskillInfoSkillText then
-				TradeskillInfoSkillText:SetText(L["Skill Level"] .. ": " ..
-												self:GetColoredDifficulty(itemId))
+				TradeskillInfoSkillText:SetText(L[""] .. "" ..
+				self:GetColoredDifficulty(itemId))
 				TradeskillInfoSkillText:Show()
 				yPos = yPos + 4 + TradeskillInfoSkillText:GetHeight()
 			end
@@ -439,14 +439,14 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 			-- Insert item value and reagent costs
 			TradeskillInfoProfitText:SetText(profitLabel .. ": " ..
 				string.format("%s - %s = %s",
-							  self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
+				self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
 			TradeskillInfoProfitText:SetPoint("TOPLEFT", 5, -yPos)
-			TradeskillInfoProfitText:Show()
+			--TradeskillInfoProfitText:Show()
+			TradeskillInfoProfitText:Hide()
 			yPos = yPos + 4 + TradeskillInfoProfitText:GetHeight()
 		else
 			TradeskillInfoProfitText:Hide()
 		end
-
 		TradeSkillDescription:SetPoint("TOPLEFT", 5, -yPos)
 	end
 end
