@@ -125,6 +125,7 @@
     <Include file="..\..\TipTac\CfgTipTac.lua"/>
     <Include file="..\..\EquippedItemLevelTooltip\CfgEquippedItemLevelTooltip.lua"/>
     <Include file="..\..\TradeSkillInfo\CfgTradeSkillInfo.lua"/>
+    <Include file="..\..\JSHB\CfgJSHB.lua"/>
 
     <Include file="Custom.xml"/>
     <Include file="CfgCustom.lua"/>
