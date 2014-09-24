@@ -136,12 +136,12 @@ function MainPanel:OnShow()
 end
 
 function MainPanel:OnHide()
-    self.currentPanel = self:GetSelectedPanel()
+    Profile:SetDefaultPanel(self:GetSelectedTab())
     self.GameTooltip:Hide()
 end
 
 function MainPanel:GetCurrentPanel()
-    return MemberCache:GetMemberCount() > 0 and WaitPanel or self.currentPanel or BrowsePanel
+    return MemberCache:GetMemberCount() > 0 and WaitPanel or self:GetPanelByIndex(Profile:GetDefalutPanel()) or MallPanel
 end
 
 function MainPanel:Refresh()
@@ -189,7 +189,7 @@ function MainPanel:InitBlocker()
     return Blocker
 end
 
-function MainPanel:SetBlocker(blockType)
+function MainPanel:SetBlocker(blockType, ...)
     if blockType == 'MISSBNET' then
         local Blocker = self.Blocker or self:InitBlocker()
         Blocker.SummaryBox:SetSize(550, 350)
@@ -208,6 +208,20 @@ function MainPanel:SetBlocker(blockType)
         local Blocker = self.Blocker or self:InitBlocker()
         Blocker.SummaryBox:SetSize(400, 300)
         Blocker.Html:SetText(L.TrialAccountSummary)
+        Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
+        Blocker.Icon:SetDesaturated(true)
+        Blocker:Show()
+    elseif blockType == 'MALLPURCHASE' then
+        local Blocker = self.Blocker or self:InitBlocker()
+        Blocker.SummaryBox:SetSize(550, 300)
+        Blocker.Html:SetText(format(L.MallPurchaseSummary, ...))
+        Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
+        Blocker.Icon:SetDesaturated(true)
+        Blocker:Show()
+    elseif blockType == 'REWARDPURCHASE' then
+        local Blocker = self.Blocker or self:InitBlocker()
+        Blocker.SummaryBox:SetSize(550, 300)
+        Blocker.Html:SetText(L.RewardPurchaseSummary)
         Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
         Blocker.Icon:SetDesaturated(true)
         Blocker:Show()
@@ -403,6 +417,7 @@ function MainPanel:CreateChangeLog()
         self:SelectPanel(BrowsePanel)
         BrowsePanel:QuickToggle()
         BrowsePanel:ToggleHelpPlate()
+        Logic:Statistics(2)
     end)
 
     local portraitFrame = ChangeLogFrame:CreateTexture(nil, 'OVERLAY', 'UI-Frame-Portrait')

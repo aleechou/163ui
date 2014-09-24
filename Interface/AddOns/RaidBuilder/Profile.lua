@@ -8,7 +8,7 @@ function Profile:OnInitialize()
         global = {
             blackList = {},
             setting = {
-                signin = {},
+                -- signin = {},
             },
             favorites = {},
             recentlist = {},
@@ -140,13 +140,13 @@ function Profile:SetReferenced(result)
     self.globaldb.global.setting.reference = result
 end
 
-function Profile:IsSignIn(id)
-    return self.globaldb.global.setting.signin[id] == date('%Y-%m-%d')
-end
+-- function Profile:IsSignIn(id)
+--     return self.globaldb.global.setting.signin[id] == date('%Y-%m-%d')
+-- end
 
-function Profile:SetSignIn(id)
-    self.globaldb.global.setting.signin[id] = date('%Y-%m-%d')
-end
+-- function Profile:SetSignIn(id)
+--     self.globaldb.global.setting.signin[id] = date('%Y-%m-%d')
+-- end
 
 function Profile:AddFavorite(battleTag, reason)
     self.globaldb.global.favorites[battleTag] = {
@@ -272,4 +272,12 @@ function Profile:IsNewVersion()
     local cVersion = tonumber(GetAddOnMetadata('RaidBuilder', 'Version')) or 0
 
     return pVersion < cVersion
+end
+
+function Profile:GetDefalutPanel()
+    return self.characterdb.profile.settings.defaultPanel
+end
+
+function Profile:SetDefaultPanel(index)
+    self.characterdb.profile.settings.defaultPanel = index
 end

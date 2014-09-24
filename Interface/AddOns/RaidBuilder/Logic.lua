@@ -42,6 +42,8 @@ function Logic:OnInitialize()
     self:RegisterServer('SARGS', 'SOCKET_ARGS')
 
     self:RegisterServer('EXCHANGE_RESULT')
+    self:RegisterServer('MALLPURCHASE_RESULT')
+    self:RegisterServer('MALLQUERY_RESULT')
 
     self:ServerConnect()
     self:BroadConnect()
@@ -446,23 +448,19 @@ function Logic:GetPlayerFans()
     return self.fans or 0
 end
 
-function Logic:SignIn(id)
-    if Profile:IsSignIn(id) then
-        return
-    end
-    local btag = select(2, BNGetInfo())
-    self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
-    Profile:SetSignIn(id)
-end
+-- function Logic:SignIn(id)
+--     if Profile:IsSignIn(id) then
+--         return
+--     end
+--     local btag = select(2, BNGetInfo())
+--     self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
+--     Profile:SetSignIn(id)
+-- end
 
 function Logic:Referenced(target)
     local btag = select(2, BNGetInfo())
     self:SendServer('REFERENCE', UnitGUID('player'), btag, target)
     Profile:SetReferenced(target)
-end
-
-function Logic:EXCHANGE_RESULT(event, content)
-    GUI:CallWarningDialog(content)
 end
 
 function Logic:ReportEvent(input, event)
@@ -489,4 +487,38 @@ end
 
 function Logic:EXCHANGE_RESULT(event, ...)
     self:SendMessage('RAIDBUILDER_REWARD_RESULT', ...)
+end
+
+function Logic:MallPurchase(id)
+    if not id then
+        return
+    end
+
+    self:SendServer('MALLPURCHASE', id, UnitGUID('player'))
+end
+
+function Logic:MALLPURCHASE_RESULT(event, ...)
+    self:SendMessage('RAIDBUILDER_MALLPURCHASE_RESULT', ...)
+end
+
+function Logic:MallQueryPoint()
+    self:SendServer('MALLQUERY', UnitGUID('player'))
+end
+
+function Logic:MALLQUERY_RESULT(event, ...)
+    self:SendMessage('RAIDBUILDER_MALLQUERY_RESULT', ...)
+end
+
+function Logic:Statistics(id, ...)
+    if not id then
+        return
+    end
+
+    local pGUID = UnitGUID('player')
+    local bTag = select(2, BNGetInfo())
+    local pFaction = UnitFactionGroup('player')
+    local pLevel = UnitLevel('player')
+    local pClass = select(2, UnitClass('player'))
+
+    self:SendServer('STATISTICS', id, pGUID, bTag, pFaction, pLevel, pClass, ...)
 end

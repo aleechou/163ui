@@ -89,11 +89,9 @@ end
 
 function Event:ToSocket()
     local leader = self:GetLeader()
-    local eventCode = OLD_EVENT_MAP[self:GetEventCode()] or self:GetEventCode()
     return  leader ~= UnitName('player') and leader or nil,
             self:GetTimeStamp(),
-            -- self:GetEventCode(),
-            eventCode,
+            self:GetEventCode(),
             self:GetEventMode(),
             self:GetMinLevel(),
             self:GetMaxLevel(),

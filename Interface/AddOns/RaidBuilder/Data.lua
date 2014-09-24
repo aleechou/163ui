@@ -329,3 +329,126 @@ SOURCE_ICONS = {
     [2] = [[Interface\AddOns\RaidBuilder\Media\Mark\2]],
     [3] = [[Interface\AddOns\RaidBuilder\Media\Mark\3]],
 }
+
+local faction = UnitFactionGroup('player') == 'Horde'
+
+MALL_DATA = {
+    -- {
+    --     id = 0,
+    --     text = '0分',
+    --     coord = {0.5, 0.75, 0.5, 1},
+    --     item = {
+    --         {
+    --             id = 9999,
+    --             text = '神秘礼盒',
+    --             price = 0,
+    --             tip = {
+    --                 '神秘礼盒',
+    --                 '随机获得以下虚拟物品（1件/次）',
+    --                 '纸飞机工具包、摇摇虎、自动跳舞信号发射器、修默老爹的宠物饼干、紫色河豚、',
+    --                 '伊利丹之路、白色小马缰绳/白色迅猛龙缰绳、塞纳留斯之路、一袋海星、彩弹',
+    --                 ' ',
+    --                 '每个战网账号每月拥有一次免费领取机会！你能开出怎样的惊喜呢？',
+    --             },
+    --             itemId = 23002,
+    --         },
+    --     },
+    -- },
+    {
+        id = 1,
+        text = '60分',
+        coord = {0.25, 0.5, 0.5, 1},
+        item = {
+            {
+                id = 1001,
+                text = faction and '白色小迅猛龙哨' or '白色小马缰绳',
+                model = faction and 30141 or 30518,
+                price = 60,
+                itemId = faction and 49288 or 49289,
+            },
+        },
+    },
+    {
+        id = 2,
+        text = '120分',
+        coord = {0, 0.25, 0.5, 1},
+        item = {
+            {
+                id = 2001,
+                text = '军团之眼',
+                model = 40538,
+                price = 120,
+                itemId = 79744,
+            },
+            {
+                id = 2002,
+                text = '夜刃豹幼崽',
+                model = 37846,
+                price = 120,
+                itemId = 68841,
+            },
+        },
+    },
+    {
+        id = 3,
+        text = '150分',
+        coord = {0.75, 1, 0, 0.5},
+        item = {
+            {
+                id = 3001,
+                text = '拉风魔典',
+                model = 47348,
+                price = 150,
+                itemId = 93669,
+            },
+            {
+                id = 3002,
+                text = '地精杂烩煲',
+                price = 150,
+                itemId = 33219,
+            },
+        },
+    },
+    {
+        id = 4,
+        text = '240分',
+        coord = {0.5, 0.75, 0, 0.5},
+        item = {
+            {
+                id = 4001,
+                text = '伪造的石棺',
+                model = 38925,
+                price = 240,
+                itemId = 72161,
+            },
+        },
+    },
+    {
+        id = 5,
+        text = '280分',
+        coord = {0.25, 0.5, 0, 0.5},
+        new = true,
+        item = {
+            {
+                id = 5001,
+                text = '虚灵之门',
+                price = 280,
+                itemId = 54452,
+            },
+        },
+    },
+    {
+        id = 6,
+        text = '600分',
+        coord = {0, 0.25, 0, 0.5},
+        item = {
+            {
+                id = 6001,
+                text = '魔法食人魔玩偶',
+                model = 19939,
+                price = 600,
+                itemId = 72159,
+            },
+        },
+    },
+}

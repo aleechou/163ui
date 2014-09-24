@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'Panel', 4
+local WIDGET, VERSION = 'Panel', 5
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local Panel = GUI:NewClass(WIDGET, 'Frame.NetEasePanelTemplate', VERSION)
@@ -387,4 +387,8 @@ function Panel:CreateTitleButton(t)
 
     tinsert(self.titleButtons, button)
     return button
+end
+
+function Panel:GetPanelByIndex(index)
+    return self.PanelList[index] and self.PanelList[index].panel
 end

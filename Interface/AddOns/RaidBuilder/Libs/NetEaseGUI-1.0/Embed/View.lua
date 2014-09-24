@@ -1,6 +1,6 @@
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local View = GUI:NewEmbed('View', 1)
+local View = GUI:NewEmbed('View', 2)
 if not View then
     return
 end
@@ -70,7 +70,7 @@ end
 function View:GetButton(i)
     if not self.buttons[i] then
         local parent = self.GetScrollChild and self:GetScrollChild() or self
-        local button = self:GetItemClass():New(parent)
+        local button = self:GetItemClass():New(parent, self.highlightWithoutChecked)
 
         button:Hide()
         button:SetOwner(self)
@@ -102,4 +102,8 @@ end
 
 function View:IsEnabled()
     return not self.disabled
+end
+
+function View:SetItemHighlightWithoutChecked(flag)
+    self.highlightWithoutChecked = flag or nil
 end

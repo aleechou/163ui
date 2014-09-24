@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'GridView', 1
+local WIDGET, VERSION = 'GridView', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local GridView = GUI:NewClass(WIDGET, 'Frame', VERSION, 'Refresh', 'View', 'Scroll', 'Select', 'Owner')
