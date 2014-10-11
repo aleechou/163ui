@@ -51,6 +51,7 @@ function EventPusher:OnClick()
     RaidBuilder:ToggleModule('MainPanel')
     MainPanel:SelectPanel(BrowsePanel)
     BrowsePanel:QuickToggle(self.event:GetEventCode(), self.event)
+    Logic:Statistics(4, self.event:GetEventCode())
 end
 
 function EventPusher:OnFinished()

@@ -51,6 +51,7 @@ function AnnPanel:OnInitialize()
     end)
     AnnList:SetScript('OnShow', function(frame)
         frame:SetSelected(1)
+        Logic:Statistics(1)
     end)
 
     local Line = self.Inset:CreateTexture(nil, 'OVERLAY')
