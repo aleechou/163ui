@@ -7,6 +7,9 @@ local Frame = Bagnon:NewClass('GuildbankFrame', 'Frame', Bagnon.Frame)
 Frame.Title = LibStub('AceLocale-3.0'):GetLocale('Bagnon-GuildBank').Title
 Frame.OpenSound = 'GuildVaultOpen'
 Frame.CloseSound = 'GuildVaultClose'
+Frame.ItemFrame = Bagnon.GuildItemFrame
+Frame.BagFrame = Bagnon.GuildTabFrame
+Frame.MoneyFrame = Bagnon.GuildMoneyFrame
 
 
 --[[ Events ]]--
@@ -55,33 +58,24 @@ function Frame:FadeFrames()
 end
 
 
+--[[ Get ]]--
+
+function Frame:GetLogFrame()
+	return self.logFrame or self:CreateLogFrame()
+end
+
+function Frame:GetEditFrame()
+	return self.editFrame or self:CreateEditFrame()
+end
+
+
 --[[ Create ]]--
 
-function Frame:CreateItemFrame()
-	local f = Bagnon.GuildItemFrame:New(self:GetFrameID(), self)
-	self.itemFrame = f
-	return f
-end
-
-function Frame:CreateBagFrame()
-	local f = Bagnon.GuildTabFrame:New(self:GetFrameID(), self)
-	self.bagFrame = f
-	return f
-end
-
-function Frame:CreateMoneyFrame()
-	local f = Bagnon.GuildMoneyFrame:New(self:GetFrameID(), self)
-	self.moneyFrame = f
-	return f
-end
-
-function Frame:CreateLogToggles ()
+function Frame:CreateSpecialButtons() -- log toggles
 	local t = {}
 	for i = 1, Bagnon.LogToggle.numTypes do
 		t[i] = Bagnon.LogToggle:New(self, i)
 	end
-	
-	self.logToggles = t
 	return t
 end
 
@@ -106,26 +100,7 @@ function Frame:CreateEditFrame()
 end
 
 
---[[ Get ]]--
-
-function Frame:GetLogFrame()
-	return self.logFrame or self:CreateLogFrame()
-end
-
-function Frame:GetEditFrame()
-	return self.editFrame or self:CreateEditFrame()
-end
-
-function Frame:GetLogToggles()
-	return self.logToggles or self:CreateLogToggles()
-end
-
-
 --[[ Proprieties ]]--
-
-function Frame:HasLogs()
-	return true
-end
 
 function Frame:HasBagFrame()
 	return true

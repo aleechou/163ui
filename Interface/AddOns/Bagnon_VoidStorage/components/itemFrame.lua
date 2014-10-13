@@ -1,9 +1,9 @@
 --[[
 	itemFrame.lua
 		A void storage item frame. Three kinds:
-			"vault" -> deposited items
-			true -> items to deposit
-			false -> items to withdraw
+			nil -> deposited items
+			DEPOSIT -> items to deposit
+			WITHDRAW -> items to withdraw
 --]]
 
 local Bagnon = LibStub('AceAddon-3.0'):GetAddon('Bagnon')
@@ -22,10 +22,10 @@ function ItemFrame:UpdateEvents()
 			self:RegisterEvent('VOID_STORAGE_UPDATE')
 			self:RegisterEvent('VOID_TRANSFER_DONE')
 			
-			if self.kind == 'vault' then
-				self:RegisterEvent('VOID_STORAGE_CONTENTS_UPDATE')
-			else
+			if self.kind then
 				self:RegisterEvent('VOID_STORAGE_DEPOSIT_UPDATE')
+			else
+				self:RegisterEvent('VOID_STORAGE_CONTENTS_UPDATE')
 			end
 		else
 			self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
@@ -42,7 +42,7 @@ function ItemFrame:OnEvent()
 end
 
 function ItemFrame:OnSizeChanged()
-	if self.kind == 'vault' then
+	if not self.kind then
 		self:SendMessage('ITEM_FRAME_SIZE_CHANGE', self:GetFrameID())
 	end
 end
@@ -91,12 +91,12 @@ function ItemFrame:GetItemSlot(slot)
 end
 
 function ItemFrame:GetNumSlots()
-	if self.kind == 'vault' then
-		return 80
-	elseif self.kind then
+	if self.kind == DEPOSIT then
 		return GetNumVoidTransferDeposit()
-	else
+	elseif self.kind == WITHDRAW then
 		return GetNumVoidTransferWithdrawal()
+	else
+		return 80
 	end
 end
 

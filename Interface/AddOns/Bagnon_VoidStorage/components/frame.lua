@@ -7,6 +7,8 @@ local Frame = Bagnon:NewClass('VoidstorageFrame', 'Frame', Bagnon.Frame)
 Frame.Title = LibStub('AceLocale-3.0'):GetLocale('Bagnon-VoidStorage').Title
 Frame.OpenSound = 'UI_EtherealWindow_Open'
 Frame.CloseSound = 'UI_EtherealWindow_Close'
+Frame.ItemFrame = Bagnon.VaultItemFrame
+Frame.MoneyFrame = Bagnon.TransferButton
 
 
 --[[ Events ]]--
@@ -70,18 +72,6 @@ end
 
 
 --[[ Other Components ]]--
-
-function Frame:CreateItemFrame()
-	local f = Bagnon.VaultItemFrame:New(self:GetFrameID(), self, 'vault')
-	self.itemFrame = f
-	return f
-end
-
-function Frame:CreateMoneyFrame()
-	local f = Bagnon.TransferButton:New(self:GetFrameID(), self)
-	self.moneyFrame = f
-	return f
-end
 
 function Frame:PlaceBrokerDisplayFrame()
 	if self:HasBrokerDisplay() then

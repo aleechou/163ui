@@ -18,7 +18,11 @@ function Bagnon:IsBackpackBag(bagSlot)
 end
 
 function Bagnon:IsBank(slot)
-  return slot == BANK_CONTAINER
+  return slot == BANK_CONTAINER 
+end
+
+function Bagnon:IsReagents(slot)
+	return slot == REAGENTBANK_CONTAINER
 end
 
 function Bagnon:IsBankBag(slot)
@@ -48,8 +52,12 @@ function Bagnon:IsBagCached(...)
   return select(6, self:GetBagInfo(...))
 end
 
-function Bagnon:GetBagSize(...)
-  return select(5, self:GetBagInfo(...))
+function Bagnon:GetBagSize(player, bag)
+	if not self:IsReagents(bag) or IsReagentBankUnlocked() then
+  		return select(5, self:GetBagInfo(player, bag))
+  	else
+  		return 0
+  	end
 end
 
 function Bagnon:BagToInventorySlot(...)
@@ -62,24 +70,17 @@ end
 do
 	BAGNON_TRADE_TYPE = 0
 	BAGNON_BAG_TYPES = {
-		[0x0008] = 'leather',
-		[0x0010] = 'inscri',
-		[0x0020] = 'herb',
-		[0x0040] = 'enchant',
-		[0x0080] = 'engineer',
-		[0x0200] = 'gem',
-		[0x0400] = 'mine',
-	 	[0x8000] = 'tackle',
-	 	[0x10000] = 'cooking'
+		[0x00008] = 'leather',
+		[0x00010] = 'inscri',
+		[0x00020] = 'herb',
+		[0x00040] = 'enchant',
+		[0x00080] = 'engineer',
+		[0x00200] = 'gem',
+		[0x00400] = 'mine',
+	 	[0x08000] = 'tackle',
+	 	[0x10000] = 'cooking',
+	 	[-1] = 'reagent'
 	}
-
-	for v in ipairs(BAGNON_BAG_TYPES) do
-		BAGNON_TRADE_TYPE = BAGNON_TRADE_TYPE + v
-	end
-end
-
-function Bagnon:IsTradeBag(...)
-	return bit.band(self:GetBagFamily(...), BAGNON_TRADE_TYPE) > 0
 end
 
 function Bagnon:GetBagType(...)
@@ -89,8 +90,10 @@ end
 function Bagnon:GetBagFamily(player, bag)
 	if self:IsBank(bag) or self:IsBackpack(bag) then
 		return 0
+	elseif self:IsReagents(bag) then
+		return -1
 	end
-	
+
 	local link = self:GetBagInfo(player, bag)
 	if link then
 		return GetItemFamily(link)

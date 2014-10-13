@@ -18,7 +18,7 @@ local MESSAGES = {
 local ICONS = {
 	[[Interface\Icons\INV_Crate_03]],
 	[[Interface\Icons\INV_Misc_Coin_01]],
-	[[Interface\Icons\INV_Letter_20]] --- TEMP
+	[[Interface\Icons\INV_Letter_20]]
 }
 
 

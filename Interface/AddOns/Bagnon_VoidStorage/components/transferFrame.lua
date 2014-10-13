@@ -11,18 +11,19 @@ function TransferFrame:New(frameID, parent)
 	local f = self:Bind(CreateFrame('Frame', nil, parent))
 	f.frameID = frameID
 	
-	local deposit = f:NewSection(DEPOSIT, true)
+	local deposit = f:NewSection(DEPOSIT)
 	deposit:SetPoint('TOPLEFT', 10, -20)
 	
-	local withdraw = f:NewSection(WITHDRAW, false)
+	local withdraw = f:NewSection(WITHDRAW)
 	withdraw:SetPoint('TOPLEFT', deposit, 'BOTTOMLEFT', 0, -20)
 	
 	return f
 end
 
-function TransferFrame:NewSection(title, kind)
-	local frame = Bagnon.VaultItemFrame:New(self.frameID, self, kind)
+function TransferFrame:NewSection(title)
+	local frame = Bagnon.VaultItemFrame:New(self.frameID, self)
 	frame.title:SetText(title)
 	frame.COLUMN_OFF = 1
+	frame.kind = title
 	return frame
 end

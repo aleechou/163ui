@@ -1,6 +1,6 @@
 ## Interface: 60000
 ## Title: Bagnon Config
-## Notes: 简约整合背包的设定
+## Notes: Load on demand configuration for Bagnon
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Dependencies: Bagnon
 ## LoadOnDemand: 1
@@ -9,6 +9,7 @@ localization\localization.xml
 widgets\widgets.xml
 panels\panels.xml
 
-## Title: |cff880303[网易有爱]|r 简约背包设定
+
+## Title-zhCN: |cff880303[网易有爱]|r 简约背包设定
 ## X-Vendor: NetEase
-## 163UI-Version: 2014082601
+## 163UI-Version: 2014101301

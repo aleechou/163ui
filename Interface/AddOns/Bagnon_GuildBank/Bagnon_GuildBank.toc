@@ -1,7 +1,7 @@
 ## Interface: 60000
 ## Title: Bagnon Guild Bank
 ## Author: Tuller & Jaliborc (João Cardoso)
-## Notes: 在一个窗口中显示所有公会银行内的物品
+## Notes: Single window display for your guild bank
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
 
@@ -9,6 +9,8 @@ localization\localization.xml
 components\components.xml
 main.lua
 
-## Title: |cff880303[网易有爱]|r 公会银行整合
+
+## Title-zhCN: |cff880303[网易有爱]|r 公会银行整合
+## Notes-zhCN: 在一个窗口中显示所有公会银行内的物品
 ## X-Vendor: NetEase
-## 163UI-Version: 2014091001
+## 163UI-Version: 2014101301
