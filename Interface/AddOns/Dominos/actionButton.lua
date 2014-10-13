@@ -15,6 +15,7 @@ ActionButton.active = {}
 --constructor
 function ActionButton:New(id)
 	local b = self:Restore(id) or self:Create(id)
+
 	if b then
 		b:SetAttribute('showgrid', 0)
 		b:SetAttribute('action--base', id)
@@ -23,7 +24,7 @@ function ActionButton:New(id)
 			local overridePage = self:GetParent():GetAttribute('state-overridepage')
 			local newActionID
 			
-			if state == 'override' and overridePage > 10 then
+			if state == 'override' then
 				newActionID = self:GetAttribute('button--index') + (overridePage - 1) * 12
 			else
 				newActionID = state and self:GetAttribute('action--' .. state) or self:GetAttribute('action--base')
@@ -36,25 +37,20 @@ function ActionButton:New(id)
 		]])
 
 		Dominos.BindingsController:Register(b, b:GetName():match('DominosActionButton%d'))
-		--b:UpdateGrid()
-		--b:UpdateHotkey(b.buttonType)
-		--b:UpdateMacro()
-		--b:UnregisterEvent('UPDATE_BINDINGS')
 
 		--hack #1billion, get rid of range indicator text
 		local hotkey = _G[b:GetName() .. 'HotKey']
 		if hotkey:GetText() == _G['RANGE_INDICATOR'] then
 			hotkey:SetText('')
-		end
+		end		
 
 		b:UpdateGrid()
 		b:UpdateMacro()
 
 		self.active[id] = b
-		--return b
 	end
 
-	return b
+	return b	
 end
 
 local function Create(id)
@@ -103,9 +99,6 @@ function ActionButton:Restore(id)
 		self.unused[id] = nil
 		b:LoadEvents()
 		ActionButton_UpdateAction(b)
-		if(not issecurevariable(b, "action")) then
-			Dominos:Print("动作条按钮"..id.."因重置失效，请运行/rl重载界面")
-		end
 		b:Show()
 		self.active[id] = b
 		return b

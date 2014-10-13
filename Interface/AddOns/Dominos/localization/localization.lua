@@ -69,22 +69,3 @@ L.TipRollBar = 'Displays frames for rolling on items, when in a group.'
 L.TipVehicleBar = [[
 Displays controls to aim and exit a vehicle.
 All other vehicle actions are displayed on the possess bar.]]
-
-
-
-L['ActionBar: %s'] = 'ActionBar: %s'
-L['class'] = 'class'
-L['cast'] = 'cast'
-L['pet'] = 'pet'
-L['bags'] = 'bags'
-L['menu'] = 'menu'
-L['vehicle'] = 'vehicle'
-L['roll'] = 'roll'
-L['xp'] = 'xp'
-L['totem1'] = 'totem1'
-L['totem2'] = 'totem2'
-L['totem3'] = 'totem3'
-L['extra'] = 'extra'
-L['Dominos'] = "Dominos"
-L['page'] = 'page'
-L['encounter'] = 'encounter'

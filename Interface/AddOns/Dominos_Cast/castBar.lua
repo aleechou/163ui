@@ -5,7 +5,6 @@ local L = LibStub('AceLocale-3.0'):GetLocale('Dominos-CastingBar')
 -- Module Code
 function DCB:OnInitialize()
 	_G['CastingBarFrame'].ignoreFramePositionManager = true
-	self:Load()
 end
 
 function DCB:Load()

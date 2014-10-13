@@ -519,8 +519,6 @@ function Frame:ShowFrame()
 end
 
 function Frame:HideFrame()
-	--if(alwaysShown[self.id]) then return end -- XXX 163
-
 	self.sets.hidden = true
 	self:Hide()
 	self.drag:UpdateColor()

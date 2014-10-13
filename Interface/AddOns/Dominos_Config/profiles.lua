@@ -113,7 +113,6 @@ end
 
 local function Panel_CreatePopupDialog(panel)
 	return {
-        preferredIndex = 3,
 		text = L.EnterName,
 		button1 = ACCEPT,
 		button2 = CANCEL,

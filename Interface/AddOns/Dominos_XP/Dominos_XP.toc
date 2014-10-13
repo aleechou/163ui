@@ -1,15 +1,14 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Dominos XP
+## Title-zhCN: |cFF0099FF[Dominos]|r 经验条
 ## Notes: A movable experience/reputation bar
 ## Author: Tuller
 ## Dependencies: Dominos
 ## OptionalDeps: LibSharedMedia-3.0
-## X-Mush-Project-Father: Dominos
-## X-Mush-Packaged-Version: 1
-
 embeds.xml
 localization.xml
 xp.lua
-## Title-zhCN: |cff880303[网易有爱]|r 多米诺_经验条
-## Title: |cff880303[网易有爱]|r 多米诺_经验条
-## 163UI-Version: 2014062801
+
+
+## Title-zhCN: |cff880303[网易有爱]|r 多米诺-经验条
+## 163UI-Version: 2014101101

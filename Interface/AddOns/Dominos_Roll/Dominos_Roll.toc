@@ -1,10 +1,11 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Dominos Roll
 ## Title-zhCN: |cFF0099FF[Dominos]|r Roll窗口模块
-## Notes: 可移动的roll点框
+## Notes: Makes the set of frames for rolling on items when in a group movable
 ## Author: Tuller
 ## Dependencies: Dominos
 rollBar.lua
 
-## Title: |cff880303[网易有爱]|r 多米诺_ROLL点框
-## 163UI-Version: 2014061002
+
+## Title-zhCN: |cff880303[网易有爱]|r 多米诺-ROLL点框
+## 163UI-Version: 2014101101

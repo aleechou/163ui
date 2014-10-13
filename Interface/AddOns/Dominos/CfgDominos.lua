@@ -57,7 +57,7 @@ minimap = "LibDBIcon10_Dominos",
             Dominos:Unload()
             Dominos.db:ResetProfile()
             -- insert out diff
-            Dominos:U1_InitPreset(true)
+            if Dominos.U1_InitPreset then Dominos:U1_InitPreset(true) end
             Dominos.isNewProfile = nil
             Dominos:Load()
         end

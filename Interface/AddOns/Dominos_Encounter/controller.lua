@@ -3,7 +3,6 @@ local EncounterBarController = Dominos:NewModule('EncounterBar')
 
 function EncounterBarController:OnInitialize()
 	_G['PlayerPowerBarAlt'].ignoreFramePositionManager = true
-	self:Load()
 end
 
 function EncounterBarController:Load()

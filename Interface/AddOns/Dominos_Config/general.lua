@@ -227,10 +227,9 @@ do
 
 		function dd:Initialize()
 			local selected = Dominos:GetOverrideBar().id
-            local LL = LibStub('AceLocale-3.0'):GetLocale('Dominos')
 
 			for i = 1, Dominos:NumBars() do
-				AddItem(string.format(LL['ActionBar: %s'], i), i, Item_OnClick, i == selected)
+				AddItem('Action Bar ' .. i, i, Item_OnClick, i == selected)
 			end
 		end
 		return dd

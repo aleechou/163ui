@@ -30,12 +30,7 @@ function Drag:New(owner)
 	f:SetHighlightTexture(t)
 
 	f:SetNormalFontObject('GameFontNormalLarge')
-
-    if(tonumber(owner.id)) then
-        f:SetText(format(L['ActionBar: %s'], owner.id))
-    else
-        f:SetText(L[owner.id] or owner.id)
-    end
+	f:SetText(owner.id)
 
 	f:RegisterForClicks('AnyUp')
 	f:RegisterForDrag('LeftButton')
@@ -99,11 +94,17 @@ function Drag:StopMoving()
 end
 
 function Drag:OnMouseWheel(arg1)
-	local newAlpha = min(max(self.owner:GetAlpha() + (arg1 * 0.1), 0), 1)
-	if newAlpha ~= self.owner:GetAlpha() then
-		self.owner:SetFrameAlpha(newAlpha)
-		self:OnEnter()
-	end
+    local oldAlpha = self.owner.sets and self.owner.sets.alpha or 1
+    local newAlpha = min(max(oldAlpha + (arg1 * 0.1), 0), 1)
+
+    -- round to fix floating point fun
+    oldAlpha = math.floor(oldAlpha * 100 + 0.5) / 100
+    newAlpha = math.floor(newAlpha * 100 + 0.5) / 100
+    
+    if newAlpha ~= oldAlpha then
+        self.owner:SetFrameAlpha(newAlpha)
+        self:OnEnter()
+    end
 end
 
 function Drag:OnClick(button)

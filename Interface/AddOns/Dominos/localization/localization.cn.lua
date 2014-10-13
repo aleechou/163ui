@@ -69,22 +69,3 @@ L.TipRollBar = '在团队中显示物品掷点面板'
 L.TipVehicleBar = [[
 显示瞄准和离开载具的控制按钮.
 其他载具按钮将在心灵控制条上显示.]]
-
-
-
-L['ActionBar: %s'] = '动作条: %s'
-L['class'] = '姿态条'
-L['cast'] = '施法条'
-L['pet'] = '宠物技能'
-L['bags'] = '背包'
-L['menu'] = '菜单'
-L['vehicle'] = '载具'
-L['roll'] = '掷点 '
-L['xp'] = '经验声望'
-L['totem1'] = '图腾条1'
-L['totem2'] = '图腾条2'
-L['totem3'] = '图腾条3'
-L['extra'] = '特殊按钮'
-L['Dominos'] = "多米诺动作条"
-L['page'] = '翻页条'
-L['encounter'] = '特殊能量条'
