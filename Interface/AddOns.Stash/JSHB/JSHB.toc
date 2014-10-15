@@ -1,6 +1,6 @@
 ﻿## Title: |cffabd473JSHB|r
 ## Notes: Formerly, JS' Hunter Bar
-## Interface: 50300
+## Interface: 60000
 ## Author: _JS_
 ## Version: v4.31
 ## DefaultState: Enabled

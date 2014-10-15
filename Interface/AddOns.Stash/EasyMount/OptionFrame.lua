@@ -174,4 +174,5 @@ SLASH_EASYMOUNT1 = "/easymount"
 SLASH_EASYMOUNT2 = "/ezm"
 SlashCmdList["EASYMOUNT"] = function()
 	frame:Open()
+	frame:Open()
 end
