@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0PvP|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0PvP|r
@@ -66,4 +66,4 @@ Battlegrounds\Warsong.lua
 Arenas\Arenas.lua
 
 
-## 163UI-Version: 2014090901
+## 163UI-Version: 2014101501
