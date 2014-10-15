@@ -1,3 +1,18 @@
+2014-10-15/01
+===
+
+### 升级6.0插件 ###
+
+* 多米诺
+* Grid 团队框架
+* Bagnon 背包整合
+* BagBrother 
+* 集合石
+* TradeskillInfo
+* 移除 Bartender4
+* 暂时移除 JSHB
+* 暂时移除 EasyMount
+
 
 2014-09-24/01
 ===
