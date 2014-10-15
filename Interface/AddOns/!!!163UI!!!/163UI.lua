@@ -146,7 +146,7 @@ local function getInitialAddonInfo()
         if (#deps > 1) then
             --TODO: 暂时采用option deps方式加载，因为多个deps无法从控制台上看到，如果因为其他dep未加载而不让加载会莫名其妙
             if DEBUG_MODE then
-                print("MultiDependencies: " .. name .. " depends on " .. table.concat(deps, ","));
+                -- print("MultiDependencies: " .. name .. " depends on " .. table.concat(deps, ","));
             end
             for i=2, #deps do optdeps[i-1] = deps[i]:lower() end
         end
@@ -1474,11 +1474,11 @@ function U1:ADDON_LOADED(event, name)
                     enabled = info.defaultEnable
                     if info.load=="NORMAL" then --只管关不管开, 因为既然默认没开, 那肯定是玩家之前用过了
                         if not enabled and info.originEnabled then
-        print("DisableAddOn",name)
+        --print("DisableAddOn",name)
                             DisableAddOn(name)
                         elseif enabled and info.vendor and not info.originEnabled then
 
-        print("EnableAddOn",name)
+        --print("EnableAddOn",name)
                             EnableAddOn(name) --若没有此处理，则用户初次运行时，插件全部关闭，没有U1DB，!BaudErrorFrame就无法加载
                         end
                     end
