@@ -70,9 +70,9 @@ function MallItem:Constructor(parent)
         if not self.data.model then
             return
         end
-        local frame = ModelPreviewFrame;
-        ModelPreviewFrame_ShowModel(self.data.model, false);
-        frame.Display.Name:SetText(self.data.text);
+        local frame = ModelPreviewFrame
+        ModelPreviewFrame_ShowModel(self.data.model, true)
+        frame.Display.Name:SetText(self.data.text)
     end)
 
     self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
@@ -86,8 +86,6 @@ function MallItem:Constructor(parent)
     self.Price = Price
     self.Icon = Icon
     self.Shadows = Shadows
-    -- self.CheckedTexture = CheckedTexture
-    -- self.HighlightTexture = HighlightTexture
     self.Model = Model
     self.Magnifier = Magnifier
     self.Name = Name
@@ -142,6 +140,11 @@ function MallItem:SetIcon(id)
 
     self.Icon:SetTexture(texture)
     self.data.link = link
+
+    if not self.data.text then
+        self.data.text = name
+        self:SetText(name)
+    end
 end
 
 function MallItem:SetData(data)

@@ -49,9 +49,13 @@ function MallCategoryItem:Constructor(parent)
     self.Text = Text
     self.hasNew = hasNew
     self.Icon = Icon
+    self.HighlightTexture = HighlightTexture
+    self.CheckedTexture = CheckedTexture
 end
 
 function MallCategoryItem:SetText(text)
+    self.HighlightTexture:SetWidth(self:GetWidth() - 4)
+    self.CheckedTexture:SetWidth(self:GetWidth() - 4)
     self.Text:SetText(text)
 end
 

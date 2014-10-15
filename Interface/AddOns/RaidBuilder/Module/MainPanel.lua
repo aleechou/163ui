@@ -45,19 +45,19 @@ function MainPanel:OnInitialize()
         end
     end)
 
-    if IsAddOnLoaded('WowSocial_UI') then
-        self:CreateTitleButton{
-            title = L['集合石聊天'],
-            texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
-            -- coords = {0.75, 1, 0, 1},
-            callback = function()
-                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-                if CloudUI then
-                    CloudUI:GetModule('DataBroker'):Toggle()
-                end
-            end
-        }
-    end
+    -- if IsAddOnLoaded('WowSocial_UI') then
+    --     self:CreateTitleButton{
+    --         title = L['集合石聊天'],
+    --         texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
+    --         -- coords = {0.75, 1, 0, 1},
+    --         callback = function()
+    --             local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
+    --             if CloudUI then
+    --                 CloudUI:GetModule('DataBroker'):Toggle()
+    --             end
+    --         end
+    --     }
+    -- end
 
     self:CreateTitleButton{
         title = L['分享插件'],
@@ -211,20 +211,6 @@ function MainPanel:SetBlocker(blockType, ...)
         Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
         Blocker.Icon:SetDesaturated(true)
         Blocker:Show()
-    elseif blockType == 'MALLPURCHASE' then
-        local Blocker = self.Blocker or self:InitBlocker()
-        Blocker.SummaryBox:SetSize(550, 300)
-        Blocker.Html:SetText(format(L.MallPurchaseSummary, ...))
-        Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
-        Blocker.Icon:SetDesaturated(true)
-        Blocker:Show()
-    elseif blockType == 'REWARDPURCHASE' then
-        local Blocker = self.Blocker or self:InitBlocker()
-        Blocker.SummaryBox:SetSize(550, 300)
-        Blocker.Html:SetText(L.RewardPurchaseSummary)
-        Blocker.Icon:SetTexture([[INTERFACE\FriendsFrame\PlusManz-BattleNet]])
-        Blocker.Icon:SetDesaturated(true)
-        Blocker:Show()
     elseif self.Blocker then
         self.Blocker:Hide()
     end
@@ -257,11 +243,12 @@ local EVENT_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLeaderLevel', },
     { text = L['装等：'],      method = 'GetLeaderItemLevel', },
     { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
-    { text = L['团长粉丝：'],  method = 'GetLeaderFans', },
+    -- { text = L['团长粉丝：'],  method = 'GetLeaderFans', },
     { text = '',               method = 'GetLeaderLogoTooltip'},
     { text = ' ', },
     { text = L['形式：'],      method = 'GetEventModeText', },
     { text = L['说明：'],      method = 'GetSummary', },
+    { text = L['版本：'],      method = 'GetVersion', }
 }
 
 function MainPanel:OpenEventTooltip(event)
@@ -283,6 +270,9 @@ function MainPanel:OpenEventTooltip(event)
             if value then
                 if v.method == 'GetSummary' and #value > 25 and not value:find('[^%w]+') then
                     value = value:gsub('(%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w)','%1\n')
+                end
+                if v.method == 'GetVersion' then
+                    value = GetFullVersion(value)
                 end
                 GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
             end
@@ -316,7 +306,7 @@ local MEMBER_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLevel', },
     { text = L['装等：'],      method = 'GetItemLevel', },
     { text = L['PVP：'],       method = 'GetPVPRating', },
-    { text = L['团长粉丝：'],  method = 'GetFans', },
+    -- { text = L['团长粉丝：'],  method = 'GetFans', },
 }
 
 function MainPanel:OpenWaitTooltip(member)
