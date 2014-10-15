@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: TradeSkillInfo UI
 ## Notes: Complete tradeskill information browser module.
 ## Notes-zhCN: 商业技能资料库设置窗口
@@ -20,4 +20,4 @@ TradeskillInfoUI.lua
 TradeskillInfoUI.xml
 
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090901
+## 163UI-Version: 2014101501
