@@ -1,5 +1,5 @@
 --[[
-Copyright 2011-2013 João Cardoso
+Copyright 2011-2014 João Cardoso
 BagBrother is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -15,8 +15,6 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of BagBrother.
 --]]
 
-
-
 local EquipmentSlots = INVSLOT_LAST_EQUIPPED
 local BagSlots = NUM_BAG_SLOTS
 local BankSlots = NUM_BANKBAGSLOTS
@@ -26,6 +24,7 @@ local FirstBankSlot = 1 + BagSlots
 local LastBankSlot = BankSlots + BagSlots
 local Backpack = BACKPACK_CONTAINER
 local Bank = BANK_CONTAINER
+local Reagents = REAGENTBANK_CONTAINER
 
 
 --[[ Continuous Events ]]--
@@ -64,6 +63,7 @@ function BagBrother:BANKFRAME_CLOSED()
 		end
 
 		self:SaveBag(Bank, true)
+		self:SaveBag(Reagents, true)
 		self.atBank = nil
 	end
 end
@@ -85,4 +85,42 @@ function BagBrother:VOID_STORAGE_CLOSE()
     		self.Player.vault[i] = id and tostring(id) or nil
   		end
   	end
+end
+
+
+--[[ Guild Events ]]--
+
+function BagBrother:GUILDBANKFRAME_OPENED()
+	self.atGuild = true
+end
+
+function BagBrother:GUILDBANKFRAME_CLOSED()
+	self.atGuild = nil
+end
+
+function BagBrother:GUILD_ROSTER_UPDATE()
+	self.Player.guild = GetGuildInfo('player')
+end
+
+function BagBrother:GUILDBANKBAGSLOTS_CHANGED()
+	if self.atGuild then
+		local id = GetGuildInfo('player') .. '*'
+		local tab = GetCurrentGuildBankTab()
+		local tabs = self.Realm[id] or {}
+
+		for i=1, GetNumGuildBankTabs() do
+			tabs[i] = tabs[i] or {}
+			tabs[i].info = {GetGuildBankTabInfo(i)}
+		end
+
+		local items = tabs[tab]
+		for i = 1, 98 do
+			local link = GetGuildBankItemLink(tab, i)
+			local _, count = GetGuildBankItemInfo(tab, i)
+
+			items[i] = self:ParseItem(link, count)
+		end
+
+		self.Realm[id] = tabs
+	end
 end

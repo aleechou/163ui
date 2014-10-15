@@ -1,13 +1,15 @@
 ## Interface: 60000
 ## Title: BagBrother
-## Notes: 储存银行、背包的离线信息
+## Notes: Stores your characters inventory, bank, vault and guild bank, so that you may view them from anywhere.
 ## Author: Jaliborc (João Cardoso)
 ## SavedVariables: BrotherBags
+## OptionalDeps: WoWUnit
 
 Startup.lua
 Events.lua
 API.lua
 
-## Title: |cff880303[网易有爱]|r 离线背包/银行
+## Title-zhCN: |cff880303[网易有爱]|r 离线背包/银行
+## Notes-zhCN: 储存银行、背包的离线信息
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## 163UI-Version: 2014101301
