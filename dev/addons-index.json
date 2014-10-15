@@ -1,8 +1,5 @@
 {
     "deprecative": [
-        "foo", 
-        "bar", 
-        "baz", 
         "NPCMark", 
         "RatingBuster", 
         "idTip", 
