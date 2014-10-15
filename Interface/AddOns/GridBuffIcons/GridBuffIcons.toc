@@ -1,0 +1,12 @@
+## Interface: 60000
+## Title: GridBuffIcons
+# Title-zhCN: |cff880303[网易有爱]|r Grid额外状态图标
+
+## Author: Warbaby @ 网易有爱
+## Grid Author: Pastamancer & Maia
+## Dependencies: Grid
+embeds.xml
+
+## Title: |cff880303[网易有爱]|r Grid状态图标
+## X-Vendor: NetEase
+## 163UI-Version: 2014101501

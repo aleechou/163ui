@@ -1,0 +1,21 @@
+## Interface: 60000
+## Author: Azelkeeber(KR-Tirion),Toadkiller,Stassart
+## Version: 5.22
+## Grid Author: Pastamancer & Maia
+## Dependencies: Grid
+## OptionalDeps: LibBabble-Zone-3.0, LibBabble-Boss-3.0, AceLocale-3.0
+## X-Category: UnitFrame
+## X-GridStatusModule: GridStatusRaidDebuff
+## X-Curse-Packaged-Version: r13
+## X-Curse-Project-Name: GridStatusRaidDebuff MoP
+## X-Curse-Project-ID: gridstatusraiddebuff-mop
+## X-Curse-Repository-ID: wow/gridstatusraiddebuff-mop/mainline
+
+Locale\Locale.xml
+
+Core.lua
+
+
+## Title: |cff880303[网易有爱]|r Grid负面状态组件
+## X-Vendor: NetEase
+## 163UI-Version: 2014101501

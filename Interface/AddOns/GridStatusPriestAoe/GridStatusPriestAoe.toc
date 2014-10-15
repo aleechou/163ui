@@ -1,0 +1,23 @@
+﻿## Interface: 60000
+## Title: GridStatusPriestAoe
+
+## Dependencies: Grid
+## OptionalDeps: GridStatusEmphasize, LibQuickHealth-2.0, LibMapData-1.0
+## Author: Slaren
+## Version: v1.2c
+## Grid Author: Pastamancer & Maia
+## X-GridStatusModule: GridStatusPriestAoe
+## X-Curse-Packaged-Version: v1.2c
+## X-Curse-Project-Name: GridStatusPriestAoe
+## X-Curse-Project-ID: gridstatuspriestaoe
+## X-Curse-Repository-ID: wow/gridstatuspriestaoe/mainline
+
+#@no-lib-strip@
+libs\LibMapData-1.0\library.lua
+#@end-no-lib-strip@
+
+GridStatusPriestAoe.lua
+
+## Title: |cff880303[网易有爱]|r Grid牧师组件
+## X-Vendor: NetEase
+## 163UI-Version: 2014101501

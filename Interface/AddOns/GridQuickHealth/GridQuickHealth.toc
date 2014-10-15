@@ -1,0 +1,12 @@
+## Interface: 60000
+# Title: Grid_QuickHealth
+# Notes: 团队框体中的快速治疗功能
+## Author: Cncfanatics, Tifi
+## Dependencies: Grid
+
+# libs\LibQuickHealth-2.0\LibQuickHealth-2.0.lua
+GridQuickHealth.lua
+
+## Title: |cff880303[网易有爱]|r Grid快速治疗
+## X-Vendor: NetEase
+## 163UI-Version: 2014101501

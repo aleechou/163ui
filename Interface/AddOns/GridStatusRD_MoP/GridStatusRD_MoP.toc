@@ -1,0 +1,21 @@
+## Interface: 60000
+## Author: Evilsithgirl (Reckoning-Mannoroth-US)
+## Version: 1.4
+## Grid Author: Pastamancer & Maia
+## Dependencies: GridStatusRaidDebuff
+## X-Curse-Packaged-Version: r27
+## X-Curse-Project-Name: GridStatusRD_MoP
+## X-Curse-Project-ID: gridstatusrd_mop
+## X-Curse-Repository-ID: wow/gridstatusrd_mop/mainline
+
+CheckCompat.lua
+MogushanVaults.lua
+HeartOfFear.lua
+ShaofAnger.lua
+TerraceofEndlessSpring.lua
+ThroneofThunder.lua
+SiegeofOrgrimmar.lua
+
+## Title: |cff880303[网易有爱]|r Grid MOP组件
+## X-Vendor: NetEase
+## 163UI-Version: 2014101501
