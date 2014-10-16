@@ -273,59 +273,17 @@ for i, v in pairs(EVENT_NAMES) do
     EVENT_TYPES[v] = i
 end
 
-do
-    OLD_EVENT_CODE = {
-        [0x010000]   = EVENT_TYPES['团队副本'],
-        [0x020000]   = EVENT_TYPES['地下城'],
-        [0x040000]   = EVENT_TYPES['场景战役'],
-        [0x100000]   = EVENT_TYPES['PvP'],
-        [0x200000]   = EVENT_TYPES['本周悬赏'],
-        [0x400000]   = EVENT_TYPES['其它'],
-
-        [0x200001]   = EVENT_TYPES['本周悬赏'],
-
-        [0x01011a52] = EVENT_TYPES['决战奥格瑞玛-25人'],
-        [0x02011a52] = EVENT_TYPES['决战奥格瑞玛-10人'],
-        [0x04011a52] = EVENT_TYPES['决战奥格瑞玛-弹性'],
-        [0x000119de] = EVENT_TYPES['雷电王座'],
-        [0x000117b3] = EVENT_TYPES['永春台'],
-        [0x00011899] = EVENT_TYPES['恐惧之心'],
-        [0x000117ed] = EVENT_TYPES['魔古山宝库'],
-
-        [0x0001ffff] = EVENT_TYPES['斡耳朵斯'],
-        [0x0001fffe] = EVENT_TYPES['四大天神'],
-        [0x0001fffd] = EVENT_TYPES['世界Boss一波流'],
-
-        [0x00011704] = EVENT_TYPES['巨龙之魂'],
-        [0x0001165b] = EVENT_TYPES['火焰之地'],
-        [0x00011606] = EVENT_TYPES['风神王座'],
-        [0x000113e6] = EVENT_TYPES['黑翼血环'],
-        [0x000114d6] = EVENT_TYPES['暮光堡垒'],
-        [0x000115e0] = EVENT_TYPES['巴拉丁监狱'],
-
-        [0x000112cc] = EVENT_TYPES['冰冠堡垒'],
-        [0x0001137b] = EVENT_TYPES['红玉圣殿'],
-        [0x00011272] = EVENT_TYPES['十字军的试炼'],
-        [0x000110b1] = EVENT_TYPES['奥杜尔'],
-        [0x0001118d] = EVENT_TYPES['黑曜石圣殿'],
-        [0x00011194] = EVENT_TYPES['永恒之眼'],
-        [0x000111fb] = EVENT_TYPES['阿尔卡冯的宝库'],
-
-        [0x00100001] = EVENT_TYPES['2v2'],
-        [0x00100002] = EVENT_TYPES['3v3'],
-        [0x00100003] = EVENT_TYPES['5v5'],
-        [0x00100004] = EVENT_TYPES['评级战场'],
-        [0x00100005] = EVENT_TYPES['随机战场'],
-    }
-
-    OLD_EVENT_MAP = {}
-
-    for k, v in pairs(OLD_EVENT_CODE) do
-        OLD_EVENT_MAP[v] = k
-    end
-end
-
 SOURCE_ICONS = {
     [2] = [[Interface\AddOns\RaidBuilder\Media\Mark\2]],
     [3] = [[Interface\AddOns\RaidBuilder\Media\Mark\3]],
+}
+
+MALL_CATEGORY_ICON_LIST = {
+    [0] = {0, 0.25, 0, 0.5},
+    [1] = {0.5, 0.75, 0.5, 1},
+    [2] = {0.25, 0.5, 0.5, 1},
+    [3] = {0, 0.25, 0.5, 1},
+    [4] = {0.75, 1, 0, 0.5},
+    [5] = {0.5, 0.75, 0, 0.5},
+    [6] = {0.25, 0.5, 0, 0.5},
 }

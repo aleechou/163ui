@@ -41,10 +41,19 @@ function RemoteDataCache:OnInitialize()
         Profile:AddAnnData(cache.title, cache.content)
     end)
 
+    local MallData = DataCache:NewObject('MallData')
+    MallData:SetCallback('OnCacheChanged', function(MallData, cache, isNew)
+        self:FormatMallData(cache, isNew)
+    end)
+    MallData:SetCallback('OnDataChanged', function(MallData, data)
+        self:SendMessage('RAIDBUILDER_MALL_PRODUCT_LIST_UPDATED', data, MallData.isNew)
+    end)
+
     self.LogoData = LogoData
     self.MonthData = MonthData
     self.TotalData = TotalData
     self.RecommendData = RecommendData
+    self.MallData = MallData
 end
 
 function RemoteDataCache:FormatRecommendData(cache)
@@ -103,4 +112,56 @@ end
 function RemoteDataCache:ReadCurrentRecommend()
     self.RecommendData:SetIsNew(false)
     self:SendMessage('RAIDBUILDER_RECOMMENDDATA_CHANGED')
+end
+
+local function FormatMallGood(encode)
+    local good = {(';'):split(encode, 7)}
+    for i = 1, #good do
+        if good[i] == '' then
+            good[i] = nil
+        end
+    end
+    return unpack(good)
+end
+
+function RemoteDataCache:FormatMallData(cache, isNew)
+    if self.MallData:GetData() and not isNew then
+        return
+    end
+
+    local productList = {}
+    local pFaction = UnitFactionGroup('player') == 'Alliance' and '1' or '2'
+
+    for k, v in pairs(cache) do
+        local categoryText, categoryOrder, new = ('#'):split(k)
+        categoryOrder = tonumber(categoryOrder)
+
+        local goods = {('#'):split(v)}
+
+        local category = {
+            text = categoryText,
+            coord = MALL_CATEGORY_ICON_LIST[categoryOrder % 7],
+            new = new,
+            item = {},
+        }
+
+        for i, item in ipairs(goods) do
+            local id, price, itemId, model, faction, text, tip = FormatMallGood(item)
+            if not faction or faction == pFaction then
+                tinsert(category.item, {
+                    id = id,
+                    text = text,
+                    price = price,
+                    tip = tip and {('@'):split(tip)},
+                    itemId = itemId,
+                    model = model,
+                    })
+            end
+        end
+
+        productList[categoryOrder] = category
+    end
+
+    self.MallData.isNew = isNew
+    self.MallData:SetData(productList)
 end

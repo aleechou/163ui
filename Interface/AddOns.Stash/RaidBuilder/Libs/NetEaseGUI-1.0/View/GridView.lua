@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'GridView', 1
+local WIDGET, VERSION = 'GridView', 3
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local GridView = GUI:NewClass(WIDGET, 'Frame', VERSION, 'Refresh', 'View', 'Scroll', 'Select', 'Owner')
@@ -94,6 +94,19 @@ function GridView:UpdateItems()
         end
         self:SetSize(width, height)
     end
+
+    local desc = self:GetDescription()
+    if not desc then
+        return
+    end
+
+    if maxCount == 0 then
+        desc:Hide()
+    else
+        desc:ClearAllPoints()
+        desc:SetPoint(desc.anchor, self:GetButton(maxCount), desc.relativePoint, desc.x, desc.y)
+        desc:Show()
+    end
 end
 
 function GridView:SetColumnCount(columnCount)
@@ -147,4 +160,18 @@ function GridView:GetItemWidth()
         return self.itemWidth
     end
     return self.itemWidth or 20
+end
+
+function GridView:SetDescription(text, anchor, relativePoint, x, y)
+    self.Description = self.Description or self:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+    self.Description:Hide()
+    self.Description:SetText(text)
+    self.Description.anchor = anchor or 'TOP'
+    self.Description.relativePoint = relativePoint or 'BOTTOM'
+    self.Description.x = x or 0
+    self.Description.y = y or -5
+end
+
+function GridView:GetDescription()
+    return self.Description
 end

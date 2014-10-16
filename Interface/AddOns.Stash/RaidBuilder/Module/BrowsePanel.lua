@@ -200,6 +200,7 @@ function BrowsePanel:OnInitialize()
     EventList:SetSelectMode('RADIO')
     EventList:SetSortHandler(_NormalSortHandler)
     EventList:SetItemSpacing(1)
+    EventList:SetScrollStep(9)
     EventList:SetItemList({})
     EventList:SetCallback('OnGridEnter', function(_, grid, event, key)
         if key == 'MemberRole' then

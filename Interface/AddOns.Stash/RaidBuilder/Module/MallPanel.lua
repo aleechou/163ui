@@ -1,13 +1,85 @@
 
 BuildEnv(...)
 
-MallPanel = RaidBuilder:NewModule(GUI:GetClass('InTabPanel'):New(MainPanel), 'MallPanel')
+MallPanel = RaidBuilder:NewModule(GUI:GetClass('InTabPanel'):New(MainPanel), 'MallPanel', 'AceTimer-3.0')
 
 function MallPanel:OnInitialize()
     GUI:Embed(self, 'Owner')
     self.TabFrame:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 60, 0)
 
     MainPanel:RegisterPanel(L['兑换平台'], self, 0, 70)
+
+    local Blocker = CreateFrame('Frame', nil, self)
+    Blocker:SetAllPoints(true)
+    Blocker:SetFrameLevel(50)
+    Blocker:EnableMouse(true)
+    Blocker:EnableMouseWheel(true)
+    Blocker:SetScript('OnMouseWheel', function() end)
+    Blocker:Hide()
+
+    local bg = Blocker:CreateTexture(nil, 'OVERLAY')
+    bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background-Dark]])
+    bg:SetAllPoints(Blocker)
+
+    local BlockerSummary = GUI:GetClass('SummaryHtml'):New(Blocker)
+    BlockerSummary:SetSize(600, 200)
+    BlockerSummary:SetPoint('CENTER')
+    Blocker.Html = BlockerSummary
+
+    local Loading = Blocker:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
+    Loading:SetPoint('TOPRIGHT')
+
+    self.timeout = 120
+    self.Loading = Loading
+    self.Blocker = Blocker
+end
+
+function MallPanel:SetBlocker(enable, text, callback)
+    if enable then
+        self.Blocker.Html:SetText(text)
+        self.Loading:SetText(self.timeout)
+
+        if type(callback) == 'function' then
+            if self.timeoutId then
+                self:CancelTimer(self.timeoutId)
+            end
+
+            if self.loadingId then
+                self:CancelTimer(self.loadingId)
+            end
+
+            self.timeoutId = self:ScheduleTimer(callback, self.timeout)
+            self.loadingId = self:ScheduleRepeatingTimer('UpdateLoading', 1, true)
+        else
+            self:UpdateLoading(false)
+        end
+
+        self.Blocker:Show()
+    else
+        self:CancelTimer(self.timeoutId)
+        self:CancelTimer(self.loadingId)
+        self.timeoutId = nil
+        self.loadingId = nil
+        self.Blocker:Hide()
+    end
+end
+
+function MallPanel:UpdateLoading(enable)
+    local Loading = self.Loading
+    if enable then
+        if Loading.t == 0 then
+            Loading.t = self.timeout
+            self:CancelTimer(self.loadingId)
+            self.loadingId = nil
+        else
+            Loading.t = not Loading.t and self.timeout or Loading.t
+            Loading.t = Loading.t - 1
+        end
+        Loading:SetText(Loading.t)
+        Loading:Show()
+    else
+        Loading:Hide()
+    end
 end
 
 local MallItemsPanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MallPanel), 'MallItemsPanel', 'AceEvent-3.0', 'AceTimer-3.0')
@@ -21,17 +93,22 @@ function MallItemsPanel:OnInitialize()
     CategoryWidget:SetPoint('TOPLEFT')
     CategoryWidget:SetPoint('BOTTOMLEFT')
     CategoryWidget:SetWidth(186)
+    
+    local CategoryBackground = CategoryWidget:CreateTexture(nil, 'BACKGROUND')
+    CategoryBackground:SetTexture([[Interface\Store\Store-Main]])
+    CategoryBackground:SetAllPoints(true)
+    CategoryBackground:SetTexCoord(0.00097656, 0.18261719, 0.5898437525, 0.93652344)
 
     local CategoryList = GUI:GetClass('GridView'):New(CategoryWidget)
     CategoryList:SetPoint('TOPLEFT', 5, -20)
-    CategoryList:SetPoint('BOTTOMLEFT', -5, 5)
+    CategoryList:SetPoint('BOTTOMLEFT', -5, 20)
     CategoryList:SetWidth(176)
     CategoryList:SetItemClass(RaidBuilder:GetClass('MallCategoryItem'))
     CategoryList:SetItemHeight(38)
     CategoryList:SetItemSpacing(2)
     CategoryList:SetSelectMode('RADIO')
-    CategoryList:SetItemList(MALL_DATA)
     CategoryList:SetItemHighlightWithoutChecked(true)
+    CategoryList:SetDescription(L['|cffffffff*战网积分价格|r'])
     CategoryList:SetCallback('OnItemFormatted', function(CategoryList, button, data)
         button:SetText(data.text)
         button:SetIcon(data.coord)
@@ -102,6 +179,34 @@ function MallItemsPanel:OnInitialize()
         self:Purchase()
     end)
 
+    local PurchaseButtonFlashFrame = CreateFrame('Frame', nil, PurchaseButton)
+    PurchaseButtonFlashFrame:SetAllPoints(true)
+    PurchaseButtonFlashFrame:SetAlpha(0)
+    local PurchaseButtonFlash = PurchaseButtonFlashFrame:CreateTexture(nil, 'OVERLAY')
+    PurchaseButtonFlash:SetTexture([[Interface\Buttons\UI-Panel-Button-Glow]])
+    PurchaseButtonFlash:SetBlendMode('ADD')
+    PurchaseButtonFlash:SetTexCoord(0, 0.75, 0, 0.609375)
+    PurchaseButtonFlash:SetPoint('CENTER')
+    PurchaseButtonFlash:SetSize(141, 30)
+
+    local PurchaseButtonFlashAnimGroup = PurchaseButtonFlashFrame:CreateAnimationGroup()
+    local anim = PurchaseButtonFlashAnimGroup:CreateAnimation('Alpha')
+    anim:SetChange(1.0)
+    anim:SetDuration(0.5)
+    anim:SetOrder(1)
+    local anim = PurchaseButtonFlashAnimGroup:CreateAnimation('Alpha')
+    anim:SetChange(-1.0)
+    anim:SetDuration(0.5)
+    anim:SetOrder(2)
+
+    PurchaseButton:HookScript('OnEnable', function()
+        PurchaseButtonFlashAnimGroup:Play()
+    end)
+
+    PurchaseButton:HookScript('OnDisable', function()
+        PurchaseButtonFlashAnimGroup:Stop()
+    end)
+
     local HowToGetPoint = Button:New(self)
     HowToGetPoint:SetPoint('RIGHT', QueryPointButton, 'RIGHT', -150, 0)
     HowToGetPoint:SetText(L['如何获取积分?'])
@@ -112,18 +217,16 @@ function MallItemsPanel:OnInitialize()
             true)
     end)
 
-    self:SetScript('OnShow', function(self)
-        self:ScheduleTimer('SetBlocker', 0.01)
-    end)
-
     self.ItemList = ItemList
     self.PurchaseButton = PurchaseButton
     self.QueryPointButton = QueryPointButton
+    self.CategoryList = CategoryList
 
     self:RegisterMessage('RAIDBUILDER_MALLQUERY_RESULT', 'QueryResult')
     self:RegisterMessage('RAIDBUILDER_MALLPURCHASE_RESULT', 'PurchaseResult')
+    self:RegisterMessage('RAIDBUILDER_MALL_PRODUCT_LIST_UPDATED', 'MallDataUpdated')
 
-    CategoryList:SetSelected(1)
+    MallPanel:SetBlocker(true, L.GoodsLoadingSummary)
 end
 
 function MallItemsPanel:UpdateWindow()
@@ -145,9 +248,11 @@ end
 
 function MallItemsPanel:QueryResult(event, result)
     self.QueryPointButton:SetText(L['查询我的积分'])
-    local text = result == -1 and L['查询失败：请稍后再试。'] or format(L['您当前可用积分为：%d'], result)
+    local text = result == -1 and L['积分查询失败：请稍后再试。'] or format(L['您当前可用积分为：%d'], result)
     GUI:CallWarningDialog(text)
     
+    System:Logf(L['兑换平台%s'], text)
+
     if self.queryTimeout then
         self:CancelTimer(self.queryTimeout)
         self.queryTimeout = nil
@@ -194,15 +299,14 @@ function MallItemsPanel:Purchase()
 end
 
 function MallItemsPanel:SetBlocker(enable)
-    self.blocking = enable == nil and self.blocking or enable
-    local item = self:GetItem() or {}
-    MainPanel:SetBlocker(self.blocking and 'MALLPURCHASE', item.text, item.price)
-    self:Timeout(self.blocking)
-end
-
-function MallItemsPanel:Timeout(enable)
-    if enable and not self.timeout then
-       self.timeout = self:ScheduleTimer('PurchaseResult', 120, nil, L['购买失败：操作超时，请稍后再试。'])
+    if enable then
+        local item = self:GetItem() or {}
+        MallPanel:SetBlocker(true, format(L.MallPurchaseSummary, item.text, item.price),
+            function()
+                MallItemsPanel:PurchaseResult(nil, L['购买失败：操作超时，请稍后再试。'])
+            end)
+    else
+        MallPanel:SetBlocker(false)
     end
 end
 
@@ -211,8 +315,18 @@ function MallItemsPanel:PurchaseResult(event, result)
 
     System:Error(result)
 
-    if self.timeout then
-        self:CancelTimer(self.timeout)
-        self.timeout = nil
+    local item = self:GetItem()
+    if item then
+        System:Logf(L['兑换平台购买%s，%s'], item.text, result)
+    end
+end
+
+function MallItemsPanel:MallDataUpdated(event, list, isNew)
+    self.CategoryList:SetItemList(list)
+    self.CategoryList:SetSelected(1)
+    self:SetBlocker(false)
+    
+    if isNew then
+        System:Log(L['兑换平台商品列表已更新。'])
     end
 end

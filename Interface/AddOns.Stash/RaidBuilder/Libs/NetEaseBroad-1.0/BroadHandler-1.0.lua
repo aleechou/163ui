@@ -13,7 +13,7 @@ local CallbackHandler = assert(LibStub('CallbackHandler-1.0', true), 'BroadHandl
 local CTL = assert(ChatThrottleLib, 'BroadHandler-1.0 requires ChatThrottleLib')
 local Base64 = assert(LibStub('NetEaseBase64-1.0', true), 'BroadHandler-1,0 requires NetEaseBase64-1.0')
 
-local MAJOR, MINOR = 'BroadHandler-1.0', 11
+local MAJOR, MINOR = 'BroadHandler-1.0', 12
 local BroadHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not BroadHandler then return end
 
@@ -76,15 +76,22 @@ function BroadHandler:Decode(data)
     return self:Deserialize(Base64:DeCode(data))
 end
 
+local function OnUnused(self, target, name)
+    target:SetServerBroad(name, false)
+end
+
 function BroadHandler:New()
     local object = {}
 
-    object.Fire = CallbackHandler:New(object,
+    local events = CallbackHandler:New(object,
         'RegisterBroad',
         'UnregisterBroad',
-        'UnregisterAllBroad').Fire
+        'UnregisterAllBroad')
 
+    events.OnUnused = OnUnused
+    object.Fire = events.Fire
     object.cache = {}
+    object.serverCmds = {}
 
     return setmetatable(object, _Meta)
 end
@@ -104,6 +111,10 @@ end
 
 function BroadHandler:GetChat()
     return self.chatType, self.channelId
+end
+
+function BroadHandler:SetServerBroad(name, flag)
+    self.serverCmds[name] = flag or nil
 end
 
 function BroadHandler:Connect(chatType, channel, password, onlySend)
@@ -168,7 +179,7 @@ function BroadHandler:GetCache(event, channel, target)
     return self.cache[key]
 end
 
-function BroadHandler:OnEventData(event, msg, target, _, _, _, _, _, _, channel)
+function BroadHandler:OnEventData(event, msg, target, _, _, _, flag, _, _, channel)
     if self.chatType == 'CHANNEL' and self.channel ~= channel then
         return
     end
@@ -192,12 +203,12 @@ function BroadHandler:OnEventData(event, msg, target, _, _, _, _, _, _, channel)
             data = tconcat(cache)
             wipe(cache)
         end
-        self:DealPacket(target, self:Decode(data))
+        self:DealPacket(target, flag, self:Decode(data))
     end
 end
 
-function BroadHandler:DealPacket(target, ok, cmd, ...)
-    if ok then
+function BroadHandler:DealPacket(target, flag, ok, cmd, ...)
+    if ok and (not self.serverCmds[cmd] or flag == 'GM') then
         self:Fire(cmd, target, ...)
     end
 end

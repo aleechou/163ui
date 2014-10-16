@@ -19,7 +19,8 @@ function Logic:OnInitialize()
     self:RegisterBroad('BED', 'BROAD_EVENT_DISBAND')
     self:RegisterBroad('BWEI', 'BROAD_WEBEVENT_INFO')
 
-    self:RegisterBroad('BDV', 'BROAD_DATA_VALUE')
+    self:RegisterServerBroad('BDV', 'BROAD_DATA_VALUE')
+    self:RegisterServerBroad('BSYS', 'BROAD_SYSTEM')
 
     self:ListenSocket('NERB')
     self:RegisterSocket('SEJ', 'SOCKET_EVENT_JOIN')
@@ -36,12 +37,14 @@ function Logic:OnInitialize()
     self:RegisterServer('SEI', 'SOCKET_EVENT_INFO')
     self:RegisterServer('SED', 'SOCKET_EVENT_DISBAND')
     self:RegisterServer('SWEI', 'SOCKET_WEBEVENT_INFO')
-    self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
-    self:RegisterServer('SDH', 'SOCKET_DATA_HASH')
+    -- self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
+    -- self:RegisterServer('SDH', 'SOCKET_DATA_HASH')
     self:RegisterServer('SVERSION', 'SOCKET_VERSION')
     self:RegisterServer('SARGS', 'SOCKET_ARGS')
 
     self:RegisterServer('EXCHANGE_RESULT')
+    self:RegisterServer('MALLPURCHASE_RESULT')
+    self:RegisterServer('MALLQUERY_RESULT')
 
     self:ServerConnect()
     self:BroadConnect()
@@ -86,7 +89,7 @@ function Logic:GROUP_JOINED()
 
     if EventCache:GetCurrentEvent() and not EventCache:IsCurrentEventPaused() and not PlayerIsGroupLeader() then
         EventCache:PauseCurrentEvent()
-        System:Errorf(L['你创建的活动已被暂停，如需继续活动，请点击|cffffd100%s|r内的|cffffd100%s|r。'], L['申请列表'], L['恢复活动'])
+        System:Errorf(L['你创建的活动已被暂停，如需继续活动，请点击|cffffd100小地图按钮右键菜单|r内的|cffffd100%s|r。'], L['恢复招募'])
     end
 end
 
@@ -105,6 +108,9 @@ end
 
 function Logic:BROAD_EVENT_DISBAND(event, sender, leader)
     local leader = Ambiguate(leader or sender, 'none')
+    if UnitIsUnit(leader, 'player') and EventCache:GetCurrentEvent() then
+        return
+    end
     EventCache:RemoveEvent(leader)
     AppliedCache:DeleteApplied(leader)
 end
@@ -123,10 +129,10 @@ function Logic:SOCKET_CONNECTED()
     self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource())
 end
 
-function Logic:SOCKET_DATA_VALUE(_, ...)
-    self:SendBroadMessage('BDV', ...)
-    self:BROAD_DATA_VALUE(nil, nil, ...)
-end
+-- function Logic:SOCKET_DATA_VALUE(_, ...)
+--     self:SendBroadMessage('BDV', ...)
+--     self:BROAD_DATA_VALUE(nil, nil, ...)
+-- end
 
 function Logic:SOCKET_EVENT_INFO(_, ...)
     self:SendBroadMessage('BEI', ...)
@@ -190,10 +196,10 @@ function Logic:SOCKET_EVENT_JOIN_RESULT(_, sender, info)
         if info == 'EVENT_ERROR_NULL' then
             EventCache:RemoveEvent(sender)
         end
-        System:Logf(L['申请加入|cffffd100%s|r的活动失败，%s'], sender, L[info])
+        System:Logf(L['申请加入%s的活动失败，%s'], sender, L[info])
         AppliedCache:DeleteApplied(sender)
     else
-        System:Logf(L['已提交申请加入|cffffd100%s|r的活动。'], sender)
+        System:Logf(L['已提交申请加入%s的活动。'], sender)
         AppliedCache:AddApplied(sender, nil, true)
     end
 end
@@ -208,9 +214,9 @@ function Logic:SOCKET_EVENT_REFUSE(_, sender)
     System:Logf(L['%s拒绝了你的活动申请'], sender)
 end
 
-function Logic:SOCKET_DATA_HASH(_, key, hash)
-    DataCache:SaveHash(key, hash)
-end
+-- function Logic:SOCKET_DATA_HASH(_, key, hash)
+--     DataCache:SaveHash(key, hash)
+-- end
 
 function Logic:SOCKET_ARGS(_, fans, socialEnabled)
     self.fans = fans
@@ -227,6 +233,10 @@ function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
         return
     end
     GroupCache:SaveUnitInfo(sender, ...)
+end
+
+function Logic:BROAD_SYSTEM(_, _, msg)
+    SendSystemMessage(msg)
 end
 
 ---- Methods
@@ -251,13 +261,19 @@ function Logic:RefreshCurrentEvent()
         event:SetTimeStamp(time())
         event:SetCurrentMemberRole(_GetGroupRoles())
 
-        if not EventCache:IsCurrentEventPaused() then
+        if EventCache:IsCurrentEventPaused() then
+            self:SendBroadMessage('BED')
+
+            if event:GetCrossRealm() then
+                self:SendServer('SED')
+            end
+        else
             -- self:SendBroadMessage('BEI', event:ToSocket())
             self:SendServer('SEI', event:ToSocket())
         end
         if not EventCache:IsCurrentEventPaused() and event:IsMemberFull() then
             EventCache:PauseCurrentEvent()
-            System:Log(L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，可以点击申请列表内的恢复活动|r'])
+            System:Logf(L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，请点击|cffffd100小地图按钮右键菜单|r的|cffffd100%s|r'], L['恢复招募'])
         end
     end
     self.refreshTimer = self:ScheduleTimer('RefreshCurrentEvent', 300)
@@ -270,6 +286,32 @@ function Logic:GetAddonSource(mark)
             return tonumber(v)
         end
     end
+end
+
+function Logic:OnPauseTimer()
+    self.toggleTimer = nil
+    self:SendMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE')
+end
+
+function Logic:ToggleEventStatus()
+    if self.toggleTimer then
+        return
+    end
+
+    if EventCache:IsCurrentEventPaused() then
+        EventCache:RestoreCurrentEvent()
+        System:Logf(L['已恢复招募']);
+    else
+        EventCache:PauseCurrentEvent()
+        System:Logf(L['已暂停招募']);
+    end
+
+    self.toggleTimer = self:ScheduleTimer('OnPauseTimer', 5)
+    self:SendMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE')
+end
+
+function Logic:IsEventStatusLockdown()
+    return not not self.toggleTimer
 end
 
 function Logic:CreateEvent(...)
@@ -289,7 +331,7 @@ function Logic:CreateEvent(...)
 
     local event = EventCache:CacheEvent(
         leader,
-        time(),
+        GetShortVersion(),
         eventCode,
         eventMode,
         minLevel,
@@ -446,27 +488,27 @@ function Logic:GetPlayerFans()
     return self.fans or 0
 end
 
-function Logic:SignIn(id)
-    if Profile:IsSignIn(id) then
-        return
-    end
-    local btag = select(2, BNGetInfo())
-    self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
-    Profile:SetSignIn(id)
-end
+-- function Logic:SignIn(id)
+--     if Profile:IsSignIn(id) then
+--         return
+--     end
+--     local btag = select(2, BNGetInfo())
+--     self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
+--     Profile:SetSignIn(id)
+-- end
 
 function Logic:Referenced(target)
+    if not target or target == '' then
+        return
+    end
+
     local btag = select(2, BNGetInfo())
-    self:SendServer('REFERENCE', UnitGUID('player'), btag, target)
+    self:SendServer('REFERENCE', UnitGUID('player'), btag, target, self:GetAddonVersion())
     Profile:SetReferenced(target)
 end
 
-function Logic:EXCHANGE_RESULT(event, content)
-    GUI:CallWarningDialog(content)
-end
-
 function Logic:ReportEvent(input, event)
-    self:SendServer('SREPORT', input, event:GetLeaderBattleTag(), event:GetLeader(), event:GetSummary())
+    self:SendServer('SREPORT', input, event:GetLeaderBattleTag(), event:GetLeader(), event:GetSummary(), self:GetAddonVersion())
 
     System:Log(L['已成功提交举报信息。'])
 end
@@ -476,7 +518,7 @@ function Logic:WHISPER(event, from, text)
 end
 
 function Logic:WHISPER_OFFLINE(event, to)
-    SendSystemMessage(format(L['未找到名为“%s”的在线玩家。'], to:gsub('-', '@')))
+    SendSystemMessage(format(ERR_CHAT_PLAYER_NOT_FOUND_S, to:gsub('-', '@')))
 end
 
 function Logic:Exchange(text)
@@ -484,9 +526,43 @@ function Logic:Exchange(text)
         return
     end
 
-    self:SendServer('EXCHANGE', text, UnitGUID('player'))
+    self:SendServer('EXCHANGE', text, UnitGUID('player'), self:GetAddonVersion())
 end
 
 function Logic:EXCHANGE_RESULT(event, ...)
     self:SendMessage('RAIDBUILDER_REWARD_RESULT', ...)
+end
+
+function Logic:MallPurchase(id)
+    if not id then
+        return
+    end
+
+    self:SendServer('MALLPURCHASE', id, UnitGUID('player'), self:GetAddonVersion())
+end
+
+function Logic:MALLPURCHASE_RESULT(event, ...)
+    self:SendMessage('RAIDBUILDER_MALLPURCHASE_RESULT', ...)
+end
+
+function Logic:MallQueryPoint()
+    self:SendServer('MALLQUERY', UnitGUID('player'), self:GetAddonVersion())
+end
+
+function Logic:MALLQUERY_RESULT(event, ...)
+    self:SendMessage('RAIDBUILDER_MALLQUERY_RESULT', ...)
+end
+
+function Logic:Statistics(id, ...)
+    if not id then
+        return
+    end
+
+    local pGUID = UnitGUID('player')
+    local bTag = select(2, BNGetInfo())
+    local pFaction = UnitFactionGroup('player')
+    local pLevel = UnitLevel('player')
+    local pClass = select(2, UnitClass('player'))
+
+    self:SendServer('STATISTICS', id, pGUID, bTag, pFaction, pLevel, pClass, self:GetAddonVersion(), ...)
 end

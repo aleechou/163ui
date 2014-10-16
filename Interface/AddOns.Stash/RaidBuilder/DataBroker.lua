@@ -131,7 +131,9 @@ end
 
 function DataBroker:OnDataBrokerChanged(_, name, key, value, object)
     if key == 'text' then
-        self.BrokerText:SetText(value)
+        if not self.notCompat then
+            self.BrokerText:SetText(value)
+        end
     elseif key == 'flash' then
         self.BrokerFlash:SetShown(value)
     end
@@ -156,6 +158,7 @@ function DataBroker:Refresh()
 end
 
 function DataBroker:RAIDBUILDER_NEW_VERSION(_, version, url, isCompat)
+    version = format('%.02f', tonumber(version) or 0)
     if not isCompat then
         self.BrokerObject.text = L['发现新版本']
 
@@ -197,6 +200,7 @@ end
 
 function DataBroker:CreateMenuTable()
     local event = EventCache:GetCurrentEvent()
+    local paused = EventCache:IsCurrentEventPaused()
     return {
         {
             text = L['打开主界面'],
@@ -215,7 +219,7 @@ function DataBroker:CreateMenuTable()
         },
         {
             text = L['活动通告'],
-            disabled = not GroupCache:GetCurrentEventCode(),
+            disabled = not GroupCache:GetCurrentEventCode() or paused,
             func = function()
                 local content = GroupCache:GetAnnouncementContent()
                 if not content then
@@ -225,22 +229,22 @@ function DataBroker:CreateMenuTable()
             end
         },
         {
-            text = L['易信通知'],
-            disabled = not event,
+            text = L['易信推送'],
+            disabled = not event or paused,
             func = function()
                 RaidBuilder:ShowModule('YixinConfirm', Profile:IsYiXinValid(), L['今日已达发送上限'])
             end
         },
         {
-            text = L['恢复活动'],
-            disabled = not EventCache:IsCurrentEventPaused() or not event or event:IsMemberFull(),
+            text = paused and L['恢复招募'] or L['暂停招募'],
+            disabled = not event or Logic:IsEventStatusLockdown() or event:IsMemberFull(),
             func = function()
-                EventCache:RestoreCurrentEvent()
+                Logic:ToggleEventStatus()
             end
         },
         {
             text = L['解散活动'],
-            disabled = not EventCache:GetCurrentEvent(),
+            disabled = not event,
             confirm = L['你确定要解散这个活动？'],
             func = function(result)
                 if result then

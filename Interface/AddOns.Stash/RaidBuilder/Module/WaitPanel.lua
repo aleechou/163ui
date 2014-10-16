@@ -124,14 +124,14 @@ function WaitPanel:OnInitialize()
     NotLeader:SetText(L['你不是团长，不能邀请成员'])
     NotLeader:Hide()
 
-    local RestoreButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    RestoreButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
-    RestoreButton:SetSize(120, 22)
-    RestoreButton:SetText(L['恢复活动'])
-    RestoreButton:SetScript('OnClick', function()
-        EventCache:RestoreCurrentEvent()
-        self:Refresh()
-    end)
+    -- local RestoreButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    -- RestoreButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
+    -- RestoreButton:SetSize(120, 22)
+    -- RestoreButton:SetText(L['恢复招募'])
+    -- RestoreButton:SetScript('OnClick', function()
+    --     EventCache:RestoreCurrentEvent()
+    --     self:Refresh()
+    -- end)
 
     -- local LFGButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     -- LFGButton:SetPoint('LEFT', RestoreButton, 'RIGHT')
@@ -149,7 +149,7 @@ function WaitPanel:OnInitialize()
 
     self.WaitList = WaitList
     self.NotLeader = NotLeader
-    self.RestoreButton = RestoreButton
+    -- self.RestoreButton = RestoreButton
 
     self:SetScript('OnShow', self.Refresh)
     -- self:RegisterEvent('GROUP_ROSTER_UPDATE', 'Refresh')
@@ -164,28 +164,28 @@ function WaitPanel:Refresh()
     self.WaitList:Refresh()
     self.NotLeader:SetShown(not PlayerIsGroupLeader())
 
-    local event = EventCache:GetCurrentEvent()
-    local locked = EventCache:IsCurrentEventPaused()
-    local full = event and event:IsMemberFull()
-    local isLeader = PlayerIsGroupLeader()
+    -- local event = EventCache:GetCurrentEvent()
+    -- local locked = EventCache:IsCurrentEventPaused()
+    -- local full = event and event:IsMemberFull()
+    -- local isLeader = PlayerIsGroupLeader()
 
-    if full then
-        if locked then
-            self.RestoreButton:SetText(L['人员已满'])
-            self.RestoreButton:Disable()
-        else
-            self.RestoreButton:SetText(L['Bug!!!'])
-            self.RestoreButton:Disable()
-        end
-    else
-        if locked then
-            self.RestoreButton:SetText(L['恢复活动'])
-            self.RestoreButton:SetEnabled(isLeader)
-        else
-            self.RestoreButton:SetText(L['正在招募'])
-            self.RestoreButton:Disable()
-        end
-    end
+    -- if full then
+    --     if locked then
+    --         self.RestoreButton:SetText(L['人员已满'])
+    --         self.RestoreButton:Disable()
+    --     else
+    --         self.RestoreButton:SetText(L['Bug!!!'])
+    --         self.RestoreButton:Disable()
+    --     end
+    -- else
+    --     if locked then
+    --         self.RestoreButton:SetText(L['恢复招募'])
+    --         self.RestoreButton:SetEnabled(isLeader)
+    --     else
+    --         self.RestoreButton:SetText(L['正在招募'])
+    --         self.RestoreButton:Disable()
+    --     end
+    -- end
 
     local count = MemberCache:GetMemberCount()
     if count == 0 then

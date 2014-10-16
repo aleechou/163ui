@@ -49,6 +49,7 @@ local attr = {
 
     'Faction',
     'Realm',
+    'Version',
 }
 
 for i, v in ipairs(attr) do
@@ -89,11 +90,9 @@ end
 
 function Event:ToSocket()
     local leader = self:GetLeader()
-    local eventCode = OLD_EVENT_MAP[self:GetEventCode()] or self:GetEventCode()
     return  leader ~= UnitName('player') and leader or nil,
-            self:GetTimeStamp(),
-            -- self:GetEventCode(),
-            eventCode,
+            self:GetVersion(),
+            self:GetEventCode(),
             self:GetEventMode(),
             self:GetMinLevel(),
             self:GetMaxLevel(),
@@ -117,7 +116,7 @@ function Event:ToSocket()
 end
 
 function Event:FromSocket(...)
-    local   leader, timeStamp, eventCode, eventMode,
+    local   leader, version, eventCode, eventMode,
             minLevel, maxLevel, itemLevel, pvpRating,
             summary, crossRealm, forceVerify, hasPassword, memberRole,
             leaderBattleTag, leaderClass, leaderLevel,
@@ -126,11 +125,10 @@ function Event:FromSocket(...)
 
     self.baseSortValue = nil
     self.eventCodeSortValue = nil
-
-    eventCode = OLD_EVENT_CODE[eventCode] or eventCode
+    version = type(version) == 'number' and '5420' or version
     
     self:SetLeader(leader)
-    self:SetTimeStamp(timeStamp)
+    self:SetVersion(version)
     self:SetEventCode(eventCode)
     self:SetEventMode(eventMode)
     self:SetMinLevel(minLevel)

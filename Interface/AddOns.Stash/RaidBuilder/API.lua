@@ -490,25 +490,25 @@ end
 --     return strrep(char or ' ', width - #str) .. str
 -- end
 
-if IsAddOnLoaded('WowSocial') then
-    local function _GetWowSocialEnv()
-        BuildEnv('WowSocial')
-        return _ENV
-    end
+-- if IsAddOnLoaded('WowSocial') then
+--     local function _GetWowSocialEnv()
+--         BuildEnv('WowSocial')
+--         return _ENV
+--     end
 
-    local WowSocialEnv = _GetWowSocialEnv()
+--     local WowSocialEnv = _GetWowSocialEnv()
 
-    local ExportFuncs = {
-        'InviteChatGroup',
-        'GetOwnChatGroupList',
-        'GetJoinedChatGroupList',
-        'SendChatGroupMessage',
-    }
+--     local ExportFuncs = {
+--         'InviteChatGroup',
+--         'GetOwnChatGroupList',
+--         'GetJoinedChatGroupList',
+--         'SendChatGroupMessage',
+--     }
 
-    for i, v in ipairs(ExportFuncs) do
-        _ENV[v] = WowSocialEnv[v]
-    end
-end
+--     for i, v in ipairs(ExportFuncs) do
+--         _ENV[v] = WowSocialEnv[v]
+--     end
+-- end
 
 
 local function riter(t, i)
@@ -565,19 +565,41 @@ function MakeMessage(frame, event, text, target)
     frame:AddMessage(body, info.r, info.g, info.b, info.id, false, accessID, typeID)
 end
 
-local orig_SendChatMessage = SendChatMessage
+local function IsCanWhisperByBlizzard(target)
+    return Invite:IsSameRealm(target) or UnitInRaid(target) or UnitInParty(target)
+end
+
 local lastSendTime = time()
-function _G.SendChatMessage(text, chatType, language, channel)
-    local realChannel = type(channel) == 'string' and channel:gsub('@', '-')
-    if realChannel and chatType == 'WHISPER' and channel:find('@') and not Invite:IsSameRealm(realChannel) then
-        if time() - lastSendTime > 1 then
-            Logic:SendSocket(realChannel, 'WHISPER', text)
-            MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, 'RAIDBUILDER', 0, 0, nil, nil, 0, nil)
-            lastSendTime = time()
-        else
-            SendSystemMessage(L['请勿频繁密语'])
-        end
+local function SendRaidBuilderWhisper(text, target, channel)
+    if time() - lastSendTime > 1 then
+        Logic:SendSocket(target, 'WHISPER', text)
+        MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, 'RAIDBUILDER', 0, 0, nil, nil, 0, nil)
+        lastSendTime = time()
     else
-        orig_SendChatMessage(text, chatType, language, channel)
+        SendSystemMessage(L['请勿频繁密语'])
     end
+end
+
+local orig_SendChatMessage = SendChatMessage
+function _G.SendChatMessage(text, chatType, language, channel)
+    if chatType == 'WHISPER' then
+        if type(channel) ~= 'string' then
+            return
+        end
+        local target, found = channel:gsub('@', '-')
+        if target and found == 1 and not IsCanWhisperByBlizzard(target) then
+            SendRaidBuilderWhisper(text, target, channel)
+            return
+        end
+    end
+    orig_SendChatMessage(text, chatType, language, channel)
+end
+
+local ADDON_NAME = ...
+function GetShortVersion()
+    return (GetAddOnMetadata(ADDON_NAME, 'Version'):gsub('(%d)%d(%d)%d%d%.(%d%d)','%1%2%3'))
+end
+
+function GetFullVersion(version)
+    return tostring(version):gsub('(%d)(%d)(%d%d)', '%10%200.%3')
 end

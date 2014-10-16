@@ -151,7 +151,7 @@ function WebSupport:DeserializeCode(code)
     self.inviteList = inviteList
     self.newbieList = newbieList
     self.eventId = eventId
-    self.eventCode = OLD_EVENT_CODE[eventCode] or eventCode
+    self.eventCode = eventCode
     self.eventSource = eventSource
     self.eventTime = eventTime
 

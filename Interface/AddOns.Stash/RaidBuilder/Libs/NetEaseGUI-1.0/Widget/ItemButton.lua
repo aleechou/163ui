@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'ItemButton', 1
+local WIDGET, VERSION = 'ItemButton', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local Class = LibStub('LibClass-1.0')
@@ -8,10 +8,13 @@ if not ItemButton then
     return
 end
 
-function ItemButton:Constructor(parent)
+function ItemButton:Constructor(parent, highlightWithoutChecked)
     if not parent then
         return
     end
+
+    self.highlightWithoutChecked = highlightWithoutChecked
+
     self:SetParent(parent)
     self:SetMotionScriptsWhileDisabled(true)
 
@@ -56,6 +59,9 @@ function ItemButton:OnDoubleClick(button)
 end
 
 function ItemButton:OnEnter()
+    if self.highlightWithoutChecked and self:GetHighlightTexture() then
+        self:GetHighlightTexture():SetShown(not self:GetChecked())
+    end
     self:FireHandler('OnItemEnter')
 end
 

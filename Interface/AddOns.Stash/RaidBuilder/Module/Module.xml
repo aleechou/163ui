@@ -6,8 +6,6 @@
   <Script file="CreatePanel.lua" />
   <Script file="WaitPanel.lua" />
   <Script file="YiXinPanel.lua" />
-  <Script file="LeaderboardPanel.lua" />
-  <Script file="RecommendPanel.lua" />
   <Script file="WebBrowsePanel.lua" />
   <Script file="MallPanel.lua" />
   <Script file="RewardPanel.lua" />

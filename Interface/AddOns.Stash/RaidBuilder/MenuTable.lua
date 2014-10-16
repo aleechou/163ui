@@ -15,85 +15,106 @@ EVENT_CREATE_MENUTABLE  = {
                 ['menuTable'] = {
                     [1] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '决战奥格瑞玛-25人英雄',
+                        ['text'] = '黑石铸造厂-普通',
+                        ['value'] = 0x1A7E100,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '黑石铸造厂-英雄',
+                        ['value'] = 0x1A7E200,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '黑石铸造厂-史诗',
+                        ['value'] = 0x1A7E300,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '悬槌堡-普通',
+                        ['value'] = 0x1A7F100,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '悬槌堡-英雄',
+                        ['value'] = 0x1A7F200,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '悬槌堡-史诗',
+                        ['value'] = 0x1A7F300,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '德拉诺-鲁克玛',
+                        ['value'] = 0x1AFFD00,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '德拉诺-永恒的塔尔纳',
+                        ['value'] = 0x1AFFE00,
+                    },
+                    [9] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '德拉诺-毁灭者多弗',
+                        ['value'] = 0x1AFFF00,
+                    },
+                },
+                ['notClickable'] = true,
+                ['text'] = '德拉诺之王',
+                ['value'] = 0x1A00000,
+            },
+            [2] = {
+                ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '决战奥格瑞玛-普通',
                         ['value'] = 0x1B7B100,
                     },
                     [2] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '决战奥格瑞玛-25人',
+                        ['text'] = '决战奥格瑞玛-英雄',
                         ['value'] = 0x1B7B200,
                     },
                     [3] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '决战奥格瑞玛-10人英雄',
+                        ['text'] = '决战奥格瑞玛-史诗',
                         ['value'] = 0x1B7B300,
                     },
                     [4] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '决战奥格瑞玛-10人',
-                        ['value'] = 0x1B7B400,
-                    },
-                    [5] = {
-                        ['disabled'] = menuDisable,
-                        ['hasArrow'] = true,
-                        ['menuTable'] = {
-                            [1] = {
-                                ['disabled'] = menuDisable,
-                                ['text'] = '弹性-锦绣谷之殇',
-                                ['value'] = 0x1B7B601,
-                            },
-                            [2] = {
-                                ['disabled'] = menuDisable,
-                                ['text'] = '弹性-复仇之门',
-                                ['value'] = 0x1B7B602,
-                            },
-                            [3] = {
-                                ['disabled'] = menuDisable,
-                                ['text'] = '弹性-地下堡垒',
-                                ['value'] = 0x1B7B604,
-                            },
-                            [4] = {
-                                ['disabled'] = menuDisable,
-                                ['text'] = '弹性-暴君的黄昏',
-                                ['value'] = 0x1B7B608,
-                            },
-                        },
-                        ['text'] = '决战奥格瑞玛-弹性',
-                        ['value'] = 0x1B7B600,
-                    },
-                    [6] = {
-                        ['disabled'] = menuDisable,
                         ['text'] = '雷电王座',
                         ['value'] = 0x1B7CF00,
                     },
-                    [7] = {
+                    [5] = {
                         ['disabled'] = menuDisable,
                         ['text'] = '永春台',
                         ['value'] = 0x1B7DF00,
                     },
-                    [8] = {
+                    [6] = {
                         ['disabled'] = menuDisable,
                         ['text'] = '恐惧之心',
                         ['value'] = 0x1B7EF00,
                     },
-                    [9] = {
+                    [7] = {
                         ['disabled'] = menuDisable,
                         ['text'] = '魔古山宝库',
                         ['value'] = 0x1B7FF00,
                     },
-                    [10] = {
+                    [8] = {
                         ['disabled'] = menuDisable,
                         ['text'] = '斡耳朵斯',
                         ['value'] = 0x1BFDF00,
                     },
-                    [11] = {
+                    [9] = {
                         ['disabled'] = menuDisable,
                         ['text'] = '四大天神',
                         ['value'] = 0x1BFEF00,
                     },
-                    [12] = {
+                    [10] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '世界Boss一波流',
+                        ['text'] = 'MOP世界Boss一波流',
                         ['value'] = 0x1BFFF00,
                     },
                 },
@@ -101,7 +122,7 @@ EVENT_CREATE_MENUTABLE  = {
                 ['text'] = '熊猫人之迷',
                 ['value'] = 0x1B00000,
             },
-            [2] = {
+            [3] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -140,7 +161,7 @@ EVENT_CREATE_MENUTABLE  = {
                 ['text'] = '大地的裂变',
                 ['value'] = 0x1C00000,
             },
-            [3] = {
+            [4] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -194,7 +215,7 @@ EVENT_CREATE_MENUTABLE  = {
                 ['text'] = '巫妖王之怒',
                 ['value'] = 0x1D00000,
             },
-            [4] = {
+            [5] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -243,7 +264,7 @@ EVENT_CREATE_MENUTABLE  = {
                 ['text'] = '燃烧的远征',
                 ['value'] = 0x1E00000,
             },
-            [5] = {
+            [6] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -293,7 +314,7 @@ EVENT_CREATE_MENUTABLE  = {
             },
             [3] = {
                 ['disabled'] = menuDisable,
-                ['text'] = '黄金挑战',
+                ['text'] = '挑战地下城',
                 ['value'] = 0x2003000,
             },
         },
@@ -342,6 +363,16 @@ EVENT_CREATE_MENUTABLE  = {
                         ['disabled'] = menuDisable,
                         ['text'] = '5v5',
                         ['value'] = 0x4001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '2v2练习赛',
+                        ['value'] = 0x4001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '3v3练习赛',
+                        ['value'] = 0x4001005,
                     },
                 },
                 ['notClickable'] = true,
@@ -481,11 +512,6 @@ EVENT_CREATE_MENUTABLE  = {
     },
     [8] = {
         ['disabled'] = menuDisable,
-        ['text'] = '本周悬赏',
-        ['value'] = 0xA000000,
-    },
-    [9] = {
-        ['disabled'] = menuDisable,
         ['hasArrow'] = true,
         ['menuTable'] = {
             [1] = {
@@ -503,7 +529,7 @@ EVENT_CREATE_MENUTABLE  = {
         ['text'] = '招募',
         ['value'] = 0xE000000,
     },
-    [10] = {
+    [9] = {
         ['disabled'] = menuDisable,
         ['hasArrow'] = true,
         ['menuTable'] = {
@@ -539,100 +565,124 @@ EVENT_FILTER_MENUTABLE  = {
                     [1] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '决战奥格瑞玛-25人英雄',
+                        ['text'] = '黑石铸造厂-普通',
+                        ['value'] = 0x1A7E100,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '黑石铸造厂-英雄',
+                        ['value'] = 0x1A7E200,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '黑石铸造厂-史诗',
+                        ['value'] = 0x1A7E300,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '悬槌堡-普通',
+                        ['value'] = 0x1A7F100,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '悬槌堡-英雄',
+                        ['value'] = 0x1A7F200,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '悬槌堡-史诗',
+                        ['value'] = 0x1A7F300,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '德拉诺-鲁克玛',
+                        ['value'] = 0x1AFFD00,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '德拉诺-永恒的塔尔纳',
+                        ['value'] = 0x1AFFE00,
+                    },
+                    [9] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '德拉诺-毁灭者多弗',
+                        ['value'] = 0x1AFFF00,
+                    },
+                },
+                ['notClickable'] = false,
+                ['text'] = '德拉诺之王',
+                ['value'] = 0x1A00000,
+            },
+            [2] = {
+                ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '决战奥格瑞玛-普通',
                         ['value'] = 0x1B7B100,
                     },
                     [2] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '决战奥格瑞玛-25人',
+                        ['text'] = '决战奥格瑞玛-英雄',
                         ['value'] = 0x1B7B200,
                     },
                     [3] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '决战奥格瑞玛-10人英雄',
+                        ['text'] = '决战奥格瑞玛-史诗',
                         ['value'] = 0x1B7B300,
                     },
                     [4] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '决战奥格瑞玛-10人',
-                        ['value'] = 0x1B7B400,
-                    },
-                    [5] = {
-                        ['disabled'] = menuDisable,
-                        ['hasArrow'] = true,
-                        ['menuTable'] = {
-                            [1] = {
-                                ['disabled'] = menuDisable,
-                                ['notClickable'] = false,
-                                ['text'] = '弹性-锦绣谷之殇',
-                                ['value'] = 0x1B7B601,
-                            },
-                            [2] = {
-                                ['disabled'] = menuDisable,
-                                ['notClickable'] = false,
-                                ['text'] = '弹性-复仇之门',
-                                ['value'] = 0x1B7B602,
-                            },
-                            [3] = {
-                                ['disabled'] = menuDisable,
-                                ['notClickable'] = false,
-                                ['text'] = '弹性-地下堡垒',
-                                ['value'] = 0x1B7B604,
-                            },
-                            [4] = {
-                                ['disabled'] = menuDisable,
-                                ['notClickable'] = false,
-                                ['text'] = '弹性-暴君的黄昏',
-                                ['value'] = 0x1B7B608,
-                            },
-                        },
-                        ['notClickable'] = false,
-                        ['text'] = '决战奥格瑞玛-弹性',
-                        ['value'] = 0x1B7B600,
-                    },
-                    [6] = {
-                        ['disabled'] = menuDisable,
-                        ['notClickable'] = false,
                         ['text'] = '雷电王座',
                         ['value'] = 0x1B7CF00,
                     },
-                    [7] = {
+                    [5] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
                         ['text'] = '永春台',
                         ['value'] = 0x1B7DF00,
                     },
-                    [8] = {
+                    [6] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
                         ['text'] = '恐惧之心',
                         ['value'] = 0x1B7EF00,
                     },
-                    [9] = {
+                    [7] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
                         ['text'] = '魔古山宝库',
                         ['value'] = 0x1B7FF00,
                     },
-                    [10] = {
+                    [8] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
                         ['text'] = '斡耳朵斯',
                         ['value'] = 0x1BFDF00,
                     },
-                    [11] = {
+                    [9] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
                         ['text'] = '四大天神',
                         ['value'] = 0x1BFEF00,
                     },
-                    [12] = {
+                    [10] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '世界Boss一波流',
+                        ['text'] = 'MOP世界Boss一波流',
                         ['value'] = 0x1BFFF00,
                     },
                 },
@@ -640,7 +690,7 @@ EVENT_FILTER_MENUTABLE  = {
                 ['text'] = '熊猫人之迷',
                 ['value'] = 0x1B00000,
             },
-            [2] = {
+            [3] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -685,7 +735,7 @@ EVENT_FILTER_MENUTABLE  = {
                 ['text'] = '大地的裂变',
                 ['value'] = 0x1C00000,
             },
-            [3] = {
+            [4] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -748,7 +798,7 @@ EVENT_FILTER_MENUTABLE  = {
                 ['text'] = '巫妖王之怒',
                 ['value'] = 0x1D00000,
             },
-            [4] = {
+            [5] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -805,7 +855,7 @@ EVENT_FILTER_MENUTABLE  = {
                 ['text'] = '燃烧的远征',
                 ['value'] = 0x1E00000,
             },
-            [5] = {
+            [6] = {
                 ['disabled'] = menuDisable,
                 ['hasArrow'] = true,
                 ['menuTable'] = {
@@ -862,7 +912,7 @@ EVENT_FILTER_MENUTABLE  = {
             [3] = {
                 ['disabled'] = menuDisable,
                 ['notClickable'] = false,
-                ['text'] = '黄金挑战',
+                ['text'] = '挑战地下城',
                 ['value'] = 0x2003000,
             },
         },
@@ -916,6 +966,18 @@ EVENT_FILTER_MENUTABLE  = {
                         ['notClickable'] = false,
                         ['text'] = '5v5',
                         ['value'] = 0x4001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '2v2练习赛',
+                        ['value'] = 0x4001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '3v3练习赛',
+                        ['value'] = 0x4001005,
                     },
                 },
                 ['notClickable'] = false,
@@ -1073,12 +1135,6 @@ EVENT_FILTER_MENUTABLE  = {
     },
     [9] = {
         ['disabled'] = menuDisable,
-        ['notClickable'] = false,
-        ['text'] = '本周悬赏',
-        ['value'] = 0xA000000,
-    },
-    [10] = {
-        ['disabled'] = menuDisable,
         ['hasArrow'] = true,
         ['menuTable'] = {
             [1] = {
@@ -1098,7 +1154,7 @@ EVENT_FILTER_MENUTABLE  = {
         ['text'] = '招募',
         ['value'] = 0xE000000,
     },
-    [11] = {
+    [10] = {
         ['disabled'] = menuDisable,
         ['hasArrow'] = true,
         ['menuTable'] = {
@@ -1219,9 +1275,7 @@ EVENT_MODE_MENUTABLE = {
             ['text'] = '任务',
             ['value'] = 19,
         },
-    },
-    [0xA000000] = {
-        [1] = {
+        [4] = {
             ['text'] = '其它',
             ['value'] = 7,
         },

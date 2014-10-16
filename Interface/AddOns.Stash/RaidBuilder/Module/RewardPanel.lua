@@ -63,10 +63,6 @@ function RewardPanel:OnInitialize()
         ConfirmButton:SetEnabled(isTextOK and nText == 16)
         end)
 
-    self:SetScript('OnShow', function(self)
-        self:ScheduleTimer('SetBlocker', 0.01)
-        end)
-
     self.InputBox = InputBox
     self.ConfirmButton = ConfirmButton
     self.ErrorLabel = ErrorLabel
@@ -80,22 +76,16 @@ function RewardPanel:Result(event, result)
     if result then
         System:Error(result) 
     end
-
-    if self.timeout then
-        self:CancelTimer(self.timeout)
-        self.timeout = nil
-    end
 end
 
 function RewardPanel:SetBlocker(enable)
-    self.blocking = enable == nil and self.blocking or enable
-    MainPanel:SetBlocker(self.blocking and 'REWARDPURCHASE')
-    self:Timeout(self.blocking)
-end
-
-function RewardPanel:Timeout(enable)
-    if enable and not self.timeout then
-        self.timeout = self:ScheduleTimer('Result', 30, nil, L['兑换失败：处理超时，请稍后再试。'])
+    if enable then
+        MallPanel:SetBlocker(true, L.RewardPurchaseSummary,
+            function()
+                RewardPanel:Result(nil, L['兑换失败：处理超时，请稍后再试。'])
+            end)
+    else
+        MallPanel:SetBlocker(false)
     end
 end
 

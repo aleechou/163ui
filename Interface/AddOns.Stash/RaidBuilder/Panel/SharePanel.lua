@@ -158,11 +158,11 @@ function SharePanel:SetArguments(titel, content, isRecord)
         end
     end
 
-    if IsAddOnLoaded('WowSocial') then
-        for i, v in ipairs(GetJoinedChatGroupList()) do
-            tinsert(list, { text = v.text, value = v.chatType, id = v.target })
-        end
-    end
+    -- if IsAddOnLoaded('WowSocial') then
+    --     for i, v in ipairs(GetJoinedChatGroupList()) do
+    --         tinsert(list, { text = v.text, value = v.chatType, id = v.target })
+    --     end
+    -- end
 
     self:SetText(titel)
 

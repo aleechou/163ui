@@ -5,7 +5,7 @@ by ldz5
 
 --]]
 
-local MAJOR, MINOR = 'NetEaseBroad-1.0', 3
+local MAJOR, MINOR = 'NetEaseBroad-1.0', 4
 local Broad,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not Broad then return end
 
@@ -47,6 +47,16 @@ function Broad:GetBroadChat()
     return handler:GetChat()
 end
 
+function Broad:RegisterServerBroad(name, ...)
+    local handler = _GetHandler(self)
+    if not handler then
+        error('no handler', 2)
+    end
+    handler:SetServerBroad(name, true)
+
+    return self:RegisterBroad(name, ...)
+end
+
 local mixins = {
     'RegisterBroad',
     'UnregisterBroad',
@@ -54,6 +64,7 @@ local mixins = {
     'SendBroadMessage',
     'ConnectBroad',
     'GetBroadChat',
+    'RegisterServerBroad',
 }
 
 function Broad:Embed(object)

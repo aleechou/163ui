@@ -87,7 +87,7 @@ function Feedback:Open(addonName, callback)
 end
 
 function Feedback:Send(text)
-    if type(self.callback) == 'function' then
+    if #text > 0 and type(self.callback) == 'function' then
         self.callback(true, text)
     end
     self:Hide()

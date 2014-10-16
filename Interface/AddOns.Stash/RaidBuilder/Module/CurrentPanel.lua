@@ -175,28 +175,28 @@ local function CreateMenuTable(unit)
             },
         }
 
-    if IsAddOnLoaded('WowSocial') then
-        local chatGroupList = GetOwnChatGroupList(UnitFullName('player'))
-        if #chatGroupList > 0 then
-            local menu = {
-                text = L['|cff33ff99邀请入群|r'],
-                hasArrow = true,
-                disabled = isPlayer,
-                menuTable = {},
-            }
-            for i, v in ipairs(chatGroupList) do
-                tinsert(menu.menuTable, {
-                        text = v.text,
-                        value = v.target,
-                        disabled = isPlayer,
-                        func = function(button, data)
-                            InviteChatGroup(data.value, UnitFullName(unit))
-                        end,
-                    })
-            end
-            tinsert(menuTable, #menuTable - 2, menu)
-        end
-    end
+    -- if IsAddOnLoaded('WowSocial') then
+    --     local chatGroupList = GetOwnChatGroupList(UnitFullName('player'))
+    --     if #chatGroupList > 0 then
+    --         local menu = {
+    --             text = L['|cff33ff99邀请入群|r'],
+    --             hasArrow = true,
+    --             disabled = isPlayer,
+    --             menuTable = {},
+    --         }
+    --         for i, v in ipairs(chatGroupList) do
+    --             tinsert(menu.menuTable, {
+    --                     text = v.text,
+    --                     value = v.target,
+    --                     disabled = isPlayer,
+    --                     func = function(button, data)
+    --                         InviteChatGroup(data.value, UnitFullName(unit))
+    --                     end,
+    --                 })
+    --         end
+    --         tinsert(menuTable, #menuTable - 2, menu)
+    --     end
+    -- end
 
 	return menuTable
 end
@@ -245,7 +245,7 @@ function CurrentPanel:OnInitialize()
     YiXinButton:SetText(L['易信推送'])
     YiXinButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\YiXin]])
     YiXinButton:SetTooltip(
-        L['易信通知'],
+        L['易信推送'],
         L['你每天有3次机会向关注你的玩家发送活动通知。']
     )
     YiXinButton:SetScript('OnClick', function()
@@ -308,7 +308,7 @@ function CurrentPanel:OnInitialize()
         end)
 
     local DisbandGroupButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    DisbandGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
+    DisbandGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', -60, 4)
     DisbandGroupButton:SetSize(120, 22)
     DisbandGroupButton:SetText(L['解散活动'])
     DisbandGroupButton:Disable()
@@ -322,48 +322,56 @@ function CurrentPanel:OnInitialize()
             end)
         end)
 
+    local RestoreButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    RestoreButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 60, 4)
+    RestoreButton:SetSize(120, 22)
+    RestoreButton:SetText(L['暂停招募'])
+    RestoreButton:SetScript('OnClick', function()
+        Logic:ToggleEventStatus()
+    end)
+
     local GroupInfo = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
     GroupInfo:SetPoint('BOTTOMRIGHT', self:GetOwner(), -7, 7)
     GroupInfo:SetWidth(200)
 
-    if IsAddOnLoaded('WowSocial') then
-        DisbandGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', -65, 4)
+    -- if IsAddOnLoaded('WowSocial') then
+    --     DisbandGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', -65, 4)
 
-        local InviteChatGroupButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-        InviteChatGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 65, 4)
-        InviteChatGroupButton:SetSize(120, 22)
-        InviteChatGroupButton:SetText(L['批量邀请入群'])
-        InviteChatGroupButton:Disable()
-        InviteChatGroupButton:SetScript('OnClick',
-            function(InviteChatGroupButton)
-                local chatGroupList = GetOwnChatGroupList(UnitFullName('player'))
-                local memberList = self.MemberList:GetItemList()
-                local menuTable = {}
-                for i, v in ipairs(chatGroupList) do
-                    tinsert(menuTable, {
-                            text = v.text,
-                            value = v.target,
-                            disabled = function()
-                                return #memberList == 1
-                            end,
-                            func = function(button, data)
-                                for i, v in ipairs(memberList) do
-                                    local fullName = UnitFullName(v)
-                                    if UnitIsPlayer(v) and Invite:IsSameRealm(fullName) and not UnitIsUnit(v, 'player') then
-                                        InviteChatGroup(data.value, fullName)
-                                    end
-                                end
-                                self:SetInviteButtonStatus(false)
-                                self:ScheduleTimer(function()
-                                    self:SetInviteButtonStatus(true)
-                                    end, 60)
-                            end,
-                        })
-                end
-                self:ToggleMenu(InviteChatGroupButton, menuTable)
-            end)
-        self.InviteChatGroupButton = InviteChatGroupButton
-    end
+    --     local InviteChatGroupButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    --     InviteChatGroupButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 65, 4)
+    --     InviteChatGroupButton:SetSize(120, 22)
+    --     InviteChatGroupButton:SetText(L['批量邀请入群'])
+    --     InviteChatGroupButton:Disable()
+    --     InviteChatGroupButton:SetScript('OnClick',
+    --         function(InviteChatGroupButton)
+    --             local chatGroupList = GetOwnChatGroupList(UnitFullName('player'))
+    --             local memberList = self.MemberList:GetItemList()
+    --             local menuTable = {}
+    --             for i, v in ipairs(chatGroupList) do
+    --                 tinsert(menuTable, {
+    --                         text = v.text,
+    --                         value = v.target,
+    --                         disabled = function()
+    --                             return #memberList == 1
+    --                         end,
+    --                         func = function(button, data)
+    --                             for i, v in ipairs(memberList) do
+    --                                 local fullName = UnitFullName(v)
+    --                                 if UnitIsPlayer(v) and Invite:IsSameRealm(fullName) and not UnitIsUnit(v, 'player') then
+    --                                     InviteChatGroup(data.value, fullName)
+    --                                 end
+    --                             end
+    --                             self:SetInviteButtonStatus(false)
+    --                             self:ScheduleTimer(function()
+    --                                 self:SetInviteButtonStatus(true)
+    --                                 end, 60)
+    --                         end,
+    --                     })
+    --             end
+    --             self:ToggleMenu(InviteChatGroupButton, menuTable)
+    --         end)
+    --     self.InviteChatGroupButton = InviteChatGroupButton
+    -- end
 
     local RulesPanel = CreateFrame('ScrollFrame', nil, self)
     RulesPanel:SetPoint('TOPRIGHT', MemberList, 7, 8)
@@ -445,11 +453,14 @@ function CurrentPanel:OnInitialize()
     self.RulesText = RulesText
     self.RulesButton = RulesButton
     self.Size = {x = self:GetWidth(), y = self:GetHeight()}
+    self.RestoreButton = RestoreButton
 
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1, 'UpdateGroup')
     self:RegisterEvent('RAID_TARGET_UPDATE', 'UpdateRaidTarget')
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'RefreshButton')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'RefreshButton')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE', 'RefreshButton')
     self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroup')
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE', 'UpdateRules')
     self:ScheduleRepeatingTimer('OnTimer', 5)
@@ -592,23 +603,32 @@ end
 
 function CurrentPanel:RefreshButton()
     local event = EventCache:GetCurrentEvent()
+    local paused = EventCache:IsCurrentEventPaused()
     local eventCode = GroupCache:GetCurrentEventCode()
     self.DisbandGroupButton:SetEnabled(event)
-    self.YiXinButton:SetEnabled(event)
-    self.ShareButton:SetEnabled(eventCode)
+    self.YiXinButton:SetEnabled(event and not paused)
+    self.ShareButton:SetEnabled(eventCode and not paused)
     self.TitleLabel:SetText(self:GetCurrentTitle())
 
-    if self.InviteChatGroupButton then
-        self.InviteChatGroupButton:SetEnabled(#GetOwnChatGroupList(UnitFullName('player')) > 0 and not self:GetInviteButtonStatus())
+    -- if self.InviteChatGroupButton then
+    --     self.InviteChatGroupButton:SetEnabled(#GetOwnChatGroupList(UnitFullName('player')) > 0 and not self:GetInviteButtonStatus())
+    -- end
+
+    if event then
+        self.RestoreButton:SetText(paused and L['恢复招募'] or L['暂停招募'])
+        self.RestoreButton:SetEnabled(not Logic:IsEventStatusLockdown() and not event:IsMemberFull())
+    else
+        self.RestoreButton:Disable()
+        self.RestoreButton:SetText(L['暂无活动'])
     end
 
     self:UpdateRules()
 end
 
-function CurrentPanel:SetInviteButtonStatus(flag)
-    self.inviteButtonStatus = not flag
-    self.InviteChatGroupButton:SetEnabled(flag)
-end
+-- function CurrentPanel:SetInviteButtonStatus(flag)
+--     self.inviteButtonStatus = not flag
+--     self.InviteChatGroupButton:SetEnabled(flag)
+-- end
 
 function CurrentPanel:GetInviteButtonStatus()
     return self.inviteButtonStatus

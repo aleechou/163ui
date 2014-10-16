@@ -33,7 +33,7 @@ function CreatePanel:OnInitialize()
     YiXinButton:SetText(L['易信推送'])
     YiXinButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\YiXin]])
     YiXinButton:SetTooltip(
-        L['易信通知'],
+        L['易信推送'],
         L['你每天有3次机会向关注你的玩家发送活动通知。']
     )
     YiXinButton:SetScript('OnClick', function()
@@ -111,18 +111,14 @@ function CreatePanel:OnInitialize()
 
     local function CheckError()
         local err, content = self:CheckError()
-        if err then
-            if content then
-                self.ErrorText:SetText(content)
-                self.CreateButton:Hide()
-            else
-                self.ErrorText:SetText('')
-                self.CreateButton:Show()
-            end
-        else
-            self.ErrorText:SetText('')
-            self.CreateButton:Show()
+        if err and content then
+            self.ErrorText:SetText(content)
+            self.CreateButton:Disable()
+            return
         end
+
+        self.ErrorText:SetText()
+        self.CreateButton:SetEnabled(not self.Blocker:IsShown())
     end
 
     local TankBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
@@ -200,13 +196,21 @@ function CreatePanel:OnInitialize()
     self:RegisterInputBox(SummaryBox:GetEditBox())
 
     local CreateButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    CreateButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
+    CreateButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', -60, 4)
     CreateButton:SetSize(120, 22)
     CreateButton:SetText(L['创建活动'])
     CreateButton:Disable()
 
-    local ErrorText = self:CreateFontString(nil, 'OVERLAY', 'GameFontRed')
-    ErrorText:SetPoint('CENTER', CreateButton)
+    local RestoreButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    RestoreButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 60, 4)
+    RestoreButton:SetSize(120, 22)
+    RestoreButton:SetText(L['暂停招募'])
+    RestoreButton:SetScript('OnClick', function()
+        Logic:ToggleEventStatus()
+    end)
+
+    local ErrorText = RoleWidget:CreateFontString(nil, 'OVERLAY', 'GameFontRed')
+    ErrorText:SetPoint('TOP', 0, -5)
 
     local Blocker = CreateFrame('Frame', nil, self)
     Blocker:SetAllPoints(self)
@@ -252,6 +256,7 @@ function CreatePanel:OnInitialize()
     self.BlockerText = BlockerText
     self.CreateButton = CreateButton
     self.ErrorText = ErrorText
+    self.RestoreButton = RestoreButton
 
     Filter:SetCallback('OnSelectChanged', function(_, data)
         self.Mode:SetMenuTable(GetEventModeMenuTable(data.value))
@@ -270,21 +275,27 @@ function CreatePanel:OnInitialize()
 
     self:SetScript('OnShow', self.OnShow)
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'OnShow')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'OnShow')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE', 'OnShow')
 end
 
 function CreatePanel:OnShow()
     local event = EventCache:GetCurrentEvent()
     if event then
+        local paused = EventCache:IsCurrentEventPaused()
+
         self.Filter:SetValue(event:GetEventCode())
         self.Mode:SetValue(event:GetEventMode())
         self:SetEvent(event, false, false, false)
 
         self.CrossRealm:Disable()
         self.Filter:Disable()
-        self.YiXinButton:Enable()
-        self.ShareButton:Enable()
+        self.YiXinButton:SetEnabled(not paused)
+        self.ShareButton:SetEnabled(not paused)
+        self.RestoreButton:SetEnabled(not Logic:IsEventStatusLockdown() and not event:IsMemberFull())
 
         self.CreateButton:SetText(L['更新活动'])
+        self.RestoreButton:SetText(paused and L['恢复招募'] or L['暂停招募'])
     else
         self.Filter:SetValue(nil)
         self.Mode:SetValue(nil)
@@ -294,8 +305,10 @@ function CreatePanel:OnShow()
         self.Filter:Enable()
         self.YiXinButton:Disable()
         self.ShareButton:Disable()
+        self.RestoreButton:Disable()
 
         self.CreateButton:SetText(L['创建活动'])
+        self.RestoreButton:SetText(L['暂无活动'])
     end
     self:Refresh()
 end

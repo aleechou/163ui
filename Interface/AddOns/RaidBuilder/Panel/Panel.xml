@@ -1,6 +1,0 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
-  <Script file="RolePanel.lua" />
-  <Script file="RoleTip.lua" />
-  <Script file="SharePanel.lua" />
-</Ui>

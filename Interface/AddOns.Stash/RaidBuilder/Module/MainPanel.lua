@@ -45,19 +45,19 @@ function MainPanel:OnInitialize()
         end
     end)
 
-    if IsAddOnLoaded('WowSocial_UI') then
-        self:CreateTitleButton{
-            title = L['集合石聊天'],
-            texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
-            -- coords = {0.75, 1, 0, 1},
-            callback = function()
-                local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
-                if CloudUI then
-                    CloudUI:GetModule('DataBroker'):Toggle()
-                end
-            end
-        }
-    end
+    -- if IsAddOnLoaded('WowSocial_UI') then
+    --     self:CreateTitleButton{
+    --         title = L['集合石聊天'],
+    --         texture = [[Interface\AddOns\WowSocial_UI\Media\Icon]],
+    --         -- coords = {0.75, 1, 0, 1},
+    --         callback = function()
+    --             local CloudUI = LibStub('AceAddon-3.0'):GetAddon('WowSocial_UI')
+    --             if CloudUI then
+    --                 CloudUI:GetModule('DataBroker'):Toggle()
+    --             end
+    --         end
+    --     }
+    -- end
 
     self:CreateTitleButton{
         title = L['分享插件'],
@@ -136,12 +136,12 @@ function MainPanel:OnShow()
 end
 
 function MainPanel:OnHide()
-    self.currentPanel = self:GetSelectedPanel()
+    Profile:SetDefaultPanel(self:GetSelectedTab())
     self.GameTooltip:Hide()
 end
 
 function MainPanel:GetCurrentPanel()
-    return MemberCache:GetMemberCount() > 0 and WaitPanel or self.currentPanel or BrowsePanel
+    return MemberCache:GetMemberCount() > 0 and WaitPanel or self:GetPanelByIndex(Profile:GetDefalutPanel()) or MallPanel
 end
 
 function MainPanel:Refresh()
@@ -189,7 +189,7 @@ function MainPanel:InitBlocker()
     return Blocker
 end
 
-function MainPanel:SetBlocker(blockType)
+function MainPanel:SetBlocker(blockType, ...)
     if blockType == 'MISSBNET' then
         local Blocker = self.Blocker or self:InitBlocker()
         Blocker.SummaryBox:SetSize(550, 350)
@@ -243,11 +243,12 @@ local EVENT_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLeaderLevel', },
     { text = L['装等：'],      method = 'GetLeaderItemLevel', },
     { text = L['PVP：'],       method = 'GetLeaderPVPRating', },
-    { text = L['团长粉丝：'],  method = 'GetLeaderFans', },
+    -- { text = L['团长粉丝：'],  method = 'GetLeaderFans', },
     { text = '',               method = 'GetLeaderLogoTooltip'},
     { text = ' ', },
     { text = L['形式：'],      method = 'GetEventModeText', },
     { text = L['说明：'],      method = 'GetSummary', },
+    { text = L['版本：'],      method = 'GetVersion', }
 }
 
 function MainPanel:OpenEventTooltip(event)
@@ -269,6 +270,9 @@ function MainPanel:OpenEventTooltip(event)
             if value then
                 if v.method == 'GetSummary' and #value > 25 and not value:find('[^%w]+') then
                     value = value:gsub('(%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w%w)','%1\n')
+                end
+                if v.method == 'GetVersion' then
+                    value = GetFullVersion(value)
                 end
                 GameTooltip:AddLine(v.text .. value, 1, 1, 1, true)
             end
@@ -302,7 +306,7 @@ local MEMBER_INFO_TOOLTIP_ORDER = {
     { text = L['等级：'],      method = 'GetLevel', },
     { text = L['装等：'],      method = 'GetItemLevel', },
     { text = L['PVP：'],       method = 'GetPVPRating', },
-    { text = L['团长粉丝：'],  method = 'GetFans', },
+    -- { text = L['团长粉丝：'],  method = 'GetFans', },
 }
 
 function MainPanel:OpenWaitTooltip(member)
@@ -403,6 +407,7 @@ function MainPanel:CreateChangeLog()
         self:SelectPanel(BrowsePanel)
         BrowsePanel:QuickToggle()
         BrowsePanel:ToggleHelpPlate()
+        Logic:Statistics(2)
     end)
 
     local portraitFrame = ChangeLogFrame:CreateTexture(nil, 'OVERLAY', 'UI-Frame-Portrait')
