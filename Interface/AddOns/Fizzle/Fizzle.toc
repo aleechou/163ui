@@ -17,4 +17,4 @@ Inspect.lua
 
 ## Title: |cff880303[网易有爱]|r 装备耐久
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## X-163UI-Version: 2014101701

@@ -32,6 +32,6 @@ multiActionBarFixer.lua
 ## Title: |cff880303[网易有爱]|r 多米诺动作条
 ## Notes: 动作条美化
 ## X-Vendor: NetEase
-## 163UI-Version: 2014101101
+## X-163UI-Version: 2014101701
 
 163UI-patch.lua

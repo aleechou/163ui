@@ -1,11 +1,11 @@
 ﻿## Interface: 60000
 ## Version: 1.03
 ## Author: Abin
-## 163UI-Version: 2014052802
+## X-163UI-Version: 2014101701
 Core.lua
 Menus.lua
 
 
 ## Title: |cff880303[网易有爱]|r 宝石助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060901
+## X-163UI-Version: 2014101701

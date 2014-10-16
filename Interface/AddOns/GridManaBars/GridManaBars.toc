@@ -18,4 +18,4 @@ embeds.xml
 
 ## Title: |cff880303[网易有爱]|r Grid法力条
 ## X-Vendor: NetEase
-## 163UI-Version: 2014101501
+## X-163UI-Version: 2014101701

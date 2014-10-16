@@ -17,7 +17,7 @@
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-Block-Movie-Skip-ItemID: 105930,105931,105932,105933,105934,105935
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090401
+## X-163UI-Version: 2014101701
 localization.en.lua
 localization.de.lua
 localization.kr.lua

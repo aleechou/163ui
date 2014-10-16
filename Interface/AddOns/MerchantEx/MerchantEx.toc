@@ -17,4 +17,4 @@ OptionFrame.lua
 
 ## Title: |cff880303[网易有爱]|r 自动修理贩卖
 ## X-Vendor: NetEase
-## 163UI-Version: 2014080302
+## X-163UI-Version: 2014101701

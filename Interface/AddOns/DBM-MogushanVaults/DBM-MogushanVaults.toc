@@ -15,7 +15,7 @@
 ## X-DBM-Mod-Sort: 5
 ## X-DBM-Mod-MapID: 1008
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090401
+## X-163UI-Version: 2014101701
 localization.en.lua
 localization.es.lua
 localization.it.lua

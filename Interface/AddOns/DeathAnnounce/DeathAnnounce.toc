@@ -13,5 +13,5 @@ Localization.lua
 
 ## Title: |cff880303[网易有爱]|r DeathAnnounce
 ## X-Vendor: NetEase
-## 163UI-Version: 2014073001
+## X-163UI-Version: 2014101701
 

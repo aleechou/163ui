@@ -9,8 +9,6 @@
 ## Notes-zhCN: 增强物品提示信息
 ## Notes-zhTW: 增強物品提示信息
 ## Dependencies: TipTac
-## X-Vendor: NetEase
-## 163UI-Version: 2014081301
 Libs\AceLocale-3.0\AceLocale-3.0.lua
 Libs\LibStub\LibStub.lua
 Local_enUS.lua
@@ -18,3 +16,6 @@ Local_zhCN.lua
 Local_zhTW.lua
 GetUpgradedItemLevel.lua
 core.lua
+
+## X-Vendor: NetEase
+## X-163UI-Version: 2014101701

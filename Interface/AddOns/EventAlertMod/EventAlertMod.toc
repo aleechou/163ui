@@ -19,4 +19,4 @@ EventAlert_GroupAlerts.xml
 
 ## Title: |cff880303[网易有爱]|r EAM技能特效警报
 ## X-Vendor: NetEase
-## 163UI-Version: 2014081701
+## X-163UI-Version: 2014101701

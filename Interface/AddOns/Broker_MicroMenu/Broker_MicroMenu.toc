@@ -28,4 +28,4 @@ Options.lua
 
 ## Title: |cff880303[网易有爱]|r 微型菜单
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## X-163UI-Version: 2014101701

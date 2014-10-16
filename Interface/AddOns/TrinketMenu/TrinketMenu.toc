@@ -15,4 +15,4 @@ localization.lua
 
 ## Title: |cff880303[网易有爱]|r 饰品管理
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## X-163UI-Version: 2014101701

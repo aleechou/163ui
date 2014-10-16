@@ -75,4 +75,4 @@ Other\Other.Script.lua
 Other\Other.Lowhp.lua
 ## Title: |cff880303[网易有爱]|r 魔兽新兵助手
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## X-163UI-Version: 2014101701

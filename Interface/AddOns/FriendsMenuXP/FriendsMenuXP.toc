@@ -12,5 +12,5 @@ FriendsMenuXP.xml
 
 ## Title: |cff880303[网易有爱]|r 玩家菜单增强
 ## X-Vendor: NetEase
-## 163UI-Version: 2014091101
+## X-163UI-Version: 2014101701
 Patch-by163UI.lua

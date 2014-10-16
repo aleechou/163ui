@@ -16,7 +16,7 @@
 ## X-Curse-Project-ID: deadly-boss-mods-wod-beta
 ## X-Curse-Repository-ID: wow/deadly-boss-mods-wod-beta/mainline
 ## X-Vendor: NetEase
-## 163UI-Version: 2014090401
+## X-163UI-Version: 2014101701
 
 DBT-Template.xml
 DBT.lua
