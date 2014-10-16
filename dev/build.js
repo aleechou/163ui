@@ -26,7 +26,7 @@ var addonsIndexJson = workdir + "/addons-index.json"
 var addonsIndexTar = workdir + "/addons-index.zip"
 var outputTocOptions = {
 	'Version': 1
-	, '163UI-Version': 1
+	, 'X-163UI-Version': 1
 	, 'Title': 1
 	, 'Title-zhCN': 1
 	, 'Note': 1
