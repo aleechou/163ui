@@ -1,0 +1,13 @@
+## Interface: 60000
+## Title: Tidy Plates: Graphite
+## Notes: Minimalisty
+## Author: Binny
+## Dependencies: TidyPlates, TidyPlatesHub
+
+TidyPlates_Graphite.lua
+
+
+
+## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 Graphite
+## X-Vendor: NetEase
+## X-163UI-Version: 2014101701

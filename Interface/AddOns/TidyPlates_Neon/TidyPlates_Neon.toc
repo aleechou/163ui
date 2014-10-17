@@ -1,0 +1,16 @@
+## Interface: 60000
+## Title: Tidy Plates: Neon Theme
+## Notes: It toasts your Eggo waffles, and butters your bread.
+## Author: Binny
+## Dependencies: TidyPlates, TidyPlatesHub
+
+Neon.lua
+
+
+
+## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 NeonTheme
+## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 NeonTheme
+## Notes-zhTW: 強大到爆的多功能姓名版美化插件-NeonTheme風格模塊。
+## Notes-zhCN: 强大到爆的多功能姓名版美化插件-NeonTheme风格模块
+## X-Vendor: NetEase
+## X-163UI-Version: 2014101701

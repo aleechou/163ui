@@ -1,0 +1,23 @@
+## Interface: 60000
+## Title: Tidy Plates Hub
+## Notes: Provides a common configuration panel for supported themes.
+## Author: Daniel/Binbwen
+## Dependencies: TidyPlates, TidyPlatesWidgets
+## OptionalDeps: TidyPlatesHubDE, TidyPlatesHubES, TidyPlatesHubMX, TidyPlatesHubFR, TidyPlatesHubKR, TidyPlatesHubRU, TidyPlatesHubCN, TidyPlatesHubTW
+## SavedVariables: TidyPlatesHubCache, TidyPlatesHubGlobal
+## SavedVariablesPerCharacter: TidyPlatesHubSettings
+
+Lists.lua
+Defaults.lua
+Helpers.lua
+Templates.lua
+Hub.lua
+Functions.lua
+
+
+## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 Hub
+## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 Hub
+## Notes-zhTW: 強大到爆的多功能姓名版美化插件-風格兼容模塊。
+## Notes-zhCN: 强大到爆的多功能姓名版美化插件-风格兼容模块。
+## X-Vendor: NetEase
+## X-163UI-Version: 2014101701
