@@ -1,7 +1,5 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Skada", "enUS", true)
 
-if not L then return end
-
 L["Include set"] = true
 L["Include set name in title bar"] = true
 L["Disable"] = true
@@ -69,6 +67,8 @@ L["Reverse bar growth"] = "Reverse bar growth"
 L["Bars will grow up instead of down."] = "Bars will grow up instead of down."
 L["Number format"] = "Number format"
 L["Controls the way large numbers are displayed."] = "Controls the way large numbers are displayed."
+L["Number set duplicates"] = "Number set duplicates"
+L["Append a count to set names with duplicate mob names."] = "Append a count to set names with duplicate mob names."
 L["Set format"] = "Set format"
 L["Controls the way set names are displayed."] = "Controls the way set names are displayed."
 L["Reset on entering instance"] = "Reset on entering instance"
@@ -281,6 +281,7 @@ L["Resisted"] = true
 L["Blocked"] = true
 L["Glancing"] = true
 L["Crushing"] = "Crushing"
+L["Multistrike"] = STAT_MULTISTRIKE or true -- XXX compat
 L["Absorbed"] = true
 L["Dispels"] = true
 L["Fails"] = true
