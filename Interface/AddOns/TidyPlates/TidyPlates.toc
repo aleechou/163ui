@@ -1,0 +1,17 @@
+## Interface: 60000
+## Title: Tidy Plates
+## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强
+## Title-zhCN: |cff880303[网易有爱]|r 姓名版增强
+## Notes: Enjoys long walks on Darkshore
+## Notes-zhTW: 強大到爆的多功能姓名版美化插件。
+## Notes-zhCN: 强大到爆的多功能姓名版美化插件。
+## Author: Binbwen and Friends
+## Version: 6.15.1
+## SavedVariablesPerCharacter: TidyPlatesOptions
+
+TidyPlates.xml
+
+
+## Title: |cff880303[网易有爱]|r 姓名板增强
+## X-Vendor: NetEase
+## 163UI-Version: 2014101801

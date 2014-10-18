@@ -38,6 +38,10 @@
         , "AtlasLoot_WrathoftheLichKing"
         , "AuctionLite"
         , "BossesKilled"
+<<<<<<< HEAD
+=======
+        , "CompactRaid"
+>>>>>>> master
         , "Decursive"
         , "EasyMount"
         , "ExtraCD"

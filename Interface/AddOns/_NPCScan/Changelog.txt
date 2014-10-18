@@ -1,0 +1,209 @@
+fixed ticket 34
+fixed ticket 37
+fixed ticket 38
+
+542
+added quid and athea to
+changed alert sound to not play if target button is displayed
+added ability to load coustom sounds via external file
+added vignette support
+readded ghostly pandarens and camel figures
+
+
+
+
+
+v5.2.1
+-Stopped Tamable Beasts and Default Rares from being displayed in the cache list when not being tracked.
+-Added warning for users that are running the unsupported _NPCScan.Autoadd
+-Removed the rare beasts that can not currently be tamed due to being level 91+ from the Tamable Alert List.
+
+v5.2
+-Made rare mobs & tameable beasts tracking toggelable
+
+v5.1.3
+SLOKnightFall:
+-Fixed issue were the Isle of Thunder zone was not being detected correctly.
+
+v5.1.2
+SLOKnightFall:
+-Fixed versioning bug introduced in 5.1.1 (ticekt 11) & the test button error caused from it (ticket 12)
+-Fixed "Achievements" error for characters loading the new version for the first time. (ticket 8)
+-Removed raid bosses as loaded by default.
+
+
+V5.1.1
+SLOKnightFall:
+-Fixed bug that prevented default sound from being changed
+-Fixed onclick bug on the Rare & Tameable mobs tabs
+-Fixed bug where the test alert would play the default sound and not the currently selected one.
+
+V5.1
+SLOKnightFall
+-Fixed bug where achievement tab title would not initially appear 
+-Added suppression for alerts while in flight path
+-Updated achievements to include "One of Many", "Timeless Champion" & "Champions of Lei Shen"
+-Updated tabs to display over multiple lines.
+-Updated mob database to include most rare mobs currently in the game
+-Split default rares & tamable beasts into their own tabs
+-Restructured which variables are saved globally vs per character.
+
+r20130929231049
+Torhal:
+- Updated ToC.
+- Added .pkgmeta
+- Removed embedded LibStub
+
+5.0.0.5:
+-Added custom search/achievement names to the alert pop-up button.
+-Added “Galleon” to the default search list.
+
+5.0.0.4: Updated deDE, frFR, itIT, koKR, ruRU, and zhCN localizations.
+
+5.0.0.3: Fixed an error when logging onto new characters immediately after updating to 5.0.0.2.
+
+5.0.0.2:
+-Enabled achievement settings now apply to all characters, since they're now account-wide.
+-Fixed an error when pressing the alert target button while in a raid.
+-Doesn't interfere with hunters' Call Pet spell anymore.
+
+5.0.0.1:
+-Added the “Glorious!” MoP rare achievement.
+-Added itIT localization and updated frFR and zhCN localizations.
+
+4.3.0.2: Fixed a broken zhCN translations file, and updated ptBR localization.
+
+4.3.0.1: Updated frFR, koKR, ruRU, zhCN, and zhTW localizations, and added ptBR translation by Omukeka.
+
+4.2.0.2: Added new tamable rares from 4.2 as defaults for hunters.
+  
+4.2.0.1: Updated koKR, ruRU, zhCN, and zhTW localizations.
+
+4.1.0.2:
+-Faction-specific rares Captain Foulwind and Florence are now only defaults for the faction that can kill them.
+-Tamable mobs with unknown spawning zones shouldn't always show alerts anymore.
+
+4.1.0.1:
+-Alert sound volume is now controlled by the “Master Volume” slider in WoW's Sound Options window instead of the game sound effects volume slider.
+-Updated frFR, ruRU, zhCN, and zhTW localizations.
+-Updated the database of tamable rares.
+
+4.0.3.6: Updated and fixed non-English localizations so they will print chat messages properly.
+
+4.0.3.5:
+-Added an option to print timestamps with all messages. See the main _NPCScan options pane.
+-Updated 3D portraits to fit the alert popup better.
+-Updated frFR, koKR, and zhTW localizations.
+
+4.0.3.4:
+-Fixed an error for characters that hadn't used an updated version of _NPCScan since before 4.0.0.1.  If you still experience an error on login, please reset that character's settings.-
+        Updated mob name translations.
+
+4.0.3.3:
+-Jadefang is now also a default custom NPC.
+-Tamable rares in Uldum and Twilight Highlands should now be detected properly.
+
+4.0.3.2: Added Madexx' colors to each of his default entries.  Won't apply if you logged in using <kbd>4.0.3.1</kbd>.
+
+4.0.3.1:
+-Added Cataclysm rares to defaults.  If you hadn't added them already, they will automatically appear in your custom NPCs list.
+-Updated the database of tamable rares.
+-Updated esES localization.
+-Added a way for stable mods like HunterStableInfo to coexist with _NPCScan.  Authors, see source docs.
+
+4.0.0.6:
+-Updated frFR and deDE localizations, and added esES/esMX localization by galen2.
+-Updated the list of tamable rares.
+-Fixed uncommon error when attempting to scroll one of the rare mob tables.
+
+4.0.0.5: The “<kbd>Unmute for alert sound</kbd>” option now also re-enables WoW's sound effects toggle.
+
+4.0.0.4: Tweaked the default UI so that only the hunter's summoned pet will get cached on login.
+
+4.0.0.3: Hunters won't see bogus found alerts on login if they have tamed or stabled rare pets.
+
+4.0.0.2:
+-Updated dropdown menus for compatibility with patch 4.0.1.
+-Added deDE localization by Freydis88.
+
+4.0.0.1: Updated for Cataclysm Beta.
+
+3.3.5.5: Non-tamable mobs now show found alerts again.
+
+3.3.5.4:
+-Now summarizes pets cached while resting when leaving cities/inns instead of printing a line for each one.
+-Cached NPCs listed when changing worlds will only be printed once per session, instead of every time you zone in and out.
+-Fixed screen edge flash when mobs are found.
+-Added ruRU localization from CurseForge.
+
+3.3.5.3:
+-LibRareSpawns' mob screenshots should once again appear when mousing over rows in the achievement tables.
+-Added frFR and koKR localizations.
+
+3.3.5.2: Fixed an error that occurred when “<kbd>Search for completed achievement NPCs</kbd>” was disabled and any achievement criteria updated.
+  
+3.3.5.1:
+-Scans can now be limited to worlds (continents or instances). You can customize this for custom NPCs with an edit box next to the NPC's ID; Simply type the name of the world exactly, or select a continent name from the dropdown. If left blank, the scan will stay active no matter where you are.
+-Tables of rares in the Search configuration pane are now sortable by clicking their column headers.
+-Default options now only add tamable custom mobs like Arcturis and Skoll for hunters. Hold <span style="font-family: monospace">shift</span> while reverting to defaults to override this.
+-Added Bro'Gaz the Clanless as a default for Outlands.
+-Added zhTW localization by s8095324.
+-The found alert button now scales with your global UI Scale setting.-
+-Removed control over RareSpawnOverlay.
+-Custom NPCs are now identified by NPC ID instead of their names. Typed names are now case-sensitive.
+-Alerts for humanoid rares that used to look solid white now appear properly clothed once the mob is targeted.
+
+3.3.0.4:
+-The targeting button now marks the rare with a green triangle when clicked.
+-Fixed an issue with horizontal scrolling in the rare mob list.
+
+3.3.0.3: Compatible with _NPCScan.Overlay <kbd>3.3.0.6</kbd>.
+
+3.3.0.2: Fixed a bug in version detection.  Arcturis should be added to player scan lists now.
+
+3.3.0.1:
+-Added 3.3's new spirit beast Arcturis to default scan and tamable lists.
+-Added an “<span style="font-family: monospace;">/npcscan cache</span>” command to print a message like the log-in cache warning.
+-Removed the rare raptors from default settings, since they no longer drop pets.
+-Removed the mostly obsolete “<span style="font-family: monospace;">Search for Tamable NPCs</span>” option.
+-Now uses ZoneIDs instead of map file names to locate tamable mobs.  Consequently, The Razza now gets detected accurately in Dire Maul.
+
+3.2.0.8:
+-Rewrote the screen border flash so that it should never conflict with other mods that use it.
+-Achievement tabs now have more prominent checkboxes so disabled tabs will be harder to miss.
+
+3.2.0.7:
+-Tamable mobs now correctly show found alerts when spotted immediately upon login.
+-False found alert messages for tamable mobs now indicate why they are false alarms.
+
+3.2.0.6:
+-Rare tamable mobs now only show alerts when found in their original zone.
+-Added a new “<span style="font-family: monospace;">NpcOverlay_Found message</span>” to be used by _NPCScan.Overlay.
+
+3.2.0.5: Classified Terror Spinner as a tamable mob.
+
+3.2.0.4: Classified Skoll as a tamable mob.
+
+3.2.0.3:
+-Added new 3.2 rare spirit beast Skoll.
+-Now uses AceEvent-3.0 to communicate with map overlay-type addons.
+
+3.2.0.2: Now loads properly when _NPCScan.Overlay isn't present.
+
+3.2.0.1:
+-Now manages which overlays are shown by the <cite>RareSpawnOverlay</cite> and <cite>_NPCScan.Overlay</cite> addons.
+-Added four rare raptor mobs that drop non-combat pets in 3.2: Dart, Takk the Leaper, Ravasaur Matriarch, and Razormaw Matriarch.
+-No longer shows an alert button for tamable NPCs while resting (in an inn or city), although you will still need to clear the cache.
+-Added all localized mob names for zhTW, and as many as I could find for zhCN and koKR.
+-Added an “<span style="font-family: monospace;">Unmute for alert sound</span>” setting to play the alert sound even if WoW is muted.
+-Added an “<span style="font-family: monospace;">Alert sound file</span>” dropdown to choose which sound to play for alerts. Additional sounds can be added using SharedMedia-type addons.
+-The alert border flash now only shows when you enable “<span style="font-family: monospace;">Screen Edge Flash</span>” in the Default UI's Display Interface Options panel.
+        Now continues searching for rares in 5-man dungeons. Raid dungeons, battlegrounds, and arenas will still disable scanning, however.
+
+3.1.0.1:
+-Achievements to kill rares now have their own lists in the options window.
+-Added slash commands to add and remove NPCs from the custom tracking list: “<span style="font-family: monospace;">/npcscan add <NpcID> <Name></span>” and “<span style="font-family: monospace;">/npcscan remove <Name></span>”
+- You can now add tamable mobs to your search list and toggle them all using a “<span style="font-family: monospace;">Search for tamable NPCs</span>” setting.
+-Found alerts for tamable mobs will note that they are tamable and may be false alarms.
+-Added an option to suppress the “already cached” log-in alert.
+-Added Gondria to the default rare list, and updated some rares that are now tamable in 3.1.
