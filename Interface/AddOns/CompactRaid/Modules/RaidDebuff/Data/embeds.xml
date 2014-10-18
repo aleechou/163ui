@@ -1,0 +1,4 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">	
+	<Include file="Cataclysm\embeds.xml"/>
+	<Include file="MistsOfPandaria\embeds.xml"/>
+</Ui>
