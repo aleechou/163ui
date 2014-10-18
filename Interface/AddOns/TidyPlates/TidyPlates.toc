@@ -1,13 +1,17 @@
 ## Interface: 60000
 ## Title: Tidy Plates
+## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿
+## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°æÔöÇ¿
 ## Notes: Enjoys long walks on Darkshore
+## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş¡£
+## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş¡£
 ## Author: Binbwen and Friends
-## Version: 6.15
+## Version: 6.15.1
 ## SavedVariablesPerCharacter: TidyPlatesOptions
 
 TidyPlates.xml
 
 
-## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º
+## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## 163UI-Version: 2014101801

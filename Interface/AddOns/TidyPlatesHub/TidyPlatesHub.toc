@@ -1,11 +1,16 @@
 ## Interface: 60000
 ## Title: Tidy Plates Hub
+## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Hub
+## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Hub
 ## Notes: Provides a common configuration panel for supported themes.
+## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-ïL¸ñ¼æÈİÄ£‰K¡£
+## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-·ç¸ñ¼æÈİÄ£¿é¡£
 ## Author: Daniel/Binbwen
 ## Dependencies: TidyPlates, TidyPlatesWidgets
 ## OptionalDeps: TidyPlatesHubDE, TidyPlatesHubES, TidyPlatesHubMX, TidyPlatesHubFR, TidyPlatesHubKR, TidyPlatesHubRU, TidyPlatesHubCN, TidyPlatesHubTW
 ## SavedVariables: TidyPlatesHubCache, TidyPlatesHubGlobal
 ## SavedVariablesPerCharacter: TidyPlatesHubSettings
+
 
 Lists.lua
 Defaults.lua
@@ -14,10 +19,6 @@ Templates.lua
 Hub.lua
 Functions.lua
 
-
-## Title-zhTW: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Hub
-## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Hub
-## Notes-zhTW: å¼·å¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-é¢¨æ ¼å…¼å®¹æ¨¡å¡Šã€‚
-## Notes-zhCN: å¼ºå¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-é£æ ¼å…¼å®¹æ¨¡å—ã€‚
+## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Hub
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## 163UI-Version: 201410181

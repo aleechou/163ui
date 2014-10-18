@@ -1,6 +1,10 @@
 ## Interface: 60000
 ## Title: Tidy Plates: Neon Theme
+## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ NeonTheme
+## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ NeonTheme
 ## Notes: It toasts your Eggo waffles, and butters your bread.
+## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-NeonThemeïL¸ñÄ£‰K¡£
+## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-NeonTheme·ç¸ñÄ£¿é¡£
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
@@ -8,9 +12,6 @@ Neon.lua
 
 
 
-## Title-zhTW: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º NeonTheme
-## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º NeonTheme
-## Notes-zhTW: å¼·å¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-NeonThemeé¢¨æ ¼æ¨¡å¡Šã€‚
-## Notes-zhCN: å¼ºå¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-NeonThemeé£æ ¼æ¨¡å—
+## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ NeonTheme
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## 163UI-Version: 201410181

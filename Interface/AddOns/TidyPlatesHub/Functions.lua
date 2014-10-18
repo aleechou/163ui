@@ -189,7 +189,7 @@ end
 local function GetFriendlyClass(name)
 	local class = TidyPlatesUtility.GroupMembers.Class[name]
 
-	if (IsInInstance() == nil) and (not class) and LocalVars.AdvancedEnableUnitCache then
+	if (not IsInInstance()) and (not class) and LocalVars.AdvancedEnableUnitCache then
 		class = CachedUnitClass(name) end
 	return class
 end
