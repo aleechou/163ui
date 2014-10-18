@@ -1278,7 +1278,7 @@ function EventAlert_OnSCDUpdate(spellId)
 				else
 					eaf:Hide();
 					if (eaf.useCooldown) then
-						eaf:SetCooldown(1, 0);
+						--eaf:SetCooldown(1, 0);
 					end
 					eaf:SetAlpha(0);
 					eaf:SetScript("OnUpdate", nil);
@@ -1288,7 +1288,7 @@ function EventAlert_OnSCDUpdate(spellId)
 			else
 				eaf:Hide();
 				if (eaf.useCooldown) then
-					eaf:SetCooldown(1, 0);
+					--eaf:SetCooldown(1, 0);
 				end
 				eaf:SetAlpha(0);
 				eaf:SetScript("OnUpdate", nil);
