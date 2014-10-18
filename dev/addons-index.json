@@ -26,8 +26,6 @@
 
 
         , "---- 以下是在 6.0 中暂不支持的插件（有些可以精简掉了） ----"
-        , "_NPCScan"
-        , "_NPCScan.Overlay"
         , "Atemi"
         , "AtlasLoot"
         , "AtlasLoot_BurningCrusade"
