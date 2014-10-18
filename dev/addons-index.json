@@ -38,7 +38,10 @@
         , "AtlasLoot_WrathoftheLichKing"
         , "AuctionLite"
         , "BossesKilled"
+<<<<<<< HEAD
         , "CompactRaid"
+=======
+>>>>>>> 30e72b37034840db18a8d8fa2efefcbde20df2eb
         , "Decursive"
         , "EasyMount"
         , "ExtraCD"
@@ -49,7 +52,6 @@
         , "Healers-Have-To-Die"
         , "LiteBuff"
         , "Mapster"
-        , "Masque"
         , "QuestHubber"
         , "RaidAchievement"
         , "RaidAchievement_CataHeroics"
