@@ -9,8 +9,6 @@
 ## SavedVariables: TidyPlatesWidgetData
 
 Widgets.xml
-
-
 ## Title: |cff880303[网易有爱]|r 姓名板增强 Widgets
 ## X-Vendor: NetEase
-## 163UI-Version: 2014101801
+## X-163UI-Version: 2014101802
