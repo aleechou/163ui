@@ -1,16 +1,16 @@
 ## Interface: 60000
 ## Title: Tidy Plates Widgets
-## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Widgets
-## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Widgets
+## Title-zhTW: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Widgets
+## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Widgets
 ## Notes: Library of Widgets
-## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-ÔOÖÃÄ£‰K¡£
-## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-ÉèÖÃÄ£¿é¡£
+## Notes-zhTW: å¼·å¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-è¨­ç½®æ¨¡å¡Šã€‚
+## Notes-zhCN: å¼ºå¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-è®¾ç½®æ¨¡å—ã€‚
 ## Dependencies: TidyPlates
 ## SavedVariables: TidyPlatesWidgetData
 
 Widgets.xml
 
 
-## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Widgets
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Widgets
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014101801

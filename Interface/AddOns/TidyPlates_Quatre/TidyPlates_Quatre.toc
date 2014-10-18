@@ -1,15 +1,15 @@
 ## Interface: 60000
 ## Title: Tidy Plates: Quatre Theme
-## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ QuatreTheme
-## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ QuatreTheme
+## Title-zhTW: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º QuatreTheme
+## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º QuatreTheme
 ## Notes: It's the 4th!
-## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-QuatreThemeïL¸ñÄ£‰K¡£
-## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-QuatreTheme·ç¸ñÄ£¿é
+## Notes-zhTW: å¼·å¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-QuatreThemeé¢¨æ ¼æ¨¡å¡Šã€‚
+## Notes-zhCN: å¼ºå¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-QuatreThemeé£æ ¼æ¨¡å—
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
 Quatre.lua
 
-## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ QuatreTheme
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º QuatreTheme
 ## X-Vendor: NetEase
 ## 163UI-Version: 201410181
