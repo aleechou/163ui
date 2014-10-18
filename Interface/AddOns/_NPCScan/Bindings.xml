@@ -1,0 +1,8 @@
+<Bindings>
+	<Binding name="CLICK _NPCScanButton:LeftButton" header="_NPCSCAN">
+		-- Filler
+	</Binding>
+	<Binding name="CLICK _NPCScan_Search_Button:LeftButton">
+	</Binding>
+	<ModifiedClick action="_NPCSCAN_BUTTONDRAG" default="CTRL"/>
+</Bindings>

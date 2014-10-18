@@ -1,17 +1,17 @@
 ## Interface: 60000
 ## Title: Tidy Plates: Graphite
-## Title-zhTW: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Graphite
-## Title-zhCN: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Graphite
+## Title-zhTW: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Graphite
+## Title-zhCN: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Graphite
 ## Notes: Minimalisty
-## Notes-zhTW: Š´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-Graphiteº†ïL¸ñÄ£‰K¡£
-## Notes-zhCN: Ç¿´óµ½±¬µÄ¶à¹¦ÄÜĞÕÃû°æÃÀ»¯²å¼ş-Graphite¼ò½à·ç¸ñÄ£¿é¡£
+## Notes-zhTW: å¼·å¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-Graphiteç°¡æ½”é¢¨æ ¼æ¨¡å¡Šã€‚
+## Notes-zhCN: å¼ºå¤§åˆ°çˆ†çš„å¤šåŠŸèƒ½å§“åç‰ˆç¾åŒ–æ’ä»¶-Graphiteç®€æ´é£æ ¼æ¨¡å—ã€‚
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
 TidyPlates_Graphite.lua
 
 
-## Title: |cff880303[ÍøÒ×ÓĞ°®]|r ĞÕÃû°åÔöÇ¿ Graphite
+## Title: |cff880303[ç½‘æ˜“æœ‰çˆ±]|r å§“åæ¿å¢å¼º Graphite
 ## X-Vendor: NetEase
 ## 163UI-Version: 201410181
 
