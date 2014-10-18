@@ -88,7 +88,7 @@ function dataobj:UpdateText()
 	local _, _, latencyHome, latencyWorld = GetNetStats()
 
 	local fpsColor, colorHome, colorWorld = "", "", ""
-	if not db.disableColoring then
+	if not db or not db.disableColoring then
 		if fps > 30 then
 			fpsColor = "|cff00ff00"
 		elseif fps > 20 then
