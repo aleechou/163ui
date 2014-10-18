@@ -1,23 +1,3 @@
-local Skada163ui = LibStub("AceAddon-3.0"):NewAddon("Skada163ui", "AceTimer-3.0")
-function Skada163ui:OnInitialize()
-	if not UISkadaFlag then
-		if not SkadaDB then SkadaDB = {} end
-		UISkadaFlag = true
-		SkadaDB.profiles = {
-			["Default"] = {
-				["windows"] = {
-					{
-						["x"] = 0,
-						["y"] = -110,
-						["point"] = "RIGHT",
-					}, -- [1]
-				},
-			},
-		}
-	end
-end
-
-
 
 local Skada = LibStub("AceAddon-3.0"):NewAddon("Skada", "AceTimer-3.0")
 _G.Skada = Skada
@@ -1282,7 +1262,24 @@ function Skada:EndSegment()
 			self.current.endtime = time()
 			self.current.time = self.current.endtime - self.current.starttime
 			setPlayerActiveTimes(self.current)
-			self.current.name = self.current.mobname
+
+			-- compute a count suffix for the set name
+			local setname = self.current.mobname
+			if self.db.profile.setnumber then
+				local max = 0
+				for _, set in ipairs(self.char.sets) do
+					if set.name == setname and max == 0 then
+						max = 1
+					else
+						local n,c = set.name:match("^(.-)%s*%((%d+)%)$")
+						if n == setname then max = math.max(max,tonumber(c) or 0) end
+					end
+				end
+				if max > 0 then
+					setname = setname .. " ("..(max+1)..")"
+				end
+			end
+			self.current.name = setname
 
 			-- Tell each mode that set has finished and do whatever it wants to do about it.
 			for i, mode in ipairs(modes) do
@@ -1351,7 +1348,7 @@ function Skada:EndSegment()
 		end
 	end
 
-	self:UpdateDisplay()
+	self:UpdateDisplay(true) -- force required to update displays looking at older sets after insertion
 	if update_timer then self:CancelTimer(update_timer) end
 	if tick_timer then self:CancelTimer(tick_timer) end
 	update_timer, tick_timer = nil, nil
@@ -1963,13 +1960,10 @@ end
 function Skada:FormatNumber(number)
 	if number then
 		if self.db.profile.numberformat == 1 then
-			--if number > 1000000 then 修改显示单位
-				--return ("%02.2fM"):format(number / 1000000)
-			if number > 100000000 then
- 				return ("%02.2f亿"):format(number / 100000000)
+			if number > 1000000 then
+				return ("%02.2fM"):format(number / 1000000)
 			else
-				--return ("%02.1fK"):format(number / 1000)
-				return ("%02.1f万"):format(number / 10000)
+				return ("%02.1fK"):format(number / 1000)
 			end
 		else
 			return math.floor(number)
@@ -2302,11 +2296,11 @@ do
 				tile = true, tileSize = 16, edgeSize = 16,
 				insets = {left = 1, right = 1, top = 1, bottom = 1}}
 			)
-			--frame:SetSize(550, 420)
-			--frame:SetPoint("CENTER", UIParent, "CENTER")
-			--frame:SetFrameStrata("DIALOG")
-			--frame:Show()
---163ui
+			frame:SetSize(550, 420)
+			frame:SetPoint("CENTER", UIParent, "CENTER")
+			frame:SetFrameStrata("DIALOG")
+			frame:Show()
+
 			local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 			title:SetPoint("TOP", frame, "TOP", 0, -12)
 			title:SetText(L["Skada has changed!"])

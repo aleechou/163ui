@@ -7,10 +7,10 @@
 ## Notes-frFR: Un damage meter.
 ## Notes-zhCN: 伤害统计
 ## Author: Zarnivoop
-## Version: r559
+## Version: 1.4-20
 ## SavedVariables: SkadaDB,UISkadaFlag
 ## SavedVariablesPerCharacter: SkadaPerCharDB
-## X-Curse-Packaged-Version: r559
+## X-Curse-Packaged-Version: 1.4-20
 ## X-Curse-Project-Name: Skada Damage Meter
 ## X-Curse-Project-ID: skada
 ## X-Curse-Repository-ID: wow/skada/mainline
@@ -42,4 +42,4 @@ modules.xml
 
 ## Title: |cff880303[网易有爱]|r Skada伤害统计
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 2014101801

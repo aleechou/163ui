@@ -34,9 +34,10 @@ function mod:Create(window)
 		local bargroup = window.bargroup -- ticket 323
 
 		-- Add window buttons.
-		window.bargroup:AddButton(L["Configure"], "Interface\\Addons\\Skada\\images\\icon-config", "Interface\\Addons\\Skada\\images\\icon-config", function() Skada:OpenMenu(bargroup.win) end)
-		window.bargroup:AddButton(L["Reset"], "Interface\\Addons\\Skada\\images\\icon-reset", "Interface\\Addons\\Skada\\images\\icon-reset", function() Skada:ShowPopup() end)
+		window.bargroup:AddButton(L["Configure"], "Interface\\Buttons\\UI-OptionsButton", "Interface\\Buttons\\UI-OptionsButton", function() Skada:OpenMenu(bargroup.win) end)
+		window.bargroup:AddButton(L["Reset"], "Interface\\Buttons\\UI-StopButton", "Interface\\Buttons\\UI-StopButton", function() Skada:ShowPopup() end)
 		window.bargroup:AddButton(L["Segment"], "Interface\\Buttons\\UI-GuildButton-PublicNote-Up", "Interface\\Buttons\\UI-GuildButton-PublicNote-Up", function() Skada:SegmentMenu(bargroup.win) end)
+		--window.bargroup:AddButton(L["Mode"], "Interface\\Buttons\\UI-GuildButton-OfficerNote-Up", "Interface\\Buttons\\UI-GuildButton-OfficerNote-Up", function() Skada:ModeMenu(bargroup.win) end)
 		window.bargroup:AddButton(L["Mode"], "Interface\\Buttons\\UI-GuildButton-PublicNote-Up", "Interface\\Buttons\\UI-GuildButton-PublicNote-Up", function() Skada:ModeMenu(bargroup.win) end)
 		window.bargroup:AddButton(L["Report"], "Interface\\Buttons\\UI-GuildButton-MOTD-Up", "Interface\\Buttons\\UI-GuildButton-MOTD-Up", function() Skada:OpenReportWindow(bargroup.win) end)
 	end
@@ -315,8 +316,8 @@ function mod:Update(win)
 			end
 
 			if bar then
-				bar:SetMaxValue(win.metadata.maxvalue or 1)
 				bar:SetValue(data.value)
+				bar:SetMaxValue(win.metadata.maxvalue or 1) -- MUST come after SetValue
 			else
 				-- Initialization of bars.
 				bar = mod:CreateBar(win, barid, barlabel, data.value, win.metadata.maxvalue or 1, data.icon, false)
@@ -469,7 +470,7 @@ function mod:AnchorMoved(cbk, group, x, y)
 end
 
 function mod:WindowResized(cbk, group)
---	libwindow.SavePosition(group)
+	libwindow.SavePosition(group)
 
 	-- Also save size.
 	group.win.db.background.height = group:GetHeight()
@@ -611,6 +612,8 @@ function mod:ApplySettings(win)
 
 	-- Scale
 	g:SetScale(p.scale)
+
+	libwindow.SavePosition(g)
 
 	g:SortBars()
 end
