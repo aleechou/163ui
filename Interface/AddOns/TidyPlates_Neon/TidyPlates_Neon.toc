@@ -4,11 +4,7 @@
 ## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 NeonTheme
 ## Notes: It toasts your Eggo waffles, and butters your bread.
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件-NeonTheme風格模塊。
-<<<<<<< HEAD
 ## Notes-zhCN: 强大到爆的多功能姓名版美化插件-NeonTheme风格模块。
-=======
-## Notes-zhCN: 强大到爆的多功能姓名版美化插件-NeonTheme风格模块
->>>>>>> beta
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
@@ -18,5 +14,4 @@ Neon.lua
 
 ## Title: |cff880303[网易有爱]|r 姓名板增强 NeonTheme
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101802
-
+## X-163UI-Version: 2014101902

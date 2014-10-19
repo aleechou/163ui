@@ -6,15 +6,10 @@
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件。
 ## Notes-zhCN: 强大到爆的多功能姓名版美化插件。
 ## Author: Binbwen and Friends
-## Version: 6.15.1
+## Version: 6.15.0.1
 ## SavedVariablesPerCharacter: TidyPlatesOptions
 
 TidyPlates.xml
-
-
-
-
 ## Title: |cff880303[网易有爱]|r 姓名板增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101802
-
+## X-163UI-Version: 2014101902

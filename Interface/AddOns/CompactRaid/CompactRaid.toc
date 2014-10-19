@@ -1,6 +1,6 @@
 ## Interface: 60000
 ## Title: CompactRaid
-## Version: 4.01
+## Version: 4.02
 ## Title-zhTW: |cff880303[网易有爱]|r 團隊框架增强
 ## Title-zhCN: |cff880303[网易有爱]|r 团队框架增强
 ## Notes: A modular, lightweight, and screen-estate saving grid of party/raid unit frames.
@@ -12,7 +12,7 @@
 ## OptionalDeps: Clique, TomTom
 ## X-Category: UnitFrame
 ## X-eMail: abinn32@yahoo.com
-## X-Curse-Packaged-Version: v4.01
+## X-Curse-Packaged-Version: v4.02
 ## X-Curse-Project-Name: CompactRaid
 ## X-Curse-Project-ID: compactraid
 ## X-Curse-Repository-ID: wow/compactraid/mainline
@@ -43,4 +43,4 @@ Modules\CornerIndicators\embeds.xml
 Modules\RaidDebuff\embeds.xml
 ## Title: |cff880303[网易有爱]|r 团队框架增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101803
+## X-163UI-Version: 2014101901

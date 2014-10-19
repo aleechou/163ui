@@ -60,16 +60,18 @@ local OnNewNameplate
 local ForEachPlate
 
 -- Context
-local function isHighlighted(plate)
-	--local r,g,b = plate.extended.regions.name:GetTextColor()
-	return (plate.extended.regions.highlight:IsShown())		-- 5.x Mouseover; Not valid in 6.0
-	--return ((b < .1) and (g > .8)) --or (plate.extended.unit.guid == UnitGUID("mouseover"))
-	-- ceil(select(3, plate.extended.regions.name:GetTextColor())) == 0	-- 6.0 Mouseover; Check name color
-	--[[
-		if you're in combat with something, the name goes red.
-		if you've got it highlighted, the name goes yellow, but not if it's red.
-	--]]
+local isHighlighted
+
+if (tonumber((select(2, GetBuildInfo()))) > 18414) then					-- Remove after 6.0 LIVE release
+	function isHighlighted(plate)
+		return ceil(select(3, plate.extended.regions.name:GetTextColor())) == 0	-- 6.0 Mouseover; Check name color
+	end
+else
+	function isHighlighted(plate)
+		return (plate.extended.regions.highlight:IsShown() == 1)		-- 5.x Mouseover; Not valid in 6.0
+	end
 end
+
 
 -- UpdateReferences
 local function UpdateReferences(plate)
@@ -618,7 +620,11 @@ do
 		unit.isBoss = regions.skullicon:IsShown()
 		unit.isDangerous = unit.isBoss
 
-		unit.isElite = regions.eliteicon:IsShown()						-- 6.0
+		if (tonumber((select(2, GetBuildInfo()))) > 18414) then			-- Remove after 6.0 LIVE release
+			unit.isElite = regions.eliteicon:IsShown()						-- 6.0
+		else
+			unit.isElite = (regions.eliteicon:IsShown() or 0) == 1  		-- 5.4.8
+		end
 
 		if bars.group:GetScale() > .9 then
 			unit.platetype = 1
@@ -956,8 +962,15 @@ do
 	function events:PLAYER_REGEN_ENABLED() InCombat = false; SetUpdateAll() end
 	function events:PLAYER_REGEN_DISABLED() InCombat = true; SetUpdateAll() end
 
-	-- 6.0
-	function events:PLAYER_TARGET_CHANGED() HasTarget = UnitExists("target") == true; 	SetUpdateAll() 	end
+
+	if (tonumber((select(2, GetBuildInfo()))) > 18414) then			-- Remove after 6.0 LIVE release
+		-- 6.0
+		function events:PLAYER_TARGET_CHANGED() HasTarget = UnitExists("target") == true; 	SetUpdateAll() 	end
+	else
+		-- 5.4.8
+		function events:PLAYER_TARGET_CHANGED() HasTarget = (UnitExists("target") == 1); 	SetUpdateAll() 	end
+	end
+
 
 	function events:RAID_TARGET_UPDATE() SetUpdateAll() end
 	function events:UNIT_THREAT_SITUATION_UPDATE() SetUpdateAll() end  -- Only fired when a target changes

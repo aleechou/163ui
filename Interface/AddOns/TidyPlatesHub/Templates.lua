@@ -1,4 +1,4 @@
-local font = TidyPlatesHubLocalizedFont or "Interface\\Addons\\TidyPlates\\Media\\DefaultFont.ttf"
+local font = TidyPlatesHubLocalizedFont or "Font\\ARHei.ttf"
 local divider = "Interface\\Addons\\TidyPlatesHub\\shared\\ThinBlackLine"
 
 local PanelHelpers = TidyPlatesUtility.PanelHelpers 		-- PanelTools
@@ -531,44 +531,44 @@ local function CreateInterfacePanel( objectName, panelTitle, parentTitle)
 
 	-- Paste
 	local PasteThemeDataButton = CreateFrame("Button", objectName.."PasteThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	PasteThemeDataButton.tooltipText = "Pastes your settings from the cache.  'Shift'-clicking uses the panel-specific cache"
+	PasteThemeDataButton.tooltipText = "从剪切板粘贴你的设置 ，按住'Shift'使用特有的剪切板"
 	PasteThemeDataButton:SetPoint("TOPRIGHT", -40, -22)
 	PasteThemeDataButton:SetWidth(60)
 	PasteThemeDataButton:SetScale(.85)
-	PasteThemeDataButton:SetText("Paste")
+	PasteThemeDataButton:SetText("粘贴")
 
 	PasteThemeDataButton:SetScript("OnClick", function() PasteSettings(panel); end)
 
 	-- Copy
 	local CopyThemeDataButton = CreateFrame("Button", objectName.."CopyThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	CopyThemeDataButton.tooltipText = "Copies your settings to the cache.  'Shift'-clicking uses a panel-specific cache"
+	CopyThemeDataButton.tooltipText = "复制你的设置到剪切板，按住'shift'点击使用特有的剪切板"
 	---- This feature works between matching panel types (ie. Hub/Damage to Hub/Damage)
 	CopyThemeDataButton:SetPoint("TOPRIGHT", PasteThemeDataButton, "TOPLEFT", -4, 0)
 	CopyThemeDataButton:SetWidth(60)
 	CopyThemeDataButton:SetScale(.85)
-	CopyThemeDataButton:SetText("Copy")
-
+	CopyThemeDataButton:SetText("复制")
+	
 	CopyThemeDataButton:SetScript("OnClick", function() CopySettings(panel); end)
 
 	-- Reset
 	local ReloadThemeDataButton = CreateFrame("Button", objectName.."ReloadThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	ReloadThemeDataButton.tooltipText = "Resets the configuration to Default.  Holding down 'Shift' will also clear saved unit data, and restart your UI."
+	ReloadThemeDataButton.tooltipText = "重置你的配置为默认.  按住'shfit'点击将会清除所有已存储的设置，并重载界面"
 	ReloadThemeDataButton:SetPoint("TOPRIGHT", CopyThemeDataButton, "TOPLEFT", -4, 0)
 	ReloadThemeDataButton:SetWidth(60)
 	ReloadThemeDataButton:SetScale(.85)
-	ReloadThemeDataButton:SetText("Reset")
-
-	ReloadThemeDataButton:SetScript("OnClick", function()
+	ReloadThemeDataButton:SetText("重置")
+		
+	ReloadThemeDataButton:SetScript("OnClick", function() 
 		PlaySound("igMainMenuOptionCheckBoxOn"); ResetSettings(panel);
 	end)
 
 
 	-- Bookmark/Table of Contents Button
-	local BookmarkButton = CreateFrame("Button", objectName.."BookmarkButton", panel, "TidyPlatesPanelButtonTemplate")
+	local BookmarkButton = CreateFrame("Button", objectName.."标签", panel, "TidyPlatesPanelButtonTemplate")
 	BookmarkButton:SetPoint("TOPRIGHT", ReloadThemeDataButton, "TOPLEFT", -4, 0)
 	BookmarkButton:SetWidth(110)
 	BookmarkButton:SetScale(.85)
-	BookmarkButton:SetText("Bookmarks...")
+	BookmarkButton:SetText("快速定位")
 
         --local child1, child2, child3 = BookmarkButton:GetRegions()
 
