@@ -27,7 +27,7 @@
 				GameTooltip:Hide()
 			</OnLeave>
 		</Scripts>
-		<HighlightTexture file = "Interface\AddOns\TrinketMenu\Buttons" alphaMode = "ADD">
+		<HighlightTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons" alphaMode = "ADD">
 			<TexCoords left = ".25" right = ".375" top = "0" bottom = ".125"/>
 		</HighlightTexture>
 	</Button>
@@ -61,7 +61,7 @@
 				self:RegisterForDrag("LeftButton")
 			</OnLoad>
 			<OnEnter>
-				TrinketMenu.OnTooltip(self,TrinketMenuLocale"TrinketMenu",(TrinketMenuOptions.DisableToggle == "ON") and "Click: toggle options\nDrag: move icon" or "Left click: toggle trinkets\nRight click: toggle options\nDrag: move icon")
+				TrinketMenu.OnTooltip(self,"TrinketMenu",(TrinketMenuOptions.DisableToggle == "ON") and "Click: toggle options\nDrag: move icon" or "Left click: toggle trinkets\nRight click: toggle options\nDrag: move icon")
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide()
@@ -78,8 +78,8 @@
 				TrinketMenu.MinimapButton_OnClick()
 			</OnClick>
 		</Scripts>
-		<NormalTexture file = "Interface\AddOns\TrinketMenu\TrinketMenu-Icon-Up"/>
-		<PushedTexture file = "Interface\AddOns\TrinketMenu\TrinketMenu-Icon-Down"/>
+		<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\TrinketMenu-Icon-Up"/>
+		<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\TrinketMenu-Icon-Down"/>
 		<HighlightTexture alphaMode = "ADD" file = "Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
 	</Button>
 	<Frame name = "TrinketMenu_OptFrame" parent = "UIParent" movable = "true" toplevel = "true" clampedToScreen = "true" hidden = "true">
@@ -135,13 +135,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".375" right = ".5" top = ".25" bottom = ".375"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".5" right = ".625" top = ".25" bottom = ".375"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".625" right = ".75" top = ".25" bottom = ".375"/>
 				</DisabledTexture>
 			</Button>
@@ -153,10 +153,10 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".75" right = ".875" top = ".125" bottom = ".25"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".875" right = "1" top = ".125" bottom = ".25"/>
 				</PushedTexture>
 			</Button>

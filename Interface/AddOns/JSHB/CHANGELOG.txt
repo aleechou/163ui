@@ -1,0 +1,115 @@
+﻿- http://soren.com is the official support site for JSHB.
+
+4.31
+- Fix for Tranq removal messages being reversed (again).
+- Fix for tranq removables not showing.
+
+4.3
+- Updated for Patch 5.3.
+- Added Warlock support for soul shards to stacks on Energy Bar.
+	NOTE: If you get errors on Warlocks, pleas post the error at soren.com, I expect one or two (not enough testing).
+
+4.23
+- Taste for blood now goes to the full 5 and not 3 stacks. (energybar)
+- Fix for localization issues reported by ruRU users.  (same-key-is-true=false now)
+
+4.22
+- Fix for reversed tranq / tranq'd aura reversal.
+
+4.21
+- Fix for missing timer numerics.
+- Fix for enrage alert removables not showing.
+- Added new trinkets and procs for importing.
+- Fix for Warrior Rage Bar issues.
+
+4.2
+- Removed Hunter's Mark indicator module in preparation for 5.2.
+- Opened Energy Bar, Misdirection (Shiv), Enrage (Shiv), Aspect (Poisons) modules for Rogue class support.
+- Sap and Blind are accounted for in Crowd Control for Rogues now.
+- Added raw version info to the main options screen for people to add to any error reports.
+- Made a change to enrage alert notifier to now check hostility and not UnitIsFriend.
+- Changed to character specific default profile by default (new installs only, need to manually change any old installs to use the char specific one).
+- Optimized all code to re-use frames.  Addon should be even better on ram and optimization for frame handling.
+- Changed interrupt announce to use INSTANCE_CHAT instead of BATTLEGROUND.
+- Fixed bug in return value for indexed timers of a set.
+- Modified JSHB.MakeFrame wrapper function to allow re-using of frames.
+- Added Warlock crowd control tracking (Fear, enslave, banish & seduction) - I do not have a Warlock, all these need testing...
+- Fixed ICD text (the time value field) not showing in options.
+- Added focus bar (powr bar) support for Warrior.
+- Added stack support for Warrior (Tase for Blood, Blood Surge, Weakened Armor on target)
+- Removed prediction of power for Warrior, no casts - it's all instant, so no point.
+- Changed localization for "Energy Bar" -> "Power Bar"
+- Added localization for "Stance Indicator"
+- Opened Aspect Indicator module to Warriors (Stance Indicator).  Warriors in prot spec and not prot stance or DPS Warrior specs in prot stance will trigger sparkles.
+
+4.11
+- Fixed Virmen's Bite for default timers and imports.  You will need to re-import defaults or just edit the timer and change the Specialization to ALL.
+- Thanks to Kaelyth, default timers have been added for WARRIOR class, plus imports.
+- Started working out details of conditions for the timers too.  None are working yet, but soon will be.
+
+4.1
+- Version bump to open all class alerts/timers.
+- Need priority lists for the defaults on other classes, http://soren.com to help!
+
+--------------------
+4.098 ALPHA RELEASES
+- Minor fix for wizard not flipping timer types from stationary to moving.
+- Opened JSHB up to all classes.  Currently in a raw state, you can manually add timers and alerts.  If you can contribute to default priority lists and imports for spells, please post on the class forum at http://soren.com - the more help, the faster things will be done.
+- Removed class color variables, now using Blizzard default colors.
+- Added specifications for class on selected functions (imports, new installs, etc.)
+
+-------------
+4.097 - 4.098
+- Another interrupt fix.
+
+4.096
+- Fix for interrupts not being properly displayed.
+
+4.095
+- Fix for people with the options not loading issue.
+
+4.094
+- Change to update timers when spells are learned / unlearned. Fixes reported issue.
+
+4.09-4.093
+- Removed gap when using abbreviations for timer time (d/h/m/s).
+- Fix for imported ICDs not working, basic issue was the OWNER, now fixed.
+- Added option to disply (d)ay/(h)our/(m)inute/(s)econd abbreviation for timer's time text.
+- More code changes and fixed (minor).
+
+4.08
+- Update for Hunter's Mark indicator issues.
+
+4.07
+- Update TOC to 50100 for patch 5.1.
+- Remove extra code for Aspect compatibility with old/new game versions.
+
+4.01-4.06
+- Change to drag method to allow better positioning and retain anchors properly. (Thanks Galen!)
+- Fix to resetting frames to default positions.
+- Fix to type-o in Shared Media registration.
+- Quick fix for missing timer size tab on timer bars.
+
+4.0
+- http://soren.com is the official support site for JSHB, JSIE and JSMD addons.
+- JSHunterBar folder renamed to JSHB for future plans.
+- Added Minimap configuration button to open options and unlock frames.
+- JSHB now uses it's own options panels (separate from the Blizzard Interface Options - /JSHB to open or use the minimap button).
+- Options structure was completely re-written to make it a little easier to understand.
+- Cleaned up unused localization strings.
+- Removed LibSharedMedia library (but will still properly use shared media).
+- Removed more ACE3 libraries (more to come).
+- Added the ability to move frames based on exact numbers.  Just click a frame!
+- Fix for bugs reported and found during the course of the re-code.
+- Added Timer Bar Wizard button to allow easier ordering of buttons, importing timers, and more!
+- Added Priority setting for static timers.
+- Changed default behavior of main bar to properly use the priority system by default.
+- Updated defautl timers for bars so that they should work out of the box.
+- Added timer switch for "Only if known" to allow timers to be added for conditional spells (talent spells, mainly).
+- Modified all aspects of JSHB to use less memory and create almost not garbage. (Should be much better on ram).
+- Closing options now cleans up garbage created by the ACE3 libs & other areas of the options panels.
+- Split indicators to two separate modules for future plans.
+- Re-structures the SavedVariables file to be more linear and easier to understand.
+- Added imports for some of the alerts in HoF/MV/etc.
+- Added PLAYER and PETHEALTH alert options (can be imported).
+- Update to be ready for PTR 5.1 aspect change.  TOC updated still needs to be applied.

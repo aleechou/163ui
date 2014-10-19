@@ -3,9 +3,8 @@
 		A bagnon options panel
 --]]
 
-local Classy = tullaRangeConfig.Classy
-local OptionsPanel = Classy:New('Frame')
-tullaRangeConfig.OptionsPanel = OptionsPanel
+local AddonName, Addon = ...
+local OptionsPanel = Addon.Classy:New('Frame'); Addon.OptionsPanel = OptionsPanel
 
 function OptionsPanel:New(name, parent, title, subtitle, icon)
 	local f = self:Bind(CreateFrame('Frame', name))
@@ -29,7 +28,7 @@ function OptionsPanel:New(name, parent, title, subtitle, icon)
 	subtext:SetJustifyV('TOP')
 	subtext:SetText(subtitle)
 	
-	InterfaceOptions_AddCategory(f, 'tullaRange')
+	InterfaceOptions_AddCategory(f)
 
 	return f
 end

@@ -4,11 +4,12 @@
 ## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 QuatreTheme
 ## Notes: It's the 4th!
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件-QuatreTheme風格模塊。
-## Notes-zhCN: 强大到爆的多功能姓名版美化插件-QuatreTheme风格模块
+## Notes-zhCN: 强大到爆的多功能姓名版美化插件-QuatreTheme风格模块。
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
 Quatre.lua
 ## Title: |cff880303[网易有爱]|r 姓名板增强 QuatreTheme
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101802
+## X-163UI-Version: 2014101902
+

@@ -142,7 +142,7 @@
 				TrinketMenu.SortMove(self)
 			</OnClick>
 		</Scripts>
-		<HighlightTexture file = "Interface\AddOns\TrinketMenu\Buttons" alphaMode = "ADD">
+		<HighlightTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons" alphaMode = "ADD">
 			<TexCoords left = ".25" right = ".375" top = "0" bottom = ".125"/>
 		</HighlightTexture>
 	</Button>
@@ -225,13 +225,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".375" right = ".5" top = "0" bottom = ".125"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".5" right = ".625" top = "0" bottom = ".125"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".625" right = ".75" top = "0" bottom = ".125"/>
 				</DisabledTexture>
 			</Button>
@@ -243,13 +243,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = "0" right = ".125" top = ".125" bottom = ".25"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".125" right = ".25" top = ".125" bottom = ".25"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".25" right = ".375" top = ".125" bottom = ".25"/>
 				</DisabledTexture>
 			</Button>
@@ -261,13 +261,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".375" right = ".5" top = ".125" bottom = ".25"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".5" right = ".625" top = ".125" bottom = ".25"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".625" right = ".75" top = ".125" bottom = ".25"/>
 				</DisabledTexture>
 			</Button>
@@ -279,13 +279,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = "0" right = ".125" top = ".25" bottom = ".375"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".125" right = ".25" top = ".25" bottom = ".375"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".25" right = ".375" top = ".25" bottom = ".375"/>
 				</DisabledTexture>
 			</Button>
@@ -297,10 +297,10 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".75" right = ".875" top = ".25" bottom = ".375"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".875" right = "1" top = ".25" bottom = ".375"/>
 				</PushedTexture>
 			</Button>
@@ -312,13 +312,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<NormalTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = "0" right = ".125" top = ".375" bottom = ".5"/>
 				</NormalTexture>
-				<PushedTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<PushedTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".125" right = ".25" top = ".375" bottom = ".5"/>
 				</PushedTexture>
-				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Buttons">
+				<DisabledTexture file = "Interface\AddOns\TrinketMenu\Textures\Buttons">
 					<TexCoords left = ".25" right = ".375" top = ".375" bottom = ".5"/>
 				</DisabledTexture>
 			</Button>
@@ -369,7 +369,7 @@
 							</Anchors>
 							<TexCoords left = "0.09375" right = "0.90625" top = "0" bottom = "1.0"/>
 						</Texture>
-						<FontString name="$parentText1" font = "GameFontHighlightSmall" justifyH = "RIGHT" text = "Delay">
+						<FontString font = "GameFontHighlightSmall" justifyH = "RIGHT" text = "Delay">
 							<Anchors>
 								<Anchor point = "RIGHT" relativePoint = "LEFT">
 									<Offset>
@@ -378,7 +378,7 @@
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="$parentText2" font = "GameFontHighlightSmall" justifyH = "LEFT" text = "sec">
+						<FontString font = "GameFontHighlightSmall" justifyH = "LEFT" text = "sec">
 							<Anchors>
 								<Anchor point = "LEFT" relativePoint = "RIGHT">
 									<Offset>
@@ -656,7 +656,7 @@
 									</Anchors>
 									<TexCoords left = "0.09375" right = "0.90625" top = "0" bottom = "1.0"/>
 								</Texture>
-								<FontString name="$parentText" font = "GameFontHighlightSmall" text = "Profile">
+								<FontString font = "GameFontHighlightSmall" text = "Profile">
 									<Anchors>
 										<Anchor point = "RIGHT" relativeTo = "$parentLeft" relativePoint = "LEFT">
 											<Offset>

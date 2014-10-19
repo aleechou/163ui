@@ -1,8 +1,6 @@
---[[ TrinketMenu 5.0.4 ]]--
+﻿--[[ TrinketMenu 5.0.0 ]]--
 
 TrinketMenu = { }
-
-TrinketMenuLocale = setmetatable({}, {__index=function(t,k) t[k]=k; return k end, __call=function(t,k) return t[k] end});
 
 local _G, math, tonumber, string, type, pairs, ipairs, table, select = _G, math, tonumber, string, type, pairs, ipairs, table, select
 
@@ -14,8 +12,6 @@ TrinketMenu.DEVICES = "Devices" -- 7th return of GetItemInfo on most engineered 
 TrinketMenu.REQUIRES_ENGINEERING = "Requires Engineering" -- from tooltip when GetItemInfo ambiguous
 
 function TrinketMenu.LoadDefaults()
-	local width = GetScreenWidth()
-	local height = GetScreenHeight()
 	TrinketMenuOptions = TrinketMenuOptions or {
 		IconPos = - 100,			-- angle of initial minimap icon position
 		ShowIcon = "ON",			-- whether to show the minimap button
@@ -46,8 +42,8 @@ function TrinketMenu.LoadDefaults()
 		MenuDock = "BOTTOMLEFT",	-- corner menu window is docked from
 		MainOrient = "HORIZONTAL",	-- direction of main window
 		MenuOrient = "VERTICAL",	-- direction of menu window
-		XPos = width / 2 + 250,		-- left edge of main window
-		YPos = height / 2 - 235,	-- top edge of main window
+		XPos = 400,					-- left edge of main window
+		YPos = 400,					-- top edge of main window
 		MainScale = 1,				-- scaling of main window
 		MenuScale = 1,				-- scaling of menu window
 		Visible = "ON",				-- whether to display the trinkets
@@ -149,7 +145,6 @@ function TrinketMenu.BuildMenu()
 	for i = 0, 4 do
 		for j = 1, GetContainerNumSlots(i) do
 			itemLink = GetContainerItemLink(i, j)
-            local _
 			if itemLink then
 				_, _, itemID, itemName = string.find(GetContainerItemLink(i, j) or "", "item:(%d+).+%[(.+)%]")
 				_, _, _, _, _, _, _, _, equipSlot, itemTexture = GetItemInfo(itemID or "")
@@ -193,9 +188,9 @@ function TrinketMenu.BuildMenu()
 			icon = _G["TrinketMenu_Menu"..i.."Icon"]
 			icon:SetTexture(TrinketMenu.BaggedTrinkets[i].texture)
 			if TrinketMenuPerOptions.Hidden[TrinketMenu.BaggedTrinkets[i].id] then
-				icon:SetDesaturated(1)
+				icon:SetDesaturated(true)
 			else
-				icon:SetDesaturated(0)
+				icon:SetDesaturated(false)
 			end
 			item:SetPoint("TOPLEFT", "TrinketMenu_MenuFrame", TrinketMenuPerOptions.MenuDock, xpos, ypos)
 			if TrinketMenuPerOptions.MenuOrient == "VERTICAL" then
@@ -400,10 +395,10 @@ function TrinketMenu.UpdateWornTrinkets()
 	TrinketMenu_Trinket0Icon:SetTexture(texture)
 	texture, name = TrinketMenu.ItemInfo(14)
 	TrinketMenu_Trinket1Icon:SetTexture(texture)
-	TrinketMenu_Trinket0Icon:SetDesaturated(0)
-	TrinketMenu_Trinket0:SetChecked(0)
-	TrinketMenu_Trinket1Icon:SetDesaturated(0)
-	TrinketMenu_Trinket1:SetChecked(0)
+	TrinketMenu_Trinket0Icon:SetDesaturated(false)
+	TrinketMenu_Trinket0:SetChecked(false)
+	TrinketMenu_Trinket1Icon:SetDesaturated(false)
+	TrinketMenu_Trinket1:SetChecked(false)
 	TrinketMenu.UpdateWornCooldowns()
 	if TrinketMenu_MenuFrame:IsVisible() then
 		TrinketMenu.BuildMenu()
@@ -486,8 +481,8 @@ end
 
 function TrinketMenu.ResetSettings()
 	StaticPopupDialogs["TRINKETMENURESET"] = {
-		text = "你确定要恢复饰品增强插件的默认设置，并重新加载界面？",
-		button1 = "是", button2 = "否", showAlert = 1, timeout = 0, whileDead = 1,
+		text = "Are you sure you want to reset TrinketMenu to default state and reload the UI?",
+		button1 = "Yes", button2 = "No", showAlert = 1, timeout = 0, whileDead = 1,
 		OnAccept = function()
 			TrinketMenuOptions = nil
 			TrinketMenuPerOptions = nil
@@ -589,7 +584,7 @@ end
 
 function TrinketMenu.MainTrinket_OnClick(self)
 	local arg1 = GetMouseButtonClicked()
-	self:SetChecked(0)
+	self:SetChecked(false)
 	if arg1 == "RightButton" and TrinketMenuOptions.MenuOnRight == "ON" then
 		if TrinketMenu_MenuFrame:IsVisible() then
 			TrinketMenu_MenuFrame:Hide()
@@ -618,7 +613,7 @@ end
 
 function TrinketMenu.MenuTrinket_OnClick(self)
 	local arg1 = GetMouseButtonClicked()
-	self:SetChecked(0)
+	self:SetChecked(false)
 	local bag, slot = TrinketMenu.BaggedTrinkets[self:GetID()].bag
 	local slot = TrinketMenu.BaggedTrinkets[self:GetID()].slot
 	if IsShiftKeyDown() and ChatFrame1EditBox:IsVisible() then
@@ -750,7 +745,7 @@ end
 --[[ Item use ]]
 
 function TrinketMenu.ReflectTrinketUse(slot)
-	_G["TrinketMenu_Trinket"..(slot - 13)]:SetChecked(1)
+	_G["TrinketMenu_Trinket"..(slot - 13)]:SetChecked(true)
 	TrinketMenu.StartTimer("UpdateWornTrinkets")
 	local _, _, id = string.find(GetInventoryItemLink("player", slot) or "", "item:(%d+)")
 	if id then
@@ -984,7 +979,7 @@ function TrinketMenu.EquipTrinketByName(name, slot)
 					PickupContainerItem(b, s)
 					PickupInventoryItem(slot)
 				end
-				_G["TrinketMenu_Trinket"..(slot - 13).."Icon"]:SetDesaturated(1)
+				_G["TrinketMenu_Trinket"..(slot - 13).."Icon"]:SetDesaturated(true)
 				TrinketMenu.StartTimer("UpdateWornTrinkets") -- in case it's not equipped (stunned, etc)
 			end
 		end
@@ -1005,7 +1000,7 @@ function TrinketMenu.UpdateCombatQueue()
 				icon:Show()
 			end
 		elseif TrinketMenu.QueueInit and TrinketMenuQueue and TrinketMenuQueue.Enabled[which] then
-			icon:SetTexture("Interface\\AddOns\\TrinketMenu\\TrinketMenu-Gear")
+			icon:SetTexture("Interface\\AddOns\\TrinketMenu\\Textures\\TrinketMenu-Gear")
 			icon:Show()
 		end
 	end

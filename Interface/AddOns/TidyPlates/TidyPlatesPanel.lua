@@ -13,9 +13,9 @@ local useAutohide = false
 local defaultPrimaryTheme = "Neon/|cFFFF4400Damage"
 local defaultSecondaryTheme = "Neon/|cFF3782D1Tank"
 
-local NO_AUTOMATION = "No Automation"
-local DURING_COMBAT = "Show during Combat, Hide when Combat ends"
-local OUT_OF_COMBAT = "Hide when Combat starts, Show when Combat ends"
+local NO_AUTOMATION = "不自动"
+local DURING_COMBAT = "战斗中显示, 战斗结束隐藏"
+local OUT_OF_COMBAT = "战斗开始隐藏, 战斗结束显示"
 
 local function SetAutoHide(option)
 	useAutoHide = option
@@ -261,7 +261,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	panel.PrimaryLabel:SetPoint("BOTTOMLEFT", panel.PrimarySpecTheme,"TOPLEFT", 20, 5)
 	panel.PrimaryLabel:SetWidth(170)
 	panel.PrimaryLabel:SetJustifyH("LEFT")
-	panel.PrimaryLabel:SetText("Primary Spec Theme:")
+	panel.PrimaryLabel:SetText("第一天赋:")
 
 	----------------------
 	-- Secondary Spec
@@ -289,7 +289,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	panel.SecondaryLabel:SetPoint("BOTTOMLEFT", panel.SecondarySpecTheme,"TOPLEFT", 20, 5)
 	panel.SecondaryLabel:SetWidth(170)
 	panel.SecondaryLabel:SetJustifyH("LEFT")
-	panel.SecondaryLabel:SetText("Second Spec Theme:")
+	panel.SecondaryLabel:SetText("第二天赋:")
 
 	----------------------
 	-- Other Options
@@ -304,7 +304,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	panel.AutoShowEnemyLabel:SetPoint("BOTTOMLEFT", panel.AutoShowEnemy,"TOPLEFT", 20, 5)
 	panel.AutoShowEnemyLabel:SetWidth(170)
 	panel.AutoShowEnemyLabel:SetJustifyH("LEFT")
-	panel.AutoShowEnemyLabel:SetText("Enemy Nameplates:")
+	panel.AutoShowEnemyLabel:SetText("敌对姓名面板:")
 
 	-- Friendly Visibility
 	panel.AutoShowFriendly = PanelHelpers:CreateDropdownFrame("TidyPlatesAutoShowFriendly", panel, AutomationDropdownItems, NO_AUTOMATION, nil, true)
@@ -315,7 +315,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	panel.AutoShowFriendlyLabel:SetPoint("BOTTOMLEFT", panel.AutoShowFriendly,"TOPLEFT", 20, 5)
 	panel.AutoShowFriendlyLabel:SetWidth(170)
 	panel.AutoShowFriendlyLabel:SetJustifyH("LEFT")
-	panel.AutoShowFriendlyLabel:SetText("Friendly Nameplates:")
+	panel.AutoShowFriendlyLabel:SetText("友方姓名面板:")
 
 	--[[
 	panel.AutomationDescription = panel:CreateFontString(nil, 'ARTWORK') --, 'GameFontLarge'
@@ -334,7 +334,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	--BlizzOptionsButton:SetPoint("TOPRIGHT", ResetButton, "TOPLEFT", -8, 0)
 	BlizzOptionsButton:SetPoint("TOPLEFT", panel.AutoShowEnemy, "TOPLEFT", 16, -55)
 	BlizzOptionsButton:SetWidth(260)
-	BlizzOptionsButton:SetText("Nameplate Motion & Visibility")
+	BlizzOptionsButton:SetText("暴雪姓名面板")
 
 	--[[
 	-- Cast Watcher
@@ -344,12 +344,12 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 --]]
 
 	-- Soft Transitions
-	panel.DisableSoftTransitions = PanelHelpers:CreateCheckButton("TidyPlatesOptions_DisableSoftTransitions", panel, "Disable Transition Effects")
+	panel.DisableSoftTransitions = PanelHelpers:CreateCheckButton("TidyPlatesOptions_DisableSoftTransitions", panel, "关闭Transition（什么功能我也不懂）")
 	panel.DisableSoftTransitions:SetPoint("TOPLEFT", BlizzOptionsButton, "TOPLEFT", 0, -35)
 	panel.DisableSoftTransitions:SetScript("OnClick", function(self) SetSoftTransitions(not self:GetChecked()) end)
 
 	-- CompatibilityMode
-	panel.CompatibilityMode = PanelHelpers:CreateCheckButton("TidyPlatesOptions_CompatibilityMode", panel, "Compatibility Mode (Requires UI Reload)")
+	panel.CompatibilityMode = PanelHelpers:CreateCheckButton("TidyPlatesOptions_CompatibilityMode", panel, "兼容模式 (重置下UI生效)")
 	panel.CompatibilityMode:SetPoint("TOPLEFT", panel.DisableSoftTransitions, "TOPLEFT", 0, -35)
 	panel.CompatibilityMode:SetScript("OnClick", function(self) if self:GetChecked() then EnableCompatibilityMode() end; end)
 
@@ -365,7 +365,7 @@ local primarySpecName, primarySpecDescription, primarySpecIcon, primarySpecBackg
 	ResetButton = CreateFrame("Button", "TidyPlatesOptions_ResetButton", panel, "TidyPlatesPanelButtonTemplate")
 	ResetButton:SetPoint("BOTTOMRIGHT", -16, 8)
 	ResetButton:SetWidth(155)
-	ResetButton:SetText("Reset Configuration")
+	ResetButton:SetText("重新配置")
 
 	-- Update Functions
 	panel.okay = ApplyPanelSettings

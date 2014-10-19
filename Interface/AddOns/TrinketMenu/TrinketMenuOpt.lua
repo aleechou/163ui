@@ -1,54 +1,4 @@
---[[ TrinketMenuOpt.lua : Options and sort window for TrinketMenu ]]
-
-local L = TrinketMenuLocale
-
--------------------------
--- 更合理的定位和缩放
-
-local function AjustPosition(frame, parent)	
-	--assert(type(frame:GetFrameType()) == "string", "Invalid <frame>, the type of frame must be userdata.");
-	parent = parent or UIParent;
-	-- 
-	local limitX = parent:GetRight()/frame:GetScale();   
-	local limitY = parent:GetTop()/frame:GetScale();
-	
-	local xr = frame:GetRight();
-	local yt = frame:GetTop();
-	local xl = frame:GetLeft();
-	local yb = frame:GetBottom();
-	if (xr and yt and xl and yb) then	
-		local x = (xr > limitX and (limitX-xr)) or (xl < 0 and (0-xl)) or 0;
-		local y = (yt > limitY and (limitY-yt)) or (yb < 0 and (0-yb)) or 0;	
-
-		local cx = (x + xl);	
-		local cy = (y + yt);
-
-		if (cx~=0 or cy~=0) then
-			frame:SetPoint("TOPLEFT", parent, "BOTTOMLEFT", cx, cy);
-		end
-	end
-end
-
-local function GetAjustcoord(frame, nscale)
-	if (not (frame:GetTop() and frame:GetLeft())) then
-		return nil;
-	end
-
-	local x = frame:GetLeft() * frame:GetScale() / nscale;
-	local y = frame:GetTop() * frame:GetScale() / nscale;
-	return x, y;
-end
-------------------
--- 更合理的缩放
-local function dwSetScale(frame, nscale)	
-	assert(type(nscale) == "number", "Invalid <scale>, the type of scale must be number.");	
-	
-	local x, y = GetAjustcoord(frame, nscale);
-	frame:SetScale(nscale);	
-	frame:ClearAllPoints();
-	frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y);	
-	AjustPosition(frame);
-end
+﻿--[[ TrinketMenuOpt.lua : Options and sort window for TrinketMenu ]]
 
 local _G, math, string, table = _G, math, string, table
 
@@ -104,7 +54,7 @@ function TrinketMenu.InitOptions()
 	end
 	TrinketMenu.Tab_OnClick(1)
 	table.insert(UISpecialFrames, "TrinketMenu_OptFrame")
-	TrinketMenu_Title:SetText(L"TrinketMenu".." "..TrinketMenu_Version)
+	TrinketMenu_Title:SetText("TrinketMenu "..TrinketMenu_Version)
 	TrinketMenu_OptFrame:SetBackdropBorderColor(.3, .3, .3, 1)
 	TrinketMenu_SubOptFrame:SetBackdropBorderColor(.3, .3, .3, 1)
 	if TrinketMenu.QueueInit then
@@ -237,7 +187,6 @@ function TrinketMenu.OptColumnsSlider_OnValueChanged(self, value)
 	end
 end
 
--- Modify by dugu 10/27/2008
 function TrinketMenu.OptMainScaleSlider_OnValueChanged(self, value)
 	if not self._onsetting then
 		self._onsetting = true
@@ -249,13 +198,7 @@ function TrinketMenu.OptMainScaleSlider_OnValueChanged(self, value)
 	end
 	if TrinketMenuPerOptions then
 		TrinketMenuPerOptions.MainScale = self:GetValue()
-		if (GetLocale() == "zhCN") then
-			TrinketMenu_OptMainScaleSliderText:SetText(format("饰品缩放: %.2f",TrinketMenuPerOptions.MainScale));
-		elseif (GetLocale() == "zhTW") then
-			TrinketMenu_OptMainScaleSliderText:SetText(format("飾品縮放: %.2f",TrinketMenuPerOptions.MainScale));
-		else
-			TrinketMenu_OptMainScaleSliderText:SetText(format("Main Scale: %.2f", TrinketMenuPerOptions.MainScale));
-		end
+		TrinketMenu_OptMainScaleSliderText:SetText(format("Main Scale: %.2f", TrinketMenuPerOptions.MainScale))
 		TrinketMenu_MainFrame:SetScale(TrinketMenuPerOptions.MainScale)
 	end
 end
@@ -271,13 +214,7 @@ function TrinketMenu.OptMenuScaleSlider_OnValueChanged(self, value)
 	end
 	if TrinketMenuPerOptions then
 		TrinketMenuPerOptions.MenuScale = self:GetValue()
-		if (GetLocale() == "zhCN") then
-			TrinketMenu_OptMenuScaleSliderText:SetText(format("菜单缩放: %.2f",TrinketMenuPerOptions.MenuScale));
-		elseif (GetLocale() == "zhTW") then
-			TrinketMenu_OptMenuScaleSliderText:SetText(format("菜單縮放: %.2f",TrinketMenuPerOptions.MenuScale));
-		else
-			TrinketMenu_OptMenuScaleSliderText:SetText(format("Menu Scale: %.2f", TrinketMenuPerOptions.MenuScale));
-		end
+		TrinketMenu_OptMenuScaleSliderText:SetText(format("Menu Scale: %.2f", TrinketMenuPerOptions.MenuScale))
 		TrinketMenu_MenuFrame:SetScale(TrinketMenuPerOptions.MenuScale)
 	end
 end
@@ -332,7 +269,11 @@ function TrinketMenu.ReflectLock()
 	TrinketMenu_MenuFrame:SetBackdropColor(c, c, c, c)
 	TrinketMenu_MenuFrame:SetBackdropBorderColor(c, c, c, c * 2)
 	TrinketMenu_MenuFrame:EnableMouse(c * 2)
-	TrinketMenu_OptLocked:SetChecked(1 - c * 2)
+	if TrinketMenuOptions.Locked == "ON" then
+		TrinketMenu_OptLocked:SetChecked(true)
+	else
+		TrinketMenu_OptLocked:SetChecked(false)
+	end
 	local normalTexture = TrinketMenu_LockButton:GetNormalTexture()
 	local pushedTexture = TrinketMenu_LockButton:GetPushedTexture()
 	if c == 0 then

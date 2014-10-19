@@ -1,6 +1,4 @@
---[[ TrinketMenuQueue : auto queue system ]]
-local _
-local L = TrinketMenuLocale
+﻿--[[ TrinketMenuQueue : auto queue system ]]
 
 local _G, type, string, tonumber, table, pairs, select = _G, type, string, tonumber, table, pairs, select
 
@@ -17,9 +15,9 @@ function TrinketMenu.QueueInit()
 	TrinketMenu_SubQueueFrame:SetBackdropBorderColor(.3, .3, .3,1)
 	TrinketMenu_ProfilesFrame:SetBackdropBorderColor(.3, .3, .3, 1)
 	TrinketMenu_ProfilesListFrame:SetBackdropBorderColor(.3, .3, .3, 1)
-	TrinketMenu_SortPriorityText:SetText(L"Priority")
+	TrinketMenu_SortPriorityText:SetText("Priority")
 	TrinketMenu_SortPriorityText:SetTextColor(.95, .95, .95)
-	TrinketMenu_SortKeepEquippedText:SetText(L"Pause Queue")
+	TrinketMenu_SortKeepEquippedText:SetText("Pause Queue")
 	TrinketMenu_SortKeepEquippedText:SetTextColor(.95, .95, .95)
 	TrinketMenu_SortListFrame:SetBackdropBorderColor(.3, .3, .3, 1)
 	TrinketMenu.ReflectQueueEnabled()
@@ -333,7 +331,7 @@ function TrinketMenu.ProcessAutoQueue(which)
 	local buff = GetItemSpell(id)
 	if buff then
 		if UnitAura("player",buff) or (start > 0 and (duration - timeLeft) > 30 and timeLeft < 1) then
-			icon:SetDesaturated(1)
+			icon:SetDesaturated(true)
 			return
 		end
 	end
@@ -345,12 +343,12 @@ function TrinketMenu.ProcessAutoQueue(which)
 		if TrinketMenuQueue.Stats[id].delay then
 			-- leave if currently equipped trinket is on cooldown for less than its delay
 			if start > 0 and (duration - timeLeft) > 30 and timeLeft < TrinketMenuQueue.Stats[id].delay then
-				icon:SetDesaturated(1)
+				icon:SetDesaturated(true)
 				return
 			end
 		end
 	end
-	icon:SetDesaturated(0) -- normal queue operation, reflect that in queue inset
+	icon:SetDesaturated(false) -- normal queue operation, reflect that in queue inset
 	icon:SetVertexColor(1, 1, 1)
 	local name
 	local ready = TrinketMenu.TrinketNearReady(id)
@@ -540,7 +538,7 @@ function TrinketMenu.ProfileScrollFrameUpdate()
 		end
 	end
 	if #list == 0 then
-		TrinketMenu_Profile1Name:SetText(L"No profiles saved yet.")
+		TrinketMenu_Profile1Name:SetText("No profiles saved yet.")
 		TrinketMenu_Profile1:Show()
 		TrinketMenu_Profile1:UnlockHighlight()
 	end

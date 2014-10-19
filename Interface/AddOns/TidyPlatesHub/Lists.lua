@@ -9,7 +9,7 @@ TidyPlatesHubLocalization = TidyPlatesHubLocalization or {}
 
 TidyPlatesHubLocalizedFont = "FONTS/ARIALN.TTF"
 
-if GetLocale() == "enUS" then
+if GetLocale() == "zhCN" then
 	TidyPlatesHubLocalization["Style"] = "Translation of STYLE"
 	TidyPlatesHubLocalization["Headline Mode"] = "No-Bars Mode"
 end
@@ -53,28 +53,29 @@ local L = TidyPlatesHub_GetLocalizedString
 TidyPlatesHubModes = {}
 
 TidyPlatesHubModes.StyleModes = {
-				{ text = L("Default Bars"), notCheckable = 1, } ,
-				{ text = L("|cffffaa33Headline Always (No Health Bar)"),	notCheckable = 1, } ,
-				{ text = L("|cffffaa33Headline while idle;|r Health Bars during Combat"), notCheckable = 1, } ,
-				{ text = L("|cffffaa33Headline on other units;|r Health Bars on Active/Damaged/Marked Units"),	notCheckable = 1, } ,
-				{ text = L("|cffffaa33Headline on Normal units;|r Health Bars on Elite units"), notCheckable = 1 } ,
-				{ text = L("|cffffaa33Headline on Unmarked Units;|r Health Bars on Marked Units"), notCheckable = 1 } ,
-				{ text = L("|cffffaa33Headline on NPCs;|r Health Bars on Players"), notCheckable = 1 } ,
-				{ text = L("|cffffaa33Headline on other units;|r Health Bar on Current Target"), notCheckable = 1 } ,
-				{ text = L("|cffffaa33Headline on other units;|r Health Bars on Low Threat/Party Aggro (Tank Mode)"), notCheckable = 1 } ,
+				{ text = L("默认"), notCheckable = 1, } ,
+				{ text = L("|cffffaa33文字(没血条)"),	notCheckable = 1, } ,
+				{ text = L("|cffffaa33脱离没条;|r 战斗启动"), notCheckable = 1, } ,
+				{ text = L("|cffffaa33正常没条;|r ADD/少血/标记启动"),	notCheckable = 1, } ,
+				{ text = L("|cffffaa33一直没条;|r 精英启动"), notCheckable = 1 } ,
+				{ text = L("|cffffaa33没标记没条;|r 标记才有"), notCheckable = 1 } ,
+				{ text = L("|cffffaa33NPC启动;|r 玩家启动"), notCheckable = 1 } ,
+				{ text = L("|cffffaa33不选没条;|r 选中启动"), notCheckable = 1 } ,
+				{ text = L("|cffffaa33满仇恨没条;|r 低仇恨/要OT启动(不是坦克手别贱)"), notCheckable = 1 } ,
 			}
 
 TidyPlatesHubModes.TextModes = {
-				{ text = L("None"), notCheckable = 1 },
-				{ text = L("Percent Health"), notCheckable = 1 } ,
-				{ text = L("Exact health"), notCheckable = 1 } ,
-				{ text = L("Health Deficit"), notCheckable = 1 } ,
-				{ text = L("Health Total & Percent"), notCheckable = 1 } ,
-				{ text = L("Target Of"), notCheckable = 1 } ,
-				{ text = L("Approximate Health"), notCheckable = 1 } ,
-				{ text = L("Level"), notCheckable = 1 } ,
-				{ text = L("Level and Health"), notCheckable = 1 } ,
-				{ text = L("Arena ID, Health, and Power"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 },
+				{ text = L("百分比"), notCheckable = 1 } ,
+				{ text = L("精确"), notCheckable = 1 } ,
+				{ text = L("少多少血"), notCheckable = 1 } ,
+				{ text = L("总量 & %"), notCheckable = 1 } ,
+				{ text = L("总血量+百分比"), notCheckable = 1 } ,
+				{ text = L("她的目标"), notCheckable = 1 } ,
+				{ text = L("大概"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("等级and生命"), notCheckable = 1 } ,
+				{ text = L("竞技场ID,生命,能量"), notCheckable = 1 } ,
 			}
 
 			--[[
@@ -82,87 +83,83 @@ TidyPlatesHubModes.TextModes = {
 			-- Text Builder
 
 			TidyPlatesHubModes.TextModes = {
-				{ text = L("None"), notCheckable = 1 },
-				{ text = L("Health"), notCheckable = 1 } ,
-				{ text = L("Target Of"), notCheckable = 1 } ,
-				{ text = L("Approximate Health"), notCheckable = 1 } ,
-				{ text = L("Level"), notCheckable = 1 } ,
-				{ text = L("Level and Health"), notCheckable = 1 } ,
-				{ text = L("Arena ID, Health, and Power"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 },
+				{ text = L("生命"), notCheckable = 1 } ,
+				{ text = L("目标"), notCheckable = 1 } ,
+				{ text = L("大概"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("等级和生命"), notCheckable = 1 } ,
+				{ text = L("竞技场ID, 生命,能量"), notCheckable = 1 } ,
 			}
 
 			TidyPlatesHubModes.TextIngredientList = {
-				{ text = L("None"), notCheckable = 1 },
-				{ text = L("Percent Health"), notCheckable = 1 } ,
-				{ text = L("Approximate Health"), notCheckable = 1 } ,
-				{ text = L("Exact health"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 },
+				{ text = L("百分比"), notCheckable = 1 } ,
+				{ text = L("大概"), notCheckable = 1 } ,
+				{ text = L("精确值"), notCheckable = 1 } ,
 
-				{ text = L("Health Deficit"), notCheckable = 1 } ,
+				{ text = L("血少多少"), notCheckable = 1 } ,
 
-				{ text = L("Target Of"), notCheckable = 1 } ,
+				{ text = L("目标"), notCheckable = 1 } ,
 
-				{ text = L("Level"), notCheckable = 1 } ,
-				{ text = L("Health"), notCheckable = 1 } ,
-				{ text = L("Arena ID"), notCheckable = 1 } ,
-				{ text = L("Power"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("生命"), notCheckable = 1 } ,
+				{ text = L("竞技场ID"), notCheckable = 1 } ,
+				{ text = L("能量"), notCheckable = 1 } ,
 			}
 
 			--]]
 
 TidyPlatesHubModes.RangeModes = {
-				{ text = L("9 yards")} ,
-				{ text = L("15 yards") } ,
-				{ text = L("28 yards") } ,
-				{ text = L("40 yards") } ,
+				{ text = L("9 码")} ,
+				{ text = L("15 码") } ,
+				{ text = L("28 码") } ,
+				{ text = L("40 码") } ,
 			}
 
 TidyPlatesHubModes.DebuffStyles = {
-				{ text = L("Wide"), notCheckable = 1 } ,
-				{ text = L("Compact (May require UI reload to take effect)"), notCheckable = 1 } ,
+				{ text = L("宽松"), notCheckable = 1 } ,
+				{ text = L("紧凑(重载UI生效)"), notCheckable = 1 } ,
 			}
 
 TidyPlatesHubModes.DebuffModes = {
-				{ text = L("Show All"), notCheckable = 1 } ,
-				{ text = L("Show These... "), notCheckable = 1 } ,
-				{ text = L("Show All Mine "), notCheckable = 1 } ,
-				{ text = L("Show My... "), notCheckable = 1 } ,
-				{ text = L("By Prefix..."), notCheckable = 1 } ,
-
-				--[[
-
-				--]]
+				{ text = L("显示所有"), notCheckable = 1 } ,
+				{ text = L("显示这些... "), notCheckable = 1 } ,
+				{ text = L("显示我的所有 "), notCheckable = 1 } ,
+				{ text = L("显示我的... "), notCheckable = 1 } ,
+				{ text = L("前缀..."), notCheckable = 1 } ,
 			}
 
 TidyPlatesHubModes.AuraWidgetModes = {
-				{ text = L("Show My Debuffs"), notCheckable = 1 } ,
-				{ text = L("Show My Buffs "), notCheckable = 1 } ,
-				{ text = L("Specific Auras..."), notCheckable = 1 } ,
+				{ text = L("Debuffs"), notCheckable = 1 } ,
+				{ text = L("Buffs "), notCheckable = 1 } ,
+				{ text = L("自定义..."), notCheckable = 1 } ,
 			}
 
 TidyPlatesHubModes.ScaleModes = {
-				{ text = L("None"), notCheckable = 1 } ,
-				{ text = L("On Elite Units"), notCheckable = 1 } ,
-				{ text = L("On Target"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("On Active Auras"), notCheckable = 1 } ,
-				{ text = L("On Enemy Units"), notCheckable = 1 } ,
-				{ text = L("On NPCs"), notCheckable = 1 } ,
-				{ text = L("On Raid Targets"), notCheckable = 1 } ,
-				{ text = L("On Enemy Healers"), notCheckable = 1 } ,
-				{ text = L("On Low-Health Units"), notCheckable = 1 } ,
-				{ text = L("On Bosses"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 } ,
+				{ text = L("精英"), notCheckable = 1 } ,
+				{ text = L("目标"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("光环"), notCheckable = 1 } ,
+				{ text = L("敌对"), notCheckable = 1 } ,
+				{ text = L("NPC"), notCheckable = 1 } ,
+				{ text = L("团队图标"), notCheckable = 1 } ,
+				{ text = L("敌对治疗"), notCheckable = 1 } ,
+				{ text = L("低血量"), notCheckable = 1 } ,
+				{ text = L("Boss"), notCheckable = 1 } ,
 				}
 
 TidyPlatesHubModes.OpacityModes = {
-				{ text = L("None"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("On Active Auras"), notCheckable = 1 } ,
-				{ text = L("On Enemy Units"), notCheckable = 1 } ,
-				{ text = L("On NPCs"), notCheckable = 1 } ,
-				{ text = L("On Raid Targets"), notCheckable = 1 } ,
-				{ text = L("On Active/Damaged Units"), notCheckable = 1 } ,
-				{ text = L("On Enemy Healers"), notCheckable = 1 } ,
-				{ text = L("On Low-Health Units"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("光环"), notCheckable = 1 } ,
+				{ text = L("敌对"), notCheckable = 1 } ,
+				{ text = L("NPCs"), notCheckable = 1 } ,
+				{ text = L("团队图标"), notCheckable = 1 } ,
+				{ text = L("激活"), notCheckable = 1 } ,
+				{ text = L("敌对治疗"), notCheckable = 1 } ,
+				{ text = L("低血量"), notCheckable = 1 } ,
 				}
 
 --[[
@@ -175,61 +172,61 @@ TidyPlatesHubModes.OpacityModes = {
 --]]
 
 TidyPlatesHubModes.FriendlyBarModes = {
-				{ text = L("By Reaction"), notCheckable = 1 } ,
-				{ text = L("By Class"), notCheckable = 1 } ,
-				{ text = L("By Health"), notCheckable = 1 } ,
-				--{ text = L("By Raid Icon"), notCheckable = 1 } ,
+				{ text = L("反应类型"), notCheckable = 1 } ,
+				{ text = L("职业"), notCheckable = 1 } ,
+				{ text = L("生命"), notCheckable = 1 } ,
+				--{ text = L("团队图标"), notCheckable = 1 } ,
 				{ text = L("Pass-through"), notCheckable = 1 } ,
 				}
 
 TidyPlatesHubModes.EnemyBarModes = {
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("By Reaction"), notCheckable = 1 } ,
-				{ text = L("By Class"), notCheckable = 1 } ,
-				{ text = L("By Health"), notCheckable = 1 } ,
-				--{ text = L("By Raid Icon"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("反映类型"), notCheckable = 1 } ,
+				{ text = L("职业"), notCheckable = 1 } ,
+				{ text = L("生命"), notCheckable = 1 } ,
+				--{ text = L("团队图标"), notCheckable = 1 } ,
 				{ text = L("Pass-through"), notCheckable = 1 } ,
 				}
 
 TidyPlatesHubModes.NameColorModes = {
-				{ text = L("Default"), notCheckable = 1 } ,
-				{ text = L("By Class"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("By Reaction"), notCheckable = 1 } ,
-				{ text = L("By Health"), notCheckable = 1 } ,
-				{ text = L("By Level Color"), notCheckable = 1 } ,
-				{ text = L("By Normal/Elite/Boss"), notCheckable = 1 } ,
+				{ text = L("默认"), notCheckable = 1 } ,
+				{ text = L("职业"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("反映类型"), notCheckable = 1 } ,
+				{ text = L("生命"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("普通/精英/Boss"), notCheckable = 1 } ,
 				}
 
 -----
 --[[
 TidyPlatesHubModes.HealthColorModes = {
-				{ text = L("Default"), notCheckable = 1 } ,
-				{ text = L("By Enemy Class"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("By Reaction"), notCheckable = 1 } ,
-				{ text = L("By Level Color"), notCheckable = 1 } ,
-				{ text = L("By Raid Icon"), notCheckable = 1 } ,
-				{ text = L("By Health"), notCheckable = 1 } ,
-				{ text = L("By Friendly Class"), notCheckable = 1 } ,
+				{ text = L("默认"), notCheckable = 1 } ,
+				{ text = L("敌对"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("反应类型"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("团队图标"), notCheckable = 1 } ,
+				{ text = L("生命值"), notCheckable = 1 } ,
+				{ text = L("友好"), notCheckable = 1 } ,
 				}
 
 TidyPlatesHubModes.NameColorModes = {
-				{ text = L("Default"), notCheckable = 1 } ,
-				{ text = L("By Enemy Class"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("By Reaction"), notCheckable = 1 } ,
-				{ text = L("By Level Color"), notCheckable = 1 } ,
-				{ text = L("By Health"), notCheckable = 1 } ,
-				{ text = L("By Normal/Elite/Boss"), notCheckable = 1 } ,
-				{ text = L("By Friendly Class"), notCheckable = 1 } ,
+				{ text = L("默认"), notCheckable = 1 } ,
+				{ text = L("敌对"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L(应类型"), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("生命值"), notCheckable = 1 } ,
+				{ text = L("普通/精英/BOSS"), notCheckable = 1 } ,
+				{ text = L("友好"), notCheckable = 1 } ,
 				}
 
 --]]
 TidyPlatesHubModes.WarningGlowModes = {
-				{ text = L("None"), notCheckable = 1 } ,
-				{ text = L("By Threat"), notCheckable = 1 } ,
-				{ text = L("On Enemy Healers"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 } ,
+				{ text = L("仇恨"), notCheckable = 1 } ,
+				{ text = L("治疗"), notCheckable = 1 } ,
 				}
 
 				--[[
@@ -243,22 +240,22 @@ TidyPlatesHubModes.WarningGlowModes = {
 
 
 TidyPlatesHubModes.TextPlateFieldModes = {
-				{ text = L("None"), notCheckable = 1 } ,
-				{ text = L("Percent Health"), notCheckable = 1 } ,		--
-				{ text = L("Role, Guild or Level"), notCheckable = 1 } ,
-				{ text = L("Role or Guild"), notCheckable = 1 } ,
-				{ text = L("NPC Role"), notCheckable = 1 } ,
-				{ text = L("Level"), notCheckable = 1 } ,
-				{ text = L("Role, Guild, Level or Health Percent"), notCheckable = 1 } ,
+				{ text = L("无"), notCheckable = 1 } ,
+				{ text = L("百分比"), notCheckable = 1 } ,		--
+				{ text = L("角色, 公会 or 等级"), notCheckable = 1 } ,
+				{ text = L("角色 or 公会"), notCheckable = 1 } ,
+				{ text = L("NPC "), notCheckable = 1 } ,
+				{ text = L("等级"), notCheckable = 1 } ,
+				{ text = L("角色, 公会, 等级 or 百分比"), notCheckable = 1 } ,
 				}
 
 TidyPlatesHubModes.ThreatWidgetModes = {
-					{ text = L("Tug-o-Threat"), notCheckable = 1 } ,
-					{ text = L("Threat Wheel"), notCheckable = 1 } ,
+					{ text = L("仇恨组件"), notCheckable = 1 } ,
+					{ text = L("仇恨链"), notCheckable = 1 } ,
 					}
 
 TidyPlatesHubModes.ThreatModes = {
-					{ text = L("Auto (Color Swap)"), notCheckable = 1 } ,
-					{ text = L("Tank"), notCheckable = 1 } ,
-					{ text = L("DPS/Healer"), notCheckable = 1 } ,
+					{ text = L("自动(Color Swap)"), notCheckable = 1 } ,
+					{ text = L("坦克"), notCheckable = 1 } ,
+					{ text = L("DPS/治疗"), notCheckable = 1 } ,
 					}

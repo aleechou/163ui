@@ -1,16 +1,15 @@
 --[[
 	slider.lua
-		A bagnon options slider
+		A options slider
 --]]
 
-local Classy = tullaRangeConfig.Classy
-local Slider = Classy:New('Slider')
-tullaRangeConfig.OptionsSlider = Slider
+local AddonName, Addon = ...
+local Slider = Addon.Classy:New('Slider'); Addon.Slider = Slider
 
 --[[ Constructor ]]--
 
 function Slider:New(name, parent, low, high, step)
-	local f = self:Bind(CreateFrame('Slider', parent:GetName() .. name, parent, 'OptionsSliderTemplate'))
+	local f = self:Bind(CreateFrame('Slider', parent:GetName() .. '_' .. name, parent, 'OptionsSliderTemplate'))
 	f:SetMinMaxValues(low, high)
 	f:SetValueStep(step)
 	f:EnableMouseWheel(true)
@@ -50,14 +49,14 @@ function Slider:OnValueChanged(value)
 end
 
 function Slider:OnMouseWheel(direction)
-	local step = self:GetValueStep() *  direction
+	local step = self:GetValueStep() * direction
 	local value = self:GetValue()
 	local minVal, maxVal = self:GetMinMaxValues()
 
 	if step > 0 then
-		self:SetValue(math.min(value+step, maxVal))
+		self:SetValue(math.min(value + step, maxVal))
 	else
-		self:SetValue(math.max(value+step, minVal))
+		self:SetValue(math.max(value + step, minVal))
 	end
 end
 
