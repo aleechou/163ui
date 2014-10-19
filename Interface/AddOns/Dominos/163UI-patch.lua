@@ -2,7 +2,7 @@
 local Dominos = _G['Dominos']
 
 
-Dominos.oriOnInitialize = Dominos.OnInitialize
+--Dominos.oriOnInitialize = Dominos.OnInitialize
 --[[Dominos.OnInitialize = function()
     -- XXX 163
     self.db = LibStub('AceDB-3.0'):New('DominosDB', self:GetDefaults(),
