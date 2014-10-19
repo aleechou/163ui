@@ -1,10 +1,11 @@
-## Interface: 60000
-## Title: TrinketMenu
-## Version: 5.0.4
-## Author: Gello, Resike, luyi7338
+﻿## Interface: 60000
+## Title: TrinketMenu |cFF99CC01rev|r |cFFFF00006.0.1|r
+## Version: 6.0.1
+## Author: Gello, Resike
 ## Notes: 便捷更换和监视饰品
 ## SavedVariables: TrinketMenuOptions
 ## SavedVariablesPerCharacter: TrinketMenuPerOptions, TrinketMenuQueue
+
 TrinketMenu.lua
 TrinketMenu.xml
 TrinketMenuOpt.lua
@@ -15,4 +16,4 @@ localization.lua
 
 ## Title: |cff880303[网易有爱]|r 饰品管理
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 2014101901
