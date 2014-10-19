@@ -1,0 +1,73 @@
+﻿## Title: |cffabd473JSHB|r
+## Notes: Formerly, JS' Hunter Bar
+## Interface: 60000
+## Author: _JS_
+## Version: v4.31
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariables: JSHB4
+## OptionalDeps: JSIE, OmniCC, ncCooldown, LibSharedMedia-3.0
+## X-Curse-Packaged-Version: v4.31
+## X-Curse-Project-Name: JSHB 4 - Formerly JS' Hunter Bar
+## X-Curse-Project-ID: js-hunter-focus-bar
+## X-Curse-Repository-ID: wow/js-hunter-focus-bar/mainline
+
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+#@end-no-lib-strip@
+
+core\initialization.lua
+locale\locale.xml
+core\functions.lua
+core\variables.lua
+core\defaulttimers.lua
+core\defaults.lua
+core\configuration.lua
+core\cooldowntimer.lua
+core\framemover.lua
+core\mainspell.lua
+core\frames.lua
+core\smoother.lua
+media\sharedmedia.lua
+core\jshb.lua
+core\energybar.lua
+core\aspectindicator.lua
+core\crowdcontrol.lua
+core\enrage.lua
+core\alerts.lua
+core\timers.lua
+core\interrupts.lua
+core\mdannounce.lua
+core\masterscallannounce.lua
+
+config\libs\widget.xml
+config\options.lua
+config\_timersets.lua
+config\_alerts.lua
+config\_main.lua
+config\_cooldown.lua
+config\_crowdcontrol.lua
+config\_energybar.lua
+config\_enrage.lua
+config\_aspectindicator.lua
+config\_interrupts.lua
+config\_masterscall.lua
+config\_misdirection.lua
+
+wizards\wiz_timerbars.lua
+
+
+
+
+
+## Title: |cff880303[网易有爱]|r 猎人集中值增强条
+## X-Vendor: NetEase
+## 163UI-Version: 2014092301
+## Notes: 简单的聊天过滤插件，过滤重复及广告信息，过滤多行宏，合并显示切换天赋时的学会/忘却技能，合并显示获得成就，合并显示制造物品。
