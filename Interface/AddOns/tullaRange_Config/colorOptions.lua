@@ -3,12 +3,24 @@
 		General Bagnon settings
 --]]
 
-local L = _G['TULLARANGE_CONFIG_LOCALS']
-local ColorOptions = tullaRangeConfig.OptionsPanel:New('tullaRangeOptions_Colors', 'tullaRange', L.ColorSettings, L.ColorSettingsTitle); ColorOptions:Hide()
-tullaRangeConfig.ColorOptions = ColorOptions
+local AddonName, Addon = ...
+local L = Addon.L
+local ColorOptions
+do
+	ColorOptions = Addon.OptionsPanel:New(
+		'tullaRange_ColorOptions', 
+		nil,
+		'tullaRange', 
+		L.ColorSettingsTitle
+	)
+	
+	-- ColorOptions:Hide()
+	
+	Addon.ColorOptions = ColorOptions
+end
 
 local SPACING = 4
-local COLOR_TYPES = {'oor', 'oom'}
+local COLOR_TYPES = {'oor', 'oom', 'unusable'}
 
 --[[
 	Startup
@@ -17,6 +29,7 @@ local COLOR_TYPES = {'oor', 'oom'}
 function ColorOptions:Load()
 	self:SetScript('OnShow', self.OnShow)
 	self:AddWidgets()
+	self:UpdateWidgets()
 end
 
 
@@ -35,13 +48,20 @@ end
 
 function ColorOptions:AddWidgets()
 	local lastSelector = nil
+
 	for i, type in self:GetColorTypes() do
 		local selector = self:CreateColorSelector(type)
+
+		selector:SetHeight(132)
+
 		if i == 1 then
-			selector:SetPoint('TOPLEFT', 16, -72)
+			selector:SetPoint('TOPLEFT', 12, -84)
+			selector:SetPoint('TOPRIGHT', -12, -84)
 		else
-			selector:SetPoint('TOPLEFT', lastSelector, 'BOTTOMLEFT', 0, -(SPACING + 6))
+			selector:SetPoint('TOPLEFT', lastSelector, 'BOTTOMLEFT', 0, -(SPACING + 24))
+			selector:SetPoint('TOPRIGHT', lastSelector, 'BOTTOMRIGHT', 0, -(SPACING + 24))
 		end
+
 		lastSelector = selector
 	end
 end
@@ -59,7 +79,7 @@ function ColorOptions:UpdateWidgets()
 
 	for i, type in self:GetColorTypes() do
 		local selector = self:GetColorSelector(type)
-		selector:UpdateColor()
+		selector:UpdateValues()
 	end
 end
 
@@ -72,15 +92,7 @@ end
 
 --frame color
 function ColorOptions:CreateColorSelector(type)
-	local selector = tullaRangeConfig.OptionsColorSelector:New(L['Color_' .. type], self, false)
-
-	selector.OnSetColor = function(self, r, g, b)
-		tullaRange:SetColor(type, r, g, b)
-	end
-
-	selector.GetColor = function(self)
-		return tullaRange:GetColor(type)
-	end
+	local selector = Addon.ColorSelector:New(type, self)
 
 	local colorSelectors = self.colorSelectors or {}
 	colorSelectors[type] = selector
@@ -91,18 +103,6 @@ end
 
 function ColorOptions:GetColorSelector(type)
 	return self.colorSelectors and self.colorSelectors[type]
-end
-
-
---[[ Sliders ]]--
-
-function ColorOptions:NewSlider(name, low, high, step)
-	local s = tullaRangeConfig.OptionsSlider:New(name, self, low, high, step)
-	s:SetHeight(s:GetHeight() + 2)
-
-	self.sliders = self.sliders or {}
-	table.insert(self.sliders, s)
-	return s
 end
 
 --[[ Load the thing ]]--

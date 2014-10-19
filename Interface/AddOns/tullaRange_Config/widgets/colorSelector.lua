@@ -3,113 +3,98 @@
 		A bagnon color selector
 --]]
 
-local Classy = tullaRangeConfig.Classy
-local ColorSelector = Classy:New('Button')
-tullaRangeConfig.OptionsColorSelector = ColorSelector
+local AddonName, Addon = ...
+local L = Addon.L
+local ColorSelector = Addon.Classy:New('Frame'); Addon.ColorSelector = ColorSelector
+
+local backdrop = {
+  bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+  edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+  edgeSize = 16,
+  tile = true, tileSize = 16,
+  insets = {left = 4, right = 4, top = 4, bottom = 4}
+}
+
+local ColorSliders = { 'Red', 'Green', 'Blue' }
 
 
---[[ Constructor ]]--
+function ColorSelector:New(colorState, parent)
+	local f = self:Bind(CreateFrame('Frame', parent:GetName() .. '_' .. colorState, parent))	
 
-function ColorSelector:New(name, parent, hasOpacity)
-	local f = self:Bind(CreateFrame('Button', parent:GetName() .. name, parent))
-	f.hasOpacity = hasOpacity
-	f:SetWidth(18)
-	f:SetHeight(18)
+	f:SetBackdrop(backdrop)
+	f:SetBackdropBorderColor(0.4, 0.4, 0.4)
+	f:SetBackdropColor(0, 0, 0, 0.3)
 
-	if hasOpacity then
-		f.swatchFunc = function()
-			local r, g, b = ColorPickerFrame:GetColorRGB()
-			local a = 1 - OpacitySliderFrame:GetValue()
-			f:SetColor(r, g, b, a)
+	local t = f:CreateFontString(nil, 'BACKGROUND', 'GameFontHighlightLarge')
+	t:SetPoint('BOTTOMLEFT', f, 'TOPLEFT', 4, 2)
+	t:SetText(L[colorState])
+	f.text = t
+
+	local preview = f:CreateTexture(nil, 'ARTWORK')
+	preview:SetPoint('RIGHT', -16, 0)
+	preview:SetSize(96, 96)
+	f.preview = preview
+
+	-- color sliders
+	local sliders = {}
+	for colorIndex, colorName in ipairs(ColorSliders) do
+		local slider = Addon.Slider:New(colorName, f, 0, 100, 1)
+
+		slider.SetSavedValue = function(self, value)
+			tullaRange.sets[colorState][colorIndex] = math.floor(value + 0.5) / 100
+			tullaRange:ForceColorUpdate() 
+
+			preview:SetVertexColor(tullaRange:GetColor(colorState))
 		end
 
-		f.opacityFunc = f.swatchFunc
+		slider.GetSavedValue = function(self)			
+			return tullaRange.sets[colorState][colorIndex] * 100
+		end
 
-		f.cancelFunc = function()
-			local prev = ColorPickerFrame.previousValues
-			f:SetColor(prev.r, prev.g, prev.b, 1 - prev.opacity)
+		if colorIndex > 1 then
+			slider:SetPoint('TOPLEFT', sliders[colorIndex - 1], 'BOTTOMLEFT', 0, -24)	
+		else
+			slider:SetPoint('BOTTOMLEFT', t, 'BOTTOMLEFT', 8, -40)
 		end
-	else
-		f.swatchFunc = function()
-			f:SetColor(ColorPickerFrame:GetColorRGB())
-		end
-		f.cancelFunc = function()
-			f:SetColor(ColorPicker_GetPreviousValues())
-		end
+
+		table.insert(sliders, slider)
 	end
 
-	local nt = f:CreateTexture(nil, 'OVERLAY')
-	nt:SetTexture([[Interface\ChatFrame\ChatFrameColorSwatch]])
-	nt:SetAllPoints(f)
-	f:SetNormalTexture(nt)
 
-	local bg = f:CreateTexture(nil, 'BACKGROUND')
-	bg:SetWidth(16)
-	bg:SetHeight(16)
-	bg:SetTexture(1, 1, 1)
-	bg:SetPoint('CENTER')
-	f.bg = bg
 
-	local text = f:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-	text:SetPoint('LEFT', f, 'RIGHT', 4, 0)
-	text:SetText(name)
-	f.text = text
-
-	f:SetScript('OnClick', f.OnClick)
-	f:SetScript('OnEnter', f.OnEnter)
-	f:SetScript('OnLeave', f.OnLeave)
-	f:SetScript('OnShow', f.OnShow)
+	f.sliders = sliders
 
 	return f
 end
 
+do
+	local spellIcons = {}
 
---[[ Frame Events ]]--
+	-- generate spell icons
+	do
+		local offset = 0
 
-function ColorSelector:OnClick()
-	if ColorPickerFrame:IsShown() then
-		ColorPickerFrame:Hide()
-	else
-		self.r, self.g, self.b, self.opacity = self:GetColor()
-		self.opacity = 1 - (self.opacity or 1) --correction, since the color menu is crazy
+		for i = 1, GetNumSpellTabs() do
+			local offset, numSpells = select(3, GetSpellTabInfo(i))
+			local tabEnd = offset + numSpells
 
-		OpenColorPicker(self)
-		ColorPickerFrame:SetFrameStrata('TOOLTIP')
-		ColorPickerFrame:Raise()
+			for j = offset, tabEnd - 1 do
+				local texture = GetSpellBookItemTexture(j, 'player')
+				if texture then
+					table.insert(spellIcons, texture)
+				end
+			end
+		end
 	end
-end
 
-function ColorSelector:OnShow()
-	local r, g, b = self:GetColor()
-	self:GetNormalTexture():SetVertexColor(r, g, b)
-end
+	function ColorSelector:UpdateValues()
 
-function ColorSelector:OnEnter()
-	local color = _G['NORMAL_FONT_COLOR']
-	self.bg:SetVertexColor(color.r, color.g, color.b)
-end
+		local texture = spellIcons[math.random(1, #spellIcons)]
 
-function ColorSelector:OnLeave()
-	local color = _G['HIGHLIGHT_FONT_COLOR']
-	self.bg:SetVertexColor(color.r, color.g, color.b)
-end
+		self.preview:SetTexture(texture)
 
-
---[[ Update Methods ]]--
-
-function ColorSelector:SetColor(r, g, b, a)
-	self:GetNormalTexture():SetVertexColor(r, g, b)
-	self:OnSetColor(r, g, b, a)
-end
-
-function ColorSelector:OnSetColor(r, g, b, a)
-	assert(false, 'Hey, you forgot to implement OnSetColor for ' .. self:GetName())
-end
-
-function ColorSelector:GetColor(r, g, b, a)
-	assert(false, 'Hey, you forgot to implement GetColor for ' .. self:GetName())
-end
-
-function ColorSelector:UpdateColor()
-	self:SetColor(self:GetColor())
+		for i, slider in pairs(self.sliders) do
+			slider:UpdateValue()
+		end
+	end
 end

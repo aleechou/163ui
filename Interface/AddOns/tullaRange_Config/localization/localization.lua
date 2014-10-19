@@ -2,16 +2,24 @@
 	tullaRangeConfig localization
 --]]
 
-TULLARANGE_CONFIG_LOCALS = TULLARANGE_CONFIG_LOCALS or {}
-local L = TULLARANGE_CONFIG_LOCALS
-if not L then 
-	return 
-end
+local AddonName, Addon = ...
 
-L.ColorSettings = 'Colors'
-L.ColorSettingsTitle = 'tullaRange color configuration settings.'
-L.Color_oor = 'Out of Range'
-L.Color_oom = 'Out of Mana'
-L.Color_ooh = 'Below Maximum Holy Power'
+local L = {
+	ColorSettings = 'Colors',
 
-L.HolyPowerThreshold = 'Holy Power Threshold'
+	ColorSettingsTitle = 'tullaRange color configuration settings',
+	
+	oor = 'Out of Range',
+	
+	oom = 'Out of Mana',
+
+	unusable = 'Unusable',
+
+	Red = 'Red',
+	
+	Green = 'Green',
+
+	Blue = 'Blue'
+}
+
+Addon.L = setmetatable(L, { __index = function(t, k) return k end })
