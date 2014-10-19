@@ -96,6 +96,9 @@ function MOGUBarButton_OnLoad(self)
 	self:RegisterEvent("ACTIONBAR_SLOT_CHANGED");
 	self:RegisterEvent("UPDATE_BINDINGS");
 	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM");
+
+    self:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+
 	--ActionBarButtonEventsFrame_RegisterFrame(self); --SetActionUIButton(self, action, self.cooldown);
 	ActionButton_UpdateAction(self);
 	ActionButton_UpdateHotkeys(self, self.buttonType);
@@ -803,10 +806,14 @@ function U1BAR_ActionButton_Update (self)
 	local texture = GetActionTexture(action);
 
 	if ( HasAction(action) ) then
+
+
+
 		if ( not self.eventsRegistered ) then
+
 			self:RegisterEvent("ACTIONBAR_UPDATE_STATE");
 			self:RegisterEvent("ACTIONBAR_UPDATE_USABLE");
-			self:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+			--self:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
 			self:RegisterEvent("UPDATE_INVENTORY_ALERTS");
 			self:RegisterEvent("PLAYER_TARGET_CHANGED");
 			self:RegisterEvent("TRADE_SKILL_SHOW");
@@ -838,10 +845,13 @@ function U1BAR_ActionButton_Update (self)
 		ActionButton_UpdateCooldown(self);
 		ActionButton_UpdateFlash(self);
 	else
+
+
 		if ( self.eventsRegistered ) then
+
 			self:UnregisterEvent("ACTIONBAR_UPDATE_STATE");
 			self:UnregisterEvent("ACTIONBAR_UPDATE_USABLE");
-			self:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+			--self:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
 			self:UnregisterEvent("UPDATE_INVENTORY_ALERTS");
 			self:UnregisterEvent("PLAYER_TARGET_CHANGED");
 			self:UnregisterEvent("TRADE_SKILL_SHOW");
@@ -923,6 +933,7 @@ function U1BAR_ActionButton_Update (self)
 end
 
 function U1BAR_ActionButton_OnEvent (self, event, ...)
+
 	local arg1 = ...;
 	if ((event == "UNIT_INVENTORY_CHANGED" and arg1 == "player") or event == "LEARNED_SPELL_IN_TAB") then
 		if ( GameTooltip:GetOwner() == self ) then
