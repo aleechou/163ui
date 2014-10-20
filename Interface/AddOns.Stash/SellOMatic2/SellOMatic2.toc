@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## X-BigfootType: 7
 ## X-BigfootDesc: SellOMatic自动卖垃圾插件，当你访问商人时，自动出售垃圾物品，并显示详细的信息。你还可以自定义需要出售的物品或者需要保留不出售的物品。
 ## X-Compatible-With: 50200

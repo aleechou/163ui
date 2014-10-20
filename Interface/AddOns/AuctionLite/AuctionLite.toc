@@ -10,7 +10,7 @@
 ## OptionalDeps: Ace3
 ## SavedVariables: AuctionLiteDB
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r260
+## X-Curse-Packaged-Version: v1.8.13
 ## X-Curse-Project-Name: AuctionLite
 ## X-Curse-Project-ID: auctionlite
 ## X-Curse-Repository-ID: wow/auctionlite/mainline
@@ -55,4 +55,4 @@ Util.lua
 
 ## Title: |cff880303[网易有爱]|r 拍卖助手
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101902
+## X-163UI-Version: 2014102001

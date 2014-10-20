@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Combuctor
 ## Author: Tuller and Jaliborc (João Cardoso)
 ## Notes: 分类更细致的背包整合

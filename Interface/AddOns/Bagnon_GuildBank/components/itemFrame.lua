@@ -37,43 +37,14 @@ function ItemFrame:OnEvent()
 end
 
 
---[[ Slot Management ]]--
-
---remove all unused item slots from the frame
---add all missing slots to the frame
---update all existing slots on the frame
---currently, all tabs have the same number of slots. So there is no need to request layouts
+--[[ Slots ]]--
 
 function ItemFrame:ReloadAllItemSlots()
 	for slot = 1, self:GetNumSlots() do
-		local button = self:GetItemSlot(slot)
-		if button then
-			button:Update()
-		else
-			self:AddItemSlot(slot)
-		end
+		self.slots[slot] = self.slots[slot] or Bagnon.GuildItemSlot:New()
+		self.slots[slot]:Set(self, self:GetCurrentTab(), slot)
 	end
 end
-
---if an item is not assigned to the given slotIndex, then add an item
-function ItemFrame:AddItemSlot(slot)
-	if not self:GetItemSlot(slot) then
-		local itemSlot = self:NewItemSlot(slot)
-		self.itemSlots[slot] = itemSlot
-	end
-end
-
-function ItemFrame:NewItemSlot(slot)
-	return Bagnon.GuildItemSlot:New(self:GetCurrentTab(), slot, self:GetFrameID(), self)
-end
-
---returns the item slot assigned to the given slotIndex
-function ItemFrame:GetItemSlot(slot)
-	return self.itemSlots[slot]
-end
-
-
---[[ Properties ]]--
 
 function ItemFrame:GetNumSlots()
 	return 98

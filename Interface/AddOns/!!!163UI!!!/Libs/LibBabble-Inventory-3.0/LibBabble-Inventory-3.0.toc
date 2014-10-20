@@ -1,4 +1,4 @@
-## Interface: 50300
+## Interface: 60000
 ## LoadOnDemand: 1
 ## Title: Lib: Babble-Inventory-3.0
 ## Notes: A library to help with localization of item types and subtypes.

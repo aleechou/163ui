@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## LoadOnDemand: 0
 ## Title: |cFF00FF00[B]|rDynRepBar-自动声望切换
 ## Notes: 声望条自动切换成最近获得声望的阵营

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Max-Interface: 50400
 ## X-Min-Interface: 50001
 ## X-Curse-Packaged-Version: 2.7.3.1

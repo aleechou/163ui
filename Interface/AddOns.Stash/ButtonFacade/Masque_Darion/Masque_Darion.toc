@@ -1,4 +1,4 @@
-## Interface: 40300
+## Interface: 60000
 ## Title: Masque: |cffff8000Darion|r
 ## Version: 4.1.2
 ## Author: Darsain

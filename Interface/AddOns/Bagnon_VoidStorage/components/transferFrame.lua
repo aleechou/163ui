@@ -21,9 +21,8 @@ function TransferFrame:New(frameID, parent)
 end
 
 function TransferFrame:NewSection(title)
-	local frame = Bagnon.VaultItemFrame:New(self.frameID, self)
+	local frame = Bagnon.VaultItemFrame:New(self.frameID, self, title)
 	frame.title:SetText(title)
 	frame.COLUMN_OFF = 1
-	frame.kind = title
 	return frame
 end

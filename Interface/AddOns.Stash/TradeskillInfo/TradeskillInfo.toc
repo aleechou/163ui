@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Notes: Complete tradeskill information.
 ## Notes-zhTW: 完整的商業技能百科
 ## Notes-zhCN: 完整的商业技能百科

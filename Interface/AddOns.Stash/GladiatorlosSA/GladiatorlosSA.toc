@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: GladiatorlosSA
 ## Notes: PVP技能语音提示
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521

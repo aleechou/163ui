@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Curse-Packaged-Version: 0.7.11
 ## X-Curse-Project-Name: JPack
 ## X-Curse-Project-ID: jpack

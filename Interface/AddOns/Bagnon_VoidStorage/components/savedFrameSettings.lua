@@ -19,7 +19,7 @@ function SavedFrameSettings:GetDefaultVaultSettings()
 		frameLayer = 'HIGH',
 
 		--itemFrame
-		itemFrameColumns = 10,
+		itemFrameColumns = 16,
 		itemFrameSpacing = 2,
 
 		--optional components

@@ -23,7 +23,7 @@
 ## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101901
+## X-163UI-Version: 2014102001
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml

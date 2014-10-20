@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 # Title: Grid_QuickHealth
 # Notes: 团队框体中的快速治疗功能
 ## Author: Cncfanatics, Tifi

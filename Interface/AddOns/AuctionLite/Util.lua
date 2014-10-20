@@ -132,16 +132,15 @@ function AuctionLite:SplitLink(link)
 end
 
 -- Zero out the uniqueId field from an item link.
-local wow_600 = select(4, GetBuildInfo()) >= 60000
 function AuctionLite:RemoveUniqueId(link)
   if link ~= nil then
-    if wow_600 then
-      return link:gsub("(Hitem:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+):%-?%d+:%-?%d+", "%1")
-    else
-      return link:gsub(":%-?%d*:%-?%d*:(%-?%d*:%-?%d*)|h", function(reforge)
-        return ":0:0:" .. reforge .. "|h";
-      end)
-    end
+    return link:gsub(
+        -- Fields: itemID, enchant, gem1, gem2, gem3, gem4, suffixID.
+        "(Hitem:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+:%-?%d+)" ..
+        -- Fields: uniqueID, level.
+        ":%-?%d+:%-?%d+",
+        -- Set uniqueID and level to 0.
+         "%1:0:0")
   else
     return nil;
   end

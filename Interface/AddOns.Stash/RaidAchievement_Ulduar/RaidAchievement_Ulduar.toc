@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: RA_Ulduar
 ## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [奥杜尔]
 ## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [奥杜尔]

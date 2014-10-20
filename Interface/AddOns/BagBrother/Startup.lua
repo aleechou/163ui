@@ -44,6 +44,7 @@ end
 
 function Brother:SetupCharacter()
 	local player = self.Player
+	player.faction = UnitFactionGroup('player') == 'Alliance'
 	player.class = select(2, UnitClass('player'))
 	player.race = select(2, UnitRace('player'))
 	player.sex = UnitSex('player')

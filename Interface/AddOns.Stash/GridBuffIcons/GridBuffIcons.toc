@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: GridBuffIcons
 # Title-zhCN: |cff880303[网易有爱]|r Grid额外状态图标
 

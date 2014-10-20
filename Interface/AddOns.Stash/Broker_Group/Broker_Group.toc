@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Broker [Group]
 ## Author: Tristanian, Rabbit ,Srshyu
 ## Notes: Minimalistic LDB plugin that shows loot type information and handles rolls.

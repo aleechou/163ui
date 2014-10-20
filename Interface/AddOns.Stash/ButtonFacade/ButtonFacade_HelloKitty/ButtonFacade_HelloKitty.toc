@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 60000
 ## Title: ButtonFacade: |cffff8000HelloKitty|r
 ## Version: 1.1
 ## Notes-deDE: HelloKitty Skins für ButtonFacade.

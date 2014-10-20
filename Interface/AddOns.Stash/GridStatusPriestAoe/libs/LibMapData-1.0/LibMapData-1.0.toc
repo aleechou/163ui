@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Lib: MapData-1.0
 ## Notes: Static library of wow map data
 ## Version: 1.0.0.29-release

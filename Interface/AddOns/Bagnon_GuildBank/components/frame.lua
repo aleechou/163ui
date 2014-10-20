@@ -36,9 +36,10 @@ end
 
 --[[ Messages ]]--
 
-function Frame:SHOW_LOG_FRAME()
+function Frame:SHOW_LOG_FRAME(_, type)
 	self:FadeFrames()
 	self:FadeInFrame(self:GetLogFrame())
+	self.logFrame:Display(type)
 end
 
 function Frame:SHOW_EDIT_FRAME()
@@ -58,25 +59,25 @@ function Frame:FadeFrames()
 end
 
 
---[[ Get ]]--
+--[[ Components ]]--
+
+function Frame:GetSpecificButtons(list)
+	for i, log in ipairs(self.logs or self:CreateSpecificButtons()) do
+		tinsert(list, log)
+	end
+end
+
+function Frame:CreateSpecificButtons()
+	self.logs = {}
+	for kind = 1, Bagnon.LogToggle.numTypes do
+		tinsert(self.logs, Bagnon.LogToggle:New(self, kind))
+	end
+
+	return self.logs
+end
 
 function Frame:GetLogFrame()
 	return self.logFrame or self:CreateLogFrame()
-end
-
-function Frame:GetEditFrame()
-	return self.editFrame or self:CreateEditFrame()
-end
-
-
---[[ Create ]]--
-
-function Frame:CreateSpecialButtons() -- log toggles
-	local t = {}
-	for i = 1, Bagnon.LogToggle.numTypes do
-		t[i] = Bagnon.LogToggle:New(self, i)
-	end
-	return t
 end
 
 function Frame:CreateLogFrame()
@@ -87,6 +88,10 @@ function Frame:CreateLogFrame()
 	
 	self.logFrame = log
 	return log
+end
+
+function Frame:GetEditFrame()
+	return self.editFrame or self:CreateEditFrame()
 end
 
 function Frame:CreateEditFrame()
@@ -108,10 +113,6 @@ end
 
 function Frame:IsBagFrameShown()
 	return true
-end
-
-function Frame:HasBagToggle()
-	return false
 end
 
 function Frame:HasPlayerSelector()

@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 60000
 ## X-BigfootType: 1
 ## X-BigfootDesc: 具有一定自定义性的简洁头像插件
 ## Title: Shadowed Unit Frames

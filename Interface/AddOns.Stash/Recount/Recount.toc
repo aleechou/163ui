@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Min-Interface: 50000
 ## Title: Recount
 ## Notes: Records Damage and Healing for Graph Based Display

@@ -1,4 +1,4 @@
-﻿## Interface: 50300
+## Interface: 60000
 ## X-Curse-Packaged-Version: r47
 ## X-Curse-Project-Name: AceGUI-3.0-SharedMediaWidgets
 ## X-Curse-Project-ID: ace-gui-3-0-shared-media-widgets

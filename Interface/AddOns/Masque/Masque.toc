@@ -17,7 +17,6 @@
 ## X-Curse-Project-Name: Masque
 ## X-Curse-Project-ID: masque
 ## X-Curse-Repository-ID: wow/masque/mainline
-## 163UI-Version: 2014101801
 ## LoadOnDemand: 1
 
 # Libraries
@@ -51,4 +50,4 @@ Core\Options.lua
 
 ## Title: |cff880303[网易有爱]|r 按钮美化皮肤
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101801
+## X-163UI-Version: 2014102001

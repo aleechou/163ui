@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: IDQuery
 ## Version: 1.1
 ## Author: Abin

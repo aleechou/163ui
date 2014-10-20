@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: ProfessionTabs
 ## Notes: ProfessionTabs. Adds tabs of your professions to your trade and tradeskill frames
 ## Author: Beoko

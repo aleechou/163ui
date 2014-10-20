@@ -1,4 +1,4 @@
-## Interface: 50001
+## Interface: 60000
 ## Title: Lib: SpellRange-1.0
 ## Notes: Provides enhanced spell range checking functionality
 ## Author: Cybeloras of Detheroc/Mal'Ganis

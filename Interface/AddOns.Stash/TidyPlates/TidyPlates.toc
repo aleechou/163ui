@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: TidyPlates
 ## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强
 ## Title-zhCN: |cff880303[网易有爱]|r 姓名版增强

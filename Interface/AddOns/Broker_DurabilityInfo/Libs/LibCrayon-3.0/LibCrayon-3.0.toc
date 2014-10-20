@@ -1,4 +1,4 @@
-﻿## Interface: 30200
+## Interface: 60000
 ## LoadOnDemand: 1
 ## Title: Lib: Crayon-3.0
 ## Notes: A library to provide coloring tools.

@@ -1,4 +1,4 @@
-## Interface: 40300
+## Interface: 60000
 ## Title: Masque: |cffff8000Entropy|r
 ## Version: 4.2.69
 ## Author: StormFX

@@ -82,4 +82,4 @@ Modules\Carbonite.lua
 
 ## Title: |cff880303[网易有爱]|r 稀有怪物路径
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101802
+## X-163UI-Version: 2014102001

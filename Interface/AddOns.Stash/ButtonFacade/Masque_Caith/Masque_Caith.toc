@@ -1,4 +1,4 @@
-## Interface: 40300
+## Interface: 60000
 ## Title: Masque: |cffff8000Caith|r
 ## Version: 4.2.74
 ## Author: StormFX

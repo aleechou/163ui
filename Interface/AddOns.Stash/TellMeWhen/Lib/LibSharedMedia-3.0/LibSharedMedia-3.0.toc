@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## LoadOnDemand: 1
 ## X-Curse-Packaged-Version: r81
 ## X-Curse-Project-Name: LibSharedMedia-3.0

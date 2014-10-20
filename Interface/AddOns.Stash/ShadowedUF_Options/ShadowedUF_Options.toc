@@ -1,4 +1,4 @@
-## Interface: 50200
+## Interface: 60000
 ## X-BigfootType: 1
 ## X-BigfootDesc: |cFF4488FF此模块依赖于 ShadowedUnitFrames|r
 ## Title: Shadowed UF (Options)

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: TinyTip
 ## Notes: 格式化显示鼠标提示信息
 # Title-zhCN: 鼠标信息 TinyTip

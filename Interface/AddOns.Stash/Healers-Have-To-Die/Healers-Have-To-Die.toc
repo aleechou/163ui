@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: HealersHaveToDie
 ## Title-zhCN: |cff880303[网易有爱]|r PVP治疗 HHTD
 ## Notes: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)

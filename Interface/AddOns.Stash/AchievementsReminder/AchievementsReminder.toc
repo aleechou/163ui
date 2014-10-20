@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: RA_AchieveReminder
 ## Title-zhTW: |cff880303[网易有爱]|r 成就助手 RA_AchieveReminder
 ## Title-zhCN: |cff880303[网易有爱]|r 成就助手 RA_AchieveReminder

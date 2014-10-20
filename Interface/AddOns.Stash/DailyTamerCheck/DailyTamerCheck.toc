@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Daily Tamer Check
 ## Author: Fluffies
 ## Notes: Tracks the completion of pet tamer daily quests.

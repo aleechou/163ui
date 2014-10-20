@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: mitch0
 ## Version: v4.2.3
 ## SavedVariables: RangeDisplayDB3,UIRangeDisplayFlag

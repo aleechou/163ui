@@ -1,0 +1,52 @@
+------------------------------------------------------------------------
+r262 | merialkilrogg | 2014-10-19 22:51:08 +0000 (Sun, 19 Oct 2014) | 5 lines
+Changed paths:
+   A /tags/v1.8.13 (from /trunk:261)
+
+Tagging as v1.8.13
+
+Changes:
+- Updated for WoW 6.0
+- Uses exact search where possible
+------------------------------------------------------------------------
+r261 | merialkilrogg | 2014-10-19 22:43:44 +0000 (Sun, 19 Oct 2014) | 3 lines
+Changed paths:
+   M /trunk/AuctionLite.lua
+   M /trunk/AuctionLite.toc
+   M /trunk/BuyFrame.lua
+   M /trunk/QueryAuctions.lua
+   M /trunk/Util.lua
+
+Changed TOC to 60000.
+Bumped version number to 1.8.13.
+Minor code tweaks.
+------------------------------------------------------------------------
+r260 | cybeloras | 2014-10-14 21:01:36 +0000 (Tue, 14 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Util.lua
+
+Fixed code for stripping of uniqueID from links
+------------------------------------------------------------------------
+r259 | cybeloras | 2014-10-14 00:25:26 +0000 (Tue, 14 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/BuyFrame.lua
+   M /trunk/BuyFrame.xml
+
+Added support for exact matching when using the regular search button, and also while shift-clicking items from bags and chat links.
+------------------------------------------------------------------------
+r258 | cybeloras | 2014-10-13 23:58:35 +0000 (Mon, 13 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/BuyFrame.lua
+   M /trunk/QueryAuctions.lua
+   M /trunk/SellFrame.lua
+
+Added support for the new 11th param of QueryAuctionItems (exactMatch)
+------------------------------------------------------------------------
+r257 | cybeloras | 2014-10-13 23:49:35 +0000 (Mon, 13 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/AuctionLite.toc
+   M /trunk/Disenchant.lua
+   M /trunk/Util.lua
+
+Updated to work with Warlords of Draenor (maintains backwards compatibility, ToC Interface version not yet updated)
+------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Carbonite 5.1.6 汉化-银月《悠然人生》雨悠悠
 ## Version: 5.1.6
 ## Author: Rythal
