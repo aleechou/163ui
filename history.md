@@ -5,6 +5,7 @@
 * 升级拍卖行助手AuctionLite.
 * 升级伤害统计Recount.
 * 升级简单背包Bagnon.
+* 升级拾取框增强XLoot.
 
 
 2014-10-19/02
