@@ -22,10 +22,7 @@ CoreAddEvent("CURRENT_TAGS_UPDATED")
 CoreAddEvent("ADDON_SELECTED")
 CoreAddEvent("DB_LOADED")
 
-
 local addonToLoadSecure, addonToLoad = {}, {}
-local disabledAddonsInInit = {}
-UI163_AddOnsLoadTime = {} -- 从 2014.9.3 6.0国服维护以后， DisableAddOn() 不会影响 GetAddOnInfo() 返回的结果 enabled
 
 local function dbLoaded(db)
 
@@ -44,16 +41,16 @@ end
 
 local NoGoldSeller163ui = LibStub("AceAddon-3.0"):NewAddon("NoGoldSeller163ui", "AceTimer-3.0")
 function NoGoldSeller163ui:OnInitialize()
-	if(NGSSymbolsUI)then
-		NGSSymbols = NGSSymbolsUI
-	else
-		NGSSymbolsUI = NGSSymbols
-	end
-	if(NGSwordsUI)then
-		NGSwords = NGSwordsUI
-	else
-		NGSwordsUI = NGSwords
-	end
+    if(NGSSymbolsUI)then
+        NGSSymbols = NGSSymbolsUI
+    else
+        NGSSymbolsUI = NGSSymbols
+    end
+    if(NGSwordsUI)then
+        NGSwords = NGSwordsUI
+    else
+        NGSwordsUI = NGSwords
+    end
 end
 
 local defaultDB = {
@@ -131,7 +128,13 @@ local function getInitialAddonInfo()
             vendor = GetAddOnMetadata(i, "X-Vendor") == "NetEase",
             revision = GetAddOnMetadata(i, "X-Revision"),
             version = GetAddOnMetadata(i, "Version"),
-            originEnabled = enabled, --这个会变化, 所以不保存, 用select(4, GetAddOnInfo(name))
+
+            -- 6.0 开始 GetAddOnInfo() 返回的只是所有角色的 enable 状态，
+            -- 如果其他角色启用该插件，即使当前角色禁用，enabled 返回值仍然是 true
+            -- 需要使用新增的 GetAddOnEnableState() 函数
+            originEnabled = GetAddOnEnableState(UnitName("player"),i)>=2,
+            -- originEnabled = enabled, --这个会变化, 所以不保存, 用select(4, GetAddOnInfo(name))
+
             xcategories = xcategories,
             --reason = reason,
         }
@@ -146,7 +149,7 @@ local function getInitialAddonInfo()
         if (#deps > 1) then
             --TODO: 暂时采用option deps方式加载，因为多个deps无法从控制台上看到，如果因为其他dep未加载而不让加载会莫名其妙
             if DEBUG_MODE then
-                -- print("MultiDependencies: " .. name .. " depends on " .. table.concat(deps, ","));
+                print("MultiDependencies: " .. name .. " depends on " .. table.concat(deps, ","));
             end
             for i=2, #deps do optdeps[i-1] = deps[i]:lower() end
         end
@@ -165,8 +168,8 @@ local function getInitialAddonInfo()
     for _, v in ipairs(U1.removedAddOns or _empty_table) do
         local info = addonInfo[v:lower()]
         if info and info.vendor then
-            DisableAddOn(v);
-            info.originEnabled = nil;
+            -- DisableAddOn(v);
+            -- info.originEnabled = nil;
         end
     end
 end
@@ -202,9 +205,7 @@ function U1ConfigsLoaded()
         end
         --把true条件去掉就是默认的不变，加上就是默认的也是VARIABLE_LOADED之后加载
         if (v.registered and v.load~="NORMAL") and k~=strlower(_) then
-            -- print("DisableAddOn()",k)
             DisableAddOn(k);
-            disabledAddonsInInit[k] = 1
         end
 
         if v.dummy then
@@ -1115,7 +1116,7 @@ function U1LoadAddOnBackend(name)
         if type(deps)=="string" then deps = {deps}; end
         for _, dep in ipairs(deps) do
             if not IsAddOnLoaded(dep) and not loadPath[dep] then
-                if not select(4, GetAddOnInfo(dep)) then EnableAddOn(dep) end --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
+                if GetAddOnEnableState(UnitName("player"),dep)<2 then EnableAddOn(dep) end --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
                 local loaded = U1LoadAddOnBackend(dep);
                 if(not loaded) then
                     U1OutputAddonState(L["%s加载失败，依赖插件["]..dep..L["]无法加载。"], ii.name, true);
@@ -1136,17 +1137,14 @@ function U1LoadAddOnBackend(name)
     end
 
     --没有加载子插件，在ToggleAddOn时会加载，而初始则是自底向上的加
-    if not select(4, GetAddOnInfo(name)) or disabledAddonsInInit[name] then 
-        EnableAddOn(name) --需要加载的时候再启用. --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
-    end
 
-    local startTime = GetTime()
+    if GetAddOnEnableState(UnitName("player"),name)<2 then EnableAddOn(name) end --需要加载的时候再启用. --EnableAddOn会触发右侧显示面板，而右侧有连续显示的保护
+
+    -- print("before", name, GetTime())
     capturing = name
     local status, loaded, reason = safecall(LoadAddOn, name);
     capturing = nil
-
-    UI163_AddOnsLoadTime[name] = GetTime() - startTime
-
+    -- print("after", name, GetTime(),loaded, reason)
     if loaded then
         local info = U1GetAddonInfo(name);
         if info.runAfterLoad then pcall(info.runAfterLoad, info, name) end
@@ -1437,8 +1435,6 @@ function U1:ADDON_LOADED(event, name)
             if(info._classAddon and not U1AddonHasTag(k, engClass))then
                 if(info.originEnabled)then
                     tinsert(addonsToEnable, k);  --这里保存下来，VARIABLES_LOADED时打开，这样就不会加载这个插件了
-                else
-                    print(k,info.originEnabled)
                 end
                 for tag, tinfo in pairs(tagInfo) do
                     if(U1AddonHasTag(k, tag)) then tinfo.num = tinfo.num -1 end
@@ -1474,11 +1470,8 @@ function U1:ADDON_LOADED(event, name)
                     enabled = info.defaultEnable
                     if info.load=="NORMAL" then --只管关不管开, 因为既然默认没开, 那肯定是玩家之前用过了
                         if not enabled and info.originEnabled then
-        --print("DisableAddOn",name)
                             DisableAddOn(name)
                         elseif enabled and info.vendor and not info.originEnabled then
-
-        --print("EnableAddOn",name)
                             EnableAddOn(name) --若没有此处理，则用户初次运行时，插件全部关闭，没有U1DB，!BaudErrorFrame就无法加载
                         end
                     end

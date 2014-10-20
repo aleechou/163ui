@@ -22,6 +22,7 @@
         , "WowSocial"
         , "WowSocial_ChatLog"
         , "WowSocial_UI"
+        , "NewbieAssistant"
 
 
         , "---- 以下是在 6.0 中暂不支持的插件（有些可以精简掉了） ----"

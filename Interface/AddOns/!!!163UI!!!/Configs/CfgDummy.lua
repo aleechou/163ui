@@ -14,13 +14,15 @@ U1RegisterAddon("!!Forwarder", { dummy = 1,
     children = {"LFGForwarder", "TradeForwarder"},
 })
 
+--[[
 U1RegisterAddon("!!UnitFrames", { dummy = 1,
     title = "头像增强",
     tags = { TAG_INTERFACE },
-    icon = [[Interface\Icons\Achievement_Reputation_Ogre]],
+    icon = "Interface\\Icons\\Achievement_Reputation_Ogre",
 
     children = {"EN_UnitFrames", "ToTxp", "TargetButton", },
 })
+]]
 
 U1RegisterAddon("!!TradeSkill", { dummy = 1,
     title = "专业技能助手",
