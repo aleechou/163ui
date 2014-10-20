@@ -1,11 +1,13 @@
-## Interface: 60000
+﻿## Interface: 60000
+## Title: ChocolateBar [|cffeda55fOptions|r]
+## Notes: Options module for ChocolateBar.
 ## Author: yess
-## Version: v2.4
+## Version: v2.4.3
 ## X-Email: starfire@fantasymail.de
 ## Dependencies: ChocolateBar
 ## LoadOnDemand: 1
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets,
-## X-Curse-Packaged-Version: v2.4
+## X-Curse-Packaged-Version: v2.4.3
 ## X-Curse-Project-Name: ChocolateBar Broker Display
 ## X-Curse-Project-ID: chocolatebar
 ## X-Curse-Repository-ID: wow/chocolatebar/mainline
@@ -21,4 +23,4 @@ Options.lua
 
 ## Title: |cff880303[网易有爱]|r 信息条设置
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 2014102001

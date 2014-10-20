@@ -26,18 +26,6 @@ local function resizeFrame(self)
 			--self.text:SetAlphaGradient(1,textWidth)
 		end
 	end
-
-    -- XXX 163
-    -- preventing the width changing too often
-    if(self.__163_oldwidth) then
-        local delta = self.__163_oldwidth - width
-        if(delta > 0) and (delta < 15) then
-            width = self.__163_oldwidth
-        end
-    end
-    self.__163_oldwidth = width
-    -- XXX 163 end
-
 	self:SetWidth(width)
 	if self.bar then self.bar:UpdateCenter() end
 end
@@ -281,11 +269,13 @@ local function OnDragStart(frame)
 		-- hide libqtip and libtablet tooltips
 		local kids = {_G.UIParent:GetChildren()}
 		for _, child in ipairs(kids) do
-			for i = 1, child:GetNumPoints() do
-				local _,relativeTo,_,_,_ = child:GetPoint(i)
-				if relativeTo == frame then
-					--Debug(i,child:GetName())
-					child:Hide()
+			if not child:IsForbidden() then
+				for i = 1, child:GetNumPoints() do
+					local _,relativeTo,_,_,_ = child:GetPoint(i)
+					if relativeTo == frame then
+						--Debug(i,child:GetName())
+						child:Hide()
+					end
 				end
 			end
 		end
@@ -324,12 +314,7 @@ function ChocolatePiece:New(name, obj, settings, database)
 	
 	chocolate.text = chocolate:CreateFontString(nil, nil, "GameFontHighlight")
     if db.fontPath == " " then
-        -- XXX hack by 163
-        if(GetLocale() == 'zhCN') then
-            chocolate.text:SetFont(LSM:Fetch('font', '聊天'), db.fontSize)
-        else
-            chocolate.text:SetFont(LSM:GetDefault("font"), db.fontSize)
-        end
+		chocolate.text:SetFont(LSM:GetDefault("font"), db.fontSize)
 	else
 		chocolate.text:SetFont(db.fontPath, db.fontSize) --will onl be set when db.fontPath is valid 
 	end

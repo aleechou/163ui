@@ -9,6 +9,7 @@
 ### 新兵助手 NewbieAssistant ###
 
 * 移除NewbieAssistant ，该插件已经作为 WOW 内置插件
+* 更新巧克力信息条以更好的支持6.0.
 
 
 2014-10-20/02

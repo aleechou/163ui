@@ -1,9 +1,11 @@
-## Interface: 60000
+﻿## Interface: 60000
+## Title: ChocolateBar
+## Notes: A display for LibDataBroker-1.1
 ## Author: yess
-## Version: v2.4
+## Version: v2.4.3
 ## X-Email: starfire@fantasymail.de
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibJostle-3.0
-## X-Curse-Packaged-Version: v2.4
+## X-Curse-Packaged-Version: v2.4.3
 ## X-Curse-Project-Name: ChocolateBar Broker Display
 ## X-Curse-Project-ID: chocolatebar
 ## X-Curse-Repository-ID: wow/chocolatebar/mainline
@@ -11,22 +13,38 @@
 ## SavedVariables: ChocolateBarDB
 
 #@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceLocale-3.0\AceLocale-3.0.xml
+libs\LibSharedMedia-3.0\lib.xml
 libs\LibJostle-3.0\LibJostle-3.0.lua
 #@end-no-lib-strip@
 
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
 localization\enUS.lua
+localization\deDE.lua
+localization\esES.lua
+localization\frFr.lua
+localization\koKR.lua
 localization\zhCN.lua
 localization\zhTW.lua
+localization\ptBR.lua
+localization\ruRU.lua
 
 Core.lua
 DragAndDrop.lua
 Chocolate.lua
 Bar.lua
-#MoreChocolate.lua
+MoreChocolate.lua
 #Clock.lua
 
 Brokers.lua
 
 ## Title: |cff880303[网易有爱]|r 信息条
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 2014102001

@@ -5,7 +5,6 @@ local chocolate = ChocolateBar.ChocolatePiece
 local Debug = ChocolateBar.Debug
 local jostle = LibStub("LibJostle-3.0", true)
 local pairs, ipairs, table, math, mod = pairs, ipairs, table, math, mod
-local tinsert = table.insert
 local CreateFrame, UIParent = CreateFrame, UIParent
 local db
 --GLOBALS: InterfaceOptionsFrame_OpenToCategory, GetCursorPosition
@@ -53,8 +52,6 @@ function Bar:New(name, settings, database)
 				ChocolateBar:LoadOptions()
 			elseif db.barRightClick == "BLIZZ" then
 				InterfaceOptionsFrame_OpenToCategory("ChocolateBar");
-            elseif db.barRightClick == "163UI" and UUI then
-                UUI.OpenToAddon("chocolatebar", true)
 			end
 		else
 			if db.moreBar == self:GetName() then
@@ -129,9 +126,9 @@ function Bar:UpdateTexture(db)
 	local bg = {
 		bgFile = db.background.texture, 
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border", 
-		tile = db.background.tile, tileSize = db.background.tileSize * UIParent:GetScale(), edgeSize = db.background.edgeSize,
+		tile = db.background.tile, tileSize = db.background.tileSize, edgeSize = db.background.edgeSize, 
 		--insets = { left = 4, right = 4, top = 4, bottom = 4}
-		insets = { left = 0, right = 0, top = 0, bottom = db.background.texture:find("pics\\Titan") and -3 or 0}
+		insets = { left = 0, right = 0, top = 0, bottom = 0}
 	}
 	--bg.bgFile = background
 	self:SetBackdrop(bg);
@@ -240,41 +237,15 @@ local function SortTab(tab)
 	return templeft, tempcenter, tempright
 end
 
-local _sort_index = function(a, b) 
-    if(a.settings.index == b.settings.index) then
-        return a.name < b.name
-    else
-        return a.settings.index < b.settings.index
-    end
-end
-local function SortList(list, side, temp)
-	temp = temp or {}
-    wipe(temp)
-
-    -- don't waste cpu cycle
-    if(not next(list)) then return temp end
-
--- 	for k,v in pairs(list) do
--- 		local index = v.settings.index or 500
--- 		if v.settings.align == side then
--- 			table.insert(temp,{v,index})
--- 		end
--- 	end
--- 	table.sort(temp, function(a,b)return a[2] < b[2] end)
-
-    for name, choco in next, list do
-        if(choco.settings.align == side) then
-            tinsert(temp, choco)
-        end
-    end
-    table.sort(temp, _sort_index)
-
-    -- print'======================='
-    -- for i, choco in next, temp do
-    --     print('#'..i, choco.name, choco.settings.index)
-    -- end
-    -- print'======================='
-
+local function SortList(list, side)
+	local temp = {}
+	for k,v in pairs(list) do
+		local index = v.settings.index or 500
+		if v.settings.align == side then
+			table.insert(temp,{v,index})
+		end
+	end
+	table.sort(temp, function(a,b)return a[2] < b[2] end)
 	return temp
 end
 
@@ -470,19 +441,16 @@ end
 
 -- rearange all chocolate chocolist in a given bar
 -- called only when chocolates are added, removed or moved
-local tempList
 function Bar:UpdateBar(updateindex)
-    -- self.chocolist[name] = choco_obj
 	local chocolates =  self.chocolist
 	-- set left plugins
-	tempList = SortList(chocolates, "left", tempList)
-	--self.chocoMostLeft = tempList[#tempList] and tempList[#tempList][1]
-    self.chocoMostRight = tempList[#tempList]
+	local tempList = SortList(chocolates, "left")
+	self.chocoMostLeft = tempList[#tempList] and tempList[#tempList][1]
 	
 	local yoff = 0
 	local relative = nil
-	for i, choco in ipairs(tempList) do
-		--local choco = v[1]
+	for i, v in ipairs(tempList) do
+		local choco = v[1]
 		choco:ClearAllPoints()
 		if(relative)then
 			choco:SetPoint("TOPLEFT",relative,"TOPRIGHT", 0,0)
@@ -500,20 +468,17 @@ function Bar:UpdateBar(updateindex)
 	end
 	
 	-- set center plugins
-	self.listCenter = SortList(chocolates, "center", self.listCenter)
+	self.listCenter = SortList(chocolates, "center")
 	local listCenter = self.listCenter
-	-- self.chocoCenterLeft = listCenter[1] and listCenter[1][1]
-	-- self.chocoCenterRight = listCenter[#listCenter] and listCenter[#listCenter][1]
-	self.chocoCenterLeft = listCenter[1]
-	self.chocoCenterRight = listCenter[#listCenter]
+	self.chocoCenterLeft = listCenter[1] and listCenter[1][1]
+	self.chocoCenterRight = listCenter[#listCenter] and listCenter[#listCenter][1]
 	
 	local centerIndex = math.ceil(#listCenter/2)
 	local v = listCenter[centerIndex]
 	local relative = nil
 	
 	if v then 
-		--local centerChoco = v[1]
-		local centerChoco = v
+		local centerChoco = v[1]
 		self.centerChoco = centerChoco
 		local last = nil
 		if centerChoco then
@@ -528,9 +493,8 @@ function Bar:UpdateBar(updateindex)
 			end
 			local relativeR = centerChoco
 			
-			--for i, v in ipairs(listCenter) do
-            for i, choco in ipairs(listCenter) do
-				--local choco = v[1]
+			for i, v in ipairs(listCenter) do
+				local choco = v[1]
 				if i <= centerIndex then
 					if last then
 					last:ClearAllPoints()
@@ -553,13 +517,12 @@ function Bar:UpdateBar(updateindex)
 	end
 	
 	-- set right plugins
-	tempList = SortList(chocolates, "right", tempList)
+	tempList = SortList(chocolates, "right")
 	self.chocoMostRight = tempList[#tempList] and tempList[#tempList][1]
 	
 	relative = nil
-	for i, choco in ipairs(tempList) do
-	--for i, v in ipairs(tempList) do
-		--local choco = v[1]
+	for i, v in ipairs(tempList) do
+		local choco = v[1]
 		choco:ClearAllPoints()
 		if(relative)then
 			choco:SetPoint("TOPRIGHT",relative,"TOPLEFT", 0,0)
@@ -585,8 +548,8 @@ function Bar:UpdateCenter()
 	local centerChocoPosX = 0
 	--get the total width of all center chocolate's and the relative position of the chocolate they are aligend to
 	local listCenter = self.listCenter
-	for i, choco in ipairs(listCenter) do
-		--local choco = v[1]
+	for i, v in ipairs(listCenter) do
+		local choco = v[1]
 		if i == math.ceil(#listCenter/2) then 
 			centerChocoPosX = totalwidth
 		end
