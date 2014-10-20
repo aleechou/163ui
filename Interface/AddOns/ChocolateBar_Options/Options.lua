@@ -193,7 +193,7 @@ local aceoptions = {
 						barRightClick = {
 							type = 'select',
 							values = {NONE=L["none"],OPTIONS=L["ChocolateBar Options"], 
-										BLIZZ=L["Blizzard Options"], ["163UI"]="网易有爱控制台", },
+										BLIZZ=L["Blizzard Options"]},
 							order = 8,
 							name = L["Bar Right Click"],
 							desc = L["Select the action when right clicking on a bar."],
@@ -444,7 +444,7 @@ local aceoptions = {
 										db.background.textureName = value
 										db.background.tile = true
 										local t = db.background.color
-										--t.r, t.g, t.b, t.a = 1, 1, 1, 1
+										t.r, t.g, t.b, t.a = 1, 1, 1, 1
 										ChocolateBar:UpdateBarOptions("UpdateTexture")
 									end,
 								},
@@ -1003,21 +1003,16 @@ local function GetName(info)
 	local name = chocolateOptions[cleanName].desc
 	--local icon = chocolateOptions[cleanName].icon
 	local dataobj = broker:GetDataObjectByName(name)
-    local label = dataobj.configname or dataobj.label or cleanName
-    if U1GetAddonInfo then
-        local info = label and U1GetAddonInfo(label) or U1GetAddonInfo(name)
-        if info and info.title then label = info.title:gsub("数据源：", "") end
-    end
 	if(not db.objSettings[name].enabled)then
 		-- disabled
 		--cleanName = "|TZZ"..cleanName.."|t|T"..icon..":18|t |cFFFF0000"..cleanName.."|r"
-		cleanName = "|H"..cleanName.."|h|cFFFF0000"..label.."|r"
+		cleanName = "|H"..cleanName.."|h|cFFFF0000"..cleanName.."|r"
 	elseif dataobj and dataobj.type == "data source" then
 		--enabled data scurce
-		cleanName = "|H"..cleanName.."|h|cFFFFD200"..label.."|r"
+		cleanName = "|H"..cleanName.."|h"..cleanName
 	else
 		--enabled launcher
-		cleanName = "|H"..cleanName.."|h|cFFFFFFFF"..label.."|r"
+		cleanName = "|H"..cleanName.."|h|cFFBBBBBB"..cleanName.."|r"
 	end
 	return cleanName
 end

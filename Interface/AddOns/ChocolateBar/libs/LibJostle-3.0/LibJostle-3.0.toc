@@ -1,0 +1,16 @@
+## Interface: 60000
+## LoadOnDemand: 1
+## Title: Lib: Jostle-3.0
+## Notes: A library to handle rearrangement of blizzard's frames when bars are added to the sides of the screen.
+## Author: ckknight
+## X-eMail: ckknight@gmail.com
+## X-License: LGPL v2.1
+## X-Category: Library
+## X-AceLibrary-Jostle-2.0: true
+## X-Curse-Packaged-Version: r57
+## X-Curse-Project-Name: LibJostle-3.0
+## X-Curse-Project-ID: libjostle-3-0
+## X-Curse-Repository-ID: wow/libjostle-3-0/mainline
+
+LibStub\LibStub.lua
+lib.xml

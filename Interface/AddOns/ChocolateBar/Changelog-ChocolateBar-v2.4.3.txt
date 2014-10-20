@@ -1,0 +1,16 @@
+------------------------------------------------------------------------
+r171 | yess | 2014-10-15 17:52:09 +0000 (Wed, 15 Oct 2014) | 1 line
+Changed paths:
+   A /tags/v2.4.3 (from /trunk:170)
+
+Tagging as v2.4.3
+------------------------------------------------------------------------
+r170 | yess | 2014-10-15 17:49:24 +0000 (Wed, 15 Oct 2014) | 2 lines
+Changed paths:
+   M /trunk/ChocolateBar/Chocolate.lua
+   M /trunk/ChocolateBar/ChocolateBar.toc
+   M /trunk/ChocolateBar_Options/ChocolateBar_Options.toc
+
+.)Fix taint error when dragging a plugin.
+.)Bump TOC.
+------------------------------------------------------------------------
