@@ -1,11 +1,17 @@
-﻿## Interface: 60000
-## Version: 1.03
+## Interface: 60000
+## Title: GemPlus
+## Version: 1.11
 ## Author: Abin
-## X-163UI-Version: 2014101701
+## X-Category: Auction
+## X-eMail: abinn32@yahoo.com
+## X-Curse-Packaged-Version: v1.11
+## X-Curse-Project-Name: GemPlus
+## X-Curse-Project-ID: GemPlus
+## X-Curse-Repository-ID: wow/gemplus/mainline
+
 Core.lua
-Menus.lua
-
-
+MenuTemplates.lua
+Supports.lua
 ## Title: |cff880303[网易有爱]|r 宝石助手
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 2014102001
