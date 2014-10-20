@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## X-Min-Interface: 50400
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0DBM-Sound-Yike|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0DBM-夏一可語音包|r

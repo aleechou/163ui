@@ -101,7 +101,8 @@ function AuctionLite:QueryUpdate()
 
       -- Submit the query.
       OurQuery = true;
-      QueryAuctionItems(name, 0, 0, 0, 0, 0, Query.page, 0, 0, getAll, Query.exact);
+      QueryAuctionItems(name, 0, 0, 0, 0, 0, Query.page, 0, 0, getAll,
+                        Query.exact);
       OurQuery = false;
 
       -- Wait for our result.

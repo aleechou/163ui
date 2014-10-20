@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: Azelkeeber(KR-Tirion),Toadkiller,Stassart
 ## Version: 5.22
 ## Grid Author: Pastamancer & Maia

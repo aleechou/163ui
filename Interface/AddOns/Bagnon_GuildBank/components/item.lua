@@ -8,15 +8,10 @@ local ItemSlot = Bagnon:NewClass('GuildItemSlot', 'Button', Bagnon.ItemSlot)
 ItemSlot.GUILDBANK_ITEM_LOCK_CHANGED = ItemSlot.UpdateLocked
 ItemSlot.GUILD_BANK_TAB_CHANGE = ItemSlot.Update
 ItemSlot.nextID = 0
+ItemSlot.unused = {}
 
 
 --[[ Constructor ]]--
-
-function ItemSlot:SetFrame(parent, tab, slot)
-  self:SetID(slot)
-  self:SetParent(parent)
-  self:Update()
-end
 
 function ItemSlot:Create()
 	local item = Bagnon.ItemSlot.Create(self)
@@ -95,7 +90,7 @@ end
 
 function ItemSlot:UpdateTooltip()
 	if self:IsCached() then
-		local dummySlot = self:GetDummyItemSlot()
+		local dummySlot = self:GetDummySlot()
 		dummySlot:SetParent(self)
 		dummySlot:SetAllPoints(self)
 		dummySlot:Show()

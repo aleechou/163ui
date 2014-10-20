@@ -1543,7 +1543,7 @@ function AuctionLite:AuctionFrameBuy_Search()
   local query = {
     name = BuyName:GetText(),
     wait = true,
-    exact = IsModifiedClick("CHATLINK"), -- If we shift-clicked something, search exact. Also, it the user shift-clicks the search button.
+    exact = IsShiftKeyDown(),
     update = function(pct) AuctionLite:UpdateProgressSearch(pct) end,
     finish = function(data) AuctionLite:SetBuyData(data) end,
   };

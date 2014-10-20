@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: Warbaby-臺服聖光之願<冰封十字軍>
 ## Title: |cFF00FF00[B]|rWarbabyTradeLink
 ## Notes: Get full trade skill link to view!

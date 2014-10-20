@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Accountant Classic
 ## Notes: A basic tool to track your monetary incomings and outgoings within WoW.
 ## Author: Arith Hsu

@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_ClassicWoW
 ## Title-deDE: AtlasLoot |cFF0099FF[Classic-WoW]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[经典旧世]|r

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: kunda
 ## Title: GridIndicatorSideIcons
 ## Notes: Adds four icon indicators to Grid (top, bottom, left and right).

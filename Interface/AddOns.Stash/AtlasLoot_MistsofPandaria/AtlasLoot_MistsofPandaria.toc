@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_MistsofPandaria
 ## Title-deDE: AtlasLoot |cFF0099FF[MoP]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[熊猫人之谜]|r

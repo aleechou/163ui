@@ -1,7 +1,7 @@
 ## Title: YOBUFF
 ## Version: 1.0
 ## Author: JOJO大影帝
-## Interface: 50400
+## Interface: 60000
 
 
 Frame.xml

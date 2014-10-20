@@ -9,7 +9,6 @@ local Tab = Bagnon:NewClass('GuildTab', 'CheckButton', Bagnon.Bag)
 
 Tab.SetSearch = function() end
 Tab.ClearSearch = Tab.SetSearch
-TabFrame.Button = Bagnon.Tab
 
 
 --[[ Main ]]--
@@ -44,18 +43,24 @@ end
 --[[ Update ]]--
 
 function Tab:Update()
-	local name, icon, viewable, _,_, remainingWithdrawals = self:GetInfo()
-	SetItemButtonTexture(self, icon or [[Interface\PaperDoll\UI-PaperDoll-Slot-Bag]])
-	
-	if viewable then
-		SetItemButtonTextureVertexColor(self, 1, 1, 1)
-	else
-		SetItemButtonTextureVertexColor(self, 1, 0.1, 0.1)
+	if not self:IsVisible() then
+		return
 	end
-	
-	_G[self:GetName() .. 'IconTexture']:SetDesaturated(not viewable)
-	self:UpdateChecked()
-	self:UpdateCount(remainingWithdrawals)
+
+	local name, icon, viewable, _,_, remainingWithdrawals = self:GetInfo()
+	if icon then
+		local color = viewable and 1 or 0.1
+
+		SetItemButtonTexture(self, icon)
+		SetItemButtonTextureVertexColor(self, 1, color, color)
+		_G[self:GetName() .. 'IconTexture']:SetDesaturated(not viewable)
+
+		self:UpdateChecked()
+		self:UpdateCount(remainingWithdrawals)
+	end
+
+	self:EnableMouse(icon)
+	self:SetAlpha(icon and 1 or 0)
 end
 
 function Tab:UpdateChecked()
@@ -100,9 +105,10 @@ function Tab:UpdateEvents()
 	self:UnregisterAllMessages()
 
 	if self:IsVisible() then
-		self:RegisterMessage('GUILD_BANK_TAB_CHANGE')
 		self:RegisterEvent('GUILDBANK_UPDATE_TABS')
 		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+
+		self:RegisterMessage('GUILD_BANK_TAB_CHANGE')
 	end
 end
 

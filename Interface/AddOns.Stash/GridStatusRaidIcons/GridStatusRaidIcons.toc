@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: kunda
 ## Title: GridStatusRaidIcons
 ## Notes: 在团队框架中增加目标/目标的目标高亮

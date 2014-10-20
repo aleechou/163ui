@@ -57,6 +57,10 @@ end
 
 --[[ Transfer Frame ]]--
 
+function Frame:GetTransferFrame()
+	return self.transferFrame or self:CreateTransferFrame()
+end
+
 function Frame:CreateTransferFrame()
 	local item = self:GetItemFrame()
 	local frame = Bagnon.TransferFrame:New(self:GetFrameID(), self)
@@ -64,10 +68,6 @@ function Frame:CreateTransferFrame()
 	
 	self.transferFrame = frame
 	return frame
-end
-
-function Frame:GetTransferFrame()
-	return self.transferFrame or self:CreateTransferFrame()
 end
 
 
@@ -78,14 +78,9 @@ function Frame:PlaceBrokerDisplayFrame()
 		local frame = self:GetBrokerDisplay() or self:CreateBrokerDisplay()
 		frame:ClearAllPoints()
 		frame:SetPoint('BOTTOMLEFT', self, 'BOTTOMLEFT', 16, 20)
-
-		if self:HasMoneyFrame() then
-			frame:SetPoint('RIGHT', self:GetMoneyFrame(), 'LEFT', -8, 10)
-		else
-			frame:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -8, 20)
-		end
-
+		frame:SetPoint('RIGHT', self:GetMoneyFrame(), 'LEFT', -8, 10)
 		frame:Show()
+		
 		return frame:GetWidth(), 24
 	end
 
@@ -96,6 +91,7 @@ function Frame:PlaceBrokerDisplayFrame()
 	return 0, 0
 end
 
-function Frame:HasBagFrame()
-	return nil
+function Frame:GetSpecialButtons() end
+function Frame:HasMoneyFrame()
+	return true
 end

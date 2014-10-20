@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_BurningCrusade
 ## Title-deDE: AtlasLoot |cFF0099FF[Burning Crusade]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[燃烧的远征]|r

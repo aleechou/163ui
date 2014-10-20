@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: HandyNotes
 ## Title-zhTW: |cff880303[网易有爱]|r 地圖標記 HandyNotes
 ## Title-zhCN: |cff880303[网易有爱]|r 地图标记 HandyNotes

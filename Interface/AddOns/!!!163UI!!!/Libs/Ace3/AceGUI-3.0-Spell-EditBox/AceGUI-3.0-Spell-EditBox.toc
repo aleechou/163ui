@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 60000
 ## Title: Lib: AceGUI-3.0-Spell-EditBox
 ## Notes: Adds predicted lists for spells while the user types
 ## Author: Shadowed

@@ -22,7 +22,6 @@ function LogFrame:New(frameID, parent)
 	
 	f:RegisterEvent('GUILDBANKLOG_UPDATE')
 	f:RegisterMessage('GUILD_BANK_CLOSED')
-	f:RegisterMessage('SHOW_LOG_FRAME')
 	
 	local messages = CreateFrame('ScrollingMessageFrame', nil, f)
 	messages:SetScript('OnHyperlinkClick', f.OnHyperlink)
@@ -70,6 +69,18 @@ end
 
 --[[ Update ]]--
 
+function LogFrame:Display(type)
+	self.isMoney = type == 2
+	self:Update()
+
+	
+	if self.isMoney then
+		QueryGuildBankLog(MAX_GUILDBANK_TABS + 1)
+	else
+		QueryGuildBankLog(GetCurrentGuildBankTab())
+	end	
+end
+
 function LogFrame:Update()
 	self:UpdateScroll()
 	self.messages:Clear()
@@ -79,8 +90,6 @@ function LogFrame:Update()
 	else
 		self:UpdateTransactions()
 	end
-	
-	self:Show()
 end
 
 function LogFrame:UpdateTransactions()
@@ -160,20 +169,6 @@ function LogFrame:AddLine(msg, ...)
 	if msg then
 		self.messages:AddMessage(msg .. MESSAGE_PREFIX .. format(GUILD_BANK_LOG_TIME, RecentTimeDate(...)))
 	end
-end
-
-
---[[ Messages ]]--
-
-function LogFrame:SHOW_LOG_FRAME (event, type)
-	self.isMoney = type == 2
-	self:Update()
-	
-	if self.isMoney then
-		QueryGuildBankLog(MAX_GUILDBANK_TABS + 1)
-	else
-		QueryGuildBankLog(GetCurrentGuildBankTab())
-	end	
 end
 
 LogFrame.GUILD_BANK_TAB_CHANGE = LogFrame.Update

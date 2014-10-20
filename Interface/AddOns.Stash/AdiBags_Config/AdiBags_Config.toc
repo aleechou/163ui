@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Curse-Packaged-Version: v1.6.15
 ## X-Curse-Project-Name: AdiBags
 ## X-Curse-Project-ID: adibags

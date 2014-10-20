@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## SavedVariables: LearningAid_Saved
 ## SavedVariablesPerCharacter: LearningAid_Character
 ## Author: Jamash (Kil'jaeden-US)

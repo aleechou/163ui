@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Version: 5.0.4.1520
 ## X-ReleaseDate: "$Date: 2012-08-28 09:26:01 +0000 (Tue, 28 Aug 2012) $"
 ## X-Curse-Packaged-Version: 5.0.4.1520

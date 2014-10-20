@@ -17,7 +17,6 @@
         "JPack_Ex",
 
         "BossesKilled" ,
-        "AuctionLite" ,
         "ButtonFacade" 
 
         , "WowSocial"
@@ -46,7 +45,6 @@
         , "HandyNotes"
         , "Healers-Have-To-Die"
         , "LiteBuff"
-        , "Mapster"
         , "QuestHubber"
         , "RaidAchievement"
         , "RaidAchievement_CataHeroics"
@@ -61,7 +59,6 @@
         , "RaidAchievement_WotlkHeroics"
         , "RangeDisplay"
         , "RangeDisplay_Options"
-        , "XLoot"
         , "RaidBuilder"
 
 

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Lib: ItemUpgradeInfo-1.0
 ## Notes: Database of item upgrade IDs
 ## Author: eridius

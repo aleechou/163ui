@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: TidyPlates_QuatreTheme
 ## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 QuatreTheme
 ## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 QuatreTheme

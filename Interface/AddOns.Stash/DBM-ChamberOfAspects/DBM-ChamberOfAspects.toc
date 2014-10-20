@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Chamber of Aspects
 ## Title-zhTW: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 守護巨龍之間
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0龙眠神殿|r

@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## X-BigfootType: 1
 ## X-BigfootDesc: 设置命令：/rabu win - 显示设置界面。将装备上的属性等级转换为直观的百分比并显示属性的具体收益。
 ## Title: RatingBuster

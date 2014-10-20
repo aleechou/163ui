@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: CompactRaid
 ## Title-zhTW: |cff880303[网易有爱]|r 團隊框架增强
 ## Title-zhCN: |cff880303[网易有爱]|r 团队框架增强

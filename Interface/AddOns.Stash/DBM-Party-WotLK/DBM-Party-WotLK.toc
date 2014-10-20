@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Party-WotLK
 ## Title-zhTW: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r WotLK隊伍模組
 ## Title-zhCN: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r WotLK队伍模组

@@ -1,0 +1,12 @@
+tag z17a-release
+78eac1260adb85dc334decd5aecfd99fd178ae8e
+Xuerian <sky.shell@gmail.com>
+2014-10-20 02:46:51 -0400
+
+Fix item border colors not applying
+
+
+--------------------
+
+Xuerian:
+	- Frame: Fix item border colors not applying

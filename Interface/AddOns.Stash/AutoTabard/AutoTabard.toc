@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: AutoTabard
 ## Title-deDE: Autowappenrock
 ## Title-zhTW: AutoTabard 自動外袍

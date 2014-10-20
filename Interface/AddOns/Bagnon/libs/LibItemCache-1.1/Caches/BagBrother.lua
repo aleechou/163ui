@@ -36,8 +36,10 @@ function Cache:GetBag(realm, player, bag, tab, slot)
 			local name, icon, view, deposit, withdraws, remaining = unpack(tab.info or {})
 			return name, icon, view, deposit, withdraws, remaining, true
 		end
-	else
+	elseif slot then
 		return self:GetItem(realm, player, 'equip', nil, slot)
+	else
+		return self:GetNormalBag(realm, player, bag)
 	end
 end
 
@@ -45,10 +47,10 @@ function Cache:GetItem(realm, player, bag, tab, slot)
 	if tab then
 		bag = self:GetGuildTab(realm, player, tab)
 	else
-		bag = player and BrotherBags[realm][player][bag]
+		bag = self:GetNormalBag(realm, player, bag)
 	end
-
-	local item = bag and bag[slot]
+	
+	item = bag and bag[slot]
 	if item then
 		return strsplit(';', item)
 	end
@@ -61,14 +63,18 @@ function Cache:GetGuildTab(realm, player, tab)
 	return guild and guild[tab]
 end
 
+function Cache:GetNormalBag(realm, player, bag)
+	return realm and player and BrotherBags[realm][player][bag]
+end
+
 
 --[[ Item Counts ]]--
 
 function Cache:GetItemCounts(realm, player, id)
 	local player = BrotherBags[realm][player]
+	local bank = self:GetItemCount(player[BANK_CONTAINER], id) + self:GetItemCount(player[REAGENTBANK_CONTAINER], id)
 	local equipment = self:GetItemCount(player.equip, id, true)
 	local vault = self:GetItemCount(player.vault, id, true)
-	local bank = self:GetItemCount(player[BANK_CONTAINER], id)
 	local bags = 0
 	
 	for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
@@ -113,7 +119,7 @@ end
 function Cache:GetPlayer(realm, player)
 	player = BrotherBags[realm][player]
 	if player then
-		return player.class, player.race, player.sex
+		return player.class, player.race, player.sex, player.faction and 'Alliance' or 'Horde'
 	end
 end
 

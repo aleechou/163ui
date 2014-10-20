@@ -1,10 +1,10 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Lib: Dropdown-1.0
 ## Notes: Dropdown library for Ace3 options, extensible to other options formats. Works ok.
 ## Author: Antiarc, NeoTron
 ## Version: 1.0
 ## OptionalDeps: Ace3
-## X-Curse-Packaged-Version: r34
+## X-Curse-Packaged-Version: r35
 ## X-Curse-Project-Name: LibDropdown-1.0
 ## X-Curse-Project-ID: libdropdown-1-0
 ## X-Curse-Repository-ID: wow/libdropdown-1-0/mainline

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-BigfootType: 3
 ## X-BigfootDesc: 可以监视预设的团队法术冷却，使你更好的了解团队状况
 ## X-Min-Interface: 50001

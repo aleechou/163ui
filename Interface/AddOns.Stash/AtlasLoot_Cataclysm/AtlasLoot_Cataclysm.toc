@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_Cataclysm
 ## Title-deDE: AtlasLoot |cFF0099FF[Cataclysm]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[大地的裂变]|r

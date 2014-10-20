@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Raid|cff7fff7fAchievement|r_OldModules
 ## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [旧世界]
 ## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [旧世界]

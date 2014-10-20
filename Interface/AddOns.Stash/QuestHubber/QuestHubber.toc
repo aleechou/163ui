@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: QuestHubber
 ## Title-zhTW: |cff880303[网易有爱]|r 任務搜索
 ## Title-zhCN: |cff880303[网易有爱]|r 任务搜索

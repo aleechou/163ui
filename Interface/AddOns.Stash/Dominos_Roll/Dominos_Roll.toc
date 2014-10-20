@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Dominos Roll
 ## Title-zhCN: |cFF0099FF[Dominos]|r Roll窗口模块
 ## Notes: 可移动的roll点框

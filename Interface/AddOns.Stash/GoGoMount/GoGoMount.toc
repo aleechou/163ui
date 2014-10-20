@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: GoGoMount
 ## Version: 5.4.7
 ## Notes: One-key solution for mounting/dismounting, supports spells, shapeshifting

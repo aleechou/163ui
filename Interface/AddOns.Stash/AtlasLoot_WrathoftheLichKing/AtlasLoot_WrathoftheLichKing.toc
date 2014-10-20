@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_WrathoftheLichKing
 ## Title-deDE: AtlasLoot |cFF0099FF[Wrath of the Lich King]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[巫妖王之怒]|r

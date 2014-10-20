@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## X-Compatible-With: 40000
 ## Title: Gladius |cFF99CC01rev|r |cFFFF00003.1.0|r
 ## Notes: 竞技场显示对方的头像框体

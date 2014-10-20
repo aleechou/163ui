@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: ExtraCD
 ## Notes: Internal CDs of Talent, Item and Enchant
 ## Notes-zhTW: 天賦,物品和附魔內置冷卻監視

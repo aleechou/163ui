@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Unfit-1.0
 ## Notes: Determines which items are usable or not for the player's class.
 ## Author: João Cardoso (Jaliborc)

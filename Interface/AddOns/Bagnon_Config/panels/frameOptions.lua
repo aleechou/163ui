@@ -31,8 +31,11 @@ function FrameOptions:OnStartup()
 	local toggleDBOFrame = self:CreateToggleDBOFrameCheckbox()
 	toggleDBOFrame:SetPoint('TOPLEFT', toggleMoneyFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
 
+	local toggleSortButton = self:CreateToggleSortButtonCheckbox()
+	toggleSortButton:SetPoint('TOPLEFT', toggleDBOFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+
 	local toggleSearchFrame = self:CreateToggleSearchFrameCheckbox()
-	toggleSearchFrame:SetPoint('TOPLEFT', toggleDBOFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
+	toggleSearchFrame:SetPoint('TOPLEFT', toggleSortButton, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
 	
 	local toggleOptionsFrame = self:CreateToggleOptionsCheckbox()
 	toggleOptionsFrame:SetPoint('TOPLEFT', toggleSearchFrame, 'BOTTOMLEFT', 0, -CHECK_BUTTON_SPACING)
@@ -92,7 +95,12 @@ function FrameOptions:OnActivate()
 	self:GetToggleBagFrameCheckbox():UpdateChecked()
 	self:GetToggleBagFrameCheckbox():SetDisabled(isSingleBag)
 
+	self:GetToggleSortButtonCheckbox():UpdateChecked()
+	self:GetToggleSortButtonCheckbox():SetDisabled(isSingleBag)
+
 	self:GetToggleMoneyFrameCheckbox():UpdateChecked()
+	self:GetToggleSortButtonCheckbox():SetDisabled(frameID == 'voidstorage')
+
 	self:GetToggleDBOFrameCheckbox():UpdateChecked()
 	self:GetToggleSearchFrameCheckbox():UpdateChecked()
 	self:GetToggleOptionsCheckbox():UpdateChecked()
@@ -182,6 +190,12 @@ function FrameOptions:DATABROKER_FRAME_ENABLE_UPDATE(msg, frameID, enable)
 	end
 end
 
+function FrameOptions:SORT_ENABLE_UPDATE(msg, frameID, enable)
+	if self:GetFrameID() == frameID then
+		self:GetToggleSortButtonCheckbox():UpdateChecked()
+	end
+end
+
 function FrameOptions:SEARCH_TOGGLE_ENABLE_UPDATE(msg, frameID, enable)
 	if self:GetFrameID() == frameID then
 		self:GetToggleSearchFrameCheckbox():UpdateChecked()
@@ -216,13 +230,13 @@ function FrameOptions:CreateFrameSelector()
 
 	dropdown.Initialize = function(self)
 		self:AddItem(INVENTORY_TOOLTIP, 'inventory')
-		self:AddItem(L.Bank, 'bank')
+		self:AddItem(BANK, 'bank')
 		
-		if LibStub('AddonList-1.0'):IsEnabled('Bagnon_GuildBank') then
+		if GetAddOnEnableState(UnitName('player'), 'Bagnon_GuildBank') >= 2 then
 			self:AddItem(GUILD_BANK, 'guildbank')
 		end
 		
-		if LibStub('AddonList-1.0'):IsEnabled('Bagnon_VoidStorage') then
+		if GetAddOnEnableState(UnitName('player'), 'Bagnon_VoidStorage') >= 2 then
 			self:AddItem(VOID_STORAGE, 'voidstorage')
 		end
 	end
@@ -472,6 +486,27 @@ end
 
 function FrameOptions:GetToggleDBOFrameCheckbox()
 	return self.toggleDBOFrameCheckbox
+end
+
+
+-- sort button
+function FrameOptions:CreateToggleSortButtonCheckbox()
+	local button = Bagnon.OptionsCheckButton:New(L.EnableSortButton, self)
+
+	button.OnEnableSetting = function(self, enable)
+		self:GetParent():GetSettings():EnableSortButton(enable)
+	end
+
+	button.IsSettingEnabled = function(self, enable)
+		return self:GetParent():GetSettings():HasSortButton()
+	end
+
+	self.toggleSortButtonCheckbox = button
+	return button
+end
+
+function FrameOptions:GetToggleSortButtonCheckbox()
+	return self.toggleSortButtonCheckbox
 end
 
 

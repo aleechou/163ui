@@ -1,4 +1,4 @@
-## Interface: 40200
+## Interface: 60000
 ## Title: Lib: UTF8
 ## Notes: A library for manipulating UTF-8 strings
 ## Author: Pastamancer

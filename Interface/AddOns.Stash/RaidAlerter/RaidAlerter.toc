@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: SLore/xuewu
 ## Version: 5.2
 ## URL: http://bbs.ngacn.cc/read.php?tid=4282320

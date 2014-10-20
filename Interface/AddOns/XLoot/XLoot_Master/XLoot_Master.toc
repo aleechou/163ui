@@ -1,0 +1,14 @@
+﻿## Interface: 60000
+## Title: XLoot Master
+## Notes: Configurable Master Looter interface
+## Version: z17a-release
+## Author: Xuerian, Dridzt
+## X-Category: Inventory
+## X-Curse-Packaged-Version: z17a-release
+## X-Curse-Project-Name: XLoot
+## X-Curse-Project-ID: xloot
+## X-Curse-Repository-ID: wow/xloot/mainline
+
+## Dependencies: XLoot
+
+load.xml

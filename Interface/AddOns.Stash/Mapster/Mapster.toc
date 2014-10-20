@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: Mapster
 ## Title-zhTW: |cff880303[网易有爱]|r 地图增强
 ## Title-zhCN: |cff880303[网易有爱]|r 地图增强

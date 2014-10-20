@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_Crafting
 ## Title-deDE: AtlasLoot |cFF0099FF[Berufe]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[商业技能]|r

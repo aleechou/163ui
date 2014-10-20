@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: WoW Social
 ## Title-zhCN: |cffff565e[集合石]|r 聊天群核心模块
 ## Notes-zhCN: 魔兽集合石聊天群插件的主框架

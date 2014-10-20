@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Title: AtlasLoot_WorldEvents
 ## Title-deDE: AtlasLoot |cFF0099FF[Weltereignisse]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[世界事件]|r

@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: nullberri(汉化：上官晓雾)
 ## Notes: Displays the rarity of the enemies pets in their tooltip.
 ## Version: 2.9.8

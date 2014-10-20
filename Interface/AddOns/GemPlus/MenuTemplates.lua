@@ -61,6 +61,10 @@ local function Menu_DropdownInit(self, level, value)
 			data.hasArrow = 1
 		end
 
+		if data.text then
+			data.text = data.text.."    "
+		end
+
 		UIDropDownMenu_AddButton(data, level)
 	end
 
@@ -98,6 +102,10 @@ local function Menu_OnEvent(self, event)
 
 	if not self.editbox then
 		local editbox = _G[self.editName]
+		if not editbox then
+			return
+		end
+
 		self.editbox = editbox
 		self:SetParent(editbox)
 		self.relativeTo = editbox
@@ -106,26 +114,24 @@ local function Menu_OnEvent(self, event)
 		button.editbox = editbox
 		button:SetPoint("LEFT", editbox, "LEFT", -4, 0)
 
-		if self.OnAttach then
-			self:OnAttach(editbox)
+		if self.indent then
+			editbox:SetTextInsets(18, 0, 0, 0)
 		end
 	end
 
 	self:Hide()
-	if self.OnShow then
-		if self:OnShow() then
-			self:Show()
-		end
-	else
+	if not self.tradeskill or GetTradeSkillLine() == TRADESKILL_NAME then
 		self:Show()
 	end
 end
 
-local function CreateMenu(editName, event, runOnce)
+local function CreateMenu(editName, tradeskill, runOnce, indent)
 	local menu = CreateFrame("Frame", editName..addonName.."DropDownMenu", UIParent, "UIDropDownMenuTemplate")
 	menu:Hide()
 	menu.editName = editName
+	menu.tradeskill = tradeskill
 	menu.runOnce = runOnce
+	menu.indent = indent
 	menu.cache = {}
 	menu.point = "TOPLEFT"
 	menu.relativePoint = "BOTTOMLEFT"
@@ -163,18 +169,26 @@ local function CreateMenu(editName, event, runOnce)
 	button:SetScript("OnLeave", Button_OnLeave)
 	button:SetScript("OnShow", Button_OnShow)
 
-	menu:RegisterEvent(event)
+	menu:RegisterEvent(tradeskill and "TRADE_SKILL_SHOW" or "AUCTION_HOUSE_SHOW")
 	menu:SetScript("OnEvent", Menu_OnEvent)
 
 	return menu
 end
 
--- Create menu for auction frame
-local menu = CreateMenu("BrowseName", "AUCTION_HOUSE_SHOW", 1)
+function addon:AddSupport(editbox, tradeSkill, OnCommand)
+	if type(editbox) ~= "string" then
+		return
+	end
 
-function menu:OnAttach(editbox)
-	editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
+	local menu = CreateMenu(editbox, tradeSkill, nil, 1)
+
+	if type(OnCommand) == "function" then
+		menu.OnCommand = OnCommand
+	end
 end
+
+-- Create menu for build-in auction frame
+local menu = CreateMenu("BrowseName", nil, 1, 1)
 
 function menu:OnCommand(editbox, prefix)
 	local canSearch = BrowseSearchButton:IsEnabled()
@@ -194,28 +208,5 @@ function menu:OnCommand(editbox, prefix)
 	end
 end
 
--- Create menu for TradeSkill frame
-local menu = CreateMenu("TradeSkillFrameSearchBox", "TRADE_SKILL_SHOW")
-
-function menu:OnShow()
-	return GetTradeSkillLine() == TRADESKILL_NAME
-end
-
-local menuAuctionLite = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
-
-function menuAuctionLite:OnShow()
-	return IsAddOnLoaded("AuctionLite")
-end
-
-local menuTrade = CreateMenu("TradeskillInfoInputBox", "TRADE_SKILL_SHOW")
-
-function menuTrade:OnShow(editbox)
-	return TradeskillInfoInputBox ~= nil
-end
-
-menu = CreateMenu("BuyName", "AUCTION_HOUSE_SHOW")
-function menu:OnAttach(editbox)
-	if editbox then
-		editbox:SetTextInsets(18, 0, 0, 0) -- Indent the auction search editbox a bit
-	end
-end 
+-- Create menu for build-in TradeSkill frame
+addon:AddSupport("TradeSkillFrameSearchBox", 1)

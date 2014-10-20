@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Notes: Complete tradeskill information browser module.
 ## Notes-zhCN: 商业技能资料库设置窗口
 ## Notes-zhTW: 商業技能資料庫設置窗口

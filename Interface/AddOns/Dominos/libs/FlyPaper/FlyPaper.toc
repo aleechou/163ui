@@ -1,4 +1,4 @@
-## Interface: 40000
+## Interface: 60000
 ## Title: FlyPaper
 ## Notes: Library for sticking frames together
 ## LoadOnDemand: 1

@@ -1,4 +1,26 @@
 ------------------------------------------------------------------------
+r262 | merialkilrogg | 2014-10-19 22:51:08 +0000 (Sun, 19 Oct 2014) | 5 lines
+Changed paths:
+   A /tags/v1.8.13 (from /trunk:261)
+
+Tagging as v1.8.13
+
+Changes:
+- Updated for WoW 6.0
+- Uses exact search where possible
+------------------------------------------------------------------------
+r261 | merialkilrogg | 2014-10-19 22:43:44 +0000 (Sun, 19 Oct 2014) | 3 lines
+Changed paths:
+   M /trunk/AuctionLite.lua
+   M /trunk/AuctionLite.toc
+   M /trunk/BuyFrame.lua
+   M /trunk/QueryAuctions.lua
+   M /trunk/Util.lua
+
+Changed TOC to 60000.
+Bumped version number to 1.8.13.
+Minor code tweaks.
+------------------------------------------------------------------------
 r260 | cybeloras | 2014-10-14 21:01:36 +0000 (Tue, 14 Oct 2014) | 1 line
 Changed paths:
    M /trunk/Util.lua

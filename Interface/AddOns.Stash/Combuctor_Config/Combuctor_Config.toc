@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Combuctor Config
 ## Author: Tuller and Jaliborc (João Cardoso)
 ## Notes: 分类背包配置

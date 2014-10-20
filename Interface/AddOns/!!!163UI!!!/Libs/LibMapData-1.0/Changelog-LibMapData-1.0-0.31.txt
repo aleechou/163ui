@@ -1,0 +1,36 @@
+------------------------------------------------------------------------
+r145 | kagaro | 2014-10-17 14:58:53 +0000 (Fri, 17 Oct 2014) | 1 line
+Changed paths:
+   A /tags/0.31 (from /trunk:144)
+
+Tagging as 0.31
+------------------------------------------------------------------------
+r144 | sloknightfall | 2014-10-17 04:58:03 +0000 (Fri, 17 Oct 2014) | 2 lines
+Changed paths:
+   M /trunk/library.lua
+
+-Added WoD MapData.  It may not be 100% accurate.
+-Changed the setting of maps to SetMapByID as the MapID is now returned by GetMapZones.  Also because the zID required by SetMapZoom(cID, zID) no longer is the same as the number returned by GetMapZones. There appear to be zones that are not returned by GetMapZones (IE Warspear & Stormshield in Ashran) which throws off the map when trying to use SetMapZoom.
+------------------------------------------------------------------------
+r143 | mmosimca | 2014-10-16 06:01:01 +0000 (Thu, 16 Oct 2014) | 3 lines
+Changed paths:
+   M /trunk/LibMapData-1.0.toc
+   M /trunk/library.lua
+
+- Corrected Patch 6.0.2 fix to include a fix for GetMapZones.
+- Changed revision number of library to automatically update.
+- Updated TOC to 60000.
+------------------------------------------------------------------------
+r142 | oscarucb | 2014-10-10 08:39:06 +0000 (Fri, 10 Oct 2014) | 2 lines
+Changed paths:
+   M /trunk/library.lua
+
+fix 6.0 lua errors, caused by the new return format for GetMapContinents()
+
+------------------------------------------------------------------------
+r141 | kagaro | 2013-09-12 18:12:43 +0000 (Thu, 12 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/library.lua
+
+reinstate funkeh's fix, set correct thunderking isle map size
+------------------------------------------------------------------------

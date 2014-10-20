@@ -1,4 +1,4 @@
-﻿## Interface: 50200
+## Interface: 60000
 ## Title: Lib: GroupInSpecT-1.0
 ## Notes: Keeps track of group members and keeps an up-to-date cache of their specialization, talents and glyphs.
 ## Version: r59

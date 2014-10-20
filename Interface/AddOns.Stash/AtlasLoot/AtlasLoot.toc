@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+## Interface: 60000
 ## Author: Hegarol
 ## Version: v7.07.00
 ## SavedVariables: AtlasLootDB

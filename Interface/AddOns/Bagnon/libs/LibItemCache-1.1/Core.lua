@@ -15,7 +15,7 @@ along with this library. If not, see <http://www.gnu.org/licenses/>.
 This file is part of LibItemCache.
 --]]
 
-local Lib = LibStub:NewLibrary('LibItemCache-1.1', 11)
+local Lib = LibStub:NewLibrary('LibItemCache-1.1', 15)
 if not Lib then
 	return
 end
@@ -41,6 +41,7 @@ Lib:RegisterEvent('GUILDBANKFRAME_OPENED', function() Lib.atGuild = true end)
 Lib:RegisterEvent('GUILDBANKFRAME_CLOSED', function() Lib.atGuild = nil end)
 
 Lib.PLAYER = UnitName('player')
+Lib.FACTION = UnitFactionGroup('player')
 Lib.REALM = GetRealmName()
 Lib.Cache = {}
 
@@ -55,7 +56,7 @@ function Lib:GetPlayerInfo(player)
 		local _,race = UnitRace('player')
 		local sex = UnitSex('player')
 		
-		return class, race, sex
+		return class, race, sex, self.FACTION
 	end
 end
 
@@ -77,7 +78,7 @@ end
 
 function Lib:GetPlayerAddress(player)
 	local player, realm = strsplit('-', player or self.PLAYER, 2)
-	return realm or Lib.REALM, player
+	return realm or self.REALM, player
 end
 
 function Lib:IsPlayerCached(player)
@@ -85,23 +86,36 @@ function Lib:IsPlayerCached(player)
 end
 
 function Lib:IteratePlayers()
-	if not Lib.players then
-		Lib.players = Cache('GetPlayers', Lib.REALM) or {Lib.PLAYER}
+	if not self.players then
+		self.players = {}
 
-		for i, realm in ipairs(GetAutoCompleteRealms() or {}) do
-			for i, player in ipairs(Cache('GetPlayers', realm) or {}) do
-				tinsert(Lib.players, player .. '-' .. realm)
+		for i, player in ipairs(Cache('GetPlayers', self.REALM) or {self.PLAYER}) do
+			if select(4, self:GetPlayerInfo(player)) == self.FACTION then
+				tinsert(self.players, player)
 			end
 		end
 
-		sort(Lib.players)
+		for i, realm in ipairs(GetAutoCompleteRealms() or {}) do
+			if realm ~= self.REALM then
+				for i, player in ipairs(Cache('GetPlayers', realm) or {}) do
+					player = player .. '-' .. realm
+
+					if select(4, self:GetPlayerInfo(player)) == self.FACTION then
+						tinsert(self.players, player)
+					end
+				end
+			end
+		end
+
+		sort(self.players)
 	end
 
-	return pairs(Lib.players)
+	return pairs(self.players)
 end
 
 function Lib:DeletePlayer(player)
 	Cache('DeletePlayer', self:GetPlayerAddress(player))
+	self.players = nil
 end
 
 
@@ -109,20 +123,27 @@ end
 
 function Lib:GetBagInfo(player, bag)
 	local isCached, _,_, tab = self:GetBagType(player, bag)
+	local realm, player = self:GetPlayerAddress(player)
+	local owned = true
 	
 	if tab then
 		if isCached then
-			local realm, player = self:GetPlayerAddress(player)
-			return Cache('GetBag', realm, player, bag, tab, slot)
+			return Cache('GetBag', realm, player, bag, tab)
 		end
 		return GetGuildBankTabInfo(tab)
 
-	elseif bag ~= BACKPACK_CONTAINER and bag ~= BANK_CONTAINER and bag ~= REAGENTBANK_CONTAINER then
+	elseif bag == REAGENTBANK_CONTAINER then
+		if isCached then
+			owned = Cache('GetBag', realm, player, bag)
+		else
+			owned = IsReagentBankUnlocked()
+		end
+
+	elseif bag ~= BACKPACK_CONTAINER and bag ~= BANK_CONTAINER then
 		local slot = ContainerIDToInventoryID(bag)
 
    		if isCached then
-   			local realm, player = self:GetPlayerAddress(player)
-			local data, size = Cache('GetBag', realm, player, bag, tab, slot)
+			local data, size = Cache('GetBag', realm, player, bag, nil, slot)
 			local link, icon = self:RestoreLink(data)
 			
 			return link, 0, icon, slot, tonumber(size) or 0, true
@@ -135,7 +156,7 @@ function Lib:GetBagInfo(player, bag)
 		end
 	end
 
-	return nil, 0, nil, nil, GetContainerNumSlots(bag), isCached
+	return nil, 0, nil, nil, owned and GetContainerNumSlots(bag) or 0, isCached
 end
 
 function Lib:GetBagType(player, bag)
@@ -170,7 +191,7 @@ function Lib:GetItemInfo(player, bag, slot)
 		end
 		
 	elseif isVault then
-		return GetVoidItemInfo(slot)
+		return GetVoidItemInfo(1, slot)
 	elseif tab then
 		local link = GetGuildBankItemLink(tab, slot)
 		local icon, count, locked = GetGuildBankItemInfo(tab, slot)

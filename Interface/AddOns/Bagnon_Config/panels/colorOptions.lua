@@ -13,7 +13,7 @@ Bagnon.ColorOptions = ColorOptions
 local SPACING = 4
 local SLOT_COLOR_TYPES = {}
 
-for id, name in pairs(BAGNON_BAG_TYPES) do
+for id, name in pairs(Bagnon.BAG_TYPES) do
 	tinsert(SLOT_COLOR_TYPES, name)
 end
 
@@ -27,8 +27,11 @@ function ColorOptions:OnStartup()
 	local highlightItemsByQuality = self:CreateHighlightItemsByQualityCheckbox()
 	highlightItemsByQuality:SetPoint('TOPLEFT', self, 'TOPLEFT', 14, -72)
 
+	local highlightNewItems = self:CreateHighlightNewItemsCheckbox()
+	highlightNewItems:SetPoint('TOPLEFT', highlightItemsByQuality, 'BOTTOMLEFT', 0, -SPACING)
+
     local highlightUnusableItems = self:CreateHighlightUnusableItemsCheckbox()
-	highlightUnusableItems:SetPoint('TOPLEFT', highlightItemsByQuality, 'BOTTOMLEFT', 0, -SPACING)
+	highlightUnusableItems:SetPoint('TOPLEFT', highlightNewItems, 'BOTTOMLEFT', 0, -SPACING)
 
 	local highlightSetItems = self:CreateHighlightSetItemsCheckbox()
 	highlightSetItems:SetPoint('TOPLEFT', highlightUnusableItems, 'BOTTOMLEFT', 0, -SPACING)
@@ -65,6 +68,7 @@ function ColorOptions:OnActivate()
 	self.highlightItemsByQualityCheckbox:UpdateChecked()
 	self.highlightUnusableItemsCheckbox:UpdateChecked()
 	self.highlightQuestItemsCheckbox:UpdateChecked()
+	self.highlightNewItemsCheckbox:UpdateChecked()
 	self.highlightSetItemsCheckbox:UpdateChecked()
 	self.highlightOpacitySlider:UpdateValue()
 	
@@ -117,6 +121,21 @@ function ColorOptions:CreateHighlightItemsByQualityCheckbox()
 	end
 
 	self.highlightItemsByQualityCheckbox = button
+	return button
+end
+
+function ColorOptions:CreateHighlightNewItemsCheckbox()
+	local button = Bagnon.OptionsCheckButton:New(L.HighlightNewItems, self)
+
+	button.OnEnableSetting = function(self, enable)
+		Bagnon.Settings:SetHighlightNewItems(enable)
+	end
+
+	button.IsSettingEnabled = function(self)
+		return Bagnon.Settings:HighlightNewItems()
+	end
+
+	self.highlightNewItemsCheckbox = button
 	return button
 end
 

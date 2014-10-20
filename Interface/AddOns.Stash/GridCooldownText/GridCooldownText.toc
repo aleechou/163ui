@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: GridCooldownText
 ## Notes: 在GRID团队框体内显示技能cd时间
 ## Dependencies: Grid

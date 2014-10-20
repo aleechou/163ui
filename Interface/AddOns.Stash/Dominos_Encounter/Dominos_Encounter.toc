@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Dominos Encounter
 ## Title-zhCN: |cFF0099FF[Dominos]|r 特殊能量条模块
 ## Notes: 多米诺为各职业提供的能量条移动功能
