@@ -1,3 +1,9 @@
+2014-10-20/02
+===
+
+### 新兵助手 NewbieAssistant ###
+
+* 移除NewbieAssistant ，该插件已经作为 WOW 内置插件
 
 
 2014-10-20/01
