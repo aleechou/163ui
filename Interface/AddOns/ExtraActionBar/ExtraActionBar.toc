@@ -12,4 +12,4 @@ MOGUBar.xml
 
 ## Title:  |cff880303[网易有爱]|r 额外动作条
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101901
+## X-163UI-Version: 20141019021253

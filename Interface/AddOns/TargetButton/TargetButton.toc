@@ -13,4 +13,4 @@ TargetButton.xml
 
 ## Title: |cff880303[网易有爱]|r 目标快捷按钮
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014101701
+## X-163UI-Version: 20141016233437
