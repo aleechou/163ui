@@ -7,7 +7,7 @@
 ## Version: 2.1.1
 ## SavedVariables: EquippedItemLevelTooltipDB
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141021194715
 
 Libs\LibStub\Libstub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml

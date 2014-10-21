@@ -20,4 +20,4 @@ Functions.lua
 
 ## Title: |cff880303[网易有爱]|r 姓名板增强 Hub
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019234034
+## X-163UI-Version: 20141021194715

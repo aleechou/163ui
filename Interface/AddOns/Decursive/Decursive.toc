@@ -21,7 +21,7 @@
 
 ## Title: |cff880303[网易有爱]|r 一键驱散Decursive
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021184833
+## X-163UI-Version: 20141021194715
 
 ## SavedVariables: DecursiveDB
 

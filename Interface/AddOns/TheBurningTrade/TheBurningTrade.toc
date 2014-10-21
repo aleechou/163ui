@@ -11,4 +11,4 @@ TheBurningTrade.lua
 
 ## Title: |cff880303[网易有爱]|r 交易增强界面
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141021194715

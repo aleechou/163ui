@@ -40,4 +40,4 @@ Broker_Currency.lua
 
 ## Title: |cff880303[网易有爱]|r Broker信息条核心
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141021194715

@@ -32,7 +32,7 @@
 ## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019133643
+## X-163UI-Version: 20141021194715
 
 localization.en.lua
 localization.kr.lua

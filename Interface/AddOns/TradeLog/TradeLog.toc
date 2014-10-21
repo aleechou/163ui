@@ -13,4 +13,4 @@ TradeLogFrame.xml
 
 ## Title: |cff880303[网易有爱]|r 交易记录
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141021194715
