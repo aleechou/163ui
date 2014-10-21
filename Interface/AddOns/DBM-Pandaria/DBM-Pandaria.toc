@@ -21,7 +21,7 @@
 ## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955,69768,69769,69841,69842
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141019133643
 
 localization.en.lua
 localization.de.lua

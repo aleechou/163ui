@@ -6,7 +6,7 @@
 ## Author: Tuller
 ## Dependencies: tullaRange
 ## LoadOnDemand: 1
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141019141309
 ## Title-zhCN: |cff880303[网易有爱]|r 技能超距提示-配置界面
 tullaRangeConfig.lua
 localization\localization.xml

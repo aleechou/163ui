@@ -77,5 +77,5 @@ TradeskillInfoOptions.lua
 #@end-debug@
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141021100737
 PatchBy163UI.lua

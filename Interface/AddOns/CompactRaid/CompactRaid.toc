@@ -43,4 +43,4 @@ Modules\CornerIndicators\embeds.xml
 Modules\RaidDebuff\embeds.xml
 ## Title: |cff880303[网易有爱]|r 团队框架增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141019234034

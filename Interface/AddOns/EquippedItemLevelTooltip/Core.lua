@@ -1015,7 +1015,7 @@ function addon:GetUnitItemLevel(unit)
 			local color = select(4, GetItemQualityColor(quality or 1))
 
 			if itemLevel and itemLevel > 0 and i ~= 4 then
-				local upgrade = string.match(link, ":(%d+)\124h%[")
+				local upgrade = string.match(link, ":(%d+):%d+:%d\124h%[")
 				if upgrade then
 					itemLevel = itemLevel + (addon.itemUpgrade[upgrade] or 0)
 				end

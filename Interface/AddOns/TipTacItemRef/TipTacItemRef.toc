@@ -18,4 +18,4 @@ GetUpgradedItemLevel.lua
 core.lua
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141016233437

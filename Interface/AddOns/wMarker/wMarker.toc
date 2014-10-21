@@ -7,7 +7,7 @@
 ## SavedVariablesPerCharacter: wMarkerDB, wFlaresDB
 ## Title: |cff880303[网易有爱]|r wMarker
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141016233437
 
 Localization\enUS.lua
 Localization\esES.lua
@@ -26,4 +26,4 @@ Bindings.xml
 
 ## Title: |cff880303[网易有爱]|r 标记助手
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021194715
+## X-163UI-Version: 20141016233437
