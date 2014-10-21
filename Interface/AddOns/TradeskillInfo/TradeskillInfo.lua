@@ -1,5 +1,5 @@
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
+local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 
 TradeskillInfo = LibStub("AceAddon-3.0"):NewAddon("TradeSkillInfo", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0")
 TradeskillInfo.version = GetAddOnMetadata("TradeSkillInfo", "Version")
@@ -89,7 +89,7 @@ function TradeskillInfo:OnInitialize()
 			TooltipKnownBy     = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipLearnableBy = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
 			TooltipAvailableTo = { R = true, A = true, B = true, D = true, E = true, J = true, L = true, T = true, W = false, X = false, Z = true, Y = true, I = true },
-			TooltipMarketValue = false,
+			TooltipMarketValue = true,
 			TooltipID = false,
 			TooltipStack = false,
 
@@ -174,7 +174,6 @@ function TradeskillInfo:OnAddonLoaded(_, addon)
 	if addon == "Blizzard_AuctionUI" then
 		self:HookAuctionUI()
 	elseif addon == "Blizzard_TradeSkillUI" or
-	       addon == "Skillet" or
 		   addon == "AdvancedTradeSkillWindow" then
 		self:HookTradeSkillUI()
 	end
@@ -292,12 +291,8 @@ function TradeskillInfo:HookTradeSkillUI()
 		local fsSkillText = TradeSkillDetailScrollChildFrame:CreateFontString("TradeskillInfoSkillText", "BACKGROUND", "GameFontHighlightSmall")
 		local fsProfitText = TradeSkillDetailScrollChildFrame:CreateFontString("TradeskillInfoProfitText", "BACKGROUND", "GameFontHighlightSmall")
 
-		fsSkillText:SetPoint("TOPLEFT", 54, -40)
+		fsSkillText:SetPoint("TOPLEFT", 5, -52)
 		fsProfitText:SetPoint("TOPLEFT", fsSkillText, "TOPRIGHT")
-	end
-
-	if Skillet and not self:IsHooked(Skillet, "GetExtraItemDetailText") then
-		self:RawHook(Skillet, "GetExtraItemDetailText")
 	end
 
 	if IsAddOnLoaded("AdvancedTradeSkillWindow") and not self:IsHooked("ATSWFrame_SetSelection") then
@@ -415,8 +410,8 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 		if self:ShowingSkillLevel() then
 			-- Insert skill required.
 			if TradeskillInfoSkillText then
-				TradeskillInfoSkillText:SetText(L[""] .. "" ..
-				self:GetColoredDifficulty(itemId))
+				TradeskillInfoSkillText:SetText(L["Skill Level"] .. ": " ..
+												self:GetColoredDifficulty(itemId))
 				TradeskillInfoSkillText:Show()
 				yPos = yPos + 4 + TradeskillInfoSkillText:GetHeight()
 			end
@@ -439,14 +434,14 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 			-- Insert item value and reagent costs
 			TradeskillInfoProfitText:SetText(profitLabel .. ": " ..
 				string.format("%s - %s = %s",
-				self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
+							  self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
 			TradeskillInfoProfitText:SetPoint("TOPLEFT", 5, -yPos)
-			--TradeskillInfoProfitText:Show()
-			TradeskillInfoProfitText:Hide()
+			TradeskillInfoProfitText:Show()
 			yPos = yPos + 4 + TradeskillInfoProfitText:GetHeight()
 		else
 			TradeskillInfoProfitText:Hide()
 		end
+
 		TradeSkillDescription:SetPoint("TOPLEFT", 5, -yPos)
 	end
 end
@@ -618,18 +613,16 @@ end
 
 function TradeskillInfo:GetCombineName(id)
 	local name
+
 	if id > 0 then
-		local enchantId = self:GetCombineEnchantId(id)
-		-- Hack Alert: If enchant id < 0, then use item name, otherwise ise spell name
-		if (enchantId < 0) then
-			name = self:GetComponent(id)
-		else
-			name = GetSpellInfo(enchantId)
-		end
+		id = self:GetSpecialCase(id)
+		name = GetItemInfo(id)
 	else
 		name = GetSpellInfo(-id)
 	end
-	if not name then name=tostring(id) end
+
+	if not name then name = tostring(id) end
+
 	return name
 end
 
@@ -809,7 +802,7 @@ function TradeskillInfo:GetCombineCost(id)
 	if item then id = item end
 
 	if id > 0 then
-		value = select(2, self:GetComponent(id, true))
+		value = select(2, self:GetComponent(id, true)) or 0
 
 		if yield > 1 then
 			value = value * yield
@@ -837,7 +830,7 @@ function TradeskillInfo:GetCombineAuctioneerCost(id)
 	if item then id = item end
 
 	if id > 0 then
-		value = select(4, self:GetComponent(id, false, true))
+		value = select(4, self:GetComponent(id, false, true)) or 0
 
 		if yield > 1 then
 			value = value * yield
@@ -1506,9 +1499,9 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 		local c = self.db.profile.ColorID
 
 		if id > 0 then
-			tooltip:AddDoubleLine(L["ItemID"], tostring(id), c.r, c.g, c.b, c.r, c.g, c.b)
+			tooltip:AddDoubleLine(L["Item ID"], tostring(id), c.r, c.g, c.b, c.r, c.g, c.b)
 		else
-			tooltip:AddDoubleLine(L["SpellID"], tostring(-id), c.r, c.g, c.b, c.r, c.g, c.b)
+			tooltip:AddDoubleLine(L["Spell ID"], tostring(-id), c.r, c.g, c.b, c.r, c.g, c.b)
 		end
 	end
 
@@ -1518,7 +1511,7 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 
 		if stack and stack > 1 then
 			local c = self.db.profile.ColorStack
-			tooltip:AddDoubleLine(L["Stack size"], tostring(stack), c.r, c.g, c.b, c.r, c.g, c.b)
+			tooltip:AddDoubleLine(L["Stack Size"], tostring(stack), c.r, c.g, c.b, c.r, c.g, c.b)
 		end
 	end
 

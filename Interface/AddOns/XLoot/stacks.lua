@@ -173,7 +173,7 @@ do
 		local child, new = AcquireChild(self)
 		if new then
 			local n = #self.children
-			self:AnchorChild(child, n > 1 and children[n-1] or nil)
+			self:AnchorChild(child, n > 1 and self.children[n-1] or nil)
 		end
 		child:Show()
 		child.active = true

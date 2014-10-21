@@ -12,7 +12,7 @@
 ## X-eMail: oma_daviesh@hotmail.com
 ## X-Category: Library
 ## X-License: MIT
-## X-Curse-Packaged-Version: r185
+## X-Curse-Packaged-Version: r187
 ## X-Curse-Project-Name: LibBabble-Faction-3.0
 ## X-Curse-Project-ID: libbabble-faction-3-0
 ## X-Curse-Repository-ID: wow/libbabble-faction-3-0/mainline

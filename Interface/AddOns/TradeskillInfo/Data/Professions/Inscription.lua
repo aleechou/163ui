@@ -3,7 +3,7 @@ local C = TradeskillInfo.vars.combines
 
 -- Classic Recipes
 	-- Insciption (Ink)
-C[37101] = "52738|I1/15/22/30|39151" -- Ivory Ink
+	--[37101] = "52738|I1/15/22/30|39151" -- Ivory Ink -- removed in 6.0.2
 C[39469] = "52843|I35/45/60/75|39151:2" -- Moonglow Ink
 C[43115] = "57703|I85/85/90/95|43103" -- Hunter's Ink
 C[39774] = "53462|I75/75/77/80|39334:2" -- Midnight Ink
@@ -68,8 +68,8 @@ C[43466] = "58491|I415/420/425/430|43126 39354:2||2" -- Scroll of Strength VIII
 C[43464] = "58483|I420/425/430/435|43126 39354:2||2" -- Scroll of Agility VIII
 C[44315] = "60337|I350/350/350/355|43126 39354" -- Scroll of Recall III
 	-- Inscription (Special)
-C[-61288] = "I75/125/137/150|43126:3 43127 39354:5" -- Minor Inscription Research
-C[-61177] = "I385/425/437/450|43126:3 43127 39354:5" -- Northrend Inscription Research
+--C[-61288] = "I75/125/137/150|43126:3 43127 39354:5" -- Minor Inscription Research
+--C[-61177] = "I385/425/437/450|43126:3 43127 39354:5" -- Northrend Inscription Research
 C[43515] = "58565|I85/125/137/150|39354:10 43115:5" -- Mystic Tome
 C[43655] = "59478|I125/150/162/175|43117:5 39354:10" -- Book of Survival
 C[43654] = "59475|I125/150/162/175|43117:5 39354:10" -- Tome of the Dawn

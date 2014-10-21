@@ -1,5 +1,5 @@
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo", true)
+local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 
 
 -- upvalues, will be populated in :CreateConfig() at the bottom of the file
@@ -90,7 +90,7 @@ local tooltipOptions = {
 					order = 6,
 				},
 				itemID = {
-					name = L["ItemID"],
+					name = L["Item ID"],
 					desc = L["Show the item's ID"],
 					type = "toggle",
 					arg = "TooltipID",
@@ -190,7 +190,7 @@ local tooltipOptions = {
 					order = 5,
 				},
 				itemID = {
-					name = L["ItemID"],
+					name = L["Item ID"],
 					desc = L["Show the item's ID"],
 					type = "color",
 					arg = "ColorID",

@@ -6,12 +6,12 @@
 ## Notes-esES: UI con Info Completa de las Habilidades de Comercio
 ## Notes-koKR: 전문기술 정보 UI
 ## Author: Ethan Centaurai
-## Version: v2.2.15
+## Version: v2.2.17
 ## Dependencies: TradeskillInfo
 ## LoadOnDemand: 1
 ## X-Icon: Interface\Icons\INV_Elemental_SpiritOfHarmony_2
 ## X-Category: Professions
-## X-Curse-Packaged-Version: v2.2.15
+## X-Curse-Packaged-Version: v2.2.17
 ## X-Curse-Project-Name: TradeSkillInfo
 ## X-Curse-Project-ID: tradeskill-info
 ## X-Curse-Repository-ID: wow/tradeskill-info/mainline
@@ -20,4 +20,4 @@ TradeskillInfoUI.lua
 TradeskillInfoUI.xml
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102001
+## X-163UI-Version: 2014102101

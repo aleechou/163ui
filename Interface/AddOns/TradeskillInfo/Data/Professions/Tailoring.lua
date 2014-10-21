@@ -423,9 +423,9 @@ C[49891] = "70550|T450/475/487/500|41595:10 41593:10 49908:8|49953" -- Leggings 
 C[49892] = "70552|T450/475/487/500|41594:20 49908:8|49955" -- Lightweave Leggings
 C[49893] = "70553|T450/475/487/500|41594:10 49908:5|49956" -- Sandals of Consecration
 C[54797] = "75597|T425/435/445/455|41594 41595 41593 43102:4|54798" -- Frosty Flying Carpet
-C[-55769] = "T420/420/420/420|41593 38426" -- Darkglow Embroidery
-C[-55642] = "T420/420/420/420|41594 38426" -- Lightweave Embroidery
-C[-55777] = "T420/420/420/420|41595 38426" -- Swordguard Embroidery
+--C[-55769] = "T420/420/420/420|41593 38426" -- Darkglow Embroidery
+--C[-55642] = "T420/420/420/420|41594 38426" -- Lightweave Embroidery
+--C[-55777] = "T420/420/420/420|41595 38426" -- Swordguard Embroidery
 C[-56034] = "T405/405/405/405|38426" -- Master's spellthread
 C[-56039] = "T405/405/405/405|38426" -- Sanctified spellthread
 C[53643] = "74964|T425/440/445/450|53010:5" -- Bolt of Embersilk Cloth
@@ -519,9 +519,9 @@ C[75065] = "99537|T490/500/502/505|53643:10 52326:6 52325:6"		-- Vicious Embersi
 
 
 -- MoP
-C[-125481] = "T1/1/1/1|38426:3" -- Lightweave Embroidery
-C[-125482] = "T1/1/1/1|38426:3" -- Darkglow Embroidery
-C[-125483] = "T1/1/1/1|38426:3" -- Swordguard Embroidery
+--C[-125481] = "T1/1/1/1|38426:3" -- Lightweave Embroidery
+--C[-125482] = "T1/1/1/1|38426:3" -- Darkglow Embroidery
+--C[-125483] = "T1/1/1/1|38426:3" -- Swordguard Embroidery
 C[-125496] = "T1/1/1/1|38426:3" -- Master's Spellthread
 C[-125497] = "T1/1/1/1|38426:3" -- Sanctified Spellthread
 

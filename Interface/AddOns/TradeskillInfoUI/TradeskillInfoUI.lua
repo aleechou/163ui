@@ -1,5 +1,5 @@
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
+local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 
 TradeskillInfoUI = TradeskillInfo:NewModule("Browser")
 
@@ -304,16 +304,17 @@ function TradeskillInfoUI:DoFrameUpdate()
 		if ( skillIndex <= numTradeSkills ) then
 			local skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
 			-- If we got ???? or an ID instead of a skill name ...
-			if skillName == "????" or
-			   string.match(skillName, "-?%d+") == skillName then
+--			if skillName == "????" or string.match(skillName, "-?%d+") == skillName then
+			if string.match(skillName, "-?%d+") == skillName then
+				TradeskillInfo:Print("ERROR: Could not find "..skillName)
 				-- ... update the local cache ...
-				self:UpdateCacheIndex(self.vars.searchResult[skillIndex], self.vars.coUpdate_Frame)
+--				self:UpdateCacheIndex(self.vars.searchResult[skillIndex], self.vars.coUpdate_Frame)
 				-- .. If we need to restart drawing, return early. We'll be called again ...
-				if self.vars.coUpdate_FrameRestart then
-					return
-				end
+--				if self.vars.coUpdate_FrameRestart then
+--					return
+--				end
 				-- ... otherwise try to obtain the infgo again. It should be there now.
-				skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
+--				skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
 			end
 			skillType = self:GetTradeSkillAvailability(skillIndex)
 			-- Set button widths if scrollbar is shown or hidden

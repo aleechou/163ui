@@ -6,7 +6,7 @@
 ## Notes-esES: Informarcion Completa de las Habilidades de Comercio
 ## Notes-koKR: 전문기술 정보의 모든 것!
 ## Author: Ethan Centaurai
-## Version: v2.2.15
+## Version: v2.2.17
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced
 ## SavedVariables: TradeskillInfoDB, TradeskillInfoUIDB
 ## LoadManagers: AddonLoader
@@ -14,7 +14,7 @@
 ## X-Credits: Dys, wmrojer, Evenue, Fieroivan, Viruscamp, CMTitan
 ## X-Icon: Interface\Icons\INV_Elemental_SpiritOfHarmony_2
 ## X-Category: Professions
-## X-Curse-Packaged-Version: v2.2.15
+## X-Curse-Packaged-Version: v2.2.17
 ## X-Curse-Project-Name: TradeSkillInfo
 ## X-Curse-Project-ID: tradeskill-info
 ## X-Curse-Repository-ID: wow/tradeskill-info/mainline
@@ -38,13 +38,16 @@ Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 #@end-no-lib-strip@
 
 Locale\enUS.lua
-Locale\ruRU.lua
 Locale\deDE.lua
 Locale\esES.lua
+Locale\esMX.lua
+Locale\frFR.lua
+Locale\itIT.lua
 Locale\koKR.lua
+Locale\ptBR.lua
+Locale\ruRU.lua
 Locale\zhCN.lua
 Locale\zhTW.lua
-Locale\frFR.lua
 
 TradeskillInfo.lua
 DataBroker.lua
@@ -73,7 +76,6 @@ TradeskillInfoOptions.lua
 # TradeSkillInfoUI\TradeSkillInfoUI.xml
 #@end-debug@
 
-
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102001
+## X-163UI-Version: 2014102101
 PatchBy163UI.lua

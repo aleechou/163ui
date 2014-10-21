@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## Title: ChocolateBar
 ## Notes: A display for LibDataBroker-1.1
 ## Author: yess
@@ -47,4 +47,4 @@ Brokers.lua
 
 ## Title: |cff880303[网易有爱]|r 信息条
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102001
+## X-163UI-Version: 2014102101

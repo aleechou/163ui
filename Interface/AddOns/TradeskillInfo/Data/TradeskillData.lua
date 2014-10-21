@@ -1,5 +1,5 @@
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
+local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 local BZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 local BF = LibStub("LibBabble-Faction-3.0"):GetLookupTable()
 
@@ -347,7 +347,7 @@ TradeskillInfo.vars.vendors = {
 	[140] =  L["Nata Dawnstrider"] .. "|42|2|45,40",
 	[141] =  L["Nergal"] .. "|44|3|43,8",
 	[142] =  L["Nerrist"] .. "|35|2|32,29",
-	[143] =  L["Nessa Shadowsong"] .. "|38|1|56,92",
+	[143] =  L["Nessa Shadowsong"] .. "|38|1|54,90",
 	[144] =  L["Nina Lightbrew"] .. "|7|1|67,18",
 	[145] =  L["Nioma"] .. "|40|1|13,43",
 	[146] =  L["Nyoma"] .. "|38|1|57,60",

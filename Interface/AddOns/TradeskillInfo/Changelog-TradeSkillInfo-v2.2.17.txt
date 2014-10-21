@@ -1,0 +1,89 @@
+------------------------------------------------------------------------
+r677 | ethancentaurai | 2014-10-21 00:46:35 +0000 (Tue, 21 Oct 2014) | 1 line
+Changed paths:
+   A /tags/v2.2.17 (from /trunk:676)
+
+Tagging as v2.2.17.
+------------------------------------------------------------------------
+r676 | ethancentaurai | 2014-10-21 00:38:06 +0000 (Tue, 21 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Tweaked debug output.
+------------------------------------------------------------------------
+r675 | ethancentaurai | 2014-10-21 00:31:49 +0000 (Tue, 21 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Professions/Blacksmithing.lua
+   M /trunk/Data/Professions/Enchanting.lua
+   M /trunk/Data/Professions/Engineering.lua
+   M /trunk/Data/Professions/Inscription.lua
+   M /trunk/Data/Professions/Leatherworking.lua
+   M /trunk/Data/Professions/Tailoring.lua
+
+Removed more deprecated recipes from the database.
+------------------------------------------------------------------------
+r674 | ethancentaurai | 2014-10-21 00:00:51 +0000 (Tue, 21 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Browser UI: Print an error instead of permanently locking up the frame.
+------------------------------------------------------------------------
+r673 | ethancentaurai | 2014-10-20 23:54:46 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Professions/Blacksmithing.lua
+
+Blacksmithing: Removed Socket Bracers and Socket Gloves recipes.
+------------------------------------------------------------------------
+r672 | ethancentaurai | 2014-10-20 23:19:29 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoOptions.lua
+
+This typo fix didn't get sent to the repository somehow.
+------------------------------------------------------------------------
+r671 | ethancentaurai | 2014-10-20 22:55:42 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Professions/Blacksmithing.lua
+   M /trunk/Data/Professions/Enchanting.lua
+   M /trunk/Data/Professions/Inscription.lua
+   M /trunk/Data/Professions/Jewelcrafting.lua
+   M /trunk/Data/Professions/Leatherworking.lua
+
+Applied reesonline's profession data patch. Thank you! Closes ticket 92.
+------------------------------------------------------------------------
+r670 | ethancentaurai | 2014-10-20 22:48:14 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+   M /trunk/TradeskillInfoOptions.lua
+
+Fixed a typo. Closes ticket 91.
+------------------------------------------------------------------------
+r669 | ethancentaurai | 2014-10-20 22:44:52 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Fixed a capitalisation fail. ("Stack size" -> "Stack Size")
+------------------------------------------------------------------------
+r668 | ethancentaurai | 2014-10-20 22:41:09 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.toc
+
+TradeSkillInfoUI is no longer marked as out-of-date.
+------------------------------------------------------------------------
+r666 | ethancentaurai | 2014-10-17 15:51:29 +0000 (Fri, 17 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.toc
+
+Bump Interface number to 60000.
+------------------------------------------------------------------------
+r665 | ethancentaurai | 2014-09-28 10:32:23 +0000 (Sun, 28 Sep 2014) | 1 line
+Changed paths:
+   M /trunk/Data/TradeskillData.lua
+
+Updated Nessa Shadowsong's co-ordinates.
+------------------------------------------------------------------------
+r664 | ethancentaurai | 2014-08-26 15:01:29 +0000 (Tue, 26 Aug 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Miner/mine.sh
+
+Update to jdk8u20.
+------------------------------------------------------------------------

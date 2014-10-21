@@ -1,5 +1,5 @@
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TradeskillInfo")
+local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 local LDB = LibStub("LibDataBroker-1.1", true)
 
 if LDB then
