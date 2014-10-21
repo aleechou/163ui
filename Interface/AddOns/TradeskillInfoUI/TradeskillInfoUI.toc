@@ -20,4 +20,4 @@ TradeskillInfoUI.lua
 TradeskillInfoUI.xml
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102101
+## X-163UI-Version: 20141021100737

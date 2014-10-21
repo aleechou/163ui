@@ -50,4 +50,4 @@ Core\Options.lua
 
 ## Title: |cff880303[网易有爱]|r 按钮美化皮肤
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102001
+## X-163UI-Version: 20141020142520
