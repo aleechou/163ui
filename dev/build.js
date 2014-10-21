@@ -8,6 +8,8 @@ var EasyZip = require('easy-zip').EasyZip
 var child_process = require("child_process")
 var Steps = require("ocsteps")
 var _path = require("path")
+var toc = require('./toc.js')
+require('./dateformat.js')
 var ArgumentParser = require("argparse").ArgumentParser
 
 var parser = new ArgumentParser()
@@ -308,27 +310,12 @@ function parseToc(addonName){
 
     var addonDir = srcdir+"/"+addonName ;
     var content = fs.readFileSync(addonDir+"/"+addonName+".toc").toString() ;
-    var lines = content.split("\n");
 
-    var toc = {
+    var tocobj = {
 		name: addonName
-		, metainfo: {}
+		, metainfo: toc.parseTocFile(content,outputTocOptions)
 		, files: {}
     } ;
-
-    for(var i=0;i<lines.length;i++){
-		var line = lines[i].trim() ;
-
-		if(!line){
-		    continue ;
-		}
-
-		// config option
-		var res = /##\s*([^:]+):\s*(.+)$/.exec(line) ;
-		if(res && res[1] && outputTocOptions[res[1]] ){
-			toc.metainfo[ res[1] ] = res[2] ;
-		}
-    }
 
     function findfiles(subdir){
 		fs.readdirSync(addonDir+"/"+subdir).map(function(filename){
@@ -348,7 +335,7 @@ function parseToc(addonName){
     
     //console.log("found files:",Object.keys(toc.files).length) ;
 
-    return toc ;
+    return tocobj ;
 }
 
 function md5fileSync(filepath){
@@ -371,28 +358,4 @@ function md5file(filepath,cb){
 	cb && cb(err)
     })
 
-}
-
-
-
-// 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
-// 例子： 
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-Date.prototype.Format = function (fmt) { //author: meizz 
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
 }
