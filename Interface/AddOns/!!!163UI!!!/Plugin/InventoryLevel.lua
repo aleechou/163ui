@@ -434,7 +434,7 @@ local levelAdjust={
 ["502"]=4,["503"]=8,["504"]=12,["505"]=16,["506"]=20,["507"]=24,}
 
 local function GetActualItemLevel(link, baseLevel) 
-   local upgrade = link:match(':(%d+)\124h%[') 
+   local upgrade = link:match(':(%d+):%d+:%d+\124h%[') 
    if not upgrade then return baseLevel end 
    return baseLevel + (levelAdjust[upgrade] or 0) 
 end 
