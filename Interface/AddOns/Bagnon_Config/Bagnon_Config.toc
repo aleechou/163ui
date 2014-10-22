@@ -10,4 +10,4 @@ widgets\widgets.xml
 panels\panels.xml
 ## Title-zhCN: |cff880303[网易有爱]|r 简约背包设定
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141022112403
