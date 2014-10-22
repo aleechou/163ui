@@ -40,4 +40,4 @@ RangeDisplay.lua
 
 ## Title: |cff880303[网易有爱]|r 距离显示
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014060201
+## X-163UI-Version: 20141022163916
