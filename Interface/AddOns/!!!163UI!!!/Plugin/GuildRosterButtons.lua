@@ -18,6 +18,8 @@ f:SetScript("OnEvent", function(self,event,...)
 		
 		GuildRosterViewDropdown:Hide()
 		
+		-- 6.0 前夕开始已经取消公会等级
+		--[[
 		local function OnUpdate(self, elapsed)
 			if GetGuildLevel() > 0 then
 				GuildFrame_UpdateLevel()
@@ -26,7 +28,8 @@ f:SetScript("OnEvent", function(self,event,...)
 		end
 		
 		local g = CreateFrame("Frame")
-		g:SetScript("OnUpdate", OnUpdate)		
+		g:SetScript("OnUpdate", OnUpdate)	
+		]]	
 		
 		if not tContains(VIEWS, GetCVar("guildRosterView")) then
 			SetCVar("guildRosterView", "playerStatus")
