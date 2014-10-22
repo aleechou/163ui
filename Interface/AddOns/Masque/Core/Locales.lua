@@ -3,7 +3,7 @@
 	please see the included License.txt file.
 
 	* File.....: Core\Locales.lua
-	* Revision.: 360
+	* Revision.: 403
 	* Author...: StormFX
 
 	Localization
@@ -29,7 +29,7 @@ Core.Locale = setmetatable(L, {
 
 --[[ enUS/enGB: For reference only.
 L = {
-	["Addons"] = "Addons",
+	["Addon Settings"] = "Addon Settings",
 	["Adjust the skin of all buttons registered to %s. This will overwrite any per-group settings."] = "Adjust the skin of all buttons registered to %s. This will overwrite any per-group settings.",
 	["Adjust the skin of all buttons registered to %s: %s."] = "Adjust the skin of all buttons registered to %s: %s.",
 	["Adjust the skin of all registered buttons. This will overwrite any per-add-on settings."] = "Adjust the skin of all registered buttons. This will overwrite any per-add-on settings.",
@@ -50,6 +50,7 @@ L = {
 	["Enable the backdrop texture."] = "Enable the backdrop texture.",
 	["Enable the minimap icon."] = "Enable the minimap icon.",
 	["Flash"] = "Flash",
+	["General"] = "General",
 	["Global"] = "Global",
 	["Gloss Settings"] = "Gloss Settings",
 	["Highlight"] = "Highlight",
@@ -62,7 +63,7 @@ L = {
 	["Normal"] = "Normal",
 	["Opacity"] = "Opacity",
 	["Preload Options"] = "Preload Options",
-	["Profiles"] = "Profiles",
+	["Profile Settings"] = "Profile Settings",
 	["Pushed"] = "Pushed",
 	["Reset Skin"] = "Reset Skin",
 	["Reset all skin options to the defaults."] = "Reset all skin options to the defaults.",
@@ -105,6 +106,7 @@ L["Enable"] = "Aktivieren"
 L["Enable the backdrop texture."] = "Die Hintergrundtextur aktivieren."
 L["Enable the minimap icon."] = "Das Minimap-Symbol aktivieren"
 L["Flash"] = "Leuchten"
+-- L["General"] = ""
 L["Global"] = "Global"
 L["Gloss Settings"] = "Glanz Einstellung"
 L["Highlight"] = "Hervorheben"
@@ -157,6 +159,7 @@ L["Enable"] = "Activado"
 L["Enable the backdrop texture."] = "Habilitar la textura de fondo." -- Needs review
 -- L["Enable the minimap icon."] = ""
 L["Flash"] = "Destello" -- Needs review
+-- L["General"] = ""
 L["Global"] = "Global" -- Needs review
 L["Gloss Settings"] = "Opciones de Brillo" -- Needs review
 L["Highlight"] = "Resaltado" -- Needs review
@@ -209,6 +212,7 @@ L["Disabled"] = "Borde Desactivado"
 -- L["Enable the backdrop texture."] = ""
 -- L["Enable the minimap icon."] = ""
 L["Flash"] = "Destello"
+-- L["General"] = ""
 -- L["Global"] = ""
 -- L["Gloss Settings"] = ""
 L["Highlight"] = "Resaltado"
@@ -261,6 +265,7 @@ L["Enable fonts provided by skins."] = "Active les polices d'écriture fournies 
 L["Enable the backdrop texture."] = "Activer la texture de fond."
 L["Enable the minimap icon."] = "Active l'icône de la minicarte."
 L["Flash"] = "Flash"
+-- L["General"] = ""
 L["Global"] = "Global"
 L["Gloss Settings"] = "Paramètres du vernis"
 L["Highlight"] = "Surbrillance"
@@ -313,6 +318,7 @@ L["Enable fonts provided by skins."] = "스킨에 의해 제공되는 글꼴을 
 L["Enable the backdrop texture."] = "바탕 텍스쳐를 활성화합니다."
 L["Enable the minimap icon."] = "미니맵 아이콘을 활성화 합니다."
 L["Flash"] = "번쩍임"
+-- L["General"] = ""
 L["Global"] = "공통 옵션"
 L["Gloss Settings"] = "광택 효과 설정"
 L["Highlight"] = "강조된 버튼"
@@ -365,6 +371,7 @@ L["Enable"] = "Включить"
 -- L["Enable the backdrop texture."] = ""
 -- L["Enable the minimap icon."] = ""
 L["Flash"] = "Сверкание" -- Needs review
+-- L["General"] = ""
 -- L["Global"] = ""
 L["Gloss Settings"] = "Настройки глянеца" -- Needs review
 L["Highlight"] = "Выделение" -- Needs review
@@ -417,6 +424,7 @@ L["Enable fonts provided by skins."] = "启用皮肤提供的字体。"
 L["Enable the backdrop texture."] = "启用背景材质。"
 L["Enable the minimap icon."] = "启用小地图图标。"
 L["Flash"] = "闪光"
+-- L["General"] = ""
 L["Global"] = "全局"
 L["Gloss Settings"] = "光泽设置"
 L["Highlight"] = "高亮"
@@ -469,6 +477,7 @@ L["Enable fonts provided by skins."] = "啟用由佈景主題提供的字型。"
 L["Enable the backdrop texture."] = "啟用背景材質。"
 L["Enable the minimap icon."] = "啟用小地圖圖示。"
 L["Flash"] = "閃光"
+-- L["General"] = ""
 L["Global"] = "全域"
 L["Gloss Settings"] = "光澤設定"
 L["Highlight"] = "高亮"
