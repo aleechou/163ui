@@ -1,0 +1,34 @@
+## Interface: 60000
+## Title: RangeDisplay Options
+## Author: mitch0
+## Version: v4.2.5
+## Notes: Configuration options for RangeDisplay
+## Title-zhCN: |CFFFF8000辅助|R 目标距离 设置模块
+## Notes-zhCN: 监视目标距离
+# Title-zhTW: |CFFFF8000輔助|R 目標距離 設置模組
+## Notes-zhTW: 監視目標距離
+## X-Repple: 辅助
+## OptionalDeps: AceGUI-3.0-SharedMediaWidgets
+## Dependencies: RangeDisplay
+## LoadOnDemand: 1
+## X-License: Public Domain
+## X-RelSite-WoWI: 7297
+## X-Curse-Packaged-Version: v4.2.5
+## X-Curse-Project-Name: RangeDisplay
+## X-Curse-Project-ID: range-display
+## X-Curse-Repository-ID: wow/range-display/mainline
+
+#@no-lib-strip@
+libs\Ace3\AceGUI-3.0\AceGUI-3.0.xml
+libs\Ace3\AceConfig-3.0\AceConfigRegistry-3.0\AceConfigRegistry-3.0.xml
+libs\Ace3\AceConfig-3.0\AceConfigDialog-3.0\AceConfigDialog-3.0.xml
+libs\Ace3\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+#@end-no-lib-strip@
+
+localizations.lua
+Options.lua
+
+## Title: |cff880303[网易有爱]|r 距离显示设置
+## X-Vendor: NetEase
+## X-163UI-Version: 20141022163916

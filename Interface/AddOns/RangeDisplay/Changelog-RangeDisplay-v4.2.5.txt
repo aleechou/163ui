@@ -1,0 +1,20 @@
+------------------------------------------------------------------------
+r361 | mitch0 | 2014-10-14 17:43:11 +0000 (Tue, 14 Oct 2014) | 1 line
+Changed paths:
+   A /tags/v4.2.5 (from /trunk:360)
+
+Tagging as v4.2.5
+------------------------------------------------------------------------
+r360 | mitch0 | 2014-10-14 09:29:26 +0000 (Tue, 14 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/RangeDisplay.toc
+   M /trunk/RangeDisplay_Options/RangeDisplay_Options.toc
+
+toc bump, WoD version
+------------------------------------------------------------------------
+r359 | mitch0 | 2014-08-20 16:12:06 +0000 (Wed, 20 Aug 2014) | 1 line
+Changed paths:
+   M /trunk/RangeDisplay_Options/Options.lua
+
+fix debug functions
+------------------------------------------------------------------------

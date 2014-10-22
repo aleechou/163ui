@@ -1,15 +1,28 @@
-## Interface: 60000
+## Interface: 60000 
+## Title: PetJournal Enhanced
 ## Author: nullberri(汉化：上官晓雾)
 ## Notes: Displays the rarity of the enemies pets in their tooltip.
-## Version: 2.9.8
+## Author: nullberri
+## Version: 2.9.11
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_PetJournal
-## X-Date: 2012-7-25
+## SavedVariables: PetJournalEnhancedDB
 ## X-Category: Pet Journal
 ## X-Localizations: enUS,deDe,ruRU
-## SavedVariables: PetJournalEnhancedDB
 
+
+
+
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
 libs\LibPetJournal-2.0\LibPetJournal-2.0.lua
+libs\AceConfig-3.0\AceConfig-3.0.xml
+libs\AceLocale-3.0\AceLocale-3.0.xml
 libs\LibPetBreedInfo-1.0\LibPetBreedInfo-1.0.lua
 
 #no dep
@@ -49,4 +62,4 @@ modules\HookedFunctions.lua
 
 ## Title: |cff880303[网易有爱]|r 宠物搜索过滤
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141022163916

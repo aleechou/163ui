@@ -300,6 +300,8 @@ function PetList.PetJournal_ShowPetCard(index)
 		PetJournalPetCard.petID, PetJournalPetCard.speciesID, owned = C_PetJournal.GetPetInfoByIndex(pet.index, PetJournal.isWild);	
 		if ( not owned ) then
 			PetJournalPetCard.petID = nil;
+			PetJournal_ShowPetCardBySpeciesID(PetJournalPetCard.speciesID);
+			return;
 		end
 		PetJournal_UpdatePetCard(PetJournalPetCard);
 		PetJournal_UpdatePetList();
@@ -418,10 +420,10 @@ function PetList.PetJournal_UpdatePetList()
 				pet.dragButton.level:SetShown(canBattle);
 				pet.dragButton.level:SetText(level);
 				
-				pet.icon:SetDesaturated(0);
+				pet.icon:SetDesaturated(false);
 				pet.name:SetFontObject("GameFontNormal");
 				pet.petTypeIcon:SetShown(canBattle);
-				pet.petTypeIcon:SetDesaturated(0);
+				pet.petTypeIcon:SetDesaturated(false);
 				pet.dragButton:Enable();
 				
 				if (isWildPet) then
@@ -443,18 +445,18 @@ function PetList.PetJournal_UpdatePetList()
 					pet.dragButton.levelBG:Hide();
 					pet.dragButton.level:Hide();
 					pet.iconBorder:Hide();
-					pet.icon:SetDesaturated(1);
-					pet.petTypeIcon:SetDesaturated(1);
+					pet.icon:SetDesaturated(true);
+					pet.petTypeIcon:SetDesaturated(true);
 					pet.dragButton:Disable();
 				end
 			else
 				pet.dragButton.levelBG:Hide();
 				pet.dragButton.level:Hide();
-				pet.icon:SetDesaturated(1);
+				pet.icon:SetDesaturated(true);
 				pet.iconBorder:Hide();
 				pet.name:SetFontObject("GameFontDisable");
 				pet.petTypeIcon:SetShown(canBattle);
-				pet.petTypeIcon:SetDesaturated(1);
+				pet.petTypeIcon:SetDesaturated(true);
 				pet.dragButton:Disable();
 				pet.isDead:Hide();
 			end
