@@ -11,4 +11,4 @@ main.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 公会银行整合
 ## Notes-zhCN: 在一个窗口中显示所有公会银行内的物品
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141022112403
