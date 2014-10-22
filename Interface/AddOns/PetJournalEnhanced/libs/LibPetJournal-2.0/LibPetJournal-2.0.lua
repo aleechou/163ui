@@ -20,12 +20,10 @@
  IN THE SOFTWARE.
 ]]
 
-local MAJOR, MINOR = "LibPetJournal-2.0", 26
+local MAJOR, MINOR = "LibPetJournal-2.0", 27
 local lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
-
-local is5_0 = select(4, GetBuildInfo()) < 50100
 
 --
 --
@@ -57,8 +55,12 @@ do
     local PJ_FLAG_FILTERS = {
         [LE_PET_JOURNAL_FLAG_COLLECTED] = true,
         [LE_PET_JOURNAL_FLAG_NOT_COLLECTED] = true,
-        [LE_PET_JOURNAL_FLAG_FAVORITES] = false
     }
+
+    -- pre-WoD (<6.0)
+    if LE_PET_JOURNAL_FLAG_FAVORITES ~= nil then
+        PJ_FLAG_FILTERS[LE_PET_JOURNAL_FLAG_FAVORITES] = false
+    end
 
     local s_search_filter
     local flag_filters = {}
@@ -254,12 +256,7 @@ function lib:LoadPets()
             -- PetJournal has some weird consistency issues when the UI is loading.
             -- GetPetInfoByPetID is not immediately ready, while GetPetInfoByIndex is.
             -- This check only seems to need to happen once.
-            local _, name
-            if is5_0 then
-                _, _, _, _, _, _, name = C_PetJournal.GetPetInfoByPetID(petID)
-            else
-                _, _, _, _, _, _, _, name = C_PetJournal.GetPetInfoByPetID(petID)
-            end
+            local _, _, _, _, _, _, _, name = C_PetJournal.GetPetInfoByPetID(petID)
 
             if not name then
                 self:RestoreFilters()

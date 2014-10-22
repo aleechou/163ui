@@ -1,0 +1,8 @@
+2013-05-04  Robin Schoonover  <robin@cornhooves.org>
+
+[b741c809b7bd] [2.0.26]
+* LibPetJournal-2.0.lua:
+
+Bump minor.
+
+

@@ -184,7 +184,7 @@ function private.VFrame:VIGNETTE_ADDED(event, instanceid, ...)
 			alert_text = L["FOUND_FORMAT"]:format("Vignette Mob")
 		end
 		--alert_text = L["FOUND_FORMAT"]:format("Vignette Mob")
-		private.Button:SetNPC(private.NPC_NAME_TO_ID[name], name, "Vignette Mob")
+		--private.Button:SetNPC(private.NPC_NAME_TO_ID[name], name, "Vignette Mob")
 	else -- All other cases
 		Debug("Untracked Vigenette")
 	end

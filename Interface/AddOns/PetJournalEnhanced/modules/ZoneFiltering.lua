@@ -7,9 +7,14 @@ local INSTANCES = L["Instances"]
 function ZoneFiltering:OnInitialize()
 	
 	--self:FindNewPets()
-	
-	
-	self.ZoneGroupNames = {GetMapContinents()}
+	self.ZoneGroupNames= {}	
+	local continentsP6 = { GetMapContinents() };
+	local index = 0;
+	for i = 2, #continentsP6, 2 do
+	 index = index + 1;
+	 self.ZoneGroupNames[index] = continentsP6[i];
+	end
+	--self.ZoneGroupNames = {GetMapContinents()}
 	table.insert(self.ZoneGroupNames,INSTANCES)
 	
 	local ZoneToSpecies = {}

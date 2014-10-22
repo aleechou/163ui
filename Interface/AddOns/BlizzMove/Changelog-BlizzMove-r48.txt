@@ -1,0 +1,13 @@
+------------------------------------------------------------------------
+r48 | yess | 2014-10-15 16:56:24 +0000 (Wed, 15 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/BlizzMove.toc
+
+Update TOC
+------------------------------------------------------------------------
+r46 | EricTheDad | 2014-09-18 08:42:52 +0000 (Thu, 18 Sep 2014) | 1 line
+Changed paths:
+   M /trunk/BlizzMove.lua
+
+These are the modifications I wrote you about.  Just ferreted out the new frame names for some things, fixed the guild panel title bar not being dragable and deleted a few unnecessary SetMoveHandler calls that were for panels that no longer exist or were handled further down in the function.
+------------------------------------------------------------------------

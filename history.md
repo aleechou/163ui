@@ -1,3 +1,12 @@
+2014-10-22/03
+===
+
+* 更新框体移动Blizzmove
+* 恢复距离显示RangeDisplay
+* 更新宠物搜索排序过滤PetJournalEnhanced
+* 更新NPCScan(现在不支持插图报警)
+
+
 2014-10-22/02
 ===
 

@@ -80,7 +80,7 @@ local function CreateDropdownMenu(self,level)
 							Sorting:UpdatePets()
 						end 
 		info.disabled = not info.checked or info.checked ~= true;
-		info.checked = not C_PetJournal.IsFlagFiltered(LE_PET_JOURNAL_FLAG_FAVORITES);
+		info.checked = false --not C_PetJournal.IsFlagFiltered(LE_PET_JOURNAL_FLAG_FAVORITES);
 		info.isNotRadio = true;
 		info.leftPadding = 16;
 		UIDropDownMenu_AddButton(info, level)
@@ -841,7 +841,7 @@ function DropDown:OnInitialize()
 	self.petOptionsMenu = CreateFrame("Frame","PetJournalEnhancedPetMenu",PetJournal,"UIDropDownMenuTemplate");
 	self.filterButton = CreateFrame("Button","PetJournalEnhancedFilterButton",PetJournal,"UIMenuButtonStretchTemplate");
 	self.filterButton:SetText(FILTER)
-	self.filterButton.rightArrow:Show();
+	--self.filterButton.rightArrow:Show();
 	self.filterButton:SetAllPoints("PetJournalFilterButton")
 
 	UIDropDownMenu_Initialize(self.menuFrame, CreateDropdownMenu , "MENU")

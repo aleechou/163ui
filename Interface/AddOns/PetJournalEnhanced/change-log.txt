@@ -1,0 +1,217 @@
+r47 added ruRU
+r47 fixed deDE
+
+r46 added deDe localization (90.3%)
+r45 added support for localization
+
+2.7.0 changed toc to reflect the release number
+
+r44 added ability type filtering
+r44 added level bracket filtering
+r44 moved can battle, cant battle, can trade, cant trade to new "miscellaneous" menu
+
+r43 fixed long standing bug with zone filtering and users with UI scale set with a higher value then I developed with.
+r43 Continents with more than 16 entries are now split into 2 entries ContinentName and ContinentName Cont.
+r42 fixed a leaked global variable.
+
+2.6.6 release.
+
+r41 updated libpetbreedinfo
+r40 added data from 73 - Add zone mappings for new pets/zones from 5.2
+
+2.6.5 fixed issue with no breed info in petloadout
+
+2.6.4 added several nil checks for using getpetInfo and getpetstats
+2.6.4 updated libpetbreedinfo lib
+2.6.4 updated toc file
+
+2.6.3 Unknown zone is now toggled by uncheck/check all in the zone filtering menu
+2.6.3 zone filtering is now reset by using the  reset filters button
+
+2.6.2 max stat icons are now parented to the right frame (should work for elvui and not be semi greyed out on stock uis)
+
+r39 fixed ticket 65 - Enabled breed option hides some pets in the journal
+r39 addressed ticket 64 - Create Pet thory incompatibility warning
+r39 addressed ticket 60 - Investigate elvui conflict
+
+r38 redid zonefiltering to be more non enUS friendly. Hopefully fixed all langauges.
+
+r37 changed highstat to be a child of hooked instead of the button list so when people use pet thoery it will at least not error out.
+r37 fixed ticket 58 - lua error on login
+
+2.6.1 change toc to release number
+
+r36 fixed an errant space and formatted the available breeds better for long strings.
+r35 converted all concatenations to string.format
+r35 re-wrote pet card function
+
+r33
+Created a pet breed info library and then updated PJE to use it
+
+r32-2 Re-upped r32
+Improved no dependency usage
+let me know in PJE doesn't load.
+fixed breed filter reseting
+
+2.6.0 - changed to release
+
+r31
+
+r30 fixed breed bugs from r29, added configuration options for breed ID and stat extrapolation. Breed ID is initially set to not be displayed.
+Grey indicates low confidence in our prediction for breedID and lvl 25 stats, gold text indicates strong confidence.
+
+r29 added BreedID and stat projection to lvl 25 in pet card. Todo: Remove max stat concept, add filtering & sorting for breedID's, redo config menu
+
+r28 removed localization code, unused code in zonefiltering, and petjournalenhanced.lua Changed quantity filter back to 1-3, fixed issue with unowned pets. fixed issue with quantity owned not updating.
+
+r27 removed need for localization in zone filtering, added zone ID usage for current zone filter
+
+r26 fixed filter reset , added filter for 0 quantity.
+
+r25 added Quantity filter.
+
+2.5.2 added support for 5.1
+
+2.5.1 fixed a bug where using the filter reset didn't fully reset zone filtering
+
+r24 Added new LibPetJournal-2.0 r79 alpha to PJE, this should take care of an incompatability with pet battle count and other libpetjournal mods.
+
+2.5.0 added reset to sort menu
+
+r23 changed sorting options names to better indicate what they do, changed defualt setting to show the most pets possible.
+
+r22 Fixed taint issue with glyph UI.
+
+Added Debug code for people experiencing missing pets.
+
+Procedure: Cut and paste /run PetJournalEnhanced:Debug("albino snack") into your chat box and change "albino snack" to the missing pet (remember to include qoutes around the name).
+
+examples:
+/run PetJournalEnhanced:Debug("albino snack")
+
+This Should always fail as their is no pet named albino snack
+
+/run PetJournalEnhanced:Debug("yellow moth")
+
+This should succeed in finding the yellow moth in the sorted data (it will choose the owned one over the unowned one)
+
+to find a particular pet use /run PetJournalEnhanced:Debug("") put the pets name (its case insensitive) between the qoute markings. spelling and punctuation matter, do not use a spell link.
+
+If the search fails, take a screen shot of the outputed text and a screenshot of the pet in your journal and selected with PJE disabled.
+
+r21 Fixed zoneFiltering, Added all remaining langauges for zone filtering
+
+r20 Added support for ptBR zone filtering, more languages to follow.
+
+2.4.5 fixed an issue where newly caught pets would show the incorrect rarity
+2.4.4 fixed petcard bug and optimized sorting with zone filters
+2.4.3 hopefully fixed a number of errors and crashes
+
+2.4.1 fixed memory issue, should consume near static amounts of memory now. the GC wasn't really aggressive enough to handle aggressive searrching.
+
+2.4.1 fixed a crash bug i hope, fixed issues with the favorite sort option
+
+2.4.0 fixed minor bugs, bumped toc to release number
+
+r19 added filter by not tradable this is the RC for 2.4.0
+r18 Major refactoring of the project.
+
+r16 reworked zone filtering to work with non us clients, split large continents into separate lists to prevent the list from going off screen. Sorted the zones as well.
+
+r15 restricted zone corrections for pets to enUS clients only.
+
+r14 added zone filtering
+
+r13
+fixed numerous bugs related to r12
+
+r12
+Added filter by quality
+Added filter by specialization
+Added Sort favorites to top to sort menu
+Moved specialization indicator to the right of the pet's name so as to show more of the pets icon
+
+2.3.3 release
+
+r11 fixed toc, removed alpha code, moving to beta with minor fixes.
+
+r10 added ace gui to addon
+
+r8 fixed "Script takes to long issue" i hope
+
+2.3.1 changed the way i listen for extra pet updates that are unexpected
+
+2.3.0 Fixed loadout pets not having their names being colored, changed the wording on several options.
+
+r6 added coloring to pet names , broke down additional pet info into multiple options.
+
+r5 fixed display issue with config options appearing to be linked
+
+r4 added an integrity check to functions which iterate on the internal pet mapping.
+
+r3 non pet battle pets now always filter to the bottom of the list when sorting by level, rarity and maxstat, pettype.
+Removed sort by added to pet journal, petID is not a reliable indicator of order.
+
+r2 fixed a sorting bug when you had filters active and then learned | caged | released a pet
+
+r1 I'm labeling betas by release number, starting with 1.
+moved Show additional pet information to the options menu.
+
+2.2.0 Pets are now sorted by favorites first. pets which cant battle are now considered level 0 for sorting purposes.
+Added Unique pet count (togglable from the wow addons option menu)
+
+2.1.6 Fixed a bug in checking for version 1.4.5-1.4.6, fixed toc entry to add libstub and callbackhandler
+
+2.1.5  added a check for having 1.4.5 installed at the same time as 2.1.5
+
+2.1.5 b2 fixed bugs in petcard_findindex and bugs introduced in b1
+
+2.1.5 b1 Rewired addon to no longer use petjounral list update event unless a new pet is added or lost
+
+2.1.4 rolled back more tooltip stuff
+
+2.1.3 rolling back item tooltips
+
+2.1.2 forgot to add item tooltips in as well, and itemreftooltip
+
+2.1.1 added pet battle tooltips
+
+2.1.0 added pet owned and quality to tooltips,
+
+2.0.0 reworked PJE to no longer overwrite the C_PetJournal API for info by index. Added framework for reimplementing PJEX
+
+1.4.7 fixed memory footprint
+1.4.6 fixed more compatibility issues.
+disabled filter by zone
+
+1.4.5 fixed compatibility issues with a number of mods. removed debug line.
+
+1.4.4 fixed an initialization error with pet mapping
+
+1.4.3 changed the way pet num is calculated to match blizzards changes.
+
+1.4.2 fixed an issue with the inital use of PJE and changed the way i used string.find to match zones
+
+1.4.1 fixed a rounding issue with pet specializations
+
+1.4.0 Added Filter by zone.
+
+1.3.1 re did the sort menus to be easier to work with.
+
+1.30 Added sort by pet id, changed sort function handling
+
+1.2.2 Fixed version to better fit how I'm doing releases now
+
+1.0.10: turns out blizzard doesn't nill check =/. wrapped my call in a pcall to prevent errors for calls that don't matter.
+
+1.0.9: fixed an issue with checking for nils
+
+1.0.8: added sort by rarity, highest stat
+
+1.0.8: fixed a bug where pets balanced pets were considered specialized
+
+1.0.7: Added sort by pet type.
+
+1.0.7: Sorting is now done by isOwned then Selected Sort then name and or level where appropriate.
+
+1.0.6: Unowned pets now always appear after owned pets.
