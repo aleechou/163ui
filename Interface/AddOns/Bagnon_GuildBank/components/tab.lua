@@ -69,7 +69,7 @@ end
 
 function Tab:UpdateCount(count)
 	if self:GetChecked() or self:IsCached() then
-		self:SetCount(count or select(6, self:GetInfo()))
+		self.Count:SetText(count or select(6, self:GetInfo()))
 	end
 end
 

@@ -6,18 +6,15 @@
 ## SavedVariables: BagnonGlobalSettings
 
 ## OptionalDeps: BagBrother, ItemRack, Wardrobe, WoWUnit
-## Version: 6.0.10
+## Version: 6.0.12
 
 libs\libs.xml
 localization\localization.xml
 main.lua
 
 api\api.xml
-events\events.xml
-info\info.xml
 settings\settings.xml
 components\components.xml
-
 ## Title-zhCN: |cff880303[网易有爱]|r 简约背包整合
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141020142520

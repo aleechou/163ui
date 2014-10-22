@@ -103,10 +103,11 @@ function SearchFrame:UpdateEvents()
 	self:UnregisterAllMessages()
 	self:RegisterMessage('TEXT_SEARCH_ENABLE')
 	self:RegisterMessage('TEXT_SEARCH_DISABLE')
-	
+--[[	
 	if self:IsVisible() then
 		self:RegisterMessage('TEXT_SEARCH_UPDATE')
 	end
+--]]
 end
 
 function SearchFrame:UpdateShown()
