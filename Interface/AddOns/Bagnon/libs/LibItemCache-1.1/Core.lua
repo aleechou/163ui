@@ -15,7 +15,7 @@ along with this library. If not, see <http://www.gnu.org/licenses/>.
 This file is part of LibItemCache.
 --]]
 
-local Lib = LibStub:NewLibrary('LibItemCache-1.1', 15)
+local Lib = LibStub:NewLibrary('LibItemCache-1.1', 16)
 if not Lib then
 	return
 end
@@ -149,14 +149,13 @@ function Lib:GetBagInfo(player, bag)
 			return link, 0, icon, slot, tonumber(size) or 0, true
 		else
 			local link = GetInventoryItemLink('player', slot)
-			local count = GetInventoryItemCount('player', slot)
 			local icon = GetInventoryItemTexture('player', slot)
 
-			return link, count, icon, slot, GetContainerNumSlots(bag)
+			return link, GetContainerNumFreeSlots(bag), icon, slot, GetContainerNumSlots(bag)
 		end
 	end
 
-	return nil, 0, nil, nil, owned and GetContainerNumSlots(bag) or 0, isCached
+	return nil, GetContainerNumFreeSlots(bag), nil, nil, owned and GetContainerNumSlots(bag) or 0, isCached
 end
 
 function Lib:GetBagType(player, bag)
