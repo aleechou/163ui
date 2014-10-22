@@ -18,7 +18,7 @@ end
 
 function JSHB.Options:GetPlayerFocusSpells()
 	local spellTable = {}
-	for i = 1, MAX_SKILLLINE_TABS do
+	--[[for i = 1, MAX_SKILLLINE_TABS do
 		local name, texture, offset, numSpells = GetSpellTabInfo(i)
 		if not name then break end
 		
@@ -32,7 +32,31 @@ function JSHB.Options:GetPlayerFocusSpells()
 			end
 		end
 	end
+	]]--
+	
+	-- 1 = BM
+	-- 2 = MMS
+	-- 3 = SV
+	spellTable["Arcane Shot"] = "Arcane Shot".." (" .. "30" .. ")" 
 
+
+	spellTable["Aimed Shot"] = "Aimed Shot".." (" .. "50" .. ")" 
+
+	spellTable["Multi-Shot"] = "Multi-Shot".." (" .. "40" .. ")" 
+
+
+	spellTable["Multi-Shot"] = "Multi-Shot".." (" .. "40" .. ")" 
+
+	spellTable["Black Arrow"] = "Black Arrow".." (" .. "35" .. ")" 
+	spellTable["Barrage"] = "Barrage".." (" .. "60" .. ")" 
+	spellTable["Glaive Toss"] = "Glaive Toss".." (" .. "15" .. ")" 
+	spellTable["Powershot"] = "Powershot".." (" .. "15" .. ")" 
+	spellTable["A Murder of Crows"] = "A Murder of Crows".." (" .. "30" .. ")" 
+	--spellTable["Revive Pet"] = "Revive Pet".." (" .. "35" .. ")" 
+	
+	
+	
+	
 	return spellTable
 end
 

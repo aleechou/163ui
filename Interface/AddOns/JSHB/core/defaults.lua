@@ -105,25 +105,25 @@ JSHB.defaultDefaults = {
 					{ 53209 , nil, "player", "COOLDOWN", "PLAYERS", 2, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 1 , 0.5 }, -- Chimera Shot
 					{ 53301 , nil, "player", "COOLDOWN", "PLAYERS", 3, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 2 , 0.5 }, -- Explosive Shot
 					{ 3674  , nil, "player", "COOLDOWN", "PLAYERS", 3, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 3 , 0.5 }, -- Black Arrow
-					{ 53220 , nil, "player", "DURATION", "PLAYERS", 2, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 4 , 0.5 }, -- Improved Steady Shot
+					--{ 53220 , nil, "player", "DURATION", "PLAYERS", 2, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 4 , 0.5 }, -- Improved Steady Shot
 					{ 19574 , nil, "player", "COOLDOWN", "PLAYERS", 1, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 5 , 0.5 }, -- Bestial Wrath
 					{ 34026 , nil, "player", "COOLDOWN", "PLAYERS", 1, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 6 , 0.5 }, -- Kill Command
-					{ 1978  , nil, "target", "DURATION", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 7 , 0.5 }, -- Serpent Sting
+					{ 87935  , nil, "target", "DURATION", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 7 , 0.5 }, -- Serpent Sting
 					{ 3045  , nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 8 , 0.5 }, -- Rapid Fire
 					{ 121818, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 9 , 0.5 }, -- Stampede
 					{ 131894, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 10, 0.5 }, -- A Murder of Crows
-					{ 130392, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 11, 0.5 }, -- Blink Strike
-					{ 120697, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 12, 0.5 }, -- Lynx Rush
+					--{ 130392, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 11, 0.5 }, -- Blink Strike
+					--{ 120697, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 12, 0.5 }, -- Lynx Rush
 					{ 117050, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 13, 0.5 }, -- Glaive Toss
 					{ 120679, nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 14, 0.5 }, -- Dire Beast
-					{ 23989 , nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 15, 0.5 }, -- Readiness
+					--{ 23989 , nil, "player", "COOLDOWN", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 0 , 15, 0.5 }, -- Readiness
 				},
 			},
 			timerbar2 = {
 				timers = {
 				----{ 1     , 2  , 3       , 4         , 5        , 6, 7       , 8  , 9  , 10 , 11 , 12 , 13 , 14, 15, 16, 17 , 18, 19, 20   , 21,  22 }, -- Index
 					{ 105697, nil, "player", "DURATION", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 1 , 0.5 }, -- Virmen's Bite
-					{ 34692 , nil, "player", "DURATION", "PLAYERS", 1, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 2 , 0.5 }, -- The Beast Within
+					--{ 34692 , nil, "player", "DURATION", "PLAYERS", 1, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 2 , 0.5 }, -- The Beast Within
 					{ 3045  , nil, "player", "DURATION", "PLAYERS", 0, "CENTER", nil, nil, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 3 , 0.5 }, -- Rapid Fire
 					{ 121818, nil, "target", "DURATION", "PLAYERS", 0, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 4 , 0.5 }, -- Stampede
 					{ 90361 , nil, "player", "DURATION", "PLAYERS", 1, "CENTER", nil, true, nil, nil, nil, nil, .4, 1 , 0 , nil, 1 , 5 , 0.5 }, -- Spirit Mend
@@ -506,11 +506,11 @@ JSHB.defaults = {
 			tile = false,
 			tilesize = 16,
 			ticks = {
-				{ true, "", true, false, {1,1,1,1}, 0 },
-				{ false, "", true, false, {1,1,1,1}, 0 },
-				{ false, "", true, false, {1,1,1,1}, 0 },
-				{ false, "", true, false, {1,1,1,1}, 0 },
-				{ false, "", true, false, {1,1,1,1}, 0 },
+				{ true, "", true, false, {1,1,1,1}, 0, false},
+				{ false, "", false, false, {1,1,1,1}, 0, false},
+				{ false, "", false, false, {1,1,1,1}, 0, false},
+				{ false, "", false, false, {1,1,1,1}, 0, false},
+				{ false, "", false, false, {1,1,1,1}, 0, false},
 			},
 		},
 		enrage = {
