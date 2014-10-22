@@ -306,7 +306,7 @@ do
 	local function TargetIsFoundRare(ID) -- Returns true if the button targeted its rare
 		local GUID = _G.UnitGUID("target")
 		if type(ID) == "number"  and GUID then
-			local _,_,_,_,_,_,_,target_id = string.find(GUID, "(%a+):(%d+):(%d+):(%d+):(%d+):(%d+):(%d+)")
+			local _,_,_,_,_,_,_,target_id = string.find(GUID, "(%a+)-(%d+)-(%d+)-(%d+)-(%d+)-(%d+)-(%d+)")
 
 			if GUID and ID == tonumber(target_id) then
 				return true

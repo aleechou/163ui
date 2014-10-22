@@ -1,0 +1,7 @@
+## Interface: 60000
+## LoadOnDemand: 1
+## Title: Lib: LibPetBreedInfo-1.0.10
+## Notes: 
+## Author: Nullberri
+LibStub.lua
+LibPetBreedInfo-1.0.lua

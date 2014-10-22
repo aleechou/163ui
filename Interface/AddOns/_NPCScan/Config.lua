@@ -127,7 +127,7 @@ test_button:SetScript("OnClick", function(self)
 
 	local alert_text = L.FOUND_FORMAT:format(L.CONFIG_TEST_NAME)
 
-	if private.OptionsCharacter.ShowAlertAsToast then
+	if private.Options.ShowAlertAsToast then
 		Toast:Spawn("_NPCScanAlertToast", alert_text)
 	else
 		private.Print(alert_text, _G.GREEN_FONT_COLOR)
