@@ -450,6 +450,16 @@ function JSHB.Options:Panel_EnergyBar(ord)
 								get = function(info) return unpack(DB.energybar.ticks[1][5]) end,
 								set = function(info, r, g, b, a) DB.energybar.ticks[1][5] = {r, g, b, a};JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
 							},
+							
+							useicon = {
+								type = "toggle",
+								order = 20,
+								name = "Use Icon as Tick",
+								desc = "Changes the Tick texture with the spell icon so you can easily tell the difference.",
+								hidden = function(info) return not DB.energybar.ticks[1][1] end,
+								get = function(info) return DB.energybar.ticks[1][7] end,
+								set = function(info, value) DB.energybar.ticks[1][7] = value;JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
+							},
 						},
 					},
 					tickstuff2 = {
@@ -528,6 +538,17 @@ function JSHB.Options:Panel_EnergyBar(ord)
 								get = function(info) return unpack(DB.energybar.ticks[2][5]) end,
 								set = function(info, r, g, b, a) DB.energybar.ticks[2][5] = {r, g, b, a};JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
 							},
+							
+							useicon = {
+								type = "toggle",
+								order = 20,
+								name = "Use Icon as Tick",
+								desc = "Changes the Tick texture with the spell icon so you can easily tell the difference.",
+								hidden = function(info) return not DB.energybar.ticks[2][1] end,
+								get = function(info) return DB.energybar.ticks[2][7] end,
+								set = function(info, value) DB.energybar.ticks[2][7] = value;JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
+							},
+							
 						},
 					},
 					tickstuff3 = {
@@ -605,6 +626,15 @@ function JSHB.Options:Panel_EnergyBar(ord)
 								hasAlpha = true,
 								get = function(info) return unpack(DB.energybar.ticks[3][5]) end,
 								set = function(info, r, g, b, a) DB.energybar.ticks[3][5] = {r, g, b, a};JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
+							},
+							useicon = {
+								type = "toggle",
+								order = 20,
+								name = "Use Icon as Tick",
+								desc = "Changes the Tick texture with the spell icon so you can easily tell the difference.",
+								hidden = function(info) return not DB.energybar.ticks[3][1] end,
+								get = function(info) return DB.energybar.ticks[3][7] end,
+								set = function(info, value) DB.energybar.ticks[3][7] = value;JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
 							},
 						},
 					},
@@ -684,6 +714,15 @@ function JSHB.Options:Panel_EnergyBar(ord)
 								get = function(info) return unpack(DB.energybar.ticks[4][5]) end,
 								set = function(info, r, g, b, a) DB.energybar.ticks[4][5] = {r, g, b, a};JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
 							},
+							useicon = {
+								type = "toggle",
+								order = 20,
+								name = "Use Icon as Tick",
+								desc = "Changes the Tick texture with the spell icon so you can easily tell the difference.",
+								hidden = function(info) return not DB.energybar.ticks[4][1] end,
+								get = function(info) return DB.energybar.ticks[4][7] end,
+								set = function(info, value) DB.energybar.ticks[4][7] = value;JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
+							},
 						},
 					},
 					tickstuff5 = {
@@ -761,6 +800,15 @@ function JSHB.Options:Panel_EnergyBar(ord)
 								hasAlpha = true,
 								get = function(info) return unpack(DB.energybar.ticks[5][5]) end,
 								set = function(info, r, g, b, a) DB.energybar.ticks[5][5] = {r, g, b, a};JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
+							},
+							useicon = {
+								type = "toggle",
+								order = 20,
+								name = "Use Icon as Tick",
+								desc = "Changes the Tick texture with the spell icon so you can easily tell the difference.",
+								hidden = function(info) return not DB.energybar.ticks[5][1] end,
+								get = function(info) return DB.energybar.ticks[5][7] end,
+								set = function(info, value) DB.energybar.ticks[5][7] = value;JSHB.Options:LockDown(JSHB.SetupEnergyBarModule) end,
 							},
 						},
 					},

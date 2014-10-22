@@ -57,7 +57,7 @@ function JSHB.SetupAspectIndicatorModule()
 		JSHB.F.AspectIndicator:SetPoint(JSHB.GetActiveAnchor(JSHB.db.profile.indicators.anchor_aspect) )
 
 		JSHB.F.AspectIndicator.Icon = JSHB.F.AspectIndicator.Icon or JSHB.F.AspectIndicator:CreateTexture(nil, "BACKGROUND")
-		JSHB.F.AspectIndicator.Icon:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
+		--JSHB.F.AspectIndicator.Icon:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
 		if JSHB.db.profile.indicators.aspect_enabletexcoords then
 			JSHB.F.AspectIndicator.Icon:SetTexCoord(unpack(JSHB.db.profile.indicators.aspect_texcoords) )
 		else
@@ -111,7 +111,7 @@ function JSHB.SetupAspectIndicatorModule()
 					self.Icon:SetTexture(self._tex)
 				end
 			elseif (self.Icon:GetTexture() ~= "Interface\\Buttons\\UI-GroupLoot-Pass-Up") then
-				self.Icon:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
+				--self.Icon:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
 			end
 			
 			if InCombatLockdown() then
@@ -164,5 +164,6 @@ function JSHB.SetupAspectIndicatorModule()
 			DoAspectUpdate(self)
 		end)
 	end
+	
 end
 	

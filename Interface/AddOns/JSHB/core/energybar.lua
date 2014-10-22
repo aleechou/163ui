@@ -59,9 +59,9 @@ local function getPredictionAdjustment()
 	
 	-- Account for MM Steady Focus buff 3 extra focus
 	---- Contributed to by: osa - http://www.mmo-champion.com/threads/1169669-JSHB-The-future-and-MoP?p=17825521&viewfull=1#post17825521
-	if (GetSpecialization() == 2) and select(1, UnitAura("player", GetSpellInfo(53220), nil, "HELPFUL") ) then -- 53220 = Steady Focus (buff)
-		adjustment = adjustment + 3
-	end
+	--if (GetSpecialization() == 2) and select(1, UnitAura("player", GetSpellInfo(53220), nil, "HELPFUL") ) then -- 53220 = Steady Focus (buff)
+		--adjustment = adjustment + 3
+	--end
 	---- end osa
 	
 	-- Account for the T13 2-Piece bonus
@@ -94,8 +94,63 @@ local function getBarColor(incPrediction)
 				for i=1,5 do
 					if (JSHB.db.profile.energybar.ticks[i][1] == true) and (JSHB.F.EnergyBar["indicatorTick"..i]) and (JSHB.db.profile.energybar.ticks[i][4] == true) then
 						if (i > 1) then
-							name1, _, _, cost1 = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
+							name1, rank, icon, castTime, minRange, maxRange  = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
 						end
+						
+						if name1 == "Arcane Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								cost1 = 10
+							else
+								cost1 = 30
+							end
+						end
+						
+						if name1 == "Aimed Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								cost1 = 30
+							else
+								cost1 = 50
+							end
+						end
+							
+							
+						if name1 == "Multi-Shot" then
+							if UnitAura("player", "Bestial Wrath") then
+								cost1 = 20
+							else
+							    cost1 = 40
+							end
+							if UnitAura("player", "Bombardment") then
+								cost1 = 15
+							end
+							if UnitAura("player", "Thrill of the Hunt") then
+							    if (cost1 - 20) > 0 then
+									cost1 = cost1 - 20
+								else
+									cost1 = 0
+								end
+							end
+						end
+						
+						if name1 == "Black Arrow" then
+							cost1 = 35
+						end
+						if name1 == "Barrage" then
+							cost1 = 60
+						end
+						if name1 == "Glaive Toss" then
+							cost1 = 15
+						end
+						if name1 == "Power Shot" then
+							cost1 = 15
+						end
+						if name1 == "A Murder of Crows" then
+							cost1 = 30
+						end
+						if name1 == "Revive Pet" then
+							cost1 = 35
+						end
+						
 						if (i == 1) or ( (i > 1) and name1 and cost1 and (cost1 > 0) ) then						
 							if (i == 1) then
 								if (UnitPower("player") >= JSHB.GetMainSpellCost() ) then							
@@ -138,8 +193,56 @@ local function getBarColor(incPrediction)
 			for i=1,5 do
 				if (JSHB.db.profile.energybar.ticks[i][1] == true) and (JSHB.F.EnergyBar["indicatorTick"..i]) and (JSHB.db.profile.energybar.ticks[i][4] == true) then
 					if (i > 1) then
-						name1, _, _, cost1 = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
-					end
+						
+							name1, rank, icon, castTime, minRange, maxRange  = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
+						end
+						
+						if name1 == "Arcane Shot" then
+							cost1 = 30
+						end
+						if name1 == "Aimed Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								cost1 = 30
+							else
+								cost1 = 50
+							end
+						end
+						if name1 == "Multi-Shot" then
+							if UnitAura("player", "Bestial Wrath") then
+								cost1 = 20
+							else
+							    cost1 = 40
+							end
+							if UnitAura("player", "Bombardment") then
+								cost1 = 15
+							end
+							if UnitAura("player", "Thrill of the Hunt") then
+							    if (cost1 - 20) > 0 then
+									cost1 = cost1 - 20
+								else
+									cost1 = 0
+								end
+							end
+						end
+						if name1 == "Black Arrow" then
+							cost1 = 35
+						end
+						if name1 == "Barrage" then
+							cost1 = 60
+						end
+						if name1 == "Glaive Toss" then
+							cost1 = 15
+						end
+						if name1 == "Power Shot" then
+							cost1 = 15
+						end
+						if name1 == "A Murder of Crows" then
+							cost1 = 30
+						end
+						if name1 == "Revive Pet" then
+							cost1 = 35
+						end
+						
 					if (i == 1) or ( (i > 1) and name1 and cost1 and (cost1 > 0) ) then					
 						if (i == 1) then
 							if (UnitPower("player") >= JSHB.GetMainSpellCost() ) then						
@@ -287,7 +390,7 @@ function JSHB.SetupEnergyBarModule()
 		if JSHB.db.profile.energybar.smoothbar then
 			JSHB.MakeSmooth(JSHB.F.EnergyBar)
 		end
-		
+		--show the number
 		if JSHB.db.profile.energybar.energynumber then		
 			JSHB.F.EnergyBar.value = JSHB.F.EnergyBar.value or JSHB.F.EnergyBar:CreateFontString(nil, "OVERLAY")
 			JSHB.F.EnergyBar.value:ClearAllPoints()
@@ -381,20 +484,118 @@ function JSHB.SetupEnergyBarModule()
 				or (JSHB.db.profile.energybar.ticks[ii][6] == GetSpecialization() ) ) and (JSHB.db.profile.energybar.ticks[1][1] == true) then
 				
 				if (ii > 1) then
-					name, _, _, cost = GetSpellInfo(JSHB.db.profile.energybar.ticks[ii][2])
+					name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(JSHB.db.profile.energybar.ticks[ii][2])
 				end
+						
+						if name == "Arcane Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								cost = 10
+							else
+								cost = 30
+							end
+						end
+						if name == "Aimed Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								cost = 30
+							else
+								cost = 50
+							end
+						end
+						if name == "Multi-Shot" then
+							if UnitAura("player", "Bestial Wrath") then
+								cost = 20
+							else
+							    cost = 40
+							end
+							if UnitAura("player", "Bombardment") then
+								cost = 15
+							end
+							if UnitAura("player", "Thrill of the Hunt") then
+							    if (cost - 20) > 0 then
+									cost = cost - 20
+								else
+									cost = 0
+								end
+							end
+						end
+						if name == "Black Arrow" then
+							cost = 35
+						end
+						if name == "Barrage" then
+							cost = 60
+						end
+						if name == "Glaive Toss" then
+							cost = 15
+						end
+						if name == "Power Shot" then
+							cost = 15
+						end
+						if name == "A Murder of Crows" then
+							cost = 30
+						end
+						if name == "Revive Pet" then
+							cost = 35
+						end
+				
+				
+				
 				
 				if (ii == 1) or ( (ii > 1) and name and cost and (cost > 0) ) then
 					JSHB.F.EnergyBar["indicatorTick"..ii] = JSHB.MakeFrame(JSHB.F.EnergyBar["indicatorTick"..ii], "Frame", "JSHB_ENERGYBAR_TICK"..ii, JSHB.F.EnergyBar)
 					JSHB.F.EnergyBar["indicatorTick"..ii]:SetParent(JSHB.F.EnergyBar)
 					JSHB.F.EnergyBar["indicatorTick"..ii]:ClearAllPoints()
-					JSHB.F.EnergyBar["indicatorTick"..ii]:SetSize(10, JSHB.F.EnergyBar:GetHeight() * 1.6)
+					
+						if JSHB.db.profile.energybar.ticks[ii][7] == true then
+							JSHB.F.EnergyBar["indicatorTick"..ii]:SetSize(6, JSHB.F.EnergyBar:GetHeight() * 1.1)
+						else
+							JSHB.F.EnergyBar["indicatorTick"..ii]:SetSize(10, JSHB.F.EnergyBar:GetHeight() * 1.6)
+						end
+					
+					
+					--JSHB.F.EnergyBar["indicatorTick"..ii]:SetSize(10, JSHB.F.EnergyBar:GetHeight() * 1.6)
 					
 					JSHB.F.EnergyBar["indicatorTick"..ii].tex = JSHB.F.EnergyBar["indicatorTick"..ii].tex or JSHB.F.EnergyBar["indicatorTick"..ii]:CreateTexture(nil, "OVERLAY")
 					JSHB.F.EnergyBar["indicatorTick"..ii].tex:ClearAllPoints()
 					JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetAllPoints(JSHB.F.EnergyBar["indicatorTick"..ii])
-					JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")	
-					JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetBlendMode("ADD")
+	
+	
+					-- Yes, I've made a mess of the code. Sorry if anyone tries to follow this.
+					if name ~= "A Murder of Crows" and name ~= "Glaive Toss" and name ~= "Barrage" and name ~= "Black Arrow" and name ~= "Multi-Shot" and name ~= "Aimed Shot" and name ~= "Arcane Shot" then
+						
+						if JSHB.db.profile.energybar.ticks[1][7] == true then
+						currentSpec = GetSpecialization()
+							if (currentSpec == 1) then
+								_, _, icon2, _, _, _ = GetSpellInfo("Kill Command")
+								JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture(icon2)
+							end
+							
+							if (currentSpec == 2) then
+								_, _, icon2, _, _, _ = GetSpellInfo("Chimaera Shot")
+								JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture(icon2)
+	
+							end
+							if (currentSpec == 3) then
+								_, _, icon2, _, _, _ = GetSpellInfo("Explosive Shot")
+								JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture(icon2)
+							end
+						else						
+							JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+						end
+						
+					else	
+						if JSHB.db.profile.energybar.ticks[ii][7] == true then
+							JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture(icon)
+						else
+							JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+						end
+						
+						
+					end
+					if JSHB.db.profile.energybar.ticks[ii][7] == true then
+						JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetBlendMode("DISABLE")
+					else
+						JSHB.F.EnergyBar["indicatorTick"..ii].tex:SetBlendMode("ADD")
+					end
 					
 					JSHB.F.EnergyBar["indicatorTick"..ii]:SetAlpha(1)
 					JSHB.F.EnergyBar["indicatorTick"..ii]:Hide()
@@ -523,8 +724,65 @@ function JSHB.SetupEnergyBarModule()
 				if (JSHB.db.profile.energybar.ticks[i][1] == true) and (self["indicatorTick"..i] ~= nil) and (JSHB.db.profile.energybar.ticks[1][1] == true) then
 				
 					if (i > 1) then
-						self.name2, _, _, self.cost2 = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
+						--self.name2, _, _, self.cost2 = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
+						self.name2 = ""
+						self.name2, rank, icon, castTime, minRange, maxRange = GetSpellInfo(JSHB.db.profile.energybar.ticks[i][2])
 					end
+					
+						if self.name2 == "Arcane Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+								self.cost2 = 10
+							else
+								self.cost2 = 30
+							end
+						end
+						if self.name2 == "Aimed Shot" then
+							if UnitAura("player", "Thrill of the Hunt") then
+							self.cost2 = 30
+								else
+							self.cost2 = 50
+							end
+						end
+						
+						if self.name2 == "Multi-Shot" then
+							if UnitAura("player", "Bestial Wrath") then
+								self.cost2 = 20
+							else
+							    self.cost2 = 40
+							end
+							if UnitAura("player", "Bombardment") then
+								self.cost2 = 15
+							end
+							if UnitAura("player", "Thrill of the Hunt") then
+							    if (self.cost2 - 20) > 0 then
+									self.cost2 = self.cost2 - 20
+								else
+									self.cost2 = 0
+								end
+							end
+							
+						end
+					
+						if self.name2 == "Black Arrow" then
+							self.cost2 = 35
+						end
+						if self.name2 == "Barrage" then
+							self.cost2 = 60
+						end
+						if self.name2 == "Glaive Toss" then
+							self.cost2 = 15
+						end
+						if self.name2 == "Power Shot" then
+							self.cost2 = 15
+						end
+						if self.name2 == "A Murder of Crows" then
+							self.cost2 = 30
+						end
+						if self.name2 == "Revive Pet" then
+							self.cost2 = 35
+						end
+					
+					
 					
 					if (i == 1) or ( (i > 1) and self.name2 and self.cost2 and (self.cost2 > 0) ) then
 						if (i == 1) then
@@ -532,9 +790,22 @@ function JSHB.SetupEnergyBarModule()
 							self["indicatorTick"..i]:SetPoint("LEFT", self, "LEFT", JSHB.GetMainSpellCost() * (self:GetWidth() / select(2, self:GetMinMaxValues() ) ) - 5, 0)
 						else
 							self["indicatorTick"..i]:ClearAllPoints()
+							--was using this to put the icons below the bar, testing out something. Leaving in just because.
+								if JSHB.db.profile.energybar.ticks[i][7] == true then
+									yy = -0
+								else
+									yy = 0
+								end
+							
+							
 							self["indicatorTick"..i]:SetPoint("LEFT", self, "LEFT", 
 								( (JSHB.db.profile.energybar.ticks[i][3] == true) and (JSHB.GetMainSpellCost() + self.cost2) or self.cost2) * 
-								(self:GetWidth() / select(2, self:GetMinMaxValues() ) ) - 5, 0)
+								
+								--Set how high off the bar it is
+							
+									(self:GetWidth() / select(2, self:GetMinMaxValues() ) ) - 5, yy)
+
+									
 						end
 						self["indicatorTick"..i]:Show()
 					else
@@ -805,8 +1076,8 @@ function JSHB.SetupEnergyBarModule()
 			checkFunction = Check_FlashAtMax
 		else -- HUNTER is default
 			numBars = 3 -- Ready, Set, Aim... on player		
-			checkStacksFunction = function(self) return(select(4, UnitAura("player", GetSpellInfo(82925), nil, "HELPFUL") ) or 0) end -- 82925 = Ready, Set, Aim...
-			checkProcFunction = function(self) return(select(1, UnitAura("player", GetSpellInfo(82926), nil, "HELPFUL") ) or false) end -- 82926 = Fire! proc
+			--checkStacksFunction = function(self) return(select(4, UnitAura("player", GetSpellInfo(82925), nil, "HELPFUL") ) or 0) end -- 82925 = Ready, Set, Aim...
+			--checkProcFunction = function(self) return(select(1, UnitAura("player", GetSpellInfo(82926), nil, "HELPFUL") ) or false) end -- 82926 = Fire! proc
 			checkFunction = Check_FlashWithProc
 		end
 		
@@ -826,7 +1097,7 @@ function JSHB.SetupEnergyBarModule()
 			checkFunction = Check_FlashAtMax
 		else -- HUNTER is default
 			numBars = 2 -- 56342 = Lock n' Load proc
-			checkStacksFunction = function(self) return(select(4, UnitAura("player", GetSpellInfo(56453), nil, "HELPFUL") ) or 0) end -- 56342 = Lock n' Load proc
+			checkStacksFunction = function(self) return(select(4, UnitAura("player", GetSpellInfo(168980), nil, "HELPFUL") ) or 0) end -- 56342 = Lock n' Load proc
 			checkFunction = Check_AlwaysFlash
 		end
 	end
