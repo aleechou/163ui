@@ -88,7 +88,7 @@ function dataobj:UpdateText()
 	local _, _, latencyHome, latencyWorld = GetNetStats()
 
 	local fpsColor, colorHome, colorWorld = "", "", ""
-	if not db or not db.disableColoring then
+	if not db.disableColoring then
 		if fps > 30 then
 			fpsColor = "|cff00ff00"
 		elseif fps > 20 then
@@ -239,15 +239,17 @@ function dataobj:OnEnter()
 	tooltip:SetCell(y, 2, _G.GuildMicroButton.tooltipText)
 	tooltip:SetLineScript(y, "OnMouseUp", MouseHandler, _G.GuildMicroButton)
 	
+	--[[
 	local y, x = tooltip:AddLine()
 	tooltip:SetCell(y, 1, path.."pvp.tga", myProvider)
-	tooltip:SetCell(y, 2, _G.PVPMicroButton.tooltipText)
+	tooltip:SetCell(y, 2, "PvP")
 	--tooltip:SetLineScript(y, "OnMouseUp", MouseHandler, function() ToggleFrame(PVPParentFrame) end)
 	tooltip:SetLineScript(y, "OnMouseUp", MouseHandler, function() 
-		if _G.TogglePVPUI then
-			_G.TogglePVPUI()
+		if TogglePVPUI then
+			TogglePVPUI()
 		end
 	end)
+	]]
 	
 	local y, x = tooltip:AddLine()
 	tooltip:SetCell(y, 1, path.."lfg.tga", myProvider)
