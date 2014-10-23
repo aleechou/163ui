@@ -1,0 +1,22 @@
+------------------------------------------------------------------------
+r39 | yess | 2014-10-15 17:50:22 +0000 (Wed, 15 Oct 2014) | 1 line
+Changed paths:
+   A /tags/v1.3.7 (from /trunk:38)
+
+Tagging as v1.3.7
+------------------------------------------------------------------------
+r38 | yess | 2014-10-15 17:45:11 +0000 (Wed, 15 Oct 2014) | 2 lines
+Changed paths:
+   M /trunk/Broker_MicroMenu.lua
+
+.)Remove no longer available PVP frame.  
+.)Update TOC.
+------------------------------------------------------------------------
+r37 | znuff | 2014-10-15 09:23:31 +0000 (Wed, 15 Oct 2014) | 2 lines
+Changed paths:
+   M /trunk/Broker_MicroMenu.lua
+   M /trunk/Broker_MicroMenu.toc
+
+Band-aid fix for the PvP button.
+Bumped .toc
+------------------------------------------------------------------------
