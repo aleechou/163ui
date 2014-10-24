@@ -10,6 +10,19 @@ U1RegisterAddon("!!!163UI!!!", {
     author = L["|cffcd1a1c[网易原创]|r"],
 
     {
+        var = "alwaysCompareItems",
+        default = '1',
+        text = "鼠标对比装备",
+        tip = "说明`鼠标指向装备图标或装备链接时，显示身上对应部位的装备",
+        callback = function(cfg, v, loading)
+            if v  then
+                SetCVar("alwaysCompareItems",'1')
+            else
+                SetCVar("alwaysCompareItems",'0')
+            end -- alwaysCompareItems
+        end
+    },
+    {
         var = "extrabutton",
         text = "显示替代的额外按钮",
         tip = "说明`4.3的部分副本战斗中，屏幕中央会出现一个动作按钮，例如巨龙副本的5号BOSS，需要玩家点击'英勇意志'技能。`但问题是很多动作条插件还不支持这一特殊按钮，经常导致看不到。如果您属于这种情况，可以打开此选项，使用替代按钮即可。",
