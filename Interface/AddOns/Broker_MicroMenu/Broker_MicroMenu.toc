@@ -1,12 +1,12 @@
-﻿## Interface: 60000
-## Title: Broker: MicroMenu
-## Version: v1.3.6
+## Interface: 60000
+## Title: Broker: |cff00ff00MicroMenu|r 
+## Version: v1.3.7
 ## Notes: 在信息栏中显示微型菜单
 ## Author: yess
 ## X-eMail: starfire@fantasymail.de
 ## OptionalDeps: LibQTip-1.0
 ## SavedVariables: Broker_MicroMenuDB
-## X-Curse-Packaged-Version: v1.3.6
+## X-Curse-Packaged-Version: v1.3.7
 ## X-Curse-Project-Name: Broker_MicroMenu
 ## X-Curse-Project-ID: broker_micromenue
 ## X-Curse-Repository-ID: wow/broker_micromenue/mainline
@@ -25,7 +25,6 @@ localization.lua
 LibDataBroker-1.1.lua
 Broker_MicroMenu.lua
 Options.lua
-
 ## Title: |cff880303[网易有爱]|r 微型菜单
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141023175922

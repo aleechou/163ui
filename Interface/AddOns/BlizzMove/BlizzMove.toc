@@ -1,14 +1,10 @@
 ## Interface: 60000
 ## Title: Blizzmove
-## Title-zhTW: |cff880303[网易有爱]|r 框架移動
-## Title-zhCN: |cff880303[网易有爱]|r 框架移动
 ## Notes: Move those blizzard windows
-## Notes-zhTW: 系統框架移動插件。
-## Notes-zhCN: 系统框架移动插件。
 ## Author: yess
-## Version: r48
+## Version: v1.2.2
 ## X-Email: starfire@fantasymail.de
-## X-Curse-Packaged-Version: r48
+## X-Curse-Packaged-Version: v1.2.2
 ## X-Curse-Project-Name: BlizzMove
 ## X-Curse-Project-ID: blizzmove
 ## X-Curse-Repository-ID: wow/blizzmove/mainline
@@ -17,6 +13,7 @@
 
 Blizzmove.lua
 
-## Title: |cff880303[网易有爱]|r 框架移動
+## Title: |cff880303[网易有爱]|r 框架移动
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141022163916
+## X-163UI-Version: 20141023111103
+
