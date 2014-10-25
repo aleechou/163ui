@@ -1,0 +1,17 @@
+Serenity is a set of skins for Masque.
+
+Resources:
+
+  Project Page: http://www.wowace.com/projects/masque_serenity
+  Masque: http://www.wowace.com/projects/masque
+
+Installation:
+
+  1. Download the package.
+  2. Extract the package to your "World of Warcraft\Interface\AddOns" directory.
+
+  Note: You must have Masque installed to use this add-on.
+
+Feedback:
+
+For bug reports and suggestions, please post a ticket on the project page.

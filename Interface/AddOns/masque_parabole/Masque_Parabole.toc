@@ -1,0 +1,22 @@
+## Interface: 60000
+## Title: Masque_Parabole
+## Notes: Parabole skin for Masque
+## Author: Kelly Crabbé AKA MoonWitch
+## Notes-zhCN: Masque的Serenity皮肤。
+## Version: 5.4.0.1
+## Dependencies: Masque
+## X-Website: http://www.wowace.com/projects/masque_parabole
+## X-Category: Interface Enhancements
+## X-Email: kelly.crabbe@gmail.com
+## X-Curse-Project-Name: Masque_Parabole
+## X-Curse-Project-ID: masque_parabole
+## X-Curse-Repository-ID: wow/masque_parabole/mainline
+## X-Curse-Packaged-Version: r20140106092617
+## X-Curse-Project-Name: Masque_Parabole
+## X-Curse-Project-ID: masque_parabole
+## X-Curse-Repository-ID: wow/masque_parabole/mainline
+
+skin.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520
