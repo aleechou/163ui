@@ -1,0 +1,751 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+<Frame name="RaidAchievementframe">
+
+	<Scripts>
+	<OnLoad>PhoenixStyleEA_OnLoad()</OnLoad>
+	<OnEvent>if (thisaddonworkea or (thisaddonworkea==false and event=="ADDON_LOADED")) then PhoenixStyleEA_OnEvent(self,event,...) end</OnEvent>
+	<OnUpdate>if(thisaddonworkea) then ramain_OnUpdate() end</OnUpdate>
+	</Scripts>
+	</Frame>
+
+<Frame name="PSFeamain" hidden="true" toplevel="true" virtual="true" frameStrata="DIALOG" movable="true" enableMouse="true" parent="UIParent">
+	<Size x="930" y="500"/>
+	<Anchors>
+		<Anchor point="CENTER"/>
+	</Anchors>
+
+<Scripts>
+	<OnMouseDown>PSFeamain1:StartMoving()</OnMouseDown>
+	<OnMouseUp>PSFeamain1:StopMovingOrSizing()</OnMouseUp>
+	<OnDragStop>PSFeamain1:StopMovingOrSizing()</OnDragStop>
+	<OnShow>PSFea_showoptions()</OnShow>
+
+	</Scripts>
+ </Frame>
+
+
+
+<Frame name="PSFeamain1" hidden="true" inherits="PSFeamain">
+	<Size x="930" y="500"/>
+	<Anchors>
+	<Anchor point="LEFT"/>
+	</Anchors>
+
+<frames>
+
+
+
+
+<Frame name="PSFeamain2" hidden="true">
+
+	<Size x="180" y="500"/>
+	<Anchors>
+	<Anchor point="LEFT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="   RaidAchievement">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<Frames>
+<Button name="$parent_Button3" inherits="UIPanelButtonTemplate" text="psealeftmenu1">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-20"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_buttonaddon()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button11" inherits="UIPanelButtonTemplate" text="psealeftmenu11">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-120"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_manyach()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button12" inherits="UIPanelButtonTemplate" text="nrallbuttonmaint">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-95"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_listach()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button13" inherits="UIPanelButtonTemplate" text="nrallbuttontak">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-70"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_tact()</OnClick></Scripts>
+	</Button>
+
+<Button name="$parent_ButtonG12" inherits="UIPanelButtonGrayTemplate" text="nrallbuttonmaint">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-95"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_listach()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_ButtonG13" inherits="UIPanelButtonGrayTemplate" text="nrallbuttontak">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-70"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_tact()</OnClick></Scripts>
+	</Button>
+
+
+
+<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-215"/></Anchor></Anchors>
+	<Scripts><OnClick>phra_button()</OnClick></Scripts>
+	</Button>
+	<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda3">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-240"/></Anchor></Anchors>
+	<Scripts><OnClick>pzra_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button4" inherits="UIPanelButtonTemplate" text="psealeftmenupanda2">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-265"/></Anchor></Anchors>
+	<Scripts><OnClick>prra_button()</OnClick></Scripts>
+	</Button>
+
+<Button name="$parent_Buttonwotlk" inherits="UIPanelButtonTemplate" text="pseaoldmodules">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-315"/></Anchor></Anchors>
+	<Scripts><OnClick>wotlkold_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_ButtonwotlkG" inherits="UIPanelButtonGrayTemplate" text="pseaoldmodules">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-315"/></Anchor></Anchors>
+	<Scripts><OnClick>wotlkold_button()</OnClick></Scripts>
+	</Button>
+
+<Button name="$parent_ButtonPS" inherits="UIPanelButtonTemplate" text="PhoenixStyle">
+	<Size x="150" y="21"/><Anchors><Anchor point="BOTTOM"><Offset x="0" y="20"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_PSaddon()</OnClick></Scripts>
+	</Button>
+</Frames>
+	</Frame>
+
+<Frame name="PSFeamainWotlk" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseaoldmodules2">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<frames>
+<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenu4">
+	<Size x="120" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="30" y="-30"/></Anchor></Anchors>
+	<Scripts><OnClick>whra_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button4" inherits="UIPanelButtonTemplate" text="psealeftmenu3">
+	<Size x="120" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="30" y="-55"/></Anchor></Anchors>
+	<Scripts><OnClick>nxra_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button6" inherits="UIPanelButtonTemplate" text="psealeftmenu5">
+	<Size x="120" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="30" y="-80"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_buttonulda()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button41" inherits="UIPanelButtonTemplate" text="psealeftmenu6">
+	<Size x="120" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="30" y="-105"/></Anchor></Anchors>
+	<Scripts><OnClick>icra_button()</OnClick></Scripts>
+	</Button>
+
+
+<Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="psealeftmenucata">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="180" y="-30"/></Anchor></Anchors>
+	<Scripts><OnClick>chra_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button8" inherits="UIPanelButtonTemplate" text="psealeftmenucata2">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="180" y="-55"/></Anchor></Anchors>
+	<Scripts><OnClick>crra_button()</OnClick></Scripts>
+	</Button>
+
+</frames>
+	</Frame>
+
+
+
+<Frame name="PSFeamain3" hidden="true">
+
+	<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"></Anchor>
+	</Anchors>
+	<Layers>
+<Layer level="OVERLAY">
+
+<FontString name="$parent_Text" inherits="GameFontNormal" text="PSFeaserver">
+	<Anchors><Anchor point="RIGHT" relativePoint="TOPRIGHT"><Offset x="-18" y="-21"/></Anchor></Anchors>
+	</FontString>
+<FontString name="$parent_Textver" inherits="GameFontNormal" text="raversshow">
+	<Anchors><Anchor point="RIGHT" relativePoint="TOPRIGHT"><Offset x="-18" y="-50"/></Anchor></Anchors>
+	</FontString>
+<FontString name="$parent_Textoldv" hidden="true" inherits="GameFontNormal" text="psoldvertxt">
+	<Anchors><Anchor point="RIGHT" relativePoint="TOPRIGHT"><Offset x="-18" y="-67"/></Anchor></Anchors><Color r="1" g="0" b="0" a="1"/>
+	</FontString>
+<FontString name="$parent_tt1" inherits="GameFontNormal" text="pseareports">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="134" y="-249"/></Anchor></Anchors>
+	</FontString>
+<FontString name="$parent_tt2" inherits="GameFontNormal" text="pseareports">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="134" y="-279"/></Anchor></Anchors>
+	</FontString>
+
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<frames>
+<CheckButton name="$parent_CheckButton1" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-15"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton1:GetName().."Text"):SetText(pseaaddonon.." 'RaidAchievement'")</OnLoad>
+	<OnClick>PSFeavkladdon()</OnClick>
+	</Scripts>
+	</CheckButton>
+
+<Button name="$parent_Button1" inherits="UIPanelButtonTemplate" text="racredits1">
+	<Size x="160" y="24"/><Anchors><Anchor point="BOTTOMLEFT"><Offset x="20" y="20"/></Anchor></Anchors>
+	<Scripts><OnClick>RA_creditsgo()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button777" inherits="UIPanelButtonTemplate" text="Support development">
+	<Size x="190" y="26"/><Anchors><Anchor point="BOTTOMLEFT"><Offset x="190" y="20"/></Anchor></Anchors>
+	<Scripts><OnClick>RAdonatef()</OnClick></Scripts>
+	</Button>
+
+<CheckButton name="$parent_CheckButton22" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-75"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton22:GetName().."Text"):SetText(ramainbattlegroundopt)</OnLoad>
+	<OnClick>if raenablebg==1 then raenablebg=0 else raenablebg=1 end</OnClick>
+	</Scripts>
+	</CheckButton>
+
+<CheckButton name="$parent_CheckButton11" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-55"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton11:GetName().."Text"):SetText(raminibuttset)</OnLoad>
+	<OnClick>RAminimaponoff()</OnClick>
+	</Scripts>
+	</CheckButton>
+
+<CheckButton name="$parent_CheckButton2" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-95"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton2:GetName().."Text"):SetText(pseashownames)</OnLoad>
+	<OnClick>PSFeavklshownames()</OnClick>
+	</Scripts>
+	</CheckButton>
+<CheckButton name="$parent_CheckButton3" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-115"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton3:GetName().."Text"):SetText(pseashowveren)</OnLoad>
+	<OnClick>PSFeavklshownewver()</OnClick>
+	</Scripts>
+	</CheckButton>
+
+<CheckButton name="$parent_CheckButton4" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="135" y="-135"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton4:GetName().."Text"):SetText(pseasoundoptions1)</OnLoad>
+	<OnClick>PSFsoundipt(1)</OnClick>
+	</Scripts>
+	</CheckButton>
+<CheckButton name="$parent_CheckButton5" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="135" y="-155"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton5:GetName().."Text"):SetText(pseasoundoptions2)</OnLoad>
+	<OnClick>PSFsoundipt(2)</OnClick>
+	</Scripts>
+	</CheckButton>
+<CheckButton name="$parent_CheckButton6" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-175"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton6:GetName().."Text"):SetText(pseasoundoptions3)</OnLoad>
+	<OnClick>PSFsoundipt(3)</OnClick>
+	</Scripts>
+	</CheckButton>
+<CheckButton name="$parent_CheckButton7" inherits="UICheckButtonTemplate">
+	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-195"/></Anchor></Anchors>
+	<Scripts>
+	<OnLoad>getglobal(PSFeamain3_CheckButton7:GetName().."Text"):SetText(pseasoundoptions6)</OnLoad>
+	<OnClick>PSFsoundipt(6)</OnClick>
+	</Scripts>
+	</CheckButton>
+</frames>
+	</Frame>
+
+<Button name="$parent_Button2" inherits="UIPanelButtonTemplate" text="pseaaddonok">
+	<Size x="70" y="24"/><Anchors><Anchor point="BOTTOMRIGHT"><Offset x="-9" y="9"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_buttonsaveexit()</OnClick></Scripts>
+	</Button>
+
+
+<Frame name="PSFeamain12" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseauinomodule1">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+<FontString name="$parent_Text2" inherits="GameFontNormal" text="pseauinomodule2">
+	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+
+<Frame name="PSFeamain10" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+<FontString name="$parent_Text2" inherits="GameFontNormal" text="pseauierroraddonoff">
+	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+
+<Frame name="PSFeamain11" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+<FontString name="$parent_Text2" inherits="GameFontNormal" text="pseapsaddonanet">
+	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
+	</FontString>
+<FontString name="$parent_Text3" inherits="GameFontNormal" text="pseapsaddonanet2">
+	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="70"/></Anchor></Anchors>
+	</FontString>
+
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+	
+	
+<Frame name="PSFeaerrorgeneral" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+
+<Frame name="RAthanks" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="racredits2">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+
+<Frame name="RAthanks2" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="    Info about donations">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+	</Frame>
+
+<Frame name="PSFeamainmanyach" hidden="true">
+
+	<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="pseamanyachtitle">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+<FontString name="$parent_Textmarkon" hidden="true" inherits="GameFontNormal" text="psmoduletxton">
+	<Anchors><Anchor point="CENTER" relativePoint="TOPLEFT"><Offset x="300" y="-253"/></Anchor></Anchors><Color r="0" g="1" b="0" a="1"/>
+	</FontString>
+<FontString name="$parent_Textmarkoff" hidden="true" inherits="GameFontNormal" text="psmoduletxtoff">
+	<Anchors><Anchor point="CENTER" relativePoint="TOPLEFT"><Offset x="300" y="-253"/></Anchor></Anchors><Color r="1" g="0" b="0" a="1"/>
+	</FontString>
+
+<FontString name="$parent_Textbig1" inherits="GameFontNormal" text="">
+	<Anchors><Anchor point="CENTER" relativePoint="TOPLEFT"><Offset x="300" y="-201"/></Anchor></Anchors>
+	</FontString>
+<FontString name="$parent_Textbig2" inherits="GameFontNormal" text="">
+	<Anchors><Anchor point="CENTER" relativePoint="TOPLEFT"><Offset x="300" y="-129"/></Anchor></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<Frames>
+<Button name="$parent_Buttonon" inherits="UIPanelButtonTemplate" text="psbuttonon">
+	<Size x="125" y="26"/><Anchors><Anchor point="TOPLEFT"><Offset x="240" y="-268"/></Anchor></Anchors>
+	<Scripts><OnClick>ramanychon()</OnClick></Scripts>
+		</Button>
+<Button name="$parent_Buttonoff" inherits="UIPanelButtonTemplate" text="psbuttonoff">
+	<Size x="125" y="26"/><Anchors><Anchor point="TOPLEFT"><Offset x="240" y="-268"/></Anchor></Anchors>
+	<Scripts><OnClick>ramanychoff()</OnClick></Scripts>
+		</Button>
+<Slider name="$parent_slider1" inherits="OptionsSliderTemplate">
+	<Anchors><Anchor point="TOPLEFT"><Offset x="227" y="-177" /></Anchor></Anchors>
+	<Scripts><OnValueChanged>rasliderch1()</OnValueChanged></Scripts>
+	</Slider>
+<Slider name="$parent_slider2" inherits="OptionsSliderTemplate">
+	<Anchors><Anchor point="TOPLEFT"><Offset x="227" y="-105" /></Anchor></Anchors>
+	<Scripts><OnValueChanged>rasliderch2()</OnValueChanged></Scripts>
+	</Slider>
+</Frames>
+	</Frame>
+	
+	
+	
+	
+
+<Frame name="raralistach" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt1">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<frames>
+<Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
+	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
+	<Scripts><OnClick>rallwhispbutfun()</OnClick></Scripts>
+		</Button>
+<Button name="$parent_Button11" inherits="UIPanelButtonTemplate" text="rallbutton2">
+	<Size x="240" y="36"/><Anchors><Anchor point="TOPRIGHT"><Offset x="-30" y="-100"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_listachmanual()</OnClick></Scripts>
+	</Button>
+</frames>
+
+	</Frame>
+
+<Frame name="raralistach2" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt2">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<frames>
+<Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
+	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
+	<Scripts><OnClick>rallwhispbutfun2()</OnClick></Scripts>
+		</Button>
+<Button name="$parent_Button11" inherits="UIPanelButtonTemplate" text="rallbutton3">
+	<Size x="180" y="30"/><Anchors><Anchor point="TOPLEFT"><Offset x="25" y="-55"/></Anchor></Anchors>
+	<Scripts><OnClick>icll_buttonnew2()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Buttontact" inherits="UIPanelButtonTemplate" text="ralluilooktactic1">
+	<Size x="170" y="30"/><Anchors><Anchor point="TOPLEFT"><Offset x="567" y="-217"/></Anchor></Anchors>
+	<Scripts><OnClick>rallonlycurrzone=nil icll_button3()</OnClick></Scripts>
+	</Button>
+</frames>
+
+	</Frame>
+
+<Frame name="raralistach3" hidden="true">
+
+<Size x="750" y="500"/>
+	<Anchors>
+	<Anchor point="RIGHT"/>
+	</Anchors>
+	<Layers>
+	<Layer level="ARTWORK">
+<FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt3">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	</FontString>
+	</Layer>
+	</Layers>
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<TileSize>
+	<AbsValue val="32"/>
+	</TileSize>
+	<EdgeSize>
+	<AbsValue val="32"/>
+	</EdgeSize>
+	<BackgroundInsets>
+	<AbsInset left="11" right="12" top="12" bottom="11"/>
+	</BackgroundInsets>
+	</Backdrop>
+<frames>
+<Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
+	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
+	<Scripts><OnClick>rallwhispbutfun3()</OnClick></Scripts>
+		</Button>
+<Button name="$parent_Button11" inherits="UIPanelButtonTemplate" text="rallbutton2">
+	<Size x="220" y="30"/><Anchors><Anchor point="TOPLEFT"><Offset x="25" y="-156"/></Anchor></Anchors>
+	<Scripts><OnClick>PSFea_listachmanual()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button1" inherits="UIPanelButtonTemplate" text="ralltacticbutsave1">
+	<Size x="190" y="30"/><Anchors><Anchor point="TOPLEFT"><Offset x="548" y="-216"/></Anchor></Anchors>
+	<Scripts><OnClick>rallsavetact()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button2" inherits="UIPanelButtonTemplate" text="ralltacticbutsave2">
+	<Size x="190" y="30"/><Anchors><Anchor point="TOPLEFT"><Offset x="548" y="-256"/></Anchor></Anchors>
+	<Scripts><OnClick>rallsavetact2()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_ButtonN" inherits="UIPanelButtonTemplate">
+		<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+		<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+		<HighlightTexture file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Highlight" alphaMode="ADD"/>
+	<Size x="32" y="32"/><Anchors><Anchor point="TOPLEFT"><Offset x="635" y="-128"/></Anchor></Anchors>
+	<Scripts><OnClick>openmenullch34(1)</OnClick></Scripts>
+	</Button>
+<Button name="$parent_ButtonP" inherits="UIPanelButtonTemplate">
+		<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+		<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+		<HighlightTexture file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Highlight" alphaMode="ADD"/>
+	<Size x="32" y="32"/><Anchors><Anchor point="TOPLEFT"><Offset x="405" y="-128"/></Anchor></Anchors>
+	<Scripts><OnClick>openmenullch34(0)</OnClick></Scripts>
+	</Button>
+</frames>
+
+	</Frame>
+	
+	
+	
+	
+	
+
+
+</frames>
+	</Frame>
+
+
+
+<Button name="RA_MinimapButton" parent="Minimap" enableMouse="true" frameStrata="MEDIUM" movable="true" hidden="true">
+	<Size x="33" y="33"/>
+	<Anchors>
+	<Anchor point="TOPLEFT"/>
+	</Anchors>
+<Layers>
+	<Layer level="OVERLAY">
+	<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+	<Size x="56" y="56"/>
+	<Anchors>
+	<Anchor point="TOPLEFT"/>
+	</Anchors>
+	</Texture>
+	</Layer>
+	</Layers>
+<Frames>
+	<Frame name="RA_MinimapButton_DraggingFrame" hidden="true" frameStrata="FULLSCREEN_DIALOG">
+	<Scripts>
+	<OnUpdate>
+	RA_MinimapButton_DraggingFrame_OnUpdate()
+	</OnUpdate>
+	</Scripts>
+	</Frame>
+</Frames>
+	<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+	<Scripts>
+	<OnLoad>
+	self:RegisterForClicks('LeftButtonUp','RightButtonUp')
+	self:RegisterForDrag('LeftButton','RightButton')
+	</OnLoad>
+	<OnEnter>
+	if (not self.dragging) then
+	RA_MinimapButton_OnEnter(self)
+	end
+	</OnEnter>
+	<OnLeave>
+	GameTooltip:Hide()
+	ratpsicon:SetPoint("TOPLEFT",6,-6)
+	</OnLeave>
+	<OnDragStart>
+	ratpsicon:SetPoint("TOPLEFT",6,-6)
+	self.dragging = true
+	GameTooltip:Hide()
+	
+	RA_MinimapButton_DraggingFrame:Show()
+	</OnDragStart>
+	<OnDragStop>
+	ratpsicon:SetPoint("TOPLEFT",6,-6)
+	self.dragging = false
+	
+	RA_MinimapButton_DraggingFrame:Hide()
+	</OnDragStop>
+	<OnClick>
+	RA_MinimapButton_OnClick()
+	</OnClick>
+	<OnMouseDown>
+		ratpsicon:SetPoint("TOPLEFT",8,-8)
+	</OnMouseDown>
+	<OnMouseUp>
+		ratpsicon:SetPoint("TOPLEFT",6,-6)
+	</OnMouseUp>
+	</Scripts>
+</Button>
+
+
+
+
+</Ui>
