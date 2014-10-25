@@ -14,3 +14,4 @@ RaidAchievement_Icecrown.xml
 RaidAchievement_Icecrownbosses.lua
 ## Title: |cff880303[网易有爱]|r 成就助手 [冰冠要塞]
 ## X-Vendor: NetEase
+## X-163UI-Version: 2014102501

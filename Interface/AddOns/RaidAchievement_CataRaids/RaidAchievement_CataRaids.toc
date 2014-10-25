@@ -14,3 +14,4 @@ RaidAchievement_CataRaids.xml
 RaidAchievement_CataRaidsbosses.lua
 ## Title: |cff880303[网易有爱]|r 成就助手 [大灾变团队]
 ## X-Vendor: NetEase
+## X-163UI-Version: 2014102501
