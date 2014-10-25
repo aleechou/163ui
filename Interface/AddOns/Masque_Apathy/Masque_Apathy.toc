@@ -1,0 +1,21 @@
+## Interface: 60000
+## Title: Masque: |cffff8000Apathy|r
+## Version: 6.0.0
+## Author: StormFX
+## Notes: Apathy skin for Masque.
+## Notes-zhTW: Masque的Apathy皮膚。
+## Notes-zhCN: Masque的Serenity皮肤。
+## Dependencies: Masque
+## X-Website: http://www.wowace.com/projects/masque_apathy
+## X-Category: Interface Enhancements
+## X-Credits: Zeal
+## X-WoWI-ID: 8870
+## X-Curse-Packaged-Version: v6.0.0
+## X-Curse-Project-Name: Masque: Apathy
+## X-Curse-Project-ID: masque_apathy
+## X-Curse-Repository-ID: wow/masque_apathy/mainline
+
+Apathy.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520

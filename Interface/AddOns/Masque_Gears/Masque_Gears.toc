@@ -1,0 +1,19 @@
+## Interface: 60000
+## Title: Masque: |cffff8000Gears|r
+## Version: 6.0.0
+## Notes: Gear skins for Masque.
+## Notes-zhCN: Masque的Serenity皮肤。
+## Author: StormFX
+## Dependencies: Masque
+## X-Website: http://www.wowace.com/projects/masque_gears
+## X-Category: Interface Enhancements
+## X-WoWI-ID: 8918
+## X-Curse-Packaged-Version: v6.0.0
+## X-Curse-Project-Name: Masque: Gears
+## X-Curse-Project-ID: masque_gears
+## X-Curse-Repository-ID: wow/masque_gears/mainline
+
+Gears.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520

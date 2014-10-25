@@ -1,0 +1,4 @@
+=== v4.2.57 ===
+
+* Renamed to **Masque_LiteStep**.
+* Updated to Masque's API.

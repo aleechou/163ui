@@ -1,0 +1,4 @@
+== v6.0.0 ==
+
+* ToC update for WoD.
+* Added a version with no shadow.
