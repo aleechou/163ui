@@ -1,10 +1,20 @@
 2014-10-22/03
 ===
 
+更新聊天过滤chatfilter
+更新技能冷却提醒omnicc
+更新副本成就raidachievement
+更新成就辅助AchievementsReminder
+更新施法条美化增强quartz
+
+
+2014-10-22/03
+===
+
 * 更新框体移动Blizzmove
 * 恢复距离显示RangeDisplay
 * 更新宠物搜索排序过滤PetJournalEnhanced
-* 更新NPCScan(现在不支持插图报警)
+* 更新NPCScan
 
 
 2014-10-22/02

@@ -9,12 +9,9 @@
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: whraspisokon
-
 RaidAchievement_WotlkHeroics.lua
 RaidAchievement_WotlkHeroicsbosses.lua
 RaidAchievement_WotlkHeroics.xml
-
-
 ## Title: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014052801

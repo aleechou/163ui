@@ -9,12 +9,9 @@
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: phraspisokon
-
 RaidAchievement_PandaHeroics.lua
 RaidAchievement_PandaHeroicsbosses.lua
 RaidAchievement_PandaHeroics.xml
-
-
 ## Title: |cff880303[网易有爱]|r 成就助手 [潘达利亚]
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014052801
