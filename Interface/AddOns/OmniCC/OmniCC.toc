@@ -6,7 +6,7 @@
 ## Notes-koKR: 모든 것을 위한 쿨다운 카운트
 ## Author: Tuller
 ## Version: 5.4.1
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141025101614
 ## X-Vendor: NetEase
 ## SavedVariables: OmniCC4Config
 

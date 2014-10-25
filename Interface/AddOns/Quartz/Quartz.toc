@@ -64,4 +64,4 @@ modules\Flight.lua
 modules\EnemyCasts.lua
 ## Title: |cff880303[网易有爱]|r 美化施法条
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019002908
+## X-163UI-Version: 20141025101614
