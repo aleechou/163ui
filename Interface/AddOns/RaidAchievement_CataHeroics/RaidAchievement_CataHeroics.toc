@@ -14,3 +14,4 @@ RaidAchievement_CataHeroicsbosses.lua
 RaidAchievement_CataHeroics.xml
 ## Title: |cff880303[网易有爱]|r 成就助手 [大灾变]
 ## X-Vendor: NetEase
+## X-163UI-Version: 2014102501
