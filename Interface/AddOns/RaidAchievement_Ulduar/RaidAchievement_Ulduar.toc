@@ -14,4 +14,4 @@ RaidAchievement_Uldabosses.lua
 RaidAchievement_Ulduar.xml
 ## Title: |cff880303[网易有爱]|r 成就助手 [奥杜尔]
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102501
+## X-163UI-Version: 20141025105004
