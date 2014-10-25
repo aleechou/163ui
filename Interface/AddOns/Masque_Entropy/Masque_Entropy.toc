@@ -1,0 +1,21 @@
+## Interface: 60000
+## Title: Masque: |cffff8000Entropy|r
+## Version: 6.0.0
+## Author: StormFX
+## Notes: Entropy skins for Masque.
+## Notes-zhTW: Masque的Entropy皮膚。
+## Notes-zhCN: Masque的Serenity皮肤。
+## Dependencies: Masque
+## X-Website: http://www.wowace.com/projects/masque_entropy
+## X-Category: Interface Enhancements
+## X-Credits: Zeal
+## X-WoWI-ID: 8873
+## X-Curse-Packaged-Version: v6.0.0
+## X-Curse-Project-Name: Masque: Entropy
+## X-Curse-Project-ID: masque_entropy
+## X-Curse-Repository-ID: wow/masque_entropy/mainline
+
+Entropy.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520

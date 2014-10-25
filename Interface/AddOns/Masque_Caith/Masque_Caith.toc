@@ -1,0 +1,24 @@
+## Interface: 60000
+## Title: Masque: |cffff8000Caith|r
+## Version: 6.0.0
+## Author: StormFX
+## Notes: Caith skin for Masque.
+## Notes-deDE: Caith-Skin für Masque.
+## Notes-esES: Skin Caith para Masque.
+## Notes-itIT: Skin Caith per Masque.
+## Notes-zhTW: Masque的Caith皮膚。
+## Notes-zhCN: Masque的Serenity皮肤。
+## Dependencies: Masque
+## X-Website: http://www.wowace.com/projects/masque_caith
+## X-Category: Interface Enhancements
+## X-Credits: Zeal, Caith
+## X-WoWI-ID: 8869
+## X-Curse-Packaged-Version: v6.0.0
+## X-Curse-Project-Name: Masque: Caith
+## X-Curse-Project-ID: masque_caith
+## X-Curse-Repository-ID: wow/masque_caith/mainline
+
+Caith.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520

@@ -1,0 +1,24 @@
+## Interface: 60000
+## Title: Masque: |cffff8000Cainyx|r
+## Version: 4.2.00
+## Author: WoWLoreConfusedMe
+## Notes: Cainyx skin for Masque.
+## Notes-deDE: Cainyx Skins für Masque.
+## Notes-esMX: Cainyx texturas para Masque.
+## Notes-esES: Cainyx texturas para Masque.
+## Notes-frFR: Skin Cainyx pour Masque.
+## Notes-koKR: Masque에 대한 Cainyx 스킨.
+## Notes-ruRU: Cainyx Шкурки для Masque.
+## Notes-zhCN: Masque的Serenity皮肤。
+## Notes-zhTW: Cainyx皮膚的Masque。
+## Dependencies: Masque
+## X-Website: http://www.wowinterface.com/downloads/info18682-ButtonFacadeCainyx.html
+## X-Category: Interface Enhancements
+## X-Credits: WoWLoreConfusedMe
+## X-WoWI-ID: 8888
+
+
+Cainyx.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141020142520
