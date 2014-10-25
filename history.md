@@ -1,11 +1,11 @@
-2014-10-22/03
+2014-10-25/01
 ===
 
-更新聊天过滤chatfilter
-更新技能冷却提醒omnicc
-更新副本成就raidachievement
-更新成就辅助AchievementsReminder
-更新施法条美化增强quartz
+* 更新聊天过滤chatfilter
+* 更新技能冷却提醒omnicc
+* 更新副本成就raidachievement
+* 更新成就辅助AchievementsReminder
+* 更新施法条美化增强quartz
 
 
 2014-10-22/03
