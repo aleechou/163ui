@@ -9,11 +9,9 @@
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: pzraspisokon
-
 RaidAchievement_PandaScenarios.lua
 RaidAchievement_PandaScenariosbosses.lua
 RaidAchievement_PandaScenarios.xml
-
 ## Title: |cff880303[网易有爱]|r 成就助手 [潘达利亚脚本]
 ## X-Vendor: NetEase
 ## 163UI-Version: 2014052801
