@@ -87,6 +87,7 @@ local defaults = {
 
 		autoloots = {
 			currency = 'never',
+			tradegoods = 'always',
 			quest = 'never',
 			list = 'solo',
 			all = 'never',
@@ -854,7 +855,7 @@ do
 			f:SetScript('OnDragStart', OnDragStart)
 			f:SetScript('OnDragStop', OnDragStop)
 			f:SetScript('OnHide', f.OnHide)
-			link:SetScript('OnClick', LinkClick)
+			link:SetScript('OnClick', f.LinkClick)
 
 			-- WoW now shows an error if any parameter is passed, and OnClick passes one
 			local function CloseLoot_Nil()
@@ -890,6 +891,7 @@ function XLootFrame:ParseAutolootList()
 	end
 end
 
+local _bag_slots = {}
 function XLootFrame:Update(in_options)
 	local numloot = GetNumLootItems()
 	if numloot == 0 then return nil end
@@ -906,52 +908,64 @@ function XLootFrame:Update(in_options)
 	
 	-- Autolooting options
 	local party = IsInGroup()
-	local auto, auto_items, auto_space = auto, auto_items
+	local auto, auto_items, bag_slots = auto, auto_items 
 	for k,v in pairs(opt.autoloots) do
 		auto[k] = v == 'always' or (v == 'solo' and not party)
 	end
 	-- Update rows
-	local max_quality, max_width, our_slot, slot, auto_space = 0, 0, 0
+	local max_quality, max_width, our_slot, slot = 0, 0, 0
 	for slot = 1, numloot do
 		local _, icon, name, quantity, quality, locked, isQuestItem, questId, isActive = pcall(GetLootSlotInfo, slot)
 		-- local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(slot)
 		if icon then -- Occasionally WoW will open loot with empty or invalid slots
 			local looted = false
-			
+			-- TODO: Pass on to row update
+
 			-- Autolooting currency
 			local type = GetLootSlotType(slot)
-			if (auto.all or auto.currency) and type == LOOT_SLOT_MONEY or type == LOOT_SLOT_CURRENCY then
+			if (auto.all or auto.currency) and (type == LOOT_SLOT_MONEY or type == LOOT_SLOT_CURRENCY) then
 				LootSlot(slot)
 				looted = true
 				
-			-- Autolooting quest items
-			elseif auto.all or (auto.quest and isQuestItem) or (auto.list and auto_items[name]) then
-				-- Cache available space
-				if auto_space == nil then
-					local open = 0
-					for i = 0, NUM_BAG_SLOTS do
-						open = open + GetContainerNumFreeSlots(i)
+			-- Autolooting items
+			else
+				local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(name)
+				if auto.all or (auto.quest and isQuestItem) or (auto.list and auto_items[name]) or (auto.tradegoods and itemType == 'Trade Goods') then
+
+					-- Cache available space
+					--  Specific bag types make this a bit more annoying
+					if not bag_slots then
+						bag_slots = wipe(_bag_slots)
+						for i = 0, NUM_BAG_SLOTS do
+							local open, family = GetContainerNumFreeSlots(i)
+							if family then
+								bag_slots[family] = bag_slots[family] and bag_slots[family] + open or open
+							end
+						end
 					end
-					auto_space = open
-				end
-				-- We have room
-				if auto_space > 0 then
-					LootSlot(slot)
-					auto_space = auto_space - 1
-						-- This could prevent autolooting more quest items from the same loot
-						-- but is faster than checking stack information each time
-						-- and will only affect this loot
-					looted = true
-				-- We might have a partial stack
-				else
-					local cur = GetItemCount(name)
-					local loot = false
-					if cur > 0 then
-						local stack = select(8, GetItemInfo(name))
-						local partial = cur % stack
-						if partial + quantity <= stack then
-							LootSlot(slot)
-							looted = true
+
+					-- Simple quest item
+					local family = GetItemFamily(name)
+					if not family and isQuestItem then
+						LootSlot(slot)
+						looted = true
+
+					-- We have room
+					elseif family and bag_slots[family] and bag_slots[family] > 0 then
+						LootSlot(slot)
+						looted = true
+						bag_slots[family] = bag_slots[family] - 1
+
+					-- Fits with existing items?
+					else
+						local cur = GetItemCount(name)
+						if cur > 0 then
+							-- local stack = select(8, GetItemInfo(name))
+							local partial = cur % itemStackCount
+							if partial + quantity <= itemStackCount then
+								LootSlot(slot)
+								looted = true
+							end
 						end
 					end
 				end

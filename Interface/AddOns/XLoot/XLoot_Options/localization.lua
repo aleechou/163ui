@@ -27,6 +27,8 @@ local locales = {
 			autoloot_currency_desc = "When to automatically loot currency",
 			autoloot_quest = "Auto loot quest items",
 			autoloot_quest_desc = "When to automatically loot quest items",
+			autoloot_tradegoods = "Auto loot trade goods",
+			autoloot_tradegoods_desc = "When to automatically loot any item of Trade Goods type",
 			autoloot_all = "Auto loot everything",
 			autoloot_list = "Auto loot listed items",
 			autoloot_list_desc = "When to automatically loot listed items",
@@ -251,8 +253,6 @@ locales.deDE.Core = {
 }
 locales.deDE.Frame = {
 	autoloot_all = "Automatisch alles plündern", -- Needs review
-	autoloot_coin = "Automisches Plündern von Münzen", -- Needs review
-	autoloot_coin_desc = "Wann sollen Münzen automatisch geplündert werden", -- Needs review
 	autolooting = "Auto-Plündern", -- Needs review
 	autolooting_details = "XLoot wird sich für die höchste Einstellung entscheiden, um einen Slot zu plündern. Dies erlaubt, als Beispiel, automatisch alles zu plündern, wenn man Solo ist, aber nur Questgegenstände und Münzen während man in einer Gruppe ist", -- Needs review
 	autolooting_list = [=[Um automatisch spezifische Gegenstände zu Plündern, liste diese unten auf.
@@ -397,8 +397,6 @@ locales.koKR.Core = {
 	skin_desc = "사용할 스킨을 선택합니다. Masque 스킨을 포함",
 }
 locales.koKR.Frame = {
-	autoloot_coin = "골드 자동 획득",
-	autoloot_coin_desc = "자동으로 골드 획득의 경우",
 	autolooting = "자동 루팅",
 	autolooting_list = [=[자동으로 특정 항목을 룻하려면 다음을 나열합니다.
    예 : 리넨 천, 파멸의 인도자, 구리 광석]=], -- Needs review
@@ -548,8 +546,6 @@ locales.ruRU.Core = {
 }
 locales.ruRU.Frame = {
 	autoloot_all = "Автоматически собирать всю добычу",
-	autoloot_coin = "Автосбор денег",
-	autoloot_coin_desc = "Когда автоматически собирать деньги",
 	autolooting = "Автоматический сбор добычи",
 	autolooting_details = "XLoot will choose the highest setting when deciding to loot a slot. This allows, for example, auto looting everything while solo yet only quest items and money while in a group.", -- Needs review
 	autolooting_list = "Для автоматического сбора определённых вещей, перечислите их ниже.\\n Примеры: Льняной материал,Испепелитель,Медная руда",
@@ -695,8 +691,6 @@ locales.zhCN.Core = {
 }
 locales.zhCN.Frame = {
 	autoloot_all = "自动拾取所有物品",
-	autoloot_coin = "自动拾取金币",
-	autoloot_coin_desc = "何时自动拾取金币",
 	autolooting = "自动拾取",
 	autolooting_details = "XLoot将会在拾取时选择最高的设置。",
 	autolooting_list = [=[要自动拾取的特定物品，请在下面列出来。
@@ -878,8 +872,6 @@ locales.zhTW.Core = {
 }
 locales.zhTW.Frame = {
 	autoloot_all = "自動拾取所有物品",
-	autoloot_coin = "自動拾取金錢",
-	autoloot_coin_desc = "何時要自動拾取金錢",
 	autolooting = "自動拾取",
 	autolooting_details = "XLoot進行拾取物品時會選最高級的設定。例如：單人的時候自動拾取所有物品，並且在隊伍中只拾取任務物品及金錢。",
 	autolooting_list = [=[要自動拾取特定物品，請列在下方。
