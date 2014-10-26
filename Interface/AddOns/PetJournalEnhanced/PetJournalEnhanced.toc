@@ -3,7 +3,7 @@
 ## Author: nullberri(汉化：上官晓雾)
 ## Notes: Displays the rarity of the enemies pets in their tooltip.
 ## Author: nullberri
-## Version: 2.9.11
+## Version: 2.9.14
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_PetJournal
 ## SavedVariables: PetJournalEnhancedDB
@@ -58,8 +58,6 @@ modules\DropdownMenu.lua
 
 #dep: Config, Sorting, DropDown
 modules\HookedFunctions.lua
-
-
 ## Title: |cff880303[网易有爱]|r 宠物搜索过滤
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141022163916
+## X-163UI-Version: 2014102601

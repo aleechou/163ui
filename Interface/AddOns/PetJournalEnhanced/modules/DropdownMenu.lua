@@ -76,11 +76,10 @@ local function CreateDropdownMenu(self,level)
 		
 		info.text = FAVORITES_FILTER
 		info.func = 	function(_, _, _, value)
-							C_PetJournal.SetFlagFilter(LE_PET_JOURNAL_FLAG_FAVORITES, value);
+							Sorting.filtering.favoritesOnly = value
 							Sorting:UpdatePets()
 						end 
-		info.disabled = not info.checked or info.checked ~= true;
-		info.checked = false --not C_PetJournal.IsFlagFiltered(LE_PET_JOURNAL_FLAG_FAVORITES);
+		info.checked = Sorting.filtering.favoritesOnly
 		info.isNotRadio = true;
 		info.leftPadding = 16;
 		UIDropDownMenu_AddButton(info, level)
