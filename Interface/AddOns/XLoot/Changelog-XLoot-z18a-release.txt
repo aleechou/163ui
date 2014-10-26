@@ -1,0 +1,12 @@
+tag z18a-release
+68547cd4e0031ddcf7a1e99fd97ab8582b49fe8e
+Xuerian <sky.shell@gmail.com>
+2014-10-26 08:30:12 -0400
+
+Frame: Fix link button
+
+
+--------------------
+
+Xuerian:
+	- Frame: Make link button work again
