@@ -11,6 +11,19 @@ U1RegisterAddon("163UI_Chat", {
     icon = [[Interface\Icons\Spell_Holy_HolyGuidance]],
     ------- Options --------
     {
+        var="worldchannel",
+        default = 1,
+        text="加入世界频道",
+        callback = function(cfg, v, loading)
+            if v then
+                JoinChannelByName(U1_CHAT_WORLD_CHANNEL)
+            else
+                LeaveChannelByName(U1_CHAT_WORLD_CHANNEL)
+            end
+        end,
+    },
+
+    {
         var="wwm",
         default = 1,
         text="自动查询密我的人是谁",

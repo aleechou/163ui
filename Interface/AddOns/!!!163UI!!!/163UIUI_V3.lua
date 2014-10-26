@@ -10,6 +10,7 @@ setmetatable(UUI, {__call = function() return _G[U1_FRAME_NAME] end})
 
 UUI.DropDownItems = QuickMenus or {
     --"!!!163ui!!!/checkAddonVersion",
+    "!!!163ui!!!/alwaysCompareItems",
     "!!!163ui!!!/extrabutton",
     "!!!163ui!!!/name",
     "!!!163ui!!!/english",
