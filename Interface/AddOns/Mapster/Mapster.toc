@@ -48,7 +48,7 @@ Coords.lua
 GroupIcons.lua
 BattleMap.lua
 FogClear.lua
-InstanceMaps.lua
+#InstanceMaps.lua
 Scaling.lua
 
 Mark.lua
