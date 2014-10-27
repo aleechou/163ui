@@ -21,3 +21,6 @@ AtlasLootReverse.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLootReverse
 ## X-Vendor: NetEase
+
+
+## X-163UI-Version: 20141027120320
