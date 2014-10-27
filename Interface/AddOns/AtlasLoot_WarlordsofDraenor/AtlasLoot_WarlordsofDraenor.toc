@@ -25,4 +25,7 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r Warlords of Draenor (德拉诺之王) 物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102701
+## X-163UI-Version: NaNaNaNaNaNaN
+
+
+## X-163UI-Version: 20141027150801

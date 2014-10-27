@@ -11,4 +11,4 @@ WhoWhisperedMe.xml
 
 ## Title: |cff880303[网易有爱]|r 聊天框增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141026180229
+## X-163UI-Version: 20141027151200
