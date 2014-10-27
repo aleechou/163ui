@@ -10,7 +10,7 @@ local Timer = OmniCC.Timer
 --[[ Control ]]--
 
 function Cooldown:Start(...)
-	Cooldown.UpdateOpacity(self)
+	Cooldown.UpdateAlpha(self)
 
 	if Cooldown.CanShow(self, ...) then
 		Cooldown.Setup(self)
@@ -38,7 +38,7 @@ function Cooldown:Stop()
 	end
 end
 
-function Cooldown:CanShow(start, duration, charges)
+function Cooldown:CanShow(start, duration)
 	if not self.noCooldownCount and start and duration then
 		local sets = OmniCC:GetGroupSettingsFor(self) 
 		return start > 0 and duration >= sets.minDuration and sets.enabled
@@ -79,8 +79,16 @@ function Cooldown:OnSizeChanged(width, ...)
 	end
 end
 
+function Cooldown:OnColorSet(...)
+	self.swipeR, self.swipeG, self.swipeB, self.swipeA = ...
+end
 
---[[ Updating ]]--
+
+--[[ Misc ]]--
+
+function Cooldown:UpdateAlpha()
+	self:SetSwipeColor(self.swipeR or 0, self.swipeG or 0, self.swipeB or 0, OmniCC:GetGroupSettingsFor(self).spiralOpacity)
+end
 
 function Cooldown:ForAll(func, ...)
 	func = self[func]
@@ -88,8 +96,4 @@ function Cooldown:ForAll(func, ...)
 	for cooldown in pairs(OmniCC.Cache) do
 		func(cooldown, ...)
 	end
-end
-
-function Cooldown:UpdateOpacity()
-	self:SetAlpha(OmniCC:GetGroupSettingsFor(self).spiralOpacity)
 end

@@ -1,12 +1,12 @@
 ﻿## Interface: 60000
 ## Title: XLoot
 ## Notes: Core module for Loot and Looting-related UI improvements
-## Version: z18a-release
+## Version: z19-release
 ## Author: Xuerian
 ## X-Category: Inventory
 ## X-eMail xuerian @ gmail DOT com
 ## X-Name: XLoot
-## X-Curse-Packaged-Version: z18a-release
+## X-Curse-Packaged-Version: z19-release
 ## X-Curse-Project-Name: XLoot
 ## X-Curse-Project-ID: xloot
 ## X-Curse-Repository-ID: wow/xloot/mainline
@@ -32,4 +32,8 @@ XLoot_Master\load.xml
 
 ## Title: |cff880303[网易有爱]|r 拾取框增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141026213409
+<<<<<<< HEAD
+## X-163UI-Version: 20141027150047
+=======
+## X-163UI-Version: 20141027150047
+>>>>>>> 643e4e18c047515589fbfcb9759034a2d14ff153

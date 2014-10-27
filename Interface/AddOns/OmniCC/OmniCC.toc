@@ -1,13 +1,13 @@
 ## Interface: 60000
 ## Title: OmniCC
 ## Notes: Cooldown count for everything
-## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时
 ## Notes-zhCN: 给所有的技能冷却动画添加文字显示及冷却后的效果。
 ## Notes-koKR: 모든 것을 위한 쿨다운 카운트
 ## Author: Tuller
-## Version: 5.4.1
-## X-163UI-Version: 20141025101614
+## Version: 6.0.4
+## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时
 ## X-Vendor: NetEase
+## X-163UI-Version: 20141025101614
 ## SavedVariables: OmniCC4Config
 
 libs\libs.xml

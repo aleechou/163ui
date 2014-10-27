@@ -65,6 +65,7 @@ local defaults = {
 		font_size_info = 10,
 		font_size_quantity = 10,
 		font_size_bottombuttons = 10,
+		font_flag = "OUTLINE",
 
 		loot_icon_size = 34,
 		loot_row_height = 30,
@@ -87,7 +88,7 @@ local defaults = {
 
 		autoloots = {
 			currency = 'never',
-			tradegoods = 'always',
+			tradegoods = 'never',
 			quest = 'never',
 			list = 'solo',
 			all = 'never',
@@ -309,8 +310,7 @@ local BuildRow
 do
 	local RowPrototype = { New = Instance_New }
 	-- Text helpers
-	local function smalltext(text, size, ext)
-		text:SetFont(opt.font, size or 10, ext or '')
+	local function smalltext(text)
 		text:SetDrawLayer'OVERLAY'
 		text:SetHeight(10)
 		text:SetJustifyH'LEFT'
@@ -404,13 +404,15 @@ do
 		self.frame_item:SetGradientColor(owner:GetColor('loot_color_gradient'))
 		self.text_info:SetTextColor(owner:GetColor('loot_color_info'))
 		self:SetAlpha(opt.loot_alpha)
+
 		
 		-- Text
 		self.text_name:SetFont(opt.font, opt.font_size_loot)
 		self.text_info:SetFont(opt.font, opt.font_size_info)
-		self.text_quantity:SetFont(opt.font, opt.font_size_quantity, 'outline')
-		self.text_bind:SetFont(opt.font, 8, 'outline')
-		self.text_locked:SetFont(opt.font, 9, 'outline')
+		self.text_quantity:SetFont(opt.font, opt.font_size_quantity, opt.font_flag)
+		self.text_bind:SetFont(opt.font, 8, opt.font_flag)
+		self.text_locked:SetFont(opt.font, 9, opt.font_flag)
+		self.text_locked:SetText(LOCKED) -- Can't set text until font is set
 
 		-- Resize fontstrings
 		AdjustFontstringSize(self.text_name)
@@ -566,13 +568,13 @@ do
 		row.text_bind = bind
 		row.text_locked = locked
 		row.text_quantity = quantity
-		
+
 		-- Setup fontstrings
-		smalltext(name, opt.font_size_loot)
-		smalltext(info, opt.font_size_info)
-		smalltext(bind, 8, 'outline')
-		smalltext(locked, 9, 'outline')
-		smalltext(quantity, opt.font_size_quantity, 'outline')
+		smalltext(name)
+		smalltext(info)
+		smalltext(bind)
+		smalltext(locked)
+		smalltext(quantity)
 		name:SetPoint('RIGHT', row, 'RIGHT', -4, 0)
 		info:SetPoint('TOPLEFT', name, 'BOTTOMLEFT', 8, 0)
 		info:SetPoint('TOPRIGHT', name, 'BOTTOMRIGHT')
@@ -583,7 +585,6 @@ do
 		quantity:SetPoint('BOTTOMRIGHT', -2, 2)
 		quantity:SetJustifyH('RIGHT')
 		locked:SetPoint('CENTER')
-		locked:SetText(LOCKED)
 		locked:SetTextColor(1, .2, .1)
 
 		-- Align frames (Dimensions set in UpdateAppearance)
