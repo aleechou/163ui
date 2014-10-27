@@ -30,13 +30,17 @@ co(function*(){
 		var filename = filenameList[i]
 		if(ignores[filename])
 			continue
+		try{
+			if( !(yield fsstat(addonsDir+filename)).isDirectory() ){
+				continue
+			}
 
-		if( !(yield fsstat(addonsDir+filename)).isDirectory() ){
-			continue
-		}
-
-		var tocpath = addonsDir+filename+"/"+filename+".toc"
-		if( !(yield fsstat(tocpath)).isFile() ){
+			var tocpath = addonsDir+filename+"/"+filename+".toc"
+			if( !(yield fsstat(tocpath)).isFile() ){
+				continue
+			}
+		}catch(e){
+			console.error(e)
 			continue
 		}
 
@@ -46,7 +50,7 @@ co(function*(){
 		var output = yield exec("git log -10 --pretty=\"%at:%s\" \""+addonsDir+filename+"\"")
 
 		var lastUpdateTime
-		if(!output.trim()){
+		if(!output.toString().trim()){
 			lastUpdateTime = Date.now()
 		}
 		else {
