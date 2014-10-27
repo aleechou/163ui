@@ -1,0 +1,49 @@
+local AtlasLoot = _G.AtlasLoot
+local Quest = AtlasLoot.Button:AddExtraType("Quest")
+local AL = AtlasLoot.Locales
+
+local GetQuestName = AtlasLoot.TooltipScan.GetQuestName--(questID, onGetFunc, arg1)
+
+-- lua
+local type, tonumber = type, tonumber
+local split = string.split
+
+local QUEST_ICONS = {
+	[0] = "Interface\\GossipFrame\\AvailableQuestIcon",					-- normal
+	[1] = "Interface\\GossipFrame\\DailyQuestIcon",						-- daily
+	[2] = "Interface\\GossipFrame\\AvailableLegendaryQuestIcon",		-- legendary
+}
+local SPLIT_A = ":"
+
+local Cache = {}
+setmetatable(Cache, {__mode = "kv"})
+
+local function SetQuest(name, typ, frame)
+	frame:AddIcon(QUEST_ICONS[typ or 0])
+	frame:AddText(name)
+end
+
+local function SetQuestQuery(name, frame)
+	if not frame.info then return end
+	Cache[frame.cacheTyp] = { name, tonumber(frame.typ) or 0 }
+	SetQuest(name, Cache[frame.cacheTyp][2], frame)
+	frame.info = nil
+	frame.typ = nil
+	frame.cacheTyp = nil
+end
+
+function Quest.OnSet(mainButton, descFrame)
+	local typeVal = mainButton.__atlaslootinfo.extraType[2]
+	if Cache[typeVal] then
+		SetQuest(Cache[typeVal][1], Cache[typeVal][2], descFrame)
+	else
+		descFrame.cacheTyp = typeVal
+		if type(typeVal) == "string" then
+			descFrame.typ, typeVal = split(SPLIT_A, typeVal)
+			typeVal = tonumber(typeVal)
+		end
+		descFrame.info = typeVal
+		GetQuestName(typeVal, SetQuestQuery, descFrame)
+		return
+	end
+end

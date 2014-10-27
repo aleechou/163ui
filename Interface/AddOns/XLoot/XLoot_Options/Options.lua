@@ -37,16 +37,22 @@ Features/Finalize:
 Features/BetterOptions:
 - Nested tables with implied ordering and table values:
 -- Basic structure: { "key", "type"[, arg1[, ...]] [, key = value[, ...]] }
--- Examples: 
--- "key" -> { "key", "toggle" }
--- { "key", option = "blah" } -> { "key", "toggle", option = "blah" }
--- { "key", "group", inline } -> key = { type = "group", inline = true }
--- { "key", "execute", func } -> key = { type = "execute", func = func }
--- { "key", "select", items }
--- { "key", "color", hasAlpha }
--- { "key", "range", min, max, step, softMin, softMax, bigStep }
-
-Please note that inline and non-inline groups do not mix well for AceConfigDialog. -]=] 
+-- Examples:
+--  { "key", "toggle" }
+--  { "key", option = "blah" }  ->  { "key", "toggle", option = "blah" }
+--  { "key", "group", inline }  ->  key = { type = "group", inline = true }
+--  { "key", "execute", func }  ->  key = { type = "execute", func = func }
+--  { "key", "select", items }
+--  { "key", "color", hasAlpha }
+--  { "key", "range", min, max, step, softMin, softMax, bigStep }
+-- Automatic types:
+--  Entry is just a "key":  "toggle"
+--   "key"
+--  t[2] is unset:  "toggle"
+--   { "key" }
+--  t[2] is a table:  "select"
+--   { "key", {k, v} }
+Please note that inline and non-inline groups do not mix well for AceConfigDialog. -]=]
 
 -- Create module
 local addon, L = XLoot:NewModule("Options")
@@ -190,7 +196,14 @@ function addon:OnEnable() -- Construct addon option tables here
 
 		-- Shift required elements
 		local key = table_remove(t, 1)
-		t.type = table_remove(t, 1) or "toggle"
+		t.type = table_remove(t, 1)
+		-- Infer toggle by default
+		if not t.type then
+			t.type = "toggle"
+		-- Infer select from table
+		elseif type(t.type) == "table" then
+			t.items, t.type = t.type, "select"
+		end
 
 		-- Handle specific option types
 		if BetterOptionsTypes[t.type] then
@@ -281,12 +294,12 @@ function addon:OnEnable() -- Construct addon option tables here
 		else
 			-- Automatically localized selects
 			if opts.type == "alpha" or opts.type == "scale" then
-				opts.name = opts.name or L[module_data.name][key] or L[opts.type]
-				opts.type = "range" 
+				opts.name = opts.name or L[module_data.name][key] or L[key] or L[opts.type]
+				opts.type = "range"
 			end
 
 			-- Fill in localized name/description
-			opts.name = opts.name or L[module_data.name][key] or key
+			opts.name = opts.name or L[module_data.name][key] or L[key] or key
 			opts.desc = opts.desc or L[module_data.name][key.."_desc"]
 
 			meta.subtable, meta.subkey = opts.subtable, opts.subkey
@@ -402,6 +415,31 @@ function addon:OnEnable() -- Construct addon option tables here
 		{ "down", L.down }
 	}
 
+	-- Shared Media
+	local LSM = LibStub and LibStub("LibSharedMedia-3.0",1)
+
+	local fonts
+	if LSM then
+		fonts = {}
+		for name, ttf in pairs(LSM:HashTable("font")) do
+			table.insert(fonts, {ttf, name})
+		end
+	else
+		fonts = {
+			{ STANDARD_TEXT_FONT, "Friz Quadrata TT" },
+			{ "Fonts\MORPHEUS.ttf", "Morpheus" },
+			{ "Fonts\ARIALN.ttf", "Arial Narrow" },
+			{ "Fonts\SKURRI.ttf", "Skurri" },
+		}
+	end
+
+	local font_flags = {
+		{ "", "NONE" },
+		{ "OUTLINE", "OUTLINE" },
+		{ "THICKOUTLINE", "THICKOUTLINE" },
+		{ "MONOCHROME", "MONOCHROME" }
+	}
+
 	-------------------------------------------------------------------------------
 	-- Module configs
 
@@ -469,8 +507,9 @@ function addon:OnEnable() -- Construct addon option tables here
 				{ "autoloot_item_list", "input", width = "double" },
 				{ "autolooting_details", "description" },
 			}},
-			{ "fonts", "group", {
-				{ "font", "input" },
+			{ "font", "group", {
+				{ "font", fonts },
+				{ "font_flag", font_flags },
 				{ "font_sizes", "header" },
 				{ "font_size_loot", "range", 4, 26, 1 },
 				{ "font_size_info", "range", 4, 26, 1 },
@@ -563,7 +602,14 @@ function addon:OnEnable() -- Construct addon option tables here
 			}},
 			{ "details", "group", {
 				{ "show_totals", "toggle", width = "double" }
-			}}
+			}},
+			{ "font", "group", {
+				{ "font", fonts },
+				{ "font_flags", font_flags },
+				{ "font_sizes", "header" },
+				{ "font_size_loot", "range", 4, 26, 1 },
+				{ "font_size_quantity", "range", 4, 26, 1 },
+			}},
 		})
 	end
 
