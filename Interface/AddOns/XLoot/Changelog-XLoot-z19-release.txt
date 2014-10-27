@@ -1,0 +1,16 @@
+tag z19-release
+3421e0835ebbea50b8f97d6090b8ff4861a46eac
+Xuerian <sky.shell@gmail.com>
+2014-10-26 18:23:33 -0400
+
+Frame/Monitor: Basic font options supporting LibSharedMedia
+
+
+--------------------
+
+Xuerian:
+	- Frame: Use proper default value for autoloots.tradegoods
+	- Options: Make localization lookups climb into the base table for reusable strings
+	- Frame/Monitor: Add rudamentary font options, initial credit to "DeaTHCorE", taking the "It's open source, do it yourself" to productive heart
+	- BetterOptions: Infer "select" type, improve documentation
+	- Misc >_>

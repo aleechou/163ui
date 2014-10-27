@@ -1,0 +1,21 @@
+﻿## Interface: 60000
+## LoadOnDemand: 1
+## Title: Lib: Babble-Boss-3.0
+## Notes: A library to help with localization of bosses.
+## Notes-zhCN: 为本地化服务的支持库[首领名称]
+## Notes-zhTW: 為本地化服務的函式庫[首領名稱]
+## Notes-deDE: BabbleLib ist eine Bibliothek, die bei der Lokalisierung helfen soll.
+## Notes-frFR: Une bibliothèque d'aide à la localisation.
+## Notes-esES: Una biblioteca para ayudar con las localizaciones.
+## Author: ckknight
+## X-eMail: ckknight@gmail.com
+## X-Category: Library
+## X-License: MIT
+## X-Curse-Packaged-Version: v8.00.00beta1
+## X-Curse-Project-Name: AtlasLoot Enhanced
+## X-Curse-Project-ID: atlasloot-enhanced
+## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
+
+LibStub\LibStub.lua
+lib.xml
+
