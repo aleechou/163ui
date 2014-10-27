@@ -7,7 +7,7 @@
 ## Version: 6.0.4
 ## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141025101614
+## X-163UI-Version: 20141027150801
 ## SavedVariables: OmniCC4Config
 
 libs\libs.xml

@@ -45,16 +45,22 @@ co(function*(){
 
 		var output = yield exec("git log -10 --pretty=\"%at:%s\" \""+addonsDir+filename+"\"")
 
-		var lastUpdateTime = ""
-		var lines = output.toString().split("\n")
-		for(var l=0;l<lines.length;l++){
-			var slices = lines[l].split(":")
-			// console.log(slices)
-			if( slices[1]=="update X-163UI-Version" ){
-				continue
+		var lastUpdateTime
+		if(!output.trim()){
+			lastUpdateTime = Date.now()
+		}
+		else {
+
+			var lines = output.toString().split("\n")
+			for(var l=0;l<lines.length;l++){
+				var slices = lines[l].split(":")
+				// console.log(slices)
+				if( slices[1]=="update X-163UI-Version" ){
+					continue
+				}
+				lastUpdateTime = parseInt(slices[0].trim())
+				break
 			}
-			lastUpdateTime = parseInt(slices[0].trim())
-			break
 		}
 
 		
@@ -63,7 +69,7 @@ co(function*(){
 
 		var xversion = lastUpdateTime.Format("yyyyMMddhhmmss")
 
-		if( !tocmeta["X-163UI-Version"] || tocmeta["X-163UI-Version"].length<14 || tocmeta["X-163UI-Version"]<xversion){
+		if( !tocmeta["X-163UI-Version"] || tocmeta["X-163UI-Version"]=="NaNaNaNaNaNaN" || tocmeta["X-163UI-Version"].length<14 || tocmeta["X-163UI-Version"]<xversion){
 			console.log("update X-163UI-Version:[",filename,"]",tocmeta["X-163UI-Version"],">",xversion)
 
 			newtocContent = tocContent.replace(/##\s*(X\-)?163UI\-Version\s*:\s*[\d\\\/\-]+/g,"## X-163UI-Version: "+xversion) ;

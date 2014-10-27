@@ -33,4 +33,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_WorldEvents
 ## X-Vendor: NetEase
-## X-163UI-Version: 20140901192239
+## X-163UI-Version: 20141027150801

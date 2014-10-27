@@ -33,4 +33,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_Crafting
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141022112403
+## X-163UI-Version: 20141027120320

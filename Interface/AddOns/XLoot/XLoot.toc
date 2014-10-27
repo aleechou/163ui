@@ -33,7 +33,7 @@ XLoot_Master\load.xml
 ## Title: |cff880303[网易有爱]|r 拾取框增强
 ## X-Vendor: NetEase
 <<<<<<< HEAD
-## X-163UI-Version: 20141027150047
+## X-163UI-Version: 20141027150801
 =======
-## X-163UI-Version: 20141027150047
+## X-163UI-Version: 20141027150801
 >>>>>>> 643e4e18c047515589fbfcb9759034a2d14ff153
