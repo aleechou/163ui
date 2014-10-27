@@ -18,6 +18,8 @@ var exec = thunkify(child_process.exec)
 var addonsDir = __dirname + "/../Interface/AddOns/"
 var ignores = { "!!!163UI.3dcodecmd!!!-src":1 }
 
+var  regexpXVersion = /##\s*(X\-)?163UI\-Version\s*:\s*[\d\\\/\-]+/g
+
 co(function*(){
 
 	var filenameList = yield readdir(addonsDir)
@@ -41,6 +43,7 @@ co(function*(){
 			}
 		}catch(e){
 			console.error(e)
+			console.log("continue")
 			continue
 		}
 
@@ -59,7 +62,7 @@ co(function*(){
 			for(var l=0;l<lines.length;l++){
 				var slices = lines[l].split(":")
 				// console.log(slices)
-				if( slices[1]=="update X-163UI-Version" ){
+				if( slices[1] && slices[1].toLowerCase()=="update x-163ui-version" ){
 					continue
 				}
 				lastUpdateTime = parseInt(slices[0].trim())
@@ -76,7 +79,13 @@ co(function*(){
 		if( !tocmeta["X-163UI-Version"] || tocmeta["X-163UI-Version"]=="NaNaNaNaNaNaN" || tocmeta["X-163UI-Version"].length<14 || tocmeta["X-163UI-Version"]<xversion){
 			console.log("update X-163UI-Version:[",filename,"]",tocmeta["X-163UI-Version"],">",xversion)
 
-			newtocContent = tocContent.replace(/##\s*(X\-)?163UI\-Version\s*:\s*[\d\\\/\-]+/g,"## X-163UI-Version: "+xversion) ;
+
+			if( tocContent.match(regexpXVersion) ){
+				var newtocContent = tocContent.replace(regexpXVersion,"## X-163UI-Version: "+xversion) ;
+			}
+			else{
+				var newtocContent = tocContent + "\r\n\r\n## X-163UI-Version: "+xversion
+			}
 			//console.log(tocContent)
 
 			yield writeFile(tocpath,newtocContent)
