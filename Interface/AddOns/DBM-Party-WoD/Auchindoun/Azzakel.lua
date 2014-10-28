@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1216, "DBM-Party-WoD", 1, 547)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11741 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11518 $"):sub(12, -3))
 mod:SetCreatureID(75927)
 mod:SetEncounterID(1678)
 mod:SetZone()
@@ -85,9 +86,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnCurtainOfFlame:Show()
 			yellWarnCurtainOfFlame:Yell()
+			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
 		else
 			if self:CheckNearby(5, targetname) then
 				specWarnCurtainOfFlameNear:Show(targetname)
+				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 			end
 		end
 		if self.Options.RangeFrame then
@@ -122,11 +125,17 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 153764 then
+		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
 		warnClawsOfArgus:Show()
 		specWarnClawsOfArgus:Show()
 		timerClawsOfArgus:Start()
 		timerClawsOfArgusCD:Start()
 	elseif spellId == 154221 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 		warnFelblast:Show()
 		specWarnFelblast:Show(args.sourceName)
 	end
@@ -134,8 +143,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 153616 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 		specWarnFelPool:Show()
 	elseif spellId == 153726 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 		specWarnFelSpark:Show()
 	end
 end
@@ -143,6 +154,9 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:SPELL_SUMMON(args)
 	if args.spellId == 164081 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")
+		end
 		warnSummonFelguard:Show()
 		specWarnSummonFelguard:Show()
 	end

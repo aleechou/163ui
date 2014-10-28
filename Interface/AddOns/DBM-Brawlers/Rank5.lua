@@ -1,6 +1,6 @@
 local mod	= DBM:NewMod("BrawlRank5", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
+
 mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(6923)
 mod:SetZone()
@@ -55,7 +55,6 @@ function mod:SPELL_CAST_START(args)
 		timerTorrentCD:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnTorrent:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.mp3")
 		end
 	end
 end

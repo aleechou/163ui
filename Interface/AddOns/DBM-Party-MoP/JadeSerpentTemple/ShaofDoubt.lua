@@ -1,6 +1,6 @@
 ﻿local mod	= DBM:NewMod(335, "DBM-Party-MoP", 1, 313)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
 mod:SetCreatureID(56439)
@@ -32,10 +32,10 @@ function mod:OnCombatStart(delay)
 	timerWitherWillCD:Start(-delay)
 	timerTouchofNothingnessCD:Start(13-delay)
 	timerBoundsOfRealityCD:Start(22-delay)
-	sndWOP:Schedule(18.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-	sndWOP:Schedule(19.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-	sndWOP:Schedule(20.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-	sndWOP:Schedule(21.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+	sndWOP:Schedule(18.5, DBM.SoundMMPath.."\\countfour.ogg")
+	sndWOP:Schedule(19.5, DBM.SoundMMPath.."\\countthree.ogg")
+	sndWOP:Schedule(20.5, DBM.SoundMMPath.."\\counttwo.ogg")
+	sndWOP:Schedule(21.5, DBM.SoundMMPath.."\\countone.ogg")
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -54,17 +54,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTouchofNothingnessCD:Cancel()
 		timerBoundsOfReality:Start()
 		timerBoundsOfRealityCD:Start()
-		sndWOP:Schedule(56, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-		sndWOP:Schedule(57, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(59, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\phasechange.ogg")--階段轉換
+		sndWOP:Schedule(56, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(57, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(58, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(59, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")--階段轉換
 	elseif args.spellId == 106113 then
 		warnTouchofNothingness:Show(args.destName)
 		specWarnTouchOfNothingness:Show(args.destName)
 		timerTouchofNothingness:Start(args.destName)
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\dispelnow.ogg")--快驅散
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")--快驅散
 		end
 	elseif args.spellId == 110099 and args:IsPlayer() then
 		specWarnShadowsOfDoubt:Show()

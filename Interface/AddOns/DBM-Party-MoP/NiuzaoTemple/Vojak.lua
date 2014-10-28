@@ -1,6 +1,6 @@
 ﻿local mod	= DBM:NewMod(738, "DBM-Party-MoP", 6, 324)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 10698 $"):sub(12, -3))
 mod:SetCreatureID(61634)
@@ -52,7 +52,7 @@ function mod:SPELL_AURA_APPLIED(args)
 --		soundThousandBlades:Play()
 	elseif args:IsSpellID(120778) and args:IsPlayer() and self:AntiSpam(3, 1) then
 		specWarnBoom:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg")--快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -87,14 +87,14 @@ function mod:RAID_BOSS_EMOTE(msg)
 		timerBombard:Start()
 		timerBombardCD:Start()
 	elseif msg == L.Mob or msg:find(L.Mob) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.ogg")--準備小怪
+		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")--準備小怪
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 120760 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnKnife:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg")--快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

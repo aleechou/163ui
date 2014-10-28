@@ -1,6 +1,6 @@
 local mod	= DBM:NewMod("BrawlRank6", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
+
 mod:SetRevision(("$Revision: 10953 $"):sub(12, -3))
 mod:SetModelID(39166)
 mod:SetZone()
@@ -37,7 +37,6 @@ function mod:SPELL_CAST_START(args)
 		warnChainLightning:Show()
 		timerChainLightningCD:Start()
 		if brawlersMod:PlayerFighting() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.mp3")
 			specWarnChainLightning:Show(args.sourceName)
 		end
 	end
@@ -59,9 +58,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerShadowStrikes:Start()
 		if brawlersMod:PlayerFighting() then
 			specWarnShadowStrikes:Show(args.destName)
-			if mod:IsMagicDispeller() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\dispelnow.mp3")
-			end		end
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

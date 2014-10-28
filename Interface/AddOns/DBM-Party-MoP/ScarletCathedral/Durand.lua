@@ -1,9 +1,9 @@
-local mod	= DBM:NewMod(674, "DBM-Party-MoP", 9, 316)
+﻿local mod	= DBM:NewMod(674, "DBM-Party-MoP", 9, 316)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
 mod:SetCreatureID(60040, 99999)--3977 is High Inquisitor Whitemane and 60040 is Commander Durand, we don't really need to add her ID, because we don't ever engage her, and he true death is at same time as her.
-mod:SetEncounterID(1425)
 
 mod:RegisterCombat("combat")
 
@@ -51,6 +51,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 130857 then
 		warnMC:Show()
 		specWarnMC:Show(args.sourceName)
+		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
 	end
 end
 
@@ -62,6 +63,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		phase = 3
 		warnDeepSleep:Show()
 		timerDeepSleep:Start()
+		sndWOP:Schedule(5, DBM.SoundMMPath.."\\countfive.ogg")
+		sndWOP:Schedule(6, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(10, DBM.SoundMMPath.."\\phasechange.ogg")--階段轉換
 		timerMassResCD:Start(18)--Limited Sample size
 		if self:IsDifficulty("challenge5") then
 			timerMCCD:Start(19)--Pretty much immediately after first mas res, unless mass res isn't interrupted then it'll delay MC

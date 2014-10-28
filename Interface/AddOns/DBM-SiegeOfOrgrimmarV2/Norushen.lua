@@ -1,9 +1,12 @@
-local mod	= DBM:NewMod(866, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(866, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 10390 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11360 $"):sub(12, -3))
 mod:SetCreatureID(72276)
+--mod:SetEncounterID(1624)
+mod:SetMinSyncRevision(11309)
+mod:SetHotfixNoticeRev(11309)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -117,7 +120,7 @@ local function fixdebuffremovebug(checkplayer)
 		mod:Schedule(1, function() fixdebuffremovebug(checkplayer) end)
 	else
 		specWarnTestOut:Show(checkplayer)
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\otherout.ogg")--隊友出场
+		sndWOP:Play(DBM.SoundMMPath.."\\otherout.ogg")--隊友出场
 	end
 end
 
@@ -126,10 +129,10 @@ function mod:OnCombatStart(delay)
 	timerBlindHatredCD:Start(25-delay)
 	self:Schedule(21, function()
 		if not playerInside then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sxzb.ogg")--射線準備
-			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sxzb.ogg")--射線準備
+			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(2, DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Schedule(3, DBM.SoundMMPath.."\\countone.ogg")
 		end
 	end)
 	if self:IsLFR() then--Might also be flex as well
@@ -138,12 +141,12 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(-delay)
 	end
 	if self.Options.InfoFrame and not self.Options.InfoFrame2 then
-		DBM.InfoFrame:SetHeader(corruptionLevel)
-		DBM.InfoFrame:Show(5, "playerpower", 5, ALTERNATE_POWER_INDEX)
+		--DBM.InfoFrame:SetHeader(corruptionLevel)
+		--DBM.InfoFrame:Show(5, "playerpower", 5, ALTERNATE_POWER_INDEX)
 	end
 	if self.Options.InfoFrame2 then
-		DBM.InfoFrame:SetHeader(GetSpellInfo(144452))
-		DBM.InfoFrame:Show(4, "playersomedebuffs", 144849, 144850, 144851)
+		--DBM.InfoFrame:SetHeader(GetSpellInfo(144452))
+		--DBM.InfoFrame:Show(4, "playersomedebuffs", 144849, 144850, 144851)
 	end
 	table.wipe(senddr)
 	table.wipe(warneddr)
@@ -166,7 +169,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 144482 then
 		warnTearReality:Show()
 		specWarnTearReality:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_slkd.ogg") --撕裂快躲
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_slkd.ogg") --撕裂快躲
 		timerTearRealityCD:Start()
 	elseif args.spellId == 144654 then
 		warnBurstOfCorruption:Show()
@@ -174,20 +177,20 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 144628 then
 		warnTitanicSmash:Show()
 		specWarnTitanicSmash:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_mjkd.ogg") --猛擊快躲
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_mjkd.ogg") --猛擊快躲
 		timerTitanicSmashCD:Start()
 	elseif args.spellId == 144649 then
 		warnHurlCorruption:Show()
 		specWarnHurlCorruption:Show(args.sourceName)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
 		timerHurlCorruptionCD:Start()
 --		countdownHurlCorruption:Start()
-		sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(18, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(19, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Schedule(17, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(18, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(19, DBM.SoundMMPath.."\\countone.ogg")
 	elseif args.spellId == 144657 then
 		warnPiercingCorruption:Show()
 		specWarnPiercingCorruption:Show() --穿透打擊 (坦克試練)
@@ -204,7 +207,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnLingeringCorruption:Show(args.destName)
 		specWarnLingeringCorruption:Show(args.destName)
 		if mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\dispelnow.ogg")--快驅散
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")--快驅散
 		end
 		timerLingeringCorruptionCD:Start()
 --		countdownLingeringCorruption:Start()
@@ -215,18 +218,18 @@ function mod:SPELL_AURA_APPLIED(args)
 			playerInside = true
 			timerLookWithin:Start()
 			countdownLookWithin:Start()
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
 		end
 		if args.destName == mod.Options.prevplayer then
 			specWarnTestIn:Show(args.destName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_mbrc.ogg")--隊友入场			
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_mbrc.ogg")--隊友入场			
 			fixdebuffremovebug(args.destName)
 		end
 	elseif args.spellId == 146703 and args:IsPlayer() and self:AntiSpam(3, 2) then
 		specWarnBottomlessPitMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 
@@ -240,9 +243,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerTitanicSmashCD:Cancel()
 		timerHurlCorruptionCD:Cancel()
 --		countdownHurlCorruption:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
 		timerPiercingCorruptionCD:Cancel()
 		timerLookWithin:Cancel()
 		countdownLookWithin:Cancel()
@@ -264,9 +267,9 @@ function mod:UNIT_DIED(args)
 		timerTitanicSmashCD:Cancel()
 		timerHurlCorruptionCD:Cancel()
 --		countdownHurlCorruption:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
 		timerPiercingCorruptionCD:Cancel()
 	end
 end
@@ -274,12 +277,12 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 146179 then--Frayed
 		specWarnManifestation:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ptwo.ogg")--二階段準備
-		sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmobsoon.ogg")--準備大怪
+		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")--二階段準備
+		sndWOP:Schedule(1, DBM.SoundMMPath.."\\bigmobsoon.ogg")--準備大怪
 		if mod:IsDps() then
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\killbigmob.ogg")--大怪快打
+			sndWOP:Schedule(5, DBM.SoundMMPath.."\\killbigmob.ogg")--大怪快打
 		else
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmob.ogg")--大怪出現
+			sndWOP:Schedule(5, DBM.SoundMMPath.."\\bigmob.ogg")--大怪出現
 		end
 	end
 end
@@ -293,7 +296,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 145227 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --射線
 		specWarnBHMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -301,7 +304,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 146703 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnBottomlessPitMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -336,31 +339,31 @@ function mod:OnSync(msg)
 		unleashedAngerCast = 0
 		self:Schedule(26, function()
 			if not playerInside then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sxzb.ogg")--射線準備
-				sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sxzb.ogg")--射線準備
+				sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(2, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(3, DBM.SoundMMPath.."\\countone.ogg")
 			end
 		end)
 	elseif msg == "prepull" then
 		timerCombatStarts:Start()
 	elseif msg == "ManifestationDied" and not playerInside and self:AntiSpam(1) then
 		specWarnManifestationSoon:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmobsoon.ogg")--準備大怪
+		sndWOP:Play(DBM.SoundMMPath.."\\bigmobsoon.ogg")--準備大怪
 		if mod:IsDps() then
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\killbigmob.ogg")--大怪快打
+			sndWOP:Schedule(5, DBM.SoundMMPath.."\\killbigmob.ogg")--大怪快打
 		else
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmob.ogg")--大怪出現
+			sndWOP:Schedule(5, DBM.SoundMMPath.."\\bigmob.ogg")--大怪出現
 		end
 	elseif msg == "dr40" or msg == "dr30" or msg == "dr20" or msg == "dr10" then
 		if not warneddr[msg] then
 			warneddr[msg] = true
 			specWarnManifestationSoon:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmobsoon.ogg")--準備大怪
+			sndWOP:Play(DBM.SoundMMPath.."\\bigmobsoon.ogg")--準備大怪
 			if mod:IsDps() then
-				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\killbigmob.ogg")--大怪快打
+				sndWOP:Schedule(5, DBM.SoundMMPath.."\\killbigmob.ogg")--大怪快打
 			else
-				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmob.ogg")--大怪出現
+				sndWOP:Schedule(5, DBM.SoundMMPath.."\\bigmob.ogg")--大怪出現
 			end
 		end
 	end
@@ -372,11 +375,11 @@ function mod:CHAT_MSG_ADDON(prefix, message, channel, sender)
 		local bwPrefix, bwMsg = message:match("^(%u-):(.+)")
 		if bwMsg == "InsideBigAddDeath" and not playerInside and self:AntiSpam(1) then
 			specWarnManifestationSoon:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmobsoon.ogg")--準備大怪
+			sndWOP:Play(DBM.SoundMMPath.."\\bigmobsoon.ogg")--準備大怪
 			if mod:IsDps() then
-				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\killbigmob.ogg")--大怪快打
+				sndWOP:Schedule(5, DBM.SoundMMPath.."\\killbigmob.ogg")--大怪快打
 			else
-				sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\bigmob.ogg")--大怪出現
+				sndWOP:Schedule(5, DBM.SoundMMPath.."\\bigmob.ogg")--大怪出現
 			end
 		end
 	end

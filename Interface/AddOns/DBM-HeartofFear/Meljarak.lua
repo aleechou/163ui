@@ -1,9 +1,11 @@
-local mod	= DBM:NewMod(741, "DBM-HeartofFear", nil, 330)
+﻿local mod	= DBM:NewMod(741, "DBM-HeartofFear", nil, 330)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndJR	= mod:SoundMM("SoundJR")
+local sndDS	= mod:SoundMM("SoundDS")
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 9886 $"):sub(12, -3))
 mod:SetCreatureID(62397)
-mod:SetEncounterID(1498)
 mod:SetZone()
 mod:SetUsedIcons(1, 2)
 
@@ -11,39 +13,40 @@ mod:RegisterCombat("combat")
 
 -- CC can be cast before combat. So needs to seperate SPELL_AURA_APPLIED for pre-used CCs before combat.
 mod:RegisterEvents(
-	"SPELL_AURA_REFRESH 122224",
-	"SPELL_AURA_APPLIED 122224",
-	"SPELL_AURA_REMOVED 122224"
+	"SPELL_AURA_REFRESH",
+	"SPELL_AURA_APPLIED"
 )
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 121881 122064 122055",
-	"SPELL_AURA_REFRESH 121881 122064 122055",
-	"SPELL_AURA_REMOVED 121885",
-	"SPELL_CAST_START 122406 121876 122064 122193 122149",
-	"SPELL_DAMAGE 131830 122125 122064 121898",
-	"SPELL_MISSED 131830 122125 122064 121898",
-	"SPELL_PERIODIC_DAMAGE 131830 122125 122064 121898",
-	"SPELL_PERIODIC_MISSED 131830 122125 122064 121898",
+	"SPELL_AURA_REMOVED",
+	"SPELL_CAST_START",
+	"SPELL_DAMAGE",
+	"SPELL_MISSED",
+	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_REMOVED_DOSE",
+	"SPELL_PERIODIC_DAMAGE",
+	"SPELL_PERIODIC_MISSED",
+	"RAID_BOSS_EMOTE",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boos1",
+	"UNIT_SPELLCAST_SUCCEEDED",
 	"UNIT_AURA_UNFILTERED"
 )
 
 local warnWhirlingBlade					= mod:NewTargetAnnounce(121896, 4)--Target scanning not tested
 local warnRainOfBlades					= mod:NewSpellAnnounce(122406, 4)
 local warnRecklessness					= mod:NewTargetAnnounce(125873, 3)
-local warnImpalingSpear					= mod:NewPreWarnAnnounce(122224, 10, 3)--Pre warn your CC is about to break. Maybe need to localize it later to better explain what option is for.
+local warnImpalingSpear					= mod:NewPreWarnAnnounce(122224, 20, 3)--Pre warn your CC is about to break. Maybe need to localize it later to better explain what option is for.
 local warnAmberPrison					= mod:NewTargetAnnounce(121881, 3)
 local warnCorrosiveResin				= mod:NewTargetAnnounce(122064, 3)
 local warnMending						= mod:NewCastAnnounce(122193, 4)
-local warnQuickening					= mod:NewTargetCountAnnounce(122149, 4)
+local warnQuickening					= mod:NewCountAnnounce(122149, 4)--for Mass Dispel
 local warnKorthikStrike					= mod:NewTargetAnnounce(123963, 3)
 local warnWindBomb						= mod:NewTargetAnnounce(131830, 4)
 
 local specWarnWhirlingBlade				= mod:NewSpecialWarningSpell(121896, nil, nil, nil, true)
 local specWarnRainOfBlades				= mod:NewSpecialWarningSpell(122406, nil, nil, nil, true)
 local specWarnRecklessness				= mod:NewSpecialWarningTarget(125873)
+local specWarnReinforcements			= mod:NewSpecialWarningSpell("ej6554", mod:IsTank())
 local specWarnAmberPrison				= mod:NewSpecialWarningYou(121881)
 local yellAmberPrison					= mod:NewYell(121881)
 local specWarnAmberPrisonOther			= mod:NewSpecialWarningSpell(121881, false)--Only people who are freeing these need to know this.
@@ -51,18 +54,19 @@ local specWarnCorrosiveResin			= mod:NewSpecialWarningRun(122064)
 local yellCorrosiveResin				= mod:NewYell(122064, nil, false)
 local specWarnCorrosiveResinPool		= mod:NewSpecialWarningMove(122125)
 local specWarnMending					= mod:NewSpecialWarningInterrupt(122193)--Whoever is doing this or feels responsible should turn it on.
-local specWarnQuickening				= mod:NewSpecialWarningCount(122149, mod:IsMagicDispeller())--This is not stack warning.
+local specWarnQuickening				= mod:NewSpecialWarningTarget(122149, false)--^^
+local specWarnQuickeningX				= mod:NewSpecialWarning("specWarnQuickeningX")
+local specWarnBH						= mod:NewSpecialWarning("specWarnBH")
 local specWarnKorthikStrike				= mod:NewSpecialWarningYou(123963)
 local specWarnKorthikStrikeOther		= mod:NewSpecialWarningTarget(123963, mod:IsHealer())
 local yellKorthikStrike					= mod:NewYell(123963)
-local specWarnWindBomb					= mod:NewSpecialWarningMove(131830, nil, nil, nil, 3)
+local specWarnWindBomb					= mod:NewSpecialWarningMove(131830)
 local specWarnWhirlingBladeMove			= mod:NewSpecialWarningMove(121898)
 local yellWindBomb						= mod:NewYell(131830)
-local specWarnReinforcements			= mod:NewSpecialWarningTarget("ej6554", not mod:IsHealer(), "specWarnReinforcements")--Also important to dps. (Espcially CC classes)
 
-local timerRainOfBladesCD				= mod:NewCDTimer(48, 122406)--48-64 sec variation now. so much for it being a precise timer.
-local timerRainOfBlades					= mod:NewBuffActiveTimer(7.5, 122406)
-local timerRecklessness					= mod:NewBuffActiveTimer(30, 125873)--Heroic recklessness
+local timerWhirlingBladeCD				= mod:NewNextTimer(45.5, 121896)
+local timerRainOfBladesCD				= mod:NewNextTimer(61.5, 122406)--60 CD, but Cd starts when last cast ends, IE 60+cast time. Starting cd off cast start is 61.5, but on pull it's 60.0
+local timerRecklessness					= mod:NewBuffActiveTimer(30, 125873)
 local timerReinforcementsCD				= mod:NewNextCountTimer(50, "ej6554")--EJ says it's 45 seconds after adds die but it's actually 50 in logs. EJ is not updated for current tuning.
 local timerImpalingSpear				= mod:NewTargetTimer(50, 122224)--Filtered to only show your own target, may change to a popup option later that lets you pick whether you show ALL of them or your own (all will be spammy)
 local timerAmberPrisonCD				= mod:NewCDTimer(36, 121876, nil, false)--Reduce bar spam like Zarthik / each add has their own CD. This is on by default since it concerns everyone.
@@ -72,60 +76,180 @@ local timerMendingCD					= mod:NewNextTimer(37, 122193, nil, false)--To reduce b
 local timerQuickeningCD					= mod:NewNextTimer(37.3, 122149, nil, false)--^^37.3~37.6sec.
 local timerKorthikStrikeCD				= mod:NewCDTimer(50, 123963)--^^
 local timerWindBombCD					= mod:NewCDTimer(6, 131830)--^^
-local timerReinforcementsCD				= mod:NewNextCountTimer(50, "ej6554")--EJ says it's 45 seconds after adds die but it's actually 50 in logs. EJ is not updated for current tuning.
 
 local berserkTimer						= mod:NewBerserkTimer(480)
 
-local countdownImpalingSpear			= mod:NewCountdown(49, 122224, nil, nil, 10) -- like Crossed Over, warns 1 sec earlier.
-
 mod:AddBoolOption("AmberPrisonIcons", true)
+mod:AddBoolOption("NearAP", true, "sound")
+mod:AddBoolOption("ReapetAP", true, "sound")
+mod:AddBoolOption("RangeFrame", true, "sound")
+mod:AddBoolOption("InfoFrame", not mod:IsDps(), "sound")
 
-local Reinforcement = EJ_GetSectionInfo(6554)
-local strikeSpell = GetSpellInfo(123963)
+local apnear = 20
 local addsCount = 0
 local amberPrisonIcon = 2
 local zarthikCount = 0
 local firstStriked = false
-local strikeTarget = nil
+local strikeTarget = GetSpellInfo(123963)
+local strikeWarned = false
+local amberPrisonTargets = {}
+local ptwo = false
+
+local qscount = 0
+local cfcount = 0
+
 local windBombTargets = {}
 local zarthikGUIDS = {}
+local guids = {}
+local guidTableBuilt = false--Entirely for DCs, so we don't need to reset between pulls cause it doesn't effect building table on combat start and after a DC then it will be reset to false always
+local function buildGuidTable()
+	table.wipe(guids)
+	for i = 1, DBM:GetNumGroupMembers() do
+		guids[UnitGUID("raid"..i) or "none"] = GetRaidRosterInfo(i)
+	end
+end
 
-local function clearWindBombTargets()
+mod:AddBoolOption("HudMAP", true, "sound")
+
+mod:AddDropdownOption("optQS", {"noQS", "QS1", "QS2", "QS3", "allQS"}, "allQS", "sound")
+
+mod:AddDropdownOption("optBH", {"noBH", "BH1", "BH2", "BH3", "BH4", "allBH"}, "noBH", "sound")
+
+local DBMHudMap = DBMHudMap
+local free = DBMHudMap.free
+local function register(e)	
+	DBMHudMap:RegisterEncounterMarker(e)
+	return e
+end
+local AmberPrisonMarkerscast = {}
+local windBombTargets = {}
+
+local function warnAmberPrisonTargets()
+	warnAmberPrison:Show(table.concat(amberPrisonTargets, "<, >"))
+	table.wipe(amberPrisonTargets)
+end
+
+local function warnWindBombTargets()
+	warnWindBomb:Show(table.concat(windBombTargets, "<, >"))
 	table.wipe(windBombTargets)
+	timerWindBombCD:Start()
+end
+
+function mod:checkdebuff()
+    if UnitDebuff("player", GetSpellInfo(121885)) then
+		SendChatMessage(L.Helpme, "SAY")
+        self:ScheduleMethod(4, "checkdebuff")
+	end
 end
 
 function mod:OnCombatStart(delay)
 	addsCount = 0
+	qscount = 0
+	cfcount = 0
 	amberPrisonIcon = 2
 	zarthikCount = 0
 	firstStriked = false
-	strikeTarget = nil
+	strikeWarned = false
+	ptwo = false
+	table.wipe(amberPrisonTargets)
 	table.wipe(windBombTargets)
 	table.wipe(zarthikGUIDS)
+	timerWhirlingBladeCD:Start(35.5-delay)
 	timerKorthikStrikeCD:Start(18-delay)
 	timerRainOfBladesCD:Start(60-delay)
 	if not self:IsDifficulty("lfr25") then
 		berserkTimer:Start(-delay)
 	end
+	if mod:IsHealer() then
+		sndWOP:Schedule(57, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(58, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(59, DBM.SoundMMPath.."\\countone.ogg")
+	end
+	table.wipe(AmberPrisonMarkerscast)
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(3)
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.HudMAP then
+		DBMHudMap:FreeEncounterMarkers()
+	end
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Hide()
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	local spellId = args.spellId
-	if spellId == 122224 and args.sourceName == UnitName("player") then
+	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
 		warnImpalingSpear:Cancel()
-		warnImpalingSpear:Schedule(40)
-		countdownImpalingSpear:Cancel()
-		countdownImpalingSpear:Start()
+		warnImpalingSpear:Schedule(30)
+		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
+		sndDS:Schedule(30, DBM.SoundMMPath.."\\ex_mop_kzjs.ogg") --控制即將結束	
+		sndDS:Schedule(40, DBM.SoundMMPath.."\\countten.ogg")
+		sndDS:Schedule(41, DBM.SoundMMPath.."\\countnine.ogg")
+		sndDS:Schedule(42, DBM.SoundMMPath.."\\counteight.ogg")	
+		sndDS:Schedule(43, DBM.SoundMMPath.."\\countseven.ogg")
+		sndDS:Schedule(44, DBM.SoundMMPath.."\\countsix.ogg")
+		sndDS:Schedule(45, DBM.SoundMMPath.."\\countfive.ogg")	
+		sndDS:Schedule(46, DBM.SoundMMPath.."\\countfour.ogg")	
+		sndDS:Schedule(47, DBM.SoundMMPath.."\\countthree.ogg")
+		sndDS:Schedule(48, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndDS:Schedule(49, DBM.SoundMMPath.."\\countone.ogg")	
 		timerImpalingSpear:Start(args.destName)
-	elseif spellId == 121881 then--Not a mistake, 121881 is targeting spellid.
-		warnAmberPrison:CombinedShow(0.3, args.destName)
+	elseif args:IsSpellID(121881) then--Not a mistake, 121881 is targeting spellid.
+		amberPrisonTargets[#amberPrisonTargets + 1] = args.destName
+		if self.Options.HudMAP then
+			AmberPrisonMarkerscast[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 3, 3, 1, 1, 1, 1):Appear():RegisterForAlerts():Rotate(360, 3))
+		end
 		if args:IsPlayer() then
 			specWarnAmberPrison:Show()
+			yellAmberPrison:Yell()
+			if self.Options.ReapetAP then
+				self:ScheduleMethod(7, "checkdebuff")
+			end
 			if not self:IsDifficulty("lfr25") then
-				yellAmberPrison:Yell()
+				sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --離開人群
 			end
 		else
+			self:Unschedule(warnAmberPrisonTargets)
+			self:Schedule(0.3, warnAmberPrisonTargets)
 			specWarnAmberPrisonOther:Show()
+			local uId = DBM:GetRaidUnitId(args.destName)
+			if uId then
+				local x, y = GetPlayerMapPosition(uId)
+				if x == 0 and y == 0 then
+					SetMapToCurrentZone()
+					x, y = GetPlayerMapPosition(uId)
+				end
+				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				apnear = self.Options.NearAP and 30 or 200
+				if inRange and inRange < apnear then
+					if not UnitDebuff("player", GetSpellInfo(122055)) then
+						if self:AntiSpam(2, 7) then
+							if math.random(1, 2) == 1 then
+								sndJR:Play(DBM.SoundMMPath.."\\helpme.ogg") --救我
+							else
+								sndJR:Play(DBM.SoundMMPath.."\\helpme2.ogg")
+							end
+						end
+					end
+				end
+			end
 		end
 		if self.Options.AmberPrisonIcons then
 			self:SetIcon(args.destName, amberPrisonIcon)
@@ -135,83 +259,188 @@ function mod:SPELL_AURA_APPLIED(args)
 				amberPrisonIcon = 2
 			end
 		end
-	elseif spellId == 122064 then
+	elseif args:IsSpellID(122064) then
 		warnCorrosiveResin:Show(args.destName)
-		if args:IsPlayer() and self:AntiSpam(3, 5) then
+		if args:IsPlayer() and self:AntiSpam(3, 7) then
 			specWarnCorrosiveResin:Show()
 			yellCorrosiveResin:Yell()
+			sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")--保持移動
 		end
-	elseif spellId == 122055 and args:IsPlayer() then
+	elseif args:IsSpellID(122055) and args:IsPlayer() then
 		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
 		timerResidue:Start(expires-GetTime())
+	elseif args:IsSpellID(122125) and args:IsPlayer() then
+		specWarnCorrosiveResinPool:Show()
+	elseif args:IsSpellID(125873) then
+		addsCount = addsCount + 1
+		warnRecklessness:Show(args.destName)
+		specWarnRecklessness:Show(args.destName)
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lumang.ogg") --魯莽
+		timerRecklessness:Start()
+		timerReinforcementsCD:Start(50, addsCount)--We count them cause some groups may elect to kill a 2nd group of adds and start a second bar to form before first ends.
+	elseif args:IsSpellID(122149) then
+		if args:GetDestCreatureID() == 62397 then
+			if mod.Options.InfoFrame then
+				DBM.InfoFrame:SetHeader(GetSpellInfo(122149))
+				DBM.InfoFrame:Show(1, "other", args.amount or 1, args.destName)
+			end
+			qscount = qscount + 1
+			if ((mod.Options.optQS == "QS1") and (qscount % 3 == 1)) or ((mod.Options.optQS == "QS2") and (qscount % 3 == 2)) or ((mod.Options.optQS == "QS3") and (qscount % 3 == 0)) or (mod.Options.optQS == "allQS") then
+				sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+				specWarnQuickeningX:Show(args.spellName)
+			end
+		end
 	end
 end
-mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
+
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REFRESH(args)
+	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
+		warnImpalingSpear:Cancel()
+		warnImpalingSpear:Schedule(30)
+		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndDS:Schedule(30, DBM.SoundMMPath.."\\ex_mop_kzjs.ogg") --控制即將結束
+		sndDS:Schedule(40, DBM.SoundMMPath.."\\countten.ogg")
+		sndDS:Schedule(41, DBM.SoundMMPath.."\\countnine.ogg")
+		sndDS:Schedule(42, DBM.SoundMMPath.."\\counteight.ogg")	
+		sndDS:Schedule(43, DBM.SoundMMPath.."\\countseven.ogg")
+		sndDS:Schedule(44, DBM.SoundMMPath.."\\countsix.ogg")
+		sndDS:Schedule(45, DBM.SoundMMPath.."\\countfive.ogg")	
+		sndDS:Schedule(46, DBM.SoundMMPath.."\\countfour.ogg")	
+		sndDS:Schedule(47, DBM.SoundMMPath.."\\countthree.ogg")
+		sndDS:Schedule(48, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndDS:Schedule(49, DBM.SoundMMPath.."\\countone.ogg")		
+		timerImpalingSpear:Start(args.destName)
+	elseif args:IsSpellID(125873) then
+		addsCount = addsCount + 1
+		warnRecklessness:Show(args.destName)
+		specWarnRecklessness:Show(args.destName)
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lumang.ogg") --魯莽
+		timerRecklessness:Start()
+		timerReinforcementsCD:Start(50, addsCount)--We count them cause some groups may elect to kill a 2nd group of adds and start a second bar to form before first ends.
+	end
+end
 
 function mod:SPELL_AURA_REMOVED(args)
-	local spellId = args.spellId
-	if spellId == 122224 and args.sourceName == UnitName("player") then
+	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
 		warnImpalingSpear:Cancel()
-		countdownImpalingSpear:Cancel()
+		sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
+		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
 		timerImpalingSpear:Cancel(args.destName)
-	elseif spellId == 121885 and self.Options.AmberPrisonIcons then--Not a mistake, 121885 is frozon spellid
+	elseif args:IsSpellID(121885) and self.Options.AmberPrisonIcons then--Not a mistake, 121885 is frozon spellid
 		self:SetIcon(args.destName, 0)
+	elseif args:IsSpellID(122149) then
+		if args:GetDestCreatureID() == 62397 then
+			if mod.Options.InfoFrame then
+				DBM.InfoFrame:SetHeader(GetSpellInfo(122149))
+				DBM.InfoFrame:Show(1, "other", 0, args.destName)
+			end
+		end
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	local spellId = args.spellId
-	if spellId == 122406 then
+	if args:IsSpellID(122406) then
 		warnRainOfBlades:Show()
 		specWarnRainOfBlades:Show()
-		timerRainOfBlades:Start()
-		timerRainOfBladesCD:Start()
-	elseif spellId == 121876 then
+		if not ptwo then
+			timerRainOfBladesCD:Start()
+		else
+			timerRainOfBladesCD:Start(48)
+		end
+		if mod:IsHealer() then
+			if not ptwo then
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg") --注意群療
+				sndWOP:Schedule(58, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(59, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(60, DBM.SoundMMPath.."\\countone.ogg")
+			else
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg") --注意群療
+				sndWOP:Schedule(45, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(46, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(47, DBM.SoundMMPath.."\\countone.ogg")
+			end
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")
+		end
+	elseif args:IsSpellID(121876) then
 		timerAmberPrisonCD:Start(36, args.sourceGUID)
-	elseif spellId == 122064 then
+	elseif args:IsSpellID(122064) then
 		timerCorrosiveResinCD:Start(36, args.sourceGUID)
-	elseif spellId == 122193 then
+	elseif args:IsSpellID(122193) then
 		warnMending:Show()
 		timerMendingCD:Start(nil, args.sourceGUID)
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
 			specWarnMending:Show(args.sourceName)
 		end
-	elseif spellId == 122149 then
+	elseif args:IsSpellID(122149) then
 		if not zarthikGUIDS[args.sourceGUID] then
 			zarthikCount = zarthikCount + 1
 			zarthikGUIDS[args.sourceGUID] = zarthikCount
 		end
-		local count = zarthikGUIDS[args.sourceGUID] -- This is set counter for dispel(1, 2, 3, 1, 2, 3.. repeats). Especailly for mass dispel. Very useful for PRIEST. NO SPAM. DO NOT REMOVE THIS. 
-		warnQuickening:Show(count, args.sourceName)
-		specWarnQuickening:Show(count)
+		warnQuickening:Show(zarthikGUIDS[args.sourceGUID] or 0)--maybe better to warn when spell applied?
+		specWarnQuickening:Show("("..(zarthikGUIDS[args.sourceGUID] or 0)..") - "..args.sourceName)
 		timerQuickeningCD:Start(nil, args.sourceGUID)
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 131830 and not windBombTargets[destGUID] then
-		windBombTargets[destGUID] = true
-		warnWindBomb:CombinedShow(0.5, destName)
-		timerWindBombCD:Start()
-		self:Unschedule(clearWindBombTargets)
-		self:Schedule(0.3, clearWindBombTargets)
-		if destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
+	if spellId == 131830 then
+		windBombTargets[#windBombTargets + 1] = destName
+		self:Unschedule(warnWindBombTargets)
+		self:Schedule(0.3, warnWindBombTargets)
+		if destGUID == UnitGUID("player") and self:AntiSpam(3, 4) then
 			specWarnWindBomb:Show()
-			if not self:IsDifficulty("lfr25") then
-				yellWindBomb:Yell()
-			end
+			yellWindBomb:Yell()
+			DBM.Flash:Shake(1, 0, 0)
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
 		end
-	elseif spellId == 122125 and destGUID == UnitGUID("player") and self:AntiSpam(3, 4) then
+	elseif spellId == 122125 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
 		specWarnCorrosiveResinPool:Show()
-	elseif spellId == 122064 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
-		specWarnCorrosiveResin:Show()
-	elseif spellId == 121898 and destGUID == UnitGUID("player") and not self:IsDifficulty("lfr25") and self:AntiSpam(3, 6) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+	elseif spellId == 121898 and destGUID == UnitGUID("player") and not self:IsDifficulty("lfr25") and self:AntiSpam(3, 10) then
 		specWarnWhirlingBladeMove:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_DAMAGE
+
+function mod:RAID_BOSS_EMOTE(msg)
+	if msg == L.Reinforcements or msg:find(L.Reinforcements) then
+		specWarnReinforcements:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_xcqcx.ogg") --新蟲群出現
+	end
+end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
@@ -225,7 +454,7 @@ function mod:UNIT_DIED(args)
 		table.wipe(zarthikGUIDS)
 	elseif cid == 62402 then--The Kor'thik
 		timerKorthikStrikeCD:Cancel()--No need for GUID cancelation, this ability seems to be off a timed trigger and they all do it together, unlike other mob sets.
-		if self:IsHeroic() then
+		if self:IsDifficulty("heroic10", "heroic25") then
 			timerKorthikStrikeCD:Start(79)
 		end
 	end
@@ -234,6 +463,11 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 124850 and self:AntiSpam(2, 1) then--Whirling Blade (Throw Cast spellid)
 		specWarnWhirlingBlade:Show()
+		timerWhirlingBladeCD:Start()
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_fd.ogg") --飛刀
+--	"<173.1> [UNIT_SPELLCAST_SUCCEEDED] The Kor'thik [[boss4:Kor'thik Strike::0:123963]]", -- [10366]
+--	"<175.6> [CLEU] SPELL_CAST_START#false#0xF130F3C200000FC8#Kor'thik Elite Blademaster#2632#0#0x0000000000000000#nil#-2147483648#-2147483648#122409#Kor'thik Strike#1", -- [10535]
+--	"<175.6> [CLEU] SPELL_CAST_START#false#0xF130F3C200000FC7#Kor'thik Elite Blademaster#2632#8#0x0000000000000000#nil#-2147483648#-2147483648#122409#Kor'thik Strike#1", -- [10536]
 	elseif spellId == 123963 and self:AntiSpam(2, 2) then--Kor'thik Strike Trigger, only triggered once, then all non CCed Kor'thik cast the strike about 2 sec later
 		if firstStriked then--first Strike 32~33 sec cd. after 2nd strike 50~51 sec cd.
 			timerKorthikStrikeCD:Start()
@@ -241,29 +475,60 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			firstStriked = true
 			timerKorthikStrikeCD:Start(32)
 		end
-	elseif spellId == 125873 then -- If adds die before Recklessness fades, CLEU not firing at all. To prevent fail, changes Recklessness check to UNIT_SPELLCAST_SUCCEEDED.
-		local mobname = UnitName(uId)
-		addsCount = addsCount + 1
-		warnRecklessness:Show(L.name)
-		specWarnRecklessness:Show(L.name)
-		timerRecklessness:Start()
-		timerReinforcementsCD:Start(50, addsCount)--We count them cause some groups may elect to kill a 2nd group of adds and start a second bar to form before first ends.
-		specWarnReinforcements:Schedule(50, mobname)
+	elseif spellId == 131813 and self:AntiSpam(2, 3) then
+		if not ptwo then
+			timerRainOfBladesCD:Cancel()
+			timerRainOfBladesCD:Start(20)
+			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")--P2
+			if mod:IsHealer() then
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(17, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(18, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(19, DBM.SoundMMPath.."\\countone.ogg")
+			end
+		end
+		ptwo = true
 	end
 end
 
 function mod:UNIT_AURA_UNFILTERED(uId)
-	if UnitDebuff(uId, strikeSpell) and not strikeTarget then
-		strikeTarget = uId
-		local name = DBM:GetUnitFullName(uId)
-		warnKorthikStrike:Show(name)
-		if name == UnitName("player") then
-			specWarnKorthikStrike:Show()
-			yellKorthikStrike:Yell()
-		else
-			specWarnKorthikStrikeOther:Show(name)
+	if uId ~= "player" then return end
+	if UnitDebuff("player", strikeTarget) and not strikeWarned then--Warn you that you have a meteor
+		sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")--自保技能
+		specWarnKorthikStrike:Show()
+		DBM.Flash:Shake(1, 0, 0)
+		yellKorthikStrike:Yell()
+		strikeWarned = true
+		self:SendSync("KorthikStrikeTarget", UnitGUID("player"))--Screw target scanning, this way is much better, never wrong.
+	elseif not UnitDebuff("player", strikeTarget) and strikeWarned then--reset warned status if you don't have debuff
+		strikeWarned = false
+	end
+end
+
+function mod:OnSync(msg, guid)
+	--Make sure we build a table if we DCed mid fight, before we try comparing any syncs to that table.
+	if not guidTableBuilt then
+		buildGuidTable()
+		guidTableBuilt = true
+	end
+	if msg == "KorthikStrikeTarget" and guids[guid] then
+		cfcount = cfcount + 1
+		if ((mod.Options.optBH == "BH1") and (cfcount % 4 == 1)) or ((mod.Options.optBH == "BH2") and (cfcount % 4 == 2)) or ((mod.Options.optBH == "BH3") and (cfcount % 4 == 3)) or ((mod.Options.optBH == "BH4") and (cfcount % 4 == 0)) then
+			if guid ~= UnitGUID("player") then--make sure YOU aren't target before warning "other"
+				specWarnBH:Show(guids[guid])
+				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kgbh.ogg") --快給保護
+			end
+			self:SendSync("BHnow", UnitName("player"))
 		end
-	elseif strikeTarget and strikeTarget == uId and not UnitDebuff(uId, strikeSpell) then
-		strikeTarget = nil
+		if mod.Options.optBH == "allBH" then
+			if guid ~= UnitGUID("player") then--make sure YOU aren't target before warning "other"
+				specWarnKorthikStrikeOther:Show(guids[guid])
+			end
+		end
+		warnKorthikStrike:Show(guids[guid])
+	elseif msg == "BHnow" and guid then
+		print("本輪保護: <"..guid..">")
 	end
 end

@@ -1,9 +1,9 @@
-local mod	= DBM:NewMod(670, "DBM-Party-MoP", 2, 302)
+﻿local mod	= DBM:NewMod(670, "DBM-Party-MoP", 2, 302)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
 mod:SetCreatureID(59479)
-mod:SetEncounterID(1414)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -25,7 +25,7 @@ local warnBubbleShield		= mod:NewSpellAnnounce(106563, 3)
 local warnCarbonation		= mod:NewSpellAnnounce(115003, 4)
 
 local specWarnBloat			= mod:NewSpecialWarningYou(106546)
-local specWarnBlackoutBrew	= mod:NewSpecialWarningMove(106851)--Moving clears this debuff, it should never increase unless you're doing fight wrong (think Hodir)
+local specWarnBlackoutBrew	= mod:NewSpecialWarningSpell(106851)--Moving clears this debuff, it should never increase unless you're doing fight wrong (think Hodir)
 local specWarnFizzyBubbles	= mod:NewSpecialWarning("SpecWarnFizzyBubbles")
 
 local timerBloatCD			= mod:NewNextTimer(14.5, 106546)
@@ -60,6 +60,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 106851 and args:IsPlayer() and (args.amount or 3) >= 3 and self:AntiSpam() then
 		specWarnBlackoutBrew:Show()--Basically special warn any time you gain a stack over 3, if stack is nil, then it's initial application and stack count is 3.
+		sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")--保持移動
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -70,6 +71,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
+	elseif args:IsSpellID(106851) and args:IsPlayer() then
+		sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")--安全
 	end
 end
 

@@ -1,4 +1,4 @@
-﻿if GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "zhCN" then return end
 local L
 
 ---------------
@@ -36,7 +36,6 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(849)
 
 L:SetWarningLocalization({
-	specWarnMeasures	= "绝处求生即将到来(%s)!"
 })
 
 L:SetTimerLocalization({
@@ -97,14 +96,15 @@ L:SetMiscLocalization({
 	nameset					= "诺鲁什内场监视",
 	wasteOfTime				= "很好，我会制造一个空间来隔离你们的腐蚀。"
 })
-
 ------------------
 -- Sha of Pride --
 ------------------
 L= DBM:GetModLocalization(867)
 
+L:SetWarningLocalization({
+})
+
 L:SetOptionLocalization({
-	SetIconOnFragment	= "为腐化的碎片设置图示",
 	SoundWOP				= "语音警告：重要技能",
 	SoundQS					= "额外驱散提示：当你带有$spell:144359时技能一旦冷却即提示驱散",
 	HudMAPBP				= "高级定位监视(HUD)：$spell:144911",
@@ -118,26 +118,20 @@ L:SetOptionLocalization({
 	dr3						= "减伤提示：$spell:144400 3/3",
 })
 
+L:SetMiscLocalization({
+})
+
 --------------
 -- Galakras --
 --------------
 L= DBM:GetModLocalization(868)
 
-L:SetWarningLocalization({
-	warnTowerOpen		= "炮塔门被打开了",
-	warnTowerGrunt		= "塔防蛮兵"
-})
-
 L:SetTimerLocalization({
-	timerTowerCD		= "下一波塔攻",
-	timerTowerGruntCD	= "下一次塔防蛮兵"
+	timerAddsCD		= "下一波小怪",
+	timerTowerCD	= "下一个塔楼攻破"
 })
 
 L:SetOptionLocalization({
-	warnTowerOpen		= "提示炮塔门被打开",
-	warnTowerGrunt		= "提示新的塔防蛮兵重生",
-	--timerTowerCD		= "为下一波塔攻显示计时器",
-	timerTowerGruntCD	= "为下一次塔防蛮兵显示计时器",
 	SoundWOP				= "语音警告：重要技能",	
 	SoundZQ					= "语音警告：$spell:147328",
 	SoundTT					= "语音警告：$spell:146753",
@@ -149,17 +143,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	wasteOfTime		= "做得好!登陆小，集合!步兵打前锋!",
-	wasteOfTime2	= "很好，第一梯队已经登陆。",
-	Pull			= "龙喉氏族，夺回码头，把他们推进海里去!以地狱咆哮及正統部落之名!",
-	newForces1		= "他们来了!",
-	newForces1H		= "赶快把她弄下来，让我用手掐死她。",
-	--newForces2		= "龙喉氏族，前进!",
-	--newForces3		= "为了地狱咆哮!",
-	--newForces4		= "下一队，前进!",
-	--tower			= "的门已经遭到破坏!",
 	nameset		= "迦拉卡斯",
-	--newForces1	= "Here they come!",--Jaina's line, horde may not be same
+	newForces1	= "Here they come!",--Jaina's line, horde may not be same
 	newForces2	= "龙喉氏族，前进！",
 	newForces3	= "为了地狱咆哮！",
 	newForces4	= "下一队，前进！",
@@ -170,6 +155,12 @@ L:SetMiscLocalization({
 --Iron Juggernaut --
 --------------------
 L= DBM:GetModLocalization(864)
+
+L:SetWarningLocalization({
+})
+
+L:SetTimerLocalization({
+})
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
@@ -185,10 +176,16 @@ L:SetOptionLocalization({
 	dr6						= "$spell:144485 6"
 })
 
+L:SetMiscLocalization({
+})
+
 --------------------------
 -- Kor'kron Dark Shaman --
 --------------------------
 L= DBM:GetModLocalization(856)
+
+L:SetWarningLocalization({
+})
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
@@ -207,7 +204,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	PrisonYell	= "%s的囚犯被释放 (%d)"
+	PrisonYell		= "%s 的囚牢即将结束 (%d)"
 })
 
 ---------------------
@@ -216,7 +213,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(850)
 
 L:SetWarningLocalization({
-	warnDefensiveStanceSoon	= "%d秒后防御姿态"
+	warnDefensiveStanceSoon		= "%d秒后 防御姿态"
 })
 
 L:SetOptionLocalization({
@@ -230,13 +227,12 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	newForces1			= "战士们，快点过来!",
-	newForces2			= "守住大门!",
-	newForces3			= "重整部队!",
-	newForces4			= "库卡隆，来我身边!",
-	newForces5			= "下一队，来前线!",
-	allForces			= "所有库卡隆...听我号令...杀死他们!",
-	nextAdds			= "下一次小兵: ",
+	newForces1				= "战士们，快过来！",
+	newForces2				= "守住大门！",
+	newForces3				= "重新整队！",
+	newForces4				= "库卡隆，支援我！",
+	newForces5				= "下一队，冲上去！",
+	allForces				= "库卡隆，听我的命令，杀了他们！",
 	Handslipped1			= "不好意思，手滑打了下BOSS",
 	Handslipped2			= "哎呀，手又滑了",
 	Handslipped3			= "难道我这只手是肥皂做的?",
@@ -247,6 +243,9 @@ L:SetMiscLocalization({
 -- Malkorok -----
 -----------------
 L= DBM:GetModLocalization(846)
+
+L:SetWarningLocalization({
+})
 
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
@@ -279,6 +278,9 @@ MHExRTL.sendnote ="开啟手动修改图示，左键选择，右键取消，你�
 ------------------------
 L= DBM:GetModLocalization(870)
 
+L:SetWarningLocalization({
+})
+
 L:SetOptionLocalization({
 	SoundWOP				= "语音警告：重要技能",
 	LTZD					= "长效特别警告：你中了$spell:145987",
@@ -287,9 +289,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	wasteOfTime		= "我们在录音吗?有吗?好。哥布林-泰坦控制模组开始运作，请后退。",
-	Module1 		= "模组一号已准备好系統重置。",
-	Victory			= "模组二号已准备好系統重置。"
+	wasteOfTime				= "录像开了吗？开了？很好。地精泰坦控制模块启动，请退后。",
+	Module1					= "1号模组准备完毕，可以系统重置。",
+	Victory					= "2号模组准备完毕，可以系统重置。"
 })
 
 ---------------------------
@@ -302,7 +304,6 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	RangeFrame	= "显示动态距离框架(10码)<br/>(这是智慧距离框架，当到达血之狂暴阶段时自动切换)",
 	SoundWOP				= "语音警告：重要技能",
 	SoundPX					= "倒计时：$spell:143343",
 	specWarnDevotion		= "特殊警告：$spell:31821",
@@ -312,7 +313,7 @@ L:SetOptionLocalization({
 	DD2						= "驱散2",
 	DD3						= "驱散3",
 	nodd					= "我不驱散",
-	--RangeFrame				= "距离监视(10码)：动态",
+	RangeFrame				= "距离监视(10码)：动态",
 	dr						= "减伤提示：$spell:143343 (此顺序每次转阶段都会重置)",
 	dr1						= "$spell:143343 1",
 	dr2						= "$spell:143343 2",
@@ -345,6 +346,9 @@ L:SetOptionLocalization({
 	dr29					= "$spell:143343 29",
 	dr30					= "$spell:143343 30",
 	FixateIcon				= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(143445)
+})
+
+L:SetMiscLocalization({
 })
 
 ----------------------------
@@ -399,8 +403,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	newWeapons	= "尚未完成的武器开始从生产线上掉落。",
-	newShredder	= "有个自动化伐木机靠近了!"
+	newWeapons				= "未完成的武器从装配流水线上传送出来了。",
+	newShredder				= "一台自动伐木机正在靠近！"
 })
 
 ----------------------------
@@ -409,14 +413,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(853)
 
 L:SetWarningLocalization({
-	specWarnActivatedVulnerable	= "你虛弱于%s - 换坦!",
-	specWarnMoreParasites		= "你需要更多的寄生虫 - 不要开招!",
+	specWarnActivatedVulnerable		= "易伤：%s - 避免接怪!",
 	specWarnCriteriaLinked			= "连线 - %s!"
 })
 
 L:SetOptionLocalization({
-	--specWarnActivatedVulnerable	= "当你虛弱于活动的议会成员时显示特別警告",
-	specWarnMoreParasites		= "当你需要更多寄生虫时显示特別警告",
 	SoundWOP				= "语音警告：重要技能",
 	LTchong					= "图形冷却警告：$spell:143339",
 	LTIP					= "震动图标警告：重要技能",
@@ -442,22 +443,11 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	one					= "一",
-	two					= "二",
-	three				= "三",
-	four				= "四",
-	five				= "五",
-	hisekFlavor			= "现在是谁寂然无声啊",
-	KilrukFlavor		= "又是个扑杀虫群的一天",
-	XarilFlavor			= "我只在你的未来看到黑色天空",
-	KaztikFlavor		= "减少只昆虫的虫害",
-	KaztikFlavor2		= "1只螳螂倒下了，还有199只要杀",
-	KorvenFlavor		= "古代帝国的终结",
-	KorvenFlavor2		= "拿着你的格萨尼石板窒息吧",
-	IyyokukFlavor		= "看到机会。剥削他们!",
-	KarozFlavor			= "你再也跳不起来了!",
-	SkeerFlavor			= "一份血腥的喜悦!",
-	RikkalFlavor		= "已满足样本要求",
+	one						= "一",
+	two						= "二",
+	three					= "三",
+	four					= "四",
+	five					= "五",
 	BossSpellInfo			= "首領技能分析",
 	LF						= "掠风者",
 	LFspell					= "凿击/旋风",
@@ -485,9 +475,6 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(869)
 
 L:SetOptionLocalization({
-	RangeFrame			= "显示动态距离框架(10码)<br/>(这是智慧距离框架，当到达$spell:147126门槛时自动切换)",
-	InfoFrame			= "为玩家在中场阶段时没有伤害减免显示信息框架",
-	yellMaliceFading	= "当$spell:147209將要退去时大喊",
 	SoundWOP				= "语音警告：重要技能",
 	SoundGC					= "语音警告：$journal:8298相关提示",
 	SoundNL					= "语音警告：四阶段首领能量相关提示",
@@ -509,8 +496,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	NoReduce			= "无伤害减免",
-	MaliceFadeYell		= "%s的恶意消退中(%d)",
 	nameset				= "卡爾洛斯",
 })
 
@@ -520,7 +505,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("SoOTrash")
 
 L:SetGeneralLocalization({
-	name =	"围攻奥格瑞玛小兵"
+	name =	"奥格瑞玛杂兵"
 })
 
 L:SetOptionLocalization({

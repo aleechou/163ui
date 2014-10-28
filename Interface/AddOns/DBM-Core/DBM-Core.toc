@@ -1,15 +1,14 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 60000
 ## Title:|cffffd200Deadly Boss Mods|r |cff69ccf0Core|r
-## Title-zhCN:|cff880303[网易有爱]|r DBM 首领报警模块核心
+## Title-zhCN:|cffffd200Deadly Boss Mods|r |cff69ccf0核心|r
 ## Title-ruRU:|cffffd200Deadly Boss Mods|r |cff69ccf0Ядро|r
-## Title-zhTW:|cff880303[网易有爱]|r DBM 首领报警模块核心
+## Title-zhTW:|cffffd200Deadly Boss Mods|r |cff69ccf0核心|r
 ## Title-koKR:|cffffd200Deadly Boss Mods|r |cff69ccf0핵심 모듈|r
 ## Title-esES:|cffffd200Deadly Boss Mods|r |cff69ccf0Proceso|r
 ## Title-esMX:|cffffd200Deadly Boss Mods|r |cff69ccf0Proceso|r
 ## Title-frFR:|cffffd200Deadly Boss Mods|r |cff69ccf0Noyau|r
-## Notes: [163UI]首领报警模块
-## Notes-zhCN: [网易有爱]首领报警模块
+## Notes: Deadly Boss Mods
 ## Dependencies: DBM-StatusBarTimers
 ## OptionalDependencies: LibSharedMedia-3.0, LibChatAnims
 ## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
@@ -17,19 +16,13 @@
 ## DefaultState: enabled
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
-## X-Curse-Packaged-Version: 6.0.2-7-g80b6856
-## X-Curse-Project-Name: Deadly Boss Mods
-## X-Curse-Project-ID: deadly-boss-mods
-## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 
-## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
-
+embeds.xml
+## X-163UI-Version: 2014102801
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\LibChatAnims\LibChatAnims.xml
 Libs\LibSharedMedia-3.0\lib.xml
-
 localization.en.lua
 localization.de.lua
 localization.cn.lua
@@ -47,3 +40,4 @@ DBM-RangeCheck.lua
 DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
+DBM-HudMap.lua

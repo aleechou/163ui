@@ -1,8 +1,0 @@
-subversion:
-	- nbluewiz via svn r11788: # Update LSM.
-	- Omega via svn r11787: Fix loading of DMF and Brawlers mods, some obsolete code wasn't completely removed.
-	- Omega via svn r11786: Include difficulty in guild alerts
-	- Omega via svn r11785: Fixed loot check spam Fixed getting alerts for runs that are NOT guild groups.
-	- Omega via svn r11784: Cleaner filter that is basically exactly the same, minos now it won't exclude alerts to people who are in group but waiting outside.
-	- Omega via svn r11783: reduce debug spam, only give unit events when actually logging new fights
-	- tandanu via svn r11782: increment version number

@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(1207, "DBM-Party-WoD", 5, 556)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11512 $"):sub(12, -3))
 mod:SetCreatureID(83894, 83892, 83893)--Dulhu 83894, Gola 83892, Telu
@@ -42,9 +43,17 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 168082 then
 		warnRevitalizingWaters:Show()
 		specWarnRevitalizingWaters:Show(args.sourceName)
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 	elseif spellId == 168041 then
 		specWarnBriarskin:Show(args.sourceName)
 	elseif spellId == 168105 then
+		if mod:IsMagicDispeller() then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelboss.ogg")
+		end
 		specWarnRapidTides:Show(args.sourceName)
 	elseif spellId == 168105 then
 		warnSlash:Show()

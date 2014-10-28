@@ -1,15 +1,18 @@
-local mod	= DBM:NewMod(868, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(868, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
-local sndZQ		= mod:NewSound(nil, true, "SoundZQ")
-local sndTT		= mod:NewSound(nil, true, "SoundTT")
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndZQ		= mod:SoundMM("SoundZQ")
+local sndTT		= mod:SoundMM("SoundTT")
 
-mod:SetRevision(("$Revision: 10591 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11389 $"):sub(12, -3))
 mod:SetCreatureID(72311, 72560, 72249, 73910, 72302, 72561, 73909)--Boss needs to engage off friendly NCPS, not the boss. I include the boss too so we don't detect a win off losing varian. :)
+mod:SetEncounterID(1622)
+mod:SetMinSyncRevision(10768)
+mod:SetHotfixNoticeRev(10768)
 mod:SetReCombatTime(180, 15)--fix combat re-starts after killed. Same issue as tsulong. Fires TONS of IEEU for like 1-2 minutes after fight ends.
 mod:SetMainBossID(72249)
 mod:SetZone()
-mod:SetUsedIcons(8)
+mod:SetUsedIcons(8, 7, 2)
 
 mod:RegisterCombat("combat")
 
@@ -37,7 +40,7 @@ mod:RegisterEventsInCombat(
 ----TODO, don't want this mod to register events in entire zone so it can warn for prelude trash.
 ----I'll put duplicate events in trash mod instead since trash mod will be disabled during encounters
 local warnWarBanner					= mod:NewSpellAnnounce(147328, 3)
-local warnFracture					= mod:NewTargetAnnounce(146899, 3)--TODO: see if target scanning works with one of earlier events
+local warnFracture					= mod:NewTargetAnnounce(146899, 3)
 local warnChainHeal					= mod:NewCastAnnounce(146757, 4)
 local warnDemolisher				= mod:NewSpellAnnounce("ej8562", 3, 116040)
 local warnHealingTideTotem			= mod:NewSpellAnnounce(146753, 4)
@@ -78,7 +81,7 @@ local specWarnCurseVenom			= mod:NewSpecialWarningSpell(147711)
 local specWarnFlamesofGalakrond		= mod:NewSpecialWarningCount(147029, false, nil, nil, 2)--Cast often, so lets make this optional since it's spammy
 local specWarnFlamesofGalakrondYou	= mod:NewSpecialWarningYou(147068)
 local yellFlamesofGalakrond			= mod:NewYell(147068)
-local specWarnFlamesofGalakrondTank	= mod:NewSpecialWarningStack(147029, mod:IsTank(), 3)
+local specWarnFlamesofGalakrondTank	= mod:NewSpecialWarningStack(147029, nil, 6)
 local specWarnFlamesofGalakrondOther= mod:NewSpecialWarningTarget(147029, mod:IsTank())
 
 --Stage 2: Bring Her Down!
@@ -94,7 +97,8 @@ local timerCrushersCallCD			= mod:NewNextTimer(30, 146769)
 local timerFlamesofGalakrondCD		= mod:NewCDCountTimer(6, 147068)
 local timerFlamesofGalakrond		= mod:NewTargetTimer(15, 147029, nil, mod:IsTank())
 
-mod:AddBoolOption("FixateIcon", true)
+mod:AddBoolOption("FixateIcon", 147068)
+mod:AddSetIconOption("SetIconOnAdds", "ej8556", false, true)
 
 local addsCount = 0
 local firstTower = false
@@ -137,18 +141,18 @@ function mod:SPELL_CAST_START(args)
 		warnArcingSmash:Show()
 		specWarnArcingSmash:Show()
 		if self:AntiSpam(10, 4) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\carefly.ogg")--小心击飞
+			sndWOP:Play(DBM.SoundMMPath.."\\carefly.ogg")--小心击飞
 		end
 	elseif args.spellId == 146757 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		local source = args.sourceName
 		warnChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnChainheal:Show(source)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
 		end
 	elseif args.spellId == 146848 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		specWarnSkullCracker:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sfzd.ogg")--旋風斬
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sfzd.ogg")--旋風斬
 	end
 end
 
@@ -166,7 +170,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 146753 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
-		sndTT:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ttkd.ogg") --圖騰快打
+		sndTT:Play(DBM.SoundMMPath.."\\ex_so_ttkd.ogg") --圖騰快打
 	end
 end
 
@@ -179,7 +183,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFlamesofGalakrondYou:Show()
 			yellFlamesofGalakrond:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\justrun.ogg") --快跑
+			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
 		else
 			specWarnFlamesofGalakrond:Show(flamesCount)
 		end
@@ -187,31 +191,31 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8)
 		end
 		if MyJS() then
-			sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(3, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
 		end
 	elseif args.spellId == 147328 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnWarBanner:Show()
-		sndZQ:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zqkd.ogg")--战旗快打
+		sndZQ:Play(DBM.SoundMMPath.."\\ex_so_zqkd.ogg")--战旗快打
 		specWarnWarBanner:Show()
 	elseif args.spellId == 146899 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnFracture:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFractureYou:Show()
 			yellFracture:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\chargemove.ogg")--冲锋快躲
+			sndWOP:Play(DBM.SoundMMPath.."\\chargemove.ogg")--冲锋快躲
 		else
 			specWarnFracture:Show(args.destName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sgcf.ogg")--碎骨冲锋
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sgcf.ogg")--碎骨冲锋
 		end
 	elseif args.spellId == 147705 then
 		if args:IsPlayer() and self:AntiSpam(2, 1) then
 			specWarnPoisonCloud:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 		end
 	elseif args.spellId == 147711 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnCurseVenom:Show()
 		specWarnCurseVenom:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dskd.ogg")--毒蛇快打
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dskd.ogg")--毒蛇快打
 	end
 end
 
@@ -252,7 +256,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 147705 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnPoisonCloud:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -262,7 +266,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	--	specWarnFlameArrow:Show()
 	elseif spellId == 146872 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShadowAttack:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -282,7 +286,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerAddsCD:Cancel()
 		timerProtoCD:Cancel()
 		warnPhase2:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ptwo.ogg") -- 2階段
+		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") -- 2階段
 		timerFlamesofGalakrondCD:Start(18.6, 1)--TODO, verify consistency since this timing may depend on where drake lands and time it takes to get picked up.
 	end
 end
@@ -306,9 +310,9 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("cFFFF0404") then--They fixed epiccenter bug (figured they would). Color code should be usuable though. It's only emote on encounter that uses it.
 		warnDemolisher:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_tscd.ogg") --投石车快打
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tscd.ogg") --投石车快打
 	elseif msg:find(L.tower) then
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ptkf.ogg") --炮塔攻破
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ptkf.ogg") --炮塔攻破
 		timerDemolisherCD:Start()
 	end
 end

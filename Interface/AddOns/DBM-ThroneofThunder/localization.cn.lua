@@ -21,7 +21,7 @@ L:SetOptionLocalization({
 	dr2					= "减伤提示:$spell:137313 1/3-2 [五秒时提示]",
 	dr3					= "减伤提示:$spell:137313 2/4-1",
 	dr4					= "减伤提示:$spell:137313 2/4-2",
-	RangeFrame		= "距离监视"
+	RangeFrame			= "距离监视"
 })
 
 
@@ -31,7 +31,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(819)
 
 L:SetWarningLocalization({
-	warnAdds	= "%s",
+	warnAdds		= "%s",
 	SpecWarnJSA		= ">>> 注意减伤 <<<",
 	warnOrbofControl		= "支配宝珠掉落",
 	specWarnOrbofControl		= ">>支配宝珠掉落<<"
@@ -43,7 +43,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	warnAdds		= "警报：新的敌人加入战斗",
+	warnAdds			= "警告：小怪跳下",
 	warnOrbofControl		= "警告：$journal:7092掉落",
 	specWarnOrbofControl		= "特别警告：$journal:7092掉落",
 	InfoFrame			= "信息框：$spell:137458",	
@@ -66,8 +66,8 @@ L:SetOptionLocalization({
 	RangeFrame			= "距离监视：熊门5码",
 	SoundWSP			= "语音警告：$journal:7866接近20码内（请焦点锁定你的灵魂）",
 	dispsetHex			= "当设定的角色中了混乱诅咒时提示你帮忙驱散",
-	timerDoor		= "计时条：下一个部族大门阶段",
-	timerAdds		= "计时条：下一次小怪"
+	timerDoor			= "计时器：下一个部族大门开啟",
+	timerAdds			= "计时器：下一组小怪刷新"
 })
 
 L:SetMiscLocalization({
@@ -190,8 +190,8 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(828)
 
 L:SetWarningLocalization({
-	warnFlock		= "%s %s (%d)",
-	specWarnFlock	= "%s %s (%d)"
+	warnFlock		= "%s %s (%s)",
+	specWarnFlock	= "%s %s (%s)"
 })
 
 L:SetTimerLocalization({
@@ -252,10 +252,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	eggsHatch		= "某个鸟巢中的蛋开始孵化了",
-	Upper			= "上层",
-	Lower			= "下层",
-	UpperAndLower	= "上下都有",
 	eggsHatchL		= "下层某个鸟巢中的蛋开始孵化了",
 	eggsHatchU		= "上层某个鸟巢中的蛋开始孵化了",
 	U				= "上方",
@@ -482,7 +478,7 @@ L:SetOptionLocalization({
 	warnDusk		= "警告：黄昏阶段",
 	timerDayCD		= "计时器：白天阶段",
 	timerDuskCD		= "计时器：黄昏阶段",
-	RangeFrame		= "距离监视（8码）"
+	RangeFrame			= "距离监视(8码)"
 })
 
 L:SetMiscLocalization({

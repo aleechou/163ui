@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(1208, "DBM-Party-WoD", 5, 556)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11483 $"):sub(12, -3))
 mod:SetCreatureID(82682)
@@ -38,6 +39,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 166726 then--Because dumb spell has no cast Id, we can only warn when people get debuff from standing in it.
 		warnFrozenRain:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 			specWarnFrozenRain:Show()
 		end
 	end

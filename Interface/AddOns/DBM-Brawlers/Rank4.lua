@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("BrawlRank4", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
 mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(28115)
@@ -32,7 +31,6 @@ local DominikaGUID = 0
 function mod:SPELL_CAST_START(args)
 	if not brawlersMod.Options.SpectatorMode and not brawlersMod:PlayerFighting() then return end--Spectator mode is disabled, do nothing.
 	if args.spellId == 134743 then
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.mp3")
 		warnEarthSeed:Show()
 		timerEarthSeedCD:Start()
 	end
@@ -43,9 +41,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 129888 and self:AntiSpam() then
 		warnSolarBeam:Show()
 		timerSolarBeamCD:Start()
-		if mod:IsManaUser() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.mp3")
-		end	elseif args.spellId == 133129 then
+	elseif args.spellId == 133129 then
 		DominikaGUID = args.destGUID
 	end
 end
@@ -55,7 +51,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if not brawlersMod.Options.SpectatorMode and not brawlersMod:PlayerFighting() then return end--Spectator mode is disabled, do nothing.
 	if spellId == 133253 and self:AntiSpam() then
 		warnCharging:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.mp3")
 		timerChargingCD:Start()
 	end
 end

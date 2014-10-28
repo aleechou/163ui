@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(1238, "DBM-Party-WoD", 4, 558)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11689 $"):sub(12, -3))
 mod:SetCreatureID(83612)
@@ -43,6 +44,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnRapidFire:Show()
 			yellRapidFire:Yell()
+			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
 		end
 	end
 end
@@ -68,5 +70,10 @@ end
 function mod:UNIT_SPELLCAST_CHANNEL_STOP(uId, _, _, _, spellId)
 	if spellId == 168929 then
 		specWarnCannonBarrageE:Show()
+		if not mod:IsHealer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		end
 	end
 end

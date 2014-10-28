@@ -1,0 +1,17 @@
+if GetLocale() ~= "deDE" then return end
+
+MHExRTL.panelbossmodsradenonly25 = "Nur für 25 Spieler"
+MHExRTL.panelbossmodsalpha = "Alpha"
+MHExRTL.panelbossmodsscale = "Skalierung"
+MHExRTL.panelbossmodsclose = "Schließen"
+MHExRTL.panelbossmodsmalkorok ="Malkorok"
+MHExRTL.panelbossmodsmalkorokh = "Malkorok Helper"
+MHExRTL.panelbossmodsmalkorokai ="Malkorok AI"
+MHExRTL.panelbossmodsmalkorokhelp ="Malkorok Bossmod. Linksklick zum Markieren, rechtsklick zum Entmarkieren."
+MHExRTL.panelbossmodsmalkorokaihelp ="Malkorok AI Bossmod. Wählt automatsch die Fläche in der während des AoE am wenigsten Spieler gestanden haben. Leuchtet danach für 5 Sekunden gelb auf. Ein Gruppenmitglied mit Assistenzrechten reicht um dieses zu starten."
+MHExRTL.panelbossmodsmalkorokdanger ="! Gefahr !"
+MHExRTL.panelsetauthor = "Autor"
+MHExRTL.panelbossmodhelptext = "+ Hauptfenster\n   - 'castle' - erlaubt es das Fenster zu verschieben.\n   - 'cog' - Ändert die Darstellung 'drehend' / 'fest'.\n   - Hauptkreis. Rechtsklick auf en Feld um es grün zu färben, Linksklick um es rot zu färben. Deine Markierungen werden alle sehen, wenn du Raidassistent oder Raidleiter bist.\n   - Das 'Hauch von Y'Shaarj'-Bild zeigt die Zeit bis zum nächsten Boss-AoE.\n+ Malkorok AI\n   - Wählt die Region wo während des AoE die wenigsten Spieler stehen und markiert diese automatisch. Innerhalb der nächsten 5 Sekunden wird diese Fläche gelb hervorgehoben. Falls die automatische Erkennung falsch gewesen sein sollte, kannst du sie manuell korrigieren."
+MHExRTL.panelsettranslate = "Übersetzer: Xnilagor"
+MHExRTL.panelbossmodsautoload = "Automatisch zu beladen"
+MHExRTL.panelbossmodsThanks = "Dankbarkeit"

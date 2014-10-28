@@ -1,0 +1,17 @@
+﻿if (GetLocale() ~= "zhGB" and GetLocale() ~= "zhCN") then return end
+
+MHExRTL.panelbossmodsradenonly25 = "只适用于25人"
+MHExRTL.panelbossmodsalpha = "透明度"
+MHExRTL.panelbossmodsscale = "比例大小"
+MHExRTL.panelbossmodsclose = "关闭马尔考罗克助手"
+MHExRTL.panelbossmodsmalkorok ="显示马尔考罗克助手"
+MHExRTL.panelbossmodsmalkorokh = "马尔考罗克助手"
+MHExRTL.panelbossmodsmalkorokai ="开启马尔考罗克智能模式"
+MHExRTL.panelbossmodsmalkorokhelp ="马尔考罗克boss模块。左键点击选择，点击右键取消。"
+MHExRTL.panelbossmodsmalkorokaihelp ="马尔考罗克boss战智能模块。在对人群aoe时自动选择，以橙色高亮显示5秒。同一时间内提示对自己有效。"
+MHExRTL.panelbossmodsmalkorokdanger ="！危险 ！"
+MHExRTL.panelsetauthor = "作者"
+MHExRTL.panelbossmodhelptext = ""
+MHExRTL.panelsettranslate = "翻译者: 10cnet.com"
+MHExRTL.panelbossmodsautoload = "自动下载"
+MHExRTL.panelbossmodsThanks = "致谢"
