@@ -25,7 +25,7 @@
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (德拉諾之霸)
 ## X-DBM-Mod-Sort: 125
 ## X-DBM-Mod-MapID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.kr.lua
 localization.de.lua

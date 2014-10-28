@@ -17,7 +17,7 @@
 ## X-DBM-Mod-Sort: 201
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-Block-Movie-Skip-ItemID: 105930,105931,105932,105933,105934,105935
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.tw.lua
 localization.cn.lua

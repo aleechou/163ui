@@ -3,6 +3,6 @@
 ## Author: ykiigor (Афиа @ EU-Howling Fjord)
 ## Notes: /malkorok, /mal
 ## SavedVariables: ExRT
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.xml
 Malkorok.lua

@@ -16,7 +16,7 @@
 ## X-DBM-Mod-Sort: 106
 ## X-DBM-Mod-MapID: 1116
 ## X-DBM-Mod-LoadCID: 83746, 81535, 81252
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.kr.lua
 localization.de.lua
