@@ -26,7 +26,7 @@
 ## X-DBM-Mod-Name-ruRU: Бойцовская гильдия
 ## X-DBM-Mod-Sort: 135
 ## X-DBM-Mod-MapID: 369,1043
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.kr.lua
 localization.de.lua

@@ -18,7 +18,7 @@
 ## X-Website: http://www.deadlybossmods.com
 
 embeds.xml
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\LibChatAnims\LibChatAnims.xml

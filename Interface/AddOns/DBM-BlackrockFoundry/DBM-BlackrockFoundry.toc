@@ -15,7 +15,7 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 101
 ## X-DBM-Mod-MapID: 1205
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.kr.lua
 localization.ru.lua

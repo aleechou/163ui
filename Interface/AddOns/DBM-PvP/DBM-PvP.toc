@@ -42,7 +42,7 @@
 ## X-DBM-Mod-Sort: 999
 
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 
 localization.en.lua
 localization.de.lua

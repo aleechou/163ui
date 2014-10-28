@@ -13,7 +13,7 @@
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-MapID: 967
 ## X-DBM-Mod-Sort: 100
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.cn.lua
 localization.tw.lua

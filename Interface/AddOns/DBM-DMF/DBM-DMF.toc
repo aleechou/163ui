@@ -18,7 +18,7 @@
 ## X-DBM-Mod-Has-Single-Format: 1
 ## X-DBM-Mod-MapID: 974
 ## X-DBM-Mod-Sort: 155
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.ru.lua
 localization.fr.lua
