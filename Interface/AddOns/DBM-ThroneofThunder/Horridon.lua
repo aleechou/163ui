@@ -1,7 +1,12 @@
-local mod	= DBM:NewMod(819, "DBM-ThroneofThunder", nil, 362)
+﻿local mod	= DBM:NewMod(819, "DBM-ThroneofThunder", nil, 362)
 local L		= mod:GetLocalizedStrings()
+--BH ADD
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndWSP	= mod:SoundMM("SoundWSP")
+local LibRange	= LibStub("LibRangeCheck-2.0")
+--BH ADD END
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11365 $"):sub(12, -3))
 mod:SetCreatureID(68476)
 mod:SetEncounterID(1575)
 mod:SetZone()
@@ -10,13 +15,16 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 136741 136770 137458 136587",
-	"SPELL_CAST_SUCCESS 136797",
-	"SPELL_AURA_APPLIED 136767 136817 138621 137327 137240 136840 136465 140946 136512",
-	"SPELL_AURA_APPLIED_DOSE 136767 136817 137240",
-	"SPELL_AURA_REMOVED 136767",
-	"SPELL_DAMAGE 136723 136646 136573 136490",
-	"SPELL_MISSED 136723 136646 136573 136490",
+	"SPELL_CAST_START",
+	--BH ADD
+	"SPELL_CAST_SUCCESS",
+	"UNIT_SPELLCAST_SUCCEEDED",
+	--BH ADD END
+	"SPELL_AURA_APPLIED",
+	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_REMOVED",
+	"SPELL_DAMAGE",
+	"SPELL_MISSED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_DIED"
 )
@@ -45,12 +53,16 @@ local warnDireFixate			= mod:NewTargetAnnounce(140946, 4)
 local specWarnCharge			= mod:NewSpecialWarningYou(136769)--Maybe add a near warning later. person does have 3.4 seconds to react though and just move out of group.
 local yellCharge				= mod:NewYell(136769)
 local specWarnDoubleSwipe		= mod:NewSpecialWarningSpell(136741, nil, nil, nil, 2)
-local specWarnPuncture			= mod:NewSpecialWarningStack(136767, nil, 9)--9 seems like a good number, we'll start with that. Timing wise the swap typically comes when switching gates though.
-local specWarnPunctureOther		= mod:NewSpecialWarningTaunt(136767)
+local specWarnPuncture			= mod:NewSpecialWarningStack(136767, mod:IsTank(), 9)--9 seems like a good number, we'll start with that. Timing wise the swap typically comes when switching gates though.
+local specWarnPunctureOther		= mod:NewSpecialWarningTarget(136767, mod:IsTank())
 local specWarnSandTrap			= mod:NewSpecialWarningMove(136723)
+local specWarnSandTrapYou		= mod:NewSpecialWarningYou(136723)
+local specWarnSandTrapNear		= mod:NewSpecialWarningClose(136723)
+local yellSandTrap				= mod:NewYell(136723)
 local specWarnDino				= mod:NewSpecialWarningSwitch("ej7086", not mod:IsHealer())
-local specWarnMending			= mod:NewSpecialWarningInterrupt(136797, mod:IsDps())--High priority interrupt. All dps needs warning because boss heals 1% per second it's not interrupted.
-local specWarnOrbofControl		= mod:NewSpecialWarning("specWarnOrbofControl", false)--Usually an assigned role for 1-2 people. Do not want someone assigned to interrupts for example hear this and think it's interrupt time. This should be turned on by orb person
+-- BH MODIFY
+local specWarnMending			= mod:NewSpecialWarningInterrupt(136797)--High priority interrupt. All dps needs warning because boss heals 1% per second it's not interrupted.
+local specWarnOrbofControl		= mod:NewSpecialWarning("specWarnOrbofControl")--Usually an assigned role for 1-2 people. Do not want someone assigned to interrupts for example hear this and think it's interrupt time. This should be turned on by orb person
 local specWarnVenomBolt			= mod:NewSpecialWarningInterrupt(136587)--Can be on for all since it only triggers off target/focus
 local specWarnChainLightning	= mod:NewSpecialWarningInterrupt(136480)--Can be on for all since it only triggers off target/focus
 local specWarnFireball			= mod:NewSpecialWarningInterrupt(136465)--Can be on for all since it only triggers off target/focus
@@ -58,11 +70,18 @@ local specWarnLivingPoison		= mod:NewSpecialWarningMove(136646)
 local specWarnFrozenBolt		= mod:NewSpecialWarningMove(136573)--Debuff used by Frozen Orbs
 local specWarnLightningNova		= mod:NewSpecialWarningMove(136490)--Mainly for LFR or normal. On heroic you're going to die.
 local specWarnHex				= mod:NewSpecialWarningYou(136512)
+local specWarnHexOther			= mod:NewSpecialWarningTarget(136512)
 local specWarnJalak				= mod:NewSpecialWarningSwitch("ej7087", mod:IsTank())--To pick him up (and maybe dps to switch, depending on strat)
 local specWarnRampage			= mod:NewSpecialWarningTarget(136821, mod:IsTank() or mod:IsHealer())--Dog is pissed master died, need more heals and cooldowns. Maybe warn dps too? his double swipes and charges will be 100% worse too.
 local specWarnDireCall			= mod:NewSpecialWarningCount(137458, nil, nil, nil, 2)--Heroic
 local specWarnDireFixate		= mod:NewSpecialWarningRun(140946)--Heroic
-
+--BH ADD
+local specWarnSunDebuff			= mod:NewSpecialWarningSpell(136719, mod:IsHealer())
+local specWarnWitchDebuff		= mod:NewSpecialWarningSpell(136512, mod:IsHealer())
+local specWarnLightTT			= mod:NewSpecialWarningSpell(136487)
+local specWarnJSA			= mod:NewSpecialWarning("SpecWarnJSA")
+local timerHeadache			= mod:NewBuffActiveTimer(10, 137294)
+--BH ADD END
 local timerDoor					= mod:NewTimer(113.5, "timerDoor", 2457)--They seem to be timed off last door start, not last door end. They MAY come earlier if you kill off all first doors adds though not sure yet. If they do, we'll just start new timer anyways
 local timerAdds					= mod:NewTimer(18.91, "timerAdds", 43712)
 local timerDinoCD				= mod:NewNextTimer(56.75, "ej7086", nil, nil, nil, 137237)--It's between 55 and 60 seconds, I will need a more thorough log to verify by yelling when they spawn
@@ -77,12 +96,53 @@ local timerDireCallCD			= mod:NewCDCountTimer(62, 137458)--Heroic (every 62-70 s
 
 local berserkTimer				= mod:NewBerserkTimer(720)
 
-local soundDireFixate			= mod:NewSound(140946)
+-- BH DELETE local soundDireFixate			= mod:NewSound(140946)
 
+local nhcount = 1
+local qscount = 0
+local pxcount = 0
+local closedoor = 0
+local Direname	= EJ_GetSectionInfo(7866)
+mod:AddBoolOption("ccsoon", false, "sound")
+mod:AddBoolOption("ddyls", true, "sound")
 mod:AddBoolOption("RangeFrame")
 mod:AddBoolOption("SetIconOnCharge")
-mod:AddBoolOption("SetIconOnAdds", false) -- use custom string.
-mod.findFastestComputer = {"SetIconOnAdds"} -- for set icon stuff.
+for i = 1, 4 do
+	mod:AddBoolOption("dr"..i, false, "sound")
+end
+mod:AddDropdownOption("optQS", {"noQS", "QS1", "QS2", "QS3", "allQS"}, "noQS", "sound")
+mod:AddEditBoxOption("dispsetHex", 150, "", "sound")
+local function MyJS()
+	if (mod.Options.dr1 and pxcount == 0) or (mod.Options.dr2 and pxcount == 1) or (mod.Options.dr3 and pxcount == 2) or (mod.Options.dr4 and pxcount == 3) then
+		return true
+	end
+	return false
+end
+local function checksprange()
+	if UnitExists("focus") then
+		if UnitName("focus") == Direname then
+			local min, max = LibRange:getRange("focus")
+			if min and max then
+				if min <= 8 then
+					if mod:AntiSpam(1, 6) then
+						DBM.Flash:Shake(1, 0, 0)
+						sndWSP:Play(DBM.SoundMMPath.."\\stilldanger.ogg") --危險
+					end
+				elseif min <= 15 then
+					if mod:AntiSpam(4, 5) then
+						DBM.Flash:Shake(1, 0, 0)
+						sndWSP:Play(DBM.SoundMMPath.."\\killspirit.ogg") --靈魂快打
+					end
+--				elseif min >= 60 then
+--					if mod:AntiSpam(4, 5) then
+--						sndWSP:Play(DBM.SoundMMPath.."\\safenow.ogg")
+--					end
+				end
+			end	
+		end
+	end
+	mod:Schedule(0.2, checksprange)
+end
 
 local doorNumber = 0
 local direNumber = 0
@@ -92,27 +152,42 @@ local Farraki	= EJ_GetSectionInfo(7098)
 local Gurubashi	= EJ_GetSectionInfo(7100)
 local Drakkari	= EJ_GetSectionInfo(7103)
 local Amani		= EJ_GetSectionInfo(7106)
-local balcMobs = {
-	[69164] = true,
-	[69175] = true,
-	[69176] = true,
-	[69177] = true,
-	[69178] = true,
-	[69221] = 8,
-}
 
 function mod:OnCombatStart(delay)
 	doorNumber = 0
 	direNumber = 0
 	shamandead = 0
+	--BH ADD
+	closedoor = 0
+	qscount = 0
+	pxcount = 0
+	nhcount = 1
+	--BH ADD END
 	jalakEngaged = false
 	timerPunctureCD:Start(10-delay)
+	self:Schedule(9, function()
+		if self:IsTanking("player", "boss1") or mod.Options.ccsoon then
+			sndWOP:Play(DBM.SoundMMPath.."\\watchimpale.ogg")
+		end
+	end)
 	timerDoubleSwipeCD:Start(16-delay)--16-17 second variation
 	timerDoor:Start(16.5-delay)
 	timerChargeCD:Start(31-delay)--31-35sec variation
 	berserkTimer:Start(-delay)
-	if self:IsHeroic() then
+	if self:IsDifficulty("heroic10", "heroic25") then
 		timerDireCallCD:Start(-delay, 1)
+		--BH ADD
+		if mod:IsHealer() then
+			if select(2, UnitClass("player")) == "PRIEST" then
+				sndWOP:Schedule(42, DBM.SoundMMPath.."\\ex_tt_esnh.ogg")
+			end
+			sndWOP:Schedule(57, DBM.SoundMMPath.."\\ex_tt_wmhn.ogg")
+		end
+		if mod.Options.InfoFrame then
+			DBM.InfoFrame:SetHeader(GetSpellInfo(137458))
+			DBM.InfoFrame:Show(1, "other", nhcount, "Next")
+		end
+		--BH ADD END
 	end
 	self:RegisterShortTermEvents(
 		"INSTANCE_ENCOUNTER_ENGAGE_UNIT"--We register here to prevent detecting first heads on pull before variables reset from first engage fire. We'll catch them on delayed engages fired couple seconds later
@@ -136,109 +211,228 @@ Delayed by Charge version
 "<74.8 15:08:34> [CLEU] SPELL_CAST_START#false#0xF1310B7C0000383C#Horridon#68168#0##nil#-2147483648#-2147483648#136770#Double Swipe#1", -- [5452]
 "<86.4 15:08:45> [CLEU] SPELL_CAST_START#false#0xF1310B7C0000383C#Horridon#2632#0##nil#-2147483648#-2147483648#136741#Double Swipe#1", -- [6003]
 --]]
+
 function mod:SPELL_CAST_START(args)
-	local spellId = args.spellId
-	if spellId == 136741 then--Regular double swipe
+	if args.spellId == 136741 then--Regular double swipe
 		warnDoubleSwipe:Show()
 		specWarnDoubleSwipe:Show()
+		if mod:IsMelee() then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_scsj.ogg") --雙重掃擊
+		end
 		--The only flaw is charge is sometimes delayed by unexpected events like using an orb, we may fail to start timer once in a while when it DOES come before a charge.
 		if timerChargeCD:GetTime() < 32 then--Check if charge is less than 18 seconds away, if it is, double swipe is going tobe delayed by quite a bit and we'll trigger timer after charge
 			timerDoubleSwipeCD:Start()
 		end
-	elseif spellId == 136770 then--Double swipe that follows a charge (136769)
+	elseif args.spellId == 136770 then--Double swipe that follows a charge (136769)
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_scsj.ogg")
 		warnDoubleSwipe:Show()
 		specWarnDoubleSwipe:Show()
 		timerDoubleSwipeCD:Start(11.5)--Hard coded failsafe. 136741 version is always 11.5 seconds after 136770 version
-	elseif spellId == 137458 then
+	elseif args.spellId == 137458 then
 		direNumber = direNumber + 1
 		warnDireCall:Show(direNumber)
 		specWarnDireCall:Show(direNumber)
 		timerDireCallCD:Start(nil, direNumber+1)--CD still reset when he breaks a door?
-	elseif spellId == 136587 then
+		if mod:IsHealer() then
+			if select(2, UnitClass("player")) == "PRIEST" then
+				sndWOP:Schedule(42, DBM.SoundMMPath.."\\ex_tt_esnh.ogg")
+			end
+			sndWOP:Schedule(57, DBM.SoundMMPath.."\\ex_tt_wmhn.ogg")
+		end
+		nhcount = nhcount + 1		
+		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg") --準備AE
+		if nhcount == 3 then nhcount = 0 end
+	elseif args:IsSpellID(136587) then
 		warnVenomBolt:Show()
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
 			specWarnVenomBolt:Show(args.sourceName)
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
+		end
+	elseif args:IsSpellID(136480) then
+		warnChainLightning:Show()
+		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
+			specWarnChainLightning:Show(args.sourceName)
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
+		end
+	elseif args:IsSpellID(136465) then
+		warnFireball:Show()
+		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
+			specWarnFireball:Show(args.sourceName)
 		end
 	end
 end
 
+--BH ADD
 function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 136797 then
-		warnMending:Show()
-		specWarnMending:Show(args.sourceName)
+	if args.spellId == 136487 then
+		specWarnLightTT:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_sdtt.ogg")--閃電圖騰
+	elseif args.spellId == 136512 then		
+		qscount = qscount + 1
+		if ((mod.Options.optQS == "QS1") and (qscount % 3 == 1)) or ((mod.Options.optQS == "QS2") and (qscount % 3 == 2)) or ((mod.Options.optQS == "QS3") and (qscount % 3 == 0)) or (mod.Options.optQS == "allQS") then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+			specWarnWitchDebuff:Show()
+		end
+	elseif args.spellId == 136719 then
+		qscount = qscount + 1
+		if ((mod.Options.optQS == "QS1") and (qscount % 3 == 1)) or ((mod.Options.optQS == "QS2") and (qscount % 3 == 2)) or ((mod.Options.optQS == "QS3") and (qscount % 3 == 0)) or (mod.Options.optQS == "allQS") then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+			specWarnSunDebuff:Show()
+		end
+	elseif args.spellId == 136564 then
+		if self:AntiSpam(2, 7) then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_bqxx.ogg") --冰球小心
+		end
 	end
 end
+--BH ADD END
 
 function mod:SPELL_AURA_APPLIED(args)
-	local spellId = args.spellId
-	if spellId == 136767 then
-		local amount = args.amount or 1
-		warnPuncture:Show(args.destName, amount)
+	if args.spellId == 136767 then
+		warnPuncture:Show(args.destName, args.amount or 1)
 		timerPuncture:Start(args.destName)
 		timerPunctureCD:Start()
+		--BH ADD
+		self:Schedule(9, function()
+			if self:IsTanking("player", "boss1") or mod.Options.ccsoon then
+				sndWOP:Play(DBM.SoundMMPath.."\\watchimpale.ogg")
+			end
+		end)
+		--BH ADD END
 		if args:IsPlayer() then
-			if amount >= 9 then
-				specWarnPuncture:Show(amount)
+			if (args.amount or 1) >= 9 then
+				specWarnPuncture:Show(args.amount)
 			end
 		else
-			if amount >= 9 and not UnitDebuff("player", GetSpellInfo(136767)) and not UnitIsDeadOrGhost("player") then--Other tank has at least one stack and you have none
+			if (args.amount or 1) >= 9 and not UnitDebuff("player", GetSpellInfo(136767)) and not UnitIsDeadOrGhost("player") then--Other tank has at least one stack and you have none
 				specWarnPunctureOther:Show(args.destName)--So nudge you to taunt it off other tank already.
+				if mod:IsTank() then
+					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+				end
 			end
 		end
 	--"<317.2 15:12:36> [CLEU] SPELL_AURA_APPLIED_DOSE#false#0xF1310B7C0000383C#Horridon#68168#0#0xF1310B7C0000383C#Horridon#68168#0#137240#Cracked Shell#1#BUFF#4", -- [21950]
 	--"<327.0 15:12:46> [INSTANCE_ENCOUNTER_ENGAGE_UNIT] Fake Args:#1#1#Horridon#0xF1310B7C0000383C#elite#261178058#1#1#War-God Jalak <--War-God Jalak jumps down
 	--He jumps down 10 seconds after 4th door is smashed, or when Horridon reaches 30%
-	elseif spellId == 136817 then
-		local amount = args.amount or 1
-		warnBestialCry:Show(args.destName, amount)
-		timerBestialCryCD:Start(10, amount+1)
-	elseif spellId == 136821 then
+	--BH ADD
+	elseif args.spellId == 137240 and (args.amount or 1) == 4 and not jalakEngaged then
+		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+	--BH ADD END
+	elseif args.spellId == 136817 then
+		warnBestialCry:Show(args.destName, args.amount or 1)
+		timerBestialCryCD:Start(10, (args.amount or 1)+1)
+		--BH ADD
+		pxcount = pxcount + 1
+		if MyJS() then
+			specWarnJSA:Schedule(6)
+			sndWOP:Schedule(6, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+		else
+			sndWOP:Schedule(6, DBM.SoundMMPath.."\\aesoon.ogg") --準備AE
+		end
+		sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+		--BH ADD END		
+	elseif args.spellId == 136821 then
 		warnRampage:Show(args.destName)
 		specWarnRampage:Show(args.destName)
-	elseif spellId == 137237 then
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_hldn.ogg")--哈里登暴怒
+	elseif args.spellId == 136797 then
+		warnMending:Show()
+		--BH MODIFY
+		if mod.Options.ddyls then
+			specWarnMending:Show(args.sourceName)
+			DBM.Flash:Shake(1, 0, 0)
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
+		end
+		--BH MODIFY END
+	elseif args.spellId == 137237 then
 		warnOrbofControl:Show()
 		specWarnOrbofControl:Show()
-	elseif spellId == 137240 then
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_ksbz.ogg") --控獸寶珠
+	elseif args.spellId == 137240 then
 		warnCrackedShell:Show(args.destName, args.amount or 1)
-	elseif spellId == 136480 then
+--[[	elseif args.spellId == 136587 then
+		warnVenomBolt:Show()
+		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
+			specWarnVenomBolt:Show(args.sourceName)
+		end
+	elseif args.spellId == 136480 then
 		warnChainLightning:Show()
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
 			specWarnChainLightning:Show(args.sourceName)
 		end
-	elseif spellId == 136465 then
+	elseif args.spellId == 136465 then
 		warnFireball:Show()
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
 			specWarnFireball:Show(args.sourceName)
-		end
-	elseif spellId == 140946 then
-		warnDireFixate:CombinedShow(1.0, args.destName)
+		end]] -- BH DELETE
+	elseif args.spellId == 140946 then
+		warnDireFixate:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnDireFixate:Show()
-			soundDireFixate:Play()
+--BH DELETE		soundDireFixate:Play()
+			-- BH ADD
+			DBM.Flash:Shake(1, 0, 0)
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_lhsd.ogg")
+			sndWOP:Schedule(1,DBM.SoundMMPath.."\\ex_tt_lhsd.ogg")
+			checksprange()
+			-- BH ADD END
 		end
-	elseif spellId == 136512 and args:IsPlayer() then
-		specWarnHex:Show()
+	elseif args.spellId == 136512 then
+		if args:IsPlayer() then
+			specWarnHex:Show()
+			sndWOP:Play(DBM.SoundMMPath.."\\stopattack.ogg") -- 停止攻擊
+		elseif args.destName == mod.Options.dispsetHex then
+			specWarnHexOther:Show(args.destName)
+			sndWOP:Play(DBM.SoundMMPath.."\\helpdispel.ogg") -- 幫忙驅散
+		end
+	-- BH ADD
+	elseif args.spellId == 137294 then
+		closedoor = closedoor + 1
+		timerHeadache:Start(10)
+		sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfive.ogg")
+		sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+		if closedoor == 1 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_smgb.ogg")--沙門關閉
+		elseif closedoor == 2 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_dmgb.ogg")--毒門關閉
+		elseif closedoor == 3 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_bmgb.ogg")--冰門關閉
+		end
+	elseif args.spellId ==  136670 then
+		if args:IsPlayer() then
+			if (args.amount or 1) >= 2 then
+				sndWOP:Play(DBM.SoundMMPath.."\\dshigh.ogg")--致死過高
+			end
+		end
+	-- BH ADD END
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	local spellId = args.spellId
-	if spellId == 136767 then
+	if args.spellId == 136767 then
 		timerPuncture:Cancel(args.destName)
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 136723 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+	if spellId == 136723 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnSandTrap:Show()
-	elseif spellId == 136646 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+	elseif spellId == 136646 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnLivingPoison:Show()
-	elseif spellId == 136573 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+	elseif spellId == 136573 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnFrozenBolt:Show()
-	elseif spellId == 136490 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+	elseif spellId == 136490 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnLightningNova:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -247,11 +441,23 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 --"<372.2 21:39:53> [RAID_BOSS_EMOTE] RAID_BOSS_EMOTE#Amani forces pour from the Amani Tribal Door!#War-God Jalak#0#false", -- [77469]
 --"<515.3 21:42:16> [INSTANCE_ENCOUNTER_ENGAGE_UNIT] Fake Args:#1#1#Horridon#0xF1310B7C0000467C#elite#522686397#1#1#War-God Jalak
 function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT(event)
-	if UnitExists("boss2") and self:GetCIDFromGUID(UnitGUID("boss2")) == 69374 and not jalakEngaged then--Jalak is jumping down
+	if UnitExists("boss2") and tonumber(UnitGUID("boss2"):sub(6, 10), 16) == 69374 and not jalakEngaged then--Jalak is jumping down
 		jalakEngaged = true--Set this so we know not to concern with 4th door anymore (plus so we don't fire extra warnings when we wipe and ENGAGE fires more)
 		timerJalakCD:Cancel()
 		specWarnJalak:Show()
 		timerBestialCryCD:Start(5, 1)
+		-- BH ADD
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_zscz.ogg") --戰神參戰
+		if MyJS() then
+			specWarnJSA:Schedule(2)
+			sndWOP:Schedule(2, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+		else
+			sndWOP:Schedule(2, DBM.SoundMMPath.."\\aesoon.ogg") --準備AE
+		end
+		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+		-- BH ADD END
 		self:UnregisterShortTermEvents()--TODO, maybe add unit health checks to warn dog is close to 40% if we aren't done with doors yet. If it's added, we can unregister health here as well
 	end
 end
@@ -263,9 +469,13 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg:find(L.chargeTarget) then
-		self:SendSync("ChargeTo", target)
-	elseif msg:find(L.newForces, 1, true) then
-		self:SendSync("Door")
+		if self:LatencyCheck() then
+			self:SendSync("ChargeTo", target)
+		end
+	elseif msg:find(L.newForces) then
+		if self:LatencyCheck() then
+			self:SendSync("Door")
+		end
 	end
 end
 
@@ -273,6 +483,11 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 69374 then
 		timerBestialCryCD:Cancel()
+		sndWOP:Cancel(DBM.SoundMMPath.."\\defensive.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\aesoon.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
 	elseif cid == 69176 then--shaman
 		shamandead = shamandead + 1
 		if shamandead == 3 then
@@ -283,22 +498,38 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:OnSync(msg, targetname)
-	if msg == "ChargeTo" and targetname and self:AntiSpam(5, 4) then
-		local target = DBM:GetUnitFullName(targetname)
-		if target then
-			warnCharge:Show(target)
-			timerCharge:Start()
-			timerChargeCD:Start()
-			if target == UnitName("player") then
-				specWarnCharge:Show()
-				yellCharge:Yell()
-			end
-			if UnitExists(target) and self.Options.SetIconOnCharge then
-				self:SetIcon(target, 1, 5)--star
-			end
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
+	if uId ~="target" and uId ~="focus" then return end
+	if spellId == 136725 then
+		if self:LatencyCheck() then
+			self:SendSync("Sand", UnitName(uId.."target"))
 		end
-	elseif msg == "Door" and self:AntiSpam(15, 3) then--prevent bad doorNumber increase if very late sync received. (60 too high, breaks first door warnings after a quick wipe recovery since antispam carries over from previous pull)
+	elseif spellId == 136644 then
+		if self:LatencyCheck() then
+			self:SendSync("Duye")
+		end
+	end
+end
+
+function mod:OnSync(msg, target)
+	if msg == "ChargeTo" and target then
+		local target = DBM:GetUnitFullName(target)
+		warnCharge:Show(target)
+		timerCharge:Start()
+		timerChargeCD:Start()
+		if target == UnitName("player") then
+			specWarnCharge:Show()
+			yellCharge:Yell()
+			DBM.Flash:Shake(1, 0, 0)
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_nbcf.ogg")
+			sndWOP:Schedule(0.5,DBM.SoundMMPath.."\\ex_tt_nbcf.ogg")
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_cfkd.ogg") --衝鋒快躲
+		end
+		if UnitExists(target) and self.Options.SetIconOnCharge then
+			self:SetIcon(target, 1, 5)--star
+		end
+	elseif msg == "Door" and self:AntiSpam(60, 4) then--prevent bad doorNumber increase if very late sync received.
 	--Doors spawn every 131.5 seconds
 	--Halfway through it (literlaly exact center) Dinomancers spawn at 56.75
 	--Then, before the dinomancer, lesser adds spawn twice splitting that timer into 3rds
@@ -307,22 +538,28 @@ function mod:OnSync(msg, targetname)
 		timerDinoCD:Start()
 		warnDino:Schedule(56.75)
 		specWarnDino:Schedule(56.75)
-		if self.Options.SetIconOnAdds then
-			self:ScanForMobs(balcMobs, 0, 7, 6, 0.2, 64)
+		if mod:IsDps() then
+			sndWOP:Schedule(56.75, DBM.SoundMMPath.."\\ex_tt_ylsd.ogg") --禦龍師快打
+		else
+			sndWOP:Schedule(56.75, DBM.SoundMMPath.."\\ex_tt_ylsc.ogg") --禦龍師出現
 		end
 		if doorNumber == 1 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_smkq.ogg") --沙門開啟
 			timerAdds:Start(18.9, Farraki)
 			warnAdds:Schedule(18.9, Farraki)
 			self:Schedule(18.9, addsDelay, Farraki)
 		elseif doorNumber == 2 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_dmkq.ogg") --毒门開啟
 			timerAdds:Start(18.9, Gurubashi)
 			warnAdds:Schedule(18.9, Gurubashi)
 			self:Schedule(18.9, addsDelay, Gurubashi)
 		elseif doorNumber == 3 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_bmkq.ogg") --冰门開啟
 			timerAdds:Start(18.91, Drakkari)
 			warnAdds:Schedule(18.9, Drakkari)
 			self:Schedule(18.9, addsDelay, Drakkari)
 		elseif doorNumber == 4 then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_xmkq.ogg") --熊門開啟
 			timerAdds:Start(18.9, Amani)
 			warnAdds:Schedule(18.9, Amani)
 			self:Schedule(18.9, addsDelay, Amani)
@@ -336,6 +573,17 @@ function mod:OnSync(msg, targetname)
 			if not jalakEngaged then
 				timerJalakCD:Start(143)
 			end
+		end
+	elseif msg == "Sand" and target then
+		local target = DBM:GetUnitFullName(target)
+		if target == UnitName("player") then
+			specWarnSandTrapYou:Show()
+			yellSandTrap:Yell()
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		end
+	elseif msg == "Duye" then
+		if self:AntiSpam(2, 10) then
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_zyfs.ogg") --注意分身
 		end
 	end
 end

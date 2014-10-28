@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(966, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11371 $"):sub(12, -3))
 mod:SetCreatureID(76141)
@@ -36,6 +37,10 @@ function mod:SPELL_CAST_START(args)
 		warnBurst:Show(self.vb.burstCount)
 		specWarnBurst:Show(self.vb.burstCount)
 		timerBurstCD:Start(nil, self.vb.burstCount+1)
+		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")
+		if self.vb.burstCount < 11 then
+			sndWOP:Schedule(1.2, "Interface\\AddOns\\DBM-Core\\sounds\\"..DBM.Options.CountdownVoice2.."\\"..self.vb.burstCount..".ogg")
+		end
 	end
 end
 

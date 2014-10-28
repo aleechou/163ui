@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("BrawlRank3", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
 
 mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(28649)
@@ -38,14 +37,12 @@ function mod:SPELL_CAST_START(args)
 		timerFirewallCD:Start()--First one is 5 seconds after combat start
 		if brawlersMod:PlayerFighting() then
 			specWarnFireWall:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\firewall.mp3")
 		end
 	elseif args.spellId == 134777 then
 		warnDevastatingThrust:Show()
 		timerDevastatingThrustCD:Start()--First one is 7-8 seconds after combat start
 		if brawlersMod:PlayerFighting() then
 			specWarnDevastatingThrust:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.mp3")
 		end
 	elseif args.spellId == 133302 then--Blat splitting
 		blatGUID = args.sourceGUID

@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(888, "DBM-Party-WoD", 2, 385)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11520 $"):sub(12, -3))
 mod:SetCreatureID(74787)
@@ -42,17 +43,23 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 150759 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		elseif (not mod:IsHealer()) then
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 		warnFerociousYell:Show()
 		specWarnFerociousYell:Show(args.sourceName)
 	elseif spellId == 150801 then
+		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
 		warnRaiseMiners:Show()
 		specWarnRaiseMiners:Show()
 	elseif spellId == 153679 then
 		warnEarthCrush:Show()
 		specWarnEarthCrush:Show()
+		self:BossTargetScanner(74787, "EarthCrushTarget", 0.1, 16)--Adjust timing if not reliable
 	elseif spellId == 150753 then
 		warnWildSlam:Show()
 		specWarnWildSlam:Show()
-		timerWildSlamCD:Start()
 	end
 end

@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(1185, "DBM-Party-WoD", 1, 547)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11517 $"):sub(12, -3))
 mod:SetCreatureID(75839)--Soul Construct
@@ -28,6 +29,7 @@ local timerHolyShieldCD			= mod:NewNextTimer(47, 153002)
 local timerConsecratedLightCD	= mod:NewNextTimer(7, 153006)
 local timerConsecratedLight		= mod:NewBuffActiveTimer(6.5, 153006)
 local timerFateCD				= mod:NewCDTimer(37, 157465)--Need more logs to confirm
+mod:AddBoolOption("ShieldArrow")
 
 function mod:ShieldTarget(targetname, uId)
 	if not targetname then return end
@@ -35,7 +37,15 @@ function mod:ShieldTarget(targetname, uId)
 	specWarnHolyShield:Show(targetname)
 	if targetname == UnitName("player") then
 		yellHolyShield:Yell()
+	elseif self.Options.ShieldArrow then
+		--local x, y = GetPlayerMapPosition(uId)
+		--if x == 0 and y == 0 then
+		--	SetMapToCurrentZone()
+		--	x, y = GetPlayerMapPosition(uId)
+		--end	
+		DBM.Arrow:ShowRunTo(targetname, 0, 8)
 	end
+	--sndWOP:Schedule(3, DBM.SoundMMPath.."\\findshield.ogg")
 end
 
 function mod:OnCombatStart(delay)
@@ -62,6 +72,7 @@ end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 161457 and destGUID == UnitGUID("player") and self:AntiSpam() then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 		specWarnSanctifiedGround:Show()
 	end
 end

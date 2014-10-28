@@ -1,9 +1,13 @@
-local mod	= DBM:NewMod(850, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(850, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndDS		= mod:SoundMM("SoundDS", mod:IsMagicDispeller())
+local sndIFS	= mod:SoundMM("SoundIFS")
+local sndISM	= mod:SoundMM("SoundISM")
 
-mod:SetRevision(("$Revision: 10624 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11360 $"):sub(12, -3))
 mod:SetCreatureID(71515)
+mod:SetEncounterID(1603)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 4, 2, 1)
 
@@ -104,10 +108,6 @@ local sunder = GetSpellInfo(143494)
 local saynum = 0
 
 mod:AddBoolOption("InfoFrame", true, "sound")
-local sndDS		= mod:NewSound(nil, "SoundDS", mod:IsMagicDispeller())
-local sndIFS	= mod:NewSound(nil, "SoundIFS", true)
-local sndISM	= mod:NewSound(nil, "SoundISM", true)
-
 
 local function warnBoneTargets()
 	warnBonecracker:Show(table.concat(boneTargets, "<, >"))
@@ -155,8 +155,8 @@ function mod:OnCombatStart(delay)
 	defensiveActive = false
 	saynum = 0
 	timerAddsCD:Start(-delay, 1)
-	sndWOP:Schedule(40, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.ogg") --準備小怪
-	sndWOP:Schedule(41, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+	sndWOP:Schedule(40, DBM.SoundMMPath.."\\mobsoon.ogg") --準備小怪
+	sndWOP:Schedule(41, DBM.SoundMMPath.."\\countone.ogg")
 --	countdownAdds:Start()
 	berserkTimer:Start(-delay)
 end
@@ -171,18 +171,18 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 143872 then
 		warnRavager:Show()
 		specWarnRavager:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xff.ogg") --旋風斧
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xff.ogg") --旋風斧
 	elseif args.spellId == 143503 then
 		warnWarSong:Show()
 		specWarnWarSong:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zg.ogg") --戰歌
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zg.ogg") --戰歌
 	elseif args.spellId == 143420 then
 		local source = args.sourceName
 		warnIronstorm:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnIronstorm:Show(source)
 			if mod:IsMelee() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷
+				sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
 			end
 		end
 	elseif args.spellId == 143431 then
@@ -190,39 +190,39 @@ function mod:SPELL_CAST_START(args)
 		if source == UnitName("target") or source == UnitName("focus") then
 			warnMagistrike:Show()
 			specWarnMagistrike:Show(source)
-			sndIFS:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷
+			sndIFS:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
 		end
 	elseif args.spellId == 143432 then
 		local source = args.sourceName
 		if source == UnitName("target") or source == UnitName("focus") then
 			warnArcaneShock:Show()
 			specWarnArcaneShock:Show(source)
-			sndIFS:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷			
+			sndIFS:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷			
 		end
 	elseif args.spellId == 143473 then
 		local source = args.sourceName
 		warnEmpoweredChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then
 			specWarnEmpoweredChainHeal:Show(source)
-			sndISM:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.ogg") --快打斷
+			sndISM:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
 			timerEmpoweredChainHealCD:Start(source, args.sourceGUID)
 		end
 	elseif args.spellId == 143502 then
 		warnExecute:Show()
-		if self:IsMythic() then
+		if self:IsDifficulty("heroic25") then
 			timerExecuteCD:Start(18)
 		else
 			timerExecuteCD:Start()
 		end
 		if UnitExists("boss1") and UnitGUID("boss1") == args.sourceGUID and UnitDetailedThreatSituation("player", "boss1") then--threat check instead of target because we may be helping dps adds
 			specWarnExecute:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\execute.ogg") --斬殺
+			sndWOP:Play(DBM.SoundMMPath.."\\execute.ogg") --斬殺
 		end
 		local executecd = 30
-		if self:IsMythic() then executecd = 15 end
+		if self:IsDifficulty("heroic25") then executecd = 15 end
 		self:Schedule(executecd, function()
 			if UnitExists("boss1") and UnitDetailedThreatSituation("player", "boss1") then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\executeready.ogg") --準備斬殺
+				sndWOP:Play(DBM.SoundMMPath.."\\executeready.ogg") --準備斬殺
 			end
 		end)
 	end
@@ -235,19 +235,19 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnDefensiveStanceEnd:Show()
 		end
 		warnBattleStance:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zdzt.ogg") --戰鬥姿態
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zdzt.ogg") --戰鬥姿態
 		if mod.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(143589))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:SetHeader(GetSpellInfo(143589))
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
 		end
 		timerBerserkerStanceCD:Start()
 	elseif args.spellId == 143594 then
 		warnBerserkerStance:Show()
 		specWarnBerserkerStance:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_kbzt.ogg") --狂暴姿態
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_kbzt.ogg") --狂暴姿態
 		if mod.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(143594))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:SetHeader(GetSpellInfo(143594))
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
 		end
 		timerDefensiveStanceCD:Start()
 		warnDefensiveStanceSoon:Schedule(55, 5)--Start pre warning with regular warnings only as you don't move at this point yet.
@@ -255,11 +255,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnDefensiveStanceSoon:Schedule(57, 3)
 		warnDefensiveStanceSoon:Schedule(58, 2)
 		warnDefensiveStanceSoon:Schedule(59, 1)
-		sndWOP:Schedule(55, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fyzb.ogg") --防禦姿態準備
-		sndWOP:Schedule(56, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-		sndWOP:Schedule(57, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(58, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(59, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Schedule(55, DBM.SoundMMPath.."\\ex_so_fyzb.ogg") --防禦姿態準備
+		sndWOP:Schedule(56, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(57, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(58, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(59, DBM.SoundMMPath.."\\countone.ogg")
 	elseif args.spellId == 143593 then
 		defensiveActive = true
 		saynum = 0
@@ -267,23 +267,23 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnDefensiveStance:Show()
 		local source = args.sourceName
 		if (source == UnitName("target")) and (not UnitDebuff("player", sunder)) then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\stopattack.ogg") --注意停手			
+			sndWOP:Play(DBM.SoundMMPath.."\\stopattack.ogg") --注意停手			
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fyzt.ogg") --防禦姿態
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fyzt.ogg") --防禦姿態
 		end
 		if mod.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(143593))
-			DBM.InfoFrame:Show(4, "nazgrimpower")
+			--DBM.InfoFrame:SetHeader(GetSpellInfo(143593))
+			--DBM.InfoFrame:Show(4, "nazgrimpower")
 		end
 		timerDefensiveStance:Start()
 	elseif args.spellId == 143536 then
 		warnKorkronBanner:Show()
 		specWarnKorkronBanner:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zqkd.ogg") --戰旗快打
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zqkd.ogg") --戰旗快打
 	elseif args.spellId == 143474 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ttkd.ogg") --圖騰快打
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ttkd.ogg") --圖騰快打
 	elseif args.spellId == 143494 then--Because it can miss, we start CD here instead of APPLIED
 		timerSunderCD:Start()
 	end
@@ -297,30 +297,30 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 3 then--At this point the other tank SHOULD be clear.
 				specWarnSunder:Show(amount)
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\sunderhigh.ogg") --破甲過高
+				sndWOP:Play(DBM.SoundMMPath.."\\sunderhigh.ogg") --破甲過高
 			end
 		else--Taunt as soon as stacks are clear, regardless of stack count.
 			if amount >= 2 and not UnitDebuff("player", sunder) and not UnitIsDeadOrGhost("player") then
 				specWarnSunderOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\changemt.ogg") --換坦嘲諷
+					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
 				end
 			end
 		end
 	elseif args.spellId == 143484 then
 		warnCoolingOff:Show(args.destName)
 		timerCoolingOff:Start()
-		sndWOP:Schedule(11, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\specialsoon.ogg") --準備特別技能
-		sndWOP:Schedule(12.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(13.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(14.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Schedule(11, DBM.SoundMMPath.."\\specialsoon.ogg") --準備特別技能
+		sndWOP:Schedule(12.5, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(14.5, DBM.SoundMMPath.."\\countone.ogg")
 --		countdownCoolingOff:Start()
 	elseif args.spellId == 143480 then
 		warnAssasinsMark:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnAssassinsMark:Schedule(1)			
 			yellAssassinsMark:Yell()
-			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ckkp.ogg") --快跑 刺客點你
+			sndWOP:Schedule(1, DBM.SoundMMPath.."\\ex_so_ckkp.ogg") --快跑 刺客點你
 		else
 			specWarnAssassinsMarkOther:Show(args.destName)
 		end
@@ -328,13 +328,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnHunterMark:Schedule(1)			
 			yellHunterMark:Yell()
-			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg") --離開人群
-			sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg")
+			sndWOP:Schedule(1, DBM.SoundMMPath.."\\runout.ogg") --離開人群
+			sndWOP:Schedule(2, DBM.SoundMMPath.."\\runout.ogg")
 		end
 	elseif args.spellId == 143475 and not args:IsDestTypePlayer() then
 		warnEarthShield:Show(args.destName)
 		specWarnEarthShield:Show(args.destName)
-		sndDS:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dun.ogg") --驅散大地盾
+		sndDS:Play(DBM.SoundMMPath.."\\ex_so_dun.ogg") --驅散大地盾
 	elseif args.spellId == 143638 then
 		boneTargets[#boneTargets + 1] = args.destName
 		self:Unschedule(warnBoneTargets)
@@ -361,9 +361,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		addsCount = addsCount + 1
 		warnAdds:Show(addsCount)
 		specWarnAdds:Show(addsCount)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.ogg")
---		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\killmob.ogg") --小怪快打
-		sndWOP:Schedule(39, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\mobsoon.ogg")
+--		sndWOP:Play(DBM.SoundMMPath.."\\killmob.ogg") --小怪快打
+		sndWOP:Schedule(39, DBM.SoundMMPath.."\\mobsoon.ogg")
 		timerAddsCD:Start(nil, addsCount+1)
 --		countdownAdds:Start()
 		if self.Options.SetIconOnAdds then
@@ -373,8 +373,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	elseif msg == L.allForces then
 		--Icon setting not put here on purpose, so as not ot mess with existing adds (it's burn boss phase anyawys)
 		specWarnAdds:Show(0)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\mobsoon.ogg")
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ptwo.ogg") --第二阶段
+		sndWOP:Cancel(DBM.SoundMMPath.."\\mobsoon.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --第二阶段
 	end
 end
 
@@ -382,14 +382,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 143500 then--Faster than combat log by 0.3-0.5 seconds
 		warnHeroicShockwave:Show()
 		specWarnHeroicShockwave:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yzkd.ogg") --餘震快躲
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_yzkd.ogg") --餘震快躲
 	end
 end
 
 function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 143873 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnRavagerMove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	elseif (sourceGUID == UnitGUID("player")) and (destGUID == UnitGUID("boss1")) and self:AntiSpam(3, 1) then
 		if spellId == 148008 or spellId == 79136 then return end
 		local h = UnitHealth("boss1") / UnitHealthMax("boss1") * 100

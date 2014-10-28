@@ -1,17 +1,15 @@
-local mod	= DBM:NewMod(865, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(865, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
-local sndFMD	= mod:NewSound(nil, mod:IsRangedDps(), "SoundFMD")
-local sndDL		= mod:NewSound(nil, mod:IsRangedDps(), "SoundDL")
-local sndCZ		= mod:NewSound(nil, false, "SoundCZ")
-local sndCZ4	= mod:NewSound(nil, false, "SoundCZ4")
-local sndCZ5	= mod:NewSound(nil, false, "SoundCZ5")
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndCZ		= mod:SoundMM("SoundCZ", false)
+local sndCZ4	= mod:SoundMM("SoundCZ4", false)
+local sndCZ5	= mod:SoundMM("SoundCZ5", false)
+local sndCS1	= mod:SoundMM("SoundCS1", false)
+local sndCS2	= mod:SoundMM("SoundCS2", false)
 
-local sndCS1	= mod:NewSound(nil, false, "SoundCS1")
-local sndCS2	= mod:NewSound(nil, false, "SoundCS2")
-
-mod:SetRevision(("$Revision: 10387 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11358 $"):sub(12, -3))
 mod:SetCreatureID(71504)--71591 Automated Shredder
+mod:SetEncounterID(1601)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -92,6 +90,8 @@ local timerPatternRecognition			= mod:NewBuffActiveTimer(60, 144236)
 local timerShockwaveMissileCD			= mod:NewNextCountTimer(15, 143641)
 local timerBreakinPeriod				= mod:NewTargetTimer(60, 145269, nil, false)--Many mines can be up at once so timer off by default do to spam
 
+mod:AddInfoFrameOption("ej8202")
+
 local missileCount = 0
 local OverloadCount = 0
 --local laserCount = 0--Fires 3 times
@@ -103,6 +103,13 @@ local dl = EJ_GetSectionInfo(8212)
 local fd = EJ_GetSectionInfo(8205)
 local jg = EJ_GetSectionInfo(8208)
 local dc = EJ_GetSectionInfo(8210)
+
+local assemblyName = {
+	[71606] = fd, -- Deactivated Missile Turret
+	[71790] = dl, -- Disassembled Crawler Mines
+	[71751] = jg, -- Deactivated Laser Turret
+	[71694] = dc, -- Deactivated Electromagnet
+}
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
@@ -174,7 +181,7 @@ function mod:DeathFromAboveTarget(sGUID)
 	warnDeathFromAbove:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnDeathFromAbove:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sctj.ogg") --死從
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sctj.ogg") --死從
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -186,7 +193,7 @@ function mod:DeathFromAboveTarget(sGUID)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 20 then
 				specWarnDFANear:Show(targetname)
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sctj.ogg")
+				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sctj.ogg")
 			end
 		end
 	end
@@ -258,7 +265,9 @@ function mod:SPELL_CAST_START(args)
 		timerDeathFromAboveCD:Start(args.sourceGUID)
 		self:ScheduleMethod(0.2, "DeathFromAboveTarget", args.sourceGUID)--Always targets tank, so 1 scan all needed
 		specWarnAutomatedShredderSwitch:Schedule(3)--Better here then when debuff goes up, give dps 2 seconds rampup time so spells in route when debuff goes up.
-		sndFMD:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fmjd.ogg") --伐木機快打
+		if mod:IsRangedDps() then
+			sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_fmjd.ogg") --伐木機快打
+		end
 	end
 end
 
@@ -281,27 +290,27 @@ function mod:SPELL_CAST_SUCCESS(args)
 			shockwaveOvercharged = false
 		end
 		if cid == 71638 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fdqh.ogg") --飛彈強化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fdqh.ogg") --飛彈強化
 		elseif cid == 71752 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_jgqh.ogg") --激光強化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_jgqh.ogg") --激光強化
 		elseif cid == 71696 then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ccqh.ogg") --磁場強化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ccqh.ogg") --磁場強化
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dlqh.ogg") --地雷強化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dlqh.ogg") --地雷強化
 		end
 	elseif args.spellId == 145444 then
 		OverloadCount = OverloadCount + 1
 		timerOverloadCD:Start(11, OverloadCount)
 		if OverloadCount == 3 then
-			sndCZ4:Schedule(6, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_4cz.ogg") --超載4
-			sndCZ4:Schedule(7.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg") --注意減傷
-			sndCZ4:Schedule(8.2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
+			sndCZ4:Schedule(6, DBM.SoundMMPath.."\\ex_so_bh_4cz.ogg") --超載4
+			sndCZ4:Schedule(7.5, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndCZ4:Schedule(8.2, DBM.SoundMMPath.."\\defensive.ogg")
 		elseif OverloadCount == 4 then
-			sndCZ5:Schedule(6, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_5cz.ogg") --超載5
-			sndCZ5:Schedule(7.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
-			sndCZ5:Schedule(8.2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
+			sndCZ5:Schedule(6, DBM.SoundMMPath.."\\ex_so_bh_5cz.ogg") --超載5
+			sndCZ5:Schedule(7.5, DBM.SoundMMPath.."\\defensive.ogg")
+			sndCZ5:Schedule(8.2, DBM.SoundMMPath.."\\defensive.ogg")
 		else
-			sndCZ:Schedule(7, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\aesoon.ogg") --準備AOE
+			sndCZ:Schedule(7, DBM.SoundMMPath.."\\aesoon.ogg") --準備AOE
 		end
 	end
 end
@@ -313,7 +322,7 @@ function mod:SPELL_SUMMON(args)
 		if not shockwaveOvercharged then
 			timerShockwaveMissileCD:Start(nil, missileCount+1)
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fdzb.ogg") --飛彈準備
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fdzb.ogg") --飛彈準備
 	end
 	if not Petowner[args.destGUID] then
 		Petowner[args.destGUID] = args.sourceName
@@ -325,8 +334,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnProtectiveFrenzy:Show(args.destName)
 		specWarnProtectiveFrenzy:Show(args.destName)
 		timerProtectiveFrenzy:Start()
+		for i = 1, 5 do
+			if UnitExists("boss"..i) and UnitIsDead("boss"..i) then
+				local cId = self:GetUnitCreatureId("boss"..i)
+				if assemblyName[cId] then
+					warnInactive:Show(assemblyName[cId])
+				end
+			end
+		end
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\speedup.ogg") --首領加速
+			sndWOP:Play(DBM.SoundMMPath.."\\speedup.ogg") --首領加速
 		end
 	elseif args.spellId == 143385 then
 		if UnitIsPlayer(args.destName) == 1 then
@@ -343,7 +360,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(30, 3) then --BHFIX
 			warnCrawlerMine:Show()
 			specWarnCrawlerMine:Show()
-			sndDL:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\killmine.ogg") --地雷快打
+			if mod:IsRangedDps() then
+				sndWOP:Play(DBM.SoundMMPath.."\\killmine.ogg") --地雷快打
+			end
 			DLneedshow = true
 		end
 		timerBreakinPeriod:Start(args.destName, args.destGUID)
@@ -365,10 +384,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 144466 and self:AntiSpam(15, 1) then--Only way i see to detect magnet activation, antispam is so it doesn't break if a player dies during it.
 		warnMagneticCrush:Show()
 		specWarnMagneticCrush:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dczd.ogg") --電磁震蕩
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dczd.ogg") --電磁震蕩
 	elseif args.spellId == 143856 and args:IsPlayer() and self:AntiSpam(2, 2) then  --BHFIX
 		specWarnSuperheated:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開		
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開		
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -391,11 +410,11 @@ function mod:UNIT_DIED(args)
 		timerDeathFromAboveCD:Cancel(args.destGUID)
 		OverloadCount = 0
 		timerOverloadCD:Cancel()
-		sndCZ:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\aesoon.ogg")
-		sndCZ4:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_4cz.ogg")
-		sndCZ4:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
-		sndCZ5:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_5cz.ogg")
-		sndCZ5:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
+		sndCZ:Cancel(DBM.SoundMMPath.."\\aesoon.ogg")
+		sndCZ4:Cancel(DBM.SoundMMPath.."\\ex_so_bh_4cz.ogg")
+		sndCZ4:Cancel(DBM.SoundMMPath.."\\defensive.ogg")
+		sndCZ5:Cancel(DBM.SoundMMPath.."\\ex_so_bh_5cz.ogg")
+		sndCZ5:Cancel(DBM.SoundMMPath.."\\defensive.ogg")
 	end
 end
 
@@ -414,7 +433,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 		specWarnLaunchSawblade:Show()
 		DBM.Flash:Shake(1, 0, 0)
 		yellLaunchSawblade:Yell()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg") --離開人群
+		sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --離開人群
 		if mod.Options.LTFD then
 			DBM:ShowLTSpecialWarning(143266, 1, 0, 0, 1, 143266, 2)
 		end
@@ -423,14 +442,14 @@ function mod:RAID_BOSS_WHISPER(msg)
 		if self:AntiSpam(5, 4) then
 			specWarnCrawlerMineFixate:Show()
 --			yellCrawlerMineFixate:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dlsd.ogg") --地雷鎖定
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dlsd.ogg") --地雷鎖定
 		end
 	elseif msg:find("Ability_Siege_Engineer_Superheated") then
 		if self:AntiSpam(3, 10) then
 			specWarnLaserFixate:Show()
 			DBM.Flash:Shake(1, 0, 0)
 			yellLaserFixate:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\laserrun.ogg") --快跑,激光點你
+			sndWOP:Play(DBM.SoundMMPath.."\\laserrun.ogg") --快跑,激光點你
 			if mod.Options.LTFD then
 				DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
 			end
@@ -457,27 +476,31 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		specWarnAssemblyLine:Show()
 		weapon = weapon + 1
 		timerAssemblyLineCD:Start(nil, weapon+1)
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:SetHeader(assemblyLine.."("..self.vb.weapon..")")
+			DBM.InfoFrame:Show(1, "function", showWeaponInfo, true)
+		end
 		if weapon == 1 and (not mod.Options.SoundCS2) then
-			sndWOP:Schedule(30, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_tenwq.ogg") --10秒後武器啟動
+			sndWOP:Schedule(30, DBM.SoundMMPath.."\\ex_so_tenwq.ogg") --10秒後武器啟動
 		end
 		
 		if weapon % 2 == 1 then
-			sndCS2:Schedule(30, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_2zu.ogg") --2組
-			sndCS2:Schedule(31, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_2zu.ogg")
+			sndCS2:Schedule(30, DBM.SoundMMPath.."\\ex_so_bh_2zu.ogg") --2組
+			sndCS2:Schedule(31, DBM.SoundMMPath.."\\ex_so_bh_2zu.ogg")
 		end
 		
 		if weapon % 2 == 0 then
-			sndCS1:Schedule(30, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_1zu.ogg") --1組
-			sndCS1:Schedule(31, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bh_1zu.ogg")
+			sndCS1:Schedule(30, DBM.SoundMMPath.."\\ex_so_bh_1zu.ogg") --1組
+			sndCS1:Schedule(31, DBM.SoundMMPath.."\\ex_so_bh_1zu.ogg")
 		end
 		
 		if MyCS() or (mod.Options.optCS == "CSALL") then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_kqcs.ogg") --快去傳送帶
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_kqcs.ogg") --快去傳送帶
 			linemaker = register(DBMHudMap:AddEdge(0, 1, 0, 1, 10, "player", nil, nil, nil, 321, 258))
 			local weaponoption = "optCSKILL"..weapon
 			if mod.Options[weaponoption] == "killdl" then
-				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dddl.ogg") --打掉地雷
-				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dddl.ogg")
+				sndWOP:Schedule(2, DBM.SoundMMPath.."\\ex_so_dddl.ogg") --打掉地雷
+				sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_dddl.ogg")
 				if mod.Options.ShowDps then
 					self:Schedule(40, function()
 						table.wipe(Damagesort)
@@ -492,8 +515,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 					end)
 				end
 			elseif mod.Options[weaponoption] == "killfd" then
-				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ddfd.ogg") --打掉飛彈
-				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ddfd.ogg")
+				sndWOP:Schedule(2, DBM.SoundMMPath.."\\ex_so_ddfd.ogg") --打掉飛彈
+				sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_ddfd.ogg")
 				if mod.Options.ShowDps then
 					self:Schedule(40, function()
 						table.wipe(Damagesort)
@@ -508,8 +531,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 					end)
 				end
 			elseif mod.Options[weaponoption] == "killjg" then
-				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ddjg.ogg") --打掉激光
-				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ddjg.ogg")
+				sndWOP:Schedule(2, DBM.SoundMMPath.."\\ex_so_ddjg.ogg") --打掉激光
+				sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_ddjg.ogg")
 				if mod.Options.ShowDps then
 					self:Schedule(40, function()
 						table.wipe(Damagesort)
@@ -524,8 +547,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 					end)
 				end
 			elseif mod.Options[weaponoption] == "killdc" then
-				sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dddc.ogg") --打掉電磁鐵
-				sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dddc.ogg")
+				sndWOP:Schedule(2, DBM.SoundMMPath.."\\ex_so_dddc.ogg") --打掉電磁鐵
+				sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_dddc.ogg")
 				if mod.Options.ShowDps then
 					self:Schedule(40, function()
 						table.wipe(Damagesort)
@@ -569,7 +592,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		timerDeathFromAboveCD:Start(17)
 		timerAutomatedShredderCD:Start()
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fmjc.ogg") --伐木機出現
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fmjc.ogg") --伐木機出現
 		end
 	end
 end
@@ -595,7 +618,7 @@ function mod:OnSync(msg, guid)
 				local spelltext = GetSpellInfo(143828)..":"..targetName
 				lasermaker[targetName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("targeting", targetName, 5, 5, 1, 0 ,0 ,1):SetLabel(spelltext))
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xxhx.ogg") --小心火線
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xxhx.ogg") --小心火線
 		end
 	end
 end
@@ -702,7 +725,7 @@ function mod:UNIT_AURA(uId)
 				specWarnLaserFixate:Show()
 				DBM.Flash:Shake(1, 0, 0)
 				yellLaserFixate:Yell()
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\laserrun.ogg") --快跑,激光點你
+				sndWOP:Play(DBM.SoundMMPath.."\\laserrun.ogg") --快跑,激光點你
 				if mod.Options.LTFD then
 					DBM:ShowLTSpecialWarning(143828, 1, 0, 0, 1, 143828, 2)
 				end

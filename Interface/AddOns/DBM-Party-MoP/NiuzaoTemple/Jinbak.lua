@@ -1,6 +1,6 @@
 ﻿local mod	= DBM:NewMod(693, "DBM-Party-MoP", 6, 324)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
 mod:SetCreatureID(61567)
@@ -36,7 +36,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSapResidue:Start()
 		if (args.amount or 1) >= 6 and self:AntiSpam(1, 2) then
 			specWarnSapResidue:Show(args.amount)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.mp3")--快躲開
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
 		end
 	end
 end
@@ -46,11 +46,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 120001 then
 		warnDetonate:Show()
 		specWarnDetonate:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\aesoon.ogg")--準備AE
-		sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-		sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(4.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")--準備AE
+		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
 		timerDetonate:Start()
 		timerDetonateCD:Start()
 	end

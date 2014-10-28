@@ -1,7 +1,9 @@
-local mod	= DBM:NewMod(821, "DBM-ThroneofThunder", nil, 362)
+﻿local mod	= DBM:NewMod(821, "DBM-ThroneofThunder", nil, 362)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
+local sndXL	= mod:SoundMM("SoundXL")
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11446 $"):sub(12, -3))
 mod:SetCreatureID(68065, 70235, 70247)--Frozen 70235, Venomous 70247 (only 2 heads that ever start in front, so no need to look for combat with arcane or fire for combat detection)
 mod:SetEncounterID(1578)
 mod:SetMainBossID(68065)
@@ -12,14 +14,14 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"RAID_BOSS_WHISPER",
-	"SPELL_CAST_SUCCESS 140138 139866",
-	"SPELL_AURA_APPLIED 139843 137731 139840 139993 139822",
-	"SPELL_AURA_APPLIED_DOSE 139843 137731 139840 139993",
-	"SPELL_AURA_REMOVED 139822",
-	"SPELL_DAMAGE 139836",
-	"SPELL_MISSED 139836",
-	"SPELL_PERIODIC_DAMAGE 139909",
-	"SPELL_PERIODIC_MISSED 139909",
+	"SPELL_CAST_SUCCESS",
+	"SPELL_AURA_APPLIED",
+	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_REMOVED",
+	"SPELL_DAMAGE",
+	"SPELL_MISSED",
+	"SPELL_PERIODIC_DAMAGE",
+	"SPELL_PERIODIC_MISSED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",
 	"UNIT_DIED"
@@ -44,10 +46,10 @@ local warnNetherTear			= mod:NewSpellAnnounce(140138, 3)--Heroic
 
 local specWarnRampage			= mod:NewSpecialWarningCount(139458, nil, nil, nil, 2)
 local specWarnRampageFaded		= mod:NewSpecialWarningFades(139458)--Spread back out quickly (plus for tanks to get back to heads and face them correctly)
-local specWarnArcticFreeze		= mod:NewSpecialWarningStack(139843, nil, 2)
-local specWarnIgniteFlesh		= mod:NewSpecialWarningStack(137731, nil, 2)
-local specWarnRotArmor			= mod:NewSpecialWarningStack(139840, nil, 2)
-local specWarnArcaneDiffusion	= mod:NewSpecialWarningStack(139993, nil, 2)
+local specWarnArcticFreeze		= mod:NewSpecialWarningStack(139843, mod:IsTank(), 2)
+local specWarnIgniteFlesh		= mod:NewSpecialWarningStack(137731, mod:IsTank(), 2)
+local specWarnRotArmor			= mod:NewSpecialWarningStack(139840, mod:IsTank(), 2)
+local specWarnArcaneDiffusion	= mod:NewSpecialWarningStack(139993, mod:IsTank(), 2)
 local specWarnCinders			= mod:NewSpecialWarningYou(139822)
 local specWarnCindersMove		= mod:NewSpecialWarningMove(139836)--Fire left on ground after the fact
 local yellCinders				= mod:NewYell(139822)
@@ -56,6 +58,7 @@ local yellTorrentofIce			= mod:NewYell(139857)
 local specWarnTorrentofIceNear	= mod:NewSpecialWarningClose(139889)
 local specWarnTorrentofIce		= mod:NewSpecialWarningMove(139909)--Ice left on ground by the beam
 local specWarnNetherTear		= mod:NewSpecialWarningSwitch("ej7816", mod:IsDps())
+local SpecWarnJSA				= mod:NewSpecialWarning("SpecWarnJSA")
 
 local timerRampage				= mod:NewBuffActiveTimer(21, 139458)
 mod:AddBoolOption("timerBreaths", mod:IsTank() or mod:IsHealer(), "timer")--Better to have one option for breaths than 4
@@ -65,20 +68,46 @@ local timerBreathsCD			= mod:NewTimer(16, "timerBreathsCD", 137731, nil, false)-
 
 --TODO, maybe monitor length since last cast and if it's 28 instead of 25, make next timer also 28 for remainder of that head phase (then return to 25 after rampage unless we detect another 28)
 --TODO, Verify timers on normal. WoL bugs out and combines GUIDs making it hard to determine actual CDs in my logs.
---local timerCinderCD				= mod:NewCDTimer(25, 139822, nil, not mod:IsTank())--The cd is either 25 or 28 (either or apparently, no in between). it can even swap between the two in SAME pull
+local timerCinderCD				= mod:NewCDTimer(25, 139822, nil, not mod:IsTank())--The cd is either 25 or 28 (either or apparently, no in between). it can even swap between the two in SAME pull
 local timerTorrentofIce			= mod:NewBuffFadesTimer(11, 139866)
---local timerTorrentofIceCD		= mod:NewCDTimer(25, 139866, nil, not mod:IsTank())--Same as bove, either 25 or 28
---local timerNetherTearCD			= mod:NewCDTimer(25, 140138)--Heroic. Also either 25 or 28. On by default since these require more pre planning than fire and ice.
+local timerTorrentofIceCD		= mod:NewCDTimer(25, 139866, nil, not mod:IsTank())--Same as bove, either 25 or 28
+local timerNetherTearCD			= mod:NewCDTimer(25, 140138)--Heroic. Also either 25 or 28. On by default since these require more pre planning than fire and ice.
 
-local soundCinders				= mod:NewSound(139822)
-local soundTorrentofIce			= mod:NewSound(139889)
+--local soundCinders				= mod:NewSound(139822)
+--local soundTorrentofIce			= mod:NewSound(139889)
 
 mod:AddBoolOption("SetIconOnCinders", true)
 mod:AddBoolOption("SetIconOnTorrentofIce", true)
 
-mod:AddDropdownOption("AnnounceCooldowns", {"Never", "Every", "EveryTwo", "EveryThree", "EveryTwoExcludeDiff", "EveryThreeExcludeDiff"}, "Every", "misc")
---CD order options that change based on raid dps and diffusion strat. With high dps, you need 3 groups, with lower dps (and typically heroic) you need 3. Also, on heroic, many don't cd rampage when high stack diffusion tank can be healed off of to heal raid.
---"Every": for groups that prefer to assign certain rampage numbers to players (e.g. for CD at the 4th rampage only) (maybe "Every" should even be the default option for everyone, beside of any cooldowns?)
+
+mod:AddBoolOption("InfoFrame", true, "sound")
+
+mod:AddBoolOption("HudMAP", true, "sound")
+mod:AddBoolOption("HudMAP2", true, "sound")
+
+local DBMHudMap = DBMHudMap
+local free = DBMHudMap.free
+local function register(e)	
+	DBMHudMap:RegisterEncounterMarker(e)
+	return e
+end
+local FireMarkers = {}
+local IceMarkers = {}
+
+local Ramcount = 0
+local combat = false
+
+for i = 1, 8 do
+	mod:AddBoolOption("dr"..i, false, "sound")
+end
+
+local function MyJS()
+	if (mod.Options.dr1 and Ramcount == 1) or (mod.Options.dr2 and Ramcount == 2) or (mod.Options.dr3 and Ramcount == 3) or (mod.Options.dr4 and Ramcount == 4) or (mod.Options.dr5 and Ramcount == 5) or (mod.Options.dr6 and Ramcount == 6) or (mod.Options.dr7 and Ramcount == 7) or (mod.Options.dr8 and Ramcount == 8) then
+		return true
+	end
+	return false
+end
+
 
 local fireInFront = 0
 local venomInFront = 0
@@ -88,8 +117,6 @@ local fireBehind = 0
 local venomBehind = 0
 local iceBehind = 0
 local arcaneBehind = 0
-local rampageCount = 0
-local rampageCast = 0
 local cinderIcon = 7
 local iceIcon = 6
 local activeHeadGUIDS = {}
@@ -97,22 +124,45 @@ local iceTorrent = GetSpellInfo(139857)
 local torrentExpires = {}
 local arcaneRecent = false
 
+local function showheadinfo()
+	if not combat then return end
+	if mod.Options.InfoFrame then
+		local fireinfob = "|cFFFF6347"..EJ_GetSectionInfo(6998).."|r"
+		local iceinfob = "|cFF0080FF"..EJ_GetSectionInfo(7002).."|r"
+		local venominfob = "|cFF088A08"..EJ_GetSectionInfo(7004).."|r"
+		local arcaneinfob = "|cFFB91FC7"..EJ_GetSectionInfo(7005).."|r"		
+		local fireBehindcolor = "|cFFFF6347"..fireBehind.."|r"
+		local iceBehindcolor = "|cFF0080FF"..iceBehind.."|r"
+		local venomBehindcolor = "|cFF088A08"..venomBehind.."|r"
+		local arcaneBehindcolor = "|cFFB91FC7"..arcaneBehind.."|r"
+		if mod:IsDifficulty("heroic10", "heroic25") then
+			--DBM.InfoFrame:SetHeader(L.Behind.." ("..(Ramcount + 1).."/7)")
+			--DBM.InfoFrame:Show(4, "other", iceBehindcolor, iceinfob, venomBehindcolor, venominfob, fireBehindcolor, fireinfob, arcaneBehindcolor, arcaneinfob)
+		else
+			--DBM.InfoFrame:SetHeader(L.Behind.." ("..(Ramcount + 1).."/7)")
+			--DBM.InfoFrame:Show(3, "other", iceBehindcolor, iceinfob, venomBehindcolor, venominfob, fireBehindcolor, fireinfob)
+		end
+	end
+end
+
 local function warnTorrent(name)
 	if not name then return end
 	warnTorrentofIce:Show(name)
 	if name == UnitName("player") then
-		if mod:AntiSpam(5, 1) then
+		if mod:AntiSpam(2, 6) then
 			specWarnTorrentofIceYou:Show()
 			timerTorrentofIce:Start()
 			yellTorrentofIce:Yell()
+			DBM.Flash:Shake(0, 0, 1)
+			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
 		end
 	else
 		local uId = DBM:GetRaidUnitId(name)
 		if uId then
 			local inRange = DBM.RangeCheck:GetDistance("player", uId)
-			if inRange and inRange < 6 then
-				specWarnTorrentofIceNear:Show(name)
-			end
+		end
+		if inRange and inRange < 6 then
+			specWarnTorrentofIceNear:Show(name)
 		end
 	end
 end
@@ -142,34 +192,33 @@ end
 
 local function CheckHeads(GUID)
 	for i = 1, 5 do
-		if UnitExists("boss"..i) then--Check if new units exist we haven't detected and added yet.
+		if UnitExists("boss"..i) and not activeHeadGUIDS[UnitGUID("boss"..i)] then--Check if new units exist we haven't detected and added yet.
+			activeHeadGUIDS[UnitGUID("boss"..i)] = true
 			local cid = mod:GetCIDFromGUID(UnitGUID("boss"..i))
-			if not activeHeadGUIDS[UnitGUID("boss"..i)] then
-				activeHeadGUIDS[UnitGUID("boss"..i)] = true
-				if cid == 70235 then--Frozen
-					iceInFront = iceInFront + 1
-					if iceBehind > 0 then
-						iceBehind = iceBehind - 1
-					end
-				elseif cid == 70212 then--Flaming
-					fireInFront = fireInFront + 1
-					if fireBehind > 0 then
-						fireBehind = fireBehind - 1
-					end
-				elseif cid == 70247 then--Venomous
-					venomInFront = venomInFront + 1
-					if venomBehind > 0 then
-						venomBehind = venomBehind - 1
-					end
-				elseif cid == 70248 then--Arcane
-					arcaneInFront = arcaneInFront + 1
-					if arcaneBehind > 0 then
-						arcaneBehind = arcaneBehind - 1
-					end
+			if cid == 70235 then--Frozen
+				iceInFront = iceInFront + 1
+				if iceBehind > 0 then
+					iceBehind = iceBehind - 1
+				end
+			elseif cid == 70212 then--Flaming
+				fireInFront = fireInFront + 1
+				if fireBehind > 0 then
+					fireBehind = fireBehind - 1
+				end
+			elseif cid == 70247 then--Venomous
+				venomInFront = venomInFront + 1
+				if venomBehind > 0 then
+					venomBehind = venomBehind - 1
+				end
+			elseif cid == 70248 then--Arcane
+				arcaneInFront = arcaneInFront + 1
+				if arcaneBehind > 0 then
+					arcaneBehind = arcaneBehind - 1
 				end
 			end
 		end
 	end
+	showheadinfo()
 end
 
 local function clearHeadGUID(GUID)
@@ -178,28 +227,31 @@ end
 
 function mod:OnCombatStart(delay)
 	table.wipe(activeHeadGUIDS)
-	rampageCount = 0
-	rampageCast = 0
+	table.wipe(FireMarkers)
+	table.wipe(IceMarkers)
 	fireInFront = 0
 	venomInFront = 0
 	iceInFront = 0
 	fireBehind = 1
 	venomBehind = 0
 	iceBehind = 0
+	Ramcount = 0
+	combat = true
 	cinderIcon = 7
 	iceIcon = 6
 	table.wipe(torrentExpires)
-	if self:IsHeroic() then
+	if self:IsDifficulty("heroic10", "heroic25") then
 		arcaneBehind = 1
 		arcaneInFront = 0
 		arcaneRecent = false
---[[		timerCinderCD:Start(13)
+		timerCinderCD:Start(13)
 		timerNetherTearCD:Start()
 	elseif self:IsDifficulty("normal10", "normal25") then
 		timerCinderCD:Start()
 	else
-		timerCinderCD:Start(58)--]]
+		timerCinderCD:Start(58)
 	end
+	showheadinfo()
 	self:RegisterShortTermEvents(
 		"INSTANCE_ENCOUNTER_ENGAGE_UNIT"--We register here to prevent detecting first heads on pull before variables reset from first engage fire. We'll catch them on delayed engages fired couple seconds later
 	)
@@ -207,32 +259,42 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
+	combat = false
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Hide()
+	end
+	if self.Options.HudMAP or self.Options.HudMAP2 then
+		DBMHudMap:FreeEncounterMarkers()
+	end
 end
 
 function mod:RAID_BOSS_WHISPER(msg)
-	if msg:find("spell:139866") and self:AntiSpam(5, 1) then
+	if msg:find("spell:139866") and self:AntiSpam(2, 6) then
 		specWarnTorrentofIceYou:Show()
+		timerTorrentofIce:Start()
 		yellTorrentofIce:Yell()
-		soundTorrentofIce:Play()
+		DBM.Flash:Shake(0, 0, 1)
+		sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
 	end
 end
 
 
 function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 140138 then
+	if args.spellId == 140138 then
 		warnNetherTear:Show()
 		specWarnNetherTear:Show()
---		timerNetherTearCD:Start(args.sourceGUID)
-	elseif spellId == 139866 then
---		timerTorrentofIceCD:Start(args.sourceGUID)
+		timerNetherTearCD:Start(args.sourceGUID)
+		if self:AntiSpam(10, 5) then
+			sndXL:Play(DBM.SoundMMPath.."\\dragonnow.ogg")  --小龍出現
+		end
+	elseif args.spellId == 139866 then
+		timerTorrentofIceCD:Start(args.sourceGUID)
 		findTorrent()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	local spellId = args.spellId
-	if spellId == 139843 then
+	if args.spellId == 139843 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -241,13 +303,13 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnArcticFreeze:Show(amount)
 			end
 			if not self.Options.timerBreaths then return end
-			if rampageCount == 0 then--In first phase, the breaths aren't at same time because the cds don't start until the specific head is engaged, thus, they can be desynced 1-3 seconds, so we want each breath to use it's own timer until after first rampage
+			if Ramcount == 0 then--In first phase, the breaths aren't at same time because the cds don't start until the specific head is engaged, thus, they can be desynced 1-3 seconds, so we want each breath to use it's own timer until after first rampage
 				timerArcticFreezeCD:Start()
 			else
 				timerBreathsCD:Start()
 			end
 		end
-	elseif spellId == 137731 then
+	elseif args.spellId == 137731 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -258,7 +320,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if not self.Options.timerBreaths then return end
 			timerBreathsCD:Start()
 		end
-	elseif spellId == 139840 then
+	elseif args.spellId == 139840 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -267,13 +329,13 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnRotArmor:Show(amount)
 			end
 			if not self.Options.timerBreaths then return end
-			if rampageCount == 0 then--In first phase, the breaths aren't at same time because the cds don't start until the specific head is engaged, thus, they can be desynced 1-3 seconds, so we want each breath to use it's own timer until after first rampage
+			if Ramcount == 0 then--In first phase, the breaths aren't at same time because the cds don't start until the specific head is engaged, thus, they can be desynced 1-3 seconds, so we want each breath to use it's own timer until after first rampage
 				timerRotArmorCD:Start()
 			else
 				timerBreathsCD:Start()
 			end
 		end
-	elseif spellId == 139993 then
+	elseif args.spellId == 139993 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -284,13 +346,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			if not self.Options.timerBreaths then return end
 			timerBreathsCD:Start()
 		end
-	elseif spellId == 139822 then
+	elseif args.spellId == 139822 then
 		warnCinders:Show(args.destName)
---		timerCinderCD:Start(args.sourceGUID)
+		timerCinderCD:Start(args.sourceGUID)
 		if args:IsPlayer() then
 			specWarnCinders:Show()
 			yellCinders:Yell()
-			soundCinders:Play()
+--			soundCinders:Play()
+			DBM.Flash:Shake(1, 0, 0)
+			sndWOP:Play(DBM.SoundMMPath.."\\firerun.ogg")  --快跑 火焰點你
+		end
+		if self.Options.HudMAP then
+			local spelltext = GetSpellInfo(139822)
+			FireMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", args.destName, 3, 10, 1, 0 ,0 ,0.8):SetLabel(spelltext))
 		end
 		if self.Options.SetIconOnCinders then
 			self:SetIcon(args.destName, cinderIcon)
@@ -305,15 +373,23 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	local spellId = args.spellId
-	if spellId == 139822 and self.Options.SetIconOnCinders then
-		self:SetIcon(args.destName, 0)
+	if args.spellId == 139822 then
+		if args:IsPlayer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")
+		end
+		if FireMarkers[args.destName] then
+			FireMarkers[args.destName] = free(FireMarkers[args.destName])
+		end
+		if self.Options.SetIconOnCinders then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 
 function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 139836 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnCindersMove:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -321,39 +397,40 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 139909 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnTorrentofIce:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:139458") then
-		rampageCount = rampageCount + 1
-		warnRampage:Show(rampageCount)
-		specWarnRampage:Show(rampageCount)
+		Ramcount = Ramcount + 1
+		warnRampage:Show(Ramcount)
+		specWarnRampage:Show(Ramcount)
 		timerArcticFreezeCD:Cancel()
 		timerRotArmorCD:Cancel()
 		timerBreathsCD:Cancel()
---		timerCinderCD:Cancel()
---		timerTorrentofIceCD:Cancel()
---		timerNetherTearCD:Cancel()
-		timerRampage:Start()
-		if not (self.Options.AnnounceCooldowns == "Every") then
-			if ((self.Options.AnnounceCooldowns == "EveryTwoExcludeDiff") or (self.Options.AnnounceCooldowns == "EveryTwo")) and rampageCast >= 2 then rampageCast = 0 end--Option is set to one of the twos and we're already at 2, reset cast count
-			if rampageCast >= 3 then rampageCast = 0 end--We already checked and know option isn't set to 2 or never, so it's definitely set to 3, no need to check option.
-		end
-		if (self.Options.AnnounceCooldowns == "Never") or (arcaneInFront > 0 or arcaneRecent) and ((self.Options.AnnounceCooldowns == "EveryTwoExcludeDiff") or (self.Options.AnnounceCooldowns == "EveryThreeExcludeDiff")) then return end--You have a diffused player, don't call out cds
-		rampageCast = rampageCast + 1
-		DBM:PlayCountSound(rampageCast)
+		timerCinderCD:Cancel()
+		timerTorrentofIceCD:Cancel()
+		timerNetherTearCD:Cancel()
+		timerRampage:Start()	
+		if MyJS() then
+			SpecWarnJSA:Show()
+			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+		else
+			DBM:PlayCountSound(Ramcount)
+		end		
 	elseif msg == L.rampageEnds or msg:find(L.rampageEnds) then
 		arcaneRecent = false
 		warnRampageFaded:Show()
 		specWarnRampageFaded:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
 		if self.Options.timerBreaths then
 			timerBreathsCD:Start(10)
 		end
 		--timers below may need adjusting by 1-2 seconds as I had to substitute last rampage SPELL_DAMAGE event for rampage ends emote when i reg expressioned these timers on WoL
---[[		if iceBehind > 0 then
-			if self:IsHeroic() then
+		if iceBehind > 0 then
+			if self:IsDifficulty("heroic10", "heroic25") then
 				timerTorrentofIceCD:Start(12)--12-17 second variation on heroic
 			else
 				timerTorrentofIceCD:Start(8)--8-12 second variation on normal
@@ -368,7 +445,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		end
 		if arcaneBehind > 0 then
 			timerNetherTearCD:Start(15)--15-18 seconds after rampages end
-		end--]]
+		end
 	end
 end
 
@@ -382,6 +459,7 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 70628 then--Permanent Feign Death
 		local cid = self:GetCIDFromGUID(UnitGUID(uId))
+		sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg")--快集合
 		if cid == 70235 then--Frozen
 			iceInFront = iceInFront - 1
 			iceBehind = iceBehind + 2
@@ -396,6 +474,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			arcaneBehind = arcaneBehind + 2
 			arcaneRecent = true
 		end
+		showheadinfo()
 	end
 end
 

@@ -1,11 +1,12 @@
-local mod	= DBM:NewMod(846, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(846, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 10326 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11360 $"):sub(12, -3))
 mod:SetCreatureID(71454)
+mod:SetEncounterID(1595)
 mod:SetZone()
-mod:SetUsedIcons(4, 3, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 4, 3, 2, 1)
 
 mod:RegisterCombat("combat")
 
@@ -213,10 +214,10 @@ function mod:OnCombatStart(delay)
 	timerSeismicSlamCD:Start(5-delay, 1)
 	timerArcingSmashCD:Start(11-delay, 1)
 	timerBreathofYShaarjCD:Start(-delay, 1)
-	sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yszb.ogg") --亞煞極之息準備
-	sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-	sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-	sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+	sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
+	sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
+	sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
+	sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
 	timerBloodRageCD:Start(122-delay)
 	if self:IsLFR() then
 		berserkTimer:Start(720-delay)
@@ -226,8 +227,8 @@ function mod:OnCombatStart(delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
-	if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
-		if not self:IsLFR() then
+	--[[if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
+		if self:IsHeroic() or self:IsMythic() then
 			ExRT:MalkorokAILoad()
 		else
 			ExRT:MalkorokLoad()
@@ -244,7 +245,7 @@ function mod:OnCombatStart(delay)
 		showShieldLT()
 	else
 		needshowshield = false
-	end
+	end]]--
 	--BH ADD END
 end
 
@@ -271,7 +272,7 @@ function mod:SPELL_CAST_START(args)
 		displacedCast = false
 		warnBloodRage:Show()
 		specWarnBloodRage:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\gather.ogg")--快集合
+		sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg")--快集合
 --		timerBloodRage:Start()
 		timerDisplacedEnergyCD:Start(3.5)
 	elseif args.spellId == 142842 then
@@ -284,24 +285,24 @@ function mod:SPELL_CAST_START(args)
 			timerSeismicSlamCD:Start(5, 1)
 			timerArcingSmashCD:Start(11, 1)
 			timerBreathofYShaarjCD:Start(nil, 2)
-			sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yszb.ogg") --亞煞極之息準備
-			sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
+			sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
 		end
 	elseif args.spellId == 143199 then
 		breathCast = 0
 		arcingSmashCount = 0
 		seismicSlamCount = 0
 		specWarnBloodRageEnded:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\scattersoon.ogg")--注意分散
+		sndWOP:Play(DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
 		timerSeismicSlamCD:Start(5, 1)
 		timerArcingSmashCD:Start(11, 1)
 		timerBreathofYShaarjCD:Start(nil, 1)
-		sndWOP:Schedule(67, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yszb.ogg") --亞煞極之息準備
-		sndWOP:Schedule(68, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(69, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(70, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
+		sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
 		timerBloodRageCD:Start()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(5)
@@ -336,15 +337,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDisplacedEnergy:Show()
 --			soundDisplacedEnergy:Play()
 			yellDisplacedEnergy:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg")
-			sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg")
-			sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countseven.ogg")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countsix.ogg")
-			sndWOP:Schedule(4.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfive.ogg")
-			sndWOP:Schedule(5.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-			sndWOP:Schedule(6.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Schedule(7.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Schedule(8.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Schedule(1, DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countseven.ogg")
+			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countsix.ogg")
+			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countfive.ogg")
+			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfour.ogg")
+			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\countone.ogg")
 		end
 		if self.Options.HudMAP then
 			DisplacedMaker[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 8, 9, 0, 1, 0, 0.6):Appear():RegisterForAlerts():Rotate(360, 9.5))
@@ -371,7 +372,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				if not UnitDebuff("player", GetSpellInfo(142990)) and not UnitIsDeadOrGhost("player") then
 					specWarnFatalStrikeOther:Show(args.destName)
 					if mod:IsTank() then
-						sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\changemt.ogg") --換坦嘲諷
+						sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
 					end
 				end
 			end
@@ -384,15 +385,15 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 142913 then
 		playerDebuffs = playerDebuffs - 1
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\safenow.ogg") --安全
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countseven.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countsix.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfive.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg") --安全
+			sndWOP:Cancel(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
 			if self.Options.RangeFrame and playerDebuffs >= 1 then
 				DBM.RangeCheck:Show(10, debuffFilter)--Change to debuff filter based check since theirs is gone but there are still others in raid.
 			end
@@ -418,11 +419,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerImplodingEnergy:Start()
 --		countdownImplodingEnergy:Start()
 		specWarnImplodingEnergySoon:Schedule(5)
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yhz.ogg") --圓弧斬快躲
-		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fscq.ogg") --分散踩圈
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_yhz.ogg") --圓弧斬快躲
+		sndWOP:Schedule(5, DBM.SoundMMPath.."\\ex_so_fscq.ogg") --分散踩圈
 		if MyJS() then
-			sndWOP:Schedule(5.8, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg") --注意減傷
-			sndWOP:Schedule(6.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
+			sndWOP:Schedule(5.8, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\defensive.ogg")
 		end
 		if arcingSmashCount < 3 then
 			timerArcingSmashCD:Start(nil, arcingSmashCount+1)

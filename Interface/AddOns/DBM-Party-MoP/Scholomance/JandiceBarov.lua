@@ -1,9 +1,9 @@
-local mod	= DBM:NewMod(663, "DBM-Party-MoP", 7, 246)
+﻿local mod	= DBM:NewMod(663, "DBM-Party-MoP", 7, 246)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
 mod:SetCreatureID(59184)--59220 seem to be her mirror images
-mod:SetEncounterID(1427)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -11,6 +11,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_START",
+	"SPELL_DAMAGE",
+	"SPELL_MISSED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -28,6 +30,9 @@ function mod:GravityFluxTarget()
 	local targetname = self:GetBossTarget(59184)
 	if not targetname then return end
 	warnGravityFlux:Show(targetname)
+	if (targetname == UnitName("player")) and (not mod:IsTank()) then
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+	end
 end
 
 function mod:OnCombatStart(delay)
@@ -45,6 +50,9 @@ function mod:SPELL_CAST_START(args)
 		warnWondrousRapidity:Show()
 		specWarnWondrousRapdity:Show()
 		timerWondrousRapidity:Start()
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		end
 	end
 end
 
@@ -57,3 +65,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerGravityFlux:Cancel()
 	end
 end
+
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)--120037 is a weak version of same spell by exit points, 115219 is the 50k per second icewall that will most definitely wipe your group if it consumes the room cause you're dps sucks.
+	if spellId == 114062 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
+		specWarnWondrousRapdity:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+	end
+end
+mod.SPELL_MISSED = mod.SPELL_DAMAGE

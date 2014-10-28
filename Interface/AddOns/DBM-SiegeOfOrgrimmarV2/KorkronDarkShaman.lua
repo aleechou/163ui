@@ -1,10 +1,10 @@
-local mod	= DBM:NewMod(856, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(856, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
-local sndTL		= mod:NewSound(nil, false, "SoundTL")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 10415 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11360 $"):sub(12, -3))
 mod:SetCreatureID(71859, 71858)--haromm, Kardris
+mod:SetEncounterID(1606)
 mod:SetZone()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 
@@ -139,17 +139,17 @@ function mod:FoulStreamTarget(targetname, uId)
 	if not targetname then return end
 	if self:IsTanking(uId) then--Never target tanks, so if target is tank, that means scanning failed.
 		specWarnFoulStream:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xxsl.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xxsl.ogg")
 	else
 		warnFoulStream:Show(targetname)
 		timerFoulStreamCD:Start()
 		if targetname == UnitName("player") then
 			specWarnFoulStreamYou:Show()
 			yellFoulStream:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xxsl.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xxsl.ogg")
 		else
 			specWarnFoulStream:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xxsl.ogg") --小心水流
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xxsl.ogg") --小心水流
 		end
 	end
 end
@@ -196,7 +196,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(71858, "ToxicStormTarget", 0.5, 5)
 		timerToxicStormCD:Start()
 		specWarnToxicStormFix:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\wwsoon.ogg") --準備旋風
+		sndWOP:Play(DBM.SoundMMPath.."\\wwsoon.ogg") --準備旋風
 	elseif args.spellId == 144090 and mod.Options.SoundEnh then
 		self:BossTargetScanner(71859, "FoulStreamTarget", 0.05, 16)
 	elseif args.spellId == 143990 and mod.Options.SoundEle then
@@ -207,22 +207,22 @@ function mod:SPELL_CAST_START(args)
 		warnAshenWall:Show()
 		timerAshenWallCD:Start()
 		specWarnAshenWall:Show()--Give special warning cause this ability concerns you
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yszq.ogg") --元素之牆
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_yszq.ogg") --元素之牆
 	elseif args.spellId == 143973 then
 		ashCount = ashCount + 1
 		warnFallingAsh:Show()
 		timerFallingAshCD:Start()
 		timerFallingAsh:Start()
 		specWarnFallingAsh:Show()--Give special warning cause this ability concerns you
-		sndWOP:Schedule(10, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_wmys.ogg") -- 5s後隕石爆炸
+		sndWOP:Schedule(10, DBM.SoundMMPath.."\\ex_so_wmys.ogg") -- 5s後隕石爆炸
 		if MyJS() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(12, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
 		else
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
+			sndWOP:Schedule(12, DBM.SoundMMPath.."\\countfour.ogg")
 		end
-		sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(15, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Schedule(13, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(14, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(15, DBM.SoundMMPath.."\\countone.ogg")
 		if ashCount == 6 then ashCount = 0 end
 	elseif args.spellId == 144330 and mod.Options.SoundEle then
 		warnIronPrison:Show()
@@ -231,37 +231,37 @@ function mod:SPELL_CAST_START(args)
 		warnIronTomb:Show()
 		timerIronTombCD:Start()
 		specWarnIronTomb:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\watchstep.ogg") --注意腳下
+		sndWOP:Play(DBM.SoundMMPath.."\\watchstep.ogg") --注意腳下
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 144288 and self:AntiSpam() then
 		warnPoisonmistTotem:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dwtt.ogg") --毒霧圖騰
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dwtt.ogg") --毒霧圖騰
 	elseif args.spellId == 144289 and self:AntiSpam() then
 		warnFoulstreamTotem:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_wltt.ogg") --污流圖騰
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_wltt.ogg") --污流圖騰
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(4)
 		end
 	elseif args.spellId == 144290 and self:AntiSpam() then
 		warnAshflareTotem:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_hhtt.ogg") --灰火圖騰
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hhtt.ogg") --灰火圖騰
 	elseif args.spellId == 144291 and self:AntiSpam() then
 		warnRustedIronTotem:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xttt.ogg") --鏽鐵圖騰
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xttt.ogg") --鏽鐵圖騰
 	elseif args.spellId == 143990 and mod.Options.SoundEle then
 		warnFoulGeyser:Show(args.destName)
 		if args:IsPlayer() then
 			yellFoulGeyser:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_rnkd.ogg") --软泥快打
-			sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zbrn.ogg") --準備軟泥
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_rnkd.ogg") --软泥快打
+			sndWOP:Schedule(28, DBM.SoundMMPath.."\\ex_so_zbrn.ogg") --準備軟泥
 		else
 			if not mod:IsMeleeDps() then
 				specWarnFoulGeyser:Show()
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_rnkd.ogg")
-				sndWOP:Schedule(28, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zbrn.ogg")
+				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_rnkd.ogg")
+				sndWOP:Schedule(28, DBM.SoundMMPath.."\\ex_so_zbrn.ogg")
 			end
 		end
 	end
@@ -296,10 +296,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellIronPrisonFades:Schedule(57, playerName, 3)
 			yellIronPrisonFades:Schedule(56, playerName, 4)
 			yellIronPrisonFades:Schedule(55, playerName, 5)
-			sndWOP:Schedule(55, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\holdit.ogg") --快開自保
+			sndWOP:Schedule(55, DBM.SoundMMPath.."\\holdit.ogg") --快開自保
 		end
 		if self:AntiSpam(5, 1) then
-			sndTL:Schedule(50, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_tentl.ogg") --10秒後鐵牢
+			sndWOP:Schedule(50, DBM.SoundMMPath.."\\ex_so_tentl.ogg") --10秒後鐵牢
 		end
 	elseif args.spellId == 144215 and mod.Options.SoundEnh then
 		local amount = args.amount or 1
@@ -313,7 +313,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				specWarnFroststormStrikeOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\changemt.ogg") --換坦嘲諷
+					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
 				end
 			end
 		end
@@ -330,6 +330,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		specWarnIronPrison:Cancel()
 		yellIronPrisonFades:Cancel()
 		timerIronPrison:Cancel()
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Sound-Yike\\yike\\holdit.ogg")
+		sndWOP:Cancel(DBM.SoundMMPath.."\\holdit.ogg")
 	end
 end

@@ -79,14 +79,14 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(670)
 
-L:SetWarningLocalization({
-	SpecWarnFizzyBubbles	= "接触气泡！"
-})
-
 L:SetOptionLocalization({
 	SoundWOP			= "语音警告：重要技能",
-	SpecWarnFizzyBubbles	= "特殊警报：当你没有受到$spell:114459效果影响时",
-	RangeFrame				= "距离监视（10码）：$spell:106546"
+	SpecWarnFizzyBubbles	= "特别警告：缺少$spell:114459",
+	RangeFrame				= "距离监视(10码)：$spell:106546"
+})
+
+L:SetWarningLocalization({
+	SpecWarnFizzyBubbles	= "去拿泡泡飞起来!"
 })
 
 -----------------------
@@ -255,16 +255,16 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(738)
 
 L:SetTimerLocalization({
-	TimerWave	= "下一批敌人：%s"
+	TimerWave	= "开始进攻: %s"
 })
 
 L:SetOptionLocalization({
-	TimerWave	= "计时条：下一批敌人",
+	TimerWave	= "计时器：下一波小怪",
 	SoundWOP	= "语音警告：重要技能"
 })
 
 L:SetMiscLocalization({
-	WaveStart	= "蠢货！竟敢正面挑战强大的螳螂妖？你会死得很快的。",
+	WaveStart		= "蠢货！竟敢正面挑战强大的螳螂妖？你会死得很快的。",
 	Mob			= "加入了战斗。"
 })
 
@@ -322,12 +322,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(665)
 
 L:SetWarningLocalization({
-	SpecWarnGetBoned	= "快去获得骨甲"
+	SpecWarnGetBoned	= "快去拿骨甲!",
 })
 
 L:SetOptionLocalization({
-	SpecWarnGetBoned	= "特殊警报：当你没有受到$spell:113996效果影响时",
-	InfoFrame			= "信息框：没有受到$spell:113996效果影响的玩家",
+	SpecWarnGetBoned	= "特别警告：缺少$spell:113996",
+	InfoFrame			= "信息框： 缺少$spell:113996的团队成员",
 	SoundWOP			= "语音警告：重要技能"
 })
 
@@ -410,13 +410,14 @@ L= DBM:GetModLocalization(671)
 
 L:SetOptionLocalization({
 	SoundWOP			= "语音警告：重要技能",
-	KickArrow	= "DBM箭头：$spell:114487接近你时"
+	KickArrow	= "DBM箭头：$spell:114487接近你时",
 })
 
 -----------------------
 -- Durand/High Inquisitor Whitemane --
 -----------------------
 L= DBM:GetModLocalization(674)
+
 
 L:SetOptionLocalization({
 	SoundWOP			= "语音警告：重要技能"

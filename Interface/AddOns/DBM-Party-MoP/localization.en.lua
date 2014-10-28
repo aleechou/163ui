@@ -9,6 +9,7 @@ local L
 L= DBM:GetModLocalization(672)
 
 L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
 	SetIconOnAdds	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format("ej5616")
 })
 
@@ -17,12 +18,13 @@ L:SetOptionLocalization({
 -----------------------
 L= DBM:GetModLocalization(664)
 
-L:SetWarningLocalization({
-	SpecWarnIntensity	= "%s on %s (%d)"
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
+	SpecWarnIntensity	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(6, 113315)
 })
 
-L:SetOptionLocalization({
-	SpecWarnIntensity	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(6, 113315)
+L:SetWarningLocalization({
+	SpecWarnIntensity	= "%s on %s (%d)"
 })
 
 -----------------------
@@ -30,10 +32,18 @@ L:SetOptionLocalization({
 -----------------------
 L= DBM:GetModLocalization(658)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Sha of Doubt --
 -----------------------
 L= DBM:GetModLocalization(335)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 -----------------------
 -- <<<Stormstout Brewery>>> --
@@ -43,23 +53,36 @@ L= DBM:GetModLocalization(335)
 -----------------------
 L= DBM:GetModLocalization(668)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Hoptallus --
 -----------------------
 L= DBM:GetModLocalization(669)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
+L:SetMiscLocalization({
+	Tuzi				= "Hoptallus lets out a loud screech! The virmen are coming!"
+})
 
 -----------------------
 -- Yan Zhu the Uncasked --
 -----------------------
 L= DBM:GetModLocalization(670)
 
-L:SetWarningLocalization({
-	SpecWarnFizzyBubbles	= "Get Fizzy Bubble and fly"
+L:SetOptionLocalization({
+	SoundWOP 				= "Voice Warning: Important Skills",
+	SpecWarnFizzyBubbles	= "Show special warning when you are missing $spell:114459 debuff",
+	RangeFrame				= "Show range frame (10) for $spell:106546",
 })
 
-L:SetOptionLocalization({
-	SpecWarnFizzyBubbles	= "Show special warning when you are missing $spell:114459 debuff",
-	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT:format(10, 106546)
+L:SetWarningLocalization({
+	SpecWarnFizzyBubbles	= "Get Fizzy Bubble and fly"
 })
 
 -----------------------
@@ -75,7 +98,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	warnStaticField	= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell:format(106923)
+	warnStaticField	= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell:format(106923),
+	SoundWOP 		= "Voice Warning: Important Skills"
 })
 
 -----------------------
@@ -88,7 +112,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	warnRemainingNovice	= "Announce how many Novices remain"
+	warnRemainingNovice	= "Announce how many Novices remain",
+	SoundWOP 		= "Voice Warning: Important Skills"
 })
 
 L:SetMiscLocalization({
@@ -102,8 +127,12 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(685)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 L:SetMiscLocalization({
-	Kill		= "So long has violence lurks in your heart...I will return..."
+	Kill		= "So long has violence lurks in your heart...I will return...",
 })
 
 -----------------------
@@ -112,19 +141,20 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(686)
 
 L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
 	InfoFrame			= "Show info frame for $journal:5827"
 })
 
 -----------------------
 -- <<<The Gate of the Setting Sun>>> --
 -----------------------
-
 ---------------------
 -- Kiptilak --
 ---------------------
 L= DBM:GetModLocalization(655)
 
 L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
 	IconOnSabotage	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(107268)
 })
 
@@ -132,6 +162,10 @@ L:SetOptionLocalization({
 -- Gadok --
 -------------
 L= DBM:GetModLocalization(675)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 L:SetMiscLocalization({
 	StaffingRun		= "Striker Ga'dok prepares to make a strafing run!"
@@ -142,10 +176,24 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(676)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------------
 -- Raigonn --
 -----------------------------
 L= DBM:GetModLocalization(649)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
+L:SetMiscLocalization({
+	Kkxka		= "messenger",
+	Kkxkb		= "protecter",
+	Kkxkc		= "Devourer"
+})
 
 -----------------------
 -- <<<Mogu'Shan Palace>>> --
@@ -163,15 +211,27 @@ L:SetMiscLocalization({
 	Defeat		= "Who allowed these outsiders inside our halls? Only Clan Harthak or Clan Kargesh would stoop to such treachery!"
 })
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Gekkan --
 -----------------------
 L= DBM:GetModLocalization(690)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Weaponmaster Xin --
 -----------------------
 L= DBM:GetModLocalization(698)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 -----------------------
 -- <<<Siege of Niuzao Temple>>> --
@@ -180,6 +240,10 @@ L= DBM:GetModLocalization(698)
 -- Jinbak --
 -----------------------
 L= DBM:GetModLocalization(693)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 -----------------------
 -- Vo'jak --
@@ -191,11 +255,13 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
 	TimerWave	= "Show timer for next mob wave"
 })
 
 L:SetMiscLocalization({
-	WaveStart	= "Fools! Attacking the might of the mantid head on?  Your deaths will be swift."
+	WaveStart	= "Fools! Attacking the might of the mantid head on?  Your deaths will be swift.",
+	Mob			= "joins the battle"
 })
 
 -----------------------
@@ -203,10 +269,27 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(692)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Neronok --
 -----------------------
 L= DBM:GetModLocalization(727)
+
+L:SetMiscLocalization({
+	Fly		= "fly to"
+})
+
+L:SetWarningLocalization({
+	specWarnFly	= "GO GO GO!",
+})
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills",
+	specWarnFly		= "Special warning: When the boss to fly to the other end of the bridge"
+})
 
 -----------------------
 -- <<<Scholomance>>> --
@@ -216,10 +299,18 @@ L= DBM:GetModLocalization(727)
 -----------------------
 L= DBM:GetModLocalization(659)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Jandice Barov --
 -----------------------
 L= DBM:GetModLocalization(663)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 -----------------------
 -- Rattlegore --
@@ -231,6 +322,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
+	SoundWOP 			= "Voice Warning: Important Skills",
 	SpecWarnGetBoned	= "Show special warning when you are missing $spell:113996 debuff",
 	InfoFrame			= "Show info frame for players not affected by $spell:113996"
 })
@@ -248,10 +340,18 @@ L:SetMiscLocalization({
 	Kill	= "DIE, NECROMANCER!"
 })
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Darkmaster Gandling --
 -----------------------
 L= DBM:GetModLocalization(684)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 -----------------------
 -- <<<Scarlet Halls>>> --
@@ -261,10 +361,18 @@ L= DBM:GetModLocalization(684)
 -----------------------
 L= DBM:GetModLocalization(660)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Harlan --
 -----------------------
 L= DBM:GetModLocalization(654)
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
 
 L:SetMiscLocalization({
 	Call		= "Armsmaster Harlan calls on two of his allies to join the fight!"
@@ -275,6 +383,10 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(656)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- <<<Scarlet Cathedral>>> --
 -----------------------
@@ -283,16 +395,26 @@ L= DBM:GetModLocalization(656)
 -----------------------
 L= DBM:GetModLocalization(688)
 
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
+
 -----------------------
 -- Korlof --
 -----------------------
 L= DBM:GetModLocalization(671)
 
 L:SetOptionLocalization({
-	KickArrow	= "Show DBM arrow when $spell:114487 is near you"
+	SoundWOP 		= "Voice Warning: Important Skills",
+	KickArrow	= "Show DBM arrow when $spell:114487 is near you",
 })
 
 -----------------------
 -- Durand/High Inquisitor Whitemane --
 -----------------------
 L= DBM:GetModLocalization(674)
+
+
+L:SetOptionLocalization({
+	SoundWOP 		= "Voice Warning: Important Skills"
+})
