@@ -491,7 +491,6 @@ local function ChatFilter_Rubbish(self, event, msg, player, _, _, _, flag, _, _,
 				ChatFilterLv:SetScript("OnEvent", function(self, event)
 					if (event == "FRIENDLIST_UPDATE") then
 						if (not GetFriendInfo(addedplayer)) then
-							adding = nil
 							ShowFriends()
 						else
 							addedtime = GetTime()
