@@ -36,7 +36,7 @@ cf.Config = {
 	["RepeatAlike"] = 85, --Set the similarity between the messages. // 设定重复信息相似度
 	["RepeatInterval"] = 30, --Set the interval between the messages. // 设定重复信息间隔时间(秒)
 
-	["FilterByLevel"] = true, --Filter the messages by level. // 屏蔽小号发言
+	["FilterByLevel"] = nil, --Filter the messages by level. // 屏蔽小号发言
 	["OnlyOnWhisper"] = nil, --Only filter the whisper messages. // 只过滤密语
 	["AllowLevel"] = 10, --Filter the messages by level. // 屏蔽多少级以下的发言
 
