@@ -1,0 +1,8 @@
+2014-10-31  Goldpaw  <Goldpaw>
+
+[027656d9fc54] [Release-r1]
+* .pkgmeta, Masque_Goldpaw.lua, Masque_Goldpaw.toc, textures/gUI4_Button_36x36_Backdrop_Warcraft.tga, textures/gUI4_Button_36x36_Checked_Warcraft.tga, textures/gUI4_Button_36x36_Empty_Warcraft.tga, textures/gUI4_Button_36x36_Gloss_Warcraft.tga, textures/gUI4_Button_36x36_Highlight_Warcraft.tga, textures/gUI4_Button_36x36_Normal_Warcraft.tga, textures/gUI4_Button_44x44_Backdrop_Warcraft.tga, textures/gUI4_Button_44x44_Checked_Warcraft.tga, textures/gUI4_Button_44x44_Empty_Warcraft.tga, textures/gUI4_Button_44x44_Gloss_Warcraft.tga, textures/gUI4_Button_44x44_Highlight_Warcraft.tga, textures/gUI4_Button_44x44_Normal_Warcraft.tga:
+
+- first commit
+
+

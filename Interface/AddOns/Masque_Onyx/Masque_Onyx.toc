@@ -4,7 +4,7 @@
 ## Author: StormFX
 ## Notes: Onyx skins for Masque.
 ## Notes-zhTW: Masque的Onyx皮膚。
-## Notes-zhCN: Masque的Serenity皮肤。
+## Notes-zhCN: Masque的Onyx皮肤。
 ## Dependencies: Masque
 ## X-Website: http://www.wowace.com/projects/masque_onyx
 ## X-Category: Interface Enhancements
@@ -17,4 +17,4 @@
 Onyx.lua
 ## Title: |cff880303[网易有爱]|r 按钮美化皮肤
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027151200
+## X-163UI-Version: 2014110101
