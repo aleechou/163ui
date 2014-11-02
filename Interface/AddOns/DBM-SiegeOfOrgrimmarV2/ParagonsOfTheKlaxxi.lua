@@ -1,11 +1,14 @@
-local mod	= DBM:NewMod(853, "DBM-SiegeOfOrgrimmarV2", nil, 369)
+﻿local mod	= DBM:NewMod(853, "DBM-SiegeOfOrgrimmarV2", nil, 369)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, true, "SoundWOP")
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 10672 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11372 $"):sub(12, -3))
 mod:SetCreatureID(71152, 71153, 71154, 71155, 71156, 71157, 71158, 71160, 71161)
+mod:SetEncounterID(1593)
+mod:SetMinSyncRevision(10768)
+mod:SetHotfixNoticeRev(10768)
 mod:SetZone()
-mod:SetUsedIcons(1)
+mod:SetUsedIcons(3, 1)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
@@ -55,7 +58,7 @@ local warnDiminish					= mod:NewSpellAnnounce(143666, 4, nil, false)--Spammy, ta
 local warnCalculated				= mod:NewTargetAnnounce(144095, 3)--Wild variation on timing noted, 34-130.8 variation (wtf)
 local warnInsaneCalculationFire		= mod:NewCastAnnounce(142416, 4)--3 seconds after 144095
 --Ka'roz the Locust
-local warnFlash						= mod:NewCastAnnounce(143709, 3)--62-70
+local warnFlash						= mod:NewCastAnnounce(143709, 3, 2)--62-70
 local warnWhirling					= mod:NewTargetAnnounce(143702, 3)
 local warnHurlAmber					= mod:NewSpellAnnounce(143759, 3)
 --Skeer the Bloodseeker
@@ -258,7 +261,7 @@ EJ_GetSectionInfo(8015) 	--切割者 71158
 EJ_GetSectionInfo(8016) 	--虫群卫士 71153 ]]
 
 local function showspellinfo()
-	if mod:IsMythic() then return end
+	if mod:IsDifficulty("heroic25") then return end
 	if mod.Options.InfoFrame then
 		twipe(bossspellinfo)
 		local onlyactboss = 0
@@ -312,7 +315,7 @@ local function showspellinfo()
 end
 
 local function testinfo()
-	if not mod:IsMythic() then return end
+	if not mod:IsDifficulty("heroic25") then return end
 	local showxiezi = {}
 	local xiezinum = 0
 	for k,v in pairs(xiezi) do
@@ -353,19 +356,19 @@ local function warnMutatedTargets()
 	twipe(mutateTargets)
 	if mod:AntiSpam(5, 1) then
 		mutatecount = mutatecount + 1
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_tb.ogg") --突變
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tb.ogg") --突變
 		if mutatecount == 1 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countone.ogg")
 		elseif mutatecount == 2 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\counttwo.ogg")
 		elseif mutatecount == 3 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countthree.ogg")
 		elseif mutatecount == 4 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countfour.ogg")
 		elseif mutatecount == 5 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfive.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countfive.ogg")
 		elseif mutatecount == 6 then
-			sndWOP:Schedule(0.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countsix.ogg")
+			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countsix.ogg")
 		end
 		timerMutateCD:Start(45, mutatecount+1)
 	end
@@ -389,7 +392,7 @@ local function DFAScan()
 				if UnitIsUnit(unitID.."target", "player") then
 					specWarnDeathFromAbove:Show()
 					yellDeathFromAbove:Yell()
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+					sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 				else
 					local x, y = GetPlayerMapPosition(unitID.."target")
 					if x == 0 and y == 0 then
@@ -399,7 +402,7 @@ local function DFAScan()
 					local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 					if inRange and inRange < 6 then
 						specWarnDeathFromAboveNear:Show(targetname)
-						sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+						sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 					end
 				end
 				if mod.Options.HudMAPMZ then					
@@ -419,7 +422,7 @@ local function HeroicDFAScan()
 		if UnitExists(unitID) and mod:GetCIDFromGUID(UnitGUID(unitID)) == 71161 then
 			if (not UnitExists(unitID.."target")) or not mod:IsTanking(unitID.."target", unitID) then
 				mod:Unschedule(HeroicDFAScan)
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_sctj.ogg") --死從天降
+				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sctj.ogg") --死從天降
 				for i = 1, DBM:GetNumGroupMembers() do
 					local _, class = UnitClass("raid"..i)
 					if (class == "DRUID" and UnitPowerMax("raid"..i) > 200000) or class == "HUNTER" or class == "PRIEST" or class == "MAGE" or class == "WARLOCK" or (class == "SHAMAN" and UnitPowerMax("raid"..i) > 200000) or (class == "PALADIN" and UnitPowerMax("raid"..i) > 200000) then
@@ -446,10 +449,10 @@ local function CheckBosses()
 			--Activation Controller
 			local cid = mod:GetCIDFromGUID(UnitGUID(unitID))
 			if cid == 71161 then--Kil'ruk the Wind-Reaver
-				if mod:IsMythic() then
+				if mod:IsDifficulty("heroic10", "heroic25") then
 					timerReaveCD:Start(38.5)
 				end
-				if mod:IsMythic() then
+				if mod:IsDifficulty("heroic10", "heroic25") then
 					mod:Schedule(15, HeroicDFAScan)--Not a large sample size, data shows it happen 29-30 seconds after IEEU fires on two different pulls. Although 2 is a poor sample
 				else
 					mod:Schedule(23, DFAScan)--Not a large sample size, data shows it happen 29-30 seconds after IEEU fires on two different pulls. Although 2 is a poor sample
@@ -457,39 +460,39 @@ local function CheckBosses()
 				timerGougeCD:Start()
 				if UnitDebuff("player", GetSpellInfo(142929)) then vulnerable = true end
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lfz.ogg") --掠風者參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lfz.ogg") --掠風者參戰
 				end
 			elseif cid == 71157 then--Xaril the Poisoned-Mind
 				if UnitDebuff("player", GetSpellInfo(142931)) then vulnerable = true end
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dxz.ogg") --毒心者參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dxz.ogg") --毒心者參戰
 				end
 			elseif cid == 71156 then--Kaz'tik the Manipulator
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_czz.ogg") --操縱者參戰
-					sndWOP:Schedule(1, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ylcz.ogg")
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_czz.ogg") --操縱者參戰
+					sndWOP:Schedule(1, DBM.SoundMMPath.."\\ex_so_ylcz.ogg")
 				end
 			elseif cid == 71155 then--Korven the Prime
 				timerShieldBashCD:Start(19)--20seconds from REAL IEEU
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zzz.ogg") --至尊者參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zzz.ogg") --至尊者參戰
 				end
 			elseif cid == 71160 then--Iyyokuk the Lucid
 				timerInsaneCalculationCD:Start()
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_mcz.ogg") --明澈者參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_mcz.ogg") --明澈者參戰
 				end
 			elseif cid == 71154 then--Ka'roz the Locust
 				timerFlashCD:Start(14)--In final LFR test, he didn't cast this for 20 seconds. TODO check this change
 				timerHurlAmberCD:Start(44)
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bsh.ogg") --暴食蝗參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_bsh.ogg") --暴食蝗參戰
 				end
 			elseif cid == 71152 then--Skeer the Bloodseeker
 				timerBloodlettingCD:Start(9)
 				if UnitDebuff("player", GetSpellInfo(143279)) then vulnerable = true end
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_nxz.ogg") --覓血者參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_nxz.ogg") --覓血者參戰
 				end
 			elseif cid == 71158 then--Rik'kal the Dissector
 				timerInjectionCD:Start(7.5, 1)
@@ -500,15 +503,15 @@ local function CheckBosses()
 				timerMutateCD:Start(34, 1)
 				if UnitDebuff("player", GetSpellInfo(143275)) then vulnerable = true end
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_qgz.ogg") --切割者參戰					
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_qgz.ogg") --切割者參戰					
 				end
 			elseif cid == 71153 then--Hisek the Swarmkeeper
 				timerAimCD:Start(37)--Might be 32 now with the UnitBuff filter, so pay attention to that and adjust as needed
-				if mod:IsMythic() then
+				if mod:IsDifficulty("heroic10", "heroic25") then
 					timerRapidFireCD:Start(44.5)
 				end
 				if activetime >= 15 then
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_cqws.ogg") --蟲群衛士參戰
+					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_cqws.ogg") --蟲群衛士參戰
 				end
 			end
 		end
@@ -594,9 +597,9 @@ function mod:SPELL_CAST_START(args)
 			if self.Options.yellToxicCatalyst then
 				yellCatalystBlue:Yell()
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lsbz.ogg") --藍色爆炸準備
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lsbz.ogg") --藍色爆炸準備
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lsch.ogg") --藍色催化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lsch.ogg") --藍色催化
 		end
 	elseif args.spellId == 142726 then
 		timerToxicCatalystCD:Start()
@@ -608,9 +611,9 @@ function mod:SPELL_CAST_START(args)
 			if self.Options.yellToxicCatalyst then
 				yellCatalystRed:Yell()
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runout.ogg") --離開人群
+			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --離開人群
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_hsch.ogg") --紅色催化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hsch.ogg") --紅色催化
 			if self.Options.HudMAP then
 				for i = 1, DBM:GetNumGroupMembers() do
 					if UnitDebuff("raid"..i, GetSpellInfo(142533)) then
@@ -629,9 +632,9 @@ function mod:SPELL_CAST_START(args)
 			if self.Options.yellToxicCatalyst then
 				yellCatalystYellow:Yell()
 			end
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_hsdq.ogg") --黃色毒氣準備
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hsdq.ogg") --黃色毒氣準備
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_ysch.ogg") --黃色催化
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ysch.ogg") --黃色催化
 			if self.Options.HudMAP then
 				for i = 1, DBM:GetNumGroupMembers() do
 					if UnitDebuff("raid"..i, GetSpellInfo(142534)) then
@@ -666,11 +669,11 @@ function mod:SPELL_CAST_START(args)
 				PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
 			end
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_csch.ogg") --橙色催化
-		sndWOP:Schedule(3, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bzhh.ogg") --爆炸火環準備
-		sndWOP:Schedule(4, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-		sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-		sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_csch.ogg") --橙色催化
+		sndWOP:Schedule(3, DBM.SoundMMPath.."\\ex_so_bzhh.ogg") --爆炸火環準備
+		sndWOP:Schedule(4, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(5, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(6, DBM.SoundMMPath.."\\countone.ogg")
 	elseif args.spellId == 142729 then
 		timerToxicCatalystCD:Start()
 		if self.Options.warnToxicCatalyst then
@@ -697,7 +700,7 @@ function mod:SPELL_CAST_START(args)
 				PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
 			end
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zsch.ogg") --紫色催化
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zsch.ogg") --紫色催化
 	elseif args.spellId == 142730 then
 		timerToxicCatalystCD:Start()
 		if self.Options.warnToxicCatalyst then
@@ -724,8 +727,8 @@ function mod:SPELL_CAST_START(args)
 				PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
 			end
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lvsch.ogg") --綠色催化
-		sndWOP:Schedule(2, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xxls.ogg") --小心綠水
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lvsch.ogg") --綠色催化
+		sndWOP:Schedule(2, DBM.SoundMMPath.."\\ex_so_xxls.ogg") --小心綠水
 	elseif args.spellId == 143765 then
 		warnSonicProjection:Show()
 	elseif args.spellId == 143666 then
@@ -734,16 +737,16 @@ function mod:SPELL_CAST_START(args)
 		warnInsaneCalculationFire:Show()
 		specWarnInsaneCalculationFire:Show()
 		if caled then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\linesoon.ogg") --準備連線
+			sndWOP:Play(DBM.SoundMMPath.."\\linesoon.ogg") --準備連線
 			caled = false
 		else
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_yllx.ogg") --遠離連線
+			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_yllx.ogg") --遠離連線
 		end
 	elseif args.spellId == 143709 then
 		warnFlash:Show()
 		specWarnFlash:Show()
 		timerFlashCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\chargemove.ogg") --衝鋒快躲
+		sndWOP:Play(DBM.SoundMMPath.."\\chargemove.ogg") --衝鋒快躲
 --[[DELETE		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)--Range assumed, spell tooltips not informative enough
 			self:Schedule(5, hideRangeFrame)
@@ -755,8 +758,8 @@ function mod:SPELL_CAST_START(args)
 		warnBloodletting:Show()
 		specWarnBloodletting:Show()
 		timerBloodlettingCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zbrn.ogg")
-		sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_rnkd.ogg")
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zbrn.ogg")
+		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\ex_so_rnkd.ogg")
 	elseif args.spellId == 143974 then
 		warnShieldBash:Show()
 		timerShieldBashCD:Start()
@@ -772,7 +775,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143243 then
 		warnRapidFire:Show()
 		specWarnRapidFire:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_mop_ybzb.ogg") --音波準備
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_ybzb.ogg") --音波準備
 		if self.Options.LTIP and (not showtank) then
 			DBM:ShowLTSpecialWarning(143243, 1, 0, 0, 1, 143243, 2)
 		end
@@ -799,7 +802,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 148676 then
 		warnReave:Show()
 		specWarnReave:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_xft.ogg") --旋風準備
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xft.ogg") --旋風準備
 		timerReaveCD:Start()
 		self:Unschedule(HeroicDFAScan)
 		self:Schedule(15, HeroicDFAScan)		
@@ -821,8 +824,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 142416 then
 		firecount = firecount + 1
 		if MyJS() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg") --注意減傷
-			sndWOP:Schedule(0.7, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\defensive.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(0.7, DBM.SoundMMPath.."\\defensive.ogg")
 		else
 			DBM:PlayCountSound(firecount)
 		end
@@ -836,15 +839,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnInjection:Show(args.destName, amount)
 	elseif args.spellId == 142532 and args:IsPlayer() then
 		specWarnToxicBlue:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lsds.ogg") --藍色毒素
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lsds.ogg") --藍色毒素
 		havecolor = true
 	elseif args.spellId == 142533 and args:IsPlayer() then
 		specWarnToxicRed:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_hsds.ogg") --紅色毒素
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hsds.ogg") --紅色毒素
 		havecolor = true
 	elseif args.spellId == 142534 and args:IsPlayer() then
 		specWarnToxicYellow:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_huds.ogg") --黃色毒素
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_huds.ogg") --黃色毒素
 		havecolor = true
 --[[	elseif args.spellId == 142547 and args:IsPlayer() then
 		specWarnToxicOrange:Show()
@@ -857,10 +860,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args.IsPlayer() then
 			specWarnMesmerize:Show()
 			yellMesmerize:Yell()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_nbcm.ogg") --你被催眠
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_nbcm.ogg") --你被催眠
 		else
 			specWarnKunchongs:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_czkd.ogg") --蟲子快打
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_czkd.ogg") --蟲子快打
 			if self.Options.HudMAPMZ then
 				CMMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", args.destName, 5, 15, 1, 1 ,0 ,1):Pulse(0.5, 0.5))
 			end
@@ -869,7 +872,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEncaseInAmber:Show(args.destName)
 		specWarnEncaseInAmber:Show(args.destName)
 		timerEncaseInAmber:Start(args.destName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_hupd.ogg") --琥珀快打
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hupd.ogg") --琥珀快打
 		timerEncaseInAmberCD:Start()
 		if self:IsMythic() then
 --			countdownEncaseInAmber:Start()
@@ -880,22 +883,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerGougeCD:Start()
 		if args.IsPlayer() then
 			specWarnGouge:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_zj.ogg") --鑿擊
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zj.ogg") --鑿擊
 		else
 			specWarnGougeOther:Show(args.destName)
 			if mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\tankheal.ogg") --注意刷坦
+				sndWOP:Play(DBM.SoundMMPath.."\\tankheal.ogg") --注意刷坦
 			end
 		end
 	elseif args.spellId == 143974 then
 		timerShieldBash:Start(args.destName)
 		if args.IsPlayer() then
 			specWarnShieldBash:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_dj.ogg") --盾擊
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dj.ogg") --盾擊
 		else
 			specWarnShieldBashOther:Show(args.destName)
 			if mod:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\tankheal.ogg") --注意刷坦
+				sndWOP:Play(DBM.SoundMMPath.."\\tankheal.ogg") --注意刷坦
 			end
 		end
 	elseif args.spellId == 143701 then
@@ -907,15 +910,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
-				local x, y = GetPlayerMapPosition(uId)
-				if x == 0 and y == 0 then
-					SetMapToCurrentZone()
-					x, y = GetPlayerMapPosition(uId)
-				end
-				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				local inRange = DBM.RangeCheck:GetDistance("player", uId)
 				if inRange and inRange < 6 then
 					specWarnWhirlingNear:Show(args.destName)
-					sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+					sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 				end
 			end
 		end
@@ -926,7 +924,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnHurlAmber:Show()
 		specWarnHurlAmber:Show()
 		timerHurlAmberCD:Start()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_tzhp.ogg") --投擲琥珀
+		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tzhp.ogg") --投擲琥珀
 		if self.Options.LTIP and (not showtank) then
 			DBM:ShowLTSpecialWarning(143759, 1, 0, 0, 1, 143759, 2)
 		end
@@ -934,7 +932,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		mutateTargets[#mutateTargets + 1] = args.destName
 		if args.IsPlayer() then
 			specWarnMutate:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_bsjx.ogg") --變身巨蠍
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_bsjx.ogg") --變身巨蠍
 			timerMutate:Start()
 		end
 		self:Unschedule(warnMutatedTargets)
@@ -958,15 +956,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerAimCD:Start()
 		if args.IsPlayer() then
 			specWarnAim:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_nbmz.ogg") --你被瞄準
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_nbmz.ogg") --你被瞄準
 			yellAim:Yell()
 		else
 			specWarnAimOther:Show(args.destName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_fdyb.ogg") --準備分擔音波
-			sndWOP:Schedule(1.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countfour.ogg")
-			sndWOP:Schedule(2.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countthree.ogg")
-			sndWOP:Schedule(3.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\counttwo.ogg")
-			sndWOP:Schedule(4.5, "Interface\\AddOns\\DBM-Sound-Yike\\yike\\countone.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fdyb.ogg") --準備分擔音波
+			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
+			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
 			if self.Options.HudMAPMZ then
 				MZMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 5, 6, 1, 1 ,1 ,0.8):Appear():RegisterForAlerts():Rotate(360, 5.2))
 			end
@@ -979,7 +977,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 142797 and args.IsPlayer() and self:AntiSpam(2, 3) then
 		specWarnGas:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -1020,10 +1018,10 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 143735 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnCausticAmber:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	elseif spellId == 142797 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then
 		specWarnGas:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -1031,7 +1029,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 71161 then--Kil'ruk the Wind-Reaver
-		if mod:IsMythic() then
+		if mod:IsDifficulty("heroic10", "heroic25") then
 			self:Unschedule(HeroicDFAScan)
 		else
 			self:Unschedule(DFAScan)
@@ -1161,7 +1159,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 		timerInsaneCalculationCD:Start()
 		if target == UnitName("player") then
 			specWarnCalculated:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lxdn.ogg") --連線點你
+			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lxdn.ogg") --連線點你
 			yellCalculated:Yell()
 			caled = true
 		end
@@ -1172,7 +1170,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 				if shape == resultshape or color == resultcolor or number == resultnumber then
 					if target ~= UnitName("player") then
 						specWarnCalculated:Show()
-						sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\ex_so_lxdn.ogg")
+						sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lxdn.ogg")
 						yellCalculated:Yell()
 						caled = true
 					end
@@ -1238,7 +1236,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 				local needranged = 7 - meleenum
 				for i = 1, needranged do
 					if ResultRangedDPSTargets[i] == UnitName("player") then
-						sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\gather.ogg")
+						sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg")
 					end
 				end
 			end]]
@@ -1254,7 +1252,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 		end
 		if (not havedebuff) then
 			specWarnFireline:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.ogg") --快躲開
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
 		end
 	end
 end

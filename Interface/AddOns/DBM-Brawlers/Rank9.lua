@@ -1,6 +1,6 @@
 local mod	= DBM:NewMod("BrawlRank9", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:NewSound(nil, "SoundWOP", true)
+
 mod:SetRevision(("$Revision: 10922 $"):sub(12, -3))
 mod:SetModelID(47854)
 mod:SetZone()
@@ -42,7 +42,6 @@ function mod:SPELL_CAST_START(args)
 		warnCompleteHeal:Show()
 		if brawlersMod:PlayerFighting() then
 			specWarnCompleteHeal:Show(args.sourceName)
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\kickcast.mp3")
 		end
 	elseif args.spellId == 141104 then
 		warnHammerFist:Show()
@@ -59,7 +58,6 @@ function mod:SPELL_CAST_START(args)
 		timerDivineCircleCD:Start()
 		if args:IsPlayer() then
 			specWarnDivineCircle:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Sound-Yike\\yike\\runaway.mp3")
 		end
 	end
 end

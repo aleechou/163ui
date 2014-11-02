@@ -76,7 +76,7 @@ local function SendAchievement(event, achievementID, players)
 	end
 	for i = 1, getn(players) do
 		local class, color, r, g, b
-		if (players[i].guid and tonumber(players[i].guid)) then
+		if (players[i].guid and players[i].guid:find("Player")) then
 			class = select(2, GetPlayerInfoByGUID(players[i].guid))
 			color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
 		end
@@ -288,6 +288,7 @@ local function ChatFilter_Rubbish(self, event, msg, player, _, _, _, flag, _, _,
 	if (not (guid or player)) then return end
 	if (not Config.ScanOurself and UnitIsUnit(player,"player")) then return end
 	if (lineId ~= prevLineId) then
+		local player = player
 		if (flag == "GM" or flag == "DEV") then return end
 		if (event == "CHAT_MSG_WHISPER") then
 			if (IsAddOnLoaded("WIM") or IsAddOnLoaded("Cellular")) then
@@ -310,8 +311,8 @@ local function ChatFilter_Rubbish(self, event, msg, player, _, _, _, flag, _, _,
 		if (guid and guid:find("Player")) then
 			Name = select(6, GetPlayerInfoByGUID(guid))
 			Server = select(7, GetPlayerInfoByGUID(guid))
-			player = Name
-			if (Server and strlen(Server) > 0 and Server ~= GetRealmName()) then
+			player = Name or player
+			if (Name and Server and strlen(Server) > 0 and Server ~= GetRealmName()) then
 				player = Name.."-"..Server
 			end
 		end
@@ -530,6 +531,15 @@ local function ChatFilter_Achievement(self, event, msg, player, _, _, _, _, _, _
 		local achievementID = strmatch(msg, "achievement:(%d+)")
 		if (not achievementID) then return end
 		achievementID = tonumber(achievementID)
+		local player, Name, Server = player
+		if (guid and guid:find("Player")) then
+			Name = select(6, GetPlayerInfoByGUID(guid))
+			Server = select(7, GetPlayerInfoByGUID(guid))
+			player = Name or player
+			if (Name and Server and strlen(Server) > 0 and Server ~= GetRealmName()) then
+				player = Name.."-"..Server
+			end
+		end
 		local playerdata = {name = player, guid = guid}
 		local categoryID = GetAchievementCategory(achievementID)
 		if (spamCategories[categoryID] or spamCategories[select(2, GetCategoryInfo(categoryID))] or specialFilters[achievementID]) then

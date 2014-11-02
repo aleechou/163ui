@@ -1,0 +1,8 @@
+## Interface: 60000
+## Title: Malkorok Helper
+## Author: ykiigor (Афиа @ EU-Howling Fjord)
+## Notes: /malkorok, /mal
+## SavedVariables: ExRT
+## X-163UI-Version: 20141028162630
+localization.xml
+Malkorok.lua

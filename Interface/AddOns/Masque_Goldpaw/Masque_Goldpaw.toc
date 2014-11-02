@@ -1,0 +1,24 @@
+## Interface: 60000
+## Name: Masque_Goldpaw
+## Title: Masque: |cffff7d0aGoldpaw|r
+## Version: 1.0.Release-r1
+## Author: Lars Norberg
+## Notes: Various Masque skins to match |cffff7d0aGoldpaw's UI|r.
+## Notes-zhCN: Masque的 Goldpaw皮肤。
+## DefaultState: Enabled
+## Dependencies: Masque
+## OptionalDeps: gUI4
+## X-eMail: goldpaw@goldpawsgui.com
+## X-Website: http://www.goldpawsgui.com
+## X-Donate: PayPal:lars@larsnorbergofficial.com
+## X-License: All Rights Reserved
+## X-Category: Artwork
+## X-Curse-Packaged-Version: Release-r1
+## X-Curse-Project-Name: Masque: Goldpaw
+## X-Curse-Project-ID: masque_goldpaw
+## X-Curse-Repository-ID: wow/masque_goldpaw/mainline
+
+Masque_Goldpaw.lua
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 20141101110443

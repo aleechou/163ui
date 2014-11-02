@@ -41,7 +41,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnRejuvSerum:Show(args.destName)
 		specWarnRejuvSerum:Show(args.destName)
 		if mod:IsMagicDispeller() then
-			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelboss.ogg")
 		end
 --		timerRejuvSerumCD:Start()
 	elseif spellId == 162600 then

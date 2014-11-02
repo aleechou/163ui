@@ -1,0 +1,17 @@
+﻿MHExRTL = {}
+
+MHExRTL.panelbossmodsradenonly25 = "Only for 25ppl"
+MHExRTL.panelbossmodsalpha = "Alpha"
+MHExRTL.panelbossmodsscale = "Scale"
+MHExRTL.panelbossmodsclose = "Close"
+MHExRTL.panelbossmodsmalkorok ="Malkorok"
+MHExRTL.panelbossmodsmalkorokh = "Malkorok Helper"
+MHExRTL.panelbossmodsmalkorokai ="Malkorok AI"
+MHExRTL.panelbossmodsmalkorokhelp ="Malkorok bossmod. Left click to choice, right click to cancel."
+MHExRTL.panelbossmodsmalkorokaihelp ="Malkorok AI bossmod. Automatic selection with the least amount of people during the AOE. Highlighted in orange for 5 seconds.  Enough to be launched at the same time only one person in the raid with assist."
+MHExRTL.panelbossmodsmalkorokdanger ="! Danger !"
+MHExRTL.panelsetauthor = "Author"
+MHExRTL.panelbossmodhelptext = "+ Main frame\n   - 'castle' - allow moving frame.\n   - 'cog' - change display style 'rotating' / 'fixed'.\n   - Main circle. Right-click on the selected area to paint it in green, left-click to paint it in red. Your choice will see all the people in the raid if you have an assistant or you raid leader.\n   - Breath of Y'Shaarj icon shows the estimated time until the next boss AoE .\n+ Malkorok AI\n   - Select region with the least amount of people during the AOE and automatically marks it. Within 5 seconds, this area will be highlighted in yellow. In the case of wrong choice, you can manually correct the error."
+MHExRTL.panelbossmodsautoload = "Autoload"
+MHExRTL.panelsettranslate = ""
+MHExRTL.panelbossmodsThanks = "Thanks"

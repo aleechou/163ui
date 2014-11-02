@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(1228, "DBM-Party-WoD", 8, 559)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11380 $"):sub(12, -3))
 mod:SetCreatureID(79912, 80098)--80098 is mount(Ironbarb Skyreaver), 79912 is boss
@@ -46,6 +47,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 161833 and args:IsPlayer() and self:AntiSpam(3, 1) then
 		specWarnNoxiousSpit:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 	end
 end
 

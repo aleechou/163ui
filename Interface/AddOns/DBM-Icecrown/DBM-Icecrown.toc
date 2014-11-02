@@ -1,0 +1,33 @@
+﻿## Interface: 60000
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Icecrown Citadel|r
+## Author: MysticalOS
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMIcecrown_SavedVars, DBMIcecrown_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-SubCategories: The Lower Spire, The Plagueworks, The Crimson Hall, Frostwing Halls, The Frozen Throne
+## X-DBM-Mod-MapID: 631
+## X-DBM-Mod-Sort: 200
+localization.en.lua
+localization.tw.lua
+localization.cn.lua
+TheLowerSpire\LordMarrowgar.lua
+TheLowerSpire\Deathwhisper.lua
+TheLowerSpire\GunshipBattle.lua
+TheLowerSpire\Deathbringer.lua
+TheLowerSpire\LowerSpireTrash.lua
+ThePlagueworks\Festergut.lua
+ThePlagueworks\Rotface.lua
+ThePlagueworks\Putricide.lua
+ThePlagueworks\PlagueworksTrash.lua
+TheCrimsonHall\BPCouncil.lua
+TheCrimsonHall\Lanathel.lua
+TheCrimsonHall\CrimsonHallTrash.lua
+FrostwingHalls\Valithria.lua
+FrostwingHalls\Sindragosa.lua
+FrostwingHalls\FrostwingHallTrash.lua
+TheFrozenThrone\LichKing.lua
+## X-163UI-Version: 20141028162630

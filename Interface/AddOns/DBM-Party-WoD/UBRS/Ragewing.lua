@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1229, "DBM-Party-WoD", 8, 559)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11758 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11380 $"):sub(12, -3))
 mod:SetCreatureID(76585)
 mod:SetEncounterID(1760)
 mod:SetZone()
@@ -27,7 +28,7 @@ local specWarnEngulfingFire	= mod:NewSpecialWarningSpell(154996, nil, nil, nil, 
 
 local timerEngulfingFireCD	= mod:NewCDTimer(22, 154996)
 local timerSwirlingWinds	= mod:NewBuffActiveTimer(20, 167203)
-local timerSwirlingWindsCD	= mod:NewNextTimer(45, 167203)--Verify this isn't health based.
+local timerSwirlingWindsCD	= mod:NewNextTimer(45, 167203)
 
 mod.vb.firstBreath = false
 
@@ -35,11 +36,15 @@ function mod:OnCombatStart(delay)
 	timerEngulfingFireCD:Start(13-delay)--Needs more data
 	timerSwirlingWindsCD:Start(40-delay)--Needs more data
 	self.vb.firstBreath = false
+	sndWOP:Schedule(12, DBM.SoundMMPath.."\\breathsoon.ogg")
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 155620 then
+		if mod:CanRemoveEnrage() then
+			sndWOP:Play(DBM.SoundMMPath.."\\trannow.ogg") --sound should change to RemoveEnrage
+		end
 		warnBurningRage:Show(args.destName, args.amount or 1)
 		specWarnBurningRage:Show(args.destName)
 	elseif spellId == 167203 then
@@ -59,6 +64,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 155051 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then--Goriona's Void zones
 		specWarnMagmaSpit:Show()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -71,6 +77,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if not self.vb.firstBreath then
 			self.vb.firstBreath = true
 			timerEngulfingFireCD:Start()
+			sndWOP:Schedule(21, DBM.SoundMMPath.."\\breathsoon.ogg")
 		end
 	end
 end

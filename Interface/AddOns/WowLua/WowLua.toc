@@ -13,3 +13,6 @@ WowLua.lua
 FAIAP.lua
 WowLua.xml
 WowLua_Config.lua
+
+
+## X-163UI-Version: 20140904172924

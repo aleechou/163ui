@@ -7,7 +7,7 @@
 ## Notes-esES: Skin Caith para Masque.
 ## Notes-itIT: Skin Caith per Masque.
 ## Notes-zhTW: Masque的Caith皮膚。
-## Notes-zhCN: Masque的Serenity皮肤。
+## Notes-zhCN: Masque的Caith皮肤。
 ## Dependencies: Masque
 ## X-Website: http://www.wowace.com/projects/masque_caith
 ## X-Category: Interface Enhancements
@@ -21,4 +21,4 @@
 Caith.lua
 ## Title: |cff880303[网易有爱]|r 按钮美化皮肤
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141101110443

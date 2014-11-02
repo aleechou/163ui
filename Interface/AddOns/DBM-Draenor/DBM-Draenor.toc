@@ -3,6 +3,7 @@
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Draenor|r
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0드레노어|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Draenor|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0德拉諾|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -15,18 +16,12 @@
 ## X-DBM-Mod-Sort: 106
 ## X-DBM-Mod-MapID: 1116
 ## X-DBM-Mod-LoadCID: 83746, 81535, 81252
-## X-Curse-Packaged-Version: 6.0.2-7-g80b6856
-## X-Curse-Project-Name: Deadly Boss Mods
-## X-Curse-Project-ID: deadly-boss-mods
-## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
-
-## X-Vendor: NetEase
-## X-163UI-Version: 20141019133643
-
+## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.kr.lua
 localization.de.lua
 localization.ru.lua
+localization.tw.lua
 Drov.lua
 Tarlna.lua
 Rukhmar.lua

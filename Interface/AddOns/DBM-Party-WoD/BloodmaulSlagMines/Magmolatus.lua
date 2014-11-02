@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(893, "DBM-Party-WoD", 2, 385)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11520 $"):sub(12, -3))
 mod:SetCreatureID(74366, 74475)--74366 Forgemaster Gog'duh, 74475 Magmolatus
@@ -59,10 +60,13 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 			activeAddGUIDS[unitGUID] = true
 			--Ruination#Creature:0:3314:1175:11531:74570
 			if cid == 74570 then--Ruination
+				sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
 				specWarnRuination:Show()
 			elseif cid == 74571 then--Calamity
 				specWarnCalamity:Show()
+				sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
 			elseif cid == 74475 then--Magmolatus
+				sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")
 				warnPhase2:Show()
 				specWarnMagmolatus:Show()
 				timerMoltenImpactCD:Start(5)
@@ -74,14 +78,25 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 149997 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		elseif (not mod:IsHealer()) then
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 		warnFirestorm:Show()
 		specWarnFirestorm:Show(args.sourceName)
 	elseif spellId == 149975 then
+		if mod:IsHealer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		end
 		warnDancingFlames:CombinedShow(0.3, args.destName)--heroic is 2 targets so combined.
 		if self:AntiSpam(2, 2) then--only show once. (prevent loud sound)
 			specWarnDancingFlames:Show(args.destName)
 		end
 	elseif spellId == 150032 then
+		if mod:IsHealer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		end
 		warnWitheringFlames:Show(args.destName)
 		specWarnWitheringFlames:Show(args.destName)
 	end
@@ -96,6 +111,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnMoltenImpact:Show()
 		timerMoltenImpactCD:Start()
 	elseif spellId == 150023 then
+		if mod:IsMelee() then
+			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		end
 		specWarnSlagSmash:Show()
 	end
 end

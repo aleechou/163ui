@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1225, "DBM-Party-WoD", 1, 547)
 local L		= mod:GetLocalizedStrings()
+local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11741 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11517 $"):sub(12, -3))
 mod:SetCreatureID(77734)
 mod:SetEncounterID(1714)
 mod:SetZone()
@@ -97,6 +98,7 @@ function mod:ChaosWaveTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnChaosWave:Show()
 		yellWarnChaosWave:Yell()
+		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 	end
 end
 
@@ -116,6 +118,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDoom:Show(args.destName)
 		specWarnDoom:Show(args.destName)
 	elseif spellId == 156842 then
+		if mod:IsHealer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		end
 		warnCorruption:Show(args.destName)
 		specWarnCorruption:Show(args.destName)
 	elseif spellId == 156921 and args:IsDestTypePlayer() then--This debuff can be spread to the boss. bugged?
@@ -123,12 +128,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSeedOfcorruption:Show(args.destName)
 		--timerSeedOfcorruptionCD:Start()
 		if args:IsPlayer() then
+			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
 			specWarnSeedOfCorruption:Show()
 			timerSeedOfcorruption:Start()
 			countdownSeedOfcorruption:Start()
 		end
 		if self.Options.RangeFrame then
 			if UnitDebuff("player", seedDebuff) then--You have debuff, show everyone
+				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
 				DBM.RangeCheck:Show(10, nil)
 			else--You do not have debuff, only show players who do
 				DBM.RangeCheck:Show(10, DebuffFilter)
@@ -170,6 +177,11 @@ function mod:SPELL_CAST_START(args)
 		timerChaosWaveCD:Start()
 		self:BossTargetScanner(77734, "ChaosWaveTarget", 0.1, 16)--Timing not verified, but Boss DOES look at leap target
 	elseif spellId == 156975 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		else
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 		warnChaosBolt:Show()
 		specWarnChaosBolt:Show(args.sourceName)
 	elseif spellId == 156857 then
@@ -181,6 +193,11 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 156854 then
+		if mod:IsTank() then
+			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		elseif (not mod:IsHealer()) then
+			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+		end
 		warnDrainLife:Show(args.destName)
 		specWarnDrainLife:Show(args.sourceName)
 		timerDrainLifeCD:Start()

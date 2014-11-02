@@ -1,0 +1,17 @@
+if GetLocale() ~= "frFR" then return end
+
+MHExRTL.panelbossmodsradenonly25 = "Seulement pour les raid 25"
+MHExRTL.panelbossmodsalpha = "Transparence"
+MHExRTL.panelbossmodsscale = "Echelle"
+MHExRTL.panelbossmodsclose = "Fermer"
+MHExRTL.panelbossmodsmalkorok ="Malkorok"
+MHExRTL.panelbossmodsmalkorokh = "Malkorok Helper"
+MHExRTL.panelbossmodsmalkorokai ="Malkorok AI"
+MHExRTL.panelbossmodsmalkorokhelp ="Malkorok bossmod. Clic gauche pour sélectionner, clic droit pour annuler."
+MHExRTL.panelbossmodsmalkorokaihelp ="Malkorok AI bossmod. Sélection automatique de la zone avec le moins de personnes pendant l'AOE. Coloré en orange pendant 5 seconds. Un seul membre du raid étant assistant suffit pour le lancer."
+MHExRTL.panelbossmodsmalkorokdanger ="! Danger !"
+MHExRTL.panelsetauthor = "Auteur"
+MHExRTL.panelbossmodhelptext = "+ Fenêtre principale\n   - 'cadenas' - Permet de déplacer la fenêtre.\n   - 'rouage' - Change le style d'affichage 'tournant' / 'fixe'.\n   - Cercle principal. Clic droit sur la zone sélectionné pour la colorer en verte, clic gauche pour la colorer en rouge. Votre choix sera visible par tous les membres de votre raid si vous êtes assistant raid ou raid leader.\n   - L'icône du Souffle d'Y'Shaarj montre le temps estimé avant la prochaine AOE du boss.\n+ Malkorok AI\n   - Sélectionne la zone avec le moins de personnes au cours de l'AOE et la marque automatiquement. Pendant 5 secondes, cette zone sera mis en surbrillance en jaune. En cas d'erreur, vous pouvez la corriger manuellement."
+MHExRTL.panelsettranslate = "Traducteur: viouviou"
+MHExRTL.panelbossmodsautoload = "Automatiquement charger"
+MHExRTL.panelbossmodsThanks = "Gratitude"

@@ -18,6 +18,8 @@ var exec = thunkify(child_process.exec)
 var addonsDir = __dirname + "/../Interface/AddOns/"
 var ignores = { "!!!163UI.3dcodecmd!!!-src":1 }
 
+var  regexpXVersion = /##\s*(X\-)?163UI\-Version\s*:\s*[\d\\\/\-]+/g
+
 co(function*(){
 
 	var filenameList = yield readdir(addonsDir)
@@ -30,13 +32,18 @@ co(function*(){
 		var filename = filenameList[i]
 		if(ignores[filename])
 			continue
+		try{
+			if( !(yield fsstat(addonsDir+filename)).isDirectory() ){
+				continue
+			}
 
-		if( !(yield fsstat(addonsDir+filename)).isDirectory() ){
-			continue
-		}
-
-		var tocpath = addonsDir+filename+"/"+filename+".toc"
-		if( !(yield fsstat(tocpath)).isFile() ){
+			var tocpath = addonsDir+filename+"/"+filename+".toc"
+			if( !(yield fsstat(tocpath)).isFile() ){
+				continue
+			}
+		}catch(e){
+			console.error(e)
+			console.log("continue")
 			continue
 		}
 
@@ -45,16 +52,22 @@ co(function*(){
 
 		var output = yield exec("git log -10 --pretty=\"%at:%s\" \""+addonsDir+filename+"\"")
 
-		var lastUpdateTime = ""
-		var lines = output.toString().split("\n")
-		for(var l=0;l<lines.length;l++){
-			var slices = lines[l].split(":")
-			// console.log(slices)
-			if( slices[1]=="update X-163UI-Version" ){
-				continue
+		var lastUpdateTime
+		if(!output.toString().trim()){
+			lastUpdateTime = Date.now()
+		}
+		else {
+
+			var lines = output.toString().split("\n")
+			for(var l=0;l<lines.length;l++){
+				var slices = lines[l].split(":")
+				// console.log(slices)
+				if( slices[1] && slices[1].toLowerCase()=="update x-163ui-version" ){
+					continue
+				}
+				lastUpdateTime = parseInt(slices[0].trim())
+				break
 			}
-			lastUpdateTime = parseInt(slices[0].trim())
-			break
 		}
 
 		
@@ -63,10 +76,16 @@ co(function*(){
 
 		var xversion = lastUpdateTime.Format("yyyyMMddhhmmss")
 
-		if( !tocmeta["X-163UI-Version"] || tocmeta["X-163UI-Version"].length<14 || tocmeta["X-163UI-Version"]<xversion){
+		if( !tocmeta["X-163UI-Version"] || tocmeta["X-163UI-Version"]=="NaNaNaNaNaNaN" || tocmeta["X-163UI-Version"].length<14 || tocmeta["X-163UI-Version"]<xversion){
 			console.log("update X-163UI-Version:[",filename,"]",tocmeta["X-163UI-Version"],">",xversion)
 
-			newtocContent = tocContent.replace(/##\s*(X\-)?163UI\-Version\s*:\s*[\d\\\/\-]+/g,"## X-163UI-Version: "+xversion) ;
+
+			if( tocContent.match(regexpXVersion) ){
+				var newtocContent = tocContent.replace(regexpXVersion,"## X-163UI-Version: "+xversion) ;
+			}
+			else{
+				var newtocContent = tocContent + "\r\n\r\n## X-163UI-Version: "+xversion
+			}
 			//console.log(tocContent)
 
 			yield writeFile(tocpath,newtocContent)

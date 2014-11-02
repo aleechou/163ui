@@ -11,7 +11,7 @@ local DESCENDING = 2
 local USER = nil
 
 
- petMapping = {}
+petMapping = {}
 
 local SetPet, GetPet
 do
@@ -116,7 +116,8 @@ function Sorting:OnInitialize()
 				cantTrade = true,
 				canTrade = true,
 				abilityType = {[1]=true,[2]=true,[3]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true},
-				hiddenSpecies = true,
+				hiddenSpecies = false,
+				favroitesOnly = false,
 			},
 			sorting = {
 				selection = 1,
@@ -170,7 +171,6 @@ end
 
 function Sorting:Reset()
 	C_PetJournal.SetFlagFilter(LE_PET_JOURNAL_FLAG_COLLECTED, true)
-	C_PetJournal.SetFlagFilter(LE_PET_JOURNAL_FLAG_FAVORITES, false);
 	C_PetJournal.SetFlagFilter(LE_PET_JOURNAL_FLAG_NOT_COLLECTED, true);
 	C_PetJournal.AddAllPetTypesFilter();
 	C_PetJournal.AddAllPetSourcesFilter();
@@ -210,6 +210,7 @@ function Sorting:Reset()
 	filtering.unknownZone = true
 	filtering.canTrade = true
 	filtering.cantTrade = true
+	filtering.favoritesOnly = false;
 
 	sorting.selection = 2
 	sorting.order = ASCENDING
@@ -405,6 +406,11 @@ do
 				name = "can battle",
 				enabled = function() return  not filtering.canBattle end,
 				exclude = function(self,pet) return pet.canBattle end
+			},
+			{--can battle
+				name = "favorites only",
+				enabled = function() return  filtering.favoritesOnly end,
+				exclude = function(self,pet) return not pet.favorite end
 			},
 			{--cant battle
 				name = "cant battle",

@@ -12,13 +12,6 @@
 ## LoadOnDemand: 0
 ## DefaultState: enabled
 ## X-Website: http://www.deadlybossmods.com
-## X-Curse-Packaged-Version: 6.0.2-7-g80b6856
-## X-Curse-Project-Name: Deadly Boss Mods
-## X-Curse-Project-ID: deadly-boss-mods
-## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
-
-## X-Vendor: NetEase
-## X-163UI-Version: 20141019133643
-
+## X-163UI-Version: 20141028162630
 DBT-Template.xml
 DBT.lua

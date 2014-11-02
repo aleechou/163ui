@@ -19,14 +19,14 @@ local locales = {
 			link_button = "Link all button",
 			autolooting = "Auto-looting",
 			colors = "Colors",
-			fonts = "Fonts",
-			font_sizes = "Sizes",
 
 			-- Option labels
 			autoloot_currency = "Auto loot currency",
 			autoloot_currency_desc = "When to automatically loot currency",
 			autoloot_quest = "Auto loot quest items",
 			autoloot_quest_desc = "When to automatically loot quest items",
+			autoloot_tradegoods = "Auto loot trade goods",
+			autoloot_tradegoods_desc = "When to automatically loot any item of Trade Goods type",
 			autoloot_all = "Auto loot everything",
 			autoloot_list = "Auto loot listed items",
 			autoloot_list_desc = "When to automatically loot listed items",
@@ -53,10 +53,7 @@ local locales = {
 			loot_texts_info = "Show detailed information",
 			loot_texts_bind = "Show loot bind type",
 			loot_texts_lock = "Show locked status",
-			font = "Font",
-			font_size_loot = "Loot",
 			font_size_info = "Loot information",
-			font_size_quantity = "Quantity",
 			font_size_bottombuttons = "Linkall/Close",
 			frame_snap = "Snap frame to mouse",
 			frame_snap_offset_x = "Horizontal snap offset",
@@ -129,7 +126,7 @@ local locales = {
 			-- Option labels
 			visible = "Anchor visible",
 			show_crafted = "Crafted",
-			show_totals = "Show total items in inventory"
+			show_totals = "Show total items in inventory",
 		},
 		Master = {
 			panel_title = "Loot Master",
@@ -150,6 +147,11 @@ local locales = {
 			award_guildannounce = "Echo in guild chat",
 			award_special = "Announce special recipients",
 		},
+		font = "Font",
+		font_sizes = "Sizes",
+		font_size_loot = "Loot",
+		font_size_quantity = "Quantity",
+		font_flag = "Flag",
 		desc_channel_auto = "Highest available",
 		growth_direction = "Growth direction",
 		scale = "Scale",
@@ -251,8 +253,6 @@ locales.deDE.Core = {
 }
 locales.deDE.Frame = {
 	autoloot_all = "Automatisch alles plündern", -- Needs review
-	autoloot_coin = "Automisches Plündern von Münzen", -- Needs review
-	autoloot_coin_desc = "Wann sollen Münzen automatisch geplündert werden", -- Needs review
 	autolooting = "Auto-Plündern", -- Needs review
 	autolooting_details = "XLoot wird sich für die höchste Einstellung entscheiden, um einen Slot zu plündern. Dies erlaubt, als Beispiel, automatisch alles zu plündern, wenn man Solo ist, aber nur Questgegenstände und Münzen während man in einer Gruppe ist", -- Needs review
 	autolooting_list = [=[Um automatisch spezifische Gegenstände zu Plündern, liste diese unten auf.
@@ -397,8 +397,6 @@ locales.koKR.Core = {
 	skin_desc = "사용할 스킨을 선택합니다. Masque 스킨을 포함",
 }
 locales.koKR.Frame = {
-	autoloot_coin = "골드 자동 획득",
-	autoloot_coin_desc = "자동으로 골드 획득의 경우",
 	autolooting = "자동 루팅",
 	autolooting_list = [=[자동으로 특정 항목을 룻하려면 다음을 나열합니다.
    예 : 리넨 천, 파멸의 인도자, 구리 광석]=], -- Needs review
@@ -548,8 +546,6 @@ locales.ruRU.Core = {
 }
 locales.ruRU.Frame = {
 	autoloot_all = "Автоматически собирать всю добычу",
-	autoloot_coin = "Автосбор денег",
-	autoloot_coin_desc = "Когда автоматически собирать деньги",
 	autolooting = "Автоматический сбор добычи",
 	autolooting_details = "XLoot will choose the highest setting when deciding to loot a slot. This allows, for example, auto looting everything while solo yet only quest items and money while in a group.", -- Needs review
 	autolooting_list = "Для автоматического сбора определённых вещей, перечислите их ниже.\\n Примеры: Льняной материал,Испепелитель,Медная руда",
@@ -695,8 +691,6 @@ locales.zhCN.Core = {
 }
 locales.zhCN.Frame = {
 	autoloot_all = "自动拾取所有物品",
-	autoloot_coin = "自动拾取金币",
-	autoloot_coin_desc = "何时自动拾取金币",
 	autolooting = "自动拾取",
 	autolooting_details = "XLoot将会在拾取时选择最高的设置。",
 	autolooting_list = [=[要自动拾取的特定物品，请在下面列出来。
@@ -878,8 +872,8 @@ locales.zhTW.Core = {
 }
 locales.zhTW.Frame = {
 	autoloot_all = "自動拾取所有物品",
-	autoloot_coin = "自動拾取金錢",
-	autoloot_coin_desc = "何時要自動拾取金錢",
+	autoloot_currency = "自動拾取貨幣",
+	autoloot_currency_desc = "何時自動拾取貨幣",
 	autolooting = "自動拾取",
 	autolooting_details = "XLoot進行拾取物品時會選最高級的設定。例如：單人的時候自動拾取所有物品，並且在隊伍中只拾取任務物品及金錢。",
 	autolooting_list = [=[要自動拾取特定物品，請列在下方。
@@ -890,6 +884,8 @@ locales.zhTW.Frame = {
 	autoloot_list_desc = "何時自動拾取表列物品",
 	autoloot_quest = "自動拾取任務物品",
 	autoloot_quest_desc = "何時要自動拾取任務物品",
+	autoloot_tradegoods = "自動拾取商業物品",
+	autoloot_tradegoods_desc = "何時自動拾取任何商業物品類型的物品",
 	colors = "色彩",
 	font = "字型",
 	fonts = "字型",
@@ -946,6 +942,19 @@ locales.zhTW.Group = {
 	expire_lost = "失敗/忽略的擲骰",
 	expire_won = "勝利的擲骰",
 	extra_info = "細節",
+	hook_alert = "改變拾取警報",
+	hook_alert_desc = [=[('你贏得..'的彈出視窗)
+黏附物品警報到一個可移動的錨點。
+
+取消此功能可以增進與其他拾取插件的相容度。
+
+(需要重載UI)]=],
+	hook_bonus = "改變加成骰",
+	hook_bonus_desc = [=[黏附加成骰的介面到一個可移動的錨點。
+
+取消此功能可以增進與其他拾取插件的相容度。
+
+(需要重載UI)]=],
 	other_frames = "其他框架",
 	panel_title = "群體拾取框架",
 	prefix_equippable = "可裝備物品的標示",

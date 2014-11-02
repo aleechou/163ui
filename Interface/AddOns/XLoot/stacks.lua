@@ -9,7 +9,9 @@ do
 	local backdrop = { bgFile = [[Interface\Tooltips\UI-Tooltip-Background]] }
 
 	local function OnDragStart(self)
-		self:StartMoving()
+		if self.data.draggable ~= false then
+			self:StartMoving()
+		end
 	end
 	
 	local function OnDragStop(self)

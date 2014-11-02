@@ -1,27 +1,22 @@
 ﻿## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Heart of Fear|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0恐惧之心|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0恐懼之心|r
 ## Author: MysticalOS
-## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMHeartofFear_SavedVars, DBMHeartofFear_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
-## X-DBM-Mod-Sort: 204
+## X-DBM-Mod-Name: Heart of Fear
+## X-DBM-Mod-Sort: 4
 ## X-DBM-Mod-MapID: 1009
-
-## X-Vendor: NetEase
-## X-163UI-Version: 20141019133643
-
+## LoadOnDemand: 1
+## Dependencies: DBM-Core
+## X-163UI-Version: 20141028162630
 localization.en.lua
-
 localization.tw.lua
 localization.cn.lua
-
 Zorlok.lua
 Tayak.lua
 Garalon.lua
