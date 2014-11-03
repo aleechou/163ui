@@ -31,4 +31,4 @@ Options.lua
 
 ## Title: |cff880303[网易有爱]|r 职业便捷条
 ## X-Vendor: NetEase
-## 163UI-Version: 2014060201
+## X-163UI-Version: 20141103120902
