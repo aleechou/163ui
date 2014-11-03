@@ -53,7 +53,7 @@ function AtlasLoot:OnInitialize()
 	
 	
 	local _, _, _, _, reason = GetAddOnInfo("AtlasLoot_Loader")
-	if reason ~=  "MISSING" then 
+	--[[if reason ~=  "MISSING" or then 
 		DisableAddOn("AtlasLoot_Loader") 
 		StaticPopupDialogs["ATLASLOOT_LOADER_ADDON_ERROR"] = {
 			text = AL["AtlasLoot_Loader is no longer in use.\nDelete it from your AddOns folder"],
@@ -63,7 +63,7 @@ function AtlasLoot:OnInitialize()
 			whileDead = 1,
 		}
 		StaticPopup_Show("ATLASLOOT_LOADER_ADDON_ERROR")
-	end
+	end]]
 
 	
 	--[[ scan for pet IDs
