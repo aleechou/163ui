@@ -44,7 +44,7 @@ db.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027151200
+## X-163UI-Version: 20141103114525
 
 Locales\Locales.lua
 Locales\constants.lua
