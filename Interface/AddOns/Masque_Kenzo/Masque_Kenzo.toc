@@ -23,4 +23,4 @@
 masque_kenzo.lua
 ## Title: |cff880303[网易有爱]|r 按钮美化皮肤
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014110501
+## X-163UI-Version: 20141105144827

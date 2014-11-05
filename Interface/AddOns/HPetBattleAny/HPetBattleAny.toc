@@ -11,7 +11,7 @@
 
 ## Title: |cff880303[网易有爱]|r 宠物对战增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014110501
+## X-163UI-Version: 20141105144827
 
 ## X-Date: 2014-10-29
 ## Version: 2.01
