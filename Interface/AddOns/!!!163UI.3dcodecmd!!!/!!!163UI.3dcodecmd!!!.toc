@@ -2,7 +2,7 @@
 ## Version: 1.2.21
 ## Author: alee
 ## Interface: 50400
-## 163UI-Version: 2014080901
+## X-163UI-Version: 20141105002001
 ## X-Vendor: NetEase
 ## SavedVariables: Cmd3DCode_Settings
 
