@@ -3,8 +3,8 @@
 
 * 更新AltasLoot 增加收藏物品以及阵营声望物品.
 * 更新动作条美化皮肤Kenzo风格.
-* 更新_NpcScan稀有精英警报.
-* <span color="red">增加HpetBattleAny宠物增强(野生宠物品质 属性提醒等)默认关闭.请宠物爱好者自行打开.</span>
+* 更新_NPCScan稀有精英警报.
+*  <span style="color:red">增加HpetBattleAny宠物增强(野生宠物品质 属性提醒等)默认关闭.请宠物爱好者自行打开.</span>
 
 
 2014-11-04/01
