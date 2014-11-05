@@ -19,6 +19,8 @@ local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
 local REMOVED_ITTYPE = data:AddItemTableType("Item", "Droprate")
 
+local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
+
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
 local REMOVED_CONTENT = data:AddContentType(AL["Removed"], ATLASLOOT_REMOVED_COLOR)
@@ -2573,30 +2575,26 @@ data["AhnQiraj"] = {
 			ExtraList = true,
 			[NORMAL_DIFF] = AQ_ENCHANTS,
 		},
-		{	--AQBroodRings
+		{	--BroodofNozdormu
 			FactionID = 910,
-			ExtraList = true,
 			CoinTexture = "Reputation",
 			ExtraList = true,
 			[NORMAL_DIFF] = {
-				{ 1, "INV_Box_01", nil, AL["Path of the Conqueror"], nil },
-				{ 2, 21201 },	-- Signet Ring of the Bronze Dragonflight
-				{ 3, 21202 },	-- Signet Ring of the Bronze Dragonflight
-				{ 4, 21203 },	-- Signet Ring of the Bronze Dragonflight
-				{ 5, 21204 },	-- Signet Ring of the Bronze Dragonflight
-				{ 6, 21205 },	-- Signet Ring of the Bronze Dragonflight
-				{ 8, "INV_Box_01", nil, AL["Path of the Invoker"], nil },
-				{ 9, 21206 },	-- Signet Ring of the Bronze Dragonflight
-				{ 10, 21207 },	-- Signet Ring of the Bronze Dragonflight
-				{ 11, 21208 },	-- Signet Ring of the Bronze Dragonflight
-				{ 12, 21209 },	-- Signet Ring of the Bronze Dragonflight
-				{ 13, 21210 },	-- Signet Ring of the Bronze Dragonflight
-				{ 16, "INV_Box_01", nil, AL["Path of the Protector"], nil },
-				{ 17, 21196 },	-- Signet Ring of the Bronze Dragonflight
-				{ 18, 21197 },	-- Signet Ring of the Bronze Dragonflight
-				{ 19, 21198 },	-- Signet Ring of the Bronze Dragonflight
-				{ 20, 21199 },	-- Signet Ring of the Bronze Dragonflight
-				{ 21, 21200 },	-- Signet Ring of the Bronze Dragonflight
+				{ 1, 21201, [QUEST_EXTRA_ITTYPE] = 8752 },	-- Signet Ring of the Bronze Dragonflight
+				{ 2, 21202, [QUEST_EXTRA_ITTYPE] = 8753 },	-- Signet Ring of the Bronze Dragonflight
+				{ 3, 21203, [QUEST_EXTRA_ITTYPE] = 8754 },	-- Signet Ring of the Bronze Dragonflight
+				{ 4, 21204, [QUEST_EXTRA_ITTYPE] = 8755 },	-- Signet Ring of the Bronze Dragonflight
+				{ 5, 21205, [QUEST_EXTRA_ITTYPE] = 8756 },	-- Signet Ring of the Bronze Dragonflight
+				{ 7, 21206, [QUEST_EXTRA_ITTYPE] = 8757 },	-- Signet Ring of the Bronze Dragonflight
+				{ 8, 21207, [QUEST_EXTRA_ITTYPE] = 8758 },	-- Signet Ring of the Bronze Dragonflight
+				{ 9, 21208, [QUEST_EXTRA_ITTYPE] = 8759 },	-- Signet Ring of the Bronze Dragonflight
+				{ 10, 21209, [QUEST_EXTRA_ITTYPE] = 8760 },	-- Signet Ring of the Bronze Dragonflight
+				{ 11, 21210, [QUEST_EXTRA_ITTYPE] = 8761 },	-- Signet Ring of the Bronze Dragonflight
+				{ 16, 21196, [QUEST_EXTRA_ITTYPE] = 8747 },	-- Signet Ring of the Bronze Dragonflight
+				{ 17, 21197, [QUEST_EXTRA_ITTYPE] = 8748 },	-- Signet Ring of the Bronze Dragonflight
+				{ 18, 21198, [QUEST_EXTRA_ITTYPE] = 8749 },	-- Signet Ring of the Bronze Dragonflight
+				{ 19, 21199, [QUEST_EXTRA_ITTYPE] = 8750 },	-- Signet Ring of the Bronze Dragonflight
+				{ 20, 21200, [QUEST_EXTRA_ITTYPE] = 8751 },	-- Signet Ring of the Bronze Dragonflight
 			},
 		},
 		CLASSIC_RAID_AC_TABLE,

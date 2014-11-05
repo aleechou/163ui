@@ -47,6 +47,10 @@ local function SetBgColor(self, r, g, b, alpha)
 	self.frame:SetBackdropColor(r, g, b, alpha or 1)
 end
 
+--- Select a entry
+-- @param	id				the entry ID
+-- @param	dataNum			the table index of the data table
+-- @param	startSelect		true/false if this is the first call
 local function SetSelected(self, id, dataNum, startSelect)
 	if not id and not dataNum then
 		if self.selected then
@@ -82,6 +86,18 @@ local function SetSelected(self, id, dataNum, startSelect)
 	end
 	if not startSelect then
 		UpdateScroll(self)
+	end
+end
+
+local function SetNext(self)
+	if self.selected and self.data[ self.selected[1] + 1 ] then
+		self:SetSelected(nil, self.selected[1]+1)
+	end
+end
+
+local function SetPrev(self)
+	if self.selected and self.data[ self.selected[1] - 1 ] then
+		self:SetSelected(nil, self.selected[1]-1)
 	end
 end
 
@@ -200,7 +216,7 @@ do
 			frame:SetScript("OnClick", ButtonOnClick)
 			
 			frame.label = frame:CreateFontString(frameName.."-label", "ARTWORK", "GameFontNormal")
-			frame.label:SetPoint("LEFT", frame, "LEFT")
+			--frame.label:SetPoint("LEFT", frame, "LEFT")
 			frame.label:SetHeight(self.buttonHeight)
 			frame.label:SetJustifyH("LEFT")
 			frame.label:SetText(frameName.."-label")
@@ -210,6 +226,9 @@ do
 			--frame.coin:SetTexture(_G.AtlasLoot.IMAGE_PATH.."silver")--gold
 			frame.coin:SetHeight(16)
 			frame.coin:SetWidth(16)
+			
+			frame.label:SetPoint("LEFT", frame, "LEFT")
+			frame.label:SetPoint("RIGHT", frame.coin, "LEFT")
 			
 		end
 		frame.obj = self
@@ -371,7 +390,12 @@ function GUI.CreateSelect()
 	self.SetNumEntrys = SetNumEntrys
 	self.SetButtonHeight = SetButtonHeight
 	self.SetBgColor = SetBgColor
+	-- set the selected entry (id, dataNum, startSelect)
 	self.SetSelected = SetSelected
+	-- goto next entry ()
+	self.SetNext = SetNext
+	self.SetPrev = SetPrev
+	-- set the table data (data, startValue)
 	self.SetData = SetData
 	self.ShowSelectedCoin = ShowSelectedCoin
 	self.SetToolTipFunc = SetToolTipFunc

@@ -3,16 +3,15 @@
 	Skin for Masque
 ]]
 
-local LBF = LibStub("LibButtonFacade", true)
-if
-	not LBF
-then
-	return
-		end
+local Masque = LibStub("Masque", true)
+if not Masque then return end
 
 -- kenzo -- basic
-LBF:AddSkin("kenzo", {
-	LBF_Version = 40200,
+Masque:AddSkin("kenzo", {
+	Author = "icw82",
+	Version = "2.0.0",
+	Masque_Version = 60000,
+	Shape = "Square",
 	Icon = {
 		Width = 32,
 		Height = 32,

@@ -348,6 +348,7 @@ function SoundFrame:Create()
 	--frame:Hide()
 	
 	frame.Refresh = SoundFrame.Refresh
+	frame.Clear = SoundFrame.Clear
 	
 	-- soundbuttons here !
 	frame.buttons = {}
@@ -394,5 +395,8 @@ function SoundFrame:Refresh()
 	UpdateContent()
 end
 
-
+function SoundFrame.Clear()
+	ClearButtonList()
+	SoundFrame.frame:Hide()
+end
 -- Sound Entry

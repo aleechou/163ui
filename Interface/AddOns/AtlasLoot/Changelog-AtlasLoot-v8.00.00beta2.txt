@@ -1,0 +1,256 @@
+------------------------------------------------------------------------
+r4311 | dynaletik | 2014-11-04 18:56:36 +0000 (Tue, 04 Nov 2014) | 1 line
+Changed paths:
+   A /tags/v8.00.00beta2 (from /trunk:4310)
+
+Tagging as v8.00.00beta2
+------------------------------------------------------------------------
+r4310 | dynaletik | 2014-11-04 18:54:42 +0000 (Tue, 04 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+   M /trunk/AtlasLoot/AtlasLoot.lua
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   M /trunk/AtlasLoot/Button/Button.lua
+   M /trunk/AtlasLoot/Button/Extra_Price_type.lua
+   M /trunk/AtlasLoot/Button/Extra_Quest_type.lua
+   M /trunk/AtlasLoot/Button/Faction_type.lua
+   M /trunk/AtlasLoot/Constants.lua
+   M /trunk/AtlasLoot/Core/TooltipScan.lua
+   M /trunk/AtlasLoot/Data/Mount.lua
+   M /trunk/AtlasLoot/Documentation/Release_Notes.txt
+   M /trunk/AtlasLoot/GUI/GUI.lua
+   M /trunk/AtlasLoot/GUI/ItemFrame.lua
+   M /trunk/AtlasLoot/GUI/ModelFrame.lua
+   M /trunk/AtlasLoot/GUI/SoundFrame.lua
+   A /trunk/AtlasLoot/GUI/Styler.lua
+   M /trunk/AtlasLoot/GUI/Template_DropDown.lua
+   M /trunk/AtlasLoot/GUI/Template_Select.lua
+   M /trunk/AtlasLoot/ItemDB/ItemDB.lua
+   M /trunk/AtlasLoot/Loader.lua
+   M /trunk/AtlasLoot/Locales/IngameLocales.lua
+   M /trunk/AtlasLoot/Locales/constants.lua
+   M /trunk/AtlasLoot_BurningCrusade/data.lua
+   M /trunk/AtlasLoot_Classic/data.lua
+   A /trunk/AtlasLoot_Collections
+   A /trunk/AtlasLoot_Collections/AtlasLoot_Collections.toc
+   A /trunk/AtlasLoot_Collections/data.lua
+   A /trunk/AtlasLoot_Factions
+   A /trunk/AtlasLoot_Factions/AtlasLoot_Factions.toc
+   A /trunk/AtlasLoot_Factions/data.lua
+   M /trunk/AtlasLoot_PvP/data.lua
+   M /trunk/AtlasLoot_WarlordsofDraenor/data.lua
+   M /trunk/AtlasLoot_WorldEvents/data.lua
+
+- update to b2
+------------------------------------------------------------------------
+r4309 | ananhaid | 2014-10-27 13:06:27 +0000 (Mon, 27 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot_BurningCrusade/AtlasLoot_BurningCrusade.toc
+   M /trunk/AtlasLoot_Cataclysm/AtlasLoot_Cataclysm.toc
+   M /trunk/AtlasLoot_Classic/AtlasLoot_Classic.toc
+   M /trunk/AtlasLoot_Crafting/AtlasLoot_Crafting.toc
+   M /trunk/AtlasLoot_PvP/AtlasLoot_PvP.toc
+   M /trunk/AtlasLoot_WarlordsofDraenor/AtlasLoot_WarlordsofDraenor.toc
+   M /trunk/AtlasLoot_WorldEvents/AtlasLoot_WorldEvents.toc
+   M /trunk/AtlasLoot_WrathoftheLichKing/AtlasLoot_WrathoftheLichKing.toc
+
+-zhCN update.
+------------------------------------------------------------------------
+r4308 | lag123 | 2014-10-26 19:16:15 +0000 (Sun, 26 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/Button/Button.lua
+   A /trunk/AtlasLoot/Libs/LibDataBroker-1.1 (from /trunk/AtlasLoot/Libs/libdatabroker-1-1:4307)
+   D /trunk/AtlasLoot/Libs/libdatabroker-1-1
+   M /trunk/AtlasLoot/embeds.xml
+
+- fix button icon size reset
+------------------------------------------------------------------------
+r4307 | lag123 | 2014-10-26 18:53:15 +0000 (Sun, 26 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   A /trunk/AtlasLoot/Libs/CallbackHandler-1.0
+   A /trunk/AtlasLoot/Libs/CallbackHandler-1.0/CallbackHandler-1.0.lua
+   A /trunk/AtlasLoot/Libs/CallbackHandler-1.0/CallbackHandler-1.0.xml
+   A /trunk/AtlasLoot/Libs/libdatabroker-1-1
+   A /trunk/AtlasLoot/Libs/libdatabroker-1-1/Changelog-libdatabroker-1-1-v1.1.4.txt
+   A /trunk/AtlasLoot/Libs/libdatabroker-1-1/LibDataBroker-1.1.lua
+   A /trunk/AtlasLoot/Libs/libdatabroker-1-1/README.textile
+
+- update for LDB
+------------------------------------------------------------------------
+r4306 | lag123 | 2014-10-26 18:13:03 +0000 (Sun, 26 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/MiniMapButton.lua
+
+- ADD LDB support
+------------------------------------------------------------------------
+r4302 | lag123 | 2014-10-26 17:11:30 +0000 (Sun, 26 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/Init.lua
+
+- db fix
+------------------------------------------------------------------------
+r4300 | lag123 | 2014-10-26 17:00:58 +0000 (Sun, 26 Oct 2014) | 1 line
+Changed paths:
+   A /trunk/.pkgmeta
+   A /trunk/AtlasLoot
+   A /trunk/AtlasLoot/Addons
+   A /trunk/AtlasLoot/Addons/Addons.lua
+   A /trunk/AtlasLoot/Addons/BonusRoll.lua
+   A /trunk/AtlasLoot/Addons/Search.lua
+   A /trunk/AtlasLoot/AtlasLoot.lua
+   A /trunk/AtlasLoot/AtlasLoot.toc
+   A /trunk/AtlasLoot/AtlasLoot.xml
+   A /trunk/AtlasLoot/Bindings.xml
+   A /trunk/AtlasLoot/Button
+   A /trunk/AtlasLoot/Button/Achievement_type.lua
+   A /trunk/AtlasLoot/Button/Button.lua
+   A /trunk/AtlasLoot/Button/Dummy_type.lua
+   A /trunk/AtlasLoot/Button/Extra_Location_type.lua
+   A /trunk/AtlasLoot/Button/Extra_Price_type.lua
+   A /trunk/AtlasLoot/Button/Extra_PvP_type.lua
+   A /trunk/AtlasLoot/Button/Extra_Quest_type.lua
+   A /trunk/AtlasLoot/Button/Faction_type.lua
+   A /trunk/AtlasLoot/Button/Item_type.lua
+   A /trunk/AtlasLoot/Button/Link_type.lua
+   A /trunk/AtlasLoot/Button/Mount_type.lua
+   A /trunk/AtlasLoot/Button/Pet_type.lua
+   A /trunk/AtlasLoot/Button/Profession_type.lua
+   A /trunk/AtlasLoot/Button/Set_type.lua
+   A /trunk/AtlasLoot/Button/Token_type.lua
+   A /trunk/AtlasLoot/Constants.lua
+   A /trunk/AtlasLoot/Core
+   A /trunk/AtlasLoot/Core/ChatLink.lua
+   A /trunk/AtlasLoot/Core/ClickHandler.lua
+   A /trunk/AtlasLoot/Core/EncounterJournal.lua
+   A /trunk/AtlasLoot/Core/ItemInfo.lua
+   A /trunk/AtlasLoot/Core/ItemQuery.lua
+   A /trunk/AtlasLoot/Core/ItemString.lua
+   A /trunk/AtlasLoot/Core/SlashCommands.lua
+   A /trunk/AtlasLoot/Core/StaticPopupDialogs.lua
+   A /trunk/AtlasLoot/Core/Tooltip.lua
+   A /trunk/AtlasLoot/Core/TooltipScan.lua
+   A /trunk/AtlasLoot/Data
+   A /trunk/AtlasLoot/Data/Mount.lua
+   A /trunk/AtlasLoot/Data/Sets.lua
+   A /trunk/AtlasLoot/Data/Token.lua
+   A /trunk/AtlasLoot/Documentation
+   A /trunk/AtlasLoot/Documentation/Release_Notes.txt
+   A /trunk/AtlasLoot/GUI
+   A /trunk/AtlasLoot/GUI/GUI.lua
+   A /trunk/AtlasLoot/GUI/GUI.xml
+   A /trunk/AtlasLoot/GUI/ItemFrame.lua
+   A /trunk/AtlasLoot/GUI/ModelFrame.lua
+   A /trunk/AtlasLoot/GUI/QuickLootFrame.lua
+   A /trunk/AtlasLoot/GUI/SetViewFrame.lua
+   A /trunk/AtlasLoot/GUI/SoundFrame.lua
+   A /trunk/AtlasLoot/GUI/Template_Button.lua
+   A /trunk/AtlasLoot/GUI/Template_CheckBox.lua
+   A /trunk/AtlasLoot/GUI/Template_DropDown.lua
+   A /trunk/AtlasLoot/GUI/Template_Select.lua
+   A /trunk/AtlasLoot/GUI/Template_TextWithBg.lua
+   A /trunk/AtlasLoot/Images
+   A /trunk/AtlasLoot/Images/gold.tga
+   A /trunk/AtlasLoot/Images/silver.tga
+   A /trunk/AtlasLoot/Init.lua
+   A /trunk/AtlasLoot/ItemDB
+   A /trunk/AtlasLoot/ItemDB/ItemDB.lua
+   A /trunk/AtlasLoot/ItemDB/NpcData.lua
+   A /trunk/AtlasLoot/ItemDB/SoundData.lua
+   A /trunk/AtlasLoot/Libs
+   A /trunk/AtlasLoot/Libs/AceDB-3.0
+   A /trunk/AtlasLoot/Libs/AceDB-3.0/AceDB-3.0.lua
+   A /trunk/AtlasLoot/Libs/AceDB-3.0/AceDB-3.0.xml
+   A /trunk/AtlasLoot/Libs/LibBabble-Boss-3.0
+   A /trunk/AtlasLoot/Libs/LibBabble-Boss-3.0/LibBabble-3.0.lua
+   A /trunk/AtlasLoot/Libs/LibBabble-Boss-3.0/LibBabble-Boss-3.0.lua
+   A /trunk/AtlasLoot/Libs/LibBabble-Boss-3.0/LibBabble-Boss-3.0.toc
+   A /trunk/AtlasLoot/Libs/LibBabble-Boss-3.0/lib.xml
+   A /trunk/AtlasLoot/Libs/LibStub
+   A /trunk/AtlasLoot/Libs/LibStub/.pkgmeta
+   A /trunk/AtlasLoot/Libs/LibStub/LibStub.lua
+   A /trunk/AtlasLoot/Libs/LibStub/LibStub.toc
+   A /trunk/AtlasLoot/Loader.lua
+   A /trunk/AtlasLoot/Locales
+   A /trunk/AtlasLoot/Locales/IngameLocales.lua
+   A /trunk/AtlasLoot/Locales/LibBabble.lua
+   A /trunk/AtlasLoot/Locales/Locales.lua
+   A /trunk/AtlasLoot/Locales/constants.cn.lua
+   A /trunk/AtlasLoot/Locales/constants.de.lua
+   A /trunk/AtlasLoot/Locales/constants.es.lua
+   A /trunk/AtlasLoot/Locales/constants.fr.lua
+   A /trunk/AtlasLoot/Locales/constants.kr.lua
+   A /trunk/AtlasLoot/Locales/constants.lua
+   A /trunk/AtlasLoot/Locales/constants.mx.lua
+   A /trunk/AtlasLoot/Locales/constants.pt.lua
+   A /trunk/AtlasLoot/Locales/constants.ru.lua
+   A /trunk/AtlasLoot/Locales/constants.tw.lua
+   A /trunk/AtlasLoot/MiniMapButton.lua
+   A /trunk/AtlasLoot/db.lua
+   A /trunk/AtlasLoot/embeds.xml
+   A /trunk/AtlasLoot_BurningCrusade
+   A /trunk/AtlasLoot_BurningCrusade/AtlasLoot_BurningCrusade.toc
+   A /trunk/AtlasLoot_BurningCrusade/data.lua
+   A /trunk/AtlasLoot_BurningCrusade/sounds.lua
+   A /trunk/AtlasLoot_Cataclysm
+   A /trunk/AtlasLoot_Cataclysm/AtlasLoot_Cataclysm.toc
+   A /trunk/AtlasLoot_Cataclysm/data.lua
+   A /trunk/AtlasLoot_Classic
+   A /trunk/AtlasLoot_Classic/AtlasLoot_Classic.toc
+   A /trunk/AtlasLoot_Classic/data.lua
+   A /trunk/AtlasLoot_Crafting
+   A /trunk/AtlasLoot_Crafting/AtlasLoot_Crafting.toc
+   A /trunk/AtlasLoot_Crafting/data.lua
+   A /trunk/AtlasLoot_MistsofPandaria
+   A /trunk/AtlasLoot_MistsofPandaria/AtlasLoot_MistsofPandaria.toc
+   A /trunk/AtlasLoot_MistsofPandaria/data.lua
+   A /trunk/AtlasLoot_MistsofPandaria/sounds.lua
+   A /trunk/AtlasLoot_PvP
+   A /trunk/AtlasLoot_PvP/AtlasLoot_PvP.toc
+   A /trunk/AtlasLoot_PvP/data.lua
+   A /trunk/AtlasLoot_WarlordsofDraenor
+   A /trunk/AtlasLoot_WarlordsofDraenor/AtlasLoot_WarlordsofDraenor.toc
+   A /trunk/AtlasLoot_WarlordsofDraenor/data.lua
+   A /trunk/AtlasLoot_WorldEvents
+   A /trunk/AtlasLoot_WorldEvents/AtlasLoot_WorldEvents.toc
+   A /trunk/AtlasLoot_WorldEvents/data.lua
+   A /trunk/AtlasLoot_WrathoftheLichKing
+   A /trunk/AtlasLoot_WrathoftheLichKing/AtlasLoot_WrathoftheLichKing.toc
+   A /trunk/AtlasLoot_WrathoftheLichKing/data.lua
+
+- v8 is real!
+------------------------------------------------------------------------
+r4299 | lag123 | 2014-10-21 15:15:15 +0000 (Tue, 21 Oct 2014) | 1 line
+Changed paths:
+   D /trunk/.pkgmeta
+   D /trunk/AtlasLoot.toc
+   D /trunk/AtlasLootRELEASE.toc
+   D /trunk/Bindings.xml
+   D /trunk/Core
+   D /trunk/Documentation
+   D /trunk/Images
+   D /trunk/Libs
+   D /trunk/Loader
+   D /trunk/Locales
+   D /trunk/LootTableModules
+   D /trunk/Menus
+   D /trunk/Modules
+   D /trunk/TableRegister
+   D /trunk/embeds.xml
+   D /trunk/modules.xml
+
+- wipe svn for v8.0 prepare
+------------------------------------------------------------------------
+r4298 | Bahnak | 2014-10-16 21:28:01 +0000 (Thu, 16 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Modules/BossTooltip.lua
+
+Update for WoD difficulties.
+------------------------------------------------------------------------
+r4297 | Dynaletik | 2014-06-12 14:14:45 +0000 (Thu, 12 Jun 2014) | 1 line
+Changed paths:
+   M /trunk/LootTableModules/MistsofPandaria/mistsofpandaria.lua
+
+- Warforged Nightmare is a Blizz Shop mount
+------------------------------------------------------------------------

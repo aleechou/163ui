@@ -69,6 +69,8 @@ end
 local function SetData(self, data, startValue)
 	if not data then
 		self:Clear()
+		self.data = nil
+		self.selectedId = nil
 		return
 	end
 	assert(type(data) == "table", "'data' must be a table. See 'GUI/Template_DropDown.lua' for infos.")

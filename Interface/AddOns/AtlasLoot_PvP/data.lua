@@ -26,13 +26,13 @@ data["WODS1SETS"] = {
 				{ 3, 115629, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Chestpiece
 				{ 4, 115630, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Gauntlets
 				{ 5, 115632, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Legguards
-				{ 7, 115839, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Helm
-				{ 8, 115841, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Shoulders
-				{ 9, 115837, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Chestpiece
-				{ 10, 115838, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Gauntlets
-				{ 11, 115906, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Girdle
-				{ 12, 115840, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Legguards
-				{ 13, 115909, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Warboots
+				{ 7, 115839, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Helm (r2000)
+				{ 8, 115841, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Shoulders (r2000)
+				{ 9, 115837, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Chestpiece (r2000)
+				{ 10, 115838, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Gauntlets (r2000)
+				{ 11, 115906, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Girdle (r2000)
+				{ 12, 115840, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dreadplate Legguards (r2000)
+				{ 13, 115909, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dreadplate Warboots (r2000)
 				{ 16, 115051, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Dreadplate Helm
 				{ 17, 115053, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Dreadplate Shoulders
 				{ 18, 115049, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Dreadplate Chestpiece
@@ -71,13 +71,13 @@ data["WODS1SETS"] = {
 				{ 3, 115637, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Robes
 				{ 4, 115634, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Gloves
 				{ 5, 115636, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Legguards
-				{ 7, 115843, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Helm
-				{ 8, 115846, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Spaulders
-				{ 9, 115845, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Robes
-				{ 10, 115842, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Gloves
-				{ 11, 115971, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Belt
-				{ 12, 115844, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Legguards
-				{ 13, 115970, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Footguards
+				{ 7, 115843, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Helm (r2000)
+				{ 8, 115846, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Spaulders (r2000)
+				{ 9, 115845, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Robes (r2000)
+				{ 10, 115842, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Gloves (r2000)
+				{ 11, 115971, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Belt (r2000)
+				{ 12, 115844, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Dragonhide Legguards (r2000)
+				{ 13, 115970, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Dragonhide Footguards (r2000)
 				{ 16, 115055, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Dragonhide Helm
 				{ 17, 115058, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Dragonhide Spaulders
 				{ 18, 115057, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Dragonhide Robes
@@ -116,13 +116,13 @@ data["WODS1SETS"] = {
 				{ 3, 115639, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Armor
 				{ 4, 115640, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Gauntlets
 				{ 5, 115642, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Leggings
-				{ 7, 115872, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Helm
-				{ 8, 115874, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Spaulders
-				{ 9, 115870, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Armor
-				{ 10, 115871, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Gauntlets
-				{ 11, 115866, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Links
-				{ 12, 115873, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Leggings
-				{ 13, 115868, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Sabatons
+				{ 7, 115872, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Helm (r2000)
+				{ 8, 115874, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Spaulders (r2000)
+				{ 9, 115870, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Armor (r2000)
+				{ 10, 115871, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Gauntlets (r2000)
+				{ 11, 115866, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Links (r2000)
+				{ 12, 115873, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Chain Leggings (r2000)
+				{ 13, 115868, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Chain Sabatons (r2000)
 				{ 16, 115061, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Chain Helm
 				{ 17, 115063, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Chain Spaulders
 				{ 18, 115059, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Chain Armor
@@ -161,13 +161,13 @@ data["WODS1SETS"] = {
 				{ 3, 115680, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Robe
 				{ 4, 115677, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Handguards
 				{ 5, 115679, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Trousers
-				{ 7, 115876, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Cowl
-				{ 8, 115879, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Amice
-				{ 9, 115878, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Robe
-				{ 10, 115875, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Handguards
-				{ 11, 115824, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Cord
-				{ 12, 115877, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Trousers
-				{ 13, 115827, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Treads
+				{ 7, 115876, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Cowl (r2000)
+				{ 8, 115879, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Amice (r2000)
+				{ 9, 115878, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Robe (r2000)
+				{ 10, 115875, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Handguards (r2000)
+				{ 11, 115824, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Cord (r2000)
+				{ 12, 115877, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Silk Trousers (r2000)
+				{ 13, 115827, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Silk Treads (r2000)
 				{ 16, 115091, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Silk Cowl
 				{ 17, 115094, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Silk Amice
 				{ 18, 115093, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Silk Robe
@@ -206,13 +206,13 @@ data["WODS1SETS"] = {
 				{ 3, 115695, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Tunic
 				{ 4, 115691, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Gloves
 				{ 5, 115693, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Legguards
-				{ 7, 115883, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Helm
-				{ 8, 115885, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Spaulders
-				{ 9, 115886, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Tunic
-				{ 10, 115882, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Gloves
-				{ 11, 115880, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Waistband
-				{ 12, 115884, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Legguards
-				{ 13, 115881, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Boots
+				{ 7, 115883, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Helm (r2000)
+				{ 8, 115885, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Spaulders (r2000)
+				{ 9, 115886, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Tunic (r2000)
+				{ 10, 115882, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Gloves (r2000)
+				{ 11, 115880, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Waistband (r2000)
+				{ 12, 115884, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ironskin Legguards (r2000)
+				{ 13, 115881, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ironskin Boots (r2000)
 				{ 16, 115102, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Ironskin Helm
 				{ 17, 115104, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Ironskin Spaulders
 				{ 18, 115105, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Ironskin Tunic
@@ -251,13 +251,13 @@ data["WODS1SETS"] = {
 				{ 3, 115696, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Chestpiece
 				{ 4, 115697, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Gauntlets
 				{ 5, 115699, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Legguards
-				{ 7, 115894, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Helm
-				{ 8, 115896, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Shoulders
-				{ 9, 115892, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Chestpiece
-				{ 10, 115893, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Gauntlets
-				{ 11, 115897, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Clasp
-				{ 12, 115895, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Legguards
-				{ 13, 115900, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Greaves
+				{ 7, 115894, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Helm (r2000)
+				{ 8, 115896, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Shoulders (r2000)
+				{ 9, 115892, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Chestpiece (r2000)
+				{ 10, 115893, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Gauntlets (r2000)
+				{ 11, 115897, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Clasp (r2000)
+				{ 12, 115895, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Scaled Legguards (r2000)
+				{ 13, 115900, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Scaled Greaves (r2000)
 				{ 16, 115108, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Scaled Helm
 				{ 17, 115110, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Scaled Shoulders
 				{ 18, 115106, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Scaled Chestpiece
@@ -296,13 +296,13 @@ data["WODS1SETS"] = {
 				{ 3, 115713, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Robe
 				{ 4, 115710, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Gloves
 				{ 5, 115712, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Leggings
-				{ 7, 115917, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Hood
-				{ 8, 115920, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Mantle
-				{ 9, 115919, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Robe
-				{ 10, 115916, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Gloves
-				{ 11, 115969, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Cord
-				{ 12, 115918, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Leggings
-				{ 13, 115968, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Treads
+				{ 7, 115917, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Hood (r2000)
+				{ 8, 115920, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Mantle (r2000)
+				{ 9, 115919, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Robe (r2000)
+				{ 10, 115916, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Gloves (r2000)
+				{ 11, 115969, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Cord (r2000)
+				{ 12, 115918, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Satin Leggings (r2000)
+				{ 13, 115968, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Satin Treads (r2000)
 				{ 16, 115118, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Satin Hood
 				{ 17, 115121, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Satin Mantle
 				{ 18, 115120, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Satin Robe
@@ -341,13 +341,13 @@ data["WODS1SETS"] = {
 				{ 3, 115715, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Tunic
 				{ 4, 115716, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Gloves
 				{ 5, 115718, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Legguards
-				{ 7, 115925, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Helm
-				{ 8, 115927, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Spaulders
-				{ 9, 115923, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Tunic
-				{ 10, 115924, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Gloves
-				{ 11, 115921, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Waistband
-				{ 12, 115926, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Legguards
-				{ 13, 115922, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Boots
+				{ 7, 115925, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Helm (r2000)
+				{ 8, 115927, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Spaulders (r2000)
+				{ 9, 115923, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Tunic (r2000)
+				{ 10, 115924, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Gloves (r2000)
+				{ 11, 115921, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Waistband (r2000)
+				{ 12, 115926, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leather Legguards (r2000)
+				{ 13, 115922, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Leather Boots (r2000)
 				{ 16, 115124, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leather Helm
 				{ 17, 115126, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Leather Spaulders
 				{ 18, 115122, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leather Tunic
@@ -386,13 +386,13 @@ data["WODS1SETS"] = {
 				{ 3, 115720, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Armor
 				{ 4, 115721, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Gauntlets
 				{ 5, 115723, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Leggings
-				{ 7, 115933, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Helm
-				{ 8, 115935, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Spaulders
-				{ 9, 115931, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Armor
-				{ 10, 115932, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Gauntlets
-				{ 11, 115928, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Waistguard
-				{ 12, 115934, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Leggings
-				{ 13, 115929, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Footguards
+				{ 7, 115933, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Helm (r2000)
+				{ 8, 115935, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Spaulders (r2000)
+				{ 9, 115931, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Armor (r2000)
+				{ 10, 115932, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Gauntlets (r2000)
+				{ 11, 115928, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Waistguard (r2000)
+				{ 12, 115934, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Ringmail Leggings (r2000)
+				{ 13, 115929, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ringmail Footguards (r2000)
 				{ 16, 115129, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Ringmail Helm
 				{ 17, 115131, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Ringmail Spaulders
 				{ 18, 115127, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Ringmail Armor
@@ -431,13 +431,13 @@ data["WODS1SETS"] = {
 				{ 3, 115764, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Raiment
 				{ 4, 115761, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Handguards
 				{ 5, 115763, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Trousers
-				{ 7, 115957, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Cowl
-				{ 8, 115960, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Amice
-				{ 9, 115959, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Raiment
-				{ 10, 115956, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Handguards
-				{ 11, 115825, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Cord
-				{ 12, 115958, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Trousers
-				{ 13, 115828, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Treads
+				{ 7, 115957, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Cowl (r2000)
+				{ 8, 115960, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Amice (r2000)
+				{ 9, 115959, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Raiment (r2000)
+				{ 10, 115956, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Handguards (r2000)
+				{ 11, 115825, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Cord (r2000)
+				{ 12, 115958, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Felweave Trousers (r2000)
+				{ 13, 115828, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Felweave Treads (r2000)
 				{ 16, 115162, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Felweave Cowl
 				{ 17, 115165, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Felweave Amice
 				{ 18, 115164, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Felweave Raiment
@@ -476,13 +476,13 @@ data["WODS1SETS"] = {
 				{ 3, 115766, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Chestpiece
 				{ 4, 115767, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Gauntlets
 				{ 5, 115769, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Legguards
-				{ 7, 115963, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Helm
-				{ 8, 115965, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Shoulders
-				{ 9, 115961, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Chestpiece
-				{ 10, 115962, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Gauntlets
-				{ 11, 115907, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Girdle
-				{ 12, 115964, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Legguards
-				{ 13, 115908, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Warboots
+				{ 7, 115963, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Helm (r2000)
+				{ 8, 115965, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Shoulders (r2000)
+				{ 9, 115961, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Chestpiece (r2000)
+				{ 10, 115962, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Gauntlets (r2000)
+				{ 11, 115907, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Girdle (r2000)
+				{ 12, 115964, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Legguards (r2000)
+				{ 13, 115908, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Plate Warboots (r2000)
 				{ 16, 115168, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Helm
 				{ 17, 115170, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Plate Shoulders
 				{ 18, 115166, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Chestpiece
@@ -516,8 +516,8 @@ data["WODS1SETS"] = {
 	},
 }
 
-data["WODS1NONSETARMOR"] = {
-	name = string.format(AL["Warlords Season %d"], 1).." "..AL["Non-Set Armor"],
+data["WODS1NONSETGEAR"] = {
+	name = string.format(AL["Warlords Season %d"], 1).." "..AL["Non-Set Gear"],
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
@@ -542,6 +542,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 115622, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Cord of Victory
 				{ 22, 115617, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Trousers of Cruelty
 				{ 23, 115625, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Treads of Victory
+				{ 101, 115039, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Hood of Prowess
+				{ 102, 115042, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Amice of Prowess
+				{ 103, 115041, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Robes of Prowess
+				{ 104, 115038, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gloves of Prowess
+				{ 105, 115040, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leggings of Prowess
+				{ 107, 115048, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cuffs of Cruelty
+				{ 108, 115047, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cuffs of Prowess
+				{ 110, 115043, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cord of Cruelty
+				{ 111, 115044, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cord of Prowess
+				{ 113, 115045, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Treads of Cruelty
+				{ 114, 115046, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Treads of Prowess
+				{ 116, 115196 },	-- Primal Aspirant's Cuffs of Prowess
+				{ 117, 115194 },	-- Primal Aspirant's Cord of Cruelty
+				{ 118, 115195 },	-- Primal Aspirant's Treads of Cruelty
 			},
 			[HORDE_DIFF] = {
 				{ 1, 111084, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Hood of Prowess
@@ -563,6 +577,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 111095, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Cord of Victory
 				{ 22, 111090, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Trousers of Cruelty
 				{ 23, 111098, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Treads of Victory
+				{ 101, 119829, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Hood of Prowess
+				{ 102, 119832, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Amice of Prowess
+				{ 103, 119831, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Robes of Prowess
+				{ 104, 119828, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gloves of Prowess
+				{ 105, 119830, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leggings of Prowess
+				{ 107, 119838, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cuffs of Cruelty
+				{ 108, 119837, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cuffs of Prowess
+				{ 110, 119833, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cord of Cruelty
+				{ 111, 119834, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cord of Prowess
+				{ 113, 119835, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Treads of Cruelty
+				{ 114, 119836, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Treads of Prowess
+				{ 116, 119973 },	-- Primal Aspirant's Cuffs of Prowess
+				{ 117, 119971 },	-- Primal Aspirant's Cord of Cruelty
+				{ 118, 119972 },	-- Primal Aspirant's Treads of Cruelty
 			},
 		},
 		{
@@ -587,6 +615,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 115670, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Belt of Victory
 				{ 22, 115786, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leggings
 				{ 23, 115673, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Boots of Victory
+				{ 101, 115175, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Helm
+				{ 102, 115177, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Spaulders
+				{ 103, 115173, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Tunic
+				{ 104, 115174, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gloves
+				{ 105, 115176, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Legguards
+				{ 107, 115088, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Bindings of Cruelty
+				{ 108, 115089, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Bindings of Prowess
+				{ 110, 115085, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Belt of Cruelty
+				{ 111, 115084, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Belt of Prowess
+				{ 113, 115086, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Boots of Cruelty
+				{ 114, 115087, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Boots of Prowess
+				{ 116, 115219 },	-- Primal Aspirant's Bindings of Cruelty
+				{ 117, 115217 },	-- Primal Aspirant's Belt of Prowess
+				{ 118, 115218 },	-- Primal Aspirant's Boots of Cruelty
 			},
 			[HORDE_DIFF] = {
 				{ 1, 111275, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Helm
@@ -608,6 +650,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 111143, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Belt of Victory
 				{ 22, 111286, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leggings
 				{ 23, 111146, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Boots of Victory
+				{ 101, 119952, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Helm
+				{ 102, 119954, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Spaulders
+				{ 103, 119950, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Tunic
+				{ 104, 119951, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gloves
+				{ 105, 119953, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Legguards
+				{ 107, 119871, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Bindings of Cruelty
+				{ 108, 119872, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Bindings of Prowess
+				{ 110, 119868, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Belt of Cruelty
+				{ 111, 119867, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Belt of Prowess
+				{ 113, 119869, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Boots of Cruelty
+				{ 114, 119870, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Boots of Prowess
+				{ 116, 119996 },	-- Primal Aspirant's Bindings of Cruelty
+				{ 117, 119994 },	-- Primal Aspirant's Belt of Prowess
+				{ 118, 119995 },	-- Primal Aspirant's Boots of Cruelty
 			},
 		},
 		{
@@ -632,6 +688,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 115684, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Waistguard of Victory
 				{ 22, 115791, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leggings
 				{ 23, 115687, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Footguards of Victory
+				{ 101, 115180, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Helm
+				{ 102, 115182, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Spaulders
+				{ 103, 115178, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Armor
+				{ 104, 115179, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gauntlets
+				{ 105, 115181, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leggings
+				{ 107, 115100, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armbands of Cruelty
+				{ 108, 115099, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armbands of Prowess
+				{ 110, 115095, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Waistguard of Cruelty
+				{ 111, 115096, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Waistguard of Prowess
+				{ 113, 115097, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Footguards of Cruelty
+				{ 114, 115098, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Footguards of Prowess
+				{ 116, 115227 },	-- Primal Aspirant's Armbands of Prowess
+				{ 117, 115225 },	-- Primal Aspirant's Waistguard of Cruelty
+				{ 118, 115226 },	-- Primal Aspirant's Footguards of Cruelty
 			},
 			[HORDE_DIFF] = {
 				{ 1, 111280, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Helm
@@ -653,6 +723,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 111157, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Waistguard of Victory
 				{ 22, 111291, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Leggings
 				{ 23, 111160, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Footguards of Victory
+				{ 101, 119957, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Helm
+				{ 102, 119959, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Spaulders
+				{ 103, 119955, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Armor
+				{ 104, 119956, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Gauntlets
+				{ 105, 119958, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Leggings
+				{ 107, 119883, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armbands of Cruelty
+				{ 108, 119882, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armbands of Prowess
+				{ 110, 119878, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Waistguard of Cruelty
+				{ 111, 119879, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Waistguard of Prowess
+				{ 113, 119880, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Footguards of Cruelty
+				{ 114, 119881, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Footguards of Prowess
+				{ 116, 120004 },	-- Primal Aspirant's Armbands of Prowess
+				{ 117, 120002 },	-- Primal Aspirant's Waistguard of Cruelty
+				{ 118, 120003 },	-- Primal Aspirant's Footguards of Cruelty
 			},
 		},
 		{
@@ -677,6 +761,20 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 115703, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Girdle of Victory
 				{ 22, 115744, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Leggings
 				{ 23, 115706, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Warboots of Victory
+				{ 101, 115143, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Helm
+				{ 102, 115145, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Plate Shoulders
+				{ 103, 115141, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Chestpiece
+				{ 104, 115142, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Plate Gauntlets
+				{ 105, 115144, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Legguards
+				{ 107, 115115, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armplates of Cruelty
+				{ 108, 115116, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armplates of Prowess
+				{ 110, 115111, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Girdle of Cruelty
+				{ 111, 115112, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Girdle of Prowess
+				{ 113, 115113, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Warboots of Cruelty
+				{ 114, 115114, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Warboots of Prowess
+				{ 116, 115240 },	-- Primal Aspirant's Armplates of Cruelty
+				{ 117, 115238 },	-- Primal Aspirant's Girdle of Cruelty
+				{ 118, 115239 },	-- Primal Aspirant's Warboots of Cruelty
 			},
 			[HORDE_DIFF] = {
 				{ 1, 111211, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Helm
@@ -698,6 +796,431 @@ data["WODS1NONSETARMOR"] = {
 				{ 21, 111176, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Girdle of Victory
 				{ 22, 111217, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Plate Leggings
 				{ 23, 111179, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Warboots of Victory
+				{ 101, 119920, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Helm
+				{ 102, 119922, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Plate Shoulders
+				{ 103, 119918, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Chestpiece
+				{ 104, 119919, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Plate Gauntlets
+				{ 105, 119921, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Plate Legguards
+				{ 107, 119898, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armplates of Cruelty
+				{ 108, 119899, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Armplates of Prowess
+				{ 110, 119894, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Girdle of Cruelty
+				{ 111, 119895, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Girdle of Prowess
+				{ 113, 119896, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Warboots of Cruelty
+				{ 114, 119897, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Warboots of Prowess
+				{ 116, 120017 },	-- Primal Aspirant's Armplates of Cruelty
+				{ 117, 120015 },	-- Primal Aspirant's Girdle of Cruelty
+				{ 118, 120016 },	-- Primal Aspirant's Warboots of Cruelty
+			},
+		},
+		{
+			name = AL["Amulets"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115734, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Cruelty
+				{ 2, 120108, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Endurance
+				{ 3, 115735, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Prowess
+				{ 5, 115606, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Necklace of Cruelty
+				{ 6, 115607, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Necklace of Prowess
+				{ 8, 115658, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Contemplation
+				{ 9, 115655, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Cruelty
+				{ 10, 115657, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Meditation
+				{ 11, 115656, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Prowess
+				{ 16, 115139, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Choker of Cruelty
+				{ 17, 115140, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Choker of Prowess
+				{ 18, 115034, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Necklace of Cruelty
+				{ 19, 115035, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Necklace of Prowess
+				{ 20, 115074, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Contemplation
+				{ 21, 115071, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Cruelty
+				{ 22, 115073, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Meditation
+				{ 23, 115072, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Prowess
+				{ 25, 115256 },	-- Primal Aspirant's Choker of Cruelty
+				{ 26, 115191 },	-- Primal Aspirant's Necklace of Cruelty
+				{ 27, 115212 },	-- Primal Aspirant's Pendant of Cruelty
+			},
+			[HORDE_DIFF] = {
+				{ 1, 111207, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Cruelty
+				{ 2, 120107, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Endurance
+				{ 3, 111208, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Choker of Prowess
+				{ 5, 111079, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Necklace of Cruelty
+				{ 6, 111080, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Necklace of Prowess
+				{ 8, 111131, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Contemplation
+				{ 9, 111128, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Cruelty
+				{ 10, 111130, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Meditation
+				{ 11, 111129, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Pendant of Prowess
+				{ 16, 119916, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Choker of Cruelty
+				{ 17, 119917, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Choker of Prowess
+				{ 18, 119824, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Necklace of Cruelty
+				{ 19, 119825, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Necklace of Prowess
+				{ 20, 119857, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Contemplation
+				{ 21, 119854, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Cruelty
+				{ 22, 119856, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Meditation
+				{ 23, 119855, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Pendant of Prowess
+				{ 25, 120033 },	-- Primal Aspirant's Choker of Cruelty
+				{ 26, 119968 },	-- Primal Aspirant's Necklace of Cruelty
+				{ 27, 119989 },	-- Primal Aspirant's Pendant of Cruelty
+			},
+		},
+		{
+			name = AL["Cloaks"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115604, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cape of Cruelty
+				{ 2, 115605, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cape of Prowess
+				{ 4, 115732, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Cruelty
+				{ 5, 120100, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Endurance
+				{ 6, 115733, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Prowess
+				{ 8, 115654, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Contemplation
+				{ 9, 115651, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Cruelty
+				{ 10, 115653, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Meditation
+				{ 11, 115652, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Prowess
+				{ 16, 115183, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cape of Cruelty
+				{ 17, 115184, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cape of Prowess
+				{ 18, 115189, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cloak of Cruelty
+				{ 19, 115190, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cloak of Prowess
+				{ 20, 115188, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Contemplation
+				{ 21, 115185, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Cruelty
+				{ 22, 115187, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Meditation
+				{ 23, 115186, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Prowess
+				{ 25, 115268 },	-- Primal Aspirant's Cape of Cruelty
+				{ 26, 115271 },	-- Primal Aspirant's Cloak of Cruelty
+				{ 27, 115269 },	-- Primal Aspirant's Drape of Cruelty
+				{ 28, 115270 },	-- Primal Aspirant's Drape of Meditation
+			},
+			[HORDE_DIFF] = {
+				{ 1, 111077, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cape of Cruelty
+				{ 2, 111078, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cape of Prowess
+				{ 4, 111205, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Cruelty
+				{ 5, 120099, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Endurance
+				{ 6, 111206, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Cloak of Prowess
+				{ 8, 111127, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Contemplation
+				{ 9, 111124, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Cruelty
+				{ 10, 111126, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Meditation
+				{ 11, 111125, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Drape of Prowess
+				{ 16, 119960, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cape of Cruelty
+				{ 17, 119961, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cape of Prowess
+				{ 18, 119966, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cloak of Cruelty
+				{ 19, 119967, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Cloak of Prowess
+				{ 20, 119965, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Contemplation
+				{ 21, 119962, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Cruelty
+				{ 22, 119964, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Meditation
+				{ 23, 119963, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Drape of Prowess
+				{ 25, 120045 },	-- Primal Aspirant's Cape of Cruelty
+				{ 26, 120048 },	-- Primal Aspirant's Cloak of Cruelty
+				{ 27, 120046 },	-- Primal Aspirant's Drape of Cruelty
+				{ 28, 120047 },	-- Primal Aspirant's Drape of Meditation
+			},
+		},
+		{
+			name = AL["Rings"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115665, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Contemplation
+				{ 2, 115661, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Cruelty
+				{ 3, 115664, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Meditation
+				{ 4, 115662, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Prowess
+				{ 5, 115663, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Victory
+				{ 7, 115608, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Cruelty
+				{ 8, 115609, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Prowess
+				{ 9, 115771, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Prowess
+				{ 11, 115747, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Accuracy
+				{ 12, 115772, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Accuracy
+				{ 13, 115746, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Cruelty
+				{ 14, 120104, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Endurance
+				{ 16, 115081, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Contemplation
+				{ 17, 115077, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Cruelty
+				{ 18, 115080, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Meditation
+				{ 19, 115078, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Prowess
+				{ 20, 115079, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Victory
+				{ 21, 115036, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Cruelty
+				{ 22, 115037, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Prowess
+				{ 23, 115171, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Prowess
+				{ 24, 115147, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Accuracy
+				{ 25, 115172, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Accuracy
+				{ 26, 115146, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Cruelty
+				{ 101, 115216 },	-- Primal Aspirant's Band of Contemplation
+				{ 102, 115213 },	-- Primal Aspirant's Band of Cruelty
+				{ 103, 115215 },	-- Primal Aspirant's Band of Meditation
+				{ 104, 115214 },	-- Primal Aspirant's Band of Prowess
+				{ 105, 115192 },	-- Primal Aspirant's Ring of Cruelty
+				{ 106, 115193 },	-- Primal Aspirant's Ring of Prowess
+				{ 107, 115257 },	-- Primal Aspirant's Signet of Cruelty
+			},
+			[HORDE_DIFF] = {
+				{ 1, 111138, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Contemplation
+				{ 2, 111134, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Cruelty
+				{ 3, 111137, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Meditation
+				{ 4, 111135, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Prowess
+				{ 5, 111136, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Band of Victory
+				{ 7, 111081, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Cruelty
+				{ 8, 111082, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Prowess
+				{ 9, 111271, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Ring of Prowess
+				{ 11, 111220, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Accuracy
+				{ 12, 111272, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Accuracy
+				{ 13, 111219, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Cruelty
+				{ 14, 120103, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Signet of Endurance
+				{ 16, 119864, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Contemplation
+				{ 17, 119860, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Cruelty
+				{ 18, 119863, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Meditation
+				{ 19, 119861, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Prowess
+				{ 20, 119862, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Band of Victory
+				{ 21, 119826, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Cruelty
+				{ 22, 119827, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Prowess
+				{ 23, 119948, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Ring of Prowess
+				{ 24, 119924, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Accuracy
+				{ 25, 119949, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Accuracy
+				{ 26, 119923, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Signet of Cruelty
+				{ 101, 119993 },	-- Primal Aspirant's Band of Contemplation
+				{ 102, 119990 },	-- Primal Aspirant's Band of Cruelty
+				{ 103, 119992 },	-- Primal Aspirant's Band of Meditation
+				{ 104, 119991 },	-- Primal Aspirant's Band of Prowess
+				{ 105, 119969 },	-- Primal Aspirant's Ring of Cruelty
+				{ 106, 119970 },	-- Primal Aspirant's Ring of Prowess
+				{ 107, 120034 },	-- Primal Aspirant's Signet of Cruelty
+			},
+		},
+		{
+			name = AL["Trinkets"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115496, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Adaptation
+				{ 2, 115749, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Conquest
+				{ 3, 115754, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Dominance
+				{ 4, 115759, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Victory
+				{ 5, 115751, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Cruelty
+				{ 6, 115753, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Meditation
+				{ 7, 115752, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Tenacity
+				{ 8, 115750, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Conquest
+				{ 9, 115755, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Dominance
+				{ 10, 115760, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Victory
+				{ 11, 115756, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Cruelty
+				{ 12, 115758, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Meditation
+				{ 13, 115757, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Tenacity
+				{ 16, 115521, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Adaptation
+				{ 17, 115149, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Conquest
+				{ 18, 115154, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Dominance
+				{ 19, 115159, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Victory
+				{ 20, 115151, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Cruelty
+				{ 21, 115153, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Meditation
+				{ 22, 115152, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Tenacity
+				{ 23, 115150, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Conquest
+				{ 24, 115155, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Dominance
+				{ 25, 115160, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Victory
+				{ 26, 115156, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Cruelty
+				{ 27, 115158, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Meditation
+				{ 28, 115157, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Tenacity
+			},
+			[HORDE_DIFF] = {
+				{ 1, 115495, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Adaptation
+				{ 2, 111222, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Conquest
+				{ 3, 111222, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Dominance
+				{ 4, 111232, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Badge of Victory
+				{ 5, 111224, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Cruelty
+				{ 6, 111226, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Meditation
+				{ 7, 111225, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Emblem of Tenacity
+				{ 8, 111223, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Conquest
+				{ 9, 111228, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Dominance
+				{ 10, 111233, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Insignia of Victory
+				{ 11, 111229, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Cruelty
+				{ 12, 111231, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Meditation
+				{ 13, 111230, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Medallion of Tenacity
+				{ 16, 120049, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Adaptation
+				{ 17, 119926, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Conquest
+				{ 18, 119931, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Dominance
+				{ 19, 119936, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Badge of Victory
+				{ 20, 119928, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Cruelty
+				{ 21, 119930, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Meditation
+				{ 22, 119929, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Emblem of Tenacity
+				{ 23, 119927, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Conquest
+				{ 24, 119932, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Dominance
+				{ 25, 119937, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Insignia of Victory
+				{ 26, 119933, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Cruelty
+				{ 27, 119935, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Meditation
+				{ 28, 119934, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Medallion of Tenacity
+			},
+		},
+		{
+			name = AL["Miscellaneous"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115979, [PRICE_EXTRA_ITTYPE] = "conquest:1000" },	-- Primal Gladiator's Greatcloak (r2600)
+				{ 3, 115972, [PRICE_EXTRA_ITTYPE] = "conquest:1000" },	-- Primal Gladiator's Tabard (r2600)
+				{ 16, 115976, [PRICE_EXTRA_ITTYPE] = "112160:1:conquest:500" },	-- Enchant Weapon - Glory of the Blackrock (r2400)
+				{ 17, 115978, [PRICE_EXTRA_ITTYPE] = "112165:1:conquest:500" },	-- Enchant Weapon - Glory of the Frostwolf (r2400)
+				{ 18, 115975, [PRICE_EXTRA_ITTYPE] = "112115:1:conquest:500" },	-- Enchant Weapon - Glory of the Shadowmoon (r2400)
+				{ 19, 115973, [PRICE_EXTRA_ITTYPE] = "110682:1:conquest:500" },	-- Enchant Weapon - Glory of the Thunderlord (r2400)
+				{ 20, 115977, [PRICE_EXTRA_ITTYPE] = "112164:1:conquest:500" },	-- Enchant Weapon - Glory of the Warsong (r2400)
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+			},
+		},
+	},
+}
+
+data["WODS1WEAPONS"] = {
+	name = string.format(AL["Warlords Season %d"], 1).." "..AL["Weapons"],
+	ContentType = NORMAL_ITTYPE,
+	items = {
+		{
+			name = string.format(AL["ilvl %d"], 660).." "..AL["Elite"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 115949, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Render (r2000)
+				{ 2, 115948, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ripper (r2000)
+				{ 4, 115832, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Spellblade (r2000)
+				{ 5, 115947, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Shanker (r2000)
+				{ 7, 115950, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Mageblade (r2000)
+				{ 8, 115822, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Quickblade (r2000)
+				{ 9, 115954, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Slicer (r2000)
+				{ 11, 115820, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Cleaver (r2000)
+				{ 12, 115952, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Hacker (r2000)
+				{ 16, 115953, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Bonecracker (r2000)
+				{ 17, 115863, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Gavel (r2000)
+				{ 18, 115821, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Pummeler (r2000)
+				{ 20, 115819, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Greatsword (r2000)
+				{ 21, 115817, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Decapitator (r2000)
+				{ 22, 115818, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Bonegrinder (r2000)
+				{ 24, 115910, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Pike (r2000)
+				{ 26, 115833, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Battle Staff (r2000)
+				{ 27, 115865, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Energy Staff (r2000)
+				{ 28, 115854, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Staff (r2000)
+				{ 101, 115831, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Barrier (r2000)
+				{ 102, 115864, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Redoubt (r2000)
+				{ 103, 115955, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Shield Wall (r2000)
+				{ 105, 115836, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Heavy Crossbow (r2000)
+				{ 106, 115823, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Longbow (r2000)
+				{ 107, 115862, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Rifle (r2000)
+				{ 116, 115951, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Baton of Light (r2000)
+				{ 117, 115835, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Touch of Defeat (r2000)
+				{ 119, 115834, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Reprieve (r2000)
+				{ 120, 115830, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Endgame (r2000)
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+			},
+		},
+		{
+			name = string.format(AL["ilvl %d"], 660).." (690)",
+			[ALLIANCE_DIFF] = {
+				{ 1, 115726, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Render
+				{ 2, 115596, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ripper
+				{ 4, 115644, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Spellblade
+				{ 5, 115595, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Shanker
+				{ 7, 115646, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Mageblade
+				{ 8, 115598, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Quickblade
+				{ 9, 115728, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Slicer
+				{ 11, 115594, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Cleaver
+				{ 12, 115725, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Hacker
+				{ 16, 115727, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Bonecracker
+				{ 17, 115645, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Gavel
+				{ 18, 115597, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Pummeler
+				{ 20, 115731, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Greatsword
+				{ 21, 115729, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Decapitator
+				{ 22, 115730, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Bonegrinder
+				{ 24, 115602, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Pike
+				{ 26, 115649, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Battle Staff
+				{ 27, 115650, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Energy Staff
+				{ 28, 115603, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Staff
+				{ 101, 115667, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Barrier
+				{ 102, 115666, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Redoubt
+				{ 103, 115748, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Shield Wall
+				{ 105, 115600, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Heavy Crossbow
+				{ 106, 115599, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Longbow
+				{ 107, 115601, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Rifle
+				{ 116, 115647, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Baton of Light
+				{ 117, 115648, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Touch of Defeat
+				{ 119, 115660, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Reprieve
+				{ 120, 115659, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Endgame
+			},
+			[HORDE_DIFF] = {
+				{ 1, 111199, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Render
+				{ 2, 111069, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Ripper
+				{ 4, 111117, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Spellblade
+				{ 5, 111068, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Shanker
+				{ 7, 111119, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Mageblade
+				{ 8, 111071, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Quickblade
+				{ 9, 111201, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Slicer
+				{ 11, 111067, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Cleaver
+				{ 12, 111198, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Hacker
+				{ 16, 111200, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Bonecracker
+				{ 17, 111118, [PRICE_EXTRA_ITTYPE] = "conquest:2250" },	-- Primal Gladiator's Gavel
+				{ 18, 111070, [PRICE_EXTRA_ITTYPE] = "conquest:1750" },	-- Primal Gladiator's Pummeler
+				{ 20, 111204, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Greatsword
+				{ 21, 111202, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Decapitator
+				{ 22, 111203, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Bonegrinder
+				{ 24, 111075, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Pike
+				{ 26, 111122, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Battle Staff
+				{ 27, 111123, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Energy Staff
+				{ 28, 111076, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Staff
+				{ 101, 111140, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Barrier
+				{ 102, 111139, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Redoubt
+				{ 103, 111221, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Shield Wall
+				{ 105, 111073, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Heavy Crossbow
+				{ 106, 111072, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Longbow
+				{ 107, 111074, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Rifle
+				{ 116, 111120, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Baton of Light
+				{ 117, 111121, [PRICE_EXTRA_ITTYPE] = "conquest:3500" },	-- Primal Gladiator's Touch of Defeat
+				{ 119, 111133, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Reprieve
+				{ 120, 111132, [PRICE_EXTRA_ITTYPE] = "conquest:1250" },	-- Primal Gladiator's Endgame
+			},
+		},
+		{
+			name = string.format(AL["ilvl %d"], 620).." (675)",
+			[ALLIANCE_DIFF] = {
+				{ 1, 120071, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Render
+				{ 2, 120055, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Ripper
+				{ 4, 120063, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Spellblade
+				{ 5, 120054, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Shanker
+				{ 7, 120065, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Mageblade
+				{ 8, 120057, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Quickblade
+				{ 9, 120073, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Slicer
+				{ 11, 120053, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cleaver
+				{ 12, 120070, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Hacker
+				{ 16, 120072, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Bonecracker
+				{ 17, 120064, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Gavel
+				{ 18, 120056, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Pummeler
+				{ 20, 120076, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Greatsword
+				{ 21, 120074, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Decapitator
+				{ 22, 120075, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Bonegrinder
+				{ 24, 120061, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Pike
+				{ 26, 120068, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Battle Staff
+				{ 27, 120069, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Energy Staff
+				{ 28, 120062, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Staff
+				{ 101, 115083, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Barrier
+				{ 102, 115082, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Redoubt
+				{ 103, 115148, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Shield Wall
+				{ 105, 120059, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Heavy Crossbow
+				{ 106, 120058, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Longbow
+				{ 107, 120060, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Rifle
+				{ 116, 120066, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Baton of Light
+				{ 117, 120067, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Touch of Defeat
+				{ 119, 115076, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Reprieve
+				{ 120, 115075, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Endgame
+			},
+			[HORDE_DIFF] = {
+				{ 1, 115133, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Render
+				{ 2, 115026, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Ripper
+				{ 4, 115064, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Spellblade
+				{ 5, 115025, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Shanker
+				{ 7, 115066, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Mageblade
+				{ 8, 115028, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Quickblade
+				{ 9, 115135, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Slicer
+				{ 11, 115024, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Cleaver
+				{ 12, 115132, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Hacker
+				{ 16, 115134, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Bonecracker
+				{ 17, 115065, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Primal Combatant's Gavel
+				{ 18, 115027, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Primal Combatant's Pummeler
+				{ 20, 115138, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Greatsword
+				{ 21, 115136, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Decapitator
+				{ 22, 115137, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Bonegrinder
+				{ 24, 115032, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Pike
+				{ 26, 115069, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Battle Staff
+				{ 27, 115070, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Energy Staff
+				{ 28, 115033, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Staff
+				{ 101, 119866, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Barrier
+				{ 102, 119865, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Redoubt
+				{ 103, 119925, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Shield Wall
+				{ 105, 115030, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Heavy Crossbow
+				{ 106, 115029, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Longbow
+				{ 107, 115031, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Rifle
+				{ 116, 115067, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Baton of Light
+				{ 117, 115068, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Touch of Defeat
+				{ 119, 119859, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Reprieve
+				{ 120, 119858, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Endgame
 			},
 		},
 	},

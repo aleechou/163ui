@@ -3,8 +3,8 @@
 ## Version: v8.00.00beta
 ## SavedVariables: AtlasLootDB
 ## SavedVariablesPerCharacter: AtlasLootCharDB
-## OptionalDeps: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0
-## X-Curse-Packaged-Version: v8.00.00beta1
+## OptionalDeps: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
+## X-Curse-Packaged-Version: v8.00.00beta2
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -33,7 +33,7 @@
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
-## X-Embeds: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0
+## X-Embeds: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
 ## X-Localizations: enUS, deDE, frFR, esES, koKR, zhCN, zhTW, esMX, ptBR, ruRU
 
 embeds.xml
@@ -44,8 +44,7 @@ db.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141103114525
-
+## X-163UI-Version: 2014110501
 Locales\Locales.lua
 Locales\constants.lua
 Locales\constants.cn.lua
@@ -113,6 +112,7 @@ GUI\ModelFrame.lua
 GUI\SoundFrame.lua
 GUI\QuickLootFrame.lua
 GUI\SetViewFrame.lua
+GUI\Styler.lua
 
 Addons\Addons.lua
 Addons\BonusRoll.lua

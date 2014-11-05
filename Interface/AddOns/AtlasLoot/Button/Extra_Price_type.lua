@@ -21,10 +21,14 @@ local PRICE_INFO = {
 	["apexis"] = { currencyID = 823 },
 	["artifactfragment"] = { currencyID = 944 },
 	["brewfest"] = { itemID = 37829 },
+	["champseal"] = { currencyID = 241 },
 	["conquest"] = { currencyID = 390 },
+	["darkmoon"] = { currencyID = 515 },
 	["eldercharm"] = { currencyID = 697 },
 	["honor"] = { currencyID = 392 },
 	["money"] = { func = GetCoinTextureString },
+	["timelesscoin"] = { currencyID = 777 },
+	["tolbarad"] = { currencyID = 391 },
 	["trickytreat"] = { itemID = 33226 },
 }
 

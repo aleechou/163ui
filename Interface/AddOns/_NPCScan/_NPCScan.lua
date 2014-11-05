@@ -1221,10 +1221,12 @@ function private.GenerateTargetMacro(instanceid)
 		end
 	end
 
-	--Add any custom tracked mobs
-	for npc_id, npc_name in pairs(_G._NPCScanOptions.NPCs) do
-		if not _G._NPCScanOptions.IgnoreList.NPCs[npc_id] and _G._NPCScanOptions.NPCWorldIDs[npc_id] == private.LOCALIZED_CONTINENT_NAMES[continent_id] then
-			private.macrotext = private.MACRO_FORMAT_CUSTOM_MOB:format(private.macrotext, npc_name)
+	--Checks for custom mobs and then add them
+	if _G._NPCScanOptions.NPCs then
+		for npc_id, npc_name in pairs(_G._NPCScanOptions.NPCs) do
+			if not _G._NPCScanOptions.IgnoreList.NPCs[npc_id] and _G._NPCScanOptions.NPCWorldIDs[npc_id] == private.LOCALIZED_CONTINENT_NAMES[continent_id] then
+				private.macrotext = private.MACRO_FORMAT_CUSTOM_MOB:format(private.macrotext, npc_name)
+			end
 		end
 	end
 

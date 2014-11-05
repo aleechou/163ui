@@ -1,0 +1,30 @@
+﻿## Interface: 60000
+## Author: Hegarol	
+## Version: v8.00.00beta2
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+## X-Curse-Packaged-Version: v8.00.00beta2
+## X-Curse-Project-Name: AtlasLoot Enhanced
+## X-Curse-Project-ID: atlasloot-enhanced
+## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
+
+## Title: AtlasLoot |cFF0099FF[Factions]|r
+## Title-deDE: AtlasLoot |cFF0099FF[Fraktionen]|r
+## Title-zhCN: AtlasLoot |cFF0099FF[阵营声望物品信息]|r
+## Title-zhTW: AtlasLoot |cFF0099FF[阵营声望物品信息]|r
+## Notes: AtlasLoot loot tables from factions
+## Notes-deDE: AtlasLoot Beuteverzeichnisse für Fraktionen
+## Notes-zhCN: 阵营声望物品信息
+## Notes-zhTW: 阵营声望物品信息
+## X-eMail: manager@atlasloot.net
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+
+## X-AtlasLoot-LootModule: 1
+
+## Title: |cff880303[网易有爱]|r AtlasLoot阵营声望物品信息
+## X-Vendor: NetEase
+## X-163UI-Version: 2014110501
+
+data.lua

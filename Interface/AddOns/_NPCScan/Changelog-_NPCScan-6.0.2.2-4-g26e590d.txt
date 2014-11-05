@@ -1,5 +1,0 @@
-SLOKnightfall:
-	- -Added check to prevent macro generation when in combat and to delay
-	- -Fix for toast not showing up on the test alert
-	- -Fixed target macro so it gives an alert if mob is found -Added check if a mob's alert is all ready shown before triggering another.
-	- -Fix for vignette not placing raid icon over target. -Update to Bai'Jin the Butcher's name from Bai-Jin the Butcher

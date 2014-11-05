@@ -14,6 +14,9 @@ local M25_DIFF = data:AddDifficulty(AL["25 Man"])
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
 
+local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
+local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
+
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
 
@@ -2620,13 +2623,12 @@ data["CoTHyjal"] = {
 				{ 11, 32428 },	-- Heart of Darkness
 				{ 12, 32897 },	-- Mark of the Illidari
 				{ 16, 32285 },	-- Design: Flashing Crimson Spinel
-				{ 17, 32296 },	-- Design: Rigid Empyrean Sapphire
-				{ 18, 32289 },	-- Design: Stormy Empyrean Sapphire
-				{ 19, 32295 },	-- Design: Mystic Lionseye
-				{ 20, 32303 },	-- Design: Inscribed Pyrestone
-				{ 21, 32298 },	-- Design: Shifting Shadowsong Amethyst
-				{ 22, 32297 },	-- Design: Sovereign Shadowsong Amethyst
-				{ 23, 32307 },	-- Design: Veiled Shadowsong Amethyst
+				{ 17, 32289 },	-- Design: Stormy Empyrean Sapphire
+				{ 18, 32295 },	-- Design: Mystic Lionseye
+				{ 19, 32303 },	-- Design: Inscribed Pyrestone
+				{ 20, 32298 },	-- Design: Shifting Shadowsong Amethyst
+				{ 21, 32297 },	-- Design: Sovereign Shadowsong Amethyst
+				{ 22, 32307 },	-- Design: Veiled Shadowsong Amethyst
 			},
 		},
 		{	--ScaleSands
@@ -2934,43 +2936,39 @@ data["Karazhan"] = {
 				{ 23, 24492 },	-- Keanna's Log
 			},
 		},
-		{	--VioletEye
+		{	--TheVioletEye
 			FactionID = 967,
-			ExtraList = true,
 			CoinTexture = "Reputation",
+			ExtraList = true,
 			[NORMAL_DIFF] = {
-				{ 1, "INV_Box_01", nil, AL["Path of the Violet Assassin"], nil },
-				{ 2, 29280 },	-- Violet Signet
-				{ 3, 29281 },	-- Violet Signet
-				{ 4, 29282 },	-- Violet Signet
-				{ 5, 29283 },	-- Violet Signet of the Master Assassin
-				{ 7, "INV_Box_01", nil, AL["Path of the Violet Mage"], nil },
-				{ 8, 29284 },	-- Violet Signet
-				{ 9, 29285 },	-- Violet Signet
-				{ 10, 29286 },	-- Violet Signet
-				{ 11, 29287 },	-- Violet Signet of the Archmage
-				{ 16, "INV_Box_01", nil, AL["Path of the Violet Restorer"], nil },
-				{ 17, 29288 },	-- Violet Signet
-				{ 18, 29289 },	-- Violet Signet
-				{ 19, 29291 },	-- Violet Signet
-				{ 20, 29290 },	-- Violet Signet of the Grand Restorer
-				{ 22, "INV_Box_01", nil, AL["Path of the Violet Protector"], nil },
-				{ 23, 29276 },	-- Violet Signet
-				{ 24, 29277 },	-- Violet Signet
-				{ 25, 29278 },	-- Violet Signet
-				{ 26, 29279 },	-- Violet Signet of the Great Protector
+				{ 1, 29280, [QUEST_EXTRA_ITTYPE] = 10731 },	-- Violet Signet
+				{ 2, 29281, [QUEST_EXTRA_ITTYPE] = 10735 },	-- Violet Signet
+				{ 3, 29282, [QUEST_EXTRA_ITTYPE] = 10740 },	-- Violet Signet
+				{ 4, 29283, [QUEST_EXTRA_ITTYPE] = 10727 },	-- Violet Signet of the Master Assassin
+				{ 6, 29284, [QUEST_EXTRA_ITTYPE] = 10729 },	-- Violet Signet
+				{ 7, 29285, [QUEST_EXTRA_ITTYPE] = 10733 },	-- Violet Signet
+				{ 8, 29286, [QUEST_EXTRA_ITTYPE] = 10738 },	-- Violet Signet
+				{ 9, 29287, [QUEST_EXTRA_ITTYPE] = 10725 },	-- Violet Signet of the Archmage
+				{ 16, 29288, [QUEST_EXTRA_ITTYPE] = 10730 },	-- Violet Signet
+				{ 17, 29289, [QUEST_EXTRA_ITTYPE] = 10734 },	-- Violet Signet
+				{ 18, 29291, [QUEST_EXTRA_ITTYPE] = 10739 },	-- Violet Signet
+				{ 19, 29290, [QUEST_EXTRA_ITTYPE] = 10726 },	-- Violet Signet of the Grand Restorer
+				{ 21, 29276, [QUEST_EXTRA_ITTYPE] = 10732 },	-- Violet Signet
+				{ 22, 29277, [QUEST_EXTRA_ITTYPE] = 10736 },	-- Violet Signet
+				{ 23, 29278, [QUEST_EXTRA_ITTYPE] = 10741 },	-- Violet Signet
+				{ 24, 29279, [QUEST_EXTRA_ITTYPE] = 10728 },	-- Violet Signet of the Great Protector
 				{ 101, "f967rep6" },
-				{ 102, 31113 },	-- Violet Badge
-				{ 103, 31395 },	-- Plans: Iceguard Helm
-				{ 104, 31393 },	-- Plans: Iceguard Breastplate
-				{ 105, 31401 },	-- Design: The Frozen Eye
-				{ 106, 29187 },	-- Inscription of Endurance
+				{ 102, 31113, [QUEST_EXTRA_ITTYPE] = 9860 },	-- Violet Badge
+				{ 103, 31395, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Helm (p2 375)
+				{ 104, 31393, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Breastplate (p2 375)
+				{ 105, 31401, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: The Frozen Eye (p12 375)
+				{ 106, 29187, [PRICE_EXTRA_ITTYPE] = "money:300000" },	-- Inscription of Endurance
 				{ 116, "f967rep7" },
-				{ 117, 31394 },	-- Plans: Iceguard Leggings
-				{ 118, 33205 },	-- Pattern: Shadowprowler's Chestguard
+				{ 117, 31394, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Leggings (p2 375)
+				{ 118, 33205, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Pattern: Shadowprowler's Chestguard (p7 365)
 				{ 120, "f967rep8" },
-				{ 121, 33124 },	-- Pattern: Cloak of Darkness
-				{ 122, 33165 },	-- Formula: Enchant Weapon - Greater Agility
+				{ 121, 33124, [PRICE_EXTRA_ITTYPE] = "money:50000" },	-- Pattern: Cloak of Darkness (p7 360)
+				{ 122, 33165, [PRICE_EXTRA_ITTYPE] = "money:30000" },	-- Formula: Enchant Weapon - Greater Agility (p4 350)
 			},
 		},
 		BC_RAID_AC_TABLE,

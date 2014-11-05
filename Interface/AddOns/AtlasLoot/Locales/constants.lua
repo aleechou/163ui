@@ -37,6 +37,7 @@ AL["Burning Crusade"] = true
 AL["Classic"] = true
 AL["Crafting"] = true
 AL["Collections"] = true
+AL["Factions"] = true
 AL["PvP"] = true
 AL["World Events"] = true
 AL["Map"] = true
@@ -160,10 +161,6 @@ AL["Avatar of the Martyred"] = true
 AL["Don Carlos"] = true
 AL["First Fragment Guardian"] = true
 AL["Overcharged Manacell"] = true
-AL["Path of the Violet Assassin"] = true
-AL["Path of the Violet Mage"] = true
-AL["Path of the Violet Protector"] = true
-AL["Path of the Violet Restorer"] = true
 AL["Second Fragment Guardian"] = true
 AL["Servant's Quarter Animal Bosses"] = true
 AL["Shattered Hand Executioner"] = true
@@ -175,11 +172,10 @@ AL["Firestone Vendor"] = true
 AL["Timed Reward Chest"] = true
 
 -- Warlords of Draenor strings
-AL["Apexis Crystal"] = true
-AL["Factions"] = true
 AL["Vendors"] = true
 
 -- Collections strings
+AL["Apexis Crystal"] = true
 AL["Mounts"] = true
 AL["Pets"] = true
 
@@ -227,9 +223,16 @@ AL["Trinkets"] = true
 AL["Weapons"] = true
 AL["Yellow Gems"] = true
 
+-- Factions strings
+AL["Best Friend"] = true
+AL["Good Friend"] = true
+AL["Rank %d"] = true
+
 -- PvP strings
+AL["Amulets"] = true
 AL["Class Sets"] = true
-AL["Non-Set Armor"] = true
+AL["Elite"] = true
+AL["Non-Set Gear"] = true
 AL["Season %d"] = true
 AL["Warlords Season %d"] = true
 
@@ -237,16 +240,20 @@ AL["Warlords Season %d"] = true
 AL["Brew of the Month Club"] = true
 AL["Brewfest"] = true
 AL["Candy"] = true
+AL["Darkmoon Faire"] = true
 AL["Day of the Dead"] = true
 AL["Drinks"] = true
 AL["Feast of Winter Veil"] = true
 AL["Gifts & Presents"] = true
 AL["Hallow's End"] = true
 AL["Harvest Festival"] = true
+AL["Heirloom"] = true
 AL["Non-Playable Race Masks"] = true
 AL["Pilgrim's Bounty"] = true
 AL["Playable Race Masks"] = true
 AL["Smokywood Pastures Vendor"] = true
 AL["Toys"] = true
+AL["Transmoggable Replicas"] = true
+AL["Vanity Gear"] = true
 AL["Vendor"] = true
 AL["Wands"] = true

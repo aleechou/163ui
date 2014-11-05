@@ -36,7 +36,7 @@ function AtlasLoot:Print(msg)
 end
 
 function AtlasLoot:OnInitialize()
-	if not AtlasLootDB.__addonrevision or AtlasLootDB.__addonrevision < AtlasLoot.__addonrevision then
+	if not AtlasLootDB.__addonrevision then --or AtlasLootDB.__addonrevision < AtlasLoot.__addonrevision then
 		wipe(AtlasLootDB)
 		AtlasLootDB.__addonrevision = AtlasLoot.__addonrevision
 	end

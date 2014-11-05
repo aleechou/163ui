@@ -34,16 +34,102 @@ local TT_NO_REV = "|cff00ff00"..NO
 local FACTION_REP_COLORS
 local FACTION_IMAGES = {
 	[0] = "Interface\\Icons\\Achievement_Reputation_08",			-- dummy
+
 	-- Classic
-	
+	[47] = "Interface\\Icons\\inv_misc_tournaments_symbol_dwarf",			--Ironforge
+	[54] = "Interface\\Icons\\inv_misc_tournaments_symbol_gnome",			--Gnomeregan
+	[59] = "Interface\\Icons\\INV_Ingot_Mithril",					--Thorium Brotherhood
+	[68] = "Interface\\Icons\\inv_misc_tournaments_symbol_scourge",			--Undercity
+	[69] = "Interface\\Icons\\inv_misc_tournaments_banner_nightelf",		--Darnassus
+	[72] = "Interface\\Icons\\inv_misc_tournaments_symbol_human",			--Stormwind
+	[76] = "Interface\\Icons\\inv_misc_tournaments_symbol_orc",			--Orgrimmar
+	[81] = "Interface\\Icons\\inv_misc_tournaments_symbol_tauren",			--Thunder Bluff
+	[87] = "Interface\\Icons\\INV_Helmet_66",					--Bloodsail Buccaneers
+	[529] = "Interface\\Icons\\inv_jewelry_talisman_07",				--Argent Dawn
+	[530] = "Interface\\Icons\\inv_misc_tournaments_symbol_troll",			--Darkspear Trolls
+	[576] = "Interface\\Icons\\achievement_reputation_timbermaw",			--Timbermaw Hold
+	[609] = "Interface\\Icons\\ability_racial_ultravision",				--Cenarion Circle
+	[910] = "Interface\\Icons\\inv_misc_head_dragon_bronze",			--Brood of Nozdormu
+
 	-- BC
-	
+	[911] = "Interface\\Icons\\inv_misc_tournaments_symbol_bloodelf",		--Silvermoon City
+	[922] = "Interface\\Icons\\INV_Misc_Bandana_03",				--Tranquillien
+	[930] = "Interface\\Icons\\inv_misc_tournaments_symbol_draenei",		--Exodar
+	[932] = "Interface\\Icons\\spell_arcane_portalshattrath",			--The Aldor
+	[933] = "Interface\\Icons\\inv_enchant_shardprismaticlarge",			--The Consortium
+	[934] = "Interface\\Icons\\spell_arcane_portalshattrath",			--The Scryers
+	[935] = "Interface\\Icons\\Spell_Nature_LightningOverload",			--The Sha'tar
+	[941] = "Interface\\Icons\\inv_misc_foot_centaur",				--The Mag'har
+	[942] = "Interface\\Icons\\ability_racial_ultravision",				--Cenarion Expedition
+	[946] = "Interface\\Icons\\INV_BannerPVP_02",					--Honor Hold
+	[947] = "Interface\\Icons\\INV_BannerPVP_01",					--Thrallmar
+	[967] = "Interface\\Icons\\spell_holy_mindsooth",				--The Violet Eye
+	[970] = "Interface\\Icons\\inv_mushroom_11",					--Sporeggar
+	[978] = "Interface\\Icons\\inv_misc_foot_centaur",				--Kurenai
+	[989] = "Interface\\Icons\\Ability_Warrior_VictoryRush",			--Keepers of Time
+	[990] = "Interface\\Icons\\inv_enchant_dustillusion",				--The Scale of the Sands
+	[1011] = "Interface\\Icons\\Ability_Rogue_MasterOfSubtlety",			--Lower City
+	[1012] = "Interface\\Icons\\achievement_reputation_ashtonguedeathsworn",	--Ashtongue Deathsworn
+	[1015] = "Interface\\Icons\\ability_mount_netherdrakepurple",			--Netherwing
+	[1031] = "Interface\\Icons\\ability_hunter_pet_netherray",			--Sha'tari Skyguard
+	[1038] = "Interface\\Icons\\inv_misc_apexis_crystal",				--Ogri'la
+	[1077] = "Interface\\Icons\\inv_shield_48",					--Shattered Sun Offensive
+
 	-- WotLK
-	
+	[1037] = "Interface\\Icons\\spell_misc_hellifrepvphonorholdfavor",		--Alliance Vanguard
+	[1052] = "Interface\\Icons\\spell_misc_hellifrepvpthrallmarfavor",		--Horde Expedition
+	[1073] = "Interface\\Icons\\achievement_reputation_tuskarr",			--The Kalu'ak
+	[1090] = "Interface\\Icons\\achievement_reputation_kirintor",			--Kirin Tor
+	[1091] = "Interface\\Icons\\achievement_reputation_wyrmresttemple",		--The Wyrmrest Accord
+	[1094] = "Interface\\Icons\\inv_elemental_primal_mana",				--The Silver Covenant
+	[1098] = "Interface\\Icons\\achievement_reputation_knightsoftheebonblade",	--Knights of the Ebon Blade
+	[1104] = "Interface\\Icons\\ability_mount_whitedirewolf",			--Frenzyheart Tribe
+	[1105] = "Interface\\Icons\\inv_misc_head_murloc_01",				--The Oracles
+	[1106] = "Interface\\Icons\\inv_jewelry_talisman_08",				--Argent Crusade
+	[1119] = "Interface\\Icons\\spell_frost_wizardmark",				--The Sons of Hodir
+	[1124] = "Interface\\Icons\\inv_elemental_primal_nether",			--The Sunreavers
+	[1156] = "Interface\\Icons\\inv_jewelry_talisman_08",				--The Ashen Verdict
+
 	-- Cata
-	
+	[1133] = "Interface\\Icons\\inv_misc_tabard_kezan",			--Bilgewater Cartel
+	[1134] = "Interface\\Icons\\inv_misc_tabard_gilneas",			--Gilneas
+	[1135] = "Interface\\Icons\\inv_misc_tabard_earthenring",		--The Earthen Ring
+	[1158] = "Interface\\Icons\\inv_misc_tabard_guardiansofhyjal",		--Guardians of Hyjal
+	[1171] = "Interface\\Icons\\inv_misc_tabard_therazane",			--Therazane
+	[1172] = "Interface\\Icons\\inv_misc_tabard_dragonmawclan",		--Dragonmaw Clan
+	[1173] = "Interface\\Icons\\inv_misc_tabard_tolvir",			--Ramkahen
+	[1174] = "Interface\\Icons\\inv_misc_tabard_wildhammerclan",		--Wildhammer Clan
+	[1177] = "Interface\\Icons\\inv_misc_tabard_baradinwardens",		--Baradin's Wardens
+	[1178] = "Interface\\Icons\\inv_misc_tabard_hellscream",		--Hellscream's Reach
+	[1204] = "Interface\\Icons\\inv_neck_hyjaldaily_04",			--Avengers of Hyjal
+
 	-- MoP
+	[1269] = "Interface\\Icons\\achievement_faction_goldenlotus",		--Golden Lotus
+	[1270] = "Interface\\Icons\\achievement_faction_shadopan",		--Shado Pan
+	[1271] = "Interface\\Icons\\achievement_faction_serpentriders",		--Order of the Cloud Serpent
+	[1272] = "Interface\\Icons\\achievement_faction_tillers",		--The Tillers
+	[1302] = "Interface\\Icons\\achievement_faction_anglers",		--The Anglers
+	[1337] = "Interface\\Icons\\achievement_faction_klaxxi",		--The Klaxxi
+	[1341] = "Interface\\Icons\\achievement_faction_celestials",		--The August Celestials
+	[1345] = "Interface\\Icons\\achievement_faction_lorewalkers",		--The Lorewalkers
+	[1352] = "Interface\\Icons\\inv_misc_tournaments_symbol_orc",		--Huojin Pandaren
+	[1353] = "Interface\\Icons\\inv_misc_tournaments_symbol_human",		--Tushui Pandaren
+	[1375] = "Interface\\Icons\\achievement_general_hordeslayer",		--Dominance Offensive
+	[1376] = "Interface\\Icons\\achievement_general_allianceslayer",	--Operation: Shieldwall
+	[1387] = "Interface\\Icons\\achievement_reputation_kirintor_offensive",	--Kirin Tor Offensive
+	[1388] = "Interface\\Icons\\achievement_faction_sunreaveronslaught",	--Sunreaver Onslaught
 	[1435] = "Interface\\Icons\\achievement_faction_shadopan",		--Shado-Pan Assault
+	[1492] = "Interface\\Icons\\ability_monk_quipunch",			--Emperor Shaohao
+
+	-- WoD
+	[1445] = "Interface\\Icons\\inv_tabard_a_01frostwolfclan",		--Frostwolf Orcs
+	[1515] = "Interface\\Icons\\inv_tabard_a_76arakkoaoutcast",		--Arakkoa Outcasts
+	[1681] = "Interface\\Icons\\inv_tabard_a_77voljinsspear",		--Vol'jin's Spear
+	[1682] = "Interface\\Icons\\inv_tabard_a_78wrynnvanguard",		--Wrynn's Vanguard
+	[1708] = "Interface\\Icons\\inv_tabard_a_80laughingskull",		--Laughing Skull Orcs
+	[1710] = "Interface\\Icons\\inv_tabard_a_shataridefense",		--Sha'tari Defense
+	[1711] = "Interface\\Icons\\achievement_goblinhead",			--Steamwheedle Perservation Society
+	[1731] = "Interface\\Icons\\inv_tabard_a_81exarchs",			--Council of Exarchs
 }
 
 local function GetLocRepStanding(id)

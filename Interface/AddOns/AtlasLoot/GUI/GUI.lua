@@ -50,15 +50,19 @@ local function UpdateFrames(noPageUpdate)
 	GUI.frame.contentFrame.topBG:SetTexture(contentColor[1], contentColor[2], contentColor[3], 0.7)
 	
 	-- Background color/image
-	if moduleData[dataID].items[bossID].BgImage then
-		GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].items[bossID].BgImage)
-	elseif moduleData[dataID].BgImage then
-		GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].BgImage)
-	elseif bgImage then
-		GUI.frame.contentFrame.itemBG:SetTexture(bgImage)
-		GUI.frame.contentFrame.itemBG:SetTexCoord(0.1, 0.7, 0.1, 0.7)
-	else
+	if db.hideBGImage then
 		GUI.frame.contentFrame.itemBG:SetTexture(0, 0, 0, ATLASLOOT_ITEM_BACKGROUND_ALPHA)
+	else
+		if moduleData[dataID].items[bossID].BgImage then
+			GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].items[bossID].BgImage)
+		elseif moduleData[dataID].BgImage then
+			GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].BgImage)
+		elseif bgImage then
+			GUI.frame.contentFrame.itemBG:SetTexture(bgImage)
+			GUI.frame.contentFrame.itemBG:SetTexCoord(0.1, 0.7, 0.1, 0.7)
+		else
+			GUI.frame.contentFrame.itemBG:SetTexture(0, 0, 0, ATLASLOOT_ITEM_BACKGROUND_ALPHA)
+		end
 	end
 	
 	-- set MapID
@@ -72,7 +76,7 @@ local function UpdateFrames(noPageUpdate)
 		GUI.frame.contentFrame.mapButton.mapID = nil
 		GUI.frame.contentFrame.mapButton:Hide()
 	end
-	
+
 	-- MODEL
 	if moduleData[dataID].items[bossID].DisplayIDs then
 		if not moduleData[dataID].items[bossID].DisplayIDs[1][2] then
@@ -112,7 +116,7 @@ local function UpdateFrames(noPageUpdate)
 				GUI.frame.contentFrame.nextPageButton.info = nil
 				--GUI.frame.contentFrame.nextPageButton.info = bossID + 1	
 			elseif not moduleData[dataID].items[bossID+1].ExtraList and not moduleData[dataID].items[bossID].ExtraList then
-				GUI.frame.contentFrame.nextPageButton.info = bossID + 1	
+				GUI.frame.contentFrame.nextPageButton.info = true
 			else
 				GUI.frame.contentFrame.nextPageButton.info = nil
 			end
@@ -122,7 +126,7 @@ local function UpdateFrames(noPageUpdate)
 		if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.prevPage and not moduleData[dataID].items[bossID].ExtraList then
 			GUI.frame.contentFrame.prevPageButton.info = tostring(GUI.frame.contentFrame.shownFrame.prevPage)
 		elseif moduleData[dataID].items[bossID-1] and not moduleData[dataID].items[bossID].ExtraList then
-			GUI.frame.contentFrame.prevPageButton.info = bossID - 1	
+			GUI.frame.contentFrame.prevPageButton.info = true
 		else
 			GUI.frame.contentFrame.prevPageButton.info = nil
 		end	
@@ -400,8 +404,14 @@ local function NextPrevButtonOnClick(self)
 		elseif type(self.info) == "table" then
 			AtlasLoot.db.profile.GUI.selected[5] = tonumber(self.info[2])
 			GUI.frame.boss:SetSelected(self.info[1])
-		else	-- next boss ;)
+		elseif type(self.info) == "number" then
 			GUI.frame.boss:SetSelected(self.info)
+		else	-- next boss ;)
+			if self.typ == "next" then
+				GUI.frame.boss:SetNext()
+			else
+				GUI.frame.boss:SetPrev()
+			end
 		end
 	end
 end
@@ -453,6 +463,10 @@ local function loadModule(addonName)
 	if GUI.frame.contentFrame.loadingDataText and GUI.frame.contentFrame.loadingDataText:IsShown() then
 		GUI.frame.contentFrame.loadingDataText:Hide()
 	end
+	
+	if not GUI.frame.contentFrame.itemsButton:IsShown() then
+		GUI.frame.contentFrame.itemsButton:Show()
+	end
 end
 
 local function ModuleSelectFunction(self, id, arg)
@@ -465,14 +479,26 @@ local function ModuleSelectFunction(self, id, arg)
 			text:SetAllPoints(GUI.frame.contentFrame)
 			text:SetJustifyH("CENTER")
 			text:SetJustifyV("MIDDLE")
-			--text:SetText(string.format(AL["%s will finish loading after combat."], id))
 			text:SetTextColor(1,1,1)
 			GUI.frame.contentFrame.loadingDataText = text
 		end
+		if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.Clear then
+			GUI.frame.contentFrame.shownFrame.Clear()
+		end
+		GUI.frame.subCatSelect:SetData(nil)
+		GUI.frame.difficulty:SetData(nil)
+		GUI.frame.boss:SetData(nil)
+		GUI.frame.extra:SetData(nil)
+		GUI.frame.contentFrame.mapButton:Hide()
+		GUI.frame.contentFrame.modelButton:Hide()
+		GUI.frame.contentFrame.itemsButton:Hide()
+		GUI.frame.contentFrame.nextPageButton.info = nil
+		GUI.frame.contentFrame.prevPageButton.info = nil
+		GUI:RefreshNextPrevButtons()
+		GUI.frame.contentFrame.clasFilterButton:Hide()
+		
 		GUI.frame.contentFrame.loadingDataText:SetText(string.format(AL["%s will finish loading after combat."], id))
 		GUI.frame.contentFrame.loadingDataText:Show()
-	elseif GUI.frame.contentFrame.loadingDataText and GUI.frame.contentFrame.loadingDataText:IsShown() then
-		GUI.frame.contentFrame.loadingDataText:Hide()
 	end
 end
 
@@ -496,6 +522,7 @@ local function SubCatSelectFunction(self, id, arg)
 				tt_title = moduleData[id]:GetNameForItemTable(i),
 				tt_text = tabVal.info or AtlasLoot.EncounterJournal:GetBossInfo(tabVal.EncounterJournalID)
 			}
+			if not dataExtra[#dataExtra].name then dataExtra[#dataExtra] = nil end
 		else
 			data[#data+1] = {
 				id = i,
@@ -504,6 +531,7 @@ local function SubCatSelectFunction(self, id, arg)
 				tt_title = moduleData[id]:GetNameForItemTable(i),
 				tt_text = tabVal.info or AtlasLoot.EncounterJournal:GetBossInfo(tabVal.EncounterJournalID)
 			}
+			if not data[#data].name then data[#data] = nil end
 		end
 	end
 	-- change difficulty from some instances
@@ -589,7 +617,7 @@ function GUI.Init()
 		data[index] = {
 			info = {
 				name = AL["AtlasLoot Modules"],
-				bgColor = {0, 0, 1, 1},		-- Background color
+				bgColor = {0, 0, 0, 1},		-- Background color
 			}
 		}
 		for i = 1, #tmp.module do
@@ -609,7 +637,7 @@ function GUI.Init()
 		data[index] = {
 			info = {
 				name = AL["Custom Modules"],
-				bgColor = {0, 1, 0, 1},		-- Background color
+				bgColor = {0, 0.3, 0, 1},		-- Background color
 			}
 		}
 		for i = 1, #tmp.custom do
@@ -634,6 +662,7 @@ function GUI.Init()
 	end
 	
 	AtlasLoot.SlashCommands:AddResetFunction(GUI.ResetFrames, "frames", "gui")
+	AtlasLoot.SlashCommands:Add("togglebg", function() db.hideBGImage = not db.hideBGImage end, "/al togglebg - Toggle the background image on loottables.")
 end
 AtlasLoot:AddInitFunc(GUI.Init)
 
@@ -685,7 +714,7 @@ function GUI:Create()
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
 	frame:SetBackdrop(ATLASLOOT_STYLE_BOX_BACKDROP)
-	frame:SetBackdropColor(1,1,1,1)
+	frame:SetBackdropColor(0.45,0.45,0.45,1)
 	frame:Hide()
 	tinsert(UISpecialFrames, frameName)	-- allow ESC close
 	
@@ -696,7 +725,7 @@ function GUI:Create()
 	--frame.Title:SetPoint("TOP", frame, "TOP", 0, -10)
 	--frame.Title:SetText(AL["AtlasLoot"])
 	
-	frame.titleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0, {r=0, g=0, b=0}, {r=1, g=1, b=1})
+	frame.titleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0, {r=0.05, g=0.05, b=0.05}, {r=0.9, g=0.9, b=0.9})
 	frame.titleFrame:SetPoint("TOPLEFT", frame, 10, -7)
 	frame.titleFrame:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -30, -25)
 	frame.titleFrame.text:SetText(AL["AtlasLoot"])
@@ -759,7 +788,7 @@ function GUI:Create()
 	
 	frame.contentFrame.downBG = frame.contentFrame:CreateTexture(frameName.."-downBG","BACKGROUND")
 	frame.contentFrame.downBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT", 0, -480)
-	frame.contentFrame.downBG:SetTexture(0.67, 0.83, 0.45, 0.7)
+	frame.contentFrame.downBG:SetTexture(0.05, 0.05, 0.05, 0.5)
 	frame.contentFrame.downBG:SetWidth(560)
 	frame.contentFrame.downBG:SetHeight(30)
 	
@@ -783,6 +812,7 @@ function GUI:Create()
 	frame.contentFrame.nextPageButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	frame.contentFrame.nextPageButton:SetPoint("RIGHT", frame.contentFrame.downBG, "RIGHT", 0, 0)
 	frame.contentFrame.nextPageButton:SetScript("OnClick", NextPrevButtonOnClick)
+	frame.contentFrame.nextPageButton.typ = "next"
 	
 	
 	frame.contentFrame.mapButton = CreateFrame("Button", frameName.."-mapButton")
@@ -834,6 +864,7 @@ function GUI:Create()
 	frame.contentFrame.prevPageButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	frame.contentFrame.prevPageButton:SetPoint("LEFT", frame.contentFrame.downBG, "LEFT", 5, 0)
 	frame.contentFrame.prevPageButton:SetScript("OnClick", NextPrevButtonOnClick)
+	frame.contentFrame.prevPageButton.typ = "prev"
 	
 	frame.contentFrame.itemsButton = GUI.CreateButton()
 	frame.contentFrame.itemsButton:SetPoint("LEFT", frame.contentFrame.prevPageButton, "RIGHT", 5, 0)
@@ -865,6 +896,11 @@ function GUI:Create()
 	self.ItemFrame:Create()
 	--self.SoundFrame:Create()
 end
+
+function GUI.RefreshStyle()
+	
+end
+
 
 function GUI.ResetFrames()
 	db.point = { "CENTER" }

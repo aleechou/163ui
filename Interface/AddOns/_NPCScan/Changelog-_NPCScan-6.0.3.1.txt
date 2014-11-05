@@ -1,0 +1,12 @@
+tag 6.0.3.1
+cc51f861a907a19704f0daae6e08e7f922abf927
+SLOKnightfall <SLOKnightfall@gmail.com>
+2014-11-04 12:53:44 -0800
+
+Tagging update
+
+
+--------------------
+
+SLOKnightfall:
+	- -Fix for no custom mobs list found error being thrown on first run of addon
