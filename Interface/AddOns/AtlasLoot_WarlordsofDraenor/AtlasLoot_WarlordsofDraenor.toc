@@ -1,18 +1,20 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta1
+## Version: v8.00.00beta2
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta1
+## X-Curse-Packaged-Version: v8.00.00beta2
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
 
 ## Title: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
-## Notes-zhCN: AtlasLoot  WOD (德拉诺之王) 物品信息
+## Title-zhCN: AtlasLoot |cFF0099FF[德拉诺之王物品信息]|r
+
 ## Notes: AtlasLoot loot tables from Warlords of Draenor
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Warlords of Draenor
+## Notes-zhCN: AtlasLoot 《德拉诺之王》物品信息
 
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
@@ -25,7 +27,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r Warlords of Draenor (德拉诺之王) 物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: NaNaNaNaNaNaN
-
-
-## X-163UI-Version: 20141027150801
+## X-163UI-Version: 20141105144827

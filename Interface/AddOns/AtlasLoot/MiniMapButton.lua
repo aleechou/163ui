@@ -77,7 +77,9 @@ end
 
 local function OnClick(self, button)
 	if button == "RightButton" then return end
-	OnMouseUp(self)
+	if self then
+		OnMouseUp(self)
+	end
 	if IsShiftKeyDown() then
 		SlashCommands:Run("options")
 	else
@@ -163,4 +165,22 @@ function MiniMapButton.Show()
 		
 		MiniMapButton.frame:Show()
 	end
+end
+
+-- LDB
+if not LibStub:GetLibrary("LibDataBroker-1.1", true) then return end
+
+--Make an LDB object
+local MiniMapLDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("AtlasLoot", {
+    type = "launcher",
+	text = AL["AtlasLoot"],
+    icon = "Interface\\Icons\\INV_Box_01",
+	OnTooltipShow = function(tooltip)
+		tooltip:AddLine("|cff00FF00"..AL["AtlasLoot"].."|r");
+		tooltip:AddLine(AL["|cffFF0000Click: |cffFFFFFFOpen AtlasLoot\n|cffFF0000Shift+Click: |cffFFFFFFOpen AtlasLoot-Options "]);
+	end
+})
+
+function MiniMapLDB:OnClick(button,down)
+	OnClick(nil, button)
 end

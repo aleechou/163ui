@@ -31,7 +31,9 @@ function ItemFrame:Create()
 	--frame:Hide()
 	-- create all item buttons
 	frame.Refresh = ItemFrame.Refresh
+	frame.Clear = ItemFrame.Clear
 	frame.OnClassFilterUpdate = ItemFrame.OnClassFilterUpdate
+	
 	frame.ItemButtons = {}
 	for i=1,30 do
 		frame.ItemButtons[i] = AtlasLoot.Button:Create()
@@ -62,6 +64,7 @@ end
 function ItemFrame:ClearItems()
 	for i=1,30 do
 		self.frame.ItemButtons[i]:Clear()
+		self.frame.ItemButtons[i]:Hide()
 	end
 	AtlasLoot.EncounterJournal:ClearLootQuery()
 end
@@ -151,4 +154,8 @@ function ItemFrame:Refresh(skipProtect)
 		end
 	end
 	ItemFrame.OnClassFilterUpdate()
+end
+
+function ItemFrame.Clear()
+	ItemFrame:ClearItems()
 end

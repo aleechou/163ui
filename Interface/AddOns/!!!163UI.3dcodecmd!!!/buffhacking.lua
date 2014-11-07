@@ -198,10 +198,12 @@ o:SetPoint("TOPRIGHT",i,a)
 o:Show()
 Æ
 Ì É n(e)
-Ê U1DB Á U1DB.configs Á U1DB.configs["!!!163ui!!!/displayLinkageStatusAsBuff"]=="_NIL"Ò
+Ê U1DB Á U1DB.configs Ò
+Ê U1DB.configs["!!!163ui!!!/displayLinkageStatusAsBuff"]=="_NIL"Ï U1DB.configs["!!!163ui!!!/displayLinkageStatusAsBuff"]==Ç Ò
 buff163uiLinkage_offline:Hide()
 buff163uiLinkage_online:Hide()
 Ñ
+Æ
 Æ
 Ê Î e Ò
 e=time()

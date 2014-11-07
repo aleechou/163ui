@@ -15,9 +15,20 @@ end
 
 local IngameLocales = {
 	-- ######################################################################
+	-- Factions
+	-- ######################################################################
+	-- Warlords of Draenor
+	["Bizmo's Brawlpub"] = GetFactionInfoByID(1691),
+	["Brawl'gar Arena"] = GetFactionInfoByID(1690),
+	-- Mists of Pandaria
+	["Nat Pagle"] = GetFactionInfoByID(1358),
+	["Old Hillpaw"] = GetFactionInfoByID(1276),
+	["Sho"] = GetFactionInfoByID(1278),
+
+	-- ######################################################################
 	--- Items
 	-- ######################################################################
-	---- Feast of Winter Veil
+	-- Feast of Winter Veil
 	["Carefully Wrapped Present"] = GetItemInfo(21191),
 	["Gaily Wrapped Present"] = GetItemInfo(21310),
 	["Gently Shaken Gift"] = GetItemInfo(21271),

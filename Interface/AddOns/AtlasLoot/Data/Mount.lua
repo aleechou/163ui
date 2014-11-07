@@ -516,6 +516,14 @@ local MOUNT_INFO = {
 		[171638] = 116676,	--Trained Riverwallow
 	},
 	["items"] = {
+		[31830] = 39315,	--Cobalt Riding Talbuk
+		[31832] = 39317,	--Silver Riding Talbuk
+		[31834] = 39318,	--Tan Riding Talbuk
+		[31836] = 39319,	--White Riding Talbuk
+		[29227] = 34896,	--Cobalt War Talbuk
+		[29229] = 34898,	--Silver War Talbuk
+		[29230] = 34899,	--Tan War Talbuk
+		[29231] = 34897,	--White War Talbuk
 		[65356] = 88741,	--Drake of the West Wind		double entry....
 	}, -- [itemID] = spellID
 	["index"] = {}, -- [spellID] = index

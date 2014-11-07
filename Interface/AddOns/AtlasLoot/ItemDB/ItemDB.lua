@@ -157,8 +157,8 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 				if newDif then
 					newDif = ItemDB.Storage[bossDiff]:GetDifficultyByID(newDif)
 				else
-					newDif = ItemDB.Storage[addonName]:GetDifficultyUName(dif)
-					newDif = ItemDB.Storage[bossDiff]:GetDifficultyName(newDif.name)
+					newDif = ItemDB.Storage[addonName]:GetDifficultyUName(dif) or ItemDB.Storage[addonName]:GetDifficultyName(dif)
+					newDif = ItemDB.Storage[bossDiff]:GetDifficultyByName(newDif)
 				end
 				ItemDB.Storage[addonName][contentName].items[boss][dif] = ItemDB.Storage[bossDiff][contentName].items[boss][newDif]
 			end
@@ -345,7 +345,7 @@ function ItemDB.ContentProto:GetName()
 	elseif self.MapID then
 		return GetMapNameByID(self.MapID)
 	elseif self.FactionID then
-		return GetFactionInfoByID(self.FactionID) or "Faction "..self.FactionID
+		return GetFactionInfoByID(self.FactionID) --or "Faction "..self.FactionID
 	else
 		return UNKNOWN
 	end
@@ -369,7 +369,7 @@ function ItemDB.ContentProto:GetNameForItemTable(index)
 	elseif self.items[index].EncounterJournalID then
 		return AtlasLoot.EncounterJournal:GetBossName(self.items[index].EncounterJournalID)
 	elseif self.items[index].FactionID then
-		return GetFactionInfoByID(self.items[index].FactionID) or "Faction "..self.items[index].FactionID
+		return GetFactionInfoByID(self.items[index].FactionID) --or "Faction "..self.items[index].FactionID
 	else
 		return UNKNOWN
 	end

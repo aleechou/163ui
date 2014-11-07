@@ -5,7 +5,7 @@ AtlasLoot.GUI.ModelFrame = ModelFrame
 local AL = AtlasLoot.Locales
 
 -- lua
-local next, ipairs = next, ipairs
+local next = next
 
 -- //\\
 local MAX_CREATURES_PER_ENCOUNTER = 9
@@ -26,12 +26,13 @@ local function GetButtonFromCache()
 end
 
 local function ClearButtonList()
-	for _,button in ipairs(buttons) do
+	for i = 1, #buttons do
+		local button = buttons[i]
 		cache[button] = true
 		button.info = nil
 		button:Hide()
+		buttons[i] = nil
 	end
-	wipe(buttons)
 end
 
 function ModelFrame.ButtonOnClick(self)
@@ -83,6 +84,7 @@ function ModelFrame:Create()
 	frame.minZoom = -0.3
 	frame.maxZoom = 1.0
 	frame.Refresh = ModelFrame.Refresh
+	frame.Clear = ModelFrame.Clear
 	frame:Hide()
 	
 end
@@ -149,4 +151,9 @@ function ModelFrame:SetEncounterID(encounterID)
 		end
 	end
 	ModelFrame.frame:Show()
+end
+
+function ModelFrame.Clear()
+	ClearButtonList()
+	ModelFrame.frame:Hide()
 end

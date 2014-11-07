@@ -57,18 +57,23 @@ local ATLASLOOT_MODULE_LIST = {
 		tt_text = nil,		-- ToolTip text
 	},
 	{
+		addonName = "AtlasLoot_Collections",
+		name = AL["Collections"],
+		tt_title = nil,		-- ToolTip title
+		tt_text = nil,		-- ToolTip text
+	},
+	{
 		addonName = "AtlasLoot_Crafting",
 		name = AL["Crafting"],
 		tt_title = nil,		-- ToolTip title
 		tt_text = nil,		-- ToolTip text
 	},
-	--[[
 	{
-		addonName = "AtlasLoot_Collections",
-		name = AL["Collections"],
+		addonName = "AtlasLoot_Factions",
+		name = AL["Factions"],
 		tt_title = nil,		-- ToolTip title
 		tt_text = nil,		-- ToolTip text
-	},--]]
+	},
 	{
 		addonName = "AtlasLoot_PvP",
 		name = AL["PvP"],

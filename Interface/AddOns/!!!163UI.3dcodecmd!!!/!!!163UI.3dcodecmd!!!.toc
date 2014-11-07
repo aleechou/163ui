@@ -1,8 +1,8 @@
-## Title:  有爱客户端 v1.2.20
-## Version: 1.2.20
+## Title:  有爱客户端 v1.2.21
+## Version: 1.2.21
 ## Author: alee
 ## Interface: 60000
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141105145811
 ## X-Vendor: NetEase
 ## SavedVariables: Cmd3DCode_Settings
 

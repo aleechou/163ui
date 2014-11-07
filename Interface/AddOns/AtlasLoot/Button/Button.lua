@@ -300,10 +300,12 @@ function Proto:Clear()
 		self.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 		self.name:SetText("")
 		self.extra:SetText("")
+		self.overlay:SetSize(self.icon:GetWidth(), self.icon:GetHeight())
 		self:Hide()
 	end
 	if self.secButton then
 		self.secButton:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+		self.secButton.overlay:SetSize(self.secButton:GetWidth(), self.secButton:GetHeight())
 		self.secButton:Hide()
 	end
 	
@@ -339,33 +341,35 @@ function Proto:SetContentTable(tab, formatTab, setOnlySec)
 	self.__atlaslootinfo.filterIgnore = tab[ATLASLOOT_IT_FILTERIGNORE]
 	
 	-- faction specific things must be replaced / set 
-	if tab[ATLASLOOT_IT_HORDE] or tab[ATLASLOOT_IT_ALLIANCE] then
-		local horde, alliance = tab[ATLASLOOT_IT_HORDE], tab[ATLASLOOT_IT_ALLIANCE]
-		if horde or alliance then
-			if alliance == false and PLAYER_FACTION_ID == 1 then
-				tab[IGNORE_THIS_BUTTON_ID] = true
-				return
-			elseif horde == false and PLAYER_FACTION_ID == 0 then
-				tab[IGNORE_THIS_BUTTON_ID] = true
-				return
-			else
-				self.factionIcon:SetAtlas(FACTION_TEXTURES[ ( horde and alliance ) and PLAYER_FACTION_ID or ( horde and 0 or 1 )])
+	if self.factionIcon then
+		if tab[ATLASLOOT_IT_HORDE] or tab[ATLASLOOT_IT_ALLIANCE] then
+			local horde, alliance = tab[ATLASLOOT_IT_HORDE], tab[ATLASLOOT_IT_ALLIANCE]
+			if horde or alliance then
+				if alliance == false and PLAYER_FACTION_ID == 1 then
+					tab[IGNORE_THIS_BUTTON_ID] = true
+					return
+				elseif horde == false and PLAYER_FACTION_ID == 0 then
+					tab[IGNORE_THIS_BUTTON_ID] = true
+					return
+				else
+					self.factionIcon:SetAtlas(FACTION_TEXTURES[ ( horde and alliance ) and PLAYER_FACTION_ID or ( horde and 0 or 1 )])
+				end
 			end
-		end
-		
-		if not tab[FACTION_INFO_IS_SET_ID] then
-			horde = ( horde and alliance ) and ( PLAYER_FACTION_ID == 0 and horde or alliance ) or horde and horde or ( alliance and alliance or nil )
-			if type(horde) == "table" then
-				tab[2] = horde[1] or tab[2] 
-				tab[3] = horde[2] or tab[3]
-			elseif horde and horde ~= true then
-				tab[2] = horde
+			
+			if not tab[FACTION_INFO_IS_SET_ID] then
+				horde = ( horde and alliance ) and ( PLAYER_FACTION_ID == 0 and horde or alliance ) or horde and horde or ( alliance and alliance or nil )
+				if type(horde) == "table" then
+					tab[2] = horde[1] or tab[2] 
+					tab[3] = horde[2] or tab[3]
+				elseif horde and horde ~= true then
+					tab[2] = horde
+				end
+				tab[FACTION_INFO_IS_SET_ID] = true
 			end
-			tab[FACTION_INFO_IS_SET_ID] = true
+			self.factionIcon:Show()
+		else
+			self.factionIcon:Hide()
 		end
-		self.factionIcon:Show()
-	else
-		self.factionIcon:Hide()
 	end
 	
 	
@@ -484,6 +488,10 @@ local EnhancedDescriptionProto = {
 		self:Hide()
 		self.contentSize = 0
 		self.info = nil
+		if self.removerInfo then
+			self.removerInfo[1](self.removerInfo[2])
+			self.removerInfo = nil
+		end
 		
 		for i = 1, #self.content do
 			freeEnhancedDescription(self.content[i].typ, self.content[i])

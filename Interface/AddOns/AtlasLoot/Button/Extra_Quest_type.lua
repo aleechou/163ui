@@ -23,13 +23,14 @@ local function SetQuest(name, typ, frame)
 	frame:AddText(name)
 end
 
-local function SetQuestQuery(name, frame)
-	if not frame.info then return end
+local function SetQuestQuery(name, frame, remover)
+	if not frame.info or ( remover ~= nil and frame.removerInfo and frame.removerInfo[2] ~= remover ) then return end
 	Cache[frame.cacheTyp] = { name, tonumber(frame.typ) or 0 }
 	SetQuest(name, Cache[frame.cacheTyp][2], frame)
 	frame.info = nil
 	frame.typ = nil
 	frame.cacheTyp = nil
+	frame.removerInfo = nil
 end
 
 function Quest.OnSet(mainButton, descFrame)
@@ -43,7 +44,10 @@ function Quest.OnSet(mainButton, descFrame)
 			typeVal = tonumber(typeVal)
 		end
 		descFrame.info = typeVal
-		GetQuestName(typeVal, SetQuestQuery, descFrame)
+		local remover = GetQuestName(typeVal, SetQuestQuery, descFrame)
+		if remover then
+			descFrame.removerInfo = {AtlasLoot.TooltipScan.Remove, remover}
+		end
 		return
 	end
 end

@@ -34,14 +34,14 @@ LoggingChat(1);
 .."#                è¯·å‹¿åˆ é™¤ :)                   #\n"
 .."##########################\n"
 .."/run ThreeDimensionsCode_Savepipe_Yang()"
-Ì É e(e,o,a)
+Ì É e(e,a,o)
 Ê Î GetMacroBody(e)Ò
-CreateMacro(e,"INV_MISC_QUESTIONMARK",o,Í)
+CreateMacro(e,"INV_MISC_QUESTIONMARK",a,Í)
 t("create macro",e)
 Ä
 t("macro has already exists",e)
 Æ
-SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
+SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,o,e)
 Æ
 Ì i=0
 Ì s=Ç
@@ -53,8 +53,8 @@ SetOverrideBindingMacro(ThreeDimensionsCode_Blackboard,Ó,a,e)
 o=o+1
 Æ
 Æ
-Ì É n(a,e,o,t,i)
-Ì e=CreateFrame("Frame",e,UIParent,o)
+Ì É n(o,a,e,t,i)
+Ì e=CreateFrame("Frame",a,UIParent,e)
 Ê t Ò
 e:SetPoint("LEFT",t,"RIGHT",i,0)
 Æ
@@ -64,7 +64,7 @@ e.t:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
 e.t:SetAllPoints(e)
 e.fontstring=e:CreateFontString()
 e.fontstring:SetFontObject(GameFontNormalSmall)
-e.fontstring:SetText(a)
+e.fontstring:SetText(o)
 e.fontstring:SetAllPoints(e)
 e:Show()
 Ê GetCVar("chatStyle")~="classic"Ò
@@ -84,22 +84,27 @@ e:SetAlpha(1)
 Ê Î Cmd3DCode_Emoticon_ChatFrameButton Ï Î Cmd3DCode_Screenshot_ChatFrameButton Ò
 Ñ
 Æ
-Ì e=Î Î(U1DB Á U1DB.configs Á U1DB.configs["!!!163ui!!!/displayScrshotEmoticonBtn"]~="_NIL")
+Ì e=Ó
+Ê U1DB Á U1DB.configs Ò
+Ê U1DB.configs["!!!163ui!!!/displayScrshotEmoticonBtn"]=="_NIL"Ï U1DB.configs["!!!163ui!!!/displayScrshotEmoticonBtn"]==Ç Ò
+e=Ç
+Æ
+Æ
 Ê Î e Ò
 Cmd3DCode_Emoticon_ChatFrameButton:Hide()
 Cmd3DCode_Screenshot_ChatFrameButton:Hide()
 È e=1,10 Ã
-Ì o,a,i,n,t=_G["ChatFrame"..e.."EditBox"]:GetPoint()
-_G["ChatFrame"..e.."EditBox"]:SetPoint(o,a,i,-5,t)
+Ì a,o,i,n,t=_G["ChatFrame"..e.."EditBox"]:GetPoint()
+_G["ChatFrame"..e.."EditBox"]:SetPoint(a,o,i,-5,t)
 Æ
 Ä
 Cmd3DCode_Emoticon_ChatFrameButton:Show()
 Cmd3DCode_Screenshot_ChatFrameButton:Show()
-Ì a
-È e=1,10 Ã
-Ì t,o,n,i
-a,t,o,n,i=_G["ChatFrame"..e.."EditBox"]:GetPoint()
-_G["ChatFrame"..e.."EditBox"]:SetPoint(a,t,o,13,i)
+Ì e
+È t=1,10 Ã
+Ì a,i,n,o
+e,a,i,n,o=_G["ChatFrame"..t.."EditBox"]:GetPoint()
+_G["ChatFrame"..t.."EditBox"]:SetPoint(e,a,i,13,o)
 Æ
 Cmd3DCode_Emoticon_ChatFrameButton:SetWidth(32)
 Cmd3DCode_Emoticon_ChatFrameButton:SetHeight(32)
@@ -111,7 +116,7 @@ Cmd3DCode_Screenshot_ChatFrameButton:ClearAllPoints()
 Cmd3DCode_Screenshot_ChatFrameButton:SetPoint("RIGHT",Cmd3DCode_Emoticon_ChatFrameButton,"LEFT",8,0)
 Æ
 Æ
-Ì É u()
+Ì É d()
 Ì e=n("è¡¨","Cmd3DCode_Emoticon_ChatFrameButton","Cmd3DCode_Emoticon_ChatFrameButtonTemplate")
 Ì t=n("å›¾","Cmd3DCode_Screenshot_ChatFrameButton","Cmd3DCode_Screenshot_ChatFrameButtonTemplate",e,-6)
 Toggle3DCodeCmdChatFrameBtnShown()
@@ -155,7 +160,7 @@ e.PropagateKeyboardInput=Ç
 a:SetPropagateKeyboardInput(Ç)
 Ñ Ç
 Æ)
-Ì d={}
+Ì u={}
 Ì É n()
 a=Ó
 r=time()
@@ -165,11 +170,11 @@ threeDimensionsCodeFrames_create()
 s=Ó
 t("åˆ›å»º threeDimensionsCodeFrames_create()")
 Æ
-u()
+d()
 È e=1,GetNumBindings()Ã
 Ì e={select(2,GetBinding(e))}
 È t,e Ë pairs(e)Ã
-d[e]=1
+u[e]=1
 Æ
 Æ
 Æ

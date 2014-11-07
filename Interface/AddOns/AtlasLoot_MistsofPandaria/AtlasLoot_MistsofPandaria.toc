@@ -1,10 +1,9 @@
 ﻿## Interface: 60000
-
 ## Author: Hegarol	
-## Version: v8.00.00beta1
+## Version: v8.00.00beta2
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta1
+## X-Curse-Packaged-Version: v8.00.00beta2
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -31,4 +30,4 @@ sounds.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_MistsofPandaria
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027151200
+## X-163UI-Version: 20141105144827
