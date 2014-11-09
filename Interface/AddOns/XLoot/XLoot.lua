@@ -95,6 +95,26 @@ XLoot:SetDefaultModulePrototype({
 })
 
 -------------------------------------------------------------------------------
+-- Prototype helper
+
+function XLoot.Prototype_New(self, new)
+	local new = new or {}
+	for k,v in pairs(self) do
+		if k ~= "New" and k ~= "_New" then
+			if new[k] ~= nil then
+				new['_'..k] = new[k]
+			end
+			rawset(new, k, v)
+		end
+	end
+	return new
+end
+
+function XLoot.NewPrototype()
+	return { New = XLoot.Prototype_New, _New = XLoot.Prototype_New }
+end
+
+-------------------------------------------------------------------------------
 -- Addon init
 
 function XLoot:OnInitialize()

@@ -1,0 +1,12 @@
+tag z20a-release
+1b4818244d20763f2ebff0e77ca42d3af3c4aceb
+Xuerian <sky.shell@gmail.com>
+2014-11-07 17:55:25 -0500
+
+Make anchors movable again (That was fast)
+
+
+--------------------
+
+Xuerian:
+	- Make anchors movable again. (Oops)

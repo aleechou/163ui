@@ -1,0 +1,14 @@
+## Interface: 60000
+## Title: Masque: Clean UI
+## Author: Nirriti
+## Version: 6.4
+## Notes: Masque Skin for the CleanUI look and feel
+## Notes-zhTW: Masque的CleanUI皮膚。
+## Notes-zhCN: Masque的CleanUI皮肤。
+## Dependencies: Masque
+
+Masque_CleanUI.lua
+
+## Title: |cff880303[网易有爱]|r 按钮美化皮肤
+## X-Vendor: NetEase
+## X-163UI-Version: 2014110901

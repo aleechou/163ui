@@ -4,40 +4,32 @@ XLoot.Stack = lib
 local L = XLoot.L
 local print = print
 
+local AnchorPrototype = XLoot.NewPrototype()
+
 -- ANCHOR element
 do
 	local backdrop = { bgFile = [[Interface\Tooltips\UI-Tooltip-Background]] }
 
-	local function OnDragStart(self)
+	function AnchorPrototype:OnDragStart()
 		if self.data.draggable ~= false then
 			self:StartMoving()
 		end
 	end
 	
-	local function OnDragStop(self)
+	function AnchorPrototype:OnDragStop()
 		self:StopMovingOrSizing()
 		self.data.x = self:GetLeft()
 		self.data.y = self:GetTop()
 	end
-	
-	local function Close_OnClick(self)
-		self.parent:Hide()
-	end
-	
-	local function OnClick(self, ...)
-		if self.OnClick then
-			self:OnClick(...)
-		end
-	end
 
-	local function Show(self)
+	function AnchorPrototype:Show()
 		self:SetClampedToScreen(true)
 		self:Position()
 		self.data.visible = true
 		self:_Show()
 	end
 	
-	local function Hide(self)
+	function AnchorPrototype:Hide()
 		self:SetClampedToScreen(false)
 		if self.data.direction == 'up' then
 			self:Position(self.data.x, self.data.y - 20)
@@ -50,7 +42,7 @@ do
 		self:_Hide()
 	end
 
-	local function Position(self, x, y)
+	function AnchorPrototype:Position(x, y)
 		self:ClearAllPoints()
 		self:SetPoint('TOPLEFT', UIParent, 'BOTTOMLEFT', x or self.data.x, y or self.data.y)
 		self:SetHeight(20)
@@ -58,7 +50,7 @@ do
 		self:SetWidth(175)
 	end
 
-	local function AnchorChild(self, child, to)
+	function AnchorPrototype:AnchorChild(child, to)
 		local d = self.data.direction
 		if to then
 			local a, b, x, y = 'BOTTOMLEFT', 'TOPLEFT', 0, 2
@@ -86,7 +78,7 @@ do
 		end
 	end
 
-	function UpdateSVData(self, svdata)
+	function AnchorPrototype:UpdateSVData(svdata)
 		if svdata then
 			if self.data == svdata then
 				local mod = self:GetScale() / svdata.scale
@@ -96,41 +88,62 @@ do
 			self.data = svdata
 			self:SetScale(svdata.scale)
 			self:Position()
-			if not svdata.visible then
+			if svdata.visible then
+				self:Show()
+			else
 				self:Hide()
 			end
 		else
 			self.data = {}
 		end
 	end
+	
+	local function Hide_OnClick(self)
+		self.parent:Hide()
+	end
+
+	local function Hide_OnEnter(self)
+		GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+		GameTooltip:SetText(L.anchor_hide_desc)
+		GameTooltip:Show()
+		self.label:SetTextColor(1, 1, 1)
+	end
+
+	local function Hide_OnLeave(self)
+		GameTooltip:Hide()
+		self.label:SetTextColor(.4, .4, .4)
+	end
 
 	function lib:CreateAnchor(text, svdata)
 		local anchor = CreateFrame('Button', nil, UIParent)
+		AnchorPrototype:New(anchor)
 		anchor:SetBackdrop(backdrop)
 		anchor:SetBackdropColor(0, 0, 0, 0.7)
 		anchor:SetMovable(true)
 		anchor:SetClampedToScreen(true)
 		anchor:RegisterForDrag('LeftButton')
 		anchor:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
-		anchor:SetScript('OnDragStart', OnDragStart)
-		anchor:SetScript('OnDragStop', OnDragStop)
-		anchor:SetScript('OnClick', OnClick)
+		anchor:SetScript('OnDragStart', anchor.OnDragStart)
+		anchor:SetScript('OnDragStop', anchor.OnDragStop)
 		anchor:SetAlpha(0.8)
-		anchor.Show, anchor._Show = Show, anchor.Show
-		anchor.Hide, anchor._Hide = Hide, anchor.Hide
-		anchor.Position = Position
-		anchor.OnMove = OnMove
-		anchor.OnToggle = OnToggle
-		anchor.AnchorChild = AnchorChild
-		anchor.UpdateSVData = UpdateSVData
 		
-		local close = CreateFrame('Button', nil, anchor, 'UIPanelCloseButton')
-		close:SetScript('OnClick', Close_OnClick)
-		close:SetPoint('RIGHT', 1, 0)
-		close:SetHeight(20)
-		close:SetWidth(20)
-		close.parent = anchor
-		anchor.close = close
+		local hide = CreateFrame('Button', nil, anchor)
+		hide:SetHighlightTexture([[Interface\Buttons\UI-Panel-MinimizeButton-Highlight]])
+		hide:SetPoint('RIGHT', -3, 0)
+		hide:SetHeight(16)
+		hide:SetHitRectInsets(10, 10, 1, -2)
+		hide:SetScript('OnClick', Hide_OnClick)
+		hide:SetScript('OnEnter', Hide_OnEnter)
+		hide:SetScript('OnLeave', Hide_OnLeave)
+		hide.parent = anchor
+		anchor.hide = hide
+
+		hide.label = hide:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmall')
+		hide.label:SetPoint('TOP')
+		hide.label:SetPoint('BOTTOM')
+		hide.label:SetText(L.anchor_hide)
+		Hide_OnLeave(hide) -- Set text color
+		hide:SetWidth(hide.label:GetStringWidth()+30)
 
 		local label = anchor:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmall')
 		label:SetPoint('CENTER', -5, 0)

@@ -294,6 +294,7 @@ function TradeskillInfoUI:DoFrameUpdate()
 		local skillButton = getSkillButton(i)
 		skillButton:SetText("***")
 	end
+
 	for i=1, buttonCount do
 		local skillIndex = i + skillOffset
 		local skillButton = getSkillButton(i)
@@ -304,17 +305,16 @@ function TradeskillInfoUI:DoFrameUpdate()
 		if ( skillIndex <= numTradeSkills ) then
 			local skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
 			-- If we got ???? or an ID instead of a skill name ...
---			if skillName == "????" or string.match(skillName, "-?%d+") == skillName then
-			if string.match(skillName, "-?%d+") == skillName then
-				TradeskillInfo:Print("ERROR: Could not find "..skillName)
+			if skillName == "????" or
+			   string.match(skillName, "-?%d+") == skillName then
 				-- ... update the local cache ...
---				self:UpdateCacheIndex(self.vars.searchResult[skillIndex], self.vars.coUpdate_Frame)
+				self:UpdateCacheIndex(self.vars.searchResult[skillIndex], self.vars.coUpdate_Frame)
 				-- .. If we need to restart drawing, return early. We'll be called again ...
---				if self.vars.coUpdate_FrameRestart then
---					return
---				end
+				if self.vars.coUpdate_FrameRestart then
+					return
+				end
 				-- ... otherwise try to obtain the infgo again. It should be there now.
---				skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
+				skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
 			end
 			skillType = self:GetTradeSkillAvailability(skillIndex)
 			-- Set button widths if scrollbar is shown or hidden
@@ -1460,18 +1460,21 @@ do
 			skillLink = "spell:" .. -id
 		end
 
+		local attempts = 0
 		local name
 		while not name do
+			attempts = attempts + 1
 			performIdAction(id)
 			tipframe:SetHyperlink(skillLink)
 			coroutine.yield()
 			if id > 0 then
 				name = GetItemInfo(id)
 			else
-				name = GetSpellInfo(id)
+				name = GetSpellInfo(-id)
 			end
 			-- If we update successfully, stop. Otherwise, try again.
 			if name then break end
+			if not name and attempts >= 3 then TradeskillInfo:Print("Could not find "..skillLink..". Please report this error, as the item/recipe may have been removed.") break end
 		end
 		idAction[id] = nil
     end

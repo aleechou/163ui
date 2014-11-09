@@ -127,7 +127,7 @@ if not L then return end
 -- L["Sort by"] = ""
 -- L["Source"] = ""
 -- L["Specialist Trainer"] = ""
--- L["SpellID"] = ""
+-- L["Spell ID"] = ""
 -- L["Stack Size"] = ""
 -- L["Tailoring"] = ""
 -- L["Tooltip"] = ""

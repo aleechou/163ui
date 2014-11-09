@@ -1,4 +1,4 @@
-﻿--[[---------------------------------------
+--[[---------------------------------------
 	Loot button click hook
 	- row: Loot row
 	- button: Mouse button
@@ -242,20 +242,6 @@ end
 --  >Rows
 --  >Loot frame
 
--- Instance prototyping
-local function Instance_New(self, new)
-	local new = new or {}
-	for k,v in pairs(self) do
-		if k ~= "New" then
-			if new[k] ~= nil then
-				new['_'..k] = new[k]
-			end
-			rawset(new, k, v)
-		end
-	end
-	return new
-end
-
 -- Universal events
 local function OnDragStart()
 	if opt.frame_draggable then
@@ -308,7 +294,7 @@ end
 local mouse_focus
 local BuildRow
 do
-	local RowPrototype = { New = Instance_New }
+	local RowPrototype = XLoot.NewPrototype()
 	-- Text helpers
 	local function smalltext(text)
 		text:SetDrawLayer'OVERLAY'
@@ -626,7 +612,7 @@ end
 
 -- Build frame
 do
-	local FramePrototype = { New = Instance_New }
+	local FramePrototype = XLoot.NewPrototype()
 	-- Frame snapping
 	function FramePrototype:SnapToCursor()
 		local x, y = GetCursorPosition()
@@ -920,7 +906,11 @@ function XLootFrame:Update(in_options)
 		-- local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(slot)
 		if icon then -- Occasionally WoW will open loot with empty or invalid slots
 			local looted = false
-			-- TODO: Pass on to row update
+			-- Row data
+			local is_item, link = (GetLootSlotType(slot) == LOOT_SLOT_ITEM)
+			if is_item then
+				link = GetLootSlotLink(slot)
+			end
 
 			-- Autolooting currency
 			local type = GetLootSlotType(slot)
@@ -930,7 +920,8 @@ function XLootFrame:Update(in_options)
 				
 			-- Autolooting items
 			else
-				local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(name)
+				-- TODO: Pass on to row update
+				local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(link or name)
 				if auto.all or (auto.quest and isQuestItem) or (auto.list and auto_items[name]) or (auto.tradegoods and itemType == 'Trade Goods') then
 
 					-- Cache available space
@@ -946,26 +937,30 @@ function XLootFrame:Update(in_options)
 					end
 
 					-- Simple quest item
-					local family = GetItemFamily(name)
+					local family = GetItemFamily(link)
 					if not family and isQuestItem then
 						LootSlot(slot)
 						looted = true
-
-					-- We have room
-					elseif family and bag_slots[family] and bag_slots[family] > 0 then
-						LootSlot(slot)
-						looted = true
-						bag_slots[family] = bag_slots[family] - 1
-
-					-- Fits with existing items?
 					else
-						local cur = GetItemCount(name)
-						if cur > 0 then
-							-- local stack = select(8, GetItemInfo(name))
-							local partial = cur % itemStackCount
-							if partial + quantity <= itemStackCount then
-								LootSlot(slot)
-								looted = true
+						-- We have room
+						family = (family and family <= 4096) and family or 0
+						if bag_slots[0] > 0 or (bag_slots[family] and bag_slots[family] > 0) then
+							LootSlot(slot)
+							looted = true
+							-- Update remaining space
+							family = bag_slots[family] and family or 0 
+							bag_slots[family] = bag_slots[family] - 1
+
+						-- Fits with existing items?
+						else
+							local cur = GetItemCount(link)
+							if cur > 0 then
+								-- local stack = select(8, GetItemInfo(name))
+								local partial = cur % itemStackCount
+								if partial + quantity <= itemStackCount then
+									LootSlot(slot)
+									looted = true
+								end
 							end
 						end
 					end
@@ -979,11 +974,6 @@ function XLootFrame:Update(in_options)
 				slots[our_slot] = row -- Place in active list
 				
 				--local icon, name, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(slot)
-				-- Row data
-				local is_item, link = (GetLootSlotType(slot) == LOOT_SLOT_ITEM)
-				if is_item then
-					link = GetLootSlotLink(slot)
-				end
 				
 				-- Default UI and tooltip data
 				row.item = link
