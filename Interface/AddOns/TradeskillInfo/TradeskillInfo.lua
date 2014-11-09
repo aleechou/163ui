@@ -4,9 +4,9 @@ local L = LibStub("AceLocale-3.0"):GetLocale("TradeSkillInfo")
 TradeskillInfo = LibStub("AceAddon-3.0"):NewAddon("TradeSkillInfo", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0")
 TradeskillInfo.version = GetAddOnMetadata("TradeSkillInfo", "Version")
 
-BINDING_HEADER_TRADESKILLINFO = "Tradeskill Info"
-BINDING_NAME_TOGGLE_TRADESKILLINFO = "Toggle Tradeskill Info Window"
-BINDING_NAME_TOGGLE_TRADESKILLINFOCONFIG = "Show Tradeskill Info Config Window"
+BINDING_HEADER_TRADESKILLINFO = "TradeSkillInfo"
+BINDING_NAME_TOGGLE_TRADESKILLINFO = "Toggle TradeSkillInfo Browser"
+BINDING_NAME_TOGGLE_TRADESKILLINFOCONFIG = "Show TradeSkillInfo Options Window"
 
 TradeskillInfo.vars = {}
 TradeskillInfo.vars.combines = {}
@@ -698,23 +698,7 @@ function TradeskillInfo:GetCombineComponents(id, getVendorPrice, getAuctioneerPr
 end
 
 function TradeskillInfo:GetCombineDescription(id)
-	local description
-	if id < 0 then
-		-- TODO: This is probably not the best place to put this if we need to scan more tooltips
-		if not TSIScanTooltip then
-			CreateFrame( "GameTooltip", "TSIScanTooltip" )
-			TSIScanTooltip:SetOwner( WorldFrame, "ANCHOR_NONE" )
-			TSIScanTooltip:AddFontStrings(
-				TSIScanTooltip:CreateFontString( "$parentTextLeft1", nil, "GameTooltipText" ),
-				TSIScanTooltip:CreateFontString( "$parentTextRight1", nil, "GameTooltipText" ) )
-		end
-
-		TSIScanTooltip:ClearLines()
-		TSIScanTooltip:SetHyperlink(GetSpellLink(-id))
-		description = _G["TSIScanTooltipTextLeft3"]
-		if description then description = description:GetText() end
-	end
-	return description
+	if id < 0 then return GetSpellDescription(-id) end
 end
 
 function TradeskillInfo:GetCombineTexture(id)

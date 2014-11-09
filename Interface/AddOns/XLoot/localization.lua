@@ -23,6 +23,8 @@ local locales = {
 		skin_svelte = "XLoot: Svelte",
 		skin_legacy = "XLoot: Legacy",
 		skin_smooth = "XLoot: Smooth",
+		anchor_hide = "hide",
+		anchor_hide_desc = "Lock this module in position\nThis will hide the anchor,\nbut it can be shown again from the options",
 	},
 	-- Possibly localized
 	ptBR = {},

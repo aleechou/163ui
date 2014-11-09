@@ -1,9 +1,64 @@
 ------------------------------------------------------------------------
-r677 | ethancentaurai | 2014-10-21 00:46:35 +0000 (Tue, 21 Oct 2014) | 1 line
+r687 | ethancentaurai | 2014-11-07 21:12:30 +0000 (Fri, 07 Nov 2014) | 1 line
 Changed paths:
-   A /tags/v2.2.17 (from /trunk:676)
+   A /tags/v2.2.18 (from /trunk:686)
 
-Tagging as v2.2.17.
+Tagging as v2.2.18.
+------------------------------------------------------------------------
+r686 | ethancentaurai | 2014-11-07 21:11:11 +0000 (Fri, 07 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Professions/Inscription.lua
+
+Updated early Inscription recipes to use Moonglow Ink instead of Ivory Ink.
+------------------------------------------------------------------------
+r685 | ethancentaurai | 2014-11-07 21:08:33 +0000 (Fri, 07 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Professions/Inscription.lua
+
+Removed deprecated Inscription recipes.
+------------------------------------------------------------------------
+r684 | ethancentaurai | 2014-11-07 20:18:30 +0000 (Fri, 07 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+One final debug tweak to protect against false positives.
+------------------------------------------------------------------------
+r683 | ethancentaurai | 2014-11-07 11:10:46 +0000 (Fri, 07 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Improved debug mode and fixed a typo.
+------------------------------------------------------------------------
+r682 | ethancentaurai | 2014-11-01 13:20:55 +0000 (Sat, 01 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Bindings.xml
+   M /trunk/TradeskillInfo.lua
+
+Use the AddOns category in the new Key Bindings UI.
+------------------------------------------------------------------------
+r681 | ethancentaurai | 2014-10-28 11:58:34 +0000 (Tue, 28 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Use GetSpellDescription() instead of a tooltip scanner.
+------------------------------------------------------------------------
+r680 | ethancentaurai | 2014-10-27 15:45:52 +0000 (Mon, 27 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Debug Mode should no longer report false positives.
+------------------------------------------------------------------------
+r679 | ethancentaurai | 2014-10-27 12:19:18 +0000 (Mon, 27 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Tweaked debug again and disabled it for non-SVN installs.
+------------------------------------------------------------------------
+r678 | ethancentaurai | 2014-10-22 11:11:27 +0000 (Wed, 22 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Tweak debug output and pick up latest translations. Fixes ticket 94.
 ------------------------------------------------------------------------
 r676 | ethancentaurai | 2014-10-21 00:38:06 +0000 (Tue, 21 Oct 2014) | 1 line
 Changed paths:
@@ -80,10 +135,4 @@ Changed paths:
    M /trunk/Data/TradeskillData.lua
 
 Updated Nessa Shadowsong's co-ordinates.
-------------------------------------------------------------------------
-r664 | ethancentaurai | 2014-08-26 15:01:29 +0000 (Tue, 26 Aug 2014) | 1 line
-Changed paths:
-   M /trunk/Data/Miner/mine.sh
-
-Update to jdk8u20.
 ------------------------------------------------------------------------

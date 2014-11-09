@@ -225,14 +225,14 @@ locales.frFR.Monitor = {
 }
 
 locales.deDE["alpha"] = "Transparenz" -- Needs review
-locales.deDE["confirm_reset_profile"] = "Dies wird alle Einstellungen für dieses Profil auf den Standard zurücksetzen. Bist du sicher?"
+locales.deDE["confirm_reset_profile"] = "Dies wird alle Einstellungen für dieses Profil auf den Standard zurücksetzen. Bist du sicher?" -- Needs review
 locales.deDE["desc_channel_auto"] = "Höchste Verfügbare" -- Needs review
 locales.deDE["down"] = "Ab" -- Needs review
 locales.deDE["growth_direction"] = "Wachstumsrichtung" -- Needs review
 locales.deDE["items_others"] = "Gegenstand anderer" -- Needs review
 locales.deDE["items_own"] = "Eigene Gegenstände" -- Needs review
 locales.deDE["minimum_quality"] = "Minimale Qualität" -- Needs review
-locales.deDE["profile"] = "Profil"
+locales.deDE["profile"] = "Profil" -- Needs review
 locales.deDE["scale"] = "Skalierung" -- Needs review
 locales.deDE["up"] = "Hoch" -- Needs review
 locales.deDE["visible"] = "Sichtbar" -- Needs review
@@ -246,9 +246,9 @@ locales.deDE.Core = {
 	details = "Optic wird allen Xloot Modulen zugewiesen. Die meisten anderen Einstellungen benötigen ein /reload. Bitte öffne ein Ticket wenn etwas nicht funktioniert", -- Needs review
 	module_header = "Modul Optionen", -- Needs review
 	panel_title = "Globale Optionen", -- Needs review
-	skin = "Optic", -- Needs review
+	skin = "Oberfläche", -- Needs review
 	skin_anchors = "Richte an Ankerpunkten aus", -- Needs review
-	skin_anchors_desc = "Richte an Ankerpunkten aus die Xloot benutzt", -- Needs review
+	skin_anchors_desc = "Oberfläche an Ankerpunkten von XLoot ausrichten", -- Needs review
 	skin_desc = "Wähle zu benutzende Optik. Beinhaltet Optiken aus Masque.", -- Needs review
 }
 locales.deDE.Frame = {
