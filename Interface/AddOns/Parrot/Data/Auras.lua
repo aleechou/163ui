@@ -664,7 +664,7 @@ Parrot:RegisterPrimaryTriggerCondition {
 				name = L["Amount"],
 				desc = L["Amount of stacks of the aura"],
 				type = 'number',
-				min = 1,
+				min = 0,
 				max = 100,
 				step = 1,
 			},

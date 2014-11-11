@@ -30,6 +30,9 @@ local db
 function Parrot_Display:OnInitialize()
 	self.db1 = Parrot.db1:RegisterNamespace("Display", dbDefaults)
 	db = self.db1.profile
+	Parrot_AnimationStyles = Parrot:GetModule("AnimationStyles")
+	Parrot_Suppressions = Parrot:GetModule("Suppressions")
+	Parrot_ScrollAreas = Parrot:GetModule("ScrollAreas")
 end
 
 function Parrot_Display:ChangeProfile()
@@ -50,9 +53,6 @@ local function onUpdate()
 end
 
 function Parrot_Display:OnEnable()
-	Parrot_AnimationStyles = Parrot:GetModule("AnimationStyles")
-	Parrot_Suppressions = Parrot:GetModule("Suppressions")
-	Parrot_ScrollAreas = Parrot:GetModule("ScrollAreas")
 	if not ParrotFrame then
 		ParrotFrame = CreateFrame("Frame", "ParrotFrame", UIParent)
 		ParrotFrame:Hide()
