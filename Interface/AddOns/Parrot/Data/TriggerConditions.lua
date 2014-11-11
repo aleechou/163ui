@@ -143,10 +143,12 @@ Parrot:RegisterPrimaryTriggerCondition {
 			return false
 		end
 		-- only check the unit
-		if ref.unit ~= info then return end
+		if ref.unit ~= info then
+			return
+		end
 		-- check the friendly-flag
 		if ref.friendly >= 0 then
-			local friendly = UnitIsFriend("player", info) or 1
+			local friendly = UnitIsFriend("player", info) or 0
 			if ref.friendly ~= friendly then
 				return false
 			end
@@ -219,18 +221,9 @@ local function checkPower(ref)
 		powerType = nil
 	end
 	local unit = ref.unit
-    -- XXX 163
-    -- check power type (for cat/bear), should be SPELL_POWER_MANA
-    local _type, _typeToken = UnitPowerType(unit)
-    -- print('powerType', unit, powerType, _typeToken)
-    if(powerType ~= _typeToken) then
-        return false
-    end
-    -- XXX 163 end
-
 	-- check the friendly-flag
 	if ref.friendly >= 0 then
-		local friendly = UnitIsFriend("player", unit) or 1
+		local friendly = UnitIsFriend("player", unit) or 0
 		if ref.friendly ~= friendly then
 			return false
 		end

@@ -11,8 +11,8 @@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDeformat-3.0, AceGUI-3.0-SharedMediaWidgets
 ## X-WoWIPortal: ckknight
 ## X-License: GPL v2 or later
-## Version: v1.11.3
-## X-Curse-Packaged-Version: v1.10.30
+## Version: v1.11.4-2-g0588fe7
+## X-Curse-Packaged-Version: v1.11.4-2-g0588fe7
 ## X-Curse-Project-Name: Parrot
 ## X-Curse-Project-ID: parrot
 ## X-Curse-Repository-ID: wow/parrot/mainline
@@ -20,7 +20,7 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 
-libs\LibDeformat-3.0\LibDeformat-3.0.lua
+embeds.xml
 
 Locales\locales.xml
 
@@ -44,4 +44,4 @@ Data\CombatStatus.lua
 
 ## Title: |cff880303[网易有爱]|r Parrot
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 2014111101

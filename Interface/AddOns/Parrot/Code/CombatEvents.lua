@@ -1825,8 +1825,6 @@ function Parrot_CombatEvents:ShortenAmount(val)
 	if not self.db1.profile.shortenAmount then
 		return val
 	end
-	debug("pre: ", val / 1e3)
-	debug(val, " shortened: ", shortenAmount(val))
 	return shortenAmount(val)
 end
 

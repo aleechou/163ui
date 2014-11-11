@@ -277,7 +277,7 @@ function Parrot:OnInitialize()
 	}
 
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Parrot_bliz", bliz_options)
-	AceConfigDialog:AddToBlizOptions("Parrot_bliz", L["Parrot"])
+	AceConfigDialog:AddToBlizOptions("Parrot_bliz", "Parrot")
 end
 
 function Parrot:ChangeProfile()

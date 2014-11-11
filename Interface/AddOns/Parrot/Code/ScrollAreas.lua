@@ -34,7 +34,7 @@ local function initDB()
 				stickyDirection = "UP;CENTER",
 				size = 150,
 				xOffset = 0,
-				yOffset = 250,
+				yOffset = 175,
 			},
 			["Incoming"] = {
 				animationStyle = "Parabola",
@@ -42,7 +42,7 @@ local function initDB()
 				stickyAnimationStyle = "Pow",
 				stickyDirection = "DOWN;RIGHT",
 				size = 260,
-				xOffset = -200,
+				xOffset = -60,
 				yOffset = -30,
 				iconSide = "RIGHT",
 			},
@@ -52,7 +52,7 @@ local function initDB()
 				stickyAnimationStyle = "Pow",
 				stickyDirection = "DOWN;LEFT",
 				size = 260,
-				xOffset = 200,
+				xOffset = 60,
 				yOffset = -30,
 			},
 		}
