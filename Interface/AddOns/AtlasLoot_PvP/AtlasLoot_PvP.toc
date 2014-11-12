@@ -27,4 +27,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot  PVP物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141105144827
+## X-163UI-Version: 20141112183356
