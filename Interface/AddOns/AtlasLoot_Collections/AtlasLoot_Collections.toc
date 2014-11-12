@@ -25,5 +25,5 @@
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot 收藏物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111201
+## X-163UI-Version: 20141112183356
 data.lua

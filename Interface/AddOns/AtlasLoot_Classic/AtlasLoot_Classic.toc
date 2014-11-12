@@ -28,4 +28,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_ClassicWoW
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111201
+## X-163UI-Version: 20141112183356
