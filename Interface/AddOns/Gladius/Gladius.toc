@@ -33,4 +33,4 @@ Modules\Dispel.lua
 
 ## Title: |cff880303[网易有爱]|r 竞技场头像
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141111123631
+## X-163UI-Version: 20141112174807
