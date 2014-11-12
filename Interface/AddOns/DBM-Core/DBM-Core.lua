@@ -47,14 +47,19 @@
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
 --
 
+--情人节 = 214
+--七夕 =  77 
+--猜疑 = 妒忌 = 隐瞒 = true,
+--承诺 = true;
+--光棍节 = ((情人节 - 七夕)<<猜疑<<妒忌<<隐瞒) + ((承诺<<承诺<<承诺<<承诺<<承诺) - 承诺)
+
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	SoundMMPath = "Interface\\AddOns\\DBM-Yike", --相对语音目录。语音文件以ogg格式存放在该目录下
-	Revision = tonumber(("$Revision: 11819 $"):sub(12, -3)),
-	DisplayVersion = "6.0.4 VE", -- the string that is shown as version
-	ReleaseRevision = 11799 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 11855 $"):sub(12, -3)),
+	DisplayVersion = "6.0.5 VE", -- the string that is shown as version
+	ReleaseRevision = 11829 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -180,7 +185,7 @@ DBM.DefaultOptions = {
 	DontShowRangeFrame = false,
 	DontShowInfoFrame = false,
 	DontShowHealthFrame = false,
-	DontShowPT = true,
+	DontShowPT2 = false,
 	DontShowPTCountdownText = false,
 	DontPlayPTCountdown = false,
 	DontShowPTText = false,
@@ -198,15 +203,23 @@ DBM.DefaultOptions = {
 --	HelpMessageShown = false,
 	BugMessageShown = 0,
 	MoviesSeen = {},
-	MovieFilter = "Never",
+	MovieFilter = "AfterFirst",
 	LastRevision = 0,
 	FilterSayAndYell = false,
 	DebugMode = false,
+	DebugLevel = 1,
 	RoleSpecAlert = true,
 	WorldBossAlert = false,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
 	ChatFrame = "DEFAULT_CHAT_FRAME",
+	ShowLTSpecialWarnings = true, --Add by Mini_Dragon (Brilla@金色平原)
+	LTSpecialWarningFont = STANDARD_TEXT_FONT,
+	LTSpecialWarningFontSize = 50,
+	LTSpecialWarningPoint = "CENTER",
+	LTSpecialWarningX = 0,
+	LTSpecialWarningY = -130,
+	LTSpecialWarningFontColor = {0.0, 1.0, 0.0},
 }
 
 DBM.Bars = DBT:New()
@@ -238,8 +251,9 @@ local chatPrefixVEM = "<Voice Encounter Mods> "
 local chatPrefixShort = "<DBM> "
 local chatPrefixShortVEM = "<VEM> "
 local ver = ("%s (r%d)"):format(DBM.DisplayVersion, DBM.Revision)
-local mainFrame = CreateFrame("Frame")
+local mainFrame = CreateFrame("Frame", "DBMMainFrame")
 local newerVersionPerson = {}
+local newerRevisionPerson = {}
 local combatInitialized = false
 local healthCombatInitialized = false
 local schedule
@@ -909,6 +923,10 @@ do
 			DBM.Bars:LoadOptions("DBM")
 			DBM.Arrow:LoadPosition()
 			if not DBM.Options.ShowMinimapButton then self:HideMinimapButton() end
+			local soundChannels = tonumber(GetCVar("Sound_NumChannels")) or 24--if set to 24, may return nil, Defaults usually do
+			if soundChannels < 64 then
+				SetCVar("Sound_NumChannels", 64)
+			end
 			self.AddOns = {}
 			for i = 1, GetNumAddOns() do
 				local addonName = GetAddOnInfo(i)
@@ -1470,6 +1488,14 @@ SlashCmdList["DEADLYBOSSMODS"] = function(msg)
 			return DBM:AddMsg(DBM_ERROR_NO_RAID)
 		end
 		DBM:RequestInstanceInfo()
+	elseif cmd:sub(1, 10) == "debuglevel" then
+		local level = tonumber(cmd:sub(11)) or 1
+		if level < 1 or level > 3 then
+			DBM:AddMsg("Invalid Value. Debug Level must be between 1 and 3.")
+			return
+		end
+		DBM.Options.DebugLevel = level
+		DBM:AddMsg("Debug Level is " .. level)
 	elseif cmd:sub(1, 5) == "debug" then
 		DBM.Options.DebugMode = DBM.Options.DebugMode == false and true or false
 		DBM:AddMsg("Debug Message is " .. (DBM.Options.DebugMode and "ON" or "OFF"))
@@ -1663,7 +1689,7 @@ do
 	local ignore, cancel
 	local popuplevel = 0
 	local function showPopupConfirmIgnore(ignore, cancel)
-		local popup = CreateFrame("Frame", nil, UIParent)
+		local popup = CreateFrame("Frame", "DBMHyperLinks", UIParent)
 		popup:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 16, edgeSize = 16,
@@ -2468,7 +2494,7 @@ end
 function DBM:CINEMATIC_START()
 	DBM:Debug("CINEMATIC_START fired")
 	if not IsInInstance() or C_Garrison:IsOnGarrisonMap() or DBM.Options.MovieFilter == "Never" then return end
-	DBM:Debug("CINEMATIC_START is enabled and passed first check")
+	DBM:Debug("CINEMATIC_START: in valid zone, checking settings")
 	SetMapToCurrentZone()
 	local currentFloor = GetCurrentMapDungeonLevel() or 0
 	if DBM.Options.MovieFilter == "Block" or DBM.Options.MovieFilter == "AfterFirst" and DBM.Options.MoviesSeen[LastInstanceMapID..currentFloor] then
@@ -2650,7 +2676,7 @@ function DBM:LoadMod(mod, force)
 		return false
 	end
 	if mod.isWorldBoss and not IsInInstance() and not force then
-		DBM:Debug("LoadMod denied for "..mod.name.." because world boss mods don't load this way")
+		DBM:Debug("LoadMod denied for "..mod.name.." because world boss mods don't load this way", 2)
 		return
 	end--Don't load world boss mod this way.
 	if InCombatLockdown() and not IsEncounterInProgress() and IsInInstance() then
@@ -2871,7 +2897,7 @@ do
 			canSetIcons[optionName] = false
 		end
 		local name = DBM:GetFullPlayerNameByGUID(iconSetPerson[optionName])
-		DBM:Debug(name.." was elected icon setter for "..optionName)
+		DBM:Debug(name.." was elected icon setter for "..optionName, 2)
 	end
 
 	syncHandlers["K"] = function(sender, cId)
@@ -2913,7 +2939,7 @@ do
 			dummyMod.text = dummyMod:NewAnnounce("%s", 1, 2457)
 		end
 		--Cancel any existing pull timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
-		if not DBM.Options.DontShowPT and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL) then
+		if not DBM.Options.DontShowPT2 and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL) then
 			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL)
 		end
 		if not DBM.Options.DontPlayPTCountdown then
@@ -2925,7 +2951,7 @@ do
 		end
 		dummyMod.text:Cancel()
 		if timer == 0 then return end--"/dbm pull 0" will strictly be used to cancel the pull timer (which is why we let above part of code run but not below)
-		if not DBM.Options.DontShowPT then
+		if not DBM.Options.DontShowPT2 then
 			DBM.Bars:CreateBar(timer, DBM_CORE_TIMER_PULL, "Interface\\Icons\\Spell_Holy_BorrowedTime")
 		end
 		if not DBM.Options.DontPlayPTCountdown then
@@ -2958,7 +2984,7 @@ do
 			dummyMod2.text = dummyMod2:NewAnnounce("%s", 1, "Interface\\Icons\\Spell_Holy_BorrowedTime")
 		end
 		--Cancel any existing break timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
-		if not DBM.Options.DontShowPT and DBM.Bars:GetBar(DBM_CORE_TIMER_BREAK) then
+		if not DBM.Options.DontShowPT2 and DBM.Bars:GetBar(DBM_CORE_TIMER_BREAK) then
 			DBM.Bars:CancelBar(DBM_CORE_TIMER_BREAK)
 		end
 		if not DBM.Options.DontPlayPTCountdown then
@@ -2970,7 +2996,7 @@ do
 		end
 		dummyMod2.text:Cancel()
 		if timer == 0 then return end--"/dbm break 0" will strictly be used to cancel the break timer (which is why we let above part of code run but not below)
-		if not DBM.Options.DontShowPT then
+		if not DBM.Options.DontShowPT2 then
 			DBM.Bars:CreateBar(timer, DBM_CORE_TIMER_BREAK, "Interface\\Icons\\Spell_Holy_BorrowedTime")
 		end
 		if not DBM.Options.DontPlayPTCountdown then
@@ -3003,7 +3029,7 @@ do
 			dummyMod2.countdown = dummyMod2:NewCountdown(0, 0, nil, nil, nil, true)
 			dummyMod2.text = dummyMod2:NewAnnounce("%s", 1, "Interface\\Icons\\Spell_Holy_BorrowedTime")
 		end
-		if not DBM.Options.DontShowPT then
+		if not DBM.Options.DontShowPT2 then
 			DBM.Bars:CreateBar(timer, DBM_CORE_TIMER_BREAK, "Interface\\Icons\\Spell_Holy_BorrowedTime")
 		end
 		if not DBM.Options.DontPlayPTCountdown then
@@ -3050,25 +3076,20 @@ do
 	end
 
 	syncHandlers["V"] = function(sender, revision, version, displayVersion, locale, iconEnabled)
-		revision, version = tonumber(revision or ""), tonumber(version or "")
+		revision, version = tonumber(revision), tonumber(version)
 		if revision and version and displayVersion and raid[sender] then
 			raid[sender].revision = revision
 			raid[sender].version = version
 			raid[sender].displayVersion = displayVersion
 			raid[sender].locale = locale
 			raid[sender].enabledIcons = iconEnabled or "false"
+			DBM:Debug("Received version info from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 2)
 			if version > tonumber(DBM.Version) then -- Update reminder
 				if not checkEntry(newerVersionPerson, sender) then
 					newerVersionPerson[#newerVersionPerson + 1] = sender
+					DBM:Debug("Newer version detected from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 2)
 				end
 				if #newerVersionPerson < 4 then
-					for i, v in pairs(raid) do
-						if (v.version or 0) >= version and v ~= raid[sender] then
-							if not checkEntry(newerVersionPerson, sender) then
-								newerVersionPerson[#newerVersionPerson + 1] = sender
-							end
-						end
-					end
 					if #newerVersionPerson == 2 and updateNotificationDisplayed < 2 then--Only requires 2 for update notification.
 						--Find min revision.
 						updateNotificationDisplayed = 2
@@ -3094,19 +3115,14 @@ do
 					end
 				end
 			end
-			if DBM.DisplayVersion:find("alpha") and #newerVersionPerson < 2 and (revision - DBM.Revision) > 30 then--Revision 20 can be increased in 1 day, so raised it to 30.
-				local found = false
-				for i, v in pairs(raid) do
-					if (v.revision or 0) >= revision and v ~= raid[sender] then
-						found = true
-						break
-					end
+			if DBM.DisplayVersion:find("alpha") and #newerVersionPerson < 2 and #newerRevisionPerson < 2 and updateNotificationDisplayed < 2 and (revision - DBM.Revision) > 30 then--Revision 20 can be increased in 1 day, so raised it to 30. Requires 2 person.
+				if not checkEntry(newerRevisionPerson, sender) then
+					newerRevisionPerson[#newerRevisionPerson + 1] = sender
+					DBM:Debug("Newer revision detected from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision))
 				end
-				if found then--Running alpha version that's out of date
-					if updateNotificationDisplayed < 2 then
-						updateNotificationDisplayed = 2
-						DBM:AddMsg(DBM_CORE_UPDATEREMINDER_HEADER_ALPHA:format(revision - DBM.Revision))
-					end
+				if #newerRevisionPerson == 2 then
+					updateNotificationDisplayed = 2
+					DBM:AddMsg(DBM_CORE_UPDATEREMINDER_HEADER_ALPHA:format(revision - DBM.Revision))
 				end
 			end
 		end
@@ -3259,7 +3275,7 @@ do
 		end
 
 		syncHandlers["GCB"] = function(sender, modId, ver, difficulty)
-			if not DBM.Options.ShowGuildMessages then return end
+			if not DBM.Options.ShowGuildMessages or not difficulty then return end
 			if not ver or not (ver == "2") then return end--Ignore old versions
 			if DBM:AntiSpam(5, "GCB") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
@@ -3277,7 +3293,7 @@ do
 		end
 		
 		syncHandlers["GCE"] = function(sender, modId, ver, wipe, time, wipeHP, difficulty)
-			if not DBM.Options.ShowGuildMessages then return end
+			if not DBM.Options.ShowGuildMessages or not difficulty then return end
 			if not ver or not (ver == "2") then return end--Ignore old versions
 			if DBM:AntiSpam(5, "GCE") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
@@ -3291,7 +3307,7 @@ do
 					difficultyName = PLAYER_DIFFICULTY1
 				end
 				if wipe == "1" then
-					DBM:AddMsg(DBM_CORE_GUILD_COMBAT_ENDED_AT:format(difficultyName, bossName, wipeHP, time))
+					DBM:AddMsg(DBM_CORE_GUILD_COMBAT_ENDED_AT:format(difficultyName.."-"..bossName, wipeHP, time))
 				else
 					DBM:AddMsg(DBM_CORE_GUILD_BOSS_DOWN:format(difficultyName.."-"..bossName, time))
 				end
@@ -3592,7 +3608,7 @@ do
 	local frame, fontstring, fontstringFooter
 
 	local function createFrame()
-		frame = CreateFrame("Frame", nil, UIParent)
+		frame = CreateFrame("Frame", "DBMUpdateReminder", UIParent)
 		frame:SetFrameStrata("FULLSCREEN_DIALOG") -- yes, this isn't a fullscreen dialog, but I want it to be in front of other DIALOG frames (like DBM GUI which might open this frame...)
 		frame:SetWidth(430)
 		frame:SetHeight(140)
@@ -3775,7 +3791,9 @@ do
 	end
 	
 	function DBM:UNIT_TARGETABLE_CHANGED()
-		self:Debug("UNIT_TARGETABLE_CHANGED event fired")
+		if DBM.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
+			self:Debug("UNIT_TARGETABLE_CHANGED event fired")
+		end
 	end
 
 	--TODO, waste less cpu and register Unit event somehow. DBMs register events code is so conviluted though that it's difficult to add without tons of work.
@@ -3783,7 +3801,7 @@ do
 	--And I have transcriptor log, i still don't know which event is right one sometimes. It's important to SEE which event is firing during an exact moment of a fight.
 	function DBM:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		if not (uId == "boss1" or uId == "boss2" or uId == "boss3" or uId == "boss4" or uId == "boss5") then return end
-		if Transcriptor and Transcriptor:IsLogging() then--Only want this information if it's a new fight we're running transcriptor for, otherwise, no spam.
+		if DBM.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
 			self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")")
 		end
 	end
@@ -4249,7 +4267,7 @@ function DBM:UNIT_HEALTH(uId)
 	end
 	if not health or health < 5 then return end -- no worthy of combat start if health is below 5%
 	if InCombatLockdown() then
-		if not cId == 0 and not bossHealth[cId] and bossIds[cId] and UnitAffectingCombat(uId) and healthCombatInitialized then -- StartCombat by UNIT_HEALTH.
+		if cId ~= 0 and not bossHealth[cId] and bossIds[cId] and UnitAffectingCombat(uId) and healthCombatInitialized then -- StartCombat by UNIT_HEALTH.
 			if combatInfo[LastInstanceMapID] then
 				for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 					if v.mod.Options.Enabled and not v.mod.disableHealthCombat and (v.type == "combat" or v.type == "combat_yell" or v.type == "combat_emote" or v.type == "combat_say") and (v.multiMobPullDetection and checkEntry(v.multiMobPullDetection, cId) or v.mob == cId) then
@@ -5039,11 +5057,13 @@ function DBM:AddMsg(text, prefix)
 	frame:AddMessage(("|cffff7d0a<|r|cffffd200%s|r|cffff7d0a>|r %s"):format(tostring(prefix), tostring(text)), 0.41, 0.8, 0.94)
 end
 
-function DBM:Debug(text)
+function DBM:Debug(text, level)
 	if not self.Options.DebugMode then return end
-	local frame = _G[tostring(DBM.Options.ChatFrame)]
-	frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
-	frame:AddMessage("|cffff7d0aDBM Debug:|r "..text, 1, 1, 1)
+	if (level or 1) <= DBM.Options.DebugLevel then
+		local frame = _G[tostring(DBM.Options.ChatFrame)]
+		frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
+		frame:AddMessage("|cffff7d0aDBM Debug:|r "..text, 1, 1, 1)
+	end
 end
 
 do
@@ -5188,9 +5208,12 @@ end
 -------------------
 MovieFrame:HookScript("OnEvent", function(self, event, id)
 	if event == "PLAY_MOVIE" and id then
+		DBM:Debug("PLAY_MOVIE fired")
 		if not IsInInstance() or C_Garrison:IsOnGarrisonMap() or DBM.Options.MovieFilter == "Never" then return end
+		DBM:Debug("PLAY_MOVIE: In valid zone, checking settings")
 		if DBM.Options.MovieFilter == "Block" or DBM.Options.MovieFilter == "AfterFirst" and DBM.Options.MoviesSeen[id] then
 			MovieFrame_OnMovieFinished(self)
+			DBM:Debug("PLAY_MOVIE: Canceling movie")
 		else
 			DBM.Options.MoviesSeen[id] = true
 		end
@@ -5679,7 +5702,7 @@ do
 end
 
 do
-	local frame = CreateFrame("Frame") -- frame for CLEU events, we don't want to run all *_MISSED events through the whole DBM event system...
+	local frame = CreateFrame("Frame", "DBMShields") -- frame for CLEU events, we don't want to run all *_MISSED events through the whole DBM event system...
 
 	local activeShields = {}
 	local shieldsByGuid = {}
@@ -6442,9 +6465,9 @@ do
 	function soundPrototype2:Play(file)
 		if soundMMoption then
 			if DBM.Options.UseMasterVolume then
-				PlaySoundFile(file, "Master")
+				PlaySoundFile("Interface\\AddOns\\DBM-Yike\\"..file..".ogg", "Master") --相对语音目录。语音文件以ogg格式存放在该目录下
 			else
-				PlaySoundFile(file)
+				PlaySoundFile("Interface\\AddOns\\DBM-Yike\\"..file..".ogg") --相对语音目录。语音文件以ogg格式存放在该目录下
 			end
 		end
 	end
@@ -6676,7 +6699,7 @@ end
 --  Special Warning Object  --
 ------------------------------
 do
-	local frame = CreateFrame("Frame", nil, UIParent)
+	local frame = CreateFrame("Frame", "DBMSpecialWarning", UIParent)
 	local font = frame:CreateFontString(nil, "OVERLAY", "ZoneTextFont")
 	frame:SetMovable(1)
 	frame:SetWidth(1)
@@ -8233,6 +8256,148 @@ do
 	function DBM:GetModLocalization(name)
 		name = tostring(name)
 		return modLocalizations[name] or self:CreateModLocalization(name)
+	end
+end
+
+---------------------------------
+--  LT Special Warning Object  -- --Function by BH. Add by Mini_Dragon (Brilla@金色平原)
+---------------------------------
+do
+	local frame, font, moving, showendnote, icon, cooldownframe
+	local function createFrame()
+		frame = CreateFrame("Frame", nil, UIParent)
+		frame:SetWidth(400)
+		frame:SetHeight(50)
+		frame:SetMovable(true)
+		frame:SetPoint(DBM.Options.LTSpecialWarningPoint, DBM.Options.LTSpecialWarningX, DBM.Options.LTSpecialWarningY)
+		font = frame:CreateFontString()	
+		font:SetDrawLayer("OVERLAY")
+		font:SetFont(DBM.Options.LTSpecialWarningFont, DBM.Options.LTSpecialWarningFontSize, "THICKOUTLINE")
+		font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
+		font:SetPoint("CENTER", 0, 0)
+		icon = frame:CreateTexture( nil, "ARTWORK" )
+		icon:SetPoint("CENTER", 0, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 or 48)
+		cooldownframe = CreateFrame("Cooldown", cooldownframe, frame)
+		cooldownframe:SetAllPoints(icon)
+		frame:Hide()
+	end
+	
+	function DBM:UpdateLTSpecialWarningOptions()
+		if not frame then
+			createFrame()
+		end
+		frame:ClearAllPoints()
+		frame:SetPoint(DBM.Options.LTSpecialWarningPoint, DBM.Options.LTSpecialWarningX, DBM.Options.LTSpecialWarningY)
+		font:SetFont(DBM.Options.LTSpecialWarningFont, DBM.Options.LTSpecialWarningFontSize, "THICKOUTLINE")
+		font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
+	end
+	
+	function DBM:ShowLTSpecialWarning(text, r, g, b, shake, iconspellid, hidetime, cdtime)
+		if (not DBM.Options.ShowLTSpecialWarnings) or (not text) then return end
+		if not frame then
+			createFrame()
+		end
+		frame:Show()
+		moving = false
+		frame:EnableMouse(false)
+		if type(text) == "number" then text = GetSpellInfo(text) end
+		font:SetText(text)
+		if r and g and b then
+			font:SetTextColor(r, g, b, 1)
+		else
+			font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
+		end
+		if iconspellid then
+			local _, _, texture = GetSpellInfo(tostring(iconspellid))
+			icon:SetTexture(texture)
+		else
+			icon:SetTexture(nil)
+		end
+		if shake then
+			local shaketime = 0.3
+			frame:SetScript("OnUpdate", function(self, e)
+				shaketime = shaketime + e
+				if shaketime <= shake then
+					local Amt = 30 / (1 + 10*(300^(-(shake))))
+					local moveX = random(-Amt, Amt)
+					local moveY = random(-Amt, Amt)
+					font:SetPoint("CENTER", moveX, moveY)
+					if iconspellid then
+						icon:SetPoint("CENTER", moveX, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 + moveY or 48 + moveY)
+					end
+				else
+					font:SetPoint("CENTER", 0, 0)
+					icon:SetPoint("CENTER", 0, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 or 48)
+				end
+			end)
+		end
+		if hidetime then
+			self:Schedule(hidetime, function() DBM:HideLTSpecialWarning() end)
+		end
+		if cdtime then
+			cooldownframe:SetCooldown(GetTime(), cdtime)
+		end
+	end
+--	/run DBM:ShowLTSpecialWarning(145987, 1, 0, 0, 1, 145987, nil, 15)
+	function DBM:HideLTSpecialWarning()
+		if frame and frame:IsShown() then
+			frame:Hide()
+		end
+	end
+	
+	function DBM:MoveLTSpecialWarning()
+		if not frame then
+			createFrame()
+		end		
+		frame:RegisterForDrag("LeftButton")
+		frame:SetScript("OnDragStart", function(self)
+			frame:StartMoving()
+		end)
+		frame:SetScript("OnDragStop", function(self)
+			frame:StopMovingOrSizing()
+			local point, _, _, x, y = self:GetPoint(1)
+			DBM.Options.LTSpecialWarningPoint = point
+			DBM.Options.LTSpecialWarningX = x
+			DBM.Options.LTSpecialWarningY = y
+		end)
+		if frame:IsShown() then
+			if moving then
+				frame:EnableMouse(false)
+				frame:Hide()
+			else
+				font:SetText(DBM_GUI_Translations.BarWhileMove)
+				moving = true
+				frame:EnableMouse(true)
+				frame:SetFrameStrata("TOOLTIP")
+			end
+		else
+			font:SetText(DBM_GUI_Translations.BarWhileMove)
+			frame:Show()
+			moving = true
+			frame:EnableMouse(true)
+			frame:SetFrameStrata("TOOLTIP")
+		end
+	end
+	
+	local function testWarningEnd()
+		DBM:HideLTSpecialWarning()
+		if not showendnote then
+			DBM:AddMsg(DBM_GUI_Translations.TestWarningEnd)
+			showendnote = true
+		end
+	end
+	
+	function DBM:ShowTestLTSpecialWarning()
+		if not frame then
+			createFrame()
+		end
+		moving = false
+		frame:EnableMouse(false)
+		font:SetText(DBM_GUI_Translations.Panel_LTSpecWarnFrame)
+		frame:Show()
+		frame:SetFrameStrata("TOOLTIP")
+		self:Unschedule(testWarningEnd)
+		self:Schedule(5, testWarningEnd)
 	end
 end
 

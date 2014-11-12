@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dragon Soul|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0巨龍之魂|r
@@ -13,7 +13,6 @@
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-MapID: 967
 ## X-DBM-Mod-Sort: 100
-## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
@@ -26,3 +25,4 @@ Blackhorn.lua
 SpineDeathwing.lua
 MadnessDeathwing.lua
 DSTrash.lua
+## X-163UI-Version: 2014111202

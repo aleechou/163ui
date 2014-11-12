@@ -60,7 +60,7 @@ function mod:OnCombatStart(delay)
 	timerCombatStart:Start(-delay)
 	table.wipe(sentLowHP)
 	table.wipe(warnedLowHP)
-	sndWOP:Schedule(88, DBM.SoundMMPath.."\\indoorsoon.ogg")
+	sndWOP:Schedule(88, "indoorsoon")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -69,9 +69,9 @@ function mod:SPELL_CAST_START(args)
 		timerNextBigBang:Start()
 		announceBigBang:Show()
 		announcePreBigBang:Schedule(80)
-		sndWOP:Schedule(80, DBM.SoundMMPath.."\\indoorsoon.ogg")
+		sndWOP:Schedule(80, "indoorsoon")
 		specWarnBigBang:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\indoornow.ogg")
+		sndWOP:Play("indoornow")
 	end
 end
 
@@ -84,7 +84,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerCDCosmicSmash:Start()
 		announceCosmicSmash:Show()
 		specWarnCosmicSmash:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\meteorrun.ogg")
+		sndWOP:Play("meteorrun")
 	end
 end
 
@@ -129,7 +129,7 @@ function mod:UNIT_HEALTH(uId)
 	if cid == 32871 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 and not warned_preP2 then
 		warned_preP2 = true
 		warnPhase2Soon:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Play("ptwo")
 	elseif cid == 32955 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 and not sentLowHP[guid] then
 		sentLowHP[guid] = true
 		self:SendSync("lowhealth", guid)
@@ -140,6 +140,6 @@ function mod:OnSync(msg, guid)
 	if msg == "lowhealth" and guid and not warnedLowHP[guid] then
 		warnedLowHP[guid] = true
 		specwarnStarLow:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\stardie.ogg")
+		sndWOP:Play("stardie")
 	end
 end

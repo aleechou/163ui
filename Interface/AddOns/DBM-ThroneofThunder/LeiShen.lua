@@ -280,17 +280,17 @@ function mod:SPELL_CAST_START(args)
 		specWarnThunderstruck:Show()
 		timerThunderstruck:Start()
 		DBM.Flash:Shake(1, 0, 0)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_yllj.ogg") --遠離雷擊
+		sndWOP:Play("ex_tt_yllj") --遠離雷擊
 		if phase < 3 then
 			timerThunderstruckCD:Start()
 		else
 			timerThunderstruckCD:Start(30)
 			specWarnThunderstruckSoon:Schedule(25)
-			sndWOP:Schedule(25, DBM.SoundMMPath.."\\ex_tt_wmlj.ogg") --5秒後雷擊
+			sndWOP:Schedule(25, "ex_tt_wmlj") --5秒後雷擊
 			thundercount = thundercount + 1
 			self:Schedule(1, function()
 				if MyJSP3B() then
-					sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+					sndWOP:Play("defensive") --注意減傷
 				else
 					DBM:PlayCountSound(thundercount)
 				end
@@ -307,16 +307,16 @@ function mod:SPELL_CAST_START(args)
 			timerLightningWhipCD:Start(30)
 		end
 		DBM.Flash:Shake(1, 0, 0)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_sdb.ogg") --閃電鞭
+		sndWOP:Play("ex_tt_sdb") --閃電鞭
 	elseif args.spellId == 136478 then
 		warnFusionSlash:Show()
 		specWarnFusionSlash:Show()
 		timerFussionSlashCD:Start()
 		if UnitName("boss1target") == UnitName("player") then
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\carefly.ogg") --小心擊飛
+			sndWOP:Play("carefly") --小心擊飛
 		elseif mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_jlz.ogg") --巨雷斬
+			sndWOP:Play("ex_tt_jlz") --巨雷斬
 		end
 	end
 end
@@ -328,11 +328,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnDecapitate:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_zs.ogg")--斬首快跑
+			sndWOP:Play("ex_tt_zs")--斬首快跑
 		else
 			specWarnDecapitateOther:Show(args.destName)
 			if mod:IsTank() or mod:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+				sndWOP:Play("changemt") --換坦嘲諷
 			end
 		end
 	--Conduit activations
@@ -355,14 +355,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnStaticShock:Show()
 			yellStaticShock:Yell()
 			timerStaticShock:Start()
-			sndWOP:Play(DBM.SoundMMPath.."\\targetyou.ogg") --目標是你
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countseven.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countsix.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("targetyou") --目標是你
+			sndWOP:Schedule(1.5, "countseven")
+			sndWOP:Schedule(2.5, "countsix")
+			sndWOP:Schedule(3.5, "countfive")
+			sndWOP:Schedule(4.5, "countfour")
+			sndWOP:Schedule(5.5, "countthree")
+			sndWOP:Schedule(6.5, "counttwo")
+			sndWOP:Schedule(7.5, "countone")
 		else
 			if not intermissionActive and self:IsMelee() then return end--Melee do not help soak these during normal phases, only during intermissions
 			local uId = DBM:GetRaidUnitId(args.destName)
@@ -375,14 +375,14 @@ function mod:SPELL_AURA_APPLIED(args)
 						DBM.Arrow:ShowRunTo(args.destName, 3, 3, 8)
 					end
 					if self:AntiSpam(3, 11) then
-						sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_jhfd.ogg") --集合分擔
-						sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countseven.ogg")
-						sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countsix.ogg")
-						sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countfive.ogg")
-						sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countfour.ogg")
-						sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countthree.ogg")
-						sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\counttwo.ogg")
-						sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countone.ogg")
+						sndWOP:Play("ex_tt_jhfd") --集合分擔
+						sndWOP:Schedule(1.5, "countseven")
+						sndWOP:Schedule(2.5, "countsix")
+						sndWOP:Schedule(3.5, "countfive")
+						sndWOP:Schedule(4.5, "countfour")
+						sndWOP:Schedule(5.5, "countthree")
+						sndWOP:Schedule(6.5, "counttwo")
+						sndWOP:Schedule(7.5, "countone")
 					end
 					if self.Options.HudMAP then
 						StaticShockMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 8, 8, 1, 1, 1, 0.8):Appear():RegisterForAlerts():Rotate(360, 8.5):SetAlertColor(0, 0, 1, 0.5))
@@ -395,7 +395,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if phase == 2 and self:AntiSpam(3, 12) then
 			lightp2count = lightp2count + 1
 			if MyJSP2() then
-				sndWOP:Schedule(1, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+				sndWOP:Schedule(1, "defensive") --注意減傷
 			end
 		end
 	elseif args.spellId == 136295 then
@@ -417,12 +417,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnOvercharged:Show()
 			yellOvercharged:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\targetyou.ogg") --目標是你
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("targetyou") --目標是你
+			sndWOP:Schedule(1.5, "countfive")
+			sndWOP:Schedule(2.5, "countfour")
+			sndWOP:Schedule(3.5, "countthree")
+			sndWOP:Schedule(4.5, "counttwo")
+			sndWOP:Schedule(5.5, "countone")
 		else
 			if not intermissionActive and self:IsMelee() then return end--Melee do not help soak these during normal phases, only during intermissions
 			local uId = DBM:GetRaidUnitId(args.destName)
@@ -433,15 +433,15 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnOverchargedNear:Show(args.destName)
 					if self:AntiSpam(3, 6) then
 						if intermissionActive and (firstchain == 1) then
-							sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_hmzb.ogg") --昏迷圈準備
+							sndWOP:Play("ex_tt_hmzb") --昏迷圈準備
 							twocirle = true
 							circletime = GetTime()
 						else
-							sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_czjh.ogg") --超載集合
-							sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-							sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-							sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-							sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+							sndWOP:Play("ex_tt_czjh") --超載集合
+							sndWOP:Schedule(1.5, "countfour")
+							sndWOP:Schedule(2.5, "countthree")
+							sndWOP:Schedule(3.5, "counttwo")
+							sndWOP:Schedule(4.5, "countone")
 						end						
 					end
 					if self.Options.HudMAP2 then
@@ -465,7 +465,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if phase > 1 then
 			if self:AntiSpam(10, 20) then
 				specWarnDiffusionChainSoon:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_sdls.ogg")--閃電鏈準備
+				sndWOP:Play("ex_tt_sdls")--閃電鏈準備
 				self:Schedule(1, warnSpellReflection)
 			end
 		end
@@ -477,7 +477,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnHelmOfCommand:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_jtzy.ogg") --注意擊退
+			sndWOP:Play("ex_tt_jtzy") --注意擊退
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
@@ -485,7 +485,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				--BH MODIFY
 				if inRange and inRange < 30 then
 					specWarnHelmOfCommandOther:Show(args.destName)
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 				end
 			end
 		end
@@ -511,7 +511,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not intermissionActive then
 			timerDiffusionChainCD:Start()
 			specWarnDiffusionChainSoon:Schedule(36)
-			sndWOP:Schedule(36, DBM.SoundMMPath.."\\ex_tt_sdls.ogg")
+			sndWOP:Schedule(36, "ex_tt_sdls")
 			if phase > 1 then
 				self:Schedule(37, warnSpellReflection)
 			end
@@ -522,12 +522,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			else
 				firstchain = 2
 				if twocirle then
-					sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg")--快集合
+					sndWOP:Play("gather")--快集合
 					circletime = GetTime() - circletime
-					sndWOP:Schedule(1.5-circletime, DBM.SoundMMPath.."\\countfour.ogg")
-					sndWOP:Schedule(2.5-circletime, DBM.SoundMMPath.."\\countthree.ogg")
-					sndWOP:Schedule(3.5-circletime, DBM.SoundMMPath.."\\counttwo.ogg")
-					sndWOP:Schedule(4.5-circletime, DBM.SoundMMPath.."\\countone.ogg")
+					sndWOP:Schedule(1.5-circletime, "countfour")
+					sndWOP:Schedule(2.5-circletime, "countthree")
+					sndWOP:Schedule(3.5-circletime, "counttwo")
+					sndWOP:Schedule(4.5-circletime, "countone")
 				end
 			end
 		end
@@ -536,10 +536,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnSummonBallLightning:Show()
 		if phase < 3 then
 			timerSummonBallLightningCD:Start()
-			sndWOP:Schedule(40, DBM.SoundMMPath.."\\ex_tt_wmdq.ogg") --5秒後電球
+			sndWOP:Schedule(40, "ex_tt_wmdq") --5秒後電球
 		else
 			timerSummonBallLightningCD:Start(30)
-			sndWOP:Schedule(25, DBM.SoundMMPath.."\\ex_tt_wmdq.ogg")
+			sndWOP:Schedule(25, "ex_tt_wmdq")
 		end
 		if self:IsDifficulty("heroic10", "heroic25") and self.Options.RangeFrameLB then
 			DBM.RangeCheck:Show(3)
@@ -560,7 +560,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args.spellId == 135681 and args:GetDestCreatureID() == 68397 and not intermissionActive then--East (Diffusion Chain)
 		timerDiffusionChainCD:Cancel()
 		specWarnDiffusionChainSoon:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_tt_sdls.ogg")
+		sndWOP:Cancel("ex_tt_sdls")
 		if phase > 1 then
 			self:Unschedule(warnSpellReflection)
 		end
@@ -606,7 +606,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
 	if spellId == 135150 and destGUID == UnitGUID("player") and self:AntiSpam(10, 4) then
 		specWarnCrashingThunder:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 		timerCrashingThunder:Start()
 	elseif spellId == 135991 and destName ~= diffusionCastTarget then--Filter actual target, so we only announce SPREADS
 		diffusionTargets[#diffusionTargets + 1] = destName
@@ -621,7 +621,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 135153 and destGUID == UnitGUID("player") and self:AntiSpam(3, 4) then
 		specWarnCrashingThunder:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -636,16 +636,16 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		--"<174.8 20:38:26> [CHAT_MSG_RAID_BOSS_EMOTE] CHAT_MSG_RAID_BOSS_EMOTE#|TInterface\\Icons\\spell_nature_unrelentingstorm.blp:20|t The |cFFFF0000|Hspell:135683|h[West Conduit]|h|r has burned out and caused |cFFFF0000|Hspell:137176|h[Overloaded Circuits]|h|r!#Bouncing Bolt Conduit
 		if msg:find("spell:135680") then--North (Static Shock)
 			northDestroyed = true
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_jdsh.ogg") --靜電震擊損毀
+			sndWOP:Play("ex_tt_jdsh") --靜電震擊損毀
 		elseif msg:find("spell:135681") then--East (Diffusion Chain)
 			eastDestroyed = true
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_sssh.ogg") --散射電練損毀
+			sndWOP:Play("ex_tt_sssh") --散射電練損毀
 		elseif msg:find("spell:135682") then--South (Overcharge)
 			southDestroyed = true
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_czsh.ogg") --電能超載損毀
+			sndWOP:Play("ex_tt_czsh") --電能超載損毀
 		elseif msg:find("spell:135683") then--West (Bouncing Bolt)
 			westDestroyed = true
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_ttsh.ogg") --彈跳閃電損毀
+			sndWOP:Play("ex_tt_ttsh") --彈跳閃電損毀
 		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			--On heroic he gains ability perm when pillar dies.
@@ -657,7 +657,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 			if eastDestroyed then
 				timerDiffusionChainCD:Start(14)
 				specWarnDiffusionChainSoon:Schedule(10)
-				sndWOP:Schedule(10, DBM.SoundMMPath.."\\ex_tt_sdls.ogg")
+				sndWOP:Schedule(10, "ex_tt_sdls")
 				self:Schedule(11, warnSpellReflection)
 			end
 			if southDestroyed then
@@ -667,13 +667,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 				timerBouncingBoltCD:Start(14)
 			end
 		end
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ptwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\pthree.ogg")
+		sndWOP:Cancel("ptwo")
+		sndWOP:Cancel("pthree")
 		if phase == 2 then--Start Phase 2 timers
 			warnPhase2:Show()
 			lightp2count = 0
 			timerSummonBallLightningCD:Start(15)
-			sndWOP:Schedule(10, DBM.SoundMMPath.."\\ex_tt_wmdq.ogg") --5秒後電球
+			sndWOP:Schedule(10, "ex_tt_wmdq") --5秒後電球
 			timerLightningWhipCD:Start(30)
 			timerFussionSlashCD:Start(44)
 			if self.Options.RangeFrame and self:IsRanged() then
@@ -684,13 +684,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 			windcount = 0
 			thundercount = 0
 			timerViolentGaleWindsCD:Start(20)
-			sndWOP:Schedule(17, DBM.SoundMMPath.."\\ex_tt_qfzb.ogg") --強風準備
+			sndWOP:Schedule(17, "ex_tt_qfzb") --強風準備
 			timerLightningWhipCD:Start(21.5)
 			timerThunderstruckCD:Start(36)
 			specWarnThunderstruckSoon:Schedule(31)
-			sndWOP:Schedule(31, DBM.SoundMMPath.."\\ex_tt_wmlj.ogg") --5秒後雷擊
+			sndWOP:Schedule(31, "ex_tt_wmlj") --5秒後雷擊
 			timerSummonBallLightningCD:Start(41.5)
-			sndWOP:Schedule(36, DBM.SoundMMPath.."\\ex_tt_wmdq.ogg") --5秒後電球
+			sndWOP:Schedule(36, "ex_tt_wmdq") --5秒後電球
 			if self.Options.RangeFrame then
 				if self:IsDifficulty("heroic10", "heroic25") then
 					if self:IsRanged() then
@@ -718,11 +718,11 @@ local function LoopIntermission()
 		if mod:IsDifficulty("lfr25") then
 			timerDiffusionChainCD:Start(17.5)
 			specWarnDiffusionChainSoon:Schedule(13.5)
-			sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+			sndWOP:Schedule(13.5, "scattersoon")--注意分散
 		else
 			timerDiffusionChainCD:Start(8)
 			specWarnDiffusionChainSoon:Schedule(4)
-			sndWOP:Schedule(4, DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+			sndWOP:Schedule(4, "scattersoon")--注意分散
 		end
 	end
 	if not westDestroyed then
@@ -730,12 +730,12 @@ local function LoopIntermission()
 			warnBouncingBolt:Schedule(9)
 			specWarnBouncingBolt:Schedule(9)
 			timerBouncingBoltCD:Start(9)
-			sndWOP:Schedule(9, DBM.SoundMMPath.."\\ex_tt_fscq.ogg")
+			sndWOP:Schedule(9, "ex_tt_fscq")
 		else
 			warnBouncingBolt:Schedule(14)
 			specWarnBouncingBolt:Schedule(14)
 			timerBouncingBoltCD:Start(14)
-			sndWOP:Schedule(14, DBM.SoundMMPath.."\\ex_tt_fscq.ogg")
+			sndWOP:Schedule(14, "ex_tt_fscq")
 		end
 	end
 	if not mod:IsDifficulty("lfr25") and not northDestroyed then--Doesn't cast a 2nd one in LFR
@@ -762,13 +762,13 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 137146 and self:AntiSpam(2, 2) then--Supercharge Conduits (comes earlier than other events so we use this one)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_cjcn.ogg") --超級充能		
+		sndWOP:Play("ex_tt_cjcn") --超級充能		
 		intermissionActive = true
 		firstchain = 0
 		twocirle = false
 		chaincount = 0
 		specWarnDiffusionChainSoon:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_tt_sdls.ogg")
+		sndWOP:Cancel("ex_tt_sdls")
 		if phase > 1 then
 			self:Unschedule(warnSpellReflection)
 		end
@@ -779,11 +779,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerFussionSlashCD:Cancel()
 		timerLightningWhipCD:Cancel()
 		timerSummonBallLightningCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_tt_wmdq.ogg")
+		sndWOP:Cancel("ex_tt_wmdq")
 		if phase == 1 then
-			sndWOP:Schedule(45, DBM.SoundMMPath.."\\ptwo.ogg")--2階段準備
+			sndWOP:Schedule(45, "ptwo")--2階段準備
 		elseif phase == 2 then
-			sndWOP:Schedule(45, DBM.SoundMMPath.."\\pthree.ogg")--3階段準備
+			sndWOP:Schedule(45, "pthree")--3階段準備
 		end
 		timerSuperChargedConduits:Start()
 		timerStaticShockCD:Cancel()
@@ -794,11 +794,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			if self:IsDifficulty("lfr25") then
 				timerDiffusionChainCD:Start(10)
 				specWarnDiffusionChainSoon:Schedule(6)
-				sndWOP:Schedule(6, DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+				sndWOP:Schedule(6, "scattersoon")--注意分散
 			else
 				timerDiffusionChainCD:Start(6)
 				specWarnDiffusionChainSoon:Schedule(2)
-				sndWOP:Schedule(2, DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+				sndWOP:Schedule(2, "scattersoon")--注意分散
 			end
 		end
 		if self.Options.RangeFrame then
@@ -814,7 +814,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if not westDestroyed and not self:IsDifficulty("lfr25") then--Doesn't get cast in first wave in LFR, only second
 			warnBouncingBolt:Schedule(14)
 			specWarnBouncingBolt:Schedule(14)
-			sndWOP:Schedule(14, DBM.SoundMMPath.."\\ex_tt_fscq.ogg")
+			sndWOP:Schedule(14, "ex_tt_fscq")
 			timerBouncingBoltCD:Start(14)
 		end
 		if not northDestroyed then
@@ -831,20 +831,20 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 136395 and self:AntiSpam(2, 3) and not intermissionActive then--Bouncing Bolt (During intermission phases, it fires randomly, use scheduler and filter this :\)
 		warnBouncingBolt:Show()
 		specWarnBouncingBolt:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_fscq.ogg")
+		sndWOP:Play("ex_tt_fscq")
 		timerBouncingBoltCD:Start()
 		specWarnBouncingBoltSoon:Schedule(36)
 	elseif spellId == 136869 and self:AntiSpam(2, 4) then--Violent Gale Winds
 		warnViolentGaleWinds:Show()
 		timerViolentGaleWinds:Start()
 		timerViolentGaleWindsCD:Start()
-		sndWOP:Schedule(27, DBM.SoundMMPath.."\\ex_tt_qfzb.ogg") --強風準備
+		sndWOP:Schedule(27, "ex_tt_qfzb") --強風準備
 		self:Schedule(28, function()
 			DBM:PlayCountSound(windcount + 1)
 		end)
 		windcount = windcount + 1
 		if MyJSP3() then
-			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Play("defensive") --注意減傷
 		end
 	end
 end
@@ -890,7 +890,7 @@ function mod:OnSync(msg, guid)
 		if self:AntiSpam(20, 15) then
 			chaincount = chaincount + 1
 			if ((mod.Options.optDD == "DD1") and (chaincount % 2 == 1)) or ((mod.Options.optDD == "DD2") and (chaincount % 2 == 0)) then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_kkdf.ogg")
+				sndWOP:Play("ex_tt_kkdf")
 			end
 		end
 	end

@@ -36,12 +36,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnResin:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnResin:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\keepjump.ogg")--保持跳動
+			sndWOP:Play("keepjump")--保持跳動
 		end
 	elseif args.spellId == 121443 then
 		if args:IsPlayer() then
 			specWarnCausticPitch:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 		end
 	elseif args.spellId == 121282 and not windsActive then
 		windsActive = true
@@ -60,7 +60,7 @@ end
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Fly or msg:find(L.Fly) then
-		sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")--快跑
+		sndWOP:Play("justrun")--快跑
 		specWarnFly:Show()
 	end
 end

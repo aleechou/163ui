@@ -34,7 +34,7 @@ local timerBladesofLightCD		= mod:NewNextTimer(30, 111216)
 function mod:OnCombatStart(delay)
 	timerDragonsReachCD:Start(-delay)
 	timerCallReinforcementsCD:Start(-delay)
-	sndWOP:Schedule(20, DBM.SoundMMPath.."\\mobsoon.ogg")--準備小怪
+	sndWOP:Schedule(20, "mobsoon")--準備小怪
 	timerBladesofLightCD:Start(40-delay)
 end
 
@@ -49,12 +49,12 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 111216 then
 		warnBladesofLight:Show()
 		specWarnBladesofLight:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\wwsoon.ogg")--準備旋風
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("wwsoon")--準備旋風
+		sndWOP:Schedule(1.5, "countfive")
+		sndWOP:Schedule(2.5, "countfour")
+		sndWOP:Schedule(3.5, "countthree")
+		sndWOP:Schedule(4.5, "counttwo")
+		sndWOP:Schedule(5.5, "countone")
 		timerDragonsReachCD:Cancel()
 	end
 end
@@ -69,6 +69,6 @@ function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Call or msg:find(L.Call) then
 		warnCallReinforcements:Show()
 		timerCallReinforcementsCD:Start()
-		sndWOP:Schedule(20, DBM.SoundMMPath.."\\mobsoon.ogg")--準備小怪
+		sndWOP:Schedule(20, "mobsoon")--準備小怪
 	end
 end

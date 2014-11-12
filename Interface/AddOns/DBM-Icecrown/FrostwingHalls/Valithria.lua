@@ -58,10 +58,10 @@ local function warnGutSprayTargets()
 end
 
 function mod:StartBlazingSkeletonTimer()
-	sndWOP:Cancel(DBM.SoundMMPath.."\\bonesoon.ogg")
+	sndWOP:Cancel("bonesoon")
 	timerBlazingSkeleton:Start(BlazingSkeletonTimer)
 	self:ScheduleMethod(BlazingSkeletonTimer, "StartBlazingSkeletonTimer")
-	sndWOP:Schedule(BlazingSkeletonTimer-4, DBM.SoundMMPath.."\\bonesoon.ogg")
+	sndWOP:Schedule(BlazingSkeletonTimer-4, "bonesoon")
 	if BlazingSkeletonTimer >= 10 then--Keep it from dropping below 5
 		BlazingSkeletonTimer = BlazingSkeletonTimer - 5
 	end
@@ -100,14 +100,14 @@ function mod:OnCombatStart(delay)
 	self:ScheduleMethod(23-delay, "StartAbomTimer")--First abom is 23-25 seconds after combat start, cause of variation, it may cause slightly off timer rest of fight
 	timerBlazingSkeleton:Start(-delay)
 	timerAbom:Start(23-delay)
-	sndWOP:Schedule(46-delay, DBM.SoundMMPath.."\\bonesoon.ogg")
+	sndWOP:Schedule(46-delay, "bonesoon")
 	table.wipe(GutSprayTargets)
 	blazingSkeleton = nil
 end
 
 function mod:Portals()
 	warnPortal:Show()
-	sndWOP:Schedule(10, DBM.SoundMMPath.."\\indoorsoon.ogg")
+	sndWOP:Schedule(10, "indoorsoon")
 	warnPortalOpen:Cancel()
 	timerPortalsOpen:Cancel()
 	warnPortalSoon:Cancel()
@@ -162,13 +162,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(69325, 71730) then--Lay Waste
 		specWarnLayWaste:Show()
 		timerLayWaste:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\firebone.ogg")
+		sndWOP:Play("firebone")
 	elseif args:IsSpellID(70873, 71941) then	--Emerald Vigor/Twisted Nightmares (portal healers)
 		if args:IsPlayer() then
 			timerHealerBuff:Start()
-			sndWOP:Schedule(37, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(38, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(39, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(37, "countthree")
+			sndWOP:Schedule(38, "counttwo")
+			sndWOP:Schedule(39, "countone")
 		end
 	end
 end
@@ -187,7 +187,7 @@ function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, 
 	if (spellId == 71806 or spellId == 71743 or spellId == 72029 or spellId == 72030) and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then		-- Mana Void
 		specWarnManaVoid:Show()
 		if mod:IsManaUser() then
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+			sndWOP:Play("runaway")
 		end
 	end
 end

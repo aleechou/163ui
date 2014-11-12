@@ -86,10 +86,10 @@ function mod:OnCombatStart(delay)
 	cleancount = 0
 	timerBreathCD:Start(10-delay)
 	timerSwirlCD:Start(20-delay)
-	sndWOP:Schedule(16-delay, DBM.SoundMMPath.."\\ex_so_xwzb.ogg")--漩渦準備
-	sndWOP:Schedule(17-delay, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(18-delay, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(19-delay, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Schedule(16-delay, "ex_so_xwzb")--漩渦準備
+	sndWOP:Schedule(17-delay, "countthree")
+	sndWOP:Schedule(18-delay, "counttwo")
+	sndWOP:Schedule(19-delay, "countone")
 	berserkTimer:Start(-delay)
 	self:RegisterShortTermEvents(
 		"UNIT_POWER_FREQUENT boss1"--Do not want this one persisting out of combat even after a wipe, in case you go somewhere else.
@@ -111,22 +111,22 @@ function mod:SPELL_CAST_START(args)
 		warnBreath:Show()
 		specWarnBreath:Show()
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zbcj.ogg") --準備衝擊
+			sndWOP:Play("ex_so_zbcj") --準備衝擊
 		end
 		timerBreathCD:Start()
 	elseif args.spellId == 143309 then
 		warnSwirl:Show()
 		specWarnSwirl:Show()
 		timerSwirl:Start()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_xwzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xw.ogg") --漩渦
-		sndWOP:Schedule(44, DBM.SoundMMPath.."\\ex_so_xwzb.ogg")--漩渦準備
-		sndWOP:Schedule(45, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(46, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(47, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_so_xwzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("ex_so_xw") --漩渦
+		sndWOP:Schedule(44, "ex_so_xwzb")--漩渦準備
+		sndWOP:Schedule(45, "countthree")
+		sndWOP:Schedule(46, "counttwo")
+		sndWOP:Schedule(47, "countone")
 		timerSwirlCD:Show()
 	end
 end
@@ -138,7 +138,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPurifiedResidue:Start()
 	elseif args.spellId == 143297 and args:IsPlayer() and self:AntiSpam(2, 1) then
 		specWarnShaSplash:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif args.spellId == 143523 then
 		cleancount = cleancount + 1
 		updateInfoFrame()
@@ -150,7 +150,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if (args.amount or 1) >= 3 then
 			needwarnsafe = true
 			specWarnSwellingCorruption:Show(args.amount)
-			sndWOP:Play(DBM.SoundMMPath.."\\stopatk.ogg") --注意停手
+			sndWOP:Play("stopatk") --注意停手
 		end
 	end
 end
@@ -162,7 +162,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerPurifiedResidue:Cancel()
 	elseif args:IsSpellID(143579) and args:IsPlayer() then
 		if needwarnsafe then
-			sndPZ:Play(DBM.SoundMMPath.."\\safenow.ogg") --安全
+			sndWOP:Play("safenow") --安全
 			needwarnsafe = false
 		end
 	end
@@ -171,7 +171,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 143297 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShaSplash:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -181,9 +181,9 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
 		if needwarndr then
 			needwarndr = false
 			if MyJS() then
-				sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+				sndWOP:Play("defensive") --注意減傷
 			else
-				sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+				sndWOP:Play("holdit")
 			end
 		end
 	end
@@ -197,7 +197,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 143578 then--Swelling Corruption
 		warnSwellingCorruptionCast:Show()
 		timerSwellingCorruptionCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_pz.ogg") --膨脹
+		sndWOP:Play("ex_so_pz") --膨脹
 	end
 end
 
@@ -215,13 +215,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg:find("spell:143469") then--Reforms
 		warnReform:Show()
 		needwarndr = false
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fljs.ogg") --分裂結束
+		sndWOP:Play("ex_so_fljs") --分裂結束
 		timerBreathCD:Start(14)
 		timerSwirlCD:Start(24)
-		sndWOP:Schedule(20, DBM.SoundMMPath.."\\ex_so_xwzb.ogg")--漩渦準備
-		sndWOP:Schedule(21, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(22, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(23, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(20, "ex_so_xwzb")--漩渦準備
+		sndWOP:Schedule(21, "countthree")
+		sndWOP:Schedule(22, "counttwo")
+		sndWOP:Schedule(23, "countone")
 		if self:IsMythic() then
 			timerSwellingCorruptionCD:Start(17)
 		end
@@ -229,11 +229,11 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		splitcount = splitcount + 1
 		warnSplit:Show()
 		specWarnSplit:Show(splitcount)
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_xwzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fl.ogg") --分裂開始
+		sndWOP:Cancel("ex_so_xwzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("ex_so_fl") --分裂開始
 		timerBreathCD:Cancel()
 		timerSwirlCD:Cancel()
 		timerShaBoltCD:Cancel()

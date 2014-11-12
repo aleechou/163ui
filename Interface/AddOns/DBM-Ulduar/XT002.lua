@@ -51,7 +51,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 62776 then					-- Tympanic Tantrum (aoe damge + daze)
 		timerTympanicTantrumCast:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg")
+		sndWOP:Play("healall")
 		timerTympanicTantrumCD:Stop()
 	end
 end
@@ -64,7 +64,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(63018, 65121) then 	-- Light Bomb
 		if args:IsPlayer() then
 			specWarnLightBomb:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Play("runout")
 		end
 		if self.Options.SetIconOnLightBombTarget then
 			self:SetIcon(args.destName, 7, 9)
@@ -74,7 +74,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(63024, 64234) then		-- Gravity Bomb
 		if args:IsPlayer() then
 			specWarnGravityBomb:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Play("runout")
 		end
 		if self.Options.SetIconOnGravityBombTarget then
 			self:SetIcon(args.destName, 8, 9)
@@ -101,7 +101,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 64208 or spellId == 64206) and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnConsumption:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

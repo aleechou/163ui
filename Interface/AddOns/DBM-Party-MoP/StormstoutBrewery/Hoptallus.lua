@@ -45,10 +45,10 @@ function mod:SPELL_CAST_START(args)
 		warnFurlwind:Show()
 --		specWarnFurlwind:Show()
 --		soundFurlwind:Play()
-		sndWOP:Play(DBM.SoundMMPath.."\\wwsoon.ogg")--準備旋風
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("wwsoon")--準備旋風
+		sndWOP:Schedule(10, "countthree")
+		sndWOP:Schedule(11, "counttwo")
+		sndWOP:Schedule(12, "countone")
 		timerFurlwind:Start()
 		timerBreathCD:Start()--Always 18 seconds after Furlwind
 	elseif args.spellId == 112944 then
@@ -63,13 +63,13 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 112993 and destGUID == UnitGUID("player") and self:AntiSpam() and (not mod:IsTank()) then
 		specWarnFurlwind:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Tuzi or msg:find(L.Tuzi) then
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")--準備小怪
+		sndWOP:Play("mobsoon")--準備小怪
 	end
 end

@@ -136,7 +136,7 @@ local function MyDR(msg)
 	if (msg == "dr90" and mod.Options.warndr9) or (msg == "dr80" and mod.Options.warndr8) or (msg == "dr70" and mod.Options.warndr7) or (msg == "dr60" and mod.Options.warndr6) or (msg == "dr50" and mod.Options.warndr5) or (msg == "dr40" and mod.Options.warndr4) or (msg == "dr30" and mod.Options.warndr3) or (msg == "dr20" and mod.Options.warndr2) or (msg == "dr10" and mod.Options.warndr1) then
 		local healthshow = string.sub(msg, 3, 4)
 		specWarnJSA:Show(healthshow)
-		sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+		sndWOP:Play("defensive") --注意減傷
 	end
 end
 
@@ -167,15 +167,15 @@ local function warnPrisonTargets()
 			if helpdisp then
 				local helpername = mod.Options.helpdispset
 				specWarnLightningPrisonOther:Show(helpername)
-				sndWOP:Play(DBM.SoundMMPath.."\\helpdispel.ogg")
-				sndWOP:Schedule(0.2, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(2.2, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Play("helpdispel")
+				sndWOP:Schedule(0.2, "countthree")
+				sndWOP:Schedule(1.2, "counttwo")
+				sndWOP:Schedule(2.2, "countone")
 				helpdisp = false
 			else
-				sndSDQ:Schedule(0.2, DBM.SoundMMPath.."\\countthree.ogg")
-				sndSDQ:Schedule(1.2, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndSDQ:Schedule(2.2, DBM.SoundMMPath.."\\countone.ogg")
+				sndSDQ:Schedule(0.2, "countthree")
+				sndSDQ:Schedule(1.2, "counttwo")
+				sndSDQ:Schedule(2.2, "countone")
 			end
 		end
 	end
@@ -252,9 +252,9 @@ function mod:WatersTarget()
 				if UnitName("boss"..i) == targetname then
 					if UnitDetailedThreatSituation("player", "boss"..i) and (self.Options.SoundWater) then--You are targeting the target of this spell.
 						specWarnCleansingWaters:Show(targetname)
-						sndWOP:Play(DBM.SoundMMPath.."\\bossout.ogg") --拉開boss
+						sndWOP:Play("bossout") --拉開boss
 					else
-						sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jhzs.ogg") --淨化之水
+						sndWOP:Play("ex_mop_jhzs") --淨化之水
 					end
 				end
 			end			
@@ -299,7 +299,7 @@ function mod:OnCombatStart(delay)
 				outgroup = true
 				specWarnYourGroup:Show()
 				DBM.Flash:Shake(1, 0, 0)
-				sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg") --準備小怪
+				sndWOP:Play("mobsoon") --準備小怪
 			end
 		end)
 	end
@@ -335,10 +335,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnLightningPrison:Show()
 			yellLightningPrison:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --跑開人群
-			sndWOP:Schedule(0.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("runout") --跑開人群
+			sndWOP:Schedule(0.5, "countthree")
+			sndWOP:Schedule(1.5, "counttwo")
+			sndWOP:Schedule(2.5, "countone")
 		end
 		if self.Options.HudMAP then
 			if args:IsPlayer() then
@@ -355,7 +355,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			prisonIcon = prisonIcon + 1
 		end
 		if self:AntiSpam(2, 2) then
-			sndSDQ:Play(DBM.SoundMMPath.."\\ex_mop_qssd.ogg")--驅散閃電
+			sndSDQ:Play("ex_mop_qssd")--驅散閃電
 		end
 		if self.Options.HudMAP then
 			if not args:IsPlayer() then
@@ -366,7 +366,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args.destName == UnitName("boss1") or args.destName == UnitName("boss2") or args.destName == UnitName("boss3") then
 			specWarnCleansingWatersDispel:Show(args.destName)
 			if isDispeller and self.Options.SoundDW and self:AntiSpam(2, 3) then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_qszl.ogg") --驅散治療
+				sndWOP:Play("ex_mop_qszl") --驅散治療
 			end
 		end
 	elseif args:IsSpellID(117052) then--Phase changes
@@ -395,7 +395,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
 				self:Schedule(1.5, function() DBM.Flash:Shake(0, 0, 1) end)
 				self:Schedule(2, function() DBM.Flash:Shake(1, 0, 0) end)
-				sndWOP:Schedule(1, DBM.SoundMMPath.."\\mobenough.ogg") --能量已滿 遠離小怪
+				sndWOP:Schedule(1, "mobenough") --能量已滿 遠離小怪
 			end
 		end
 	end
@@ -427,31 +427,31 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(117975) then
 		warnExpelCorruption:Show()
 		specWarnExpelCorruption:Show()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_ylhq.ogg") --遠離黑球
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("ex_mop_ylhq") --遠離黑球
 		timerExpelCorruptionCD:Start()
-		sndWOP:Schedule(34, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(35, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(36, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(37, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(38, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(34, "countfive")
+		sndWOP:Schedule(35, "countfour")
+		sndWOP:Schedule(36, "countthree")
+		sndWOP:Schedule(37, "counttwo")
+		sndWOP:Schedule(38, "countone")
 	elseif args:IsSpellID(117227) then
 		warnCorruptingWaters:Show()
 		specWarnCorruptingWaters:Show()
 		timerCorruptingWatersCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_sqkd.ogg")--水球快打
+		sndWOP:Play("ex_mop_sqkd")--水球快打
 	elseif args:IsSpellID(118077) then
 		warnLightningStorm:Show()
 		specWarnLightningStorm:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\lightstorm.ogg") --閃電風暴
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Play("lightstorm") --閃電風暴
+		sndWOP:Schedule(1.5, "countone")
+		sndWOP:Schedule(4.5, "counttwo")
+		sndWOP:Schedule(7.5, "countthree")
+		sndWOP:Schedule(10, "countfour")
 		helpstop = true
 		if phase == 3 then
 			timerLightningStormCD:Start(32)
@@ -462,25 +462,25 @@ function mod:SPELL_CAST_START(args)
 		watercount = watercount + 1
 		if self.Options.optDD4 then
 			if ((mod.Options.optDD == "DD1") and (watercount % 4 == 1)) or ((mod.Options.optDD == "DD2") and (watercount % 4 == 2)) or ((mod.Options.optDD == "DD3") and (watercount % 4 == 3)) or ((mod.Options.optDD == "DD4") and (watercount % 4 == 0)) then
-				sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+				sndWOP:Play("kickcast") --快打斷
 				specWarnwarterDD:Show(args.sourceName)
 			end	
 			if ((mod.Options.optDD == "DD1") and (watercount % 4 == 0)) or ((mod.Options.optDD == "DD2") and (watercount % 4 == 1)) or ((mod.Options.optDD == "DD3") and (watercount % 4 == 2)) or ((mod.Options.optDD == "DD4") and (watercount % 4 == 3)) then
-				sndWOP:Schedule(1, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+				sndWOP:Schedule(1, "interruptsoon") --打斷準備
 				specWarnDDL:Schedule(1)
 			end
 		else
 			if ((mod.Options.optDD == "DD1") and (watercount % 3 == 1)) or ((mod.Options.optDD == "DD2") and (watercount % 3 == 2)) or ((mod.Options.optDD == "DD3") and (watercount % 3 == 0)) then
-				sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+				sndWOP:Play("kickcast")
 				specWarnwarterDD:Show(args.sourceName)
 			end	
 			if ((mod.Options.optDD == "DD1") and (watercount % 3 == 0)) or ((mod.Options.optDD == "DD2") and (watercount % 3 == 1)) or ((mod.Options.optDD == "DD3") and (watercount % 3 == 2)) then
-				sndWOP:Schedule(1, DBM.SoundMMPath.."\\interruptsoon.ogg")
+				sndWOP:Schedule(1, "interruptsoon")
 				specWarnDDL:Schedule(1)
 			end
 		end
 		if helpstop and self.Options.opthelpDD then
-			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+			sndWOP:Play("helpkick")
 			specWarnwarterDD:Show(args.sourceName)
 			helpstop = false
 		end
@@ -495,7 +495,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if UnitName("boss"..i) == args.sourceName then
 				if UnitDetailedThreatSituation("player", "boss"..i) then
 					specWarnDefiledGround:Show()
-					sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+					sndWOP:Play("runaway")--快躲開
 				end
 			end
 		end
@@ -503,10 +503,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		phase = phase + 1
 		if phase == 2 then
 			warnPhase2:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") -- P2
+			sndWOP:Play("ptwo") -- P2
 		elseif phase == 3 then
 			warnPhase3:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\pthree.ogg") -- P3
+			sndWOP:Play("pthree") -- P3
 			table.wipe(senddr)
 			table.wipe(warneddr)
 			self:RegisterShortTermEvents(
@@ -538,12 +538,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 						outgroup = true
 						specWarnYourGroup:Show()
 						DBM.Flash:Shake(1, 0, 0)
-						sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 1 and outgroup then
 						outgroup = false
 						specWarnYourEnd:Show()
-						sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg")
+						sndWOP:Play("runin")
 					end
 				end
 			end
@@ -554,12 +554,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 						outgroup = true
 						specWarnYourGroup:Show()
 						DBM.Flash:Shake(1, 0, 0)
-						sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg") --準備小怪
+						sndWOP:Play("mobsoon") --準備小怪
 					end
 					if myGroup ~= 2 and outgroup then
 						outgroup = false
 						specWarnYourEnd:Show()
-						sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg") --快回人群
+						sndWOP:Play("runin") --快回人群
 					end
 				end
 			end
@@ -570,12 +570,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 						outgroup = true
 						specWarnYourGroup:Show()
 						DBM.Flash:Shake(1, 0, 0)
-						sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 3 and outgroup then
 						outgroup = false
 						specWarnYourEnd:Show()
-						sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg")
+						sndWOP:Play("runin")
 					end
 				end
 			end
@@ -586,12 +586,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 						outgroup = true
 						specWarnYourGroup:Show()
 						DBM.Flash:Shake(1, 0, 0)
-						sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 4 and outgroup then
 						outgroup = false
 						specWarnYourEnd:Show()
-						sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg")
+						sndWOP:Play("runin")
 					end
 				end
 			end
@@ -603,12 +603,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 							outgroup = true
 							specWarnYourGroup:Show()
 							DBM.Flash:Shake(1, 0, 0)
-							sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+							sndWOP:Play("mobsoon")
 						end
 						if myGroup ~= 5 and outgroup then
 							outgroup = false
 							specWarnYourEnd:Show()
-							sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg")
+							sndWOP:Play("runin")
 						end
 					end
 				end
@@ -620,10 +620,10 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 117436 and destGUID == UnitGUID("player") and self:AntiSpam(3, 4) then
 		specWarnLPmove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif spellId == 117988 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
 		specWarnDefiledGround:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

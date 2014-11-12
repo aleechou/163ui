@@ -141,18 +141,18 @@ function mod:SPELL_CAST_START(args)
 		warnArcingSmash:Show()
 		specWarnArcingSmash:Show()
 		if self:AntiSpam(10, 4) then
-			sndWOP:Play(DBM.SoundMMPath.."\\carefly.ogg")--小心击飞
+			sndWOP:Play("carefly")--小心击飞
 		end
 	elseif args.spellId == 146757 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		local source = args.sourceName
 		warnChainHeal:Show()
 		if source == UnitName("target") or source == UnitName("focus") then 
 			specWarnChainheal:Show(source)
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+			sndWOP:Play("kickcast") --快打斷
 		end
 	elseif args.spellId == 146848 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		specWarnSkullCracker:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sfzd.ogg")--旋風斬
+		sndWOP:Play("ex_so_sfzd")--旋風斬
 	end
 end
 
@@ -170,7 +170,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 146753 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
-		sndTT:Play(DBM.SoundMMPath.."\\ex_so_ttkd.ogg") --圖騰快打
+		sndTT:Play("ex_so_ttkd") --圖騰快打
 	end
 end
 
@@ -183,7 +183,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFlamesofGalakrondYou:Show()
 			yellFlamesofGalakrond:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+			sndWOP:Play("justrun") --快跑
 		else
 			specWarnFlamesofGalakrond:Show(flamesCount)
 		end
@@ -191,31 +191,31 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8)
 		end
 		if MyJS() then
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(3, "defensive") --注意減傷
 		end
 	elseif args.spellId == 147328 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnWarBanner:Show()
-		sndZQ:Play(DBM.SoundMMPath.."\\ex_so_zqkd.ogg")--战旗快打
+		sndZQ:Play("ex_so_zqkd")--战旗快打
 		specWarnWarBanner:Show()
 	elseif args.spellId == 146899 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnFracture:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFractureYou:Show()
 			yellFracture:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\chargemove.ogg")--冲锋快躲
+			sndWOP:Play("chargemove")--冲锋快躲
 		else
 			specWarnFracture:Show(args.destName)
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_sgcf.ogg")--碎骨冲锋
+			sndWOP:Play("ex_so_sgcf")--碎骨冲锋
 		end
 	elseif args.spellId == 147705 then
 		if args:IsPlayer() and self:AntiSpam(2, 1) then
 			specWarnPoisonCloud:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+			sndWOP:Play("runaway") --快躲開
 		end
 	elseif args.spellId == 147711 and UnitPower("player", ALTERNATE_POWER_INDEX) == 0 then
 		warnCurseVenom:Show()
 		specWarnCurseVenom:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dskd.ogg")--毒蛇快打
+		sndWOP:Play("ex_so_dskd")--毒蛇快打
 	end
 end
 
@@ -256,7 +256,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 147705 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnPoisonCloud:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -266,7 +266,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	--	specWarnFlameArrow:Show()
 	elseif spellId == 146872 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnShadowAttack:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -286,7 +286,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerAddsCD:Cancel()
 		timerProtoCD:Cancel()
 		warnPhase2:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") -- 2階段
+		sndWOP:Play("ptwo") -- 2階段
 		timerFlamesofGalakrondCD:Start(18.6, 1)--TODO, verify consistency since this timing may depend on where drake lands and time it takes to get picked up.
 	end
 end
@@ -310,9 +310,9 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("cFFFF0404") then--They fixed epiccenter bug (figured they would). Color code should be usuable though. It's only emote on encounter that uses it.
 		warnDemolisher:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tscd.ogg") --投石车快打
+		sndWOP:Play("ex_so_tscd") --投石车快打
 	elseif msg:find(L.tower) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ptkf.ogg") --炮塔攻破
+		sndWOP:Play("ex_so_ptkf") --炮塔攻破
 		timerDemolisherCD:Start()
 	end
 end

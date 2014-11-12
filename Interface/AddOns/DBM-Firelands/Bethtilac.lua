@@ -50,7 +50,7 @@ end
 
 function mod:repeatDrone()
 	timerDrone:Start()
-	sndWOP:Schedule(60, DBM.SoundMMPath.."\\drone.ogg")
+	sndWOP:Schedule(60, "drone")
 	self:ScheduleMethod(60, "repeatDrone")
 end
 
@@ -60,7 +60,7 @@ function mod:OnCombatStart(delay)
 	timerSpiderlings:Start(12.5-delay)
 	self:ScheduleMethod(11-delay , "repeatSpiderlings")
 	timerDrone:Start(45-delay)
-	sndWOP:Schedule(45-delay, DBM.SoundMMPath.."\\drone.ogg")
+	sndWOP:Schedule(45-delay, "drone")
 	self:ScheduleMethod(45-delay, "repeatDrone")
 	smolderingCount = 0
 end
@@ -82,7 +82,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnFixate:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\awayspider.ogg")
+			sndWOP:Play("awayspider")
 		end
 	end
 end
@@ -104,10 +104,10 @@ function mod:SPELL_CAST_START(args)
 		if self:GetUnitCreatureId("target") == 52498 or self:GetBossTarget(52498) == DBM:GetUnitFullName("target") then--If spider is you're target or it's tank is, you're up top.
 			specWarnSmolderingDevastation:Show()
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\boomrun.ogg")
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("boomrun")
+		sndWOP:Schedule(5, "countthree")
+		sndWOP:Schedule(6, "counttwo")
+		sndWOP:Schedule(7, "countone")
 		timerSmolderingDevastation:Start()
 		timerEmberFlareCD:Cancel()--Cast immediately after Devastation, so don't need to really need to update timer, just cancel last one since it won't be cast during dev
 		if smolderingCount == 3 then	-- 3rd cast = start P2
@@ -116,7 +116,7 @@ function mod:SPELL_CAST_START(args)
 			self:UnscheduleMethod("repeatDrone")
 			timerSpiderlings:Cancel()
 			timerDrone:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\drone.ogg")
+			sndWOP:Cancel("drone")
 			if self.Options.RangeFrame and not DBM.RangeCheck:IsShown() and self:IsTank() then
 				DBM.RangeCheck:Show(10)
 			end
@@ -124,7 +124,7 @@ function mod:SPELL_CAST_START(args)
 			timerSmolderingDevastationCD:Start(90, smolderingCount+1)
 			timerSpinners:Start()
 			if smolderingCount == 2 then
-				sndWOP:Schedule(80, DBM.SoundMMPath.."\\ptwo.ogg")
+				sndWOP:Schedule(80, "ptwo")
 			end
 		end
 	end
@@ -139,7 +139,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnTouchWidowKissOther:Show(args.destName)
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end
 	--Phase 1 ember flares. Only show for people who are actually up top.
 	elseif args:IsSpellID(98934, 100648, 100834, 100835) and (self:GetUnitCreatureId("target") == 52498 or self:GetBossTarget(52498) == DBM:GetUnitFullName("target")) then
@@ -153,20 +153,20 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 99278 or spellId == 101133) and destGUID == UnitGUID("player") and self:AntiSpam(3) then
 		specWarnVolatilePoison:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.EmoteSpiderlings then
-		sndWOP:Play(DBM.SoundMMPath.."\\spiderling.ogg")
+		sndWOP:Play("spiderling")
 		self:UnscheduleMethod("repeatSpiderlings")	-- in case it is off
 		self:repeatSpiderlings()
 	elseif msg == L.EmoteSpinners then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\spinner.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\spinner.ogg")
-		sndWOP:Schedule(21, DBM.SoundMMPath.."\\spinner.ogg")
+		sndWOP:Schedule(1, "spinner")
+		sndWOP:Schedule(11, "spinner")
+		sndWOP:Schedule(21, "spinner")
 	end
 end
 

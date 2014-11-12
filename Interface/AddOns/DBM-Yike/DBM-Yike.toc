@@ -1,1 +1,11 @@
-## X-163UI-Version: 20141028184034
+﻿## Interface: 60000
+## X-Min-Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sound-Yike|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0夏一可语音包|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0夏一可語音包|r
+## DefaultState: enabled
+## RequiredDeps: DBM-Core
+## Author: Yike Xia, Mini_Dragon
+## Notes: 还是要去向女神表白的, 万一女神瞎了呢?
+## Version: 14.11.10
+## X-163UI-Version: 2014110202

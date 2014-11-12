@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mogu'shan Vaults|r
 ## Author: MysticalOS
@@ -23,4 +23,4 @@ GarajalTheSpiritbinder.lua
 SpiritKings.lua
 Elegon.lua
 WillofEmperor.lua
-## X-163UI-Version: 20141028162630
+## X-163UI-Version: 2014111202

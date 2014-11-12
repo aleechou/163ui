@@ -167,30 +167,30 @@ end
 
 local function spectimestart()
 	if huddle == 1 and spout == 1 and strike == 0 then
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\ex_mop_ylxjzb.ogg")
+		sndWOP:Schedule(5, "ex_mop_ylxjzb")
 		timerImplacableStrikeCD:Start()
 	end
 	if huddle == 1 and spout == 0 and strike == 1 then
 		timerWaterspoutCD:Start()
 	end
 	if huddle == 1 and spout == 0 and strike == 0 then
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\specialsoon.ogg")
+		sndWOP:Schedule(6, "specialsoon")
 		timerSpoStrCD:Start()
 	end
 	if huddle == 0 and spout == 1 and strike == 0 then
 		timerHuddleInTerrorCD:Start()
 		specWarningpreHud:Schedule(8)
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\ex_mop_wszb.ogg")
+		sndWOP:Schedule(6, "ex_mop_wszb")
 		if not mod:IsTank() then
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Schedule(7, "holdit")
 		end
 	end
 	if huddle == 0 and spout == 0 and strike == 1 then
 		timerHuddleInTerrorCD:Start()
 		specWarningpreHud:Schedule(8)
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\ex_mop_wszb.ogg")
+		sndWOP:Schedule(6, "ex_mop_wszb")
 		if not mod:IsTank() then
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Schedule(7, "holdit")
 		end
 	end
 end
@@ -217,13 +217,13 @@ function mod:LeavePlatform()
 				mod:Schedule(23.3 - shaPower, function()
 					if not warnedBreath then
 						warnedBreath = true
-						sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_tenkj.ogg") --10秒後恐懼之息
+						sndWOP:Play("ex_mop_tenkj") --10秒後恐懼之息
 						DBM.Flash:Shake(1, 0, 0)
-						sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfive.ogg")
-						sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countfour.ogg")
-						sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
-						sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
-						sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+						sndWOP:Schedule(5.5, "countfive")
+						sndWOP:Schedule(6.5, "countfour")
+						sndWOP:Schedule(7.5, "countthree")
+						sndWOP:Schedule(8.5, "counttwo")
+						sndWOP:Schedule(9.5, "countone")
 					end
 				end)
 			end
@@ -273,13 +273,13 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	self:Schedule(23.3, function()
 		if not onPlatform then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_tenkj.ogg") --10秒後恐懼之息
+			sndWOP:Play("ex_mop_tenkj") --10秒後恐懼之息
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(5.5, "countfive")
+			sndWOP:Schedule(6.5, "countfour")
+			sndWOP:Schedule(7.5, "countthree")
+			sndWOP:Schedule(8.5, "counttwo")
+			sndWOP:Schedule(9.5, "countone")
 		end
 	end)
 	self:RegisterShortTermEvents(
@@ -305,13 +305,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Schedule(23.3, function()
 			if (not onPlatform) and (phase == 1) and (not warnedBreath) then
 				warnedBreath = true
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_tenkj.ogg") --10秒後恐懼之息
+				sndWOP:Play("ex_mop_tenkj") --10秒後恐懼之息
 				DBM.Flash:Shake(1, 0, 0)
-				sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfive.ogg")
-				sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countfour.ogg")
-				sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(5.5, "countfive")
+				sndWOP:Schedule(6.5, "countfour")
+				sndWOP:Schedule(7.5, "countthree")
+				sndWOP:Schedule(8.5, "counttwo")
+				sndWOP:Schedule(9.5, "countone")
 			end
 		end)
 	elseif args:IsSpellID(129147) then
@@ -338,16 +338,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnOminousCackleYou:Show()
 			timerBreathOfFearCD:Cancel()
 			if self:AntiSpam(2, 4) then
-				sndWOP:Play(DBM.SoundMMPath.."\\telesoon.ogg")--準備傳送
+				sndWOP:Play("telesoon")--準備傳送
 			end
 		elseif (not mod:IsDps()) and (not onPlatform) and self:AntiSpam(2, 4) then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")--換坦嘲諷
+			sndWOP:Play("changemt")--換坦嘲諷
 		end
 		self:Unschedule(warnOminousCackleTargets)
 		self:Schedule(2, warnOminousCackleTargets)
 	elseif args:IsSpellID(132007) then
 		if not mod:IsDps() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_llj.ogg")--六連擊
+			sndWOP:Play("ex_mop_llj")--六連擊
 		end
 		ThrashCount = 0
 		swingcount = -1
@@ -360,20 +360,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDreadSpray:Start(args.sourceGUID)
 		timerDreadSprayCD:Start(args.sourceGUID)
 		if not self.Options.pscount then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kbpszb.ogg")--恐怖噴散
+			sndWOP:Play("ex_mop_kbpszb")--恐怖噴散
 		end
 	elseif args:IsSpellID(119983) and MobID and MobID == args:GetSrcCreatureID() then--might change
 		if (args.amount or 1) == 2 then
 			if mod:IsHealer() and self:AntiSpam(3, 8) then
-				sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+				sndWOP:Play("dispelnow") --快驅散
 			end
 		end
 	elseif args:IsSpellID(119888) and MobID and MobID == args:GetSrcCreatureID() then
 		timerDeathBlossom:Start()
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(1.5, "countfour")
+		sndWOP:Schedule(2.5, "countthree")
+		sndWOP:Schedule(3.5, "counttwo")
+		sndWOP:Schedule(4.5, "countone")
 	elseif args:IsSpellID(118977) and args:IsPlayer() then--Fearless, you're leaving platform
 		timerFearless:Start()
 		self:UnscheduleMethod("CheckPlatformLeaved")
@@ -383,7 +383,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnThrash:Show()
 		specWarnThrash:Show()
 		if not mod:IsDps() then
-			sndDD:Play(DBM.SoundMMPath.."\\doubleat.ogg")--雙重攻擊	
+			sndDD:Play("doubleat")--雙重攻擊	
 			timerThrashCD:Start()
 			if phase == 2 then
 				ThrashCount = ThrashCount + 1
@@ -395,7 +395,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args:IsSpellID(119086) then
 		if args:IsPlayer() and (args.amount or 1) >= 2 and self:AntiSpam(3, 2) then
-			sndWOP:Play(DBM.SoundMMPath.."\\firecircle.ogg")--注意火圈
+			sndWOP:Play("firecircle")--注意火圈
 			specWarnShot:Show(args.amount)
 		end
 	elseif args:IsSpellID(120519) then --水魄
@@ -405,7 +405,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellshuipo:Yell()
 			if not UnitBuff("player", GetSpellInfo(120268)) then
 				DBM.Flash:Shake(1, 0, 0)
-				sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+				sndWOP:Play("runout")
 			end
 		else
  			local uId = DBM:GetRaidUnitId(args.destName)
@@ -415,7 +415,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					self:Schedule(0.3, function()
 						if self:AntiSpam(5, 20) then
 							specWarnWaterspoutNear:Show(args.destName)
-							sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")
+							sndWOP:Play("keepmove")
 						end
 					end)
  				end
@@ -434,14 +434,14 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnzyg:Show(lastyongshi)
 			end
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_zyg.ogg") --轉移光
+			sndWOP:Play("ex_mop_zyg") --轉移光
 		end
 		lastyongshi = args.destName
 	elseif args:IsSpellID(120669) then--赤裸
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_clzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_mop_clzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 		warnNakedAndAfraid:Show(args.destName)
 		if self:IsDifficulty("heroic10") then
 			timerNakedAndAfraid:Start(args.destName)
@@ -453,16 +453,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			specWarnzhanliOther:Show(args.destName)
 			if mod:IsTank() or mod:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")--換坦嘲諷
+				sndWOP:Play("changemt")--換坦嘲諷
 			end
 		end
 		timerNakedAndAfraidCD:Start()
 		if mod:IsTank() then
 			if timeryinmo:GetTime() < 20 then
-				sndWOP:Schedule(26, DBM.SoundMMPath.."\\ex_mop_clzb.ogg") --赤裸準備
-				sndWOP:Schedule(27.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(28.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(29.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(26, "ex_mop_clzb") --赤裸準備
+				sndWOP:Schedule(27.5, "countthree")
+				sndWOP:Schedule(28.5, "counttwo")
+				sndWOP:Schedule(29.5, "countone")
 			end
 		end
 	elseif args:IsSpellID(120629) then
@@ -475,22 +475,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Schedule(0.5, warnHuddleInTerrorTargets)
 		if self:AntiSpam(5, 6) then
 			kongjuCount = kongjuCount + 1
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_wsks.ogg")
+			sndWOP:Play("ex_mop_wsks")
 			specWarnweisuo:Show(kongjuCount)
 			timerweisuo:Start(50, kongjuCount + 1)
 			huddle = 1
 			spectimestart()
 			if kongjuCount % 4 == 1 then
-				sndWOPWSCOUNT:Schedule(1, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOPWSCOUNT:Schedule(1, "countone")
 			elseif kongjuCount % 4 == 2 then
-				sndWOPWSCOUNT:Schedule(1, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOPWSCOUNT:Schedule(1, "counttwo")
 			elseif kongjuCount % 4 == 3 then
-				sndWOPWSCOUNT:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOPWSCOUNT:Schedule(1, "countthree")
 			elseif kongjuCount % 4 == 0 then
-				sndWOPWSCOUNT:Schedule(1, DBM.SoundMMPath.."\\countfour.ogg")
+				sndWOPWSCOUNT:Schedule(1, "countfour")
 			end
 			if MyJS() then
-				sndWOP:Schedule(2, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+				sndWOP:Schedule(2, "defensive") --注意減傷
 			end
 		end
 	end
@@ -534,40 +534,40 @@ function mod:SPELL_CAST_START(args)
 		specWarnDeathBlossom:Show()
 		DBM.Flash:Shake(1, 0, 0)
 		self:ScheduleMethod(40, "CheckPlatformLeaved")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jykd.ogg") --劍雨快躲
+		sndWOP:Play("ex_mop_jykd") --劍雨快躲
 	elseif args:IsSpellID(120519) then
 		specWarnshuipo:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_spzb.ogg") --水魄準備
+		sndWOP:Play("ex_mop_spzb") --水魄準備
 	elseif args:IsSpellID(120455) then --隐没
 		yinmoCount = yinmoCount + 1
 		warnSubmerge:Show(yinmoCount)
 		specWarnyinmo:Show(yinmoCount)
 		timerSpecialCD:Start(12)
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\specialsoon.ogg") --準備特別技能
+		sndWOP:Schedule(9, "specialsoon") --準備特別技能
 		timeryinmo:Start(51.5, yinmoCount + 1)
 		huddle = 0
 		spout = 0
 		strike = 0
 		wsIcon = 7
 		DBM.Flash:Shake(1, 1, 0)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_ymzb.ogg")
+		sndWOP:Play("ex_mop_ymzb")
 	elseif args:IsSpellID(120458) then --浮現
 		if yinmoCount == 1 then
 			timerNakedAndAfraidCD:Start(14)
 			if mod:IsTank() then
-				sndWOP:Schedule(10, DBM.SoundMMPath.."\\ex_mop_clzb.ogg") --赤裸準備
-				sndWOP:Schedule(11.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(12.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(10, "ex_mop_clzb") --赤裸準備
+				sndWOP:Schedule(11.5, "countthree")
+				sndWOP:Schedule(12.5, "counttwo")
+				sndWOP:Schedule(13.5, "countone")
 			end
 		else
 			if (timerNakedAndAfraidCD:GetTime() > 15) or (timerNakedAndAfraidCD:GetTime() == 0) then
 				timerNakedAndAfraidCD:Update(15, 30)
 				if mod:IsTank() then
-					sndWOP:Schedule(11, DBM.SoundMMPath.."\\ex_mop_clzb.ogg") --赤裸準備
-					sndWOP:Schedule(12.5, DBM.SoundMMPath.."\\countthree.ogg")
-					sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\counttwo.ogg")
-					sndWOP:Schedule(14.5, DBM.SoundMMPath.."\\countone.ogg")
+					sndWOP:Schedule(11, "ex_mop_clzb") --赤裸準備
+					sndWOP:Schedule(12.5, "countthree")
+					sndWOP:Schedule(13.5, "counttwo")
+					sndWOP:Schedule(14.5, "countone")
 				end
 			end
 		end
@@ -583,7 +583,7 @@ function mod:SPELL_CAST_START(args)
 			DBM.InfoFrame:SetHeader(EJ_GetSectionInfo(6107).."["..kjzznow.."-"..infowjzz.."]: "..kjzz)
 		end
 	elseif args:IsSpellID(120672) then
-		sndWOP:Play(DBM.SoundMMPath.."\\shockwave.ogg") --震懾波
+		sndWOP:Play("shockwave") --震懾波
 		warnImplacableStrike:Show()
 		specWarnImplacableStrike:Show()
 		strike = 1
@@ -591,7 +591,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(120394) and self:AntiSpam(5, 1) then
 		if UnitBuff("player", GetSpellInfo(120268)) then
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\stilldanger.ogg")
+			sndWOP:Play("stilldanger")
 		end
 	end
 end
@@ -605,20 +605,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 		kbpscount = kbpscount + 1
 		if self.Options.pscount then
 			if kbpscount == 1 then
-				sndWOP:Play(DBM.SoundMMPath.."\\countone.ogg") --恐怖噴散計數
+				sndWOP:Play("countone") --恐怖噴散計數
 			elseif (kbpscount == 2) or (kbpscount == 5) or (kbpscount == 6) or (kbpscount == 10) or (kbpscount == 14) then
-				sndWOP:Play(DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Play("counttwo")
 			elseif (kbpscount == 3) or (kbpscount == 7) or (kbpscount == 9) or (kbpscount == 11) or (kbpscount == 15) then
-				sndWOP:Play(DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Play("countthree")
 			elseif (kbpscount == 4) or (kbpscount == 8) or (kbpscount == 12) or (kbpscount == 13) or (kbpscount == 16) then
-				sndWOP:Play(DBM.SoundMMPath.."\\countfour.ogg")
+				sndWOP:Play("countfour")
 			end
 		end
 		if MobID == 61046 then
 			if (DBM.ShaAssistStarModeChosed == "Dps" and kbpscount == 1) or (DBM.ShaAssistStarModeChosed == "Healther" and kbpscount == 6) then
 				MoveWarningLeft:Show() --左
 				if not self.Options.pscount then
-					sndWOP:Play(DBM.SoundMMPath.."\\moveleft.ogg")
+					sndWOP:Play("moveleft")
 				end
 			end
 		end	
@@ -626,7 +626,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if (DBM.ShaAssistStarModeChosed == "Dps" and kbpscount == 1) or (DBM.ShaAssistStarModeChosed == "Healther" and kbpscount == 7) then
 				MoveWarningRight:Show()  --右
 				if not self.Options.pscount then
-					sndWOP:Play(DBM.SoundMMPath.."\\moveright.ogg")
+					sndWOP:Play("moveright")
 				end
 			end
 		end	
@@ -634,7 +634,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if (DBM.ShaAssistStarModeChosed == "Dps" and kbpscount == 4) or (DBM.ShaAssistStarModeChosed == "Healther" and kbpscount == 4) then
 				MoveWarningRight:Show()  --右
 				if not self.Options.pscount then
-					sndWOP:Play(DBM.SoundMMPath.."\\moveright.ogg")
+					sndWOP:Play("moveright")
 				end
 			end
 		end
@@ -642,7 +642,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if DBM.ShaAssistStarModeChosed == "Dps" or DBM.ShaAssistStarModeChosed == "Healther" then
 				MoveWarningBack:Show()
 				if not self.Options.pscount then
-					sndWOP:Play(DBM.SoundMMPath.."\\end.ogg")
+					sndWOP:Play("end")
 				end
 			end
 		end
@@ -655,7 +655,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			warnConjureTerrorSpawns:Show()	
 			specWarnTerrorSpawn:Show()
 			if mod:IsDps() then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kdkjzz.ogg") --快打恐懼之子
+				sndWOP:Play("ex_mop_kdkjzz") --快打恐懼之子
 			end
 		end
 	elseif spellId == 114936 and self:AntiSpam(5, 6) then
@@ -681,13 +681,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			DBM.BossHealth:RemoveBoss(61042)
 			DBM.BossHealth:RemoveBoss(61046)
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg") --階段轉換
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_tenkj.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("phasechange") --階段轉換
+		sndWOP:Cancel("ex_mop_tenkj")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	end
 end
 
@@ -715,7 +715,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 120521 and destGUID == UnitGUID("player") and self:AntiSpam(3, 7) then
 		specWarnshuipomove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -725,7 +725,7 @@ function mod:UNIT_HEALTH(uId)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			local h = UnitHealth(uId) / UnitHealthMax(uId) * 100
 			if h > 67 and h < 70 and not prewarnedPhase2 then
-				sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --2階段準備
+				sndWOP:Play("ptwo") --2階段準備
 				prewarnedPhase2 = true
 				warnPhase2Soon:Show()
 				self:SendSync("preptwo")
@@ -737,7 +737,7 @@ end
 function mod:OnSync(msg)
 	if msg == "preptwo" then
 		if not prewarnedPhase2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+			sndWOP:Play("ptwo")
 			prewarnedPhase2 = true
 			warnPhase2Soon:Show()
 		end

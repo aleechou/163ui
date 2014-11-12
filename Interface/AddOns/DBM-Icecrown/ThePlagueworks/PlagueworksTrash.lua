@@ -43,7 +43,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMortalWound:Show(amount)
 			if amount == 7 or amount == 9 then	
 				if mod:IsTank() or mod:IsHealer() then		
-					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+					sndWOP:Play("changemt")
 				end
 			end
 		end
@@ -62,7 +62,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 71123 then
 		specWarnDecimate:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\killall.ogg")
+		sndWOP:Play("killall")
 		warnDecimateSoon:Cancel()	-- in case the first 1 is inaccurate, you wont have an invalid soon warning
 		warnDecimateSoon:Schedule(28)
 		timerDecimate:Start()

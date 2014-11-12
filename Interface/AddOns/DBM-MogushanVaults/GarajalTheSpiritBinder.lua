@@ -280,7 +280,7 @@ function mod:SPELL_AURA_APPLIED(args)--We don't use spell cast success for actua
 		if args:IsPlayer() and (not mod:IsTank()) then
 			specWarnVoodooDollsMe:Show()
 			voodooDollWarned = true
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_wwsn.ogg")--娃娃是你
+			sndWOP:Play("ex_mop_wwsn")--娃娃是你
 		end
 		if self:LatencyCheck() then
 			self:SendSync("VoodooTargets", args.destGUID)
@@ -289,61 +289,61 @@ function mod:SPELL_AURA_APPLIED(args)--We don't use spell cast success for actua
 		if vd == 1 then
 			if mod.Options.optjs == "druid" then
 				self:Schedule(1, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("樹皮","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "priest" then
 				self:Schedule(10, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("罩子","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "paltank" then
 				self:Schedule(20, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("盾牆","你")
 				end)
 				self:Schedule(42, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("忠誠防禦者","你")
 				end)
 				self:Schedule(52, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("保護+群體減傷","你")
 				end)
 			end
 			if mod.Options.optjs == "palheal" then
 				self:Schedule(32, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "warrior1" then
 				self:Schedule(32, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("減傷+破釜","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "warrior2" then
 				self:Schedule(42, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("減傷+破釜","彪哥")
 				end)
 			end
 		end
 	elseif args:IsSpellID(116161, 116160) then -- 116161 is normal and heroic, 116160 is lfr.
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")--跨界
+			sndWOP:Play("ex_mop_kj")--跨界
 			warnSuicide:Schedule(25)
 --			countdownCrossedOver:Start(29)
 			timerCrossedOver:Start(29)
-			sndWOP:Schedule(23.5, DBM.SoundMMPath.."\\ex_mop_jjsw.ogg")--即將死亡
-			sndWOP:Schedule(25, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(26, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(27, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(28, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(29, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(23.5, "ex_mop_jjsw")--即將死亡
+			sndWOP:Schedule(25, "countfive")
+			sndWOP:Schedule(26, "countfour")
+			sndWOP:Schedule(27, "countthree")
+			sndWOP:Schedule(28, "counttwo")
+			sndWOP:Schedule(29, "countone")
 		end
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(116161))
@@ -356,32 +356,32 @@ function mod:SPELL_AURA_APPLIED(args)--We don't use spell cast success for actua
 		end
 	elseif args:IsSpellID(116278) then--this is tank spell, no delays?
 		if args:IsPlayer() then--no latency check for personal notice you aren't syncing.
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")
+			sndWOP:Play("ex_mop_kj")
 			timerSoulSever:Start()
 --			countdownCrossedOver:Start(29)
 			warnSuicide:Schedule(25)
-			sndWOP:Schedule(23.5, DBM.SoundMMPath.."\\ex_mop_jjsw.ogg")
-			sndWOP:Schedule(25, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(26, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(27, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(28, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(29, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(23.5, "ex_mop_jjsw")
+			sndWOP:Schedule(25, "countfive")
+			sndWOP:Schedule(26, "countfour")
+			sndWOP:Schedule(27, "countthree")
+			sndWOP:Schedule(28, "counttwo")
+			sndWOP:Schedule(29, "countone")
 		end
 	elseif args:IsSpellID(116260) then
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")
+			sndWOP:Play("ex_mop_kj")
 		end
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(116260))
 			DBM.InfoFrame:Show(10, "playerbaddebuff", 116260)
 		end
 	elseif args:IsSpellID(117752) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kl.ogg") --狂亂
+		sndWOP:Play("ex_mop_kl") --狂亂
 	end
 	if UnitDebuff("player", GetSpellInfo(122181)) then
 		if not inTotem then
 			specWarnGD:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jrgd.ogg") --進入管道
+			sndWOP:Play("ex_mop_jrgd") --進入管道
 		end
 		inTotem = true
 	else
@@ -394,29 +394,29 @@ function mod:SPELL_AURA_REMOVED(args)--We don't use spell cast success for actua
 		warnSuicide:Cancel()
 --		countdownCrossedOver:Cancel()
 		timerCrossedOver:Cancel()	
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_jjsw.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("ex_mop_kj")
+		sndWOP:Cancel("ex_mop_jjsw")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	elseif args:IsSpellID(116278) and args:IsPlayer() then
 		timerSoulSever:Cancel()
 		warnSuicide:Cancel()
 --		countdownCrossedOver:Cancel()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_jjsw.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("ex_mop_kj")
+		sndWOP:Cancel("ex_mop_jjsw")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	elseif args:IsSpellID(122151) then
 		self:SendSync("VoodooGoneTargets", args.destGUID)
 	elseif args:IsSpellID(116260) then
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kj.ogg")
+			sndWOP:Play("ex_mop_kj")
 		end
 	end
 end
@@ -430,7 +430,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayer() then--no latency check for personal notice you aren't syncing.
 			specWarnBanishment:Show()
 		elseif not mod:IsDps() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+			sndWOP:Play("changemt") --換坦嘲諷
 		end
 		if self:LatencyCheck() then
 			self:SendSync("BanishmentTarget", args.destGUID)
@@ -500,25 +500,25 @@ function mod:OnSync(msg, guid)
 		else
 			timerTotemCD:Start(36, totemn+1)
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lhtt.ogg")
+		sndWOP:Play("ex_mop_lhtt")
 		
 		if self.Options.countTT == "count4" then
 			if totemn % 4 == 1 then
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(1.2, "countone")
 			elseif totemn % 4 == 2 then
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(1.2, "counttwo")
 			elseif totemn % 4 == 3 then
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(1.2, "countthree")
 			else
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\countfour.ogg")
+				sndWOP:Schedule(1.2, "countfour")
 			end
 		elseif self.Options.countTT == "count3" then
 			if totemn % 3 == 1 then
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(1.2, "countone")
 			elseif totemn % 3 == 2 then
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(1.2, "counttwo")
 			else
-				sndWOP:Schedule(1.2, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(1.2, "countthree")
 			end
 		end
 		
@@ -547,180 +547,180 @@ function mod:OnSync(msg, guid)
 		if ct == 1 then
 			if mod.Options.optjs == "monktank" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("閃避+金剛不壞","你")
 				end)
 			end
 			if mod.Options.optjs == "paldps1" then
 				self:Schedule(10, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "paltank" then
 				self:Schedule(22, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "priest" then
 				self:Schedule(34, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("壓制","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "paldps2" then
 				self:Schedule(44, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲+群體減傷","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "paldps1" then
 				self:Schedule(54, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("保護","夏洛特")
 				end)
 			end
 		elseif ct == 2 then		
 			if mod.Options.optjs == "paltank" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("聖佑","你")
 				end)
 				self:Schedule(54, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("保護","你")
 				end)
 			end
 			if mod.Options.optjs == "monktank" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("群體減傷","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "palheal" then
 				self:Schedule(12, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "paldps2" then
 				self:Schedule(24, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "druid" then
 				self:Schedule(32, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("樹皮","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "paldps1" then
 				self:Schedule(44, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲+群體減傷","彪哥")
 				end)
 			end
 		elseif ct == 3 then		
 			if mod.Options.optjs == "monktank" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("盾牆","你")
 				end)
 				self:Schedule(20, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("閃避+金剛不壞","你")
 				end)
 			end
 			if mod.Options.optjs == "paltank" then
 				self:Schedule(20, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("群體減傷","夏洛特")
 				end)
 				self:Schedule(40, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "paldps1" then
 				self:Schedule(30, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","夏洛特")
 				end)
 				self:Schedule(52, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("保護","夏洛特")
 				end)
 			end
 			if mod.Options.optjs == "priest" then
 				self:Schedule(45, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("罩子","夏洛特")
 				end)
 			end
 		elseif ct == 4 then
 			if mod.Options.optjs == "paltank" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("聖佑","你")
 				end)
 				self:Schedule(12, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("盾牆","你")
 				end)
 				self:Schedule(30, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("忠誠防禦者","你")
 				end)
 				self:Schedule(54, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("無敵","你")
 				end)
 			end
 			if mod.Options.optjs == "palheal" then
 				self:Schedule(2, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "monktank" then
 				self:Schedule(12, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("群體減傷","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "priest" then
 				self:Schedule(20, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("壓制","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "druid" then
 				self:Schedule(30, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("樹皮","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "paldps2" then
 				self:Schedule(30, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("群體減傷","彪哥")
 				end)
 				self:Schedule(42, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("犧牲","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "warrior1" then
 				self:Schedule(42, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("減傷+破釜","彪哥")
 				end)
 			end
 			if mod.Options.optjs == "warrior2" then
 				self:Schedule(54, function()
-					sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
+					sndWOP:Play("didi")
 					specWarnjs:Show("減傷+破釜","彪哥")
 				end)
 			end
@@ -744,7 +744,7 @@ function mod:OnSync(msg, guid)
 			end
 			if guid == UnitName("player") then
 				specWarninTT:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_zyjc.ogg")--注意進場
+				sndWOP:Play("ex_mop_zyjc")--注意進場
 			end
 		end
 	end
@@ -766,7 +766,7 @@ function mod:UNIT_HEALTH(uId)
 		if h > 30 and prewarnedPhase2 then
 			prewarnedPhase2 = false
 		elseif h > 21 and h < 23 and not prewarnedPhase2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --2階段準備
+			sndWOP:Play("ptwo") --2階段準備
 			prewarnedPhase2 = true
 			warnPhase2Soon:Show()
 		end

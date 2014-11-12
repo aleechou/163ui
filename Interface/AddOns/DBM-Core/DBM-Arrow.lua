@@ -23,7 +23,7 @@ local UnitPosition = UnitPosition
 --------------------
 --  Create Frame  --
 --------------------
-local frame = CreateFrame("Button", nil, UIParent)
+local frame = CreateFrame("Button", "DBMArrow", UIParent)
 frame:Hide()
 frame:SetFrameStrata("HIGH")
 frame:SetWidth(56)
@@ -115,10 +115,6 @@ do
 	local rotateState = 0
 --	local skipFrame -- todo: skipping frames makes the arrow laggy, maybe skip frames if frame rate >= 45
 	frame:SetScript("OnUpdate", function(self, elapsed)
-		if WorldMapFrame:IsShown() then -- it doesn't work while the world map frame is shown
-			arrow:Hide()
-			return
-		end
 --		skipFrame = not skipFrame
 --		if skipFrame then
 --			return

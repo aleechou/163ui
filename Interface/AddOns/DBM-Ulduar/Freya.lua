@@ -65,7 +65,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(62437, 62859) then
 		specWarnTremor:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\stopcast.ogg")
+		sndWOP:Play("stopcast")
 		timerTremorCD:Start()
 	end
 end 
@@ -77,7 +77,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnLifebinder:Show()
 		specWarnLifebinder:Show()
 		timerLifebinderCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\killtree.ogg")
+		sndWOP:Play("killtree")
 	elseif args:IsSpellID(63571, 62589) then -- Nature's Fury
 		altIcon = not altIcon	--Alternates between Skull and X
 		self:SetIcon(args.destName, altIcon and 7 or 8, 10)
@@ -103,7 +103,7 @@ function mod:SPELL_AURA_APPLIED(args)
 
 	elseif args:IsSpellID(62451, 62865) and args:IsPlayer() then
 		specWarnBeam:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end 
 end
 

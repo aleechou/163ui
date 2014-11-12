@@ -161,7 +161,7 @@ function mod:ScalpelTarget()
 			specwarnAmberScalpel:Show()
 			yellAmberScalpel:Yell()
 			timerAmberScalpel:Start()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+			sndWOP:Play("justrun") --快跑
 		else
 			local uId = DBM:GetRaidUnitId(targetname)
 			if uId then
@@ -187,7 +187,7 @@ local function warnAmberExplosionCast(spellId)
 	if #canInterrupt == 0 then--This will never happen if fired by "InterruptAvailable" sync since it should always be 1 or greater. This is just a fallback if contructs > 0 and we scheduled "warnAmberExplosionCast" there
 		specwarnAmberExplosion:Show(spellId == 122402 and Monstrosity or MutatedConstruct)--No interupts, warn the raid to prep for aoe damage with beware! alert.
 		if spellId == 122398 then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_hpbz.ogg") --琥珀爆炸
+			sndWOP:Play("ex_mop_hpbz") --琥珀爆炸
 		end
 	else--Interrupts available, lets call em out as a great tool to give raid leader split second decisions on who to allocate to the task (so they don't all waste it on same target and not have for next one).
 		warnInterruptsAvailable:Show(spellId == 122402 and Monstrosity or MutatedConstruct, table.concat(canInterrupt, "<, >"))
@@ -289,7 +289,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerParasiticGrowth:Start(args.destName)
 		timerParasiticGrowthCD:Start()
 		if mod:IsHealer() and (not playerIsConstruct) then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jscz.ogg") --寄生成長
+			sndWOP:Play("ex_mop_jscz") --寄生成長
 		end
 	elseif args:IsSpellID(122540) then
 		constructCount = 0
@@ -302,14 +302,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlingCD:Start(33)
 		warnAmberExplosionSoon:Schedule(50.5)
 		timerAmberExplosionAMCD:Start(55.5, amberExplosion)
-		sndWOP:Schedule(48.5, DBM.SoundMMPath.."\\countseven.ogg")
-		sndWOP:Schedule(49.5, DBM.SoundMMPath.."\\countsix.ogg")
-		sndWOP:Schedule(50.5, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(51.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(52.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(53.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(54.5, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")--P2
+		sndWOP:Schedule(48.5, "countseven")
+		sndWOP:Schedule(49.5, "countsix")
+		sndWOP:Schedule(50.5, "countfive")
+		sndWOP:Schedule(51.5, "countfour")
+		sndWOP:Schedule(52.5, "countthree")
+		sndWOP:Schedule(53.5, "counttwo")
+		sndWOP:Schedule(54.5, "countone")
+		sndWOP:Play("ptwo")--P2
 	elseif args:IsSpellID(122395) and Phase < 3 and not playerIsConstruct then
 		warnStruggleForControl:Show(args.destName)
 		timerStruggleForControl:Start(args.destName)
@@ -328,7 +328,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specwarnReshape:Show()
 			warnReshapeLifeTutor:Show()
 			timerAmberExplosionCD:Start(15, args.destName)--Only player needs to see this, they are only person who can do anything about it.
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_nbzh.ogg") --你被轉化
+			sndWOP:Play("ex_mop_nbzh") --你被轉化
 			if self.Options.FixNameplates and IsAddOnLoaded("TidyPlates_ThreatPlates") then
 				if TPTPNormal == true then
 					TidyPlatesThreat.db.profile.nameplate.toggle["Normal"] = false
@@ -347,7 +347,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnAmberGlob:Show()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\orbrun.ogg") --寶珠快跑
+			sndWOP:Play("orbrun") --寶珠快跑
 		end
 	end
 end
@@ -379,18 +379,18 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args:IsSpellID(122540) then--Phase 3
 		constructCount = 0
 		Phase = 3
-		sndWOP:Play(DBM.SoundMMPath.."\\pthree.ogg")--p3
+		sndWOP:Play("pthree")--p3
 		timerMassiveStompCD:Cancel()
 		timerFlingCD:Cancel()
 		timerAmberExplosionAMCD:Cancel()
 		timerDestabalize:Cancel(Monstrosity)
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("countseven")
+		sndWOP:Cancel("countsix")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 		warnAmberExplosionSoon:Cancel()
 		updateInfoFrame()
 		--He does NOT reset reshape live cd here, he finishes out last CD first, THEN starts using new one.
@@ -420,7 +420,7 @@ function mod:SPELL_CAST_START(args)
 		elseif args.sourceGUID == UnitGUID("player") then--Cast by YOU
 			specwarnAmberExplosionYou:Show(args.spellName)
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\stopcast.ogg") --停止施法
+			sndWOP:Play("stopcast") --停止施法
 			timerAmberExplosionCD:Start(13, args.sourceName)--Only player needs to see this, they are only person who can do anything about it.
 		end
 	elseif args:IsSpellID(122402) then--Amber Monstrosity
@@ -431,25 +431,25 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		warnAmberExplosion:Show(args.sourceName, args.spellName)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jgbz.ogg") --巨怪爆炸
+		sndWOP:Play("ex_mop_jgbz") --巨怪爆炸
 		warnAmberExplosionSoon:Cancel()
 		warnAmberExplosionSoon:Schedule(41)
 		timerAmberExplosion:Start()
 		timerAmberExplosionAMCD:Start(46, args.spellName)
-		sndWOP:Schedule(39, DBM.SoundMMPath.."\\countseven.ogg")
-		sndWOP:Schedule(40, DBM.SoundMMPath.."\\countsix.ogg")
-		sndWOP:Schedule(41, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(42, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(43, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(44, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(45, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(39, "countseven")
+		sndWOP:Schedule(40, "countsix")
+		sndWOP:Schedule(41, "countfive")
+		sndWOP:Schedule(42, "countfour")
+		sndWOP:Schedule(43, "countthree")
+		sndWOP:Schedule(44, "counttwo")
+		sndWOP:Schedule(45, "countone")
 		self:Unschedule(warnAmberExplosionCast)
 		self:Schedule(0.5, warnAmberExplosionCast, 122402)--Always check available interrupts and special warn if not
 	elseif args:IsSpellID(122408) then
 		if not playerIsConstruct then
 			warnMassiveStomp:Show()--Don't even need normal warning as a construct, it just doesn't matter
 			specwarnMassiveStomp:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\stompsoon.ogg") --準備踐踏
+			sndWOP:Play("stompsoon") --準備踐踏
 		end
 		timerMassiveStompCD:Start()--Still start timer so you still have it when you leave construct
 	elseif args:IsSpellID(122413) then
@@ -487,13 +487,13 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 122504 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specwarnBurningAmber:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif spellId == 121995 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnScalpel:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif spellId == 122005 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnScalpelAmber:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -517,7 +517,7 @@ function mod:UNIT_POWER(uId)
 	elseif playerWill < 18 and not warnedWill then--5 seconds before 0 (after subtracking a budget of 8 for interrupt)
 		warnedWill = true
 		specwarnWillPower:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_yzgd.ogg") --意志過低
+		sndWOP:Play("ex_mop_yzgd") --意志過低
 	elseif playerWill == 10 and willNumber > 10 then--Works
 		willNumber = 10
 		warnWillPower:Show(willNumber)
@@ -553,7 +553,7 @@ end
 function mod:SWING_DAMAGE(sourceGUID, _, _, _, destGUID)
 	local cid = self:GetCIDFromGUID(sourceGUID)
 	if cid == 62691 and destGUID == UnitGUID("player") and not warnedoo[sourceGUID] and not playerIsConstruct then
-		sndADD:Play(DBM.SoundMMPath.."\\didi.ogg")
+		sndADD:Play("didi")
 		specwarnOOYou:Show()
 		warnedoo[sourceGUID] = true
 	end

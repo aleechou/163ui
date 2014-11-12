@@ -150,71 +150,71 @@ end
 local function TransitionEnded()
 	timerPhaseSons:Cancel()
 	timerLavaBoltCD:Cancel()
-	sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-	sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-	sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Cancel("countfive")
+	sndWOP:Cancel("countfour")
+	sndWOP:Cancel("countthree")
+	sndWOP:Cancel("counttwo")
+	sndWOP:Cancel("countone")
 	transphase = false
 	if phase == 2 then
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			timerSulfurasSmash:Start(6)
-			sndWOP:Schedule(4, DBM.SoundMMPath.."\\firecirclesoon.ogg")
-			sndWOP:Schedule(11.5, DBM.SoundMMPath.."\\elementsoon.ogg")
-			sndWOP:Schedule(12.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(14.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(4, "firecirclesoon")
+			sndWOP:Schedule(11.5, "elementsoon")
+			sndWOP:Schedule(12.5, "countthree")
+			sndWOP:Schedule(13.5, "counttwo")
+			sndWOP:Schedule(14.5, "countone")
 			timerMoltenSeedCD:Start(15)--14.8-16 variation. We use earliest time for safety.
 		else
 			timerSulfurasSmash:Start(15.5)
-			sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\firecirclesoon.ogg")
-			sndWOP:Schedule(18, DBM.SoundMMPath.."\\elementsoon.ogg")
-			sndWOP:Schedule(19, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(20, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(21, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(13.5, "firecirclesoon")
+			sndWOP:Schedule(18, "elementsoon")
+			sndWOP:Schedule(19, "countthree")
+			sndWOP:Schedule(20, "counttwo")
+			sndWOP:Schedule(21, "countone")
 			timerMoltenSeedCD:Start(21.5)--Use the earliest known time, based on my logs is 21.5
 		end
 		timerFlamesCD:Start()--Probably the only thing that's really consistent.
-		sndWOP:Schedule(37, DBM.SoundMMPath.."\\flamerepeat.ogg")
+		sndWOP:Schedule(37, "flamerepeat")
 		showRangeFrame()--Range 6 for seeds
 	elseif phase == 3 then
 		timerSulfurasSmash:Start(15.5)--Also a variation.
-		sndWOP:Schedule(13.5, DBM.SoundMMPath.."\\firecirclesoon.ogg")
+		sndWOP:Schedule(13.5, "firecirclesoon")
 		timerFlamesCD:Start(30)
-		sndWOP:Schedule(27, DBM.SoundMMPath.."\\flamerepeat.ogg")
+		sndWOP:Schedule(27, "flamerepeat")
 		warnLivingMeteorSoon:Schedule(35)
 		timerLivingMeteorCD:Start(45, 1)
-		sndWOP:Schedule(39.5, DBM.SoundMMPath.."\\meteorsoon.ogg")
-		sndWOP:Schedule(41, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(42, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(43, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(44, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(45, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(39.5, "meteorsoon")
+		sndWOP:Schedule(41, "countfive")
+		sndWOP:Schedule(42, "countfour")
+		sndWOP:Schedule(43, "countthree")
+		sndWOP:Schedule(44, "counttwo")
+		sndWOP:Schedule(45, "countone")
 	elseif phase == 4 then
 		timerLivingMeteorCD:Cancel()
 		warnLivingMeteorSoon:Cancel()
 		timerFlamesCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\flamerepeat.ogg")
+		sndWOP:Cancel("flamerepeat")
 		timerSulfurasSmash:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\firecirclesoon.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\meteorsoon.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("firecirclesoon")
+		sndWOP:Cancel("meteorsoon")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 		timerBreadthofFrostCD:Start(33, bofcount)
-		sndWOP:Schedule(30, DBM.SoundMMPath.."\\"..GetLocale().."\\frostsoon.ogg")
+		sndWOP:Schedule(30, "frostsoon")
 		timerDreadFlameCD:Start(48, dfcount)
 		timerCloudBurstCD:Start(51)
 		timerEntrapingRootsCD:Start(68)
 		timerEmpowerdSulfCD:Start(86)
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Schedule(83, DBM.SoundMMPath.."\\empowersulfsoon.ogg")
+			sndWOP:Schedule(83, "empowersulfsoon")
 		end
-		sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(9.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(7.5, "countthree")
+		sndWOP:Schedule(8.5, "counttwo")
+		sndWOP:Schedule(9.5, "countone")
 	end
 end
 
@@ -223,7 +223,7 @@ function mod:MagmaTrapTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnMagmaTrap:Show()
 		yellMagmaTrap:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -235,7 +235,7 @@ function mod:MagmaTrapTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnMagmaTrapNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 			end
 		end
 	end
@@ -246,7 +246,7 @@ function mod:LivingMeteorTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnMeteor:Show()
 		yellMeteor:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -258,7 +258,7 @@ function mod:LivingMeteorTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 12 then
 				specWarnMeteorNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 			end
 		end
 	end
@@ -323,7 +323,7 @@ function mod:OnCombatStart(delay)
 	timerMagmaTrap:Start(16-delay)
 	timerHandRagnaros:Start(-delay)
 	timerSulfurasSmash:Start(-delay)
-	sndWOP:Schedule(28-delay, DBM.SoundMMPath.."\\firecirclesoon.ogg")
+	sndWOP:Schedule(28-delay, "firecirclesoon")
 	wrathcount = 0
 	table.wipe(magmaTrapGUID)
 	table.wipe(elementalsGUID)
@@ -374,10 +374,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnWorldofFlames:Show()
 		if phase == 3 then
 			timerFlamesCD:Start(30)--30 second CD in phase 3
-			sndWOP:Schedule(27, DBM.SoundMMPath.."\\flamerepeat.ogg")
+			sndWOP:Schedule(27, "flamerepeat")
 		else
 			timerFlamesCD:Start(61)--40 second CD in phase 2
-			sndWOP:Schedule(58, DBM.SoundMMPath.."\\flamerepeat.ogg")
+			sndWOP:Schedule(58, "flamerepeat")
 		end
 	elseif args:IsSpellID(100604, 100997) then
 		warnEmpoweredSulf:Show(args.spellName)
@@ -385,11 +385,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerEmpoweredSulf:Schedule(5)--Schedule 10 second bar to start when cast ends for buff active timer.
 		timerEmpowerdSulfCD:Start()
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\empowersulf.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
-			sndWOP:Schedule(54, DBM.SoundMMPath.."\\empowersulfsoon.ogg")
+			sndWOP:Play("empowersulf")
+			sndWOP:Schedule(2.5, "countthree")
+			sndWOP:Schedule(3.5, "counttwo")
+			sndWOP:Schedule(4.5, "countone")
+			sndWOP:Schedule(54, "empowersulfsoon")
 		end		
 	end
 end		
@@ -399,7 +399,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(99399, 101238, 101239, 101240) and not transphase then
 		timerBurningWound:Cancel(args.destName)
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end	
 	end
 end
@@ -409,13 +409,13 @@ function mod:SPELL_CAST_START(args)
 		firstSmash = true
 		warnSulfurasSmash:Show()
 		specWarnSulfurasSmash:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\firewall.ogg")
+		sndWOP:Play("firewall")
 		if phase == 1 or phase == 3 then
 			timerSulfurasSmash:Start()--30 second cd in phase 1 and phase 3 in 3/4 difficulties
-			sndWOP:Schedule(28, DBM.SoundMMPath.."\\firecirclesoon.ogg")
+			sndWOP:Schedule(28, "firecirclesoon")
 		else
 			timerSulfurasSmash:Start(40)--40 seconds in phase 2
-			sndWOP:Schedule(38, DBM.SoundMMPath.."\\firecirclesoon.ogg")
+			sndWOP:Schedule(38, "firecirclesoon")
 		end
 	elseif args:IsSpellID(98951, 100883, 100884, 100885) or args:IsSpellID(98952, 100877, 100878, 100879) or args:IsSpellID(98953, 100880, 100881, 100882) then--This has 12 spellids, 1 for each possible location for hammer.
 		sonsLeft = 8
@@ -423,28 +423,28 @@ function mod:SPELL_CAST_START(args)
 		self:Unschedule(warnSeeds)
 		if phase == 3 then
 			timerFlamesCD:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\flamerepeat.ogg")
+			sndWOP:Cancel("flamerepeat")
 			timerMoltenSeedCD:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\elementsoon.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")		
+			sndWOP:Cancel("elementsoon")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")		
 		end
 		transphase = true
 		timerMagmaTrap:Cancel()
 		timerSulfurasSmash:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\firecirclesoon.ogg")
+		sndWOP:Cancel("firecirclesoon")
 		timerHandRagnaros:Cancel()
 		timerWrathRagnaros:Cancel()
 		timerFlamesCD:Cancel()
 		hideRangeFrame()
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerPhaseSons:Start(60)--Longer on heroic
-			sndWOP:Schedule(55, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(56, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(57, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(58, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(59, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(55, "countfive")
+			sndWOP:Schedule(56, "countfour")
+			sndWOP:Schedule(57, "countthree")
+			sndWOP:Schedule(58, "counttwo")
+			sndWOP:Schedule(59, "countone")
 		else
 			timerPhaseSons:Start(60)--45 sec plus the 2 or so seconds he takes to actually come up and yell.
 		end
@@ -454,22 +454,22 @@ function mod:SPELL_CAST_START(args)
 		--In 5.0 they remove all but 98951, 98952, 98953
 		if args:IsSpellID(98951, 100883, 100884, 100885) then--West
 			warnSplittingBlow:Show(args.spellName, L.West)
-			sndWOP:Play(DBM.SoundMMPath.."\\hammerleft.ogg")
+			sndWOP:Play("hammerleft")
 		elseif args:IsSpellID(98952, 100877, 100878, 100879) then--Middle
 			warnSplittingBlow:Show(args.spellName, L.Middle)
-			sndWOP:Play(DBM.SoundMMPath.."\\hammermiddle.ogg")
+			sndWOP:Play("hammermiddle")
 		elseif args:IsSpellID(98953, 100880, 100881, 100882) then--East
 			warnSplittingBlow:Show(args.spellName, L.East)
-			sndWOP:Play(DBM.SoundMMPath.."\\hammerright.ogg")
+			sndWOP:Play("hammerright")
 		end
 	elseif args:IsSpellID(99172, 100175, 100176, 100177) or args:IsSpellID(99235, 100178, 100179, 100180) or args:IsSpellID(99236, 100181, 100182, 100183) then--Another scripted spell with a ton of spellids based on location of room. heroic purposely excluded do to different mechanic linked to World of Flames that will be used instead.
 		if self:IsDifficulty("normal10", "normal25") then
 			if phase == 3 then
 				timerFlamesCD:Start(30)--30 second CD in phase 3
-				sndWOP:Schedule(27, DBM.SoundMMPath.."\\flamerepeat.ogg")
+				sndWOP:Schedule(27, "flamerepeat")
 			else
 				timerFlamesCD:Start()--40 second CD in phase 2
-				sndWOP:Schedule(37, DBM.SoundMMPath.."\\flamerepeat.ogg")
+				sndWOP:Schedule(37, "flamerepeat")
 			end
 		end
 		--North: 99172 (10N), 100175 (25N), 100176 (10H), 100177 (25H)
@@ -477,24 +477,24 @@ function mod:SPELL_CAST_START(args)
 		--South: 99236 (10N), 100181 (25N), 100182 (10H), 100183 (25H)
 		if args:IsSpellID(99172, 100175, 100176, 100177) then--North
 			warnEngulfingFlame:Show(args.spellName, L.North)
-			sndWOP:Play(DBM.SoundMMPath.."\\flamemelee.ogg")
+			sndWOP:Play("flamemelee")
 		elseif args:IsSpellID(99235, 100178, 100179, 100180) then--Middle
 			warnEngulfingFlame:Show(args.spellName, L.Middle)
-			sndWOP:Play(DBM.SoundMMPath.."\\flamemiddle.ogg")
+			sndWOP:Play("flamemiddle")
 		elseif args:IsSpellID(99236, 100181, 100182, 100183) then--South
 			warnEngulfingFlame:Show(args.spellName, L.South)
-			sndWOP:Play(DBM.SoundMMPath.."\\flamerange.ogg")
+			sndWOP:Play("flamerange")
 		end
 	elseif args:IsSpellID(100646) then
 		warnEntrappingRoots:Show()
 		timerEntrapingRootsCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\rootnow.ogg")
+		sndWOP:Play("rootnow")
 	elseif args:IsSpellID(100479) then
 		warnBreadthofFrost:Show(bofcount)
 		bofcount = bofcount + 1
 		timerBreadthofFrostCD:Start(45, bofcount)
-		sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\frostappear.ogg")
-		sndWOP:Schedule(42, DBM.SoundMMPath.."\\"..GetLocale().."\\frostsoon.ogg")
+		sndWOP:Play("frostappear")
+		sndWOP:Schedule(42, "frostsoon")
 	end
 end
 
@@ -534,7 +534,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayer() then
 			specWarnBlazingHeat:Show()
 			yellBlazingHeat:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+			sndWOP:Play("justrun")
 		end
 		if self.Options.BlazingHeatIcons then
 			self:SetIcon(args.destName, blazingHeatIcon, 8)
@@ -547,22 +547,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(99268) then
 		meteorSpawned = meteorSpawned + 1
 		if meteorSpawned == 1 or meteorSpawned % 2 == 0 then--Spam filter, announce at 1, 2, 4, 6, 8, 10 etc. The way that they spawn
-			sndWOP:Play(DBM.SoundMMPath.."\\meteorrun.ogg")
+			sndWOP:Play("meteorrun")
 			scansDone = 0
 			self:TargetScanner(99268)
-			sndWOP:Cancel(DBM.SoundMMPath.."\\meteorsoon.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Cancel("meteorsoon")
+			sndWOP:Cancel("countfive")
+			sndWOP:Cancel("countfour")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 			timerLivingMeteorCD:Start(45, meteorSpawned+1)--Start new one with new count.
-			sndWOP:Schedule(39.5, DBM.SoundMMPath.."\\meteorsoon.ogg")
-			sndWOP:Schedule(41, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(42, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(43, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(44, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(45, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(39.5, "meteorsoon")
+			sndWOP:Schedule(41, "countfive")
+			sndWOP:Schedule(42, "countfour")
+			sndWOP:Schedule(43, "countthree")
+			sndWOP:Schedule(44, "counttwo")
+			sndWOP:Schedule(45, "countone")
 			warnLivingMeteorSoon:Schedule(35)
 		end		
 		if self.Options.MeteorFrame and meteorSpawned == 1 then--Show meteor frame and clear any health or aggro frame because nothing is more important then meteors.
@@ -571,7 +571,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args:IsSpellID(100714) then
 		warnCloudBurst:Show()
-		sndBB:Play(DBM.SoundMMPath.."\\bbappear.ogg")
+		sndBB:Play("bbappear")
 	elseif args:IsSpellID(101110) then
 		warnRageRagnaros:Show(args.destName)
 		if self.Options.RangeFrame and args:IsPlayer() then
@@ -592,13 +592,13 @@ function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, _, _, _, spellId)
 		end
 	elseif (spellId == 98870 or spellId == 100122 or spellId == 100123 or spellId == 100124) and destGUID == UnitGUID("player") and self:AntiSpam(5, 2) then
 		specWarnScorchedGround:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif (spellId == 99144 or spellId == 100303 or spellId == 100304 or spellId == 100305) and destGUID == UnitGUID("player") and self:AntiSpam(5, 2) then
 		specWarnBlazingHeatMV:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif (spellId == 100941 or spellId == 100998) and destGUID == UnitGUID("player") and self:AntiSpam(5, 2) and not UnitBuff("player", deluge) then
 		specWarnDreadFlame:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif (spellId == 98981 or spellId == 100289 or spellId == 100290 or spellId == 100291) and self:AntiSpam(3, 1) then
 		timerLavaBoltCD:Start()
 	end
@@ -621,7 +621,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 		end
 		warnDreadFlame:Show(dfcount)
 		dfcount = dfcount + 1
-		sndBB:Play(DBM.SoundMMPath.."\\firearound.ogg")
+		sndBB:Play("firearound")
 		timerDreadFlameCD:Start(dreadFlameTimer, dfcount)
 	end
 end
@@ -662,7 +662,7 @@ function mod:UNIT_AURA(uId)
 	if UnitDebuff("player", meteorTarget) and not meteorWarned then--Warn you that you have a meteor
 		specWarnFixate:Show()
 		yellFixate:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\meteoryou.ogg")
+		sndWOP:Play("meteoryou")
 		meteorWarned = true
 	elseif not UnitDebuff("player", meteorTarget) and meteorWarned then--reset warned status if you don't have debuff
 		meteorWarned = false
@@ -672,26 +672,26 @@ end
 local function clearSeedsActive()
 	seedsActive = false
 	if seedcount == 2 and mod:IsDifficulty("heroic10", "heroic25") then
-		sndWOP:Schedule(43.5, DBM.SoundMMPath.."\\elementsoon.ogg")
-		sndWOP:Schedule(44.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(45.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(46.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(43.5, "elementsoon")
+		sndWOP:Schedule(44.5, "countthree")
+		sndWOP:Schedule(45.5, "counttwo")
+		sndWOP:Schedule(46.5, "countone")
 	else
-		sndWOP:Schedule(39.5, DBM.SoundMMPath.."\\elementsoon.ogg")
-		sndWOP:Schedule(40.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(41.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(42.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(39.5, "elementsoon")
+		sndWOP:Schedule(40.5, "countthree")
+		sndWOP:Schedule(41.5, "counttwo")
+		sndWOP:Schedule(42.5, "countone")
 	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName)
 	if spellName == seedCast and not seedsActive then -- The true molten seeds cast.
 		seedsActive = true
-		sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+		sndWOP:Play("justrun")
 		timerMoltenInferno:Start(11.5)--1.5-2.5 variation, we use lowest +10 seconds
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(9, "countthree")
+		sndWOP:Schedule(10, "counttwo")
+		sndWOP:Schedule(11, "countone")
 		warnSeeds()
 		self:Schedule(17.5, clearSeedsActive)--Clear active/warned seeds after they have all blown up.
 		if self.Options.AggroFrame then--Show aggro frame regardless if health frame is still up, it should be more important than health frame at this point. Shouldn't be blowing up traps while elementals are up.

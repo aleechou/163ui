@@ -115,10 +115,10 @@ function mod:SPELL_CAST_START(args)
 		warnChainlight:Show()
 	elseif args:IsSpellID(63483, 61915) then	-- LightningWhirl
 		timerLightningWhirl:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		sndWOP:Play("kickcast")
 	elseif args:IsSpellID(61903, 63493) then	-- Fusion Punch
 		warnFusionPunch:Show()
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\dispelnow.ogg")
+		sndWOP:Schedule(1, "dispelnow")
 		timerFusionPunchCast:Start()
 	elseif args:IsSpellID(62274, 63489) then	-- Shield of Runes
 		warnShieldofRunes:Show()
@@ -160,12 +160,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsDifficulty("normal10") then
 			timerOverwhelmingPower:Start(60, args.destName)
 			if mod:IsTank() or mod:IsHealer() then
-				sndWOP:Schedule(52, DBM.SoundMMPath.."\\changemt.ogg")
+				sndWOP:Schedule(52, "changemt")
 			end
 		else
 			timerOverwhelmingPower:Start(35, args.destName)
 			if mod:IsTank() or mod:IsHealer() then
-				sndWOP:Schedule(27, DBM.SoundMMPath.."\\changemt.ogg")
+				sndWOP:Schedule(27, "changemt")
 			end
 		end
 		if self.Options.SetIconOnOverwhelmingPower then

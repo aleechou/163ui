@@ -60,7 +60,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 106851 and args:IsPlayer() and (args.amount or 3) >= 3 and self:AntiSpam() then
 		specWarnBlackoutBrew:Show()--Basically special warn any time you gain a stack over 3, if stack is nil, then it's initial application and stack count is 3.
-		sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")--保持移動
+		sndWOP:Play("keepmove")--保持移動
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -72,7 +72,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.RangeCheck:Hide()
 		end
 	elseif args:IsSpellID(106851) and args:IsPlayer() then
-		sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")--安全
+		sndWOP:Play("safenow")--安全
 	end
 end
 

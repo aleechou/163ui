@@ -310,15 +310,15 @@ function mod:OnCombatStart(delay)
 	timerDesecrateCD:Start(10.5-delay, 1)
 	timerSiegeEngineerCD:Start(20-delay)
 	if mod:IsDps() then
-		sndWOP:Schedule(15, DBM.SoundMMPath.."\\ex_so_gczb.ogg") --攻城師準備
+		sndWOP:Schedule(15, "ex_so_gczb") --攻城師準備
 	end
 	timerHellscreamsWarsongCD:Start(22-delay)
 	if not mod:IsDps() then
-		sndWOP:Schedule(19, DBM.SoundMMPath.."\\ex_so_zgzb.ogg") --戰歌準備
+		sndWOP:Schedule(19, "ex_so_zgzb") --戰歌準備
 	end
 	timerFarseerWolfRiderCD:Start(30-delay)
 	if not mod:IsHealer() then
-		sndWOP:Schedule(25, DBM.SoundMMPath.."\\ex_so_lqzb.ogg") --狼騎兵準備
+		sndWOP:Schedule(25, "ex_so_lqzb") --狼騎兵準備
 	end
 end
 
@@ -336,17 +336,17 @@ function mod:SPELL_CAST_START(args)
 		healcount = healcount + 1
 		if ((mod.Options.optDD == "DD1") and (healcount == 1)) or ((mod.Options.optDD == "DD2") and (healcount == 2)) or ((mod.Options.optDD == "alldd") and (source == UnitName("target") or source == UnitName("focus"))) then
 			specWarnChainHeal:Show(source)
-			sndWOP:Cancel(DBM.SoundMMPath.."\\interruptsoon.ogg")
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+			sndWOP:Cancel("interruptsoon")
+			sndWOP:Play("kickcast") --快打斷
 		end
 		if ((mod.Options.optDD == "DD1") and (healcount == 2)) or ((mod.Options.optDD == "DD2") and (healcount == 1)) then
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(7, "interruptsoon") --打斷準備
 		end
 		if healcount == 2 then healcount = 0 end
 		shmddcount = shmddcount + 1
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
 			specWarnChainHeal:Show(source)
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+			sndWOP:Play("kickcast") --快打斷
 		end
 	elseif args.spellId == 144584 then
 		local source = args.sourceName
@@ -357,15 +357,15 @@ function mod:SPELL_CAST_START(args)
 		shmddcount = shmddcount + 1
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 3)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 0))	then
 			specWarnChainLightning:Show(source)
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+			sndWOP:Play("kickcast") --快打斷
 		end
 	elseif args.spellId == 144969 then
 		Ancount = Ancount + 1
 		warnAnnihilate:Show()
 		specWarnAnnihilate:Show()
 		if MyJS("AN") then
-			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
-			sndWOP:Schedule(0.7, DBM.SoundMMPath.."\\defensive.ogg")
+			sndWOP:Play("defensive") --注意減傷
+			sndWOP:Schedule(0.7, "defensive")
 		end
 	elseif args:IsSpellID(144985, 145037) then
 		whirlCount = whirlCount + 1
@@ -374,27 +374,27 @@ function mod:SPELL_CAST_START(args)
 			specWarnWhirlingCorruption:Show(whirlCount)
 			Xfcount = Xfcount + 1
 			if MyJS("XF") then
-				sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
-				sndWOP:Schedule(0.7, DBM.SoundMMPath.."\\defensive.ogg")
+				sndWOP:Play("defensive") --注意減傷
+				sndWOP:Schedule(0.7, "defensive")
 			end
 		else
 			warnEmpWhirlingCorruption:Show(whirlCount)
 			specWarnEmpWhirlingCorruption:Show(whirlCount)
 			EXfcount = EXfcount + 1
 			if MyJS("EXF") then
-				sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
-				sndWOP:Schedule(0.7, DBM.SoundMMPath.."\\defensive.ogg")
+				sndWOP:Play("defensive") --注意減傷
+				sndWOP:Schedule(0.7, "defensive")
 			end
 		end
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_hxzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_hxkd.ogg") --漩渦快躲
-		sndWOP:Schedule(47, DBM.SoundMMPath.."\\ex_so_hxzb.ogg") --漩渦準備
-		sndWOP:Schedule(48, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(49, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(50, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_so_hxzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("ex_so_hxkd") --漩渦快躲
+		sndWOP:Schedule(47, "ex_so_hxzb") --漩渦準備
+		sndWOP:Schedule(48, "countthree")
+		sndWOP:Schedule(49, "counttwo")
+		sndWOP:Schedule(50, "countone")
 		timerWhirlingCorruption:Start()
 		timerWhirlingCorruptionCD:Start(nil, whirlCount+1)
 		--countdownWhirlingCorruption:Start()
@@ -408,28 +408,28 @@ function mod:SPELL_CAST_START(args)
 		Bombcount = Bombcount + 1
 		warnBombardment:Show()
 		specWarnBombardment:Show(Bombcount)
-		sndWOP:Play(DBM.SoundMMPath.."\\watchstep.ogg") --注意腳下
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Schedule(13, DBM.SoundMMPath.."\\gather.ogg")--快集合
+		sndWOP:Play("watchstep") --注意腳下
+		sndWOP:Schedule(8, "countfive")
+		sndWOP:Schedule(9, "countfour")
+		sndWOP:Schedule(10, "countthree")
+		sndWOP:Schedule(11, "counttwo")
+		sndWOP:Schedule(12, "countone")
+		sndWOP:Schedule(13, "gather")--快集合
 		timerBombardment:Start()
 		if Bombcount == 1 then
 			timerBombardmentCD:Start()
-			sndWOP:Schedule(50, DBM.SoundMMPath.."\\ex_so_zbhz.ogg") --準備轟炸
-			sndWOP:Schedule(51, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(52, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(53, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(54, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(50, "ex_so_zbhz") --準備轟炸
+			sndWOP:Schedule(51, "countfour")
+			sndWOP:Schedule(52, "countthree")
+			sndWOP:Schedule(53, "counttwo")
+			sndWOP:Schedule(54, "countone")
 		else
 			timerBombardmentCD:Start(40)
-			sndWOP:Schedule(35, DBM.SoundMMPath.."\\ex_so_zbhz.ogg")
-			sndWOP:Schedule(36, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(37, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(38, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(39, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(35, "ex_so_zbhz")
+			sndWOP:Schedule(36, "countfour")
+			sndWOP:Schedule(37, "countthree")
+			sndWOP:Schedule(38, "counttwo")
+			sndWOP:Schedule(39, "countone")
 		end
 	elseif args.spellId == 147011 then
 		warnManifestRage:Show()
@@ -449,7 +449,7 @@ function mod:SPELL_INTERRUPT(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 71983 then
 		if ((mod.Options.optDD == "DD1H") and (shmddcount % 4 == 0)) or ((mod.Options.optDD == "DD2H") and (shmddcount % 4 == 1)) or ((mod.Options.optDD == "DD3H") and (shmddcount % 4 == 2)) or ((mod.Options.optDD == "DD4H") and (shmddcount % 4 == 3))	then
-			sndWOP:Schedule(0.1, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(0.1, "interruptsoon") --打斷準備
 		end
 	end
 end
@@ -474,7 +474,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(145065, 145171) then
 		mindControlCount = mindControlCount + 1
 		specWarnTouchOfYShaarj:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_xkkd.ogg") --心控快打
+		sndWOP:Play("ex_so_xkkd") --心控快打
 		if phase == 3 then
 			if mindControlCount == 1 then--First one in phase is shorter than rest (well that or rest are delayed because of whirling)
 				timerTouchOfYShaarjCD:Start(35, mindControlCount+1)
@@ -515,7 +515,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				specWarnGrippingDespairOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦
+					sndWOP:Play("changemt") --換坦
 				end
 			end
 		end
@@ -525,17 +525,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnFarseerWolfRider:Show()
 		timerFarseerWolfRiderCD:Start()
 		if not mod:IsHealer() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_lqzb.ogg")
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lqcx.ogg") --狼騎兵出現
-			sndWOP:Schedule(45, DBM.SoundMMPath.."\\ex_so_lqzb.ogg") --狼騎兵準備
+			sndWOP:Cancel("ex_so_lqzb")
+			sndWOP:Play("ex_so_lqcx") --狼騎兵出現
+			sndWOP:Schedule(45, "ex_so_lqzb") --狼騎兵準備
 		end
 		healcount = 0
 		shmddcount = 0
 		if mod.Options.optDD == "DD1" then
-			sndWOP:Schedule(10, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(10, "interruptsoon") --打斷準備
 		end
 		if mod.Options.optDD == "DD1H" then
-			sndWOP:Schedule(2, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(2, "interruptsoon") --打斷準備
 		end
 		if self.Options.SetIconOnShaman then
 			scanLimiter = 0
@@ -551,24 +551,24 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMaliceYou:Show()
 			DBM.Flash:Shake(1, 0, 0)
 			yellMalice:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_eydn.ogg") --惡意點你
+			sndWOP:Play("ex_so_eydn") --惡意點你
 --			if self.Options.LTIP then
 --				DBM:ShowLTSpecialWarning(GetSpellInfo(147209).."("..EYcount..")", 1, 0, 0, 1, 147209, 15, 15)
 --			end
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_ey.ogg") --惡意
+			sndWOP:Play("ex_so_ey") --惡意
 			if EYcount == 1 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(0.4, "countone")
 			elseif EYcount == 2 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\counttwo.ogg")
+				sndWOP:Schedule(0.4, "counttwo")
 			elseif EYcount == 3 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\countthree.ogg")
+				sndWOP:Schedule(0.4, "countthree")
 			elseif EYcount == 4 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\countfour.ogg")
+				sndWOP:Schedule(0.4, "countfour")
 			elseif EYcount == 5 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\countfive.ogg")
+				sndWOP:Schedule(0.4, "countfive")
 			elseif EYcount == 6 then
-				sndWOP:Schedule(0.4, DBM.SoundMMPath.."\\countsix.ogg")
+				sndWOP:Schedule(0.4, "countsix")
 			end
 		end
 	elseif args.spellId == 147235 then
@@ -576,7 +576,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			local amount = args.amount or 1
 			if amount ~= 1 then
 				needwarnin = true
-				sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --離開人群
+				sndWOP:Play("runout") --離開人群
 			end
 		end
 	elseif args.spellId == 147665 then
@@ -593,7 +593,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(145183, 145195) then
 		timerGrippingDespair:Cancel(args.destName)
 	elseif args.spellId == 144585 then
-		sndWOP:Cancel(DBM.SoundMMPath.."\\interruptsoon.ogg")
+		sndWOP:Cancel("interruptsoon")
 	elseif args.spellId == 147209 then
 		if args:IsPlayer() then
 --			if self.Options.LTIP then
@@ -604,7 +604,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			if needwarnin then
 				needwarnin = false
-				sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg") --快回人群
+				sndWOP:Play("runin") --快回人群
 			end
 		end
 	end
@@ -619,9 +619,9 @@ function mod:UNIT_DIED(args)
 			specWarnFireUnstableIronStar:Cancel()
 			timerPowerIronStar:Cancel()
 --			countdownPowerIronStar:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_tqzb.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_tqkd.ogg")
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tqch.ogg") --鐵球摧毀
+			sndWOP:Cancel("ex_so_tqzb")
+			sndWOP:Cancel("ex_so_tqkd")
+			sndWOP:Play("ex_so_tqch") --鐵球摧毀
 		end
 	elseif cid == 71983 then--Farseer Wolf Rider
 		shamanAlive = shamanAlive - 1
@@ -634,42 +634,42 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnHellscreamsWarsong:Show()
 		timerHellscreamsWarsongCD:Start()
 		if not mod:IsDps() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zg.ogg") --戰歌
-			sndWOP:Schedule(39, DBM.SoundMMPath.."\\ex_so_zgzb.ogg") --戰歌準備
+			sndWOP:Play("ex_so_zg") --戰歌
+			sndWOP:Schedule(39, "ex_so_zgzb") --戰歌準備
 		end
 	elseif spellId == 145235 then--Throw Axe At Heart
 		timerSiegeEngineerCD:Cancel()
 		if mod:IsDps() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_gczb.ogg")
+			sndWOP:Cancel("ex_so_gczb")
 		end
 		timerFarseerWolfRiderCD:Cancel()
 		timerDesecrateCD:Cancel()
 		timerHellscreamsWarsongCD:Cancel()
 		if not mod:IsDps() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_zgzb.ogg")
+			sndWOP:Cancel("ex_so_zgzb")
 		end
 		timerEnterRealm:Start(25)
 		if not mod:IsHealer() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_lqzb.ogg")
+			sndWOP:Cancel("ex_so_lqzb")
 		end
 	elseif spellId == 144866 then--Enter Realm of Y'Shaarj
 		timerPowerIronStar:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_tqzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_tqkd.ogg")
+		sndWOP:Cancel("ex_so_tqzb")
+		sndWOP:Cancel("ex_so_tqkd")
 --		countdownPowerIronStar:Cancel()
 		timerDesecrateCD:Cancel()
 		timerTouchOfYShaarjCD:Cancel()
 --		countdownTouchOfYShaarj:Cancel()
 		timerWhirlingCorruptionCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_hxzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_so_hxzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 --		countdownWhirlingCorruption:Cancel()
 	elseif spellId == 144956 then--Jump To Ground (intermission ending)
 		if phase == 1 then
 			warnPhase2:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --2階段
+			sndWOP:Play("ptwo") --2階段
 		else
 			timerEnterRealm:Start()
 		end
@@ -682,10 +682,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 --		countdownTouchOfYShaarj:Start(15)
 		timerWhirlingCorruptionCD:Start(30, 1)
 --		countdownWhirlingCorruption:Start(30)			
-		sndWOP:Schedule(26, DBM.SoundMMPath.."\\ex_so_hxzb.ogg") --漩渦準備
-		sndWOP:Schedule(27.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(28.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(29.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(26, "ex_so_hxzb") --漩渦準備
+		sndWOP:Schedule(27.5, "countthree")
+		sndWOP:Schedule(28.5, "counttwo")
+		sndWOP:Schedule(29.5, "countone")
 --		timerEnterRealm:Start()
 	--"<556.9 21:41:56> [UNIT_SPELLCAST_SUCCEEDED] Garrosh Hellscream [[boss1:Realm of Y'Shaarj::0:145647]]", -- [169886]
 	elseif spellId == 145647 then--Phase 3 trigger
@@ -700,16 +700,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerWhirlingCorruptionCD:Cancel()
 --		countdownTouchOfYShaarj:Cancel()
 --		countdownWhirlingCorruption:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_hxzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\pthree.ogg") --P3
+		sndWOP:Cancel("ex_so_hxzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("pthree") --P3
 		timerDesecrateCD:Start(21, 1)
 		timerTouchOfYShaarjCD:Start(30, 1)
 --		countdownTouchOfYShaarj:Start(30)
 		timerWhirlingCorruptionCD:Start(47.5, 1)
-		sndWOP:Schedule(45, DBM.SoundMMPath.."\\ex_so_hxzb.ogg") --漩渦準備
+		sndWOP:Schedule(45, "ex_so_hxzb") --漩渦準備
 --		countdownWhirlingCorruption:Start(47.5)
 	elseif spellId == 146984 then--Phase 4 trigger
 		phase = 4
@@ -718,18 +718,18 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTouchOfYShaarjCD:Cancel()
 		timerWhirlingCorruptionCD:Cancel()
 		warnPhase4:Show()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_hxzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")
+		sndWOP:Cancel("ex_so_hxzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("phasechange")
 		timerMaliceCD:Start(30)
 		timerBombardmentCD:Start(70)
-		sndWOP:Schedule(65, DBM.SoundMMPath.."\\ex_so_zbhz.ogg") --準備轟炸
-		sndWOP:Schedule(66, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(67, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(68, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(69, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(65, "ex_so_zbhz") --準備轟炸
+		sndWOP:Schedule(66, "countfour")
+		sndWOP:Schedule(67, "countthree")
+		sndWOP:Schedule(68, "counttwo")
+		sndWOP:Schedule(69, "countone")
 		self:RegisterShortTermEvents(
 			"UNIT_POWER_FREQUENT boss1"--Do not want this one persisting out of combat even after a wipe, in case you go somewhere else.
 		)
@@ -742,43 +742,43 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		warnSiegeEngineer:Show()
 		specWarnSiegeEngineer:Show()
 		if mod:IsDps() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_gckd.ogg") --攻城師快打
+			sndWOP:Play("ex_so_gckd") --攻城師快打
 		end
 		if not firstIronStar then
 			firstIronStar = true
 			timerSiegeEngineerCD:Start(41)
 			if mod:IsDps() then
-				sndGWOP:Schedule(40, DBM.SoundMMPath.."\\ex_so_gczb.ogg") --攻城師準備
+				sndWOP:Schedule(40, "ex_so_gczb") --攻城師準備
 			end
 		else
 			timerSiegeEngineerCD:Start()
 			if mod:IsDps() then
-				sndWOP:Schedule(35, DBM.SoundMMPath.."\\ex_so_gczb.ogg")
+				sndWOP:Schedule(35, "ex_so_gczb")
 			end
 		end
 		timerPowerIronStar:Start()
 --		countdownPowerIronStar:Start()
 		Tqcount = Tqcount + 1
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\ex_so_tqzb.ogg") --鐵球準備
+		sndWOP:Schedule(12, "ex_so_tqzb") --鐵球準備
 		if self:IsMythic() then
 			warnFireUnstableIronStar:Schedule(11.5)
 			specWarnFireUnstableIronStar:Schedule(11.5)
 			if MyJS("TQ") then
-				sndWOP:Schedule(17.5, DBM.SoundMMPath.."\\defensive.ogg")
-				sndWOP:Schedule(18, DBM.SoundMMPath.."\\countfour.ogg")
-				sndWOP:Schedule(19, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(20, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(21, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(17.5, "defensive")
+				sndWOP:Schedule(18, "countfour")
+				sndWOP:Schedule(19, "countthree")
+				sndWOP:Schedule(20, "counttwo")
+				sndWOP:Schedule(21, "countone")
 			end
 		else
 			warnFireUnstableIronStar:Schedule(16.5)
 			specWarnFireUnstableIronStar:Schedule(16.5)
-			sndWOP:Schedule(16.5, DBM.SoundMMPath.."\\ex_so_tqkd.ogg") --鐵球快躲
+			sndWOP:Schedule(16.5, "ex_so_tqkd") --鐵球快躲
 		end
 	elseif msg:find("spell:147047") then
 		warnFireUnstableIronStar:Show()
 		specWarnFireUnstableIronStar:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_tqzb.ogg") --鐵球準備
+		sndWOP:Play("ex_so_tqzb") --鐵球準備
 	end
 end
 
@@ -786,25 +786,25 @@ function mod:UNIT_POWER_FREQUENT(uId)
 	local power = UnitPower(uId)
 	if mod:IsTank() then
 		if power == 93 and self:AntiSpam(10, 2) then
-			sndWOP:Play(DBM.SoundMMPath.."\\energyhigh.ogg")
+			sndWOP:Play("energyhigh")
 		end
 		if power == 95 and self:AntiSpam(10, 2) then
-			sndWOP:Play(DBM.SoundMMPath.."\\count95.ogg")
+			sndWOP:Play("count95")
 		end
 		if power == 96 and self:AntiSpam(10, 3) then
-			sndWOP:Play(DBM.SoundMMPath.."\\count96.ogg")
+			sndWOP:Play("count96")
 		end
 		if power == 97 and self:AntiSpam(10, 4) then
-			sndWOP:Play(DBM.SoundMMPath.."\\count97.ogg")
+			sndWOP:Play("count97")
 		end
 		if power == 98 and self:AntiSpam(10, 5) then
-			sndWOP:Play(DBM.SoundMMPath.."\\count98.ogg")
+			sndWOP:Play("count98")
 		end
 		if power == 99 and self:AntiSpam(10, 6) then
-			sndWOP:Play(DBM.SoundMMPath.."\\count99.ogg")
+			sndWOP:Play("count99")
 		end
 		if power == 100 and self:AntiSpam(10, 7) then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+			sndWOP:Play("kickcast")
 		end
 	end
 end

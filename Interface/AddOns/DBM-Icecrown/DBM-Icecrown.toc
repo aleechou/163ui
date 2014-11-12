@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Icecrown Citadel|r
 ## Author: MysticalOS
@@ -30,4 +30,4 @@ FrostwingHalls\Valithria.lua
 FrostwingHalls\Sindragosa.lua
 FrostwingHalls\FrostwingHallTrash.lua
 TheFrozenThrone\LichKing.lua
-## X-163UI-Version: 20141028162630
+## X-163UI-Version: 2014111202

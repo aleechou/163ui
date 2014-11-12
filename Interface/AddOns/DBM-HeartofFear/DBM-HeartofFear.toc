@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Heart of Fear|r
 ## Author: MysticalOS
@@ -13,7 +13,7 @@
 ## X-DBM-Mod-MapID: 1009
 ## LoadOnDemand: 1
 ## Dependencies: DBM-Core
-## X-163UI-Version: 20141028162630
+
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -24,3 +24,4 @@ Meljarak.lua
 Unsok.lua
 Shekzeer.lua
 HoFTrash.lua
+## X-163UI-Version: 2014111202

@@ -37,7 +37,7 @@ function mod:SPELL_CAST_START(args)
 		warnFourWinds:Show()
 		specWarnFourWinds:Show()
 		timerFourWinds:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\wwsoon.ogg")
+		sndWOP:Play("wwsoon")
 	elseif spellId == 153315 then
 		warnWindFall:Show()
 	end

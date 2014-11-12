@@ -105,7 +105,7 @@ function mod:LeapingFlamesTarget(targetname)
 	if targetname == UnitName("player") then
 		recentlyJumped = true--Anti Spam
 		specWarnLeapingFlamesCast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		yellLeapingFlames:Yell()
 		self:Schedule(3, clearLeapWarned)--So you don't get move warning too from debuff.
 	else
@@ -120,7 +120,7 @@ function mod:LeapingFlamesTarget(targetname)
 			if inRange and inRange < 13 then
 				recentlyJumped = true--Anti Spam
 				specWarnLeapingFlamesNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 				if self.Options.LeapArrow then
 					DBM.Arrow:ShowRunAway(x, y, 12, 5)
 				end
@@ -173,9 +173,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		abilityCount = 0
 		timerNextSpecial:Cancel()
 		timerNextSpecial:Start(abilityTimers[abilityCount], leap, abilityCount+1)
-		sndWOP:Schedule(abilityTimers[abilityCount] - 3, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(abilityTimers[abilityCount] - 2, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(abilityTimers[abilityCount] - 1, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 3, "countthree")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 2, "counttwo")
+		sndWOP:Schedule(abilityTimers[abilityCount] - 1, "countone")
 		if self.Options.RangeFrameCat then
 			DBM.RangeCheck:Show(10)
 		end
@@ -192,9 +192,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnAdrenaline:Show(args.destName, args.amount or 1)
 		if kitty then
 			timerNextSpecial:Start(abilityTimers[abilityCount] or 3.7, leap, abilityCount+1)
-			sndWOP:Schedule(abilityTimers[abilityCount] - 3, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(abilityTimers[abilityCount] - 2, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(abilityTimers[abilityCount] - 1, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 3, "countthree")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 2, "counttwo")
+			sndWOP:Schedule(abilityTimers[abilityCount] - 1, "countone")
 		else
 			timerNextSpecial:Start(abilityTimers[abilityCount] or 3.7, swipe, abilityCount+1)
 		end
@@ -202,16 +202,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFury:Show(args.destName, args.amount or 1)
 	elseif args:IsSpellID(98535, 100206, 100207, 100208) and args:IsPlayer() and not recentlyJumped then
 		specWarnLeapingFlames:Show()--You stood in the fire!
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif args:IsSpellID(98450) and args:IsPlayer() then
 		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)--Find out what our specific seed timer is
 		specWarnSearingSeed:Schedule(expires - GetTime() - 3.5)	-- Show "move away" warning 5secs before explode
 --		soundSeed:Schedule(expires - GetTime() - 5)
-		sndWOP:Schedule(expires - GetTime() - 4.5, DBM.SoundMMPath.."\\runout.ogg")
-		sndWOP:Schedule(expires - GetTime() - 3, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(expires - GetTime() - 2, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(expires - GetTime() - 1, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(expires - GetTime(), DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(expires - GetTime() - 4.5, "runout")
+		sndWOP:Schedule(expires - GetTime() - 3, "countfour")
+		sndWOP:Schedule(expires - GetTime() - 2, "countthree")
+		sndWOP:Schedule(expires - GetTime() - 1, "counttwo")
+		sndWOP:Schedule(expires - GetTime(), "countone")
 		timerSearingSeed:Start(expires-GetTime())
 		if self.Options.RangeFrameSeeds then
 			DBM.RangeCheck:Show(12)
@@ -221,7 +221,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerOrb:Start()
 			if (args.amount or 1) >= 4 then
 				specWarnOrb:Show(args.amount)
-				sndWOP:Play(DBM.SoundMMPath.."\\awayfireorb.ogg")
+				sndWOP:Play("awayfireorb")
 			end
 		end
 	end

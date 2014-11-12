@@ -37,9 +37,9 @@ function mod:SPELL_CAST_START(args)
 		warnBurst:Show(self.vb.burstCount)
 		specWarnBurst:Show(self.vb.burstCount)
 		timerBurstCD:Start(nil, self.vb.burstCount+1)
-		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")
+		sndWOP:Play("aesoon")
 		if self.vb.burstCount < 11 then
-			sndWOP:Schedule(1.2, "Interface\\AddOns\\DBM-Core\\sounds\\"..DBM.Options.CountdownVoice2.."\\"..self.vb.burstCount..".ogg")
+			sndWOP:Schedule(1.2, "Interface\\AddOns\\DBM-Core\\sounds\\"..DBM.Options.CountdownVoice2.."\\"..self.vb.burstCount.."")
 		end
 	end
 end

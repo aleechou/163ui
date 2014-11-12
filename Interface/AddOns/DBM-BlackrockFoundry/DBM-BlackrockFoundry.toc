@@ -5,6 +5,7 @@
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Литейная клана Черной горы|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Schwarzfelsgießerei|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0黑石鑄造場|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0黑石铸造厂|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -15,12 +16,16 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 101
 ## X-DBM-Mod-MapID: 1205
-## X-163UI-Version: 20141028162630
+## X-Curse-Packaged-Version: 6.0.4-31-g65bcc60
+## X-Curse-Project-Name: Deadly Boss Mods
+## X-Curse-Project-ID: deadly-boss-mods
+## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 localization.en.lua
 localization.kr.lua
 localization.ru.lua
 localization.de.lua
 localization.tw.lua
+localization.cn.lua
 Gruul.lua
 Oregorger.lua
 BlastFurnace.lua
@@ -32,3 +37,4 @@ Thogar.lua
 IronMaidens.lua
 Blackhand.lua
 BlackrockFoundryTrash.lua
+## X-163UI-Version: 2014111202

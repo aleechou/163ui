@@ -73,7 +73,7 @@ function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, 
 		timerNextShockwave:Start()
 	elseif (spellId == 63346 or spellId == 63976) and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnEyebeam:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+		sndWOP:Play("justrun")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -105,7 +105,7 @@ end
 local gripTargets = {}
 function mod:GripAnnounce()
 	warnGrip:Show(table.concat(gripTargets, "<, >"))
-	sndWOP:Play(DBM.SoundMMPath.."\\killrhand.ogg")
+	sndWOP:Play("killrhand")
 	table.wipe(gripTargets)
 end
 function mod:SPELL_AURA_APPLIED(args)
@@ -134,7 +134,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
         if args.amount >= 2 then 
             if args:IsPlayer() then
                 specWarnCrunchArmor2:Show(args.amount)
-                sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+                sndWOP:Play("changemt")
             end
 		end
 	end

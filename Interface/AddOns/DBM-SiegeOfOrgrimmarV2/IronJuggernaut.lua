@@ -102,10 +102,10 @@ function mod:OnCombatStart(delay)
 	else
 		berserkTimer:Start(-delay)
 	end
-	sndWOP:Schedule(117, DBM.SoundMMPath.."\\ex_so_qgzb.ogg") --強攻階段準備
-	sndWOP:Schedule(118, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(119, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(120, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Schedule(117, "ex_so_qgzb") --強攻階段準備
+	sndWOP:Schedule(118, "countthree")
+	sndWOP:Schedule(119, "counttwo")
+	sndWOP:Schedule(120, "countone")
 	if self.Options.RangeFrame and not self:IsLFR() then
 		DBM.RangeCheck:Show(6)
 	end
@@ -134,16 +134,16 @@ function mod:SPELL_CAST_START(args)
 		if self:IsMythic() then
 			timerMortarBarrageCD:Start(20)
 		end
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_qgzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg") --階段轉換		
+		sndWOP:Cancel("ex_so_qgzb")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("phasechange") --階段轉換		
 		timerAssaultModeCD:Start()
-		sndWOP:Schedule(60, DBM.SoundMMPath.."\\ex_so_tjzb.ogg") --突擊階段準備
-		sndWOP:Schedule(61, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(62, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(63, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(60, "ex_so_tjzb") --突擊階段準備
+		sndWOP:Schedule(61, "countthree")
+		sndWOP:Schedule(62, "counttwo")
+		sndWOP:Schedule(63, "countone")
 	elseif args.spellId == 144485 then
 		shockCount = shockCount + 1
 		warnShockPulse:Show(shockCount)
@@ -151,14 +151,14 @@ function mod:SPELL_CAST_START(args)
 		if shockCount < 3 then
 			timerShockPulseCD:Start(nil, shockCount+1)
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zbjt.ogg") --準備擊飞		
+		sndWOP:Play("ex_so_zbjt") --準備擊飞		
 		if MyJS() then
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(1, "defensive") --注意減傷
 		else
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(1, "countthree")
 		end		
-		sndWOP:Schedule(2, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(3, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(2, "counttwo")
+		sndWOP:Schedule(3, "countone")
 	end
 end
 
@@ -179,11 +179,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnIgniteArmor:Show(amount)
-					sndWOP:Play(DBM.SoundMMPath.."\\sunderhigh.ogg") --破甲過高
+					sndWOP:Play("sunderhigh") --破甲過高
 				else
 					specWarnIgniteArmorOther:Show(args.destName)
 					if mod:IsTank() then
-						sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+						sndWOP:Play("changemt") --換坦嘲諷
 					end
 				end
 			end
@@ -195,7 +195,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerLaserBurnCD:DelayedStart(0.5)
 	elseif args.spellId == 144498 and args:IsPlayer() then
 		specWarnExplosiveTar:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -212,7 +212,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 144218 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnBorerDrillMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -229,14 +229,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 144296 then--absolutely do NOT add 144218 to this. 144218 is an every 0.4 second periodic trigger that fires after 144296
 		warnBorerDrill:Show()
 		specWarnBorerDrill:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dckd.ogg")--地刺快躲
+		sndWOP:Play("ex_so_dckd")--地刺快躲
 		timerBorerDrillCD:Start()
 	elseif spellId == 144673 then
 		warnCrawlerMine:Show()
 		if not siegeMode then--These spawn during siege mode but random as all hell, there is no timer in this phase for these
 			timerCrawlerMineCD:Start()
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dlcx.ogg")--地雷出現
+		sndWOP:Play("ex_so_dlcx")--地雷出現
 	elseif spellId == 144198 then
 		warnDemolisherCanon:Show()
 		timerDemolisherCanonCD:Start()
@@ -251,15 +251,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerMortarBarrageCD:Cancel()
 		if siegeMode == true then--don't start timer on pull regenerate, pull regenerate is 5 seconds longer than rest of them
 			timerSiegeModeCD:Start()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_so_tjzb.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-			sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg") --階段轉換
-			sndWOP:Schedule(112, DBM.SoundMMPath.."\\ex_so_qgzb.ogg") --強攻階段準備
-			sndWOP:Schedule(113, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(114, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(115, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Cancel("ex_so_tjzb")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
+			sndWOP:Play("phasechange") --階段轉換
+			sndWOP:Schedule(112, "ex_so_qgzb") --強攻階段準備
+			sndWOP:Schedule(113, "countthree")
+			sndWOP:Schedule(114, "counttwo")
+			sndWOP:Schedule(115, "countone")
 			siegeMode = false
 		end
 		--[[if self:IsMythic() then
@@ -291,7 +291,7 @@ function mod:OnSync(msg, guid)
 			specWarnCutterLaser:Show()
 			yellCutterLaser:Yell()
 --			soundCuttingLaser:Play()
-			sndWOP:Play(DBM.SoundMMPath.."\\laserrun.ogg") --快跑 激光點你
+			sndWOP:Play("laserrun") --快跑 激光點你
 		end
 	elseif msg == "LaserTargetRemoved" and guid then
 		timerCuttingLaser:Cancel(DBM:GetFullPlayerNameByGUID(guid))

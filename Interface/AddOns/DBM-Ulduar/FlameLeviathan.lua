@@ -51,20 +51,20 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 62396 then		-- Flame Vents
 		timerFlameVents:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		sndWOP:Play("kickcast")
 	elseif args.spellId == 62475 then	-- Systems Shutdown / Overload
 		timerSystemOverload:Start()
 		warnSystemOverload:Show()
 	elseif args.spellId == 62374 then	-- Pursued
 		local target = guids[args.destGUID]
 		warnNextPursueSoon:Schedule(25)
-		sndWOP:Schedule(25, DBM.SoundMMPath.."\\targetsoon.ogg")
+		sndWOP:Schedule(25, "targetsoon")
 		timerPursued:Start()
 		if target then
 			pursueTargetWarn:Show(target)
 			if target == UnitName("player") then
 				pursueSpecWarn:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+				sndWOP:Play("justrun")
 			end
 		end
 	elseif args.spellId == 62297 then		-- Hodir's Fury (Person is frozen)

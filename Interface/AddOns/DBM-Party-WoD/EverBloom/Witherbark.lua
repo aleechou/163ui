@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 
 local warnParchedGrasp			= mod:NewSpellAnnounce(164357, 3, nil, mod:IsTank())
 local warnBrittleBark			= mod:NewSpellAnnounce(164275, 2)
-local warnUncheckedGrowth		= mod:NewSpellAnnounce("ej10098", 3)
+local warnUncheckedGrowth		= mod:NewSpellAnnounce("ej10098", 3, 164294)
 
 local specWarnLivingLeaves		= mod:NewSpecialWarningMove(169495)
 local specWarnUncheckedGrowth	= mod:NewSpecialWarningMove(164294)
@@ -53,10 +53,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 169495 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		specWarnLivingLeaves:Show()
 	elseif spellId == 164294 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		specWarnUncheckedGrowth:Show()
 	end
 end
@@ -70,7 +70,7 @@ end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)--Message doesn't matter, it occurs only for one thing during this fight
 	if mod:IsTank() then
-		sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")
+		sndWOP:Play("changetarget")
 	end
 	warnUncheckedGrowth:Show()
 	specWarnUncheckedGrowthAdd:Show()

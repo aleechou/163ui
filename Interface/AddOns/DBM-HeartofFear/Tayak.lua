@@ -82,11 +82,11 @@ local function checkUnseenEmote()
 		warnUnseenStrike:Show()
 		specWarnUnseenStrike:Show()
 		unseencount = unseencount + 1
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg") --快集合
+		sndWOP:Cancel("ex_mop_wxdjzb")
+		sndWOP:Play("gather") --快集合
 		timerUnseenStrike:Start(4.2)
 		timerUnseenStrikeCD:Start(61, unseencount + 1)
-		sndWOP:Schedule(56, DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg") --無形打擊準備
+		sndWOP:Schedule(56, "ex_mop_wxdjzb") --無形打擊準備
 		-- recover Unseen Strike Target Warning
 		warnUnseenStrike = mod:NewTargetAnnounce(123017, 4)
 		specWarnUnseenStrike = mod:NewSpecialWarningTarget(122949)
@@ -109,18 +109,18 @@ function mod:OnCombatStart(delay)
 	timerTempestSlashCD:Start(10-delay)
 	timerOverwhelmingAssaultCD:Start(15.5-delay)--Possibly wrong, the cd was shortened since beta, need better log with engage timestamp
 	if not mod:IsDps() then
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\ex_mop_yzgj.ogg") --壓制準備
+		sndWOP:Schedule(12, "ex_mop_yzgj") --壓制準備
 	end
 	timerWindStepCD:Start(20.5-delay)
 	timerUnseenStrikeCD:Start(30.5-delay, 1)
-	sndWOP:Schedule(27, DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg") --無形打擊準備
+	sndWOP:Schedule(27, "ex_mop_wxdjzb") --無形打擊準備
 	timerIntensifyCD:Start(intensifyCD-delay)
 	if not self:IsDifficulty("lfr25") then
 		berserkTimer:Start(-delay)
 	end
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerBladeTempestCD:Start(-delay)
-		sndWOP:Schedule(57, DBM.SoundMMPath.."\\wwsoon.ogg") --準備旋風
+		sndWOP:Schedule(57, "wwsoon") --準備旋風
 	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(8)
@@ -175,7 +175,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(123474) then
 		timerOverwhelmingAssault:Cancel(args.destName)
 		if mod:IsTank() and (not ptwo) then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+			sndWOP:Play("changemt") --換坦嘲諷
 		end
 	end
 end
@@ -184,16 +184,16 @@ function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(125310) then
 		warnBladeTempest:Show()
 		specWarnBladeTempest:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+		sndWOP:Play("justrun") --快跑
 --		soundBladeTempest:Play()
 		timerBladeTempest:Start()
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(5, "countfive")
+		sndWOP:Schedule(6, "countfour")
+		sndWOP:Schedule(7, "countthree")
+		sndWOP:Schedule(8, "counttwo")
+		sndWOP:Schedule(9, "countone")
 		timerBladeTempestCD:Start()
-		sndWOP:Schedule(57, DBM.SoundMMPath.."\\wwsoon.ogg") --準備旋風
+		sndWOP:Schedule(57, "wwsoon") --準備旋風
 	end
 end
 
@@ -205,12 +205,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			DBM.InfoFrame:Show(3, "playerdebuffstackstime", 123474)
 		end
 		if not mod:IsDps() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_yzgj.ogg")
+			sndWOP:Cancel("ex_mop_yzgj")
 			self:Schedule(17, function()
 				warnedOA = true
 				castOA = false
 			end)
-			sndWOP:Schedule(17, DBM.SoundMMPath.."\\ex_mop_yzgj.ogg")
+			sndWOP:Schedule(17, "ex_mop_yzgj")
 		end
 		OAtime = GetTime()
 		warnedOA = false
@@ -232,27 +232,27 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		unseencount = unseencount + 1
 		if MyJS() then
 			specWarnJSA:Schedule(1.5)
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(1.5, "defensive") --注意減傷
 		end
 		warnUnseenStrike:Show(target)
 		specWarnUnseenStrike:Show(target)
 		timerUnseenStrike:Start()
 		timerUnseenStrikeCD:Start(61, unseencount + 1)
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg")
+		sndWOP:Cancel("ex_mop_wxdjzb")
 		if target == UnitName("player") then
 			yellUnseenStrike:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\targetyou.ogg") --目標是你
+			sndWOP:Play("targetyou") --目標是你
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg") --快集合
+			sndWOP:Play("gather") --快集合
 			if self.Options.HudMAP then
 				UnseenStrikeMarkers[target] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", target, 2, 5, 0, 1, 0, 1):Appear():RegisterForAlerts():Rotate(360, 5))
 				UnseenStrikeMarkers[target] = register(DBMHudMap:AddEdge(1, 1, 1, 1, 5, "player", target))
 			end
 		end
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Schedule(55, DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg") --無形打擊準備
+		sndWOP:Schedule(1.5, "countthree")
+		sndWOP:Schedule(2.5, "counttwo")
+		sndWOP:Schedule(3.5, "countone")
+		sndWOP:Schedule(55, "ex_mop_wxdjzb") --無形打擊準備
 		if self.Options.UnseenStrikeArrow then
 			DBM.Arrow:ShowRunTo(target, 3, 3, 5)
 		end
@@ -260,8 +260,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 			emoteFired = false
 		end)
 		if ((GetTime() - OAtime > 15) and not warnedOA) or (warnedOA and not castOA) then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_yzgj.ogg")
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\ex_mop_yzgj.ogg")
+			sndWOP:Cancel("ex_mop_yzgj")
+			sndWOP:Schedule(7, "ex_mop_yzgj")
 		end
 	end
 end
@@ -284,17 +284,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTempestSlashCD:Cancel()
 		timerOverwhelmingAssaultCD:Cancel()
 		if not mod:IsDps() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_yzgj.ogg")
+			sndWOP:Cancel("ex_mop_yzgj")
 		end
 		timerWindStepCD:Cancel()
 		timerUnseenStrikeCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_mop_wxdjzb.ogg")
+		sndWOP:Cancel("ex_mop_wxdjzb")
 		timerIntensifyCD:Cancel()
 		timerBladeTempestCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\wwsoon.ogg")
+		sndWOP:Cancel("wwsoon")
 		warnStormUnleashed:Show()
 		specWarnStormUnleashed:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --P2
+		sndWOP:Play("ptwo") --P2
 		ptwo = true
 		self:RegisterShortTermEvents(
 			"UNIT_HEALTH"
@@ -306,7 +306,7 @@ function mod:UNIT_HEALTH(uId)
 	if self:GetUnitCreatureId(uId) == 62543 then
 		local h = UnitHealth(uId) / UnitHealthMax(uId) * 100
 		if h > 10 and h < 13 and not prewarnedPhase2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\checkhp.ogg") --注意血量
+			sndWOP:Play("checkhp") --注意血量
 			prewarnedPhase2 = true
 			self:SendSync("preptwo")
 		end
@@ -316,7 +316,7 @@ end
 function mod:OnSync(msg)
 	if msg == "preptwo" then
 		if not prewarnedPhase2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\checkhp.ogg")
+			sndWOP:Play("checkhp")
 			prewarnedPhase2 = true
 		end
 	end

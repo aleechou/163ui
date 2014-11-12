@@ -49,14 +49,14 @@ function mod:SPELL_CAST_START(args)
 		timerFlashFreeze:Start()
 		warnFlashFreeze:Show()
 		timerFlashFrCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\bluecircle.ogg")
+		sndWOP:Play("bluecircle")
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(62478, 63512) then
 		timerFrozenBlows:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg")
+		sndWOP:Play("healall")
 	elseif args:IsSpellID(65123, 65133) then
 		warnStormCloud:Show(args.destName)
 		if args:IsPlayer() then
@@ -85,6 +85,6 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 62038 or spellId == 62188) and destGUID == UnitGUID("player") and self:AntiSpam(4) then
 		specWarnBitingCold:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")
+		sndWOP:Play("keepmove")
 	end
 end

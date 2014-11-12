@@ -39,7 +39,7 @@ function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(62680, 63472) then		-- Flame Jets
 		timerFlameJetsCast:Start()
 		warnFlameJetsCast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\stopcast.ogg")
+		sndWOP:Play("stopcast")
 		timerFlameJetsCooldown:Start()
 	end
 end

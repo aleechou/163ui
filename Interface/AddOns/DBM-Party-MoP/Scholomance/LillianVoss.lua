@@ -48,7 +48,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 111585 and args:IsPlayer() and self:AntiSpam() then
 		specWarnDarkBlaze:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")--保持移動
+		sndWOP:Play("keepmove")--保持移動
 	elseif args.spellId == 111649 then--Soul released and body becomes inactive, phase 2.
 		timerShadowShivCD:Cancel()
 		timerDeathsGraspCD:Cancel()
@@ -61,7 +61,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFixateAnger:Show()
 --			soundFixateAnger:Play()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")--快跑
+			sndWOP:Play("justrun")--快跑
 		end
 	end
 end
@@ -69,7 +69,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(115350) then
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\targetchange.ogg")--目標改變
+			sndWOP:Play("targetchange")--目標改變
 		end
 	end
 end
@@ -100,7 +100,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, _, _, _, overkill)
 	if (spellId == 111628 or spellId == 115361) and destGUID == UnitGUID("player") and self:AntiSpam(2) then
 		specWarnDarkBlaze:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

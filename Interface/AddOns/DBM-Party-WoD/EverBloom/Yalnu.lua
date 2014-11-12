@@ -38,17 +38,17 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 169179 then
 		warnColossalBlow:Show()
 		specWarnColossalBlow:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\shockwave.ogg")
+		sndWOP:Play("shockwave")
 	elseif spellId == 169613 then
 		warnGenesis:Show()
 		specWarnGenesis:Show()
 		timerGenesis:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fscq.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(13, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(14, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("169613")
+		sndWOP:Schedule(10, "countfive")
+		sndWOP:Schedule(11, "countfour")
+		sndWOP:Schedule(12, "countthree")
+		sndWOP:Schedule(13, "counttwo")
+		sndWOP:Schedule(14, "countone")
 	end
 end
 

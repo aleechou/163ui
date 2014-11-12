@@ -48,7 +48,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 165578 then
 		warnCorpseBreath:Show()
 		timerCorpseBreathCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\breathsoon.ogg")
+		sndWOP:Play("breathsoon")
 	end
 end
 
@@ -61,7 +61,7 @@ end
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:153804") then--Slightly faster than combat log
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		warnInhale:Show()
 		specWarnInhale:Show()
 		soundInhale:Play()

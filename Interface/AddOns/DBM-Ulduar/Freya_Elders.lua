@@ -42,7 +42,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFistofStone:Show()
 	elseif args:IsSpellID(62325, 62932) then		-- Ground Tremor
 		specWarnGroundTremor:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\stopcast.ogg")
+		sndWOP:Play("stopcast")
 	end
 end
 
@@ -50,7 +50,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(62310, 62928) then 			-- Impale
 		warnImpale:Show(args.destName)
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end
 		timerImpale:Start(args.destName)
 	end

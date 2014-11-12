@@ -4,7 +4,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55265)
-mod:SetModelSound("sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_EVENT_04.OGG", "sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_ORB_01.OGG")
+mod:SetModelSound("sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_EVENT_04.OGG", "sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_ORB_01")
 mod:SetZone()
 mod:SetUsedIcons()
 
@@ -63,7 +63,7 @@ function mod:OnCombatStart(delay)
 		timerVortexNext:Start(55-delay)
 	end
 	timerStomp:Start(-delay)
-	sndWOP:Schedule(10, DBM.SoundMMPath.."\\stompsoon.ogg")
+	sndWOP:Schedule(10, "stompsoon")
 	timerCrystal:Start(19-delay)
 end
 
@@ -83,7 +83,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(103846) and self:AntiSpam(3, 1) then
 		warnFurious:Show()
 	elseif args:IsSpellID(103541) and args:IsPlayer() and not safeSpam then
-		sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")
+		sndWOP:Play("safenow")
 		safeSpam = true
 	end
 end
@@ -95,7 +95,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:GetSrcCreatureID() == 55265 then
 			if self.Options.OnlyMorchok then
 				timerStomp:Start(19)
-				sndWOP:Schedule(16, DBM.SoundMMPath.."\\stompsoon.ogg")
+				sndWOP:Schedule(16, "stompsoon")
 				timerCrystal:Start(26)
 			end
 			timerVortexNext:Start()
@@ -105,14 +105,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		else
 			if self.Options.OnlyKohcrom then
 				timerStompKohcrom:Start(25)
-				sndWOP:Schedule(22, DBM.SoundMMPath.."\\stompsoon.ogg")
+				sndWOP:Schedule(22, "stompsoon")
 				timerCrystalKohcrom:Start(44)
 			end
 		end
 	elseif args:IsSpellID(103687) then
 		if self:IsTank() or self:IsHealer() then
 			if not bloodphase then
-				sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+				sndWOP:Play("changemt")
 			end
 		end
 	end
@@ -123,19 +123,19 @@ function mod:SPELL_CAST_START(args)
 		if args:GetSrcCreatureID() == 55265 then
 			if self.Options.OnlyMorchok then
 				warnStomp:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\stompstart.ogg")
+				sndWOP:Play("stompstart")
 				if crystalCount < 3 then
 					timerStomp:Start()
-					sndWOP:Schedule(10, DBM.SoundMMPath.."\\stompsoon.ogg")
+					sndWOP:Schedule(10, "stompsoon")
 				end
 			end
 		else
 			if self.Options.OnlyKohcrom then
 				KohcromWarning:Show(args.sourceName, args.spellName)
-				sndWOP:Play(DBM.SoundMMPath.."\\stompstart.ogg")
+				sndWOP:Play("stompstart")
 				if crystalCount < 3 then				
 					timerStompKohcrom:Start()
-					sndWOP:Schedule(10, DBM.SoundMMPath.."\\stompsoon.ogg")
+					sndWOP:Schedule(10, "stompsoon")
 				end
 			end
 		end
@@ -143,7 +143,7 @@ function mod:SPELL_CAST_START(args)
 		if args:GetSrcCreatureID() == 55265 then
 			warnBlood:Show()
 			timerBlood:Start()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+			sndWOP:Play("justrun")
 		end
 	end
 end
@@ -155,11 +155,11 @@ function mod:SPELL_SUMMON(args)
 			if self.Options.OnlyMorchok then
 				warnCrystal:Show()
 				specwarnCrystal:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\crystalappear.ogg")
+				sndWOP:Play("crystalappear")
 				safeSpam = false
-				sndWOP:Schedule(9, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(10, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(11, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(9, "countthree")
+				sndWOP:Schedule(10, "counttwo")
+				sndWOP:Schedule(11, "countone")
 				if crystalCount < 3 then
 					timerCrystal:Start()
 				end
@@ -168,11 +168,11 @@ function mod:SPELL_SUMMON(args)
 			if self.Options.OnlyKohcrom then		
 				KohcromWarning:Show(args.sourceName, args.spellName)
 				specwarnCrystal:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\crystalappear.ogg")
+				sndWOP:Play("crystalappear")
 				safeSpam = false
-				sndWOP:Schedule(9, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(10, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(11, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(9, "countthree")
+				sndWOP:Schedule(10, "counttwo")
+				sndWOP:Schedule(11, "countone")
 				if crystalCount < 3 then
 					timerCrystalKohcrom:Start()
 				end				
@@ -198,6 +198,6 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 103785 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specwarnBlood:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end

@@ -157,7 +157,7 @@ local function MyJS()
 	return false
 end
 
---[[local function checkbossrange()
+local function checkbossrange()
 	if UnitExists("boss1") then
 		local minrange, maxrange = LibRange:getRange("boss1")
 		if minrange and maxrange then
@@ -173,7 +173,7 @@ end
 	else
 		DBM:HideLTSpecialWarning()
 	end
-end]]
+end
 
 function mod:OnCombatStart(delay)
 	screechCount = 0
@@ -183,16 +183,16 @@ function mod:OnCombatStart(delay)
 	timerFearsomeRoarCD:Start(-delay)
 	if self:IsLFR() then
 		timerDeafeningScreechCD:Start(19-delay, 1)
-		sndPX:Schedule(16-delay, DBM.SoundMMPath.."\\aesoon.ogg")	
-		sndPX:Schedule(17-delay, DBM.SoundMMPath.."\\countthree.ogg")
-		sndPX:Schedule(18-delay, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndPX:Schedule(19-delay, DBM.SoundMMPath.."\\countone.ogg")
+		sndPX:Schedule(16-delay, "aesoon")	
+		sndPX:Schedule(17-delay, "countthree")
+		sndPX:Schedule(18-delay, "counttwo")
+		sndPX:Schedule(19-delay, "countone")
 	else
 		timerDeafeningScreechCD:Start(-delay, 1)
-		sndPX:Schedule(10-delay, DBM.SoundMMPath.."\\aesoon.ogg")	
-		sndPX:Schedule(11-delay, DBM.SoundMMPath.."\\countthree.ogg")
-		sndPX:Schedule(12-delay, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndPX:Schedule(13-delay, DBM.SoundMMPath.."\\countone.ogg")
+		sndPX:Schedule(10-delay, "aesoon")	
+		sndPX:Schedule(11-delay, "countthree")
+		sndPX:Schedule(12-delay, "counttwo")
+		sndPX:Schedule(13-delay, "countone")
 	end
 	berserkTimer:Start(-delay)
 	if self.Options.RangeFrame and not self:IsLFR() then
@@ -208,9 +208,9 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
---	if self.Options.LTRange then
---		DBM:HideLTSpecialWarning()
---	end
+	if self.Options.LTRange then
+		DBM:HideLTSpecialWarning()
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -219,25 +219,25 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnDeafeningScreech:Show()
 		end
 		timerDeafeningScreechCD:Cancel()
-		sndPX:Cancel(DBM.SoundMMPath.."\\aesoon.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndPX:Cancel("aesoon")
+		sndPX:Cancel("countthree")
+		sndPX:Cancel("counttwo")
+		sndPX:Cancel("countone")
 		if self:IsLFR() then
 			timerDeafeningScreechCD:Start(18, screechCount+1)
-			sndPX:Schedule(15, DBM.SoundMMPath.."\\aesoon.ogg")	
-			sndPX:Schedule(16, DBM.SoundMMPath.."\\countthree.ogg")
-			sndPX:Schedule(17, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndPX:Schedule(18, DBM.SoundMMPath.."\\countone.ogg")
+			sndPX:Schedule(15, "aesoon")	
+			sndPX:Schedule(16, "countthree")
+			sndPX:Schedule(17, "counttwo")
+			sndPX:Schedule(18, "countone")
 		else
 			timerDeafeningScreechCD:Start(screechTimers[screechCount] or 1.2, screechCount+1)
 			if screechTimers[screechCount] and screechTimers[screechCount] > 2.2 then
 				if screechTimers[screechCount] > 3.2 then
-					sndPX:Schedule(screechTimers[screechCount+1] - 3.2, DBM.SoundMMPath.."\\aesoon.ogg")
+					sndPX:Schedule(screechTimers[screechCount+1] - 3.2, "aesoon")
 				end
-				sndPX:Schedule(screechTimers[screechCount+1] - 2.2, DBM.SoundMMPath.."\\countthree.ogg")
-				sndPX:Schedule(screechTimers[screechCount+1] - 1.2, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndPX:Schedule(screechTimers[screechCount+1] - 0.2, DBM.SoundMMPath.."\\countone.ogg")
+				sndPX:Schedule(screechTimers[screechCount+1] - 2.2, "countthree")
+				sndPX:Schedule(screechTimers[screechCount+1] - 1.2, "counttwo")
+				sndPX:Schedule(screechTimers[screechCount+1] - 0.2, "countone")
 			end
 		end
 	elseif args.spellId == 143428 then
@@ -247,7 +247,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnDevotion:Show(args.sourceName)
 		timerDevotion:Start()
 		if mod:IsManaUser() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_qcgh.ogg") --虔誠光環
+			sndWOP:Play("ex_so_qcgh") --虔誠光環
 		end
 	end
 end
@@ -256,12 +256,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 143411 then
 		screechCount = args.amount or 1
 		warnAcceleration:Show(args.destName, screechCount)
---		if self.Options.LTRange then
---			DBM:ShowLTSpecialWarning(GetSpellInfo(143343)..":"..screechCount, 0, 1, 0)
---		end
+		if self.Options.LTRange then
+			DBM:ShowLTSpecialWarning(GetSpellInfo(143343)..":"..screechCount, 0, 1, 0)
+		end
 		if MyJS() then
-			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
-			sndWOP:Schedule(0.7, DBM.SoundMMPath.."\\defensive.ogg")
+			sndWOP:Play("defensive") --注意減傷
+			sndWOP:Schedule(0.7, "defensive")
 		end
 	elseif args.spellId == 143766 then
 		timerFearsomeRoarCD:Start()
@@ -339,15 +339,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFixate:Show()
 			yellFixate:Yell()
 --DELETE		soundFixate:Play()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+			sndWOP:Play("justrun") --快跑
 		end
 		if self.Options.FixateIcon then
 			self:SetIcon(args.destName, 8)
 		end
-		sndPX:Cancel(DBM.SoundMMPath.."\\aesoon.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndPX:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndPX:Cancel("aesoon")
+		sndPX:Cancel("countthree")
+		sndPX:Cancel("counttwo")
+		sndPX:Cancel("countone")
 	elseif args.spellId == 143791 then
 		warnCorrosiveBlood:CombinedShow(0.5, args.destName)
 		timerCorrosiveBloodCD:DelayedStart(0.5)
@@ -355,7 +355,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			dispnum = dispnum + 1
 			if ((mod.Options.optDD == "DD1") and (dispnum == 1)) or ((mod.Options.optDD == "DD2") and (dispnum == 2)) or ((mod.Options.optDD == "DD3") and (dispnum == 3)) then
 				specWarnCorrosiveBlood:Show(">>"..dispnum.."<<")
-				sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+				sndWOP:Play("dispelnow") --快驅散
 			end
 			if dispnum == 3 then dispnum = 0 end
 		end
@@ -364,7 +364,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then
 			specWarnIcyBlood:Show(amount)
 			if amount == 4 then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zybd.ogg") --注意冰凍
+				sndWOP:Play("ex_so_zybd") --注意冰凍
 			end
 		end
 	elseif args.spellId == 143777 then
@@ -372,7 +372,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(3, 1) then
 			specWarnFrozenSolid:Show(args.destName)
 			if mod:IsDps() then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_bmkd.ogg") -- 冰墓快打
+				sndWOP:Play("ex_so_bmkd") -- 冰墓快打
 			end
 		end
 	elseif args.spellId == 145974 then
@@ -380,9 +380,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnEnrage:Show(args.destName)
 		local source = args.sourceName
 		if (source == UnitName("target") or source == UnitName("focus")) and mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\enrage.ogg") -- 激怒
+			sndWOP:Play("enrage") -- 激怒
 		elseif mod:CanRemoveEnrage() then
-			sndWOP:Play(DBM.SoundMMPath.."\\trannow.ogg") -- 注意寧神
+			sndWOP:Play("trannow") -- 注意寧神
 		end
 	elseif args.spellId == 146589 then
 		warnKey:Show(args.destName)
@@ -404,16 +404,16 @@ function mod:SPELL_AURA_REMOVED(args)
 		screechCount = 0
 		if self:IsLFR() then
 			timerDeafeningScreechCD:Start(19, 1)
-			sndPX:Schedule(16, DBM.SoundMMPath.."\\aesoon.ogg")
-			sndPX:Schedule(17, DBM.SoundMMPath.."\\countthree.ogg")
-			sndPX:Schedule(18, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndPX:Schedule(19, DBM.SoundMMPath.."\\countone.ogg")
+			sndPX:Schedule(16, "aesoon")
+			sndPX:Schedule(17, "countthree")
+			sndPX:Schedule(18, "counttwo")
+			sndPX:Schedule(19, "countone")
 		else
 			timerDeafeningScreechCD:Start(nil, 1)
-			sndPX:Schedule(10, DBM.SoundMMPath.."\\aesoon.ogg")
-			sndPX:Schedule(11, DBM.SoundMMPath.."\\countthree.ogg")
-			sndPX:Schedule(12, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndPX:Schedule(13, DBM.SoundMMPath.."\\countone.ogg")
+			sndPX:Schedule(10, "aesoon")
+			sndPX:Schedule(11, "countthree")
+			sndPX:Schedule(12, "counttwo")
+			sndPX:Schedule(13, "countone")
 		end
 		if self.Options.RangeFrame and not self:IsLFR() then
 			--if self:IsDifficulty("normal10", "heroic10") then
@@ -428,7 +428,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg") --安全
+			sndWOP:Play("safenow") --安全
 		end
 	end
 end
@@ -444,7 +444,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 		if destGUID == UnitGUID("player") then
 			specWarnBurningBlood:Show()
 			yellBurningBlood:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+			sndWOP:Play("runaway") --快躲開
 		end
 	end
 end
@@ -453,7 +453,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 143784 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 2) then--Different from abobe ID, this is ID that fires for standing in fire on ground (even if you weren't target the fire spawned under)
 		specWarnBurningBloodMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -472,7 +472,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTailLashCD:Cancel()
 		specWarnBloodFrenzy:Show()
 --DELETE	soundBloodFrenzy:Play()
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --2階段準備
+		sndWOP:Play("ptwo") --2階段準備
 		if self.Options.RangeFrame and not self:IsLFR() then
 			DBM.RangeCheck:Hide()
 		end
@@ -487,21 +487,21 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnAcidPustules:Show()
 		timerCorrosiveBloodCD:Start(6)
 		timerAcidBreathCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dyqh.ogg") --毒液恐龍
+		sndWOP:Play("ex_so_dyqh") --毒液恐龍
 		phase = 1
 	elseif spellId == 143968 then
 		timerBurningBloodCD:Cancel()
 		timerCorrosiveBloodCD:Cancel()
 		warnFrostPustules:Show()
 		timerFrostBreathCD:Start(6)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_bsqh.ogg") --冰霜恐龍
+		sndWOP:Play("ex_so_bsqh") --冰霜恐龍
 		phase = 1
 	elseif spellId == 143970 then
 		timerCorrosiveBloodCD:Cancel()
 		warnFirePustules:Show()
 		timerBurningBloodCD:Start(8)
 		timerScorchingBreathCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_lyqh.ogg") --烈焰恐龍
+		sndWOP:Play("ex_so_lyqh") --烈焰恐龍
 		phase = 1
 	end
 end

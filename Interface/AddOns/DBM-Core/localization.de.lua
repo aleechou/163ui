@@ -5,7 +5,7 @@ DBM_CORE_NEED_LOGS					= "DBM benötigt Transcriptor (http://www.wowace.com/addo
 DBM_HOW_TO_USE_MOD					= "Willkommen bei DBM. Tippe /dbm help für eine Liste unterstützter Kommandos. Für den Zugriff auf Einstellungen tippe /dbm in den Chat um die Konfiguration zu beginnen. Lade gewünschte Zonen manuell um jegliche Boss-spezifische Einstellungen nach deinen Wünschen zu konfigurieren. DBM versucht dies für dich zu tun, indem es beim ersten Start deine Spezialisierung scannt, aber du kannst zusätzliche Einstellungen aktivieren."
 
 DBM_FORUMS_MESSAGE					= "Du hast einen Bug oder einen falschen Timer gefunden? Du glaubst einige Mods würden zusätzliche Warnungen, Timer oder Spezialfeatures benötigen?\nBesuche die neuen Deadly Boss Mods Foren für Diskussionen, Fehlermeldungen und Featurewünsche: |HDBM:forums|h|cff3588ffhttp://www.deadlybossmods.com|r (Du kannst auf den Link klicken um ihn zu kopieren.)"
-DBM_FORUMS_COPY_URL_DIALOG			= "Besuche unsere neuen Diskussions- und Support-Foren\r\n(gehostet von Elitist Jerks!)"
+DBM_FORUMS_COPY_URL_DIALOG			= "Besuche unsere Diskussions- und Support-Foren\r\n(gehostet von Elitist Jerks!)"
 
 DBM_CORE_LOAD_MOD_ERROR				= "Fehler beim Laden der Boss Mods für %s: %s"
 DBM_CORE_LOAD_MOD_SUCCESS			= "Boss Mods für '%s' geladen. Für weitere Einstellungen /dbm oder /dbm help im Chatfenster eingeben!"
@@ -15,7 +15,7 @@ DBM_CORE_LOAD_GUI_COMBAT			= "Die grafische Benutzeroberfläche kann nicht im Ka
 DBM_CORE_LOAD_SKIN_COMBAT			= "Das Design der DBM-Timer konnte nicht im Kampf gesetzt werden. Die Timer werden vermutlich nicht korrekt funktionieren und diverse LUA-Fehler generieren. Dies wird oft durch Mods anderer Hersteller verursacht, die versuchen Designänderungen im Kampf vorzunehmen. Du solltest nach dem Kampfende /reload ausführen."
 DBM_CORE_BAD_LOAD					= "Dein Boss Mod für diese Instanz konnte nicht vollständig korrekt im Kampf geladen werden. Bitte führe baldmöglichst nach Kampfende /reload aus."
 
-DBM_CORE_BLIZZ_BUGS					= "Fehler im Spiel mit Addons seit 6.0:\n1. Bei aktivierten Soundeffekten können Audiomeldungen durch Addons im Kampf verloren gehen, falls die Anzahl deiner Soundkanäle für die gleichzeitige Ausgabe nicht ausreicht, da seit 6.0 Addons niedrig priorisiert werden.\n2. Addons können charakterspezifische Einstellungen nicht erfolgreich speichern, wenn im Charakternamen Sonderzeichen enthalten sind. Deshalb haben viele Mods Probleme mit dem Speichern und Laden von Einstellungen."
+DBM_CORE_BLIZZ_BUGS					= "Fehler im Spiel mit Addons seit 6.0:\nBei aktivierten Soundeffekten können Audiomeldungen durch Addons im Kampf verloren gehen, falls die Anzahl deiner Soundkanäle für die gleichzeitige Ausgabe nicht ausreicht, da seit 6.0 Addons niedrig priorisiert werden. Zur Umgehung dieses Problems stellt DBM nun die Anzahl der Soundkanäle automatisch auf 64 ein. Falls trotzdem noch Audiomeldungen von Mods verloren gehen, hilft es nur noch die \"Soundeffekte\" komplett abzuschalten."
 
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "DBM hat das dynamische Abstandsfenster für diesen Kampf deaktiviert, da nicht genügend Informationen vorliegen, auf wieviel versammelte Spieler bei deiner Gruppengröße geprüft werden muss."
 DBM_CORE_DYNAMIC_ADD_COUNT			= "DBM hat Warnungen bezüglich der Anzahl der Gegner für diesen Kampf deaktiviert, da nicht genügend Informationen vorliegen, wieviel Gegner bei deiner Gruppengröße erscheinen."

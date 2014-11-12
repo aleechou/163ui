@@ -52,7 +52,7 @@ local addcount = 0
 
 function mod:OnCombatStart(delay)
 	timerFragmentCD:Start(-delay)
-	sndWOP:Schedule(20, DBM.SoundMMPath.."\\fragsoon.ogg")
+	sndWOP:Schedule(20, "fragsoon")
 	timerHeatedVolcano:Start(30-delay)
 	timerFlameStomp:Start(16-delay)--Actually found an old log, maybe this is right.
 	if self:IsDifficulty("heroic10", "heroic25") then
@@ -79,8 +79,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		timerSparkCD:Cancel()
 		timerFragmentCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\fragsoon.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\sparksoon.ogg")
+		sndWOP:Cancel("fragsoon")
+		sndWOP:Cancel("sparksoon")
 		timerHeatedVolcano:Cancel()
 	end
 end
@@ -101,7 +101,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(97282, 100411, 100968, 100969) then
 		warnFlameStomp:Show()
 		specWarnFlameStomp:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\firestomp.ogg")
+		sndWOP:Play("firestomp")
 		if not phase2Started then
 			timerFlameStomp:Start()
 		else--13sec cd in phase 2
@@ -113,7 +113,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(98493) then
 		warnHeatedVolcano:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\volcano.ogg")
+		sndWOP:Play("volcano")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerHeatedVolcano:Start()
 		else
@@ -123,18 +123,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnMagmaFlow:Show()
 		specWarnMagmaFlow:Show()
 		timerMagmaFlowActive:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\fireline.ogg")
+		sndWOP:Play("fireline")
 		if not phase2Started then
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(7, "countthree")
+			sndWOP:Schedule(8, "counttwo")
+			sndWOP:Schedule(9, "countone")
 		end
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 100974 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -145,21 +145,21 @@ function mod:SPELL_SUMMON(args)
 		warnFragments:Show()
 		if fragmentCount < 2 then
 			timerFragmentCD:Start()
-			sndWOP:Schedule(20, DBM.SoundMMPath.."\\fragsoon.ogg")
+			sndWOP:Schedule(20, "fragsoon")
 		else--Spark is next start other CD bar and reset count.
 			fragmentCount = 0
 			timerSparkCD:Start(22.5, sparkCount+1)
-			sndWOP:Schedule(20, DBM.SoundMMPath.."\\sparksoon.ogg")
+			sndWOP:Schedule(20, "sparksoon")
 		end		
 		addcount = addcount + 1
 		if self:IsDifficulty("heroic10", "heroic25") and addcount == 10 then
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+			sndWOP:Play("ptwo")
 		end
 	elseif args:IsSpellID(98552) then
 		sparkCount = sparkCount + 1
 		warnShard:Show(sparkCount)
 		timerFragmentCD:Start()
-		sndWOP:Schedule(20, DBM.SoundMMPath.."\\fragsoon.ogg")
+		sndWOP:Schedule(20, "fragsoon")
 		addcount = addcount + 1
 	end
 end

@@ -107,13 +107,13 @@ function mod:SPELL_CAST_START(args)
 		brainportal:Schedule(60)
 		warnBrainPortalSoon:Schedule(78)
 		specWarnBrainPortalSoon:Schedule(78)
-		sndWOP:Schedule(78, DBM.SoundMMPath.."\\indoorsoon.ogg")
+		sndWOP:Schedule(78, "indoorsoon")
 		specWarnMadnessOutNow:Schedule(55)
-		sndWOP:Schedule(55, DBM.SoundMMPath.."\\outdoornow.ogg")
+		sndWOP:Schedule(55, "outdoornow")
 	elseif args.spellId == 64189 then		--Deafening Roar
 		timerNextDeafeningRoar:Start()
 		warnDeafeningRoarSoon:Schedule(55)
-		sndWOP:Schedule(55, DBM.SoundMMPath.."\\silencesoon.ogg")
+		sndWOP:Schedule(55, "silencesoon")
 		timerCastDeafeningRoar:Start()
 		specWarnDeafeningRoar:Show()
 	elseif args.spellId == 63138 then		--Sara's Fervor
@@ -145,7 +145,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnBrainLink:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\followline.ogg")
+			sndWOP:Play("followline")
 		end
 		self:ScheduleMethod(0.2, "warnBrainLink")
 	elseif args:IsSpellID(63830, 63881) then   -- Malady of the Mind (Death Coil) 
@@ -162,10 +162,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 			if inRange then 
 				specWarnMaladyNear:Show(args.destName)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
-				sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(2, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(3, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Play("runaway")
+				sndWOP:Schedule(1, "countthree")
+				sndWOP:Schedule(2, "counttwo")
+				sndWOP:Schedule(3, "countone")
 				if self.Options.MaladyArrow then
 					DBM.Arrow:ShowRunAway(x, y, 12, 5)
 				end
@@ -173,7 +173,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end 
 	elseif args:IsSpellID(64126, 64125) then	-- Squeeze
 		warnSqueeze:Show(args.destName)
-		sndWOP:Play(DBM.SoundMMPath.."\\killmhand.ogg")
+		sndWOP:Play("killmhand")
 		if args:IsPlayer() and self.Options.WarningSqueeze then	
 			SendChatMessage(L.WarningYellSqueeze, "SAY")
 		end	
@@ -185,14 +185,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then 
 			specWarnFervor:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\fever.ogg")
+			sndWOP:Play("fever")
 		end
 	elseif args.spellId == 63894 then	-- Shadowy Barrier of Yogg-Saron (this is happens when p2 starts)
 		phase = 2
 		brainportal:Start(60)
 		warnBrainPortalSoon:Schedule(57)
 		specWarnBrainPortalSoon:Schedule(57)
-		sndWOP:Schedule(57, DBM.SoundMMPath.."\\indoorsoon.ogg")
+		sndWOP:Schedule(57, "indoorsoon")
 		warnP2:Show()
 		if self.Options.ShowSaraHealth then
 			DBM.BossHealth:RemoveBoss(33134)
@@ -205,12 +205,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 64465 then
 		timerEmpower:Start()
 		timerEmpowerDuration:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\marknow.ogg")
-		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("marknow")
+		sndWOP:Schedule(7, "countthree")
+		sndWOP:Schedule(8, "counttwo")
+		sndWOP:Schedule(9, "countone")
 		warnEmpowerSoon:Schedule(40)
-		sndWOP:Schedule(40, DBM.SoundMMPath.."\\marksoon.ogg")
+		sndWOP:Schedule(40, "marksoon")
 	end
 end
 
@@ -219,7 +219,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self:SendSync("Phase3")			-- Sync this because you don't get it in your combat log if you are in brain room.
 	elseif args:IsSpellID(64167, 64163) then	-- Lunatic Gaze
 		timerNextLunaricGaze:Start()
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\turnaround.ogg")
+		sndWOP:Schedule(8, "turnaround")
 	end
 end
 
@@ -248,10 +248,10 @@ function mod:OnSync(msg)
 		timerEmpower:Start()
 		warnP3:Show()
 		warnEmpowerSoon:Schedule(40)
-		sndWOP:Schedule(40, DBM.SoundMMPath.."\\marksoon.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\indoorsoon.ogg")
+		sndWOP:Schedule(40, "marksoon")
+		sndWOP:Cancel("indoorsoon")
 		timerNextDeafeningRoar:Start(30)
 		warnDeafeningRoarSoon:Schedule(25)
-		sndWOP:Schedule(25, DBM.SoundMMPath.."\\silencesoon.ogg")
+		sndWOP:Schedule(25, "silencesoon")
 	end
 end

@@ -80,7 +80,7 @@ function mod:ImmoTrapTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnImmTrap:Show()
 		yellImmoTrap:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -92,7 +92,7 @@ function mod:ImmoTrapTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnImmTrapNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 			end
 		end
 	end
@@ -103,7 +103,7 @@ function mod:CrystalTrapTarget(targetname)
 	if targetname == UnitName("player") then
 		specWarnCrystalTrap:Show()
 		yellCrystalTrap:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
@@ -115,7 +115,7 @@ function mod:CrystalTrapTarget(targetname)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnCrystalTrapNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 			end
 		end
 	end
@@ -194,7 +194,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsDestTypePlayer() then
 			warnCrystalPrisonTrapped:Show(args.destName)
 			if not self:IsTank() and not self:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\killcrystal.ogg")
+				sndWOP:Play("killcrystal")
 			end
 		else--It's a trapped dog
 			timerCrystalPrison:Start(args.destName)--make a 10 second timer for how long dog is trapped.
@@ -229,14 +229,14 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(100002) then
 		warnSpear:Show()--Only valid until rip dies
-		sndWOP:Play(DBM.SoundMMPath.."\\spear.ogg")
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\firecircle.ogg")
+		sndWOP:Play("spear")
+		sndWOP:Schedule(4, "firecircle")
 		specWarnSpear:Show()
 		timerSpearCD:Start()
 	elseif args:IsSpellID(99840) and ripLimbDead then	--This is cast after Riplimb dies.
 		warnMagmaRupture:Show()
 		timerMagmaRuptureCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\firecircle.ogg")
+		sndWOP:Play("firecircle")
 	end
 end
 
@@ -245,7 +245,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFaceRage:Show(args.destName)
 		specWarnFaceRage:Show(args.destName)
 		if not self:IsTank() and not self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\killrageface.ogg")
+			sndWOP:Play("killrageface")
 		end
 		timerFaceRageCD:Start()
 		if self.Options.SetIconOnFaceRage then

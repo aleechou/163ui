@@ -118,7 +118,7 @@ end
 function mod:SPELL_SUMMON(args)
 	if args.spellId == 63811 then -- Bomb Bot
 		warnBombSpawn:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\bombbot.ogg")
+		sndWOP:Play("bombbot")
 	end
 end
 
@@ -145,18 +145,18 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerShockBlast:Start()
 		timerNextShockblast:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\boomrun.ogg")
+		sndWOP:Play("boomrun")
 	end
 	if args:IsSpellID(64529, 62997) then -- plasma blast
 		timerPlasmaBlastCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\plasma.ogg")
+		sndWOP:Play("plasma")
 	end
 	if args.spellId == 64570 then
 		timerFlameSuppressant:Start()
 	end
 	if args.spellId == 64623 then
 		warnFrostBomb:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\icebomb.ogg")
+		sndWOP:Play("icebomb")
 		timerBombExplosion:Start()
 		timerNextFrostBomb:Start()
 	end
@@ -183,7 +183,7 @@ end
 local function show_warning_for_spinup()
 	if is_spinningUp then
 		warnDarkGlare:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\spinrun.ogg")
+		sndWOP:Play("spinrun")
 	end
 end
 

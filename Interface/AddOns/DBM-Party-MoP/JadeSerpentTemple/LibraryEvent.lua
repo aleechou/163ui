@@ -40,7 +40,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnUltimatePower:Show(args.destName)
 		timerUltimatePower:Start(args.destName)
 		if args.sourceGUID == UnitGUID("target") then
-			sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")--目標轉換
+			sndWOP:Play("changetarget")--目標轉換
 		end
 	end
 end
