@@ -82,7 +82,7 @@ function mod:OnCombatStart(delay)
 		timerFieryVortexCD:Start(243-delay)--Probably not right.
 		timerCataclysmCD:Start(32-delay)
 		timerFirestormCD:Start(94-delay)
-		sndWOP:Schedule(84-delay, DBM.SoundMMPath.."\\firestormsoon.ogg")
+		sndWOP:Schedule(84-delay, "firestormsoon")
 		countdownFirestorm:Start(94-delay)--Perhaps some tuning.
 		warnFirestormSoon:Schedule(84-delay)
 		timerHatchEggs:Start(37-delay)
@@ -111,7 +111,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(99362) and ((args.sourceGUID == UnitGUID("target") and self:IsTank()) or not self:IsTank() and (args.sourceGUID == UnitGUID("targettarget") or args.sourceGUID == UnitGUID("focustargettarget"))) then--Only give warning if it's mob you're targeting and you're a tank, or you're targeting the tank it's on and he's targeting the bird.
 		specWarnTantrum:Show()
 		timerTantrum:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\chickenfrenzy.ogg")
+		sndWOP:Play("chickenfrenzy")
 	elseif args:IsSpellID(99359, 100850, 100851, 100852) and ((args.sourceGUID == UnitGUID("target") and self:IsTank()) or not self:IsTank() and (args.sourceGUID == UnitGUID("targettarget") or args.sourceGUID == UnitGUID("focustargettarget"))) then--^^ Same as above only with diff spell
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerSatiated:Start(10)
@@ -171,13 +171,13 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(102111, 100761) then
 		cataCast = cataCast + 1
 		warnCataclysm:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\catalysm.ogg")
-		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("catalysm")
+		sndWOP:Schedule(7, "countthree")
+		sndWOP:Schedule(8, "counttwo")
+		sndWOP:Schedule(9, "countone")
 		if cataCast < 5 then
 			if not self:IsTank() and not self:IsHealer() then			
-				sndWOP:Schedule(10, DBM.SoundMMPath.."\\killmeteor.ogg")
+				sndWOP:Schedule(10, "killmeteor")
 			end
 		end
 		timerCataclysm:Start()
@@ -187,14 +187,14 @@ function mod:SPELL_CAST_START(args)
 	elseif args:IsSpellID(100744) then
 		warnFirestorm:Show()
 		specWarnFirestorm:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\firestorm.ogg")
-		sndWOP:Schedule(2, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("firestorm")
+		sndWOP:Schedule(2, "countthree")
+		sndWOP:Schedule(3, "counttwo")
+		sndWOP:Schedule(4, "countone")
 		if cataCast < 3 then--Firestorm is only cast 2 times per phase. This essencially makes cd bar only start once.
 			timerFirestormCD:Start()
 			countdownFirestorm:Start(83)--Perhaps some tuning.
-			sndWOP:Schedule(73, DBM.SoundMMPath.."\\firestormsoon.ogg")
+			sndWOP:Schedule(73, "firestormsoon")
 			warnFirestormSoon:Cancel()--Just in case it's wrong. WoL may not be perfect, i'll have full transcriptor logs soon.
 			warnFirestormSoon:Schedule(73)
 		end
@@ -215,7 +215,7 @@ end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 99336 or spellId == 100726) and self:AntiSpam(3) and destGUID == UnitGUID("player") then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -224,12 +224,12 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, mob)
 	if not self:IsInCombat() then return end
 	if msg == L.YellPhase2 or msg:find(L.YellPhase2) then--Basically the pre warn to feiry vortex
 		warnPhase:Show(2)
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\ptwo.ogg")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(11, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(12, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(6, "ptwo")
+		sndWOP:Schedule(8, "countfive")
+		sndWOP:Schedule(9, "countfour")
+		sndWOP:Schedule(10, "countthree")
+		sndWOP:Schedule(11, "counttwo")
+		sndWOP:Schedule(12, "countone")
 		timerMoltingCD:Cancel()
 		timerPhaseChange:Start(33, 3)
 		initiatesSpawned = 0
@@ -279,7 +279,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 			timerCataclysmCD:Start(18)
 			timerFirestormCD:Start(70)
 			countdownFirestorm:Start(70)
-			sndWOP:Schedule(60, DBM.SoundMMPath.."\\firestormsoon.ogg")
+			sndWOP:Schedule(60, "firestormsoon")
 			warnFirestormSoon:Schedule(60)
 			cataCast = 0
 			clawCast = 0

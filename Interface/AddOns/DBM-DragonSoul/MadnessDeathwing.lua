@@ -4,7 +4,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(56173)
-mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMSPELL_04.OGG")
+mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMSPELL_04")
 mod:SetZone()
 mod:SetUsedIcons(8)
 
@@ -153,7 +153,7 @@ function mod:SPELL_CAST_START(args)
 			warnMutated:Schedule(11)
 			specWarnMutated:Schedule(11)
 			timerMutantCD:Start(11)
-			sndWOP:Schedule(11, DBM.SoundMMPath.."\\"..GetLocale().."\\mutant.ogg")
+			sndWOP:Schedule(11, "mutant")
 		else
 			timerImpaleCD:Start(27.5)
 			timerElementiumBoltCD:Start()
@@ -167,7 +167,7 @@ function mod:SPELL_CAST_START(args)
 			warnMutated:Schedule(17)
 			specWarnMutated:Schedule(17)
 			timerMutantCD:Start(17)
-			sndWOP:Schedule(17, DBM.SoundMMPath.."\\"..GetLocale().."\\mutant.ogg")
+			sndWOP:Schedule(17, "mutant")
 		end	
 	elseif args:IsSpellID(106523) then
 		warnCataclysm:Show()
@@ -176,19 +176,19 @@ function mod:SPELL_CAST_START(args)
 		if parasiteinvortex then
 			timerUnstableCorruption:Start(15)
 			if UnitBuff("player", GetSpellInfo(106457)) and not UnitIsDeadOrGhost("player") and not self:IsTank() then--Check for Ysera's Presence
-				sndWOP:Schedule(12, DBM.SoundMMPath.."\\clickshield.ogg")
+				sndWOP:Schedule(12, "clickshield")
 			end
-			sndWOP:Schedule(13, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(14, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(15, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(13, "countthree")
+			sndWOP:Schedule(14, "counttwo")
+			sndWOP:Schedule(15, "countone")
 		else
 			timerUnstableCorruption:Start()
 			if UnitBuff("player", GetSpellInfo(106457)) and not UnitIsDeadOrGhost("player") and not self:IsTank() then--Check for Ysera's Presence
-				sndWOP:Schedule(7, DBM.SoundMMPath.."\\clickshield.ogg")
+				sndWOP:Schedule(7, "clickshield")
 			end
-			sndWOP:Schedule(8, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(9, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(10, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(8, "countthree")
+			sndWOP:Schedule(9, "counttwo")
+			sndWOP:Schedule(10, "countone")
 		end
 	end
 end
@@ -198,20 +198,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnElementiumBolt:Show()
 		if not UnitBuff("player", GetSpellInfo(106027)) and not UnitIsDeadOrGhost("player") then--Check for Nozdormu's Presence
 			specWarnElementiumBolt:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\boltappear.ogg")
+			sndWOP:Play("boltappear")
 			timerElementiumBlast:Start()
-			sndWOP:Schedule(4, DBM.SoundMMPath.."\\boomrun.ogg")
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(4, "boomrun")
+			sndWOP:Schedule(5.5, "countthree")
+			sndWOP:Schedule(6.5, "counttwo")
+			sndWOP:Schedule(7.5, "countone")
 		else
 			timerElementiumCast:Start()	
 			timerElementiumBlast:Start(18)
 			specWarnElementiumBolt:Schedule(5.5)
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\boltappear.ogg")
-			sndWOP:Schedule(15.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(16.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(17.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(5.5, "boltappear")
+			sndWOP:Schedule(15.5, "countthree")
+			sndWOP:Schedule(16.5, "counttwo")
+			sndWOP:Schedule(17.5, "countone")
 		end
 	elseif args:IsSpellID(110063) then
 		self:SendSync("MadnessDown")
@@ -237,20 +237,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnImpale:Show(args.destName)
 		timerImpale:Start(args.destName)
 		timerImpaleCD:Start()
---		sndWOP:Schedule(29, DBM.SoundMMPath.."\\awaymutant.ogg")
+--		sndWOP:Schedule(29, "awaymutant")
 		if args:IsPlayer() then
 			specWarnImpale:Show()
 			if not UnitBuff("player", GetSpellInfo(106457)) and not UnitIsDeadOrGhost("player") then--Check for Ysera's Presence
-				sndWOP:Play(DBM.SoundMMPath.."\\watchimpale.ogg")
+				sndWOP:Play("watchimpale")
 			else
-				sndWOP:Play(DBM.SoundMMPath.."\\clickshield.ogg")
+				sndWOP:Play("clickshield")
 			end
 		else
 			specWarnImpaleOther:Show(args.destName)
 			if self:IsTank() then
-				sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")				
+				sndWOP:Play("changemt")				
 			else
-				sndWOP:Play(DBM.SoundMMPath.."\\watchimpale.ogg")
+				sndWOP:Play("watchimpale")
 			end
 		end
 	elseif args:IsSpellID(106794) then
@@ -260,10 +260,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnShrapnel:Show()
 			yellShrapnel:Yell()
 			timerShrapnel:Start()
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\clickshield.ogg")
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(4, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(1.5, "clickshield")
+			sndWOP:Schedule(3, "countthree")
+			sndWOP:Schedule(4, "counttwo")
+			sndWOP:Schedule(5, "countone")
 		end
 		if (self:IsDifficulty("normal10", "heroic10") and #shrapnelTargets >= 3) or (self:IsDifficulty("normal25", "heroic25", "lfr25") and #shrapnelTargets >= 8) then
 			warnShrapnelTargets()
@@ -280,10 +280,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:updateRangeFrame()
 		if args:IsPlayer() then
 			specWarnParasite:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Play("runout")
 			yellParasite:Yell()
 		elseif self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\healparasite.ogg")
+			sndWOP:Play("healparasite")
 		end
 --		playerGUID = args.destGUID
 		if self.Options.SetIconOnParasite then
@@ -302,7 +302,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		specWarnUnstableCorruption:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\killparasite.ogg")
+		sndWOP:Play("killparasite")
 		if UnitDebuff(args.destName, GetSpellInfo(108646)) then
 			parasiteinvortex = true
 		else
@@ -317,7 +317,7 @@ end
 function mod:SPELL_SUMMON(args)
 	if args:IsSpellID(109091) and self:AntiSpam(10, 1) then
 		specWarnCongealingBlood:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\aeblood.ogg")
+		sndWOP:Play("aeblood")
 	end
 end
 
@@ -342,13 +342,13 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 56471 then
 		timerImpaleCD:Cancel()
---		sndWOP:Cancel(DBM.SoundMMPath.."\\awaymutant.ogg")
+--		sndWOP:Cancel("awaymutant")
 		timerImpale:Cancel()
 	elseif cid == 57479 then
 		timerUnstableCorruption:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	end
 end
 
@@ -358,7 +358,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 105853 and self:AntiSpam(2, 2) then
 		warnHemorrhage:Show()
 		specWarnHemorrhage:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\aeblood.ogg")
+		sndWOP:Play("aeblood")
 	elseif spellId == 105551 and self:AntiSpam(2, 2) then--Spawn Blistering Tentacles
 		if nameone ~= nil and self.Options.SetIconOnCrush then
 			self:SetIcon(nameone, 0)
@@ -370,7 +370,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if not UnitBuff("player", GetSpellInfo(106028)) then--Check for Alexstrasza's Presence
 			warnTentacle:Show()
 			specWarnTentacle:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\blisterling.ogg")
+			sndWOP:Play("blisterling")
 		end
 	elseif spellId == 106775 and self:AntiSpam(2, 2) then--Summon Impaling Tentacle (Fragments summon)
 		warnFragments:Show()
@@ -388,9 +388,9 @@ end
 function mod:OnSync(msg)
 	if msg == "BoltDied" then
 		timerElementiumBlast:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	elseif msg == "MadnessDown" and self:IsInCombat() then
 		DBM:EndCombat(self)
 	end

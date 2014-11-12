@@ -115,11 +115,11 @@ function mod:OnCombatStart(delay)
 	end
 	timerDowndraftCD:Start(91-delay)
 	timerCawsCD:Start(15-delay)
-	sndWOP:Schedule(85, DBM.SoundMMPath.."\\ex_tt_xjzb.ogg")
-	sndWOP:Schedule(87, DBM.SoundMMPath.."\\countfour.ogg")	
-	sndWOP:Schedule(88, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(89, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(90, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Schedule(85, "ex_tt_xjzb")
+	sndWOP:Schedule(87, "countfour")	
+	sndWOP:Schedule(88, "countthree")
+	sndWOP:Schedule(89, "counttwo")
+	sndWOP:Schedule(90, "countone")
 	if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
 		DBM.RangeCheck:Show(10)
 	end
@@ -145,7 +145,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 1 and not UnitDebuff("player", GetSpellInfo(134366)) and not UnitIsDeadOrGhost("player") then
 				specWarnTalonRakeOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+					sndWOP:Play("changemt") --換坦嘲諷
 				end
 			end
 		end
@@ -154,23 +154,23 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnFeedYoung:Show()
 		FeedCount = FeedCount + 1
 		wstime = GetTime()
-		sndWOPWS:Cancel(DBM.SoundMMPath.."\\ex_tt_zbws.ogg")
-		sndWOPWS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOPWS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOPWS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOPWS:Play(DBM.SoundMMPath.."\\ex_tt_wsyc.ogg") --餵食	
+		sndWOPWS:Cancel("ex_tt_zbws")
+		sndWOPWS:Cancel("countthree")
+		sndWOPWS:Cancel("counttwo")
+		sndWOPWS:Cancel("countone")
+		sndWOPWS:Play("ex_tt_wsyc") --餵食	
 		if self:IsDifficulty("normal10", "heroic10", "lfr25") then
 			timerFeedYoungCD:Start(40)
-			sndWOPWS:Schedule(36, DBM.SoundMMPath.."\\ex_tt_zbws.ogg")
-			sndWOPWS:Schedule(37.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOPWS:Schedule(38.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOPWS:Schedule(39.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOPWS:Schedule(36, "ex_tt_zbws")
+			sndWOPWS:Schedule(37.5, "countthree")
+			sndWOPWS:Schedule(38.5, "counttwo")
+			sndWOPWS:Schedule(39.5, "countone")
 		else
 			timerFeedYoungCD:Start()
-			sndWOPWS:Schedule(25, DBM.SoundMMPath.."\\ex_tt_zbws.ogg")
-			sndWOPWS:Schedule(27.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOPWS:Schedule(28.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOPWS:Schedule(29.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOPWS:Schedule(25, "ex_tt_zbws")
+			sndWOPWS:Schedule(27.5, "countthree")
+			sndWOPWS:Schedule(28.5, "counttwo")
+			sndWOPWS:Schedule(29.5, "countone")
 		end
 	elseif args.spellId == 133755 and args:IsPlayer() then
 		timerFlight:Start()
@@ -220,54 +220,54 @@ function mod:SPELL_CAST_START(args)
 			timerQuillsCD:Start(nil, quillsCount+1)
 		end
 		if MyJS() then
-			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Play("defensive") --注意減傷
 		else
 			if mod:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg") --注意群療
+				sndWOP:Play("healall") --注意群療
 			else
-				sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")
+				sndWOP:Play("aesoon")
 			end
 		end		
 	elseif args.spellId == 134370 then
 		warnDowndraft:Show()
 		specWarnDowndraft:Show()
 		timerDowndraft:Start()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_tt_xjzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_tt_xjzb")
+		sndWOP:Cancel("countfive")
+		sndWOP:Cancel("countfour")	
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 		if self:IsDifficulty("normal10", "heroic10", "lfr25") then
 			if GetTime() - wstime > 35 then
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+				sndWOPWS:Cancel("countthree")
+				sndWOPWS:Cancel("counttwo")
+				sndWOPWS:Cancel("countone")
 			end
 		else
 			if GetTime() - wstime > 25 then
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOPWS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+				sndWOPWS:Cancel("countthree")
+				sndWOPWS:Cancel("counttwo")
+				sndWOPWS:Cancel("countone")
 			end
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_xjql.ogg") --下降氣流		
+		sndWOP:Play("ex_tt_xjql") --下降氣流		
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerDowndraftCD:Start(93)
-			sndWOP:Schedule(87, DBM.SoundMMPath.."\\ex_tt_xjzb.ogg") --下降氣流準備
-			sndWOP:Schedule(88, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(89, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(90, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(91, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(92, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(87, "ex_tt_xjzb") --下降氣流準備
+			sndWOP:Schedule(88, "countfive")
+			sndWOP:Schedule(89, "countfour")
+			sndWOP:Schedule(90, "countthree")
+			sndWOP:Schedule(91, "counttwo")
+			sndWOP:Schedule(92, "countone")
 		else
 			timerDowndraftCD:Start()--Todo, confirm they didn't just change normal to 90 as well. in my normal logs this had a 110 second cd on normal
-			sndWOP:Schedule(90, DBM.SoundMMPath.."\\ex_tt_xjzb.ogg")
-			sndWOP:Schedule(91, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(92, DBM.SoundMMPath.."\\countfour.ogg")	
-			sndWOP:Schedule(93, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(94, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(95, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(90, "ex_tt_xjzb")
+			sndWOP:Schedule(91, "countfive")
+			sndWOP:Schedule(92, "countfour")	
+			sndWOP:Schedule(93, "countthree")
+			sndWOP:Schedule(94, "counttwo")
+			sndWOP:Schedule(95, "countone")
 		end
 	elseif args.spellId == 134380 and self:AntiSpam(2, 1) then--Maybe adjust anti spam a bit or find a different way to go about this. It is important information though.
 		warnLayEgg:Show()
@@ -291,15 +291,15 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, _, _, _, target)
 						DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(34, L.Lower, flockName, flockCount+1)
-					sndWOP:Schedule(34, DBM.SoundMMPath.."\\ex_tt_xfxg.ogg")
-					sndWOP:Schedule(40, DBM.SoundMMPath.."\\ex_tt_ddfh.ogg")
+					sndWOP:Schedule(34, "ex_tt_xfxg")
+					sndWOP:Schedule(40, "ex_tt_ddfh")
 				else
 					self:Schedule(24, function()
 						DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(24, L.Lower, flockName, flockCount+1)
-					sndWOP:Schedule(24, DBM.SoundMMPath.."\\ex_tt_xfxg.ogg")
-					sndWOP:Schedule(30, DBM.SoundMMPath.."\\ex_tt_ddfh.ogg")
+					sndWOP:Schedule(24, "ex_tt_xfxg")
+					sndWOP:Schedule(30, "ex_tt_ddfh")
 				end
 			end
 			if MyAddUp(flockCount+1) then
@@ -308,15 +308,15 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, _, _, _, target)
 						DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(34, L.Upper, flockName, flockCount+1)
-					sndWOP:Schedule(34, DBM.SoundMMPath.."\\ex_tt_sfxg.ogg")
-					sndWOP:Schedule(40, DBM.SoundMMPath.."\\ex_tt_ddfh.ogg")
+					sndWOP:Schedule(34, "ex_tt_sfxg")
+					sndWOP:Schedule(40, "ex_tt_ddfh")
 				else
 					self:Schedule(24, function()
 						DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(24, L.Upper, flockName, flockCount+1)
-					sndWOP:Schedule(24, DBM.SoundMMPath.."\\ex_tt_sfxg.ogg")
-					sndWOP:Schedule(30, DBM.SoundMMPath.."\\ex_tt_ddfh.ogg")
+					sndWOP:Schedule(24, "ex_tt_sfxg")
+					sndWOP:Schedule(30, "ex_tt_ddfh")
 				end
 			end
 		end

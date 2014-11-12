@@ -182,7 +182,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFocusedDefense:Show()
 			if not mod:IsTank() then
-				sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+				sndWOP:Play("justrun") --快跑
 			end
 		end
 	elseif args:IsSpellID(116829) then
@@ -196,7 +196,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(116778) then
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg") --安全
+			sndWOP:Play("safenow") --安全
 		end
 	end
 end
@@ -232,15 +232,15 @@ local function addsDelay(add)
 		if mod:IsDifficulty("heroic10", "heroic25") then
 			if MyBomb() then
 				specWarnBomb:Schedule(ragetime + 1, rageCount)
-				sndWOP:Schedule(ragetime + 1, DBM.SoundMMPath.."\\ex_mop_bpzb.ogg") --爆破準備
+				sndWOP:Schedule(ragetime + 1, "ex_mop_bpzb") --爆破準備
 			end
 			if MyKZ() then
 				specWarnKZ:Schedule(ragetime - 5, rageCount)
-				sndWOP:Schedule(ragetime - 5, DBM.SoundMMPath.."\\ex_mop_kzzb.ogg")
+				sndWOP:Schedule(ragetime - 5, "ex_mop_kzzb")
 			end
 		end
-		sndADD1A:Schedule(ragetime - 6, DBM.SoundMMPath.."\\ex_mop_qjbzb.ogg") --輕甲
-		sndADD1:Schedule(ragetime - 1, DBM.SoundMMPath.."\\ex_mop_qjbcx.ogg")	
+		sndADD1A:Schedule(ragetime - 6, "ex_mop_qjbzb") --輕甲
+		sndADD1:Schedule(ragetime - 1, "ex_mop_qjbcx")	
 	elseif add == "Boss" then
 		warnBossesActivated:Show()
 		specWarnBossesActivated:Show(10)
@@ -255,11 +255,11 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:Unschedule(addsDelay, "Rage")--Unschedule any failsafes that triggered and resync to yell
 		self:Schedule(14, addsDelay, "Rage")
 		if rageCount == 1 then
-			sndADD1A:Schedule(5, DBM.SoundMMPath.."\\ex_mop_qjbzb.ogg") --輕甲
-			sndADD1:Schedule(10, DBM.SoundMMPath.."\\ex_mop_qjbcx.ogg")
+			sndADD1A:Schedule(5, "ex_mop_qjbzb") --輕甲
+			sndADD1:Schedule(10, "ex_mop_qjbcx")
 			if mod:IsDifficulty("heroic10", "heroic25") and MyKZ() then
 				specWarnKZ:Schedule(6, rageCount)
-				sndWOP:Schedule(6, DBM.SoundMMPath.."\\ex_mop_kzzb.ogg") --控制準備
+				sndWOP:Schedule(6, "ex_mop_kzzb") --控制準備
 			end
 			timerRageActivates:Start(14, rageCount)
 		end
@@ -270,17 +270,17 @@ function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Strength or msg:find(L.Strength) then
 		self:Unschedule(addsDelay, "Strength")
 		self:Schedule(7, addsDelay, "Strength")
-		sndADD3A:Play(DBM.SoundMMPath.."\\ex_mop_zjbzb.ogg") --重甲
-		sndADD3:Schedule(8, DBM.SoundMMPath.."\\ex_mop_zjbcx.ogg")
+		sndADD3A:Play("ex_mop_zjbzb") --重甲
+		sndADD3:Schedule(8, "ex_mop_zjbcx")
 	elseif msg == L.Courage or msg:find(L.Courage) then
 		self:Unschedule(addsDelay, "Courage")
 		self:Schedule(8, addsDelay, "Courage")
-		sndADD2A:Play(DBM.SoundMMPath.."\\ex_mop_dbzb.ogg") --盾兵
-		sndADD2:Schedule(8, DBM.SoundMMPath.."\\ex_mop_dbkd.ogg")
+		sndADD2A:Play("ex_mop_dbzb") --盾兵
+		sndADD2:Schedule(8, "ex_mop_dbkd")
 	elseif msg == L.Boss or msg:find(L.Boss) then
 		warnBossesActivatedSoon:Show()
 		self:Schedule(10, addsDelay, "Boss")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\ex_mop_szcz.ogg") --雙子
+		sndWOP:Schedule(8, "ex_mop_szcz") --雙子
 	elseif msg:find("spell:116779") then
 		if self:IsDifficulty("heroic10", "heroic25") then--On heroic the boss activates this perminantly on pull and it's always present
 			if not self:IsInCombat() then
@@ -290,7 +290,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 			titanGasCast = titanGasCast + 1
 			warnTitanGas:Show(titanGasCast)
 			specWarnTitanGas:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_ttqt.ogg") --泰坦氣體
+			sndWOP:Play("ex_mop_ttqt") --泰坦氣體
 			if titanGasCast < 4 then -- after Titan Gas casted 4 times, Titan Gas lasts permanently. (soft enrage)
 				timerTitanGas:Start()
 				timerTitanGasCD:Start(150, titanGasCast+1)
@@ -315,38 +315,38 @@ end
 
 function checkisstomp()
 	if mod:IsDps() then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(2, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(1, "counttwo")
+		sndWOP:Schedule(2, "countone")
 	end
 	mod:Schedule(2, function() Isstomp = 0 end)
 	mod:Schedule(4, function() 
 		if Isstomp ~= 1 and comboCount ~= 0 then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_jt.ogg") --踐踏
+			sndWOP:Play("ex_mop_jt") --踐踏
 		end
 	end)
 end
 
 function countsoundcombo()
 	if comboCount == 10 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countten.ogg")
+		sndWOP:Schedule(1, "countten")
 	elseif comboCount == 9 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countnine.ogg")
+		sndWOP:Schedule(1, "countnine")
 	elseif comboCount == 8 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\counteight.ogg")
+		sndWOP:Schedule(1, "counteight")
 	elseif comboCount == 7 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countseven.ogg")
+		sndWOP:Schedule(1, "countseven")
 	elseif comboCount == 6 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countsix.ogg")
+		sndWOP:Schedule(1, "countsix")
 	elseif comboCount == 5 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countfive.ogg")
+		sndWOP:Schedule(1, "countfive")
 	elseif comboCount == 4 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countfour.ogg")
+		sndWOP:Schedule(1, "countfour")
 	elseif comboCount == 3 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+		sndWOP:Schedule(1, "countthree")
 	elseif comboCount == 2 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\counttwo.ogg")
+		sndWOP:Schedule(1, "counttwo")
 	elseif comboCount == 1 then
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(1, "countone")
 	end
 end
 
@@ -367,7 +367,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		comboCount = comboCount + 1
 		checkisstomp()
 		warnArcLeft:Show(comboCount)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_left.ogg") --左側
+		sndWOP:Play("ex_mop_left") --左側
 		if mod:IsHealer() then
 			countsoundcombo()
 		end
@@ -383,7 +383,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		comboCount = comboCount + 1
 		checkisstomp()
 		warnArcRight:Show(comboCount)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_right.ogg") --右側
+		sndWOP:Play("ex_mop_right") --右側
 		if mod:IsHealer() then
 			countsoundcombo()
 		end
@@ -397,7 +397,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		comboCount = comboCount + 1
 		checkisstomp()
 		warnArcCenter:Show(comboCount)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_center.ogg") --前方
+		sndWOP:Play("ex_mop_center") --前方
 --		specWarnArcCenter:Show()
 		if mod:IsHealer() then
 			countsoundcombo()
@@ -413,7 +413,7 @@ function mod:UNIT_POWER(uId)
 	if (self:GetUnitCreatureId(uId) == 60399 or self:GetUnitCreatureId(uId) == 60400) and UnitPower(uId) == 18 and not comboWarned then
 		comboWarned = true
 		specWarnCombo:Show()		
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_zbbyz.ogg") --準備半月斬
+		sndWOP:Play("ex_mop_zbbyz") --準備半月斬
 		dao = 0
 	elseif (self:GetUnitCreatureId(uId) == 60399 or self:GetUnitCreatureId(uId) == 60400) and UnitPower(uId) == 1 then
 		comboWarned = false
@@ -426,7 +426,7 @@ function mod:SWING_DAMAGE(sourceGUID, _, _, _, destGUID)
 	local cid = self:GetCIDFromGUID(sourceGUID)
 	if cid == 60396 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
 		specWarnFocused:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SWING_MISSED = mod.SWING_DAMAGE

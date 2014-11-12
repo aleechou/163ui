@@ -4,7 +4,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(53879)
-mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKSLAY_01.OGG")
+mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_BACKSLAY_01")
 mod:SetZone()
 mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
 
@@ -72,7 +72,7 @@ end
 local function showGripWarning()
 	warnGrip:Show(table.concat(gripTargets, "<, >"))
 	specWarnGrip:Show()
-	sndWOP:Play(DBM.SoundMMPath.."\\someonecaught.ogg")
+	sndWOP:Play("someonecaught")
 	table.wipe(gripTargets)
 end
 
@@ -170,12 +170,12 @@ function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(105845) then
 		warnNuclearBlast:Show()
 		specWarnNuclearBlast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\boomrun.ogg")
+		sndWOP:Play("boomrun")
 		warnedAmalgamation = false
 	elseif args:IsSpellID(105847, 105848) then
 		warnSealArmor:Show()
 		specWarnSealArmor:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\killmuscle.ogg")
+		sndWOP:Play("killmuscle")
 		if self:IsDifficulty("lfr25") then
 			timerSealArmor:Start(34.5)
 		else
@@ -193,21 +193,21 @@ function mod:SPELL_CAST_START(args)
 		corruptionActive[args.sourceGUID] = corruptionActive[args.sourceGUID] + 1
 		if corruptionActive[args.sourceGUID] == 2 and self:IsDifficulty("normal25", "heroic25") then
 			timerGripCD:Update(8, 16, args.sourceGUID)
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3.ogg")
-			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2.ogg")
-			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1.ogg")
+			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3")
+			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2")
+			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1")
 		elseif corruptionActive[args.sourceGUID] == 4 and self:IsDifficulty("normal10", "heroic10") then
 			timerGripCD:Update(24, 32, args.sourceGUID)
-			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3.ogg")
-			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2.ogg")
-			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1.ogg")
+			sndWOP:Schedule(5, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3")
+			sndWOP:Schedule(6, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2")
+			sndWOP:Schedule(7, "Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1")
 		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(106199) and self:IsHealer() then
-		sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		sndWOP:Play("dispelnow")
 	elseif args:IsSpellID(105219) then
 		residueNum = residueNum + 1
 		diedOozeGUIDS[args.sourceGUID] = GetTime()
@@ -240,9 +240,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(105490) then
 		gripTargets[#gripTargets + 1] = args.destName
 		timerGripCD:Cancel(args.sourceGUID)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1.ogg")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1")
 		if corruptionActive[args.sourceGUID] then
 			corruptionActive[args.sourceGUID] = nil
 		end
@@ -277,7 +277,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if args.amount == 9 then
 			warnAbsorbedBlood:Show(args.destName, args.amount)
 			warnedAmalgamation = true
-			sndWOP:Play(DBM.SoundMMPath.."\\killmixone.ogg")
+			sndWOP:Play("killmixone")
 		else
 			warnAbsorbedBlood:Show(args.destName, args.amount)
 		end
@@ -291,7 +291,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if self:IsDps() then
-			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg")
+			sndWOP:Play("safenow")
 		end
 	elseif args:IsSpellID(105479) then
 		if self.Options.ShowShieldInfo then
@@ -314,21 +314,21 @@ function mod:RAID_BOSS_EMOTE(msg)
 		checkTendrils()
 		self:Schedule(3, checkTendrils)
 		timerBarrelRoll:Start()
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(4, "countthree")
+		sndWOP:Schedule(5, "counttwo")
+		sndWOP:Schedule(6, "countone")
 		if msg == L.DRoll or msg:find(L.DRoll) then
-			sndWOP:Play(DBM.SoundMMPath.."\\leftside.ogg")
+			sndWOP:Play("leftside")
 		elseif msg == L.DRollR or msg:find(L.DRollR) then
-			sndWOP:Play(DBM.SoundMMPath.."\\rightside.ogg")
+			sndWOP:Play("rightside")
 		end
 	elseif msg == L.DLevels or msg:find(L.DLevels) then
-		sndWOP:Play(DBM.SoundMMPath.."\\balancenow.ogg")
+		sndWOP:Play("balancenow")
 		self:Unschedule(checkTendrils)
 		timerBarrelRoll:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 	end
 end
 
@@ -336,9 +336,9 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 53891 or cid == 56162 or cid == 56161 then
 		timerGripCD:Cancel(args.sourceGUID)
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2.ogg")
-		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1.ogg")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\3")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\2")
+		sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\sounds\\Corsica_S\\1")
 		warnAmalgamation:Schedule(4.5)--4.5-5 seconds after corruption dies.
 		specWarnAmalgamation:Schedule(4.5)
 		if self:IsDifficulty("heroic10", "heroic25") then
@@ -357,7 +357,7 @@ function mod:UNIT_HEALTH(uId)
 			local bleft = 9 - BloodAbsorbed
 			specWarnAmalgamationLowHP:Show(bleft)
 			if not self:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\stopatk.ogg")
+				sndWOP:Play("stopatk")
 			end
 		end
 	end

@@ -164,7 +164,7 @@ function mod:TrapTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnTrap:Show()
 		yellTrap:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	else
 		if uId then
 			local inRange = CheckInteractDistance(uId, 2)
@@ -175,7 +175,7 @@ function mod:TrapTarget(targetname, uId)
 			end
 			if inRange then
 				specWarnTrapNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 			end
 		end
 	end
@@ -183,36 +183,36 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(68981) then -- Remorseless Winter (phase transition start)
-		sndWOP:Schedule(54, DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Schedule(54, "ptwo")
 		warnRemorselessWinter:Show()
 		timerPhaseTransition:Start()
 		timerRagingSpiritCD:Start(6)
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\ghostsoon.ogg")
+		sndWOP:Schedule(4, "ghostsoon")
 		warnShamblingSoon:Cancel()
 		timerShamblingHorror:Cancel()
 		timerDrudgeGhouls:Cancel()
 		timerInfestCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\infestsoon.ogg")
+		sndWOP:Cancel("infestsoon")
 		countdownInfest:Cancel()
 		timerNecroticPlagueCD:Cancel()
 		timerTrapCD:Cancel()
 	elseif args:IsSpellID(72259) then -- Remorseless Winter (phase transition start) second cast of fight
-		sndWOP:Schedule(54, DBM.SoundMMPath.."\\pthree.ogg")
+		sndWOP:Schedule(54, "pthree")
 		warnRemorselessWinter:Show()
 		timerPhaseTransition:Start()
 		timerRagingSpiritCD:Start(6)
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\ghostsoon.ogg")
+		sndWOP:Schedule(4, "ghostsoon")
 		timerSummonValkyr:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\valkysoon.ogg")
+		sndWOP:Cancel("valkysoon")
 		timerInfestCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\infestsoon.ogg")
+		sndWOP:Cancel("infestsoon")
 		timerDefileCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Cancel("defilesoon")
 		warnDefileSoon:Cancel()
 	elseif args.spellId == 72262 then -- Quake (phase transition end)
 		warnQuake:Show()
 		timerRagingSpiritCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ghostsoon.ogg")
+		sndWOP:Cancel("ghostsoon")
 		self:NextPhase()
 	elseif args.spellId == 70372 then -- Shambling Horror
 		warnShamblingSoon:Cancel()
@@ -225,33 +225,33 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 70498 then -- Vile Spirits
 		warnSummonVileSpirit:Show()
 		timerVileSpirit:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\killspirit.ogg")
+		sndWOP:Play("killspirit")
 	elseif args.spellId == 70541 then -- Infest
 		warnInfest:Show()
 		specWarnInfest:Show()
 		timerInfestCD:Start()
-		sndWOP:Schedule(16.5, DBM.SoundMMPath.."\\infestsoon.ogg")
+		sndWOP:Schedule(16.5, "infestsoon")
 		countdownInfest:Start()
 	elseif args.spellId == 72762 then -- Defile
 		self:BossTargetScanner(36597, "DefileTarget", 0.02, 15)
 		warnDefileSoon:Cancel()
 		warnDefileSoon:Schedule(27)
 		timerDefileCD:Start()
-		sndWOP:Schedule(27, DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Schedule(27, "defilesoon")
 	elseif args.spellId == 73539 then -- Shadow Trap (Heroic)
 		self:BossTargetScanner(36597, "TrapTarget", 0.02, 15)
 		timerTrapCD:Start()
 	elseif args.spellId == 73650 then -- Restore Soul (Heroic)
 		warnRestoreSoul:Show()
 		timerRestoreSoul:Start()
-		sndWOP:Schedule(37, DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Schedule(37, "defilesoon")
 	elseif args.spellId == 72350 then -- Fury of Frostmourne
 		self:SetWipeTime(190)--Change min wipe time mid battle to force dbm to keep module loaded for this long out of combat roleplay
 		timerRoleplay:Start()
 		timerVileSpirit:Cancel()
 		timerSoulreaperCD:Cancel()
 		timerDefileCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Cancel("defilesoon")
 		timerHarvestSoulCD:Cancel()
 		berserkTimer:Cancel()
 		warnDefileSoon:Cancel()
@@ -266,7 +266,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerNecroticPlagueCleanse:Start()
 		if args:IsPlayer() then
 			specWarnNecroticPlague:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\infect.ogg")
+			sndWOP:Play("infect")
 		end
 		if self.Options.NecroticPlagueIcon then
 			self:SetIcon(args.destName, 5, 5)
@@ -286,10 +286,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if phase == 1 then
 			timerRagingSpiritCD:Start()
-			sndWOP:Schedule(20, DBM.SoundMMPath.."\\ghostsoon.ogg")
+			sndWOP:Schedule(20, "ghostsoon")
 		else
 			timerRagingSpiritCD:Start(17)
-			sndWOP:Schedule(15, DBM.SoundMMPath.."\\ghostsoon.ogg")
+			sndWOP:Schedule(15, "ghostsoon")
 		end
 		if self.Options.RagingSpiritIcon then
 			self:SetIcon(args.destName, 7, 5)
@@ -299,7 +299,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerHarvestSoul:Start(args.destName)
 		timerHarvestSoulCD:Start()
 		if mod:IsHealer() and (mod:IsDifficulty("normal10") or mod:IsDifficulty("normal25")) then
-			sndWOP:Play(DBM.SoundMMPath.."\\harvestsoul.ogg")
+			sndWOP:Play("harvestsoul")
 		end
 		if args:IsPlayer() then
 			specWarnHarvestSoul:Show()
@@ -313,7 +313,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerSoulreaperCD:Cancel()
 		timerDefileCD:Cancel()
 		warnDefileSoon:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Cancel("defilesoon")
 		self:SetWipeTime(50)--We set a 45 sec min wipe time to keep mod from ending combat if you die while rest of raid is in frostmourn
 		self:ScheduleMethod(50, "RestoreWipeTime")
 	end
@@ -331,10 +331,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 72143 then -- Shambling Horror enrage effect.
 		warnShamblingEnrage:Show(args.destName)
 		timerEnrageCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\enrage.ogg")
+		sndWOP:Play("enrage")
 	elseif args.spellId == 72754 and args:IsPlayer() and self:AntiSpam(2, 1) then		-- Defile Damage
 		specWarnDefile:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif args.spellId == 73650 and self:AntiSpam(3, 2) then		-- Restore Soul (Heroic)
 		timerHarvestSoulCD:Start(60)
 		timerVileSpirit:Start(10)--May be wrong too but we'll see, didn't have enough log for this one.
@@ -387,8 +387,8 @@ do
 		if args.spellId == 69037 then -- Summon Val'kyr
 			if time() - lastValk > 15 then -- show the warning and timer just once for all three summon events
 				warnSummonValkyr:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\killvalkyr.ogg")
-				sndWOP:Schedule(41, DBM.SoundMMPath.."\\valkysoon.ogg")
+				sndWOP:Play("killvalkyr")
+				sndWOP:Schedule(41, "valkysoon")
 				timerSummonValkyr:Start()
 				lastValk = time()
 				scanValkyrTargets()
@@ -433,11 +433,11 @@ function mod:UNIT_HEALTH(uId)
 	if phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 36597 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.73 then
 		warned_preP2 = true
 		warnPhase2Soon:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")
+		sndWOP:Play("phasechange")
 	elseif phase == 2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 36597 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.43 then
 		warned_preP3 = true
 		warnPhase3Soon:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")
+		sndWOP:Play("phasechange")
 	end
 end
 
@@ -454,21 +454,21 @@ function mod:NextPhase()
 		end
 	elseif phase == 2 then
 		timerSummonValkyr:Start(20)
-		sndWOP:Schedule(16, DBM.SoundMMPath.."\\valkysoon.ogg")
+		sndWOP:Schedule(16, "valkysoon")
 		timerSoulreaperCD:Start(40)
 		timerDefileCD:Start(38)
 		timerInfestCD:Start(14)
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\infestsoon.ogg")
+		sndWOP:Schedule(8, "infestsoon")
 		countdownInfest:Start(14)
 		warnDefileSoon:Schedule(33)
-		sndWOP:Schedule(33, DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Schedule(33, "defilesoon")
 	elseif phase == 3 then
 		timerVileSpirit:Start(20)
 		timerSoulreaperCD:Start(40)
 		timerDefileCD:Start(38)
 		timerHarvestSoulCD:Start(14)
 		warnDefileSoon:Schedule(33)
-		sndWOP:Schedule(34, DBM.SoundMMPath.."\\defilesoon.ogg")
+		sndWOP:Schedule(34, "defilesoon")
 	end
 end
 

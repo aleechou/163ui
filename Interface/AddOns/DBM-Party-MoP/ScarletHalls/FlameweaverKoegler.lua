@@ -51,14 +51,14 @@ function mod:SPELL_CAST_START(args)
 		warnPyroblast:Show()
 		specWarnPyroblast:Show(args.sourceName)
 		if (not quickcast) then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--打斷施法
+			sndWOP:Play("kickcast")--打斷施法
 		end
 		timerPyroblastCD:Start()
 	elseif args.spellId == 113691 then
 		warnFireballVolley:Show()
 		specWarnFireballVolley:Show(args.sourceName)
 		if (not quickcast) then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--打斷施法
+			sndWOP:Play("kickcast")--打斷施法
 		end
 --		timerFireballVolleyCD:Start()
 	elseif args.spellId == 113364 then
@@ -80,7 +80,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 113682 and not args:IsDestTypePlayer() then
 		specWarnQuickenedMind:Show(args.destName)
 		if mod:IsMagicDispeller() then
-			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")--快驅散
+			sndWOP:Play("dispelnow")--快驅散
 		end
 		quickcast = true
 --		timerQuickenedMindCD:Start()
@@ -101,7 +101,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 113620 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnBook:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

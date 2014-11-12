@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1148, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
+local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11708 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11836 $"):sub(12, -3))
 mod:SetCreatureID(78238, 78237)--Pol 78238, Phemos 78237
 mod:SetEncounterID(1719)
 mod:SetZone()
@@ -18,6 +19,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, figure out stack tanks swap at for Arcane Wound(or if they can avoid swapping somehow). (bugged, there were no swapps on mythic, in fact tank debuff was irrelevant
+--TODO, see if whirlwind is always 60 60 86, repeating, and if my hack that checks quake timer is even needed
 --Phemos
 local warnEnfeeblingroar			= mod:NewCountAnnounce(158057, 3)
 local warnWhirlwind					= mod:NewCountAnnounce(157943, 3)
@@ -82,6 +84,10 @@ function mod:OnCombatStart(delay)
 	countdownPhemos:Start(11.5-delay)
 	timerShieldChargeCD:Start(37.5-delay)--Variable on pull
 	countdownPol:Start(37.5-delay)
+	Yike:Schedule(31-delay, "158134")
+	timerWhirlwindCD:Start(45-delay, 1)
+	countdownWW:Start(45-delay)
+	Yike:Schedule(38.5-delay, "157943")
 	if self:IsMythic() then
 		timerArcaneVolatilityCD:Start(65-delay)
 	end
@@ -95,6 +101,12 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
+	Yike:Cancel("158134")
+	Yike:Cancel("158093")
+	Yike:Cancel("157952")
+	Yike:Cancel("157943")
+	Yike:Cancel("158057")
+	Yike:Cancel("158200")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -106,10 +118,12 @@ function mod:SPELL_CAST_START(args)
 		if (self.vb.QuakeCount+1) % 2 == 0 then--Even ones have longer Cd than odds
 			timerQuakeCD:Start(39, self.vb.QuakeCount+1)--Next Special
 			countdownPhemos:Start(39)
+			Yike:Schedule(32.5, "158200")
 			DBM:Debug("Activating Quake Delay, next quake is an even one")
 		else
 			timerQuakeCD:Start(33, self.vb.QuakeCount+1)--Next Special
-			countdownPhemos:Start(33)	
+			countdownPhemos:Start(33)
+			Yike:Schedule(26.5, "158200")	
 		end
 	elseif spellId == 157943 then
 		self.vb.WWCount = self.vb.WWCount + 1
@@ -122,24 +136,29 @@ function mod:SPELL_CAST_START(args)
 			nextQuakeTime = 100
 		end
 		local timeRemaining = nextQuakeTime - (GetTime() - self.vb.LastQuake)
-		if timeRemaining < 60 then--Quake failsafe will activate and delay Whirlwind
-			timerWhirlwindCD:Start(timeRemaining+33, self.vb.WWCount+1)--Next Special
-			countdownWW:Start(timeRemaining+33)
-			DBM:Debug("Activating Whirlwind Delay, quake is less than 60 seconds away")
+		if timeRemaining < 60 and timeRemaining > 45 then--Quake failsafe will activate and delay Whirlwind
+			timerWhirlwindCD:Start(timeRemaining+34, self.vb.WWCount+1)--Next Special
+			countdownWW:Start(timeRemaining+34)
+			Yike:Schedule(timeRemaining+28.5, "157943")
+			DBM:Debug("Activating Whirlwind Delay, quake is less than 50 seconds away")
 		else
 			timerWhirlwindCD:Start(nil, self.vb.WWCount+1)--Next Special
-			countdownWW:Start()
+			--countdownWW:Start()
+			countdownPhemos:Start()
+			Yike:Schedule(26.5, "158057")  --Here is a bug. No idea.
 		end
 	elseif spellId == 158134 then
 		warnShieldCharge:Show()
 		specWarnShieldCharge:Show()
 		timerInterruptingShoutCD:Start()--Next Special
 		countdownPol:Start()
+		Yike:Schedule(21.5, "158093")
 	elseif spellId == 158093 then
 		warnInterruptingShout:Show()
 		specWarnInterruptingShout:Show()
 		timerPulverizeCD:Start()--Next Special
 		countdownPol:Start()
+		Yike:Schedule(21.5, "157952")
 	elseif spellId == 158200 then
 		self.vb.LastQuake = GetTime()
 		self.vb.QuakeCount = self.vb.QuakeCount + 1
@@ -147,6 +166,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnQuake:Show(self.vb.QuakeCount)
 		timerEnfeeblingRoarCD:Start(nil, self.vb.EnfeebleCount+1)--Next Special
 		countdownPhemos:Start(66)
+		Yike:Schedule(59.5, "157943")
 	elseif args:IsSpellID(157952, 158415, 158419) then--Pulverize channel IDs
 		self.vb.PulverizeCount = self.vb.PulverizeCount + 1
 		warnPulverize:Show(self.vb.PulverizeCount)
@@ -184,6 +204,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end--]]
 	elseif spellId == 158241 and args:IsPlayer() and self:AntiSpam(2, 3) then
 		specWarnBlaze:Show()
+		Yike:Play("runaway")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -202,5 +223,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnPulverize:Show()
 		timerShieldChargeCD:Start()--Next Special
 		countdownPol:Start(28)
+		Yike:Schedule(21.5, "158134")
 	end
 end

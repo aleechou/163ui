@@ -1,5 +1,6 @@
 local mod	= DBM:NewMod(971, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
+local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11751 $"):sub(12, -3))
 mod:SetCreatureID(77404)
@@ -55,6 +56,7 @@ function mod:OnCombatStart(delay)
 	timerCleaverCD:Start(12-delay)
 	timerBoundingCleaveCD:Start(-delay)
 	countdownBoundingCleave:Start(-delay)
+	Yike:Schedule(53.5-delay, "156160r")
 	if self:IsMythic() then
 		berserkTimer:Start(240-delay)
 		self:RegisterShortTermEvents(
@@ -78,6 +80,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.cleaveCount = self.vb.cleaveCount + 1
 		warnCleave:Show(self.vb.cleaveCount)
 		timerCleaveCD:Start()
+		Yike:Play("156157")
 	end
 end
 
@@ -89,11 +92,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount > 1 then
 			specWarnGushingWounds:Show(amount)
 		end
+		if amount > 3 then
+			Yike:Play("runout")
+		end	
 	elseif spellId == 156151 then
 		local amount = args.amount or 1
 		warnTenderizer:Show(args.destName, amount)
 		timerTenderizerCD:Start()
 		if amount >= 2 then
+			Yike:Play("changemt")
 			if args:IsPlayer() then
 				specWarnTenderizer:Show(amount)
 			else
@@ -105,6 +112,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 156598 then
 		self.vb.isFrenzied = true
 		warnFrenzy:Show(args.destName)
+		Yike:Play("frenzy")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -126,8 +134,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		--Timer for when regular cleave resumes
 		if self.vb.isFrenzied then
 			timerCleaveCD:Start(5)
+			Yike:Play("gather")
+			Yike:Schedule(1, "countfour")
+			Yike:Schedule(2, "countthree")
+			Yike:Schedule(3, "counttwo")
+			Yike:Schedule(4, "countone")
 		else
 			timerCleaveCD:Start(11)
+			Yike:Schedule(6, "gather")
+			Yike:Schedule(7, "countfour")
+			Yike:Schedule(8, "countthree")
+			Yike:Schedule(9, "counttwo")
+			Yike:Schedule(10, "countone")
 		end
 		--Update bounding cleave timer
 		local bossPower = UnitPower("boss1")
@@ -158,10 +176,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			timerBoundingCleave:Start(5)
 			timerBoundingCleaveCD:Start(30, self.vb.boundingCleave+1)
 			countdownBoundingCleave:Start(30)
+			Yike:Schedule(23.5, "156160r")
 		else
 			timerBoundingCleave:Start(9)
 			timerBoundingCleaveCD:Start(nil, self.vb.boundingCleave+1)
 			countdownBoundingCleave:Start(60)
+			Yike:Schedule(53.5, "156160r")
 		end
 	end
 end

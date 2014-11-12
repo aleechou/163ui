@@ -36,7 +36,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSapResidue:Start()
 		if (args.amount or 1) >= 6 and self:AntiSpam(1, 2) then
 			specWarnSapResidue:Show(args.amount)
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 		end
 	end
 end
@@ -46,11 +46,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 120001 then
 		warnDetonate:Show()
 		specWarnDetonate:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")--準備AE
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("aesoon")--準備AE
+		sndWOP:Schedule(1.5, "countfour")
+		sndWOP:Schedule(2.5, "countthree")
+		sndWOP:Schedule(3.5, "counttwo")
+		sndWOP:Schedule(4.5, "countone")
 		timerDetonate:Start()
 		timerDetonateCD:Start()
 	end

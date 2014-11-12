@@ -85,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 	if args.spellId == 119922 then
 		warnShockwave:Show()
 		specWarnShockwave:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\shockwave.ogg")--震懾波
+		sndWOP:Play("shockwave")--震懾波
 		timerShockwaveCD:Start(shockwaveCD)
 	elseif args.spellId == 119981 then
 		warnWhirlingDervish:Show()
@@ -102,10 +102,10 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		warnMeteor:Show(target)
 		specWarnMeteor:Show(target)
 		if target == UnitName("player") then
-			sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg")--快回人群
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("runin")--快回人群
+			sndWOP:Schedule(1.5, "countthree")
+			sndWOP:Schedule(2.5, "counttwo")
+			sndWOP:Schedule(3.5, "countone")
 		end
 		timerMeteorCD:Start()
 	end
@@ -169,7 +169,7 @@ Notes
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 120101 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnCC:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

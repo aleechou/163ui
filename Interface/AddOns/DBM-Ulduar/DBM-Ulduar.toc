@@ -15,7 +15,6 @@
 ## X-DBM-Mod-No-Heroic: 1
 ## X-DBM-Mod-MapID: 603
 ## X-DBM-Mod-Sort: 204
-## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.de.lua
 localization.fr.lua
@@ -40,3 +39,4 @@ Hodir.lua
 GeneralVezax.lua
 YoggSaron.lua
 Algalon.lua
+## X-163UI-Version: 2014111202

@@ -41,7 +41,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)--120037 is a weak version of same spell by exit points, 115219 is the 50k per second icewall that will most definitely wipe your group if it consumes the room cause you're dps sucks.
 	if (spellId == 120037 or spellId == 115219) and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnIceWave:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 
@@ -51,7 +51,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerFrigidGrasp:Start()
 --	"<330.7> Phylactery [[boss2:Summon Books::0:111669]]"
 	elseif spellId == 111669 and self:AntiSpam(2, 3) then
-		sndWOP:Play(DBM.SoundMMPath.."\\phasechange.ogg")--階段轉換
+		sndWOP:Play("phasechange")--階段轉換
 		warnPhase2:Show()
 		timerFrigidGrasp:Cancel()
 		timerBerserk:Cancel()

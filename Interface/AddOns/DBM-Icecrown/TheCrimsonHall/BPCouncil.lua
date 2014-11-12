@@ -94,7 +94,7 @@ function mod:ShockVortexTarget(targetname, uId)
 	warnShockVortex:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnVortex:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		yellVortex:Yell()
 	else
 		if uId then
@@ -106,7 +106,7 @@ function mod:ShockVortexTarget(targetname, uId)
 			end
 			if inRange then
 				specWarnVortexNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 				if self.Options.VortexArrow then
 					DBM.Arrow:ShowRunAway(x, y, 10, 5)
 				end
@@ -139,7 +139,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(37970, "ShockVortexTarget", 0.05, 6)
 	elseif args.spellId == 72039 then
 		warnEmpoweredShockVortex:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\powervortex.ogg")
+		sndWOP:Play("powervortex")
 		specWarnEmpoweredShockV:Show()
 		timerShockVortex:Start()
 	elseif args.spellId == 71718 then	-- Conjure Flames
@@ -147,7 +147,7 @@ function mod:SPELL_CAST_START(args)
 		timerConjureFlamesCD:Start()
 	elseif args.spellId == 72040 then	-- Conjure Empowered Flames
 		warnEmpoweredFlamesCast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\powerflame.ogg")
+		sndWOP:Play("powerflame")
 		timerConjureFlamesCD:Start()
 	end
 end
@@ -157,7 +157,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		activePrince = args.destGUID
 		if self:IsInCombat() then
 			warnTargetSwitch:Show(L.Valanar)
-			sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")
+			sndWOP:Play("changetarget")
 			warnTargetSwitchSoon:Schedule(42)
 			timerTargetSwitch:Start()
 			if self.Options.RangeFrame then
@@ -166,7 +166,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 70981 and self:IsInCombat() then
 		warnTargetSwitch:Show(L.Keleseth)
-		sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")
+		sndWOP:Play("changetarget")
 		warnTargetSwitchSoon:Schedule(42)
 		timerTargetSwitch:Start()
 		activePrince = args.destGUID
@@ -175,7 +175,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args.spellId == 70982 and self:IsInCombat() then
 		warnTargetSwitch:Show(L.Taldaram)
-		sndWOP:Play(DBM.SoundMMPath.."\\changetarget.ogg")
+		sndWOP:Play("changetarget")
 		warnTargetSwitchSoon:Schedule(42)
 		timerTargetSwitch:Start()
 		activePrince = args.destGUID
@@ -188,7 +188,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if (args.amount or 1) >= 6 then	--Placeholder right now, might use a different value
 				specWarnShadowPrison:Show(args.amount)
 				if args.amount == 6 or args.amount == 9 or args.amount == 12 or args.amount == 15 then
-					sndWOP:Play(DBM.SoundMMPath.."\\stopmove.ogg")
+					sndWOP:Play("stopmove")
 				end
 			end
 		end
@@ -215,7 +215,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		if target == UnitName("player") then
 			specWarnEmpoweredFlames:Show()
 --			soundEmpoweredFlames:Play()
-			sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg")
+			sndWOP:Play("justrun")
 		end
 		if self.Options.EmpoweredFlameIcon then
 			self:SetIcon(target, 7, 10)
@@ -243,6 +243,6 @@ function mod:OnSync(msg)
 		else
 			timerKineticBombCD:Start()
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\bombsoon.ogg")
+		sndWOP:Play("bombsoon")
 	end
 end

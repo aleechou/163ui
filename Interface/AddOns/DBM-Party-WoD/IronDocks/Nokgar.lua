@@ -29,10 +29,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 164426 then
 		warnRecklessProvocation:Show(args.destName)
 		specWarnRecklessProvocation:Show(args.destName)
-		sndWOP:Play(DBM.SoundMMPath.."\\stopattack.ogg")
-		sndWOP:Schedule(2, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("stopattack")
+		sndWOP:Schedule(2, "countthree")
+		sndWOP:Schedule(3, "counttwo")
+		sndWOP:Schedule(4, "countone")
 		--may be attack boss
 	elseif args.spellId == 164835 then
 		warnEnrage:CombinedShow(0.3, args.destName)

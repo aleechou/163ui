@@ -36,19 +36,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 107268 then
 		warnSabotage:Show(args.destName)
 		timerSabotage:Start(args.destName)
-		sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(1.5, "countfour")
+		sndWOP:Schedule(2.5, "countthree")
+		sndWOP:Schedule(3.5, "counttwo")
+		sndWOP:Schedule(4.5, "countone")
 		timerSabotageCD:Start()
 		if self.Options.IconOnSabotage then
 			self:SetIcon(args.destName, 8)
 		end
 		if args:IsPlayer() then
 			specWarnSabotage:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")--跑開人群
+			sndWOP:Play("runout")--跑開人群
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\bombsoon.ogg")--準備炸彈
+			sndWOP:Play("bombsoon")--準備炸彈
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
 				local inRange = DBM.RangeCheck:GetDistance("player", uId)

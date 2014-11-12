@@ -4,7 +4,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55294)
-mod:SetModelSound("sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_INTRO_01.OGG", "sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_AGGRO_01.OGG")
+mod:SetModelSound("sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_INTRO_01.OGG", "sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_AGGRO_01")
 mod:SetZone()
 mod:SetUsedIcons()
 
@@ -63,7 +63,7 @@ local function warnFadingLightTargets()
 	warnFadingLight:Show(fadingLightCount, table.concat(fadingLightTargets, "<, >"))
 	if not lightme then
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end
 	end
 	table.wipe(fadingLightTargets)
@@ -101,33 +101,33 @@ function mod:SPELL_CAST_START(args)
 		end
 		warnHourofTwilightSoon:Schedule(30.5)
 		if hourOfTwilightCount == 1 and self.Options.holditHoT1 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 2 and self.Options.holditHoT2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 3 and self.Options.holditHoT3 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 4 and self.Options.holditHoT4 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 5 and self.Options.holditHoT5 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 6 and self.Options.holditHoT6 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif hourOfTwilightCount == 7 and self.Options.holditHoT7 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		else		
-			sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\twilighttime.ogg")
+			sndWOP:Play("twilighttime")
 		end
 		timerHourofTwilightCD:Start(45.5, hourOfTwilightCount+1)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerFadingLightCD:Start(13)
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(2, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(1, "countthree")
+			sndWOP:Schedule(2, "counttwo")
+			sndWOP:Schedule(3, "countone")
 		else
 			timerFadingLightCD:Start(20)
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(2.5, "countthree")
+			sndWOP:Schedule(3.5, "counttwo")
+			sndWOP:Schedule(4.5, "countone")
 		end
 	elseif args:IsSpellID(106388) then
 		specWarnTwilightEruption:Show()
@@ -147,10 +147,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if (args:IsPlayer() or UnitDebuff("player", GetSpellInfo(105925))) and self:AntiSpam(2) then
 			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
 			specWarnFadingLight:Show()
-			sndWOP:Schedule(duration - 5, DBM.SoundMMPath.."\\clickbravo.ogg")
-			sndWOP:Schedule(duration - 3, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(duration - 2, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(duration - 1, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(duration - 5, "clickbravo")
+			sndWOP:Schedule(duration - 3, "countthree")
+			sndWOP:Schedule(duration - 2, "counttwo")
+			sndWOP:Schedule(duration - 1, "countone")
 			timerFadingLight:Start(duration)
 			lightme = true
 		else
@@ -167,10 +167,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if (args:IsPlayer() or UnitDebuff("player", GetSpellInfo(109075))) and self:AntiSpam(2) then
 			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
 			specWarnFadingLight:Show()
-			sndWOP:Schedule(duration - 5, DBM.SoundMMPath.."\\clickbravo.ogg")
-			sndWOP:Schedule(duration - 3, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(duration - 2, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(duration - 1, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(duration - 5, "clickbravo")
+			sndWOP:Schedule(duration - 3, "countthree")
+			sndWOP:Schedule(duration - 2, "counttwo")
+			sndWOP:Schedule(duration - 1, "countone")
 			timerFadingLight:Start(duration)
 			lightme = true
 		else
@@ -187,11 +187,11 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find(redbuff) then
-		sndWOP:Play(DBM.SoundMMPath.."\\redessence.ogg")
+		sndWOP:Play("redessence")
 	elseif msg:find(greenbuff) then
-		sndWOP:Play(DBM.SoundMMPath.."\\greenessence.ogg")
+		sndWOP:Play("greenessence")
 	elseif msg:find(bluebuff) then
-		sndWOP:Play(DBM.SoundMMPath.."\\blueessence.ogg")
+		sndWOP:Play("blueessence")
 	end
 end
 

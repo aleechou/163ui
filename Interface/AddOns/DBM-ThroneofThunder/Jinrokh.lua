@@ -106,11 +106,11 @@ function mod:OnCombatStart(delay)
 		timerIonizationCD:Start(60-delay)
 --BH DELETE	countdownIonization:Start(60-delay)
 		berserkTimer:Start(360-delay)
-		sndIonCD:Schedule(56, DBM.SoundMMPath.."\\ex_tt_dlzb.ogg")
-		sndIonCD:Schedule(57, DBM.SoundMMPath.."\\countfour.ogg")
-		sndIonCD:Schedule(58, DBM.SoundMMPath.."\\countthree.ogg")
-		sndIonCD:Schedule(59, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndIonCD:Schedule(60, DBM.SoundMMPath.."\\countone.ogg")
+		sndIonCD:Schedule(56, "ex_tt_dlzb")
+		sndIonCD:Schedule(57, "countfour")
+		sndIonCD:Schedule(58, "countthree")
+		sndIonCD:Schedule(59, "counttwo")
+		sndIonCD:Schedule(60, "countone")
 	else
 		berserkTimer:Start(-delay)
 	end
@@ -133,42 +133,42 @@ function mod:SPELL_CAST_START(args)
 		timerStaticBurstCD:Start(20.5)
 		timerThrowCD:Start()
 		--BH ADD
-		sndWOP:Cancel(DBM.SoundMMPath.."\\ex_tt_sdfbzb.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Cancel("ex_tt_sdfbzb")
+		sndWOP:Cancel("countfour")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
 		stormcount = stormcount + 1
 		if stormcount == 1 then
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(1, "countone")
 		elseif stormcount == 2 then
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\counttwo.ogg")
+			sndWOP:Schedule(1, "counttwo")
 		elseif stormcount == 3 then
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countthree.ogg")
+			sndWOP:Schedule(1, "countthree")
 		elseif stormcount == 4 then
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\countfour.ogg")
+			sndWOP:Schedule(1, "countfour")
 		end
 		if MyJS1() then
 			specWarnJSA:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Play("defensive") --注意減傷
 		else
 			specWarnStorm:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\lightstorm.ogg") --閃電風暴
+			sndWOP:Play("lightstorm") --閃電風暴
 		end
 		if MyJS2() then
 			specWarnJSA:Schedule(5)
-			sndWOP:Schedule(5, DBM.SoundMMPath.."\\defensive.ogg")
+			sndWOP:Schedule(5, "defensive")
 		end		
-		sndWOP:Schedule(15, DBM.SoundMMPath.."\\ex_tt_fbjs.ogg") --風暴結束
+		sndWOP:Schedule(15, "ex_tt_fbjs") --風暴結束
 		--BH ADD END		
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerIonizationCD:Start()
 --BH DELETE		countdownIonization:Start()
-			sndIonCD:Schedule(56, DBM.SoundMMPath.."\\ex_tt_dlzb.ogg")
-			sndIonCD:Schedule(57, DBM.SoundMMPath.."\\countfour.ogg")
-			sndIonCD:Schedule(58, DBM.SoundMMPath.."\\countthree.ogg")
-			sndIonCD:Schedule(59, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndIonCD:Schedule(60, DBM.SoundMMPath.."\\countone.ogg")
+			sndIonCD:Schedule(56, "ex_tt_dlzb")
+			sndIonCD:Schedule(57, "countfour")
+			sndIonCD:Schedule(58, "countthree")
+			sndIonCD:Schedule(59, "counttwo")
+			sndIonCD:Schedule(60, "countone")
 		end
 	elseif args.spellId == 138732 then
 		warnIonization:Show()
@@ -194,7 +194,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnStaticBurstOther:Show(args.destName)
 		end
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+			sndWOP:Play("changemt") --換坦嘲諷
 		end
 	elseif args.spellId == 137422 and scanFailed then--Use cleu target if scanning is failed (slower than target scanning)
 		scanFailed = false
@@ -210,13 +210,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 		inoizame = true
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_dlzh.ogg") --電離子化
+		sndWOP:Play("ex_tt_dlzh") --電離子化
 		if self.Options.SoundWOPIonM then
 			self:Schedule(7, function() DBM.Flash:Shake(1, 0, 0) end)
 			self:Schedule(7.5, function() DBM.Flash:Shake(0, 0, 1) end)
 			self:Schedule(8, function() DBM.Flash:Shake(1, 0, 0) end)
-			sndIon:Schedule(7, DBM.SoundMMPath.."\\runout.ogg")
-			sndIon:Schedule(8, DBM.SoundMMPath.."\\runout.ogg")
+			sndIon:Schedule(7, "runout")
+			sndIon:Schedule(8, "runout")
 		else			
 			self:Schedule(16, function()
 				if UnitDebuff("player", GetSpellInfo(138732)) then
@@ -225,14 +225,14 @@ function mod:SPELL_AURA_APPLIED(args)
 					self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
 				end
 			 end)
-			sndIon:Schedule(16, DBM.SoundMMPath.."\\runout.ogg")	--離開人群
-			sndIon:Schedule(17, DBM.SoundMMPath.."\\runout.ogg")
-			sndIon:Schedule(18.5, DBM.SoundMMPath.."\\countsix.ogg")
-			sndIon:Schedule(19.5, DBM.SoundMMPath.."\\countfive.ogg")
-			sndIon:Schedule(20.5, DBM.SoundMMPath.."\\countfour.ogg")
-			sndIon:Schedule(21.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndIon:Schedule(22.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndIon:Schedule(23.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndIon:Schedule(16, "runout")	--離開人群
+			sndIon:Schedule(17, "runout")
+			sndIon:Schedule(18.5, "countsix")
+			sndIon:Schedule(19.5, "countfive")
+			sndIon:Schedule(20.5, "countfour")
+			sndIon:Schedule(21.5, "countthree")
+			sndIon:Schedule(22.5, "counttwo")
+			sndIon:Schedule(23.5, "countone")
 		end
 		--BH MODIFY END
 	end
@@ -250,15 +250,15 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
-		sndIon:Cancel(DBM.SoundMMPath.."\\runout.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndIon:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndIon:Play(DBM.SoundMMPath.."\\safenow.ogg")
+		sndIon:Cancel("runout")
+		sndIon:Cancel("countseven")
+		sndIon:Cancel("countsix")
+		sndIon:Cancel("countfive")
+		sndIon:Cancel("countfour")
+		sndIon:Cancel("countthree")
+		sndIon:Cancel("counttwo")
+		sndIon:Cancel("countone")
+		sndIon:Play("safenow")
 	elseif args.spellId == 137422 and args:IsPlayer() then
 		focusme = false
 		if self.Options.RangeFrame then
@@ -279,7 +279,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 138006 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnElectrifiedWaters:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -288,7 +288,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 137485 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnLightningCrack:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -299,12 +299,12 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		local target = DBM:GetUnitFullName(target)
 		warnThrow:Show(target)
 		timerStormCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_lttz.ogg") --雷霆投擲
-		sndWOP:Schedule(55, DBM.SoundMMPath.."\\ex_tt_sdfbzb.ogg") -- 閃電風暴準備
-		sndWOP:Schedule(56.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(57.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(58.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(59.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("ex_tt_lttz") --雷霆投擲
+		sndWOP:Schedule(55, "ex_tt_sdfbzb") -- 閃電風暴準備
+		sndWOP:Schedule(56.5, "countfour")
+		sndWOP:Schedule(57.5, "countthree")
+		sndWOP:Schedule(58.5, "counttwo")
+		sndWOP:Schedule(59.5, "countone")
 		if target == UnitName("player") then
 			specWarnThrow:Show()
 		else
@@ -323,6 +323,6 @@ function mod:RAID_BOSS_WHISPER(msg)
 		end
 		focusme = true
 		DBM.Flash:Shake(1, 0, 0)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_sddn.ogg") --閃電點你
+		sndWOP:Play("ex_tt_sddn") --閃電點你
 	end
 end

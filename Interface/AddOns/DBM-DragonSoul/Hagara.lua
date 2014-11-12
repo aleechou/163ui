@@ -87,7 +87,7 @@ function mod:ShatteredIceTarget()
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerShatteringCD:Start(15)
 		if self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.ogg")
+			sndWOP:Schedule(12, "shattericesoon")
 		end
 	else
 		timerShatteringCD:Start()
@@ -169,7 +169,7 @@ local function warnTombTargets()
 	warnFrostTomb:Show(table.concat(tombTargets, "<, >"))
 	specWarnFrostTombCast:Show()
 	if not mod:IsHealer() then
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\killicetomb.ogg")
+		sndWOP:Play("killicetomb")
 	end
 	table.wipe(tombTargets)
 end
@@ -196,7 +196,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args:IsSpellID(109557, 109541) then
 		warnStormPillars:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\stormpillar.ogg")
+		sndWOP:Play("stormpillar")
 	end
 end	
 
@@ -224,14 +224,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		assaultCount = assaultCount + 1
 		warnAssault:Show(assaultCount)
 		specWarnAssault:Show()
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\"..GetLocale().."\\focusattack.ogg")
+		sndWOP:Play("focusattack")
 		if (firstPhase and assaultCount < 2) or (not firstPhase and assaultCount < 3) then
 			timerAssaultCD:Start(nil, assaultCount+1)
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.ogg")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.ogg")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.ogg")
+			sndWOP:Schedule(12, "countthree")
+			sndWOP:Schedule(13, "counttwo")
+			sndWOP:Schedule(14, "countone")
 		end
 	elseif args:IsSpellID(110317) then
 		if args:IsPlayer() then
@@ -242,7 +242,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if UnitDebuff(args.destName, GetSpellInfo(109325)) then
 			if self:IsHealer() then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\dispelnow.ogg")
+				sndWOP:Play("dispelnow")
 			end
 			if self.Options.SetIconOnFrostflake then
 				self:SetIcon(args.destName, dispelIcon)
@@ -263,7 +263,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnFrostflake:Show()
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\frostflake.ogg")
+			sndWOP:Play("frostflake")
 			yellFrostflake:Yell()
 		end
 	end
@@ -274,7 +274,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if (args.amount or 0) == 3 or (args.amount or 0) == 5 or (args.amount or 0) == 7 or (args.amount or 0) == 9 then
 			specWarnIceLance:Show(args.amount or 1)
 			if not igotlance then
-				sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\awayline.ogg")
+				sndWOP:Play("awayline")
 			else
 				SendChatMessage(L.YellIceLance, "SAY")
 			end
@@ -294,13 +294,13 @@ function mod:SPELL_AURA_REMOVED(args)
 			SetCVar("chatBubblesParty", 0)
 			CVAR2 = true
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\shieldoff.ogg")
+		sndWOP:Play("shieldoff")
 		timerIceLanceCD:Start(12)
 		timerFeedback:Start()
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerShatteringCD:Start(20)
 			if self:IsHealer() then
-				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.ogg")
+				sndWOP:Schedule(17, "shattericesoon")
 			end
 		else
 			timerShatteringCD:Start(17)		
@@ -313,9 +313,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		assaultCount = 0
 		timerAssaultCD:Start(nil, 1)
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.ogg")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.ogg")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.ogg")
+			sndWOP:Schedule(12, "countthree")
+			sndWOP:Schedule(13, "counttwo")
+			sndWOP:Schedule(14, "countone")
 		end
 		timerLightningStormCD:Start()
 	elseif args:IsSpellID(105311) then--Frost defeated.
@@ -333,13 +333,13 @@ function mod:SPELL_AURA_REMOVED(args)
 			SetCVar("chatBubblesParty", 0)
 			CVAR2 = true
 		end
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\shieldoff.ogg")
+		sndWOP:Play("shieldoff")
 		timerIceLanceCD:Start(12)
 		timerFeedback:Start()
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerShatteringCD:Start(20)
 			if self:IsHealer() then
-				sndWOP:Schedule(17, "Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.ogg")
+				sndWOP:Schedule(17, "shattericesoon")
 			end
 		else
 			timerShatteringCD:Start(17)		
@@ -352,9 +352,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		assaultCount = 0
 		timerAssaultCD:Start(nil, 1)
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Schedule(12, "Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.ogg")
-			sndWOP:Schedule(13, "Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.ogg")
-			sndWOP:Schedule(14, "Interface\\AddOns\\DBM-Core\\extrasounds\\countone.ogg")
+			sndWOP:Schedule(12, "countthree")
+			sndWOP:Schedule(13, "counttwo")
+			sndWOP:Schedule(14, "countone")
 		end
 		timerTempestCD:Start()
 		if self.Options.RangeFrame and not self:IsDifficulty("lfr25") then
@@ -365,7 +365,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\safenow.ogg")
+			sndWOP:Play("safenow")
 		end
 	end
 end
@@ -373,7 +373,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(104448) then
 		warnFrostTombCast:Show(args.spellName)
-		sndWOP:Play("Interface\\AddOns\\DBM-Core\\extrasounds\\icetombsoon.ogg")
+		sndWOP:Play("icetombsoon")
 		timerFrostTomb:Start()
 	elseif args:IsSpellID(105256) then
 		if self.Options.SetBubbles and not GetCVarBool("chatBubbles") and CVAR then--Only turn them back on if they are off now, but were on when we pulled
@@ -389,12 +389,12 @@ function mod:SPELL_CAST_START(args)
 		timerIceLanceCD:Cancel()
 		timerShatteringCD:Cancel()
 		if self:IsHealer() and self:IsDifficulty("heroic10", "heroic25") then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.ogg")
+			sndWOP:Cancel("shattericesoon")
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countone.ogg")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 		end
 		warnTempest:Show()
 		specWarnTempest:Show()
@@ -416,12 +416,12 @@ function mod:SPELL_CAST_START(args)
 		timerIceLanceCD:Cancel()
 		timerShatteringCD:Cancel()
 		if self:IsHealer() and self:IsDifficulty("heroic10", "heroic25") then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\shattericesoon.ogg")
+			sndWOP:Cancel("shattericesoon")
 		end
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countthree.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\counttwo.ogg")
-			sndWOP:Cancel("Interface\\AddOns\\DBM-Core\\extrasounds\\countone.ogg")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 		end
 		warnLightningStorm:Show()
 		specWarnLightingStorm:Show()

@@ -133,7 +133,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specwarnExhale:Show(tqcount, args.destName)
 		timerExhale:Start(args.destName)
 		if args.destName == UnitName("player") then
-			sndWOP:Play(DBM.SoundMMPath.."\\targetyou.ogg") --目標是你
+			sndWOP:Play("targetyou") --目標是你
 		end
 		if self.Options.HudMAP then
 			local spelltext = GetSpellInfo(122761).." - "..args.destName
@@ -152,7 +152,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			MindControlMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("targeting", args.destName, 3, nil, 1, 0, 0, 1):SetLabel(spelltext2))
 		end
 		if self:AntiSpam(2, 2) then
-			sndWOP:Play(DBM.SoundMMPath.."\\findmc.ogg") --注意心控
+			sndWOP:Play("findmc") --注意心控
 		end
 	end
 end
@@ -179,7 +179,7 @@ function mod:SPELL_CAST_START(args)
 		timerForce:Start()
 		specwarnForce:Show()
 		if mod:IsHealer() then
-			sndWOP:Schedule(2, DBM.SoundMMPath.."\\healall.ogg") --注意群療
+			sndWOP:Schedule(2, "healall") --注意群療
 		end
 		if self.Options.optarrowRTI == "arrow1" then
 			ArrowRTI(1)
@@ -197,14 +197,14 @@ function mod:SPELL_CAST_START(args)
 			ArrowRTI(7)
 		end
 	elseif args:IsSpellID(122761) and self:AntiSpam(2, 1) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_tqzb.ogg") --吐氣準備
+		sndWOP:Play("ex_mop_tqzb") --吐氣準備
 		specwarnExhaleB:Show(tqcount)
 	elseif args:IsSpellID(122474, 122496, 123721, 122513) then
 		if self.Options.ArrowOnAttenuation then
 			DBM.Arrow:ShowStatic(90, 12)
 		end
 		specwarnAttenuationL:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_zzyb.ogg") --左轉音波
+		sndWOP:Play("ex_mop_zzyb") --左轉音波
 		timerAttenuation:Start()
 		if platform < 4 then
 			timerAttenuationCD:Start()
@@ -222,7 +222,7 @@ function mod:SPELL_CAST_START(args)
 			DBM.Arrow:ShowStatic(270, 12)
 		end
 		specwarnAttenuationR:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_yzyb.ogg") --右轉音波
+		sndWOP:Play("ex_mop_yzyb") --右轉音波
 		timerAttenuation:Start()
 		if platform < 4 then
 			timerAttenuationCD:Start()
@@ -240,7 +240,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(124018) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg") --P2
+		sndWOP:Play("ptwo") --P2
 		ptwo = true
 		qpcount = 0
 		platform = 4--He moved to middle, it's phase 2, although platform "4" is better then adding an extra variable.
@@ -254,7 +254,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 		if platform > 1 then
 			specwarnPlatform:Show()
 			if platform < 4 then
-				sndWOP:Play(DBM.SoundMMPath.."\\justrun.ogg") --快跑
+				sndWOP:Play("justrun") --快跑
 			end
 		end
 		timerForceCD:Cancel()
@@ -304,11 +304,11 @@ end
 function mod:OnSync(msg)
 	if msg == "ForceandVerve" then
 		warnForceandVerve:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_dyq.ogg") --快進定音區
+		sndWOP:Play("ex_mop_dyq") --快進定音區
 		timerForceCast:Start()
 		qpcount = qpcount + 1
 		if (((self.Options.optDR == "DR1" and qpcount == 1) or (self.Options.optDR == "DR2" and qpcount == 2) or (self.Options.optDR == "DR3" and qpcount == 3) or (self.Options.optDR == "DR4" and qpcount == 4) or (self.Options.optDR == "DR5" and qpcount == 5)) and not ptwo) or (((self.Options.optDRT == "DRT1" and qpcount == 1) or (self.Options.optDRT == "DRT2" and qpcount == 2) or (self.Options.optDRT == "DRT3" and qpcount == 3) or (self.Options.optDRT == "DRT4" and qpcount == 4) or (self.Options.optDRT == "DRT5" and qpcount == 5)) and ptwo) then
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(3, "defensive") --注意減傷
 			specwarnDR:Schedule(3)
 		end
 		if platform < 4 then

@@ -51,7 +51,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 130857 then
 		warnMC:Show()
 		specWarnMC:Show(args.sourceName)
-		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
+		sndWOP:Play("kickcast")--快打斷
 	end
 end
 
@@ -63,12 +63,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		phase = 3
 		warnDeepSleep:Show()
 		timerDeepSleep:Start()
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(7, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(8, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(9, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Schedule(10, DBM.SoundMMPath.."\\phasechange.ogg")--階段轉換
+		sndWOP:Schedule(5, "countfive")
+		sndWOP:Schedule(6, "countfour")
+		sndWOP:Schedule(7, "countthree")
+		sndWOP:Schedule(8, "counttwo")
+		sndWOP:Schedule(9, "countone")
+		sndWOP:Schedule(10, "phasechange")--階段轉換
 		timerMassResCD:Start(18)--Limited Sample size
 		if self:IsDifficulty("challenge5") then
 			timerMCCD:Start(19)--Pretty much immediately after first mas res, unless mass res isn't interrupted then it'll delay MC

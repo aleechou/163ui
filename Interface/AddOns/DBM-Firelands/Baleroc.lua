@@ -132,10 +132,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnCountdown:Show()
 			timerCountdown:Start()
-			sndWOP:Play(DBM.SoundMMPath.."\\followline.ogg")
-			sndWOP:Schedule(5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(6, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("followline")
+			sndWOP:Schedule(5, "countthree")
+			sndWOP:Schedule(6, "counttwo")
+			sndWOP:Schedule(7, "countone")
 			yellCountdown:Yell()
 		end
 		if self.Options.ArrowOnCountdown and #countdownTargets == 2 then
@@ -166,9 +166,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			timerStrikeCD:Start(6, bladesName)--6 seconds on 10 man
 			if self:IsTank() or self:IsHealer() then
-				sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(3.5, "countthree")
+				sndWOP:Schedule(4.5, "counttwo")
+				sndWOP:Schedule(5.5, "countone")
 			end
 		end
 	elseif args:IsSpellID(99350) then--Inferno Blades
@@ -210,14 +210,14 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 				if args.amount == 7 or args.amount == 9 or args.amount == 12 or args.amount == 18 then
 					specWarnTorment:Show(args.amount)
 					if args.amount == 8 then
-						sndWOP:Play(DBM.SoundMMPath.."\\awayshard.ogg")
+						sndWOP:Play("awayshard")
 					end
 				end
 			else
 				if args.amount == 11 or args.amount == 13 or args.amount == 18 then
 					specWarnTorment:Show(args.amount)
 					if args.amount == 12 then					
-						sndWOP:Play(DBM.SoundMMPath.."\\awayshard.ogg")
+						sndWOP:Play("awayshard")
 					end
 				end
 			end
@@ -246,9 +246,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerBladeNext:Start()--30 seconds after last blades FADED
 		timerStrikeCD:Cancel()
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 		end
 	elseif args:IsSpellID(99256, 100230, 100231, 100232) then--Torment
 		if self.Options.SetIconOnTorment then
@@ -267,9 +267,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		if args:IsPlayer() then
 			timerCountdown:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 		end
 	end
 end
@@ -291,9 +291,9 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId, spellName)
 			end
 		else--Do same thing as above only with 10 man timing.
 			if self:IsTank() or self:IsHealer() then
-				sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Schedule(3.5, "countthree")
+				sndWOP:Schedule(4.5, "counttwo")
+				sndWOP:Schedule(5.5, "countone")
 			end
 			if lastStrikeDiff > 6 then
 				lastStrikeDiff = lastStrikeDiff - 6
@@ -328,13 +328,13 @@ function mod:SPELL_CAST_START(args)
 		warnDecimationBlade:Show()
 		specWarnDecimation:Show()
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\deciblade.ogg")
+			sndWOP:Play("deciblade")
 		end
 		timerBladeActive:Start(args.spellName)
 	elseif args:IsSpellID(99350) then
 		warnInfernoBlade:Show()
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\inferblade.ogg")
+			sndWOP:Play("inferblade")
 		end
 		timerBladeActive:Start(args.spellName)
 	elseif args:IsSpellID(99259) then
@@ -342,7 +342,7 @@ function mod:SPELL_CAST_START(args)
 		tormentIcon = 8
 		warnShardsTorment:Show(shardCount)
 		specWarnShardsTorment:Schedule(1.5)
-		sndWOP:Play(DBM.SoundMMPath.."\\shard.ogg")
+		sndWOP:Play("shard")
 		countdownShards:Start(34)
 		if self.Options.ResetShardsinThrees and (self:IsDifficulty("normal25", "heroic25") and shardCount == 3 or self:IsDifficulty("normal10", "heroic10") and shardCount == 2) then
 			shardCount = 0

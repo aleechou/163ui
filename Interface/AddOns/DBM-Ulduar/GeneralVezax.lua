@@ -54,7 +54,7 @@ function mod:SPELL_CAST_START(args)
 		timerSearingFlamesCast:Start()
 	elseif args.spellId == 62662 then 
 		specWarnSurgeDarkness:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\darkpower.ogg")
+		sndWOP:Play("darkpower")
 		timerNextSurgeofDarkness:Start()
 	end
 end
@@ -86,7 +86,7 @@ function mod:ShadowCrashTarget()
 	warnShadowCrash:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnShadowCrash:Show(targetname)
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		yellShadowCrash:Yell()
 	elseif targetname then
 		local uId = DBM:GetRaidUnitId(targetname)
@@ -99,7 +99,7 @@ function mod:ShadowCrashTarget()
 			end
 			if inRange then
 				specWarnShadowCrashNear:Show()
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 				if self.Options.CrashArrow then
 					DBM.Arrow:ShowRunAway(x, y, 15, 5)
 				end
@@ -120,7 +120,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerLifeLeech:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnLifeLeechYou:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Play("runout")
 			yellLifeLeech:Yell()
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)

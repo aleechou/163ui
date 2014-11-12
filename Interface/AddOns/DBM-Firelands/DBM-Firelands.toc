@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Firelands|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0火源之界|r
@@ -15,7 +15,6 @@
 ## X-DBM-Mod-Name-zhCN: 火焰之地
 ## X-DBM-Mod-Sort: 101
 ## X-DBM-Mod-MapID: 720,951
-## X-163UI-Version: 20141028162630
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
@@ -29,3 +28,4 @@ Ragnaros.lua
 FirelandsTrash.lua
 Volcanus.lua
 Nexus.lua
+## X-163UI-Version: 2014111202

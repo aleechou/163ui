@@ -28,16 +28,16 @@ local timerOmenOfDeathCD		= mod:NewNextTimer(10.5, 154350)
 function mod:OnCombatStart(delay)
 	timerOmenOfDeathCD:Start(12-delay)
 	timerRitualOfBonesCD:Start(20-delay)
-	sndWOP:Schedule(15, DBM.SoundMMPath.."\\specialsoon.ogg")
-	sndWOP:Schedule(17, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(18, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(19, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Schedule(15, "specialsoon")
+	sndWOP:Schedule(17, "countthree")
+	sndWOP:Schedule(18, "counttwo")
+	sndWOP:Schedule(19, "countone")
 end
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 154442 then
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+			sndWOP:Play("runaway")
 		end
 		warnMalevolence:Show()
 		specWarnMalevolence:Show()
@@ -56,9 +56,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnRitualOfBones:Show()
 		specWarnRitualOfBones:Show()
 		timerRitualOfBonesCD:Start()
-		sndWOP:Schedule(45.5, DBM.SoundMMPath.."\\specialsoon.ogg")
-		sndWOP:Schedule(47.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(48.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(49.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(45.5, "specialsoon")
+		sndWOP:Schedule(47.5, "countthree")
+		sndWOP:Schedule(48.5, "counttwo")
+		sndWOP:Schedule(49.5, "countone")
 	end
 end

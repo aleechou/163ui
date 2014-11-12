@@ -44,15 +44,15 @@ function mod:SPELL_CAST_START(args)
 		warnRevitalizingWaters:Show()
 		specWarnRevitalizingWaters:Show(args.sourceName)
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+			sndWOP:Play("kickcast")
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+			sndWOP:Play("helpkick")
 		end
 	elseif spellId == 168041 then
 		specWarnBriarskin:Show(args.sourceName)
 	elseif spellId == 168105 then
 		if mod:IsMagicDispeller() then
-			sndWOP:Play(DBM.SoundMMPath.."\\dispelboss.ogg")
+			sndWOP:Play("dispelboss")
 		end
 		specWarnRapidTides:Show(args.sourceName)
 	elseif spellId == 168105 then

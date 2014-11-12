@@ -1,5 +1,5 @@
-﻿## Interface: 60000
-## X-Min-Interface: 60000
+## Interface: 60000
+## X-Min-Interface: 50200
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of Thunder|r
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
@@ -13,7 +13,7 @@
 ## X-DBM-Mod-MapID: 1098
 ## LoadOnDemand: 1
 ## Dependencies: DBM-Core
-## X-163UI-Version: 20141028162630
+
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
@@ -31,3 +31,4 @@ TwinConsorts.lua
 LeiShen.lua
 Raden.lua
 ToTTrash.lua
+## X-163UI-Version: 2014111202

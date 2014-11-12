@@ -99,20 +99,20 @@ function mod:OnCombatStart(delay)
 	else
 		berserkTimer:Start(720-delay)
 	end
-	sndFS:Schedule(5, DBM.SoundMMPath.."\\countthree.ogg")
-	sndFS:Schedule(6, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndFS:Schedule(7, DBM.SoundMMPath.."\\countone.ogg")
+	sndFS:Schedule(5, "countthree")
+	sndFS:Schedule(6, "counttwo")
+	sndFS:Schedule(7, "countone")
 	table.wipe(PheromonesMarkers)	
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerCrushCD:Start(30-delay, Crushcount + 1)
-		sndZN:Schedule(25.5, DBM.SoundMMPath.."\\countfive.ogg")
-		sndZN:Schedule(26.5, DBM.SoundMMPath.."\\countfour.ogg")
-		sndZN:Schedule(27.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndZN:Schedule(28.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndZN:Schedule(29.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndZN:Schedule(25.5, "countfive")
+		sndZN:Schedule(26.5, "countfour")
+		sndZN:Schedule(27.5, "countthree")
+		sndZN:Schedule(28.5, "counttwo")
+		sndZN:Schedule(29.5, "countone")
 		if MyJS() then
 			specWarnJSA:Schedule(24)
-			sndWOP:Schedule(24, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(24, "defensive") --注意減傷
 		end
 	end
 end
@@ -143,7 +143,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnPheromonesYou:Show()
 			yellPheromones:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\targetyou.ogg") --目標是你
+			sndWOP:Play("targetyou") --目標是你
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
@@ -178,7 +178,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if (args.amount or 1) == 3 then
 			if mod.Options.optFLM == args.destName then
 				specWarnFLM:Show(args.destName)
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_xxszb.ogg") --信息素準備
+				sndWOP:Play("ex_mop_xxszb") --信息素準備
 				self:SendSync("MyPheromone", UnitName("player").."("..flmchoose..")")
 			end
 		end
@@ -195,7 +195,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\targetchange.ogg")--目標改變
+			sndWOP:Play("targetchange")--目標改變
 		end
 		if PheromonesMarkers[args.destName] then
 			PheromonesMarkers[args.destName] = free(PheromonesMarkers[args.destName])
@@ -209,14 +209,14 @@ mod.SPELL_AURA_REMOVED_DOSE = mod.SPELL_AURA_REMOVED
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(122735) then
 		warnFuriousSwipe:Show()
-		sndFS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndFS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndFS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndFS:Play(DBM.SoundMMPath.."\\ex_mop_hj.ogg") --揮擊
+		sndFS:Cancel("countthree")
+		sndFS:Cancel("counttwo")
+		sndFS:Cancel("countone")
+		sndFS:Play("ex_mop_hj") --揮擊
 		timerFuriousSwipeCD:Start()
-		sndFS:Schedule(5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndFS:Schedule(6, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndFS:Schedule(7, DBM.SoundMMPath.."\\countone.ogg")
+		sndFS:Schedule(5, "countthree")
+		sndFS:Schedule(6, "counttwo")
+		sndFS:Schedule(7, "countone")
 	end
 end
 
@@ -233,7 +233,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 123120 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specwarnPheromoneTrail:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -244,7 +244,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 			Crushcount = Crushcount + 1
 			warnCrush:Show()
 			specwarnCrushH:Show(Crushcount)
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_nyjd.ogg") --碾壓
+			sndWOP:Play("ex_mop_nyjd") --碾壓
 		end
 		timerCrush:Start()
 		if msg:find(L.UnderHim) then
@@ -252,33 +252,33 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		end
 		if msg:find(L.UnderHim) and target == UnitName("player") then
 			specwarnUnder:Show()--it's a bit of a too little too late warning, but hopefully it'll help people in LFR understand it's not place to be and less likely to repeat it, eventually thining out LFR failure rate to this.
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lkzq.ogg") --離開紫圈
+			sndWOP:Play("ex_mop_lkzq") --離開紫圈
 		end
 		if msg:find(L.Heroicrush) then
 			timerCrushCD:Cancel()
-			sndZN:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-			sndZN:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-			sndZN:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndZN:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndZN:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndZN:Cancel("countfive")
+			sndZN:Cancel("countfour")
+			sndZN:Cancel("countthree")
+			sndZN:Cancel("counttwo")
+			sndZN:Cancel("countone")
 			timerCrushCD:Start(37.5, Crushcount + 1)
-			sndZN:Schedule(33, DBM.SoundMMPath.."\\countfive.ogg")
-			sndZN:Schedule(34, DBM.SoundMMPath.."\\countfour.ogg")
-			sndZN:Schedule(35, DBM.SoundMMPath.."\\countthree.ogg")
-			sndZN:Schedule(36, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndZN:Schedule(37, DBM.SoundMMPath.."\\countone.ogg")
+			sndZN:Schedule(33, "countfive")
+			sndZN:Schedule(34, "countfour")
+			sndZN:Schedule(35, "countthree")
+			sndZN:Schedule(36, "counttwo")
+			sndZN:Schedule(37, "countone")
 			if MyJS() then
 				specWarnJSA:Schedule(32)
-				sndWOP:Schedule(32, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+				sndWOP:Schedule(32, "defensive") --注意減傷
 			end
 		end
 	elseif msg:find(L.Ptwostart) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
-		sndZN:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-		sndZN:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndZN:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndZN:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndZN:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("ptwo")
+		sndZN:Cancel("countfive")
+		sndZN:Cancel("countfour")
+		sndZN:Cancel("countthree")
+		sndZN:Cancel("counttwo")
+		sndZN:Cancel("countone")
 	end
 end
 

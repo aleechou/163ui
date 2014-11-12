@@ -153,7 +153,7 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerNextAirphase:Start(50-delay)
 	timerNextBlisteringCold:Start(33-delay)
-	sndWOP:Schedule(29, DBM.SoundMMPath.."\\gripsoon.ogg")
+	sndWOP:Schedule(29, "gripsoon")
 	warned_P2 = false
 	warnedfailed = false
 	table.wipe(beaconTargets)
@@ -185,10 +185,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			playerBeaconed = true
 			specWarnFrostBeacon:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\markgo.ogg")
-			sndWOP:Schedule(4, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(6, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("markgo")
+			sndWOP:Schedule(4, "countthree")
+			sndWOP:Schedule(5, "counttwo")
+			sndWOP:Schedule(6, "countone")
 		end
 		if phase == 1 and self.Options.SetIconOnFrostBeacon then
 			table.insert(beaconIconTargets, DBM:GetRaidUnitId(args.destName))
@@ -222,7 +222,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			playerUnchained = true
 			specWarnUnchainedMagic:Show()
 			if mod:IsDifficulty("heroic10") or mod:IsDifficulty("heroic25") then
-				sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+				sndWOP:Play("runout")
 			end		
 		end
 		if self.Options.SetIconOnUnchainedMagic then
@@ -242,7 +242,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if (args.amount or 1) >= 4 then
 				specWarnChilledtotheBone:Show(args.amount)
 				if args.amount == 4 or args.amount == 6 or args.amount == 8 or args.amount == 10 then
-					sndWOP:Play(DBM.SoundMMPath.."\\stopatk.ogg")
+					sndWOP:Play("stopatk")
 				end
 			end
 		end
@@ -253,7 +253,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if (args.amount or 1) >= 4 then
 				specWarnInstability:Show(args.amount)
 				if args.amount == 4 or args.amount == 6 or args.amount == 8 or args.amount == 10 then
-					sndWOP:Play(DBM.SoundMMPath.."\\stopatk.ogg")
+					sndWOP:Play("stopatk")
 				end
 			end
 		end
@@ -265,7 +265,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if (args.amount or 1) >= 5 then
 				specWarnMysticBuffet:Show(args.amount)
 				if args.amount == 5 or args.amount == 7 or args.amount == 9 or args.amount == 11 or args.amount == 13 then
-					sndWOP:Play(DBM.SoundMMPath.."\\debuffstack.ogg")
+					sndWOP:Play("debuffstack")
 				end
 			end
 			if (args.amount or 1) < 2 then
@@ -291,10 +291,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 70117 then--Icy Grip Cast, not blistering cold, but adds an extra 1sec to the warning
 		warnBlisteringCold:Show()
 		specWarnBlisteringCold:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\boomrun.ogg")
+		sndWOP:Play("boomrun")
 		timerBlisteringCold:Start()
 		timerNextBlisteringCold:Start()
-		sndWOP:Schedule(63, DBM.SoundMMPath.."\\gripsoon.ogg")
+		sndWOP:Schedule(63, "gripsoon")
 	end
 end	
 
@@ -329,7 +329,7 @@ function mod:UNIT_HEALTH(uId)
 	if not warned_P2 and self:GetUnitCreatureId(uId) == 36853 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then
 		warned_P2 = true
 		warnPhase2soon:Show()	
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Play("ptwo")
 	end
 end
 
@@ -340,10 +340,10 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		end
 		warnAirphase:Show()
 		timerNextFrostBreath:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\gripsoon.ogg")
+		sndWOP:Cancel("gripsoon")
 		timerUnchainedMagic:Start(55)
 		timerNextBlisteringCold:Start(80)--Not exact anywhere from 80-110seconds after airphase begin
-		sndWOP:Schedule(76, DBM.SoundMMPath.."\\gripsoon.ogg")
+		sndWOP:Schedule(76, "gripsoon")
 		timerNextAirphase:Start()
 		timerNextGroundphase:Start()
 		warnGroundphaseSoon:Schedule(40)
@@ -355,8 +355,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerNextAirphase:Cancel()
 		timerNextGroundphase:Cancel()
 		warnGroundphaseSoon:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\gripsoon.ogg")
+		sndWOP:Cancel("gripsoon")
 		timerNextBlisteringCold:Start(35)
-		sndWOP:Schedule(31, DBM.SoundMMPath.."\\gripsoon.ogg")
+		sndWOP:Schedule(31, "gripsoon")
 	end
 end

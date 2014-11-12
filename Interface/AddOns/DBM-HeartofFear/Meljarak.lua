@@ -161,9 +161,9 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(-delay)
 	end
 	if mod:IsHealer() then
-		sndWOP:Schedule(57, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(58, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(59, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(57, "countthree")
+		sndWOP:Schedule(58, "counttwo")
+		sndWOP:Schedule(59, "countone")
 	end
 	table.wipe(AmberPrisonMarkerscast)
 	if self.Options.RangeFrame then
@@ -187,29 +187,29 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
 		warnImpalingSpear:Cancel()
 		warnImpalingSpear:Schedule(30)
-		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
-		sndDS:Schedule(30, DBM.SoundMMPath.."\\ex_mop_kzjs.ogg") --控制即將結束	
-		sndDS:Schedule(40, DBM.SoundMMPath.."\\countten.ogg")
-		sndDS:Schedule(41, DBM.SoundMMPath.."\\countnine.ogg")
-		sndDS:Schedule(42, DBM.SoundMMPath.."\\counteight.ogg")	
-		sndDS:Schedule(43, DBM.SoundMMPath.."\\countseven.ogg")
-		sndDS:Schedule(44, DBM.SoundMMPath.."\\countsix.ogg")
-		sndDS:Schedule(45, DBM.SoundMMPath.."\\countfive.ogg")	
-		sndDS:Schedule(46, DBM.SoundMMPath.."\\countfour.ogg")	
-		sndDS:Schedule(47, DBM.SoundMMPath.."\\countthree.ogg")
-		sndDS:Schedule(48, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndDS:Schedule(49, DBM.SoundMMPath.."\\countone.ogg")	
+		sndDS:Cancel("ex_mop_kzjs")
+		sndDS:Cancel("countten")
+		sndDS:Cancel("countnine")
+		sndDS:Cancel("counteight")	
+		sndDS:Cancel("countseven")
+		sndDS:Cancel("countsix")
+		sndDS:Cancel("countfive")	
+		sndDS:Cancel("countfour")	
+		sndDS:Cancel("countthree")
+		sndDS:Cancel("counttwo")
+		sndDS:Cancel("countone")
+		sndDS:Cancel("ex_mop_kzjs")
+		sndDS:Schedule(30, "ex_mop_kzjs") --控制即將結束	
+		sndDS:Schedule(40, "countten")
+		sndDS:Schedule(41, "countnine")
+		sndDS:Schedule(42, "counteight")	
+		sndDS:Schedule(43, "countseven")
+		sndDS:Schedule(44, "countsix")
+		sndDS:Schedule(45, "countfive")	
+		sndDS:Schedule(46, "countfour")	
+		sndDS:Schedule(47, "countthree")
+		sndDS:Schedule(48, "counttwo")
+		sndDS:Schedule(49, "countone")	
 		timerImpalingSpear:Start(args.destName)
 	elseif args:IsSpellID(121881) then--Not a mistake, 121881 is targeting spellid.
 		amberPrisonTargets[#amberPrisonTargets + 1] = args.destName
@@ -223,7 +223,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				self:ScheduleMethod(7, "checkdebuff")
 			end
 			if not self:IsDifficulty("lfr25") then
-				sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg") --離開人群
+				sndWOP:Play("runout") --離開人群
 			end
 		else
 			self:Unschedule(warnAmberPrisonTargets)
@@ -242,9 +242,9 @@ function mod:SPELL_AURA_APPLIED(args)
 					if not UnitDebuff("player", GetSpellInfo(122055)) then
 						if self:AntiSpam(2, 7) then
 							if math.random(1, 2) == 1 then
-								sndJR:Play(DBM.SoundMMPath.."\\helpme.ogg") --救我
+								sndJR:Play("helpme") --救我
 							else
-								sndJR:Play(DBM.SoundMMPath.."\\helpme2.ogg")
+								sndJR:Play("helpme2")
 							end
 						end
 					end
@@ -264,7 +264,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:AntiSpam(3, 7) then
 			specWarnCorrosiveResin:Show()
 			yellCorrosiveResin:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\keepmove.ogg")--保持移動
+			sndWOP:Play("keepmove")--保持移動
 		end
 	elseif args:IsSpellID(122055) and args:IsPlayer() then
 		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
@@ -275,7 +275,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		addsCount = addsCount + 1
 		warnRecklessness:Show(args.destName)
 		specWarnRecklessness:Show(args.destName)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lumang.ogg") --魯莽
+		sndWOP:Play("ex_mop_lumang") --魯莽
 		timerRecklessness:Start()
 		timerReinforcementsCD:Start(50, addsCount)--We count them cause some groups may elect to kill a 2nd group of adds and start a second bar to form before first ends.
 	elseif args:IsSpellID(122149) then
@@ -286,7 +286,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 			qscount = qscount + 1
 			if ((mod.Options.optQS == "QS1") and (qscount % 3 == 1)) or ((mod.Options.optQS == "QS2") and (qscount % 3 == 2)) or ((mod.Options.optQS == "QS3") and (qscount % 3 == 0)) or (mod.Options.optQS == "allQS") then
-				sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg") --快驅散
+				sndWOP:Play("dispelnow") --快驅散
 				specWarnQuickeningX:Show(args.spellName)
 			end
 		end
@@ -299,34 +299,34 @@ function mod:SPELL_AURA_REFRESH(args)
 	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
 		warnImpalingSpear:Cancel()
 		warnImpalingSpear:Schedule(30)
-		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndDS:Schedule(30, DBM.SoundMMPath.."\\ex_mop_kzjs.ogg") --控制即將結束
-		sndDS:Schedule(40, DBM.SoundMMPath.."\\countten.ogg")
-		sndDS:Schedule(41, DBM.SoundMMPath.."\\countnine.ogg")
-		sndDS:Schedule(42, DBM.SoundMMPath.."\\counteight.ogg")	
-		sndDS:Schedule(43, DBM.SoundMMPath.."\\countseven.ogg")
-		sndDS:Schedule(44, DBM.SoundMMPath.."\\countsix.ogg")
-		sndDS:Schedule(45, DBM.SoundMMPath.."\\countfive.ogg")	
-		sndDS:Schedule(46, DBM.SoundMMPath.."\\countfour.ogg")	
-		sndDS:Schedule(47, DBM.SoundMMPath.."\\countthree.ogg")
-		sndDS:Schedule(48, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndDS:Schedule(49, DBM.SoundMMPath.."\\countone.ogg")		
+		sndDS:Cancel("ex_mop_kzjs")
+		sndDS:Cancel("countten")
+		sndDS:Cancel("countnine")
+		sndDS:Cancel("counteight")	
+		sndDS:Cancel("countseven")
+		sndDS:Cancel("countsix")
+		sndDS:Cancel("countfive")	
+		sndDS:Cancel("countfour")	
+		sndDS:Cancel("countthree")
+		sndDS:Cancel("counttwo")
+		sndDS:Cancel("countone")
+		sndDS:Schedule(30, "ex_mop_kzjs") --控制即將結束
+		sndDS:Schedule(40, "countten")
+		sndDS:Schedule(41, "countnine")
+		sndDS:Schedule(42, "counteight")	
+		sndDS:Schedule(43, "countseven")
+		sndDS:Schedule(44, "countsix")
+		sndDS:Schedule(45, "countfive")	
+		sndDS:Schedule(46, "countfour")	
+		sndDS:Schedule(47, "countthree")
+		sndDS:Schedule(48, "counttwo")
+		sndDS:Schedule(49, "countone")		
 		timerImpalingSpear:Start(args.destName)
 	elseif args:IsSpellID(125873) then
 		addsCount = addsCount + 1
 		warnRecklessness:Show(args.destName)
 		specWarnRecklessness:Show(args.destName)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_lumang.ogg") --魯莽
+		sndWOP:Play("ex_mop_lumang") --魯莽
 		timerRecklessness:Start()
 		timerReinforcementsCD:Start(50, addsCount)--We count them cause some groups may elect to kill a 2nd group of adds and start a second bar to form before first ends.
 	end
@@ -335,18 +335,18 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(122224, 61721) and args.sourceName == UnitName("player") then
 		warnImpalingSpear:Cancel()
-		sndWOP:Play(DBM.SoundMMPath.."\\didi.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countten.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countnine.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counteight.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfive.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countfour.ogg")	
-		sndDS:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndDS:Cancel(DBM.SoundMMPath.."\\ex_mop_kzjs.ogg")
+		sndWOP:Play("didi")
+		sndDS:Cancel("countten")
+		sndDS:Cancel("countnine")
+		sndDS:Cancel("counteight")	
+		sndDS:Cancel("countseven")
+		sndDS:Cancel("countsix")
+		sndDS:Cancel("countfive")	
+		sndDS:Cancel("countfour")	
+		sndDS:Cancel("countthree")
+		sndDS:Cancel("counttwo")
+		sndDS:Cancel("countone")
+		sndDS:Cancel("ex_mop_kzjs")
 		timerImpalingSpear:Cancel(args.destName)
 	elseif args:IsSpellID(121885) and self.Options.AmberPrisonIcons then--Not a mistake, 121885 is frozon spellid
 		self:SetIcon(args.destName, 0)
@@ -371,24 +371,24 @@ function mod:SPELL_CAST_START(args)
 		end
 		if mod:IsHealer() then
 			if not ptwo then
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-				sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg") --注意群療
-				sndWOP:Schedule(58, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(59, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(60, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Cancel("countthree")
+				sndWOP:Cancel("counttwo")
+				sndWOP:Cancel("countone")
+				sndWOP:Play("healall") --注意群療
+				sndWOP:Schedule(58, "countthree")
+				sndWOP:Schedule(59, "counttwo")
+				sndWOP:Schedule(60, "countone")
 			else
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-				sndWOP:Play(DBM.SoundMMPath.."\\healall.ogg") --注意群療
-				sndWOP:Schedule(45, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(46, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(47, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Cancel("countthree")
+				sndWOP:Cancel("counttwo")
+				sndWOP:Cancel("countone")
+				sndWOP:Play("healall") --注意群療
+				sndWOP:Schedule(45, "countthree")
+				sndWOP:Schedule(46, "counttwo")
+				sndWOP:Schedule(47, "countone")
 			end
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")
+			sndWOP:Play("aesoon")
 		end
 	elseif args:IsSpellID(121876) then
 		timerAmberPrisonCD:Start(36, args.sourceGUID)
@@ -398,7 +398,7 @@ function mod:SPELL_CAST_START(args)
 		warnMending:Show()
 		timerMendingCD:Start(nil, args.sourceGUID)
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")--快打斷
+			sndWOP:Play("kickcast")--快打斷
 			specWarnMending:Show(args.sourceName)
 		end
 	elseif args:IsSpellID(122149) then
@@ -421,14 +421,14 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 			specWarnWindBomb:Show()
 			yellWindBomb:Yell()
 			DBM.Flash:Shake(1, 0, 0)
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 		end
 	elseif spellId == 122125 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
 		specWarnCorrosiveResinPool:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	elseif spellId == 121898 and destGUID == UnitGUID("player") and not self:IsDifficulty("lfr25") and self:AntiSpam(3, 10) then
 		specWarnWhirlingBladeMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -438,7 +438,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_DAMAGE
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Reinforcements or msg:find(L.Reinforcements) then
 		specWarnReinforcements:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_xcqcx.ogg") --新蟲群出現
+		sndWOP:Play("ex_mop_xcqcx") --新蟲群出現
 	end
 end
 
@@ -464,7 +464,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 124850 and self:AntiSpam(2, 1) then--Whirling Blade (Throw Cast spellid)
 		specWarnWhirlingBlade:Show()
 		timerWhirlingBladeCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_fd.ogg") --飛刀
+		sndWOP:Play("ex_mop_fd") --飛刀
 --	"<173.1> [UNIT_SPELLCAST_SUCCEEDED] The Kor'thik [[boss4:Kor'thik Strike::0:123963]]", -- [10366]
 --	"<175.6> [CLEU] SPELL_CAST_START#false#0xF130F3C200000FC8#Kor'thik Elite Blademaster#2632#0#0x0000000000000000#nil#-2147483648#-2147483648#122409#Kor'thik Strike#1", -- [10535]
 --	"<175.6> [CLEU] SPELL_CAST_START#false#0xF130F3C200000FC7#Kor'thik Elite Blademaster#2632#8#0x0000000000000000#nil#-2147483648#-2147483648#122409#Kor'thik Strike#1", -- [10536]
@@ -479,14 +479,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if not ptwo then
 			timerRainOfBladesCD:Cancel()
 			timerRainOfBladesCD:Start(20)
-			sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")--P2
+			sndWOP:Play("ptwo")--P2
 			if mod:IsHealer() then
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-				sndWOP:Schedule(17, DBM.SoundMMPath.."\\countthree.ogg")
-				sndWOP:Schedule(18, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndWOP:Schedule(19, DBM.SoundMMPath.."\\countone.ogg")
+				sndWOP:Cancel("countthree")
+				sndWOP:Cancel("counttwo")
+				sndWOP:Cancel("countone")
+				sndWOP:Schedule(17, "countthree")
+				sndWOP:Schedule(18, "counttwo")
+				sndWOP:Schedule(19, "countone")
 			end
 		end
 		ptwo = true
@@ -496,7 +496,7 @@ end
 function mod:UNIT_AURA_UNFILTERED(uId)
 	if uId ~= "player" then return end
 	if UnitDebuff("player", strikeTarget) and not strikeWarned then--Warn you that you have a meteor
-		sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")--自保技能
+		sndWOP:Play("holdit")--自保技能
 		specWarnKorthikStrike:Show()
 		DBM.Flash:Shake(1, 0, 0)
 		yellKorthikStrike:Yell()
@@ -518,7 +518,7 @@ function mod:OnSync(msg, guid)
 		if ((mod.Options.optBH == "BH1") and (cfcount % 4 == 1)) or ((mod.Options.optBH == "BH2") and (cfcount % 4 == 2)) or ((mod.Options.optBH == "BH3") and (cfcount % 4 == 3)) or ((mod.Options.optBH == "BH4") and (cfcount % 4 == 0)) then
 			if guid ~= UnitGUID("player") then--make sure YOU aren't target before warning "other"
 				specWarnBH:Show(guids[guid])
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_mop_kgbh.ogg") --快給保護
+				sndWOP:Play("ex_mop_kgbh") --快給保護
 			end
 			self:SendSync("BHnow", UnitName("player"))
 		end

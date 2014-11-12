@@ -77,10 +77,10 @@ end
 
 local function warnGasSporeTargets()
 	warnGasSpore:Show(table.concat(gasSporeTargets, "<, >"))
-	sndWOP:Play(DBM.SoundMMPath.."\\spore.ogg")
-	sndWOP:Schedule(9, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(10, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(11, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Play("spore")
+	sndWOP:Schedule(9, "countthree")
+	sndWOP:Schedule(10, "counttwo")
+	sndWOP:Schedule(11, "countone")
 	timerGasSpore:Start()
 	table.wipe(gasSporeTargets)
 end
@@ -117,7 +117,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 69195 then	-- Pungent Blight
 		specWarnPungentBlight:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\bomb.ogg")
+		sndWOP:Play("bomb")
 		timerInhaledBlight:Start(38)
 	end
 end
@@ -133,7 +133,7 @@ function mod:OnSync(event, arg)
 		if self:AntiSpam(5, 2) then
 			warnGoo:Show()
 			specWarnGoo:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\greenball.ogg")
+			sndWOP:Play("greenball")
 			if self:IsDifficulty("heroic25") then
 				timerGooCD:Start()
 			else
@@ -190,7 +190,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and amount >= 9 then
 			specWarnGastricBloat:Show(amount)
 			if mod:IsTank() or mod:IsHealer() then
-				sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+				sndWOP:Play("changemt")
 			end
 		end
 	elseif args.spellId == 69240 and args:IsDestTypePlayer() then	-- Vile Gas

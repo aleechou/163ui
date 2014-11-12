@@ -81,7 +81,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 62130 then				-- Unbalancing Strike
 		warnUnbalancingStrike:Show(args.destName)
 		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end
 	elseif args:IsSpellID(62526, 62527) then	-- Runic Detonation
 		self:SetIcon(args.destName, 8, 5)
@@ -113,7 +113,7 @@ function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, 
 		and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
 		and self:AntiSpam(5) then
 			specWarnOrb:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+			sndWOP:Play("runaway")
 		end
 	elseif self.Options.AnnounceFails and spellId == 62466 and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(destName) ~= "none" and destName then
 		lastcharge[destName] = (lastcharge[destName] or 0) + 1

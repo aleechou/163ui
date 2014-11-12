@@ -148,7 +148,7 @@ function mod:BrewTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnCorruptedBrew:Show()
 		yellCorruptedBrew:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	else
 		if uId then
 			local x, y = GetPlayerMapPosition(uId)
@@ -159,7 +159,7 @@ function mod:BrewTarget(targetname, uId)
 			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
 			if inRange and inRange < 6 then
 				specWarnCorruptedBrewNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+				sndWOP:Play("runaway") --快躲開
 			end
 		end
 	end
@@ -174,7 +174,7 @@ function mod:InfernoStrikeTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnInfernoStrike:Show()
 		yellInfernoStrike:Yell()
-		sndWOP:Play(DBM.SoundMMPath.."\\runin.ogg") --快回人群
+		sndWOP:Play("runin") --快回人群
 	end
 end
 
@@ -224,11 +224,11 @@ function mod:SPELL_CAST_START(args)
 		kicknum = kicknum + 1
 		if ((mod.Options.optDD == "DD1") and (kicknum == 1)) or ((mod.Options.optDD == "DD2") and (kicknum == 2)) or ((mod.Options.optDD == "DD3") and (kicknum == 3)) or ((mod.Options.optDD == "alldd") and (source == UnitName("target") or source == UnitName("focus"))) then
 			specWarnCorruptionShock:Show(source)
-			sndWOP:Cancel(DBM.SoundMMPath.."\\interruptsoon.ogg")
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg") --快打斷
+			sndWOP:Cancel("interruptsoon")
+			sndWOP:Play("kickcast") --快打斷
 		end
 		if ((mod.Options.optDD == "DD1") and (kicknum == 3)) or ((mod.Options.optDD == "DD2") and (kicknum == 1))  or ((mod.Options.optDD == "DD3") and (kicknum == 2)) then
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(3, "interruptsoon") --打斷準備
 		end
 		if kicknum == 3 then kicknum = 0 end
 	elseif args.spellId == 143330 then
@@ -237,7 +237,9 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 143446 then
 		warnBane:Show()
 		specWarnBane:Show()
-		sndBD:Play(DBM.SoundMMPath.."\\ex_so_ays.ogg") --暗言術準備
+		if mod:IsHealer() then
+			sndWOP:Play("ex_so_ays") --暗言術準備
+		end		
 		if self:IsMythic() then
 			timerBaneCD:Start(13)--TODO, verify normal to see if it was changed too
 		else
@@ -248,13 +250,13 @@ function mod:SPELL_CAST_START(args)
 		calacount = calacount + 1
 		warnCalamity:Show()
 		specWarnCalamity:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_zxzb.ogg") --災禍準備
+		sndWOP:Play("ex_so_zxzb") --災禍準備
 		if MyJS() then
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+			sndWOP:Schedule(1.5, "defensive") --注意減傷
 		end
-		sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(2.5, "countthree")
+		sndWOP:Schedule(3.5, "counttwo")
+		sndWOP:Schedule(4.5, "countone")
 		timerCalamityCD:Start()
 		if calacount == 4 then calacount = 0 end
 	elseif args.spellId == 143961 then
@@ -268,7 +270,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 144396 then
 		warnVengefulStrikes:Show()
 		if mod:IsHealer() and self:AntiSpam(2, 3) then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fcdj.ogg") --復仇打擊
+			sndWOP:Play("ex_so_fcdj") --復仇打擊
 		end
 		timerVengefulStrikesCD:Start()
 		for i = 1, 5 do
@@ -276,7 +278,7 @@ function mod:SPELL_CAST_START(args)
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
 				specWarnVengefulStrikes:Show()--So show tank warning
 				if self:AntiSpam(2, 3) then
-					sndWOP:Play(DBM.SoundMMPath.."\\ex_so_fcdj.ogg")--復仇打擊
+					sndWOP:Play("ex_so_fcdj")--復仇打擊
 				end
 			end
 		end
@@ -298,7 +300,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args.spellId == 143446 then
 		specWarnBaneDisp:Show()
-		sndBD:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		if mod:IsHealer() then
+			sndWOP:Play("dispelnow")
+		end
 		self:Schedule(2, function() canrecount = false end)
 	end
 end
@@ -306,13 +310,13 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 143959 and args:IsPlayer() and self:AntiSpam(1.5, 2) then
 		specWarnDefiledGround:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif args.spellId == 143301 then--Stun debuff spellid
 		warnGougeStun:Show(args.destName)
 		if not args:IsPlayer() then
 			specWarnGougeStunOther:Show(args.destName)
 			if mod:IsTank() then
-				sndWOP:Play(DBM.SoundMMPath.."\\tauntboss.ogg") --嘲諷BOSS
+				sndWOP:Play("tauntboss") --嘲諷BOSS
 			end
 		end
 	elseif args.spellId == 143198 then
@@ -328,20 +332,20 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMarked:Show(args.destName)
 			yellMarked:Yell()
 			if self.Options.optOC == "imm" then
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_cdyj.ogg")--傳遞印記
+				sndWOP:Play("ex_so_cdyj")--傳遞印記
 			end
 		end
 	--Special phases
 	elseif args.spellId == 143546 then--Dark Meditation
 		warnDarkMeditation:Show()
 		specWarnDarkMeditation:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_amqh.ogg")--暗牧強化
+		sndWOP:Play("ex_so_amqh")--暗牧強化
 		timerBaneCD:Cancel()
 		timerCalamityCD:Cancel()
 	elseif args.spellId == 143955 then--Misery, Sorrow, and Gloom
 		warnMiserySorrowGloom:Show()
 		specWarnMiserySorrowGloom:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_wsqh.ogg")--武僧強化
+		sndWOP:Play("ex_so_wsqh")--武僧強化
 		timerVengefulStrikesCD:Cancel()
 		timerClashCD:Cancel()
 		timerCorruptedBrewCD:Cancel()
@@ -349,12 +353,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDefiledGroundCD:Start(10)
 		kicknum = 0
 		if mod.Options.optDD == "DD1" then
-			sndWOP:Schedule(2, DBM.SoundMMPath.."\\interruptsoon.ogg") --打斷準備
+			sndWOP:Schedule(2, "interruptsoon") --打斷準備
 		end
 	elseif args.spellId == 143812 then--Mark of Anguish
 		warnMarkOfAnguish:Show()
 		specWarnMarkOfAnquish:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_dzqh.ogg")--盜賊強化
+		sndWOP:Play("ex_so_dzqh")--盜賊強化
 		timerGougeCD:Cancel()
 		timerGarroteCD:Cancel()
 		timerCalamityCD:Cancel()--Can't be cast during THIS special
@@ -369,14 +373,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnShaShear:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnShaShearYou:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")--離開人群
+			sndWOP:Play("runout")--離開人群
 		end
 	elseif args.spellId == 144176 then
 		local OCn = self.Options.optOC == "imm" and 2 or self.Options.optOC == "five" and 5 or self.Options.optOC == "ten" and 10 or self.Options.optOC == "fift" and 15 or self.Options.optOC == "twty" and 20 or self.Options.optOC == "none" and 0
 		if args:IsPlayer() and UnitDebuff("player", GetSpellInfo(143840)) then
 			if (args.amount or 1) >= OCn then
 				specWarnOC:Show(args.amount)
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_so_cdyj.ogg") --傳遞印記
+				sndWOP:Play("ex_so_cdyj") --傳遞印記
 			end
 		end
 	end
@@ -410,13 +414,13 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 144357 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 3) then
 		specWarnDefiledGround:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif spellId == 144367 and destGUID == UnitGUID("player") and self:AntiSpam(1.5, 4) then
 		specWarnNoxiousPoison:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif spellId == 143009 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
 		specWarnClashMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -424,7 +428,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:143330") then--Emote giving ONLY to the person tanking boss. Better than scanning boss 1-5 for this one which fails from time to time
 		specWarnGouge:Show()--So show tank warning
-		sndWOP:Play(DBM.SoundMMPath.."\\turnaway.ogg") --快轉身
+		sndWOP:Play("turnaway") --快轉身
 	end
 end
 
@@ -433,7 +437,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		self:BossTargetScanner(71475, "BrewTarget", 0.025)
 		timerCorruptedBrewCD:Start()
 		if self:IsHeroic() or self:IsMythic() then
-			sndWOP:Play(DBM.SoundMMPath.."\\watchstep.ogg") --注意腳下
+			sndWOP:Play("watchstep") --注意腳下
 		end
 	end
 end

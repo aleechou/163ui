@@ -4,7 +4,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(55308)
-mod:SetModelSound("sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_INTRO_01.OGG", "sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_SPELL_05.OGG")
+mod:SetModelSound("sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_INTRO_01.OGG", "sound\\CREATURE\\WarlordZonozz\\VO_DS_ZONOZZ_SPELL_05")
 mod:SetZone()
 mod:SetUsedIcons()
 
@@ -51,7 +51,7 @@ local function warnShadowsTargets()
 	warnShadows:Show(table.concat(shadowsTargets, "<, >"))
 	timerShadowsCD:Start()
 	if mod:IsHealer() then
-		sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+		sndWOP:Play("dispelnow")
 	end
 	table.wipe(shadowsTargets)
 	shadowIcon = 8
@@ -128,7 +128,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() and self:IsDifficulty("heroic10", "heroic25") then
 			specWarnShadows:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
+			sndWOP:Play("runout")
 			self:updateRangeFrame()
 		end
 		self:Unschedule(warnShadowsTargets)
@@ -155,7 +155,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 103571 and not self:IsDifficulty("lfr25") then
 		warnVoidofUnmaking:Show()
 		specWarnVoidofUnmaking:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\ballappear.ogg")
+		sndWOP:Play("ballappear")
 		timerVoidofUnmakingCD:Start()
 		if not firstPsychicDrain then
 			timerPsychicDrainCD:Start(8)
@@ -184,7 +184,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if (msg == L.voidYell or msg:find(L.voidYell)) and self:IsDifficulty("lfr25") then
 		warnVoidofUnmaking:Show()
 		specWarnVoidofUnmaking:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\"..GetLocale().."\\ballappear.ogg")
+		sndWOP:Play("ballappear")
 		timerVoidofUnmakingCD:Start()
 		if not firstPsychicDrain then
 			timerPsychicDrainCD:Start(8)

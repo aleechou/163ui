@@ -14,7 +14,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 163550 160680",
 	"SPELL_PERIODIC_DAMAGE 166570",
 	"SPELL_PERIODIC_MISSED 166570",
-	"UNIT_DIED",
 	"UNIT_TARGETABLE_CHANGED"
 )
 
@@ -41,6 +40,7 @@ function mod:SupressiveFireTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnSupressiveFire:Show()
 		yellSupressiveFire:Yell()
+		sndWOP:Play("findshelter")
 	end
 end
 
@@ -64,28 +64,19 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 166570 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		specWarnSlagBlast:Show()
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
---[[function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 79739 then--Blackrock Grenadier
-		warnGrenadeDown:Show(grenade)
-	elseif cid == 79720 then--Blackrock Artillery Engineer
-		warnMortarDown:Show(mortar)
-	end
-end]]
-
 function mod:UNIT_TARGETABLE_CHANGED()
 	self.vb.phase = self.vb.phase + 1
 	if self.vb.phase == 2 then
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Play("ptwo")
 		warnPhase2:Show()
 	elseif self.vb.phase == 3 then
-		sndWOP:Play(DBM.SoundMMPath.."\\pthree.ogg")
+		sndWOP:Play("pthree")
 		warnPhase3:Show()
 	end
 end

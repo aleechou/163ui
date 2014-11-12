@@ -35,7 +35,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 153240 then
 		warnDaggerFall:Show()
 	elseif spellId == 153153 then
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+		sndWOP:Play("mobsoon")
 		warnDarkCommunion:Show()
 		specWarnDarkCommunion:Show()
 		timerDarkCommunionCD:Start()

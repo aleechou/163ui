@@ -104,7 +104,7 @@ function mod:MalleableGooTarget(targetname, uId)
 		end
 	if targetname == UnitName("player") then
 		specWarnMalleableGoo:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		yellMalleableGoo:Yell()
 	else
 		if uId then
@@ -116,7 +116,7 @@ function mod:MalleableGooTarget(targetname, uId)
 			end
 			if inRange then
 				specWarnMalleableGooNear:Show(targetname)
-				sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+				sndWOP:Play("runaway")
 				if self.Options.GooArrow then
 					DBM.Arrow:ShowRunAway(x, y, 10, 5)
 				end
@@ -132,12 +132,12 @@ function mod:SPELL_CAST_START(args)
 		timerUnstableExperimentCD:Start()
 		warnUnstableExperimentSoon:Schedule(33)
 		if glime then
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\gslime.ogg")
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\killslime.ogg")
+			sndWOP:Schedule(3, "gslime")
+			sndWOP:Schedule(7, "killslime")
 			glime = false
 		else
-			sndWOP:Schedule(3, DBM.SoundMMPath.."\\rslime.ogg")
-			sndWOP:Schedule(7, DBM.SoundMMPath.."\\killslime.ogg")
+			sndWOP:Schedule(3, "rslime")
+			sndWOP:Schedule(7, "killslime")
 			glime = true
 		end
 	elseif args:IsSpellID(71617) then				--Tear Gas, normal phase change trigger
@@ -145,7 +145,7 @@ function mod:SPELL_CAST_START(args)
 		warnUnstableExperimentSoon:Cancel()
 		warnChokingGasBombSoon:Cancel()
 		if mod:IsMelee() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\bombsoon.ogg")
+			sndWOP:Cancel("bombsoon")
 		end
 		timerUnstableExperimentCD:Cancel()
 		timerMalleableGooCD:Cancel()
@@ -157,7 +157,7 @@ function mod:SPELL_CAST_START(args)
 		warnUnstableExperimentSoon:Cancel()
 		warnChokingGasBombSoon:Cancel()
 		if mod:IsMelee() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\bombsoon.ogg")
+			sndWOP:Cancel("bombsoon")
 		end
 		timerUnstableExperimentCD:Cancel()
 		timerMalleableGooCD:Cancel()
@@ -190,7 +190,7 @@ function mod:NextPhase()
 		timerChokingGasBombCD:Start(15)
 		warnChokingGasBombSoon:Schedule(10)
 		if mod:IsMelee() then
-			sndWOP:Schedule(12, DBM.SoundMMPath.."\\bombsoon.ogg")
+			sndWOP:Schedule(12, "bombsoon")
 		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerUnboundPlagueCD:Start(50)
@@ -201,7 +201,7 @@ function mod:NextPhase()
 		timerChokingGasBombCD:Start(12)
 		warnChokingGasBombSoon:Schedule(7)
 		if mod:IsMelee() then
-			sndWOP:Schedule(9, DBM.SoundMMPath.."\\bombsoon.ogg")
+			sndWOP:Schedule(9, "bombsoon")
 		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerUnboundPlagueCD:Start(50)
@@ -222,16 +222,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnChokingGasBomb:Show()
 		timerChokingGasBombCD:Start()
 		warnChokingGasBombSoon:Schedule(30.5)
-		sndWOP:Play(DBM.SoundMMPath.."\\gasbomb.ogg")
+		sndWOP:Play("gasbomb")
 		if mod:IsMelee() then
-			sndWOP:Schedule(32, DBM.SoundMMPath.."\\bombsoon.ogg")
+			sndWOP:Schedule(32, "bombsoon")
 		end
 	elseif args.spellId == 70911 then
 		timerUnboundPlagueCD:Start()
 	elseif args.spellId == 72295 then
 		warnMalleableGoo:Show()
 		specWarnMalleableGooCast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\greenball.ogg")
+		sndWOP:Play("greenball")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerMalleableGooCD:Start(20)
 		else
@@ -274,12 +274,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 70352 then	--Ooze Variable
 		if args:IsPlayer() then
 			specWarnOozeVariable:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\gslime.ogg")
+			sndWOP:Play("gslime")
 		end
 	elseif args.spellId == 70353 then	-- Gas Variable
 		if args:IsPlayer() then
 			specWarnGasVariable:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\rslime.ogg")
+			sndWOP:Play("rslime")
 		end
 	elseif args.spellId == 70911 then	 -- Unbound Plague
 		warnUnboundPlague:Show(args.destName)
@@ -290,7 +290,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnUnboundPlague:Show()
 			timerUnboundPlague:Start()
 			yellUnboundPlague:Yell()
-			sndWOP:Schedule(30, DBM.SoundMMPath.."\\transplague.ogg")
+			sndWOP:Schedule(30, "transplague")
 		end
 	end
 end
@@ -328,7 +328,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
-			sndWOP:Cancel(DBM.SoundMMPath.."\\transplague.ogg")
+			sndWOP:Cancel("transplague")
 		end
 	elseif args.spellId == 71615 and self:AntiSpam(5, 2) then 	-- Tear Gas Removal
 		self:NextPhase()
@@ -344,10 +344,10 @@ function mod:UNIT_HEALTH(uId)
 	if phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
 		warned_preP2 = true
 		warnPhase2Soon:Show()	
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Play("ptwo")
 	elseif phase == 2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then
 		warned_preP3 = true
 		warnPhase3Soon:Show()	
-		sndWOP:Play(DBM.SoundMMPath.."\\pthree.ogg")
+		sndWOP:Play("pthree")
 	end
 end

@@ -44,14 +44,14 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 150759 then
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+			sndWOP:Play("kickcast")
 		elseif (not mod:IsHealer()) then
-			sndWOP:Play(DBM.SoundMMPath.."\\helpkick.ogg")
+			sndWOP:Play("helpkick")
 		end
 		warnFerociousYell:Show()
 		specWarnFerociousYell:Show(args.sourceName)
 	elseif spellId == 150801 then
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+		sndWOP:Play("mobsoon")
 		warnRaiseMiners:Show()
 		specWarnRaiseMiners:Show()
 	elseif spellId == 153679 then

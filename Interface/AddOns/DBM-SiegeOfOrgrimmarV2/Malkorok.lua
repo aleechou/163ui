@@ -214,10 +214,10 @@ function mod:OnCombatStart(delay)
 	timerSeismicSlamCD:Start(5-delay, 1)
 	timerArcingSmashCD:Start(11-delay, 1)
 	timerBreathofYShaarjCD:Start(-delay, 1)
-	sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
-	sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
-	sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
-	sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
+	sndWOP:Schedule(67, "ex_so_yszb") --亞煞極之息準備
+	sndWOP:Schedule(68, "countthree")
+	sndWOP:Schedule(69, "counttwo")
+	sndWOP:Schedule(70, "countone")
 	timerBloodRageCD:Start(122-delay)
 	if self:IsLFR() then
 		berserkTimer:Start(720-delay)
@@ -272,7 +272,7 @@ function mod:SPELL_CAST_START(args)
 		displacedCast = false
 		warnBloodRage:Show()
 		specWarnBloodRage:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\gather.ogg")--快集合
+		sndWOP:Play("gather")--快集合
 --		timerBloodRage:Start()
 		timerDisplacedEnergyCD:Start(3.5)
 	elseif args.spellId == 142842 then
@@ -285,24 +285,24 @@ function mod:SPELL_CAST_START(args)
 			timerSeismicSlamCD:Start(5, 1)
 			timerArcingSmashCD:Start(11, 1)
 			timerBreathofYShaarjCD:Start(nil, 2)
-			sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
-			sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Schedule(67, "ex_so_yszb") --亞煞極之息準備
+			sndWOP:Schedule(68, "countthree")
+			sndWOP:Schedule(69, "counttwo")
+			sndWOP:Schedule(70, "countone")
 		end
 	elseif args.spellId == 143199 then
 		breathCast = 0
 		arcingSmashCount = 0
 		seismicSlamCount = 0
 		specWarnBloodRageEnded:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+		sndWOP:Play("scattersoon")--注意分散
 		timerSeismicSlamCD:Start(5, 1)
 		timerArcingSmashCD:Start(11, 1)
 		timerBreathofYShaarjCD:Start(nil, 1)
-		sndWOP:Schedule(67, DBM.SoundMMPath.."\\ex_so_yszb.ogg") --亞煞極之息準備
-		sndWOP:Schedule(68, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(69, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(70, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(67, "ex_so_yszb") --亞煞極之息準備
+		sndWOP:Schedule(68, "countthree")
+		sndWOP:Schedule(69, "counttwo")
+		sndWOP:Schedule(70, "countone")
 		timerBloodRageCD:Start()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(5)
@@ -337,15 +337,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDisplacedEnergy:Show()
 --			soundDisplacedEnergy:Play()
 			yellDisplacedEnergy:Yell()
-			sndWOP:Play(DBM.SoundMMPath.."\\runout.ogg")
-			sndWOP:Schedule(1, DBM.SoundMMPath.."\\runout.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\countseven.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countsix.ogg")
-			sndWOP:Schedule(4.5, DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Schedule(5.5, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(7.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(8.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("runout")
+			sndWOP:Schedule(1, "runout")
+			sndWOP:Schedule(2.5, "countseven")
+			sndWOP:Schedule(3.5, "countsix")
+			sndWOP:Schedule(4.5, "countfive")
+			sndWOP:Schedule(5.5, "countfour")
+			sndWOP:Schedule(6.5, "countthree")
+			sndWOP:Schedule(7.5, "counttwo")
+			sndWOP:Schedule(8.5, "countone")
 		end
 		if self.Options.HudMAP then
 			DisplacedMaker[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 8, 9, 0, 1, 0, 0.6):Appear():RegisterForAlerts():Rotate(360, 9.5))
@@ -372,7 +372,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				if not UnitDebuff("player", GetSpellInfo(142990)) and not UnitIsDeadOrGhost("player") then
 					specWarnFatalStrikeOther:Show(args.destName)
 					if mod:IsTank() then
-						sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+						sndWOP:Play("changemt") --換坦嘲諷
 					end
 				end
 			end
@@ -385,15 +385,15 @@ function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 142913 then
 		playerDebuffs = playerDebuffs - 1
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\safenow.ogg") --安全
-			sndWOP:Cancel(DBM.SoundMMPath.."\\runout.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countseven.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countsix.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countfive.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("safenow") --安全
+			sndWOP:Cancel("runout")
+			sndWOP:Cancel("countseven")
+			sndWOP:Cancel("countsix")
+			sndWOP:Cancel("countfive")
+			sndWOP:Cancel("countfour")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 			if self.Options.RangeFrame and playerDebuffs >= 1 then
 				DBM.RangeCheck:Show(10, debuffFilter)--Change to debuff filter based check since theirs is gone but there are still others in raid.
 			end
@@ -419,11 +419,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerImplodingEnergy:Start()
 --		countdownImplodingEnergy:Start()
 		specWarnImplodingEnergySoon:Schedule(5)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_so_yhz.ogg") --圓弧斬快躲
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\ex_so_fscq.ogg") --分散踩圈
+		sndWOP:Play("ex_so_yhz") --圓弧斬快躲
+		sndWOP:Schedule(5, "ex_so_fscq") --分散踩圈
 		if MyJS() then
-			sndWOP:Schedule(5.8, DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
-			sndWOP:Schedule(6.5, DBM.SoundMMPath.."\\defensive.ogg")
+			sndWOP:Schedule(5.8, "defensive") --注意減傷
+			sndWOP:Schedule(6.5, "defensive")
 		end
 		if arcingSmashCount < 3 then
 			timerArcingSmashCD:Start(nil, arcingSmashCount+1)

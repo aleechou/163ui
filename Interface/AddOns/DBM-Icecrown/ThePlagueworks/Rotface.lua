@@ -95,24 +95,24 @@ function mod:SPELL_CAST_START(args)
 		timerSlimeSpray:Start()
 		warnSlimeSpray:Show()
 		specWarnSlimeSpray:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\gasrain.ogg")
+		sndWOP:Play("gasrain")
 	elseif args.spellId == 69774 then
 		timerStickyOoze:Start()
 		warnStickyOoze:Show()
 	elseif args.spellId == 69839 then --Unstable Ooze Explosion (Big Ooze)
 		if GetTime() - spamOoze < 4 then --This will prevent spam but breaks if there are 2 oozes. GUID work is required
 			specWarnOozeExplosion:Cancel()
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Cancel("countthree")
+			sndWOP:Cancel("counttwo")
+			sndWOP:Cancel("countone")
 		end
 		if GetTime() - spamOoze < 4 or GetTime() - spamOoze > 5 then --Attempt to ignore a cast that may fire as an ooze is already exploding.
 			timerOozeExplosion:Start()
 			specWarnOozeExplosion:Schedule(4)
-			sndWOP:Play(DBM.SoundMMPath.."\\boom.ogg")
-			sndWOP:Schedule(1.5, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOP:Schedule(2.5, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOP:Schedule(3.5, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOP:Play("boom")
+			sndWOP:Schedule(1.5, "countthree")
+			sndWOP:Schedule(2.5, "counttwo")
+			sndWOP:Schedule(3.5, "countone")
 		end
 		spamOoze = GetTime()
 	end
@@ -130,7 +130,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerMutatedInfection:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnMutatedInfection:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\infect.ogg")
+			sndWOP:Play("infect")
 		end
 		if self.Options.InfectionIcon then
 			self:SetIcon(args.destName, InfectionIcon, 12)
@@ -171,7 +171,7 @@ end
 function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, _, destGUID, _, _, _, spellId)
 	if spellId == 69761 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnRadiatingOoze:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif spellId ~= 50288 and self:GetCIDFromGUID(destGUID) == 36899 and bit.band(sourceFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and self:IsInCombat() then--Any spell damage except for starfall
 		if sourceGUID ~= UnitGUID("player") then
 			if self.Options.TankArrow then

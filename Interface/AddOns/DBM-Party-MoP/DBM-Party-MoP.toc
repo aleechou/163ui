@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Party-MoP|r
 ## RequiredDeps: DBM-Core
@@ -15,7 +15,6 @@
 ## X-DBM-Mod-MapID: 960,961,959,962,994,1011,1007,1001,1004
 ## LoadOnDemand: 1
 ## Dependencies: DBM-Core
-## X-163UI-Version: 20141028162630
 
 localization.en.lua
 localization.tw.lua
@@ -53,3 +52,4 @@ ScarletHalls\FlameweaverKoegler.lua
 ScarletCathedral\ThalnosSoulrender.lua
 ScarletCathedral\Korlof.lua
 ScarletCathedral\Durand.lua
+## X-163UI-Version: 2014111202

@@ -51,7 +51,7 @@ function mod:SPELL_CAST_START(args)
 		warnGroundPound:Show()
 		specWarnGroundPound:Show()
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 		end
 		timerGroundPoundCD:Start()
 	end

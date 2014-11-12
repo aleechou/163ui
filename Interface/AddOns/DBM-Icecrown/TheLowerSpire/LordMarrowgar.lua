@@ -57,7 +57,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerBoneSpike:Cancel()						-- He doesn't do Bone Spike Graveyard during Bone Storm on normal
 		end
 		--soundWhirlwind:Play()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 
@@ -83,7 +83,7 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 69146 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		specWarnColdflame:Show()
 	end
 end

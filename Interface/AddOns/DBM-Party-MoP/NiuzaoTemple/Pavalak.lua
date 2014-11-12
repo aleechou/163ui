@@ -81,7 +81,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnBulwark:Show()
 		timerBladeRushCD:Cancel()
 		timerTempestCD:Cancel()
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")--準備小怪
+		sndWOP:Play("mobsoon")--準備小怪
 	end
 end
 
@@ -98,7 +98,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 119875 then
 		warnTempest:Show()
 		specWarnTempest:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\aesoon.ogg")--準備AE
+		sndWOP:Play("aesoon")--準備AE
 		timerBladeRushCD:Start(7)--always 7-7.5 seconds after tempest.
 		if phase == 2 then
 			timerTempestCD:Start(33)--seems to be cast more often between 66-33% health. (might be 100-33 but didn't get 2 casts before first bulwark)

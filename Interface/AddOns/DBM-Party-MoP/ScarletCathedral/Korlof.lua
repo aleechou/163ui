@@ -44,7 +44,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 113764 then
 		--[[if args:IsPlayer() then
 			specWarnFlyingKick:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 			yellFlyingKick:Yell()
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
@@ -52,7 +52,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				local inRange = DBM.RangeCheck:GetDistance("player", uId)
 				if inRange and inRange < 8 then
 					specWarnFlyingKickNear:Show(args.destName)
-					sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+					sndWOP:Play("runaway")--快躲開
 					if self.Options.KickArrow then
 						DBM.Arrow:ShowRunAway(x, y, 8, 5)
 					end
@@ -67,7 +67,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnBlazingFists:Show()
 		specWarnBlazingFists:Show()
 		if mod:IsTank() then
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+			sndWOP:Play("runaway")--快躲開
 		end
 		timerBlazingFistsCD:Start()
 	end
@@ -85,10 +85,10 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, _, _, _, overkill)
 	if spellId == 114465 and destGUID == UnitGUID("player") and self:AntiSpam(3) then
 		specWarnScorchedEarth:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	elseif spellId == 113766 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnFirestormKick:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")--快躲開
+		sndWOP:Play("runaway")--快躲開
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

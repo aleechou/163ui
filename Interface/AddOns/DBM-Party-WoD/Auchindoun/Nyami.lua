@@ -35,7 +35,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 154477 then
 		if mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+			sndWOP:Play("dispelnow")
 		end
 		warnSWP:Show(args.destName)
 		specWarnSWP:Show(args.destName)
@@ -51,9 +51,9 @@ function mod:SPELL_CAST_START(args)
 		timerSoulVessel:Start()
 		timerTornSpiritsCD:Start()
 		timerSoulVesselCD:Start()
-		--sndWOP:Play(DBM.SoundMMPath.."\\findshadow.ogg")
+		sndWOP:Play("findshadow")
 	elseif spellId == 153994 then
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+		sndWOP:Play("mobsoon")
 		warnTornSpirits:Show()
 		specWarnTornSpirits:Show()
 	end

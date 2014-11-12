@@ -93,11 +93,11 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(80005, "FreezingSnareTarget", 0.04, 15)
 		timerFreezingSnareCD:Start()
 		if mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\dispelnow.ogg")
+			sndWOP:Play("dispelnow")
 		end
 	elseif spellId == 162058 then
 		warnSpinningSpear:Show()
 		timerSpinningSpearCD:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end

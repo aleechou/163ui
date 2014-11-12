@@ -219,28 +219,28 @@ local function intTTtime()
 		[L.HH2] = HH2,
 	}
 	if XN1 > 20 then
-		sndWOP:Schedule(XN1-20, DBM.SoundMMPath.."\\ex_tt_xnzb.ogg")
+		sndWOP:Schedule(XN1-20, "ex_tt_xnzb")
 	end
 	if QL1 > 20 then
-		sndWOP:Schedule(QL1-20, DBM.SoundMMPath.."\\ex_tt_qlzb.ogg")
+		sndWOP:Schedule(QL1-20, "ex_tt_qlzb")
 	end
 	if BH1 > 20 then
-		sndWOP:Schedule(BH1-20, DBM.SoundMMPath.."\\ex_tt_bhzb.ogg")
+		sndWOP:Schedule(BH1-20, "ex_tt_bhzb")
 	end
 	if HH1 > 20 then
-		sndWOP:Schedule(HH1-20, DBM.SoundMMPath.."\\ex_tt_hhttzb.ogg")
+		sndWOP:Schedule(HH1-20, "ex_tt_hhttzb")
 	end
 	if XN2 > 20 then
-		sndWOP:Schedule(XN2-20, DBM.SoundMMPath.."\\ex_tt_xnzb.ogg")
+		sndWOP:Schedule(XN2-20, "ex_tt_xnzb")
 	end
 	if QL2 > 20 then
-		sndWOP:Schedule(QL2-20, DBM.SoundMMPath.."\\ex_tt_qlzb.ogg")
+		sndWOP:Schedule(QL2-20, "ex_tt_qlzb")
 	end
 	if BH2 > 20 then
-		sndWOP:Schedule(BH2-20, DBM.SoundMMPath.."\\ex_tt_bhzb.ogg")
+		sndWOP:Schedule(BH2-20, "ex_tt_bhzb")
 	end
 	if HH2 > 20 then
-		sndWOP:Schedule(HH2-20, DBM.SoundMMPath.."\\ex_tt_hhttzb.ogg")
+		sndWOP:Schedule(HH2-20, "ex_tt_hhttzb")
 	end
 	local function sortFuncAsc(a, b) return TTA[a] < TTA[b] end
 	table.wipe(sortedTTA)
@@ -309,11 +309,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnBeastOfNightmares:Show(args.destName)
 		specWarnBeastOfNightmares:Show()
 		if args:IsPlayer() or mod:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_mys.ogg") --夢魘獸出現
+			sndWOP:Play("ex_tt_mys") --夢魘獸出現
 		else
 			if not UnitDebuff("player", GetSpellInfo(137375)) and not UnitIsDeadOrGhost("player") then
 				if mod:IsTank() then
-					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+					sndWOP:Play("changemt") --換坦嘲諷
 				end
 			end
 		end
@@ -333,13 +333,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 2 and not UnitDebuff("player", GetSpellInfo(137408)) and not UnitIsDeadOrGhost("player") then
 				specWarnFanOfFlamesOther:Show(args.destName)
 				if mod:IsTank() then
-					sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg") --換坦嘲諷
+					sndWOP:Play("changemt") --換坦嘲諷
 				end
 			end
 		end
 	elseif args.spellId == 137417 and args:IsPlayer() and self:AntiSpam(3, 4) then
 		specWarnFlamesofPassionMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	elseif args.spellId == 138264 and args:IsPlayer() then  --白虎
 		if self.Options.HudMAP then
 			self:Schedule(1, function()
@@ -381,17 +381,17 @@ function mod:SPELL_AURA_APPLIED(args)
 			end)
 		end		
 	elseif args.spellId == 138300 and self:AntiSpam(40, 10) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_xntt.ogg")--玄牛圖騰
+		sndWOP:Play("ex_tt_xntt")--玄牛圖騰
 		specWarnTT1:Show()
 		TTstart = TTstart + 1
 		showTTtime(TTstart+1)
 	elseif args.spellId == 138855 and self:AntiSpam(40, 11) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_bhtt.ogg")--白虎圖騰
+		sndWOP:Play("ex_tt_bhtt")--白虎圖騰
 		specWarnTT2:Show()
 		TTstart = TTstart + 1
 		showTTtime(TTstart+1)
 	elseif args.spellId == 138306 and self:AntiSpam(40, 12) then
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_yjtt.ogg")--玉蛟圖騰
+		sndWOP:Play("ex_tt_yjtt")--玉蛟圖騰
 		specWarnTT3:Show()
 		TTstart = TTstart + 1
 		showTTtime(TTstart+1)
@@ -468,12 +468,12 @@ function mod:UNIT_DIED(args)
 		timerDuskCD:Cancel()
 		timerNuclearInfernoCD:Cancel()
 		warnDay:Show()
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\defensive.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\ex_tt_cxzb.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOPCX:Cancel("defensive")
+		sndWOPCX:Cancel("ex_tt_cxzb")
+		sndWOPCX:Cancel("countfour")
+		sndWOPCX:Cancel("countthree")
+		sndWOPCX:Cancel("counttwo")
+		sndWOPCX:Cancel("countone")
 		timerLightOfDayCD:Start()
 		timerFanOfFlamesCD:Start(19)
 		--She also does Flames of passion, but this is done 3 seconds after Lu'lin dies, is a 3 second timer worth it?
@@ -489,11 +489,11 @@ function mod:UNIT_DIED(args)
 		warnNight:Show()
 		phase3Started = true
 		timerTidalForceCD:Cancel()
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\ex_tt_cxzb.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOPCX:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+		sndWOPCX:Cancel("ex_tt_cxzb")
+		sndWOPCX:Cancel("countfour")
+		sndWOPCX:Cancel("countthree")
+		sndWOPCX:Cancel("counttwo")
+		sndWOPCX:Cancel("countone")
 	end
 end
 
@@ -503,10 +503,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerFanOfFlamesCD:Cancel()
 		--timerFlamesOfPassionCD:Cancel()
 		warnNight:Show()
-		sndWOP:Schedule(180, DBM.SoundMMPath.."\\dayphase.ogg")--白天準備
-		sndWOP:Schedule(181, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(182, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(183, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Schedule(180, "dayphase")--白天準備
+		sndWOP:Schedule(181, "countthree")
+		sndWOP:Schedule(182, "counttwo")
+		sndWOP:Schedule(183, "countone")
 		if Sunlive then
 			timerDayCD:Start()
 			timerDuskCD:Start()
@@ -525,7 +525,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 137417 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnFlamesofPassionMove:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg") --快躲開
+		sndWOP:Play("runaway") --快躲開
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -544,11 +544,11 @@ function mod:OnSync(msg)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerNuclearInfernoCD:Start(50, 1)
 		end
-		sndWOP:Cancel(DBM.SoundMMPath.."\\dayphase.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Cancel(DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_bzjd.ogg")--白晝開始
+		sndWOP:Cancel("dayphase")
+		sndWOP:Cancel("countthree")
+		sndWOP:Cancel("counttwo")
+		sndWOP:Cancel("countone")
+		sndWOP:Play("ex_tt_bzjd")--白晝開始
 		self:RegisterShortTermEvents(
 			"INSTANCE_ENCOUNTER_ENGAGE_UNIT"
 		)
@@ -564,18 +564,18 @@ function mod:OnSync(msg)
 			timerNuclearInfernoCD:Start(63, 1)
 		end
 		timerCosmicBarrageCD:Start(54, 1)
-		sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_hhzb.ogg")--黃昏準備
-		sndWOP:Schedule(1, DBM.SoundMMPath.."\\countfive.ogg")
-		sndWOP:Schedule(2, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOP:Schedule(3, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOP:Schedule(4, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOP:Schedule(5, DBM.SoundMMPath.."\\countone.ogg")
-		sndWOP:Schedule(6, DBM.SoundMMPath.."\\ex_tt_hhjd.ogg") --黃昏開始
-		sndWOPCX:Schedule(25, DBM.SoundMMPath.."\\ex_tt_cxzb.ogg")
-		sndWOPCX:Schedule(26, DBM.SoundMMPath.."\\countfour.ogg")
-		sndWOPCX:Schedule(27, DBM.SoundMMPath.."\\countthree.ogg")
-		sndWOPCX:Schedule(28, DBM.SoundMMPath.."\\counttwo.ogg")
-		sndWOPCX:Schedule(29, DBM.SoundMMPath.."\\countone.ogg")
+		sndWOP:Play("ex_tt_hhzb")--黃昏準備
+		sndWOP:Schedule(1, "countfive")
+		sndWOP:Schedule(2, "countfour")
+		sndWOP:Schedule(3, "countthree")
+		sndWOP:Schedule(4, "counttwo")
+		sndWOP:Schedule(5, "countone")
+		sndWOP:Schedule(6, "ex_tt_hhjd") --黃昏開始
+		sndWOPCX:Schedule(25, "ex_tt_cxzb")
+		sndWOPCX:Schedule(26, "countfour")
+		sndWOPCX:Schedule(27, "countthree")
+		sndWOPCX:Schedule(28, "counttwo")
+		sndWOPCX:Schedule(29, "countone")
 	elseif msg == "Phase3" then
 		self:UnregisterShortTermEvents()
 		timerFanOfFlamesCD:Cancel()--DO NOT CANCEL THIS ON YELL
@@ -593,7 +593,7 @@ function mod:OnSync(msg)
 		if self:AntiSpam(10, 5) then
 			warnIceComet:Show()
 			specWarnIceComet:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_hbcx.ogg") --寒冰出現
+			sndWOP:Play("ex_tt_hbcx") --寒冰出現
 			if phase3Started then -- cd longer on phase 3.
 				timerIceCometCD:Start(30.5)
 			else
@@ -607,21 +607,21 @@ function mod:OnSync(msg)
 			specWarnTidalForce:Show(TidalForceCount)
 			timerTidalForce:Start()
 			timerTidalForceCD:Start(74, TidalForceCount + 1)
-			sndWOPCX:Cancel(DBM.SoundMMPath.."\\ex_tt_cxzb.ogg")
-			sndWOPCX:Cancel(DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOPCX:Cancel(DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOPCX:Cancel(DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOPCX:Cancel(DBM.SoundMMPath.."\\countone.ogg")
+			sndWOPCX:Cancel("ex_tt_cxzb")
+			sndWOPCX:Cancel("countfour")
+			sndWOPCX:Cancel("countthree")
+			sndWOPCX:Cancel("counttwo")
+			sndWOPCX:Cancel("countone")
 			if MyJSE() then
-				sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg")
+				sndWOP:Play("defensive")
 			else
-				sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_cxzl.ogg") --潮汐之力
+				sndWOP:Play("ex_tt_cxzl") --潮汐之力
 			end
-			sndWOPCX:Schedule(68, DBM.SoundMMPath.."\\ex_tt_cxzb.ogg")
-			sndWOPCX:Schedule(69, DBM.SoundMMPath.."\\countfour.ogg")
-			sndWOPCX:Schedule(70, DBM.SoundMMPath.."\\countthree.ogg")
-			sndWOPCX:Schedule(71, DBM.SoundMMPath.."\\counttwo.ogg")
-			sndWOPCX:Schedule(72, DBM.SoundMMPath.."\\countone.ogg")
+			sndWOPCX:Schedule(68, "ex_tt_cxzb")
+			sndWOPCX:Schedule(69, "countfour")
+			sndWOPCX:Schedule(70, "countthree")
+			sndWOPCX:Schedule(71, "counttwo")
+			sndWOPCX:Schedule(72, "countone")
 
 		end
 	elseif msg == "CosmicBarrage" then
@@ -633,32 +633,32 @@ function mod:OnSync(msg)
 			if phase3Started then
 				timerCosmicBarrageCD:Start(35, CrashingStarCount + 1)
 				if MyJSB() then
-					sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg") --注意減傷
+					sndWOP:Play("defensive") --注意減傷
 				else
 					if mod:IsRanged() then
-						sndWOP:Play(DBM.SoundMMPath.."\\scattersoon.ogg")--注意分散
+						sndWOP:Play("scattersoon")--注意分散
 					else
-						sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_xzzb.ogg")--星宙准备
+						sndWOP:Play("ex_tt_xzzb")--星宙准备
 					end
 				end
-				sndYX:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-				sndYX:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-				sndYX:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-				sndYX:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+				sndYX:Schedule(1.5, "countfour")
+				sndYX:Schedule(2.5, "countthree")
+				sndYX:Schedule(3.5, "counttwo")
+				sndYX:Schedule(4.5, "countone")
 			else
 				timerCosmicBarrageCD:Start(22, CrashingStarCount + 1)
 				if MyJSA() then
-					sndWOP:Play(DBM.SoundMMPath.."\\defensive.ogg")
-					sndYX:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-					sndYX:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-					sndYX:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-					sndYX:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+					sndWOP:Play("defensive")
+					sndYX:Schedule(1.5, "countfour")
+					sndYX:Schedule(2.5, "countthree")
+					sndYX:Schedule(3.5, "counttwo")
+					sndYX:Schedule(4.5, "countone")
 				elseif mod:IsRanged() then
-					sndWOP:Play(DBM.SoundMMPath.."\\scattersoon.ogg")
-					sndYX:Schedule(1.5, DBM.SoundMMPath.."\\countfour.ogg")
-					sndYX:Schedule(2.5, DBM.SoundMMPath.."\\countthree.ogg")
-					sndYX:Schedule(3.5, DBM.SoundMMPath.."\\counttwo.ogg")
-					sndYX:Schedule(4.5, DBM.SoundMMPath.."\\countone.ogg")
+					sndWOP:Play("scattersoon")
+					sndYX:Schedule(1.5, "countfour")
+					sndYX:Schedule(2.5, "countthree")
+					sndYX:Schedule(3.5, "counttwo")
+					sndYX:Schedule(4.5, "countone")
 				end
 			end
 		end
@@ -668,25 +668,25 @@ function mod:OnSync(msg)
 			warnNuclearInferno:Show(NuclearInfernoCount)
 			specWarnNuclearInferno:Show(NuclearInfernoCount)
 			timerNuclearInferno:Start()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_hzly.ogg") --核子煉獄
+			sndWOP:Play("ex_tt_hzly") --核子煉獄
 			if phase3Started then
 				timerNuclearInfernoCD:Start(73, NuclearInfernoCount + 1)
 				if MyJSD() then
-					sndWOP:Schedule(2, DBM.SoundMMPath.."\\defensive.ogg")
+					sndWOP:Schedule(2, "defensive")
 				end
 			else
 				timerNuclearInfernoCD:Start(49.5, NuclearInfernoCount + 1)
 				if MyJSC() then
-					sndWOP:Schedule(2, DBM.SoundMMPath.."\\defensive.ogg")
+					sndWOP:Schedule(2, "defensive")
 				end
 			end
-			sndWOP:Schedule(11, DBM.SoundMMPath.."\\scatter.ogg")
+			sndWOP:Schedule(11, "scatter")
 		end
 	elseif msg == "TearsOfSun" then
 		if self:AntiSpam(10, 9) then
 			warnTearsOfSun:Show()
 			specWarnTearsOfSun:Show()
-			sndWOP:Play(DBM.SoundMMPath.."\\ex_tt_lrzl.ogg")
+			sndWOP:Play("ex_tt_lrzl")
 			timerTearsOfTheSun:Start()
 			if timerDayCD:GetTime() < 145 then
 				timerTearsOfTheSunCD:Start()

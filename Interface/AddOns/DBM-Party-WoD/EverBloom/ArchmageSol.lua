@@ -39,7 +39,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 166726 then--Because dumb spell has no cast Id, we can only warn when people get debuff from standing in it.
 		warnFrozenRain:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+			sndWOP:Play("runaway")
 			specWarnFrozenRain:Show()
 		end
 	end

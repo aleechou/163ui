@@ -61,7 +61,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(64678, 64389) then -- Sentinel Blast
 		specWarnBlast:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\kickcast.ogg")
+		sndWOP:Play("kickcast")
 	elseif args.spellId == 64386 then -- Terrifying Screech
 		warnFear:Show()
 		timerFear:Start()
@@ -118,7 +118,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 64459 or spellId == 64675) and destGUID == UnitGUID("player") and self:AntiSpam(3) then -- Feral Defender Void Zone
 		specWarnVoid:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

@@ -5,7 +5,7 @@ local sndWOP	= mod:SoundMM("SoundWOP")
 mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
 mod:SetCreatureID(56598)--56427 is Boss, but engage trigger needs the ship which is 56598
 mod:SetMainBossID(56427)
-mod:SetModelSound("sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_INTRO_01.OGG", "sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_SLAY_01.OGG")
+mod:SetModelSound("sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_INTRO_01.OGG", "sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_SLAY_01")
 mod:SetZone()
 mod:SetUsedIcons()
 
@@ -90,10 +90,10 @@ local function Phase2Delay()
 	mod:UnscheduleMethod("AddsRepeat")
 	timerSapperCD:Cancel()
 	timerRoarCD:Start(10)
-	sndWOP:Schedule(8, DBM.SoundMMPath.."\\roarsoon.ogg")
+	sndWOP:Schedule(8, "roarsoon")
 	timerTwilightFlamesCD:Start(12)
 	timerShockwaveCD:Start(13)
-	sndWOP:Schedule(10, DBM.SoundMMPath.."\\wavesoon.ogg")
+	sndWOP:Schedule(10, "wavesoon")
 	if mod:IsDifficulty("heroic10", "heroic25") then
 		timerConsumingShroud:Start(45)
 	end
@@ -114,11 +114,11 @@ function mod:ShockwaveTarget()
 	end	
 	if targetname == UnitName("player") then
 		specWarnShockwave:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 		yellShockwave:Yell()
 	else
 		specWarnShockwaveOther:Show(targetname)
-		sndWOP:Play(DBM.SoundMMPath.."\\watchwave.ogg")
+		sndWOP:Play("watchwave")
 	end
 end
 
@@ -149,7 +149,7 @@ function mod:OnCombatStart(delay)
 		timerSapperCD:Start(69-delay)
 	end
 	timerTwilightOnslaughtCD:Start(48-delay, 1)
-	sndWOP:Schedule(44-delay, DBM.SoundMMPath.."\\purplecirclesoon.ogg")
+	sndWOP:Schedule(44-delay, "purplecirclesoon")
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerBroadsideCD:Start(57-delay)
 	end
@@ -177,24 +177,24 @@ function mod:SPELL_CAST_START(args)
 		specWarnTwilightOnslaught:Show()
 		timerTwilightOnslaught:Start()
 		if twilightOnslaughtCount == 1 and self.Options.holditslaught1 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif twilightOnslaughtCount == 2 and self.Options.holditslaught2 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif twilightOnslaughtCount == 3 and self.Options.holditslaught3 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif twilightOnslaughtCount == 4 and self.Options.holditslaught4 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		elseif twilightOnslaughtCount == 5 and self.Options.holditslaught5 then
-			sndWOP:Play(DBM.SoundMMPath.."\\holdit.ogg")
+			sndWOP:Play("holdit")
 		else
-			sndWOP:Play(DBM.SoundMMPath.."\\stackpurple.ogg")
+			sndWOP:Play("stackpurple")
 		end
 		timerTwilightOnslaughtCD:Start(35, twilightOnslaughtCount+1)
-		sndWOP:Schedule(31, DBM.SoundMMPath.."\\purplecirclesoon.ogg")
+		sndWOP:Schedule(31, "purplecirclesoon")
 	elseif args:IsSpellID(108046) then
 		self:ScheduleMethod(0.2, "ShockwaveTarget")
 		timerShockwaveCD:Start()
-		sndWOP:Schedule(20, DBM.SoundMMPath.."\\wavesoon.ogg")
+		sndWOP:Schedule(20, "wavesoon")
 	elseif args:IsSpellID(110212) then
 		warnTwilightBreath:Show()
 		specWarnTwilightBreath:Show()
@@ -209,7 +209,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpellID(108044) then
 		warnRoar:Show()
 		timerRoarCD:Start()
-		sndWOP:Schedule(17, DBM.SoundMMPath.."\\roarsoon.ogg")
+		sndWOP:Schedule(17, "roarsoon")
 	end
 end
 
@@ -233,19 +233,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args:IsSpellID(108040) and not phase2Started then
 		timerTwilightOnslaughtCD:Cancel()
-		sndWOP:Cancel(DBM.SoundMMPath.."\\purplecirclesoon.ogg")
+		sndWOP:Cancel("purplecirclesoon")
 		timerBroadsideCD:Cancel()
 		self:Schedule(10, Phase2Delay)
 		phase2Started = true
 		warnPhase2:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\ptwo.ogg")
+		sndWOP:Play("ptwo")
 		timerCombatStart:Start(8)
 		if DBM.BossHealth:IsShown() then
 			DBM.BossHealth:AddBoss(56427, L.name)
 		end
 	elseif args:IsSpellID(110214) then
 		warnConsumingShroud:Show(args.destName)
-		sndWOP:Play(DBM.SoundMMPath.."\\shroud.ogg")
+		sndWOP:Play("shroud")
 		timerConsumingShroud:Start()
 		if self.Options.SetIconOnConsumingShroud then
 			self:SetIcon(args.destName, 7)
@@ -257,7 +257,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(108043) then
 		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play(DBM.SoundMMPath.."\\changemt.ogg")
+			sndWOP:Play("changemt")
 		end
 	elseif args:IsSpellID(110214) then
 		if self.Options.SetIconOnConsumingShroud then
@@ -276,10 +276,10 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 108076 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnTwilightFlames:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	elseif spellId == 110095 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
 		specWarnDeckFire:Show()
-		sndWOP:Play(DBM.SoundMMPath.."\\runaway.ogg")
+		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -290,7 +290,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 		if not phase2Started then
 			timerSapperCD:Start()
 		end
-		sndWOP:Play(DBM.SoundMMPath.."\\goblinappear.ogg")
+		sndWOP:Play("goblinappear")
 	elseif msg == L.DeckFire or msg:find(L.DeckFire) then
 		specWarnDeckFireCast:Show()
 	elseif msg == L.Broadside or msg:find(L.Broadside) then

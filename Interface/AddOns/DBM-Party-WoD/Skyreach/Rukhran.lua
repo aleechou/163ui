@@ -31,9 +31,9 @@ function mod:SPELL_CAST_START(args)
 		warnSolarFlare:Show()
 		specWarnSolarFlare:Show()
 		timerSolarFlare:Start()
-		sndWOP:Play(DBM.SoundMMPath.."\\mobsoon.ogg")
+		sndWOP:Play("mobsoon")
 		if mod:IsDps() then
-			sndWOP:Schedule(2, DBM.SoundMMPath.."\\mobkill.ogg")
+			sndWOP:Schedule(2, "mobkill")
 		end
 	elseif spellId == 153794 then
 		warnPierceArmor:Show()
