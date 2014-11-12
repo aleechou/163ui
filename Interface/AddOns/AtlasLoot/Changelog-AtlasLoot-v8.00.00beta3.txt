@@ -1,9 +1,37 @@
 ------------------------------------------------------------------------
-r4311 | dynaletik | 2014-11-04 18:56:36 +0000 (Tue, 04 Nov 2014) | 1 line
+r4314 | dynaletik | 2014-11-11 18:27:31 +0000 (Tue, 11 Nov 2014) | 1 line
 Changed paths:
-   A /tags/v8.00.00beta2 (from /trunk:4310)
+   A /tags/v8.00.00beta3 (from /trunk:4313)
 
-Tagging as v8.00.00beta2
+Tagging as v8.00.00beta3
+------------------------------------------------------------------------
+r4313 | dynaletik | 2014-11-11 18:26:09 +0000 (Tue, 11 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   M /trunk/AtlasLoot/Button/Button.lua
+   M /trunk/AtlasLoot/Button/Dummy_type.lua
+   M /trunk/AtlasLoot/Button/Faction_type.lua
+   M /trunk/AtlasLoot/GUI/GUI.lua
+   M /trunk/AtlasLoot/GUI/ItemFrame.lua
+   M /trunk/AtlasLoot/GUI/Template_DropDown.lua
+   M /trunk/AtlasLoot/GUI/Template_Select.lua
+   M /trunk/AtlasLoot/Locales/IngameLocales.lua
+   M /trunk/AtlasLoot/Locales/constants.lua
+   M /trunk/AtlasLoot_Cataclysm/data.lua
+   M /trunk/AtlasLoot_Factions/data.lua
+   M /trunk/AtlasLoot_MistsofPandaria/data.lua
+   M /trunk/AtlasLoot_PvP/data.lua
+   M /trunk/AtlasLoot_WorldEvents/data.lua
+   M /trunk/AtlasLoot_WrathoftheLichKing/data.lua
+
+- beta 3
+------------------------------------------------------------------------
+r4312 | ananhaid | 2014-11-11 16:31:46 +0000 (Tue, 11 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot_Collections/AtlasLoot_Collections.toc
+   M /trunk/AtlasLoot_Factions/AtlasLoot_Factions.toc
+
+-zhCN update.
 ------------------------------------------------------------------------
 r4310 | dynaletik | 2014-11-04 18:54:42 +0000 (Tue, 04 Nov 2014) | 1 line
 Changed paths:

@@ -67,7 +67,7 @@ local function SetSelected(self, id, dataNum, startSelect)
 			end
 		else
 			self.selected = nil
-			return
+			--return
 		end
 	else
 		self.selected = id
@@ -95,10 +95,18 @@ local function SetNext(self)
 	end
 end
 
+local function CheckIfNext(self)
+	return (self.selected and self.data[ self.selected[1] + 1 ]) and true or nil
+end
+
 local function SetPrev(self)
 	if self.selected and self.data[ self.selected[1] - 1 ] then
 		self:SetSelected(nil, self.selected[1]-1)
 	end
+end
+
+local function CheckIfPrev(self)
+	return (self.selected and self.data[ self.selected[1] - 1 ]) and true or nil
 end
 
 local function SetData(self, data, startValue)
@@ -394,7 +402,9 @@ function GUI.CreateSelect()
 	self.SetSelected = SetSelected
 	-- goto next entry ()
 	self.SetNext = SetNext
+	self.CheckIfNext = CheckIfNext
 	self.SetPrev = SetPrev
+	self.CheckIfPrev = CheckIfPrev
 	-- set the table data (data, startValue)
 	self.SetData = SetData
 	self.ShowSelectedCoin = ShowSelectedCoin

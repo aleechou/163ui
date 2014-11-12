@@ -1,0 +1,12 @@
+tag 1.6.2
+54349c6d1af35b15814055ba87bc1e1860e70f09
+Hendrik Leppkes <h.leppkes@gmail.com>
+2014-11-12 10:01:42 +0100
+
+Tag as 1.6.2
+
+
+--------------------
+
+Hendrik Leppkes:
+	- Prevent map flickering by rounding the returns of WorldMapFrame:GetAlpha

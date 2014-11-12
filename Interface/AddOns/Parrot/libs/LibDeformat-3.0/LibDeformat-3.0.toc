@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 60000
 ## Title: Lib: Deformat-3.0
 ## Notes: A library to convert a post-formatted string back to its original arguments given its format string.
 ## Author: ckknight

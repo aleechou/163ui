@@ -67,7 +67,7 @@ AL["Dagger"] = true
 AL["Crossbow"] = true
 AL["Wand"] = true
 AL["Fishing Pole"] = true
-AL["Shield"] = true	
+AL["Shield"] = true
 
 --Core\StaticPopupDialogs.lua
 AL["It has been detected that your version of Atlas does not match the version that Atlasloot is tuned for (%s/%s).  Depending on changes, there may be the occasional error, so please visit http://www.atlasmod.com as soon as possible to update."] = true
@@ -105,7 +105,7 @@ AL["Droprate:"] = true
 -- Item_type.lua
 AL["Chat Link"] = true
 AL["Add item into chat"] = true
-AL["Dress up"] = true	
+AL["Dress up"] = true
 AL["Shows the item in the Dressing room"] = true
 
 -- Profession_type.lua

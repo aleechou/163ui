@@ -8,6 +8,11 @@ local months = {CalendarGetMonthNames()}
 local GetAchievementInfo = GetAchievementInfo
 local GetMapNameByID = GetMapNameByID
 
+local function GetSpecNameById(id)
+	_, tmp1 = GetSpecializationInfoByID(id)
+	return tmp1
+end
+
 local function GetAchievementName(id)
 	_, tmp1 = GetAchievementInfo(id)
 	return tmp1
@@ -24,6 +29,7 @@ local IngameLocales = {
 	["Nat Pagle"] = GetFactionInfoByID(1358),
 	["Old Hillpaw"] = GetFactionInfoByID(1276),
 	["Sho"] = GetFactionInfoByID(1278),
+	["The August Celestials"] = GetFactionInfoByID(1341),
 
 	-- ######################################################################
 	--- Items
@@ -53,6 +59,29 @@ local IngameLocales = {
 	["October"] = months[10],
 	["November"] = months[11],
 	["December"] = months[12],
+
+	-- ######################################################################
+	-- Class Specs
+	-- ######################################################################
+	["Balance"] = GetSpecNameById(102),
+	["Feral"] = GetSpecNameById(103),
+	["Guardian"] = GetSpecNameById(104),
+	["Restoration"] = GetSpecNameById(105),
+	["Blood"] = GetSpecNameById(250),
+	["Frost"] = GetSpecNameById(251),
+	["Unholy"] = GetSpecNameById(252),
+	["Brewmaster"] = GetSpecNameById(268),
+	["Mistweaver"] = GetSpecNameById(270),
+	["Windwalker"] = GetSpecNameById(269),
+	["Discipline"] = GetSpecNameById(256),
+	["Holy"] = GetSpecNameById(257),
+	["Shadow"] = GetSpecNameById(258),
+	["Protection"] = GetSpecNameById(66),
+	["Retribution"] = GetSpecNameById(70),
+	["Elemental"] = GetSpecNameById(262),
+	["Enhancement"] = GetSpecNameById(263),
+	["Arms"] = GetSpecNameById(71),
+	["Fury"] = GetSpecNameById(72),
 
 	-- ######################################################################
 	-- Zones

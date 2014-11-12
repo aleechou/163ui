@@ -52,6 +52,15 @@ local function getOptions()
 							type = "description",
 							name = L["You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."],
 						},
+						fade = {
+							order = 2.2,
+							type = "toggle",
+							name = MAP_FADE_TEXT,
+							desc = L["The map will fade out to the configured Fade Alpha level when you start moving."],
+							get = function() return GetCVarBool("mapFade") end,
+							set = function(_, v) v = v and 1 or 0; SetCVar("mapFade", v); InterfaceOptionsObjectivesPanelMapFade.value = v end,
+							width = "full",
+						},
 						alpha = {
 							order = 3,
 							name = L["Alpha"],
@@ -67,6 +76,17 @@ local function getOptions()
 							type = "range",
 							min = 0, max = 1, bigStep = 0.01,
 							isPercent = true,
+						},
+						fadealpha = {
+							order = 4.1,
+							type = "range",
+							name = L["Faded Alpha"],
+							desc = L["The transparency of the map while you are moving and the map is faded."],
+							get = function() return WORLD_MAP_MIN_ALPHA end,
+							set = function(_, v) SetCVar("mapAnimMinAlpha", v); WORLD_MAP_MIN_ALPHA = v end,
+							min = 0, max = 1, bigStep = 0.01,
+							isPercent = true,
+							disabled = function() return not GetCVarBool("mapFade") end,
 						},
 						scaledesc = {
 							order = 5,

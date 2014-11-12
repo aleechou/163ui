@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta2
+## Version: v8.00.00beta3
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta2
+## X-Curse-Packaged-Version: v8.00.00beta3
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -14,6 +14,7 @@
 ## Title-zhTW: AtlasLoot |cFF0099FF[收藏物品信息]|r
 ## Notes: AtlasLoot collections loot tables (e.g. Mounts & Pets)
 ## Notes-deDE: AtlasLoot Sammlungs-Beuteverzeichnisse (z.B. Reit- und Haustiere)
+## Notes-zhCN: AtlasLoot 《收藏》物品信息
 
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
@@ -22,9 +23,7 @@
 
 ## X-AtlasLoot-LootModule: 1
 
-
 ## Title: |cff880303[网易有爱]|r AtlasLoot 收藏物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141105144827
-
+## X-163UI-Version: 2014111201
 data.lua

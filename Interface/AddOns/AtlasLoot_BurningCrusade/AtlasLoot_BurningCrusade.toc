@@ -2,10 +2,10 @@
 ## Title-zhCN: AtlasLoot |cFF0099FF[燃烧的远征]|r
 ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 燃燒的遠征
 ## Author: Hegarol	
-## Version: v8.00.00beta2
+## Version: v8.00.00beta3
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta2
+## X-Curse-Packaged-Version: v8.00.00beta3
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -30,4 +30,4 @@ sounds.lua
 
 ## Title: |cff880303[网易有爱]|r AtlasLoot_BurningCrusade
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141105144827
+## X-163UI-Version: 2014111201
