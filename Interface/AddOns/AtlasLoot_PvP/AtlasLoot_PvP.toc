@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta2
+## Version: v8.00.00beta3
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta2
+## X-Curse-Packaged-Version: v8.00.00beta3
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -11,7 +11,7 @@
 ## Title: AtlasLoot |cFF0099FF[PvP]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[PvP]|r
 ## Title-zhCN: AtlasLoot |cFF0099FF[PvP物品信息]|r
-
+## Title-zhTW:AtlasLoot |cFF0099FF[PVP物品信息]|r
 ## Notes: AtlasLoot loot tables of PvP Items
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für PvP-Gegenstände
 ## Notes-zhCN: AtlasLoot 《PvP》物品信息

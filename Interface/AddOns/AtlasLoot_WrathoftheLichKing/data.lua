@@ -3656,6 +3656,424 @@ data["RubySanctum"] = {
 	}
 }
 
+data["TrialoftheCrusader"] = {
+	name = ALIL["Trial of the Crusader"],
+	MapID = 543,
+	ContentType = RAID_CONTENT,
+	items = {
+		{	--TrialoftheCrusaderNorthrendBeasts
+			name = BB["The Beasts of Northrend"],
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47617, [ATLASLOOT_IT_HORDE] = 47855 },	-- Icehowl Cinch / Icehowl Binding
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47613, [ATLASLOOT_IT_HORDE] = 47857 },	-- Shoulderpads of the Glacial Wilds / Pauldrons of the Glacial Wilds
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47608, [ATLASLOOT_IT_HORDE] = 47853 },	-- Acidmaw Boots / Acidmaw Treads
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47616, [ATLASLOOT_IT_HORDE] = 47860 },	-- Shoulderguards of the Spirit Walker / Pauldrons of the Spirit Walker
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47610, [ATLASLOOT_IT_HORDE] = 47850 },	-- Armbands of the Northern Stalker / Bracers of the Northern Stalker
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47611, [ATLASLOOT_IT_HORDE] = 47852 },	-- Dreadscale Armguards / Dreadscale Bracers
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47609, [ATLASLOOT_IT_HORDE] = 47851 },	-- Gauntlets of Rising Anger / Gauntlets of Mounting Anger
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47615, [ATLASLOOT_IT_HORDE] = 47859 },	-- Belt of the Frozen Reach / Belt of the Impaler
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47614, [ATLASLOOT_IT_HORDE] = 47858 },	-- Girdle of the Impaler / Girdle of the Frozen Reach
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47607, [ATLASLOOT_IT_HORDE] = 47849 },	-- Collar of Ceaseless Torment / Collar of Unending Torment
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47578, [ATLASLOOT_IT_HORDE] = 47854 },	-- Carnivorous Band / Gormok's Band
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47612, [ATLASLOOT_IT_HORDE] = 47856 },	-- Rod of Imprisoned Souls / Scepter of Imprisoned Souls
+				{ 21, "ac3936" },
+				{ 22, "ac3797" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47921, [ATLASLOOT_IT_HORDE] = 47994 },	-- Icehowl Cinch / Icehowl Binding
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47923, [ATLASLOOT_IT_HORDE] = 47996 },	-- Shoulderpads of the Glacial Wilds / Pauldrons of the Glacial Wilds
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47919, [ATLASLOOT_IT_HORDE] = 47992 },	-- Acidmaw Boots / Acidmaw Treads
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47926, [ATLASLOOT_IT_HORDE] = 47999 },	-- Shoulderguards of the Spirit Walker / Pauldrons of the Spirit Walker
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47916, [ATLASLOOT_IT_HORDE] = 47989 },	-- Armbands of the Northern Stalker / Bracers of the Northern Stalker
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47918, [ATLASLOOT_IT_HORDE] = 47991 },	-- Dreadscale Armguards / Dreadscale Bracers
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47917, [ATLASLOOT_IT_HORDE] = 47990 },	-- Gauntlets of Rising Anger / Gauntlets of Mounting Anger
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47924, [ATLASLOOT_IT_HORDE] = 47998 },	-- Belt of the Frozen Reach / Belt of the Impaler
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47925, [ATLASLOOT_IT_HORDE] = 47997 },	-- Girdle of the Impaler / Girdle of the Frozen Reach
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47915, [ATLASLOOT_IT_HORDE] = 47988 },	-- Collar of Ceaseless Torment / Collar of Unending Torment
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47920, [ATLASLOOT_IT_HORDE] = 47993 },	-- Carnivorous Band / Gormok's Band
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47922, [ATLASLOOT_IT_HORDE] = 47995 },	-- Rod of Imprisoned Souls / Scepter of Imprisoned Souls
+				{ 21, "ac3936" },
+				{ 22, "ac3797" },
+			},
+			[M25_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 46970, [ATLASLOOT_IT_HORDE] = 47257 },	-- Drape of the Untamed Predator / Cloak of the Untamed Predator
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 46976, [ATLASLOOT_IT_HORDE] = 47256 },	-- Shawl of the Refreshing Winds / Drape of the Refreshing Winds
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 46992, [ATLASLOOT_IT_HORDE] = 47264 },	-- Flowing Vestments of Ascent / Flowing Robes of Ascent
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 46972, [ATLASLOOT_IT_HORDE] = 47258 },	-- Cord of the Tenebrous Mist / Belt of the Tenebrous Mist
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 46974, [ATLASLOOT_IT_HORDE] = 47259 },	-- Leggings of the Broken Beast / Legwraps of the Broken Beast
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 46988, [ATLASLOOT_IT_HORDE] = 47262 },	-- Boots of the Unrelenting Storm / Boots of the Harsh Winter
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 46960, [ATLASLOOT_IT_HORDE] = 47251 },	-- Breastplate of Cruel Intent / Cuirass of Cruel Intent
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 46990, [ATLASLOOT_IT_HORDE] = 47265 },	-- Belt of the Ice Burrower / Binding of the Ice Burrower
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 46962, [ATLASLOOT_IT_HORDE] = 47254 },	-- Chestplate of the Towering Monstrosity / Hauberk of the Towering Monstrosity
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 46961, [ATLASLOOT_IT_HORDE] = 47253 },	-- Boneshatter Armplates / Boneshatter Vambraces
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 46985, [ATLASLOOT_IT_HORDE] = 47263 },	-- Boots of the Courageous / Sabatons of the Courageous
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 46959, [ATLASLOOT_IT_HORDE] = 47252 },	-- Band of the Violent Temperment / Ring of the Violent Temperament
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 46979, [ATLASLOOT_IT_HORDE] = 47261 },	-- Blade of Tarasque / Barb of Tarasque
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 46958, [ATLASLOOT_IT_HORDE] = 47255 },	-- Steel Bladebreaker / Stygian Bladebreaker
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 46963, [ATLASLOOT_IT_HORDE] = 47260 },	-- Crystal Plated Vanguard / Forlorn Barrier
+				{ 24, "ac3937" },
+				{ 25, "ac3813" },
+			},
+			[M25H_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 46971, [ATLASLOOT_IT_HORDE] = 47418 },	-- Drape of the Untamed Predator / Cloak of the Untamed Predator
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 46977, [ATLASLOOT_IT_HORDE] = 47417 },	-- Shawl of the Refreshing Winds / Drape of the Refreshing Winds
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 46993, [ATLASLOOT_IT_HORDE] = 47425 },	-- Flowing Vestments of Ascent / Flowing Robes of Ascent
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 46973, [ATLASLOOT_IT_HORDE] = 47419 },	-- Cord of the Tenebrous Mist / Belt of the Tenebrous Mist
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 46975, [ATLASLOOT_IT_HORDE] = 47420 },	-- Leggings of the Broken Beast / Legwraps of the Broken Beast
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 46989, [ATLASLOOT_IT_HORDE] = 47423 },	-- Boots of the Unrelenting Storm / Boots of the Harsh Winter
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 46965, [ATLASLOOT_IT_HORDE] = 47412 },	-- Breastplate of Cruel Intent / Cuirass of Cruel Intent
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 46991, [ATLASLOOT_IT_HORDE] = 47426 },	-- Belt of the Ice Burrower / Binding of the Ice Burrower
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 46968, [ATLASLOOT_IT_HORDE] = 47415 },	-- Chestplate of the Towering Monstrosity / Hauberk of the Towering Monstrosity
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 46967, [ATLASLOOT_IT_HORDE] = 47414 },	-- Boneshatter Armplates / Boneshatter Vambraces
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 46986, [ATLASLOOT_IT_HORDE] = 47424 },	-- Boots of the Courageous / Sabatons of the Courageous
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 46966, [ATLASLOOT_IT_HORDE] = 47413 },	-- Band of the Violent Temperment / Ring of the Violent Temperament
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 46980, [ATLASLOOT_IT_HORDE] = 47422 },	-- Blade of Tarasque / Barb of Tarasque
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 46969, [ATLASLOOT_IT_HORDE] = 47416 },	-- Steel Bladebreaker / Stygian Bladebreaker
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 46964, [ATLASLOOT_IT_HORDE] = 47421 },	-- Crystal Plated Vanguard / Forlorn Barrier
+				{ 24, "ac3937" },
+				{ 25, "ac3813" },
+			},
+		},
+		{	--TrialoftheCrusaderLordJaraxxus
+			name = BB["Lord Jaraxxus"],
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47663, [ATLASLOOT_IT_HORDE] = 47861 },	-- Felspark Bindings / Felspark Bracers
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47620, [ATLASLOOT_IT_HORDE] = 47865 },	-- Leggings of the Demonic Messenger / Legwraps of the Demonic Messenger
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47669, [ATLASLOOT_IT_HORDE] = 47863 },	-- Belt of the Winter Solstice / Belt of the Bloodhoof Emissary
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47621, [ATLASLOOT_IT_HORDE] = 47866 },	-- Girdle of the Farseer / Darkspear Ritual Binding
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 49235, [ATLASLOOT_IT_HORDE] = 49236 },	-- Boots of Tortured Space / Sabatons of Tortured Space
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47683, [ATLASLOOT_IT_HORDE] = 47867 },	-- Sentinel Scouting Greaves / Warsong Poacher's Greaves
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47680, [ATLASLOOT_IT_HORDE] = 47869 },	-- Armguards of the Nether Lord / Armplates of the Nether Lord
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47711, [ATLASLOOT_IT_HORDE] = 47870 },	-- Girdle of the Nether Champion / Belt of the Nether Champion
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47619, [ATLASLOOT_IT_HORDE] = 47872 },	-- Amulet of Binding Elements / Fortitude of the Infernal
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47679, [ATLASLOOT_IT_HORDE] = 47864 },	-- Endurance of the Infernal / Pendant of Binding Elements
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47618, [ATLASLOOT_IT_HORDE] = 47862 },	-- Firestorm Ring / Firestorm Band
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47703, [ATLASLOOT_IT_HORDE] = 47868 },	-- Planestalker Signet / Planestalker Band
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47676, [ATLASLOOT_IT_HORDE] = 47871 },	-- Dirk of the Night Watch / Orcish Deathblade
+				{ 23, "ac3996" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47927, [ATLASLOOT_IT_HORDE] = 48000 },	-- Felspark Bindings / Felspark Bracers
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47931, [ATLASLOOT_IT_HORDE] = 48004 },	-- Leggings of the Demonic Messenger / Legwraps of the Demonic Messenger
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47929, [ATLASLOOT_IT_HORDE] = 48002 },	-- Belt of the Winter Solstice / Belt of the Bloodhoof Emissary
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47932, [ATLASLOOT_IT_HORDE] = 48005 },	-- Girdle of the Farseer / Darkspear Ritual Binding
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 49238, [ATLASLOOT_IT_HORDE] = 49237 },	-- Boots of Tortured Space / Sabatons of Tortured Space
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47933, [ATLASLOOT_IT_HORDE] = 48006 },	-- Sentinel Scouting Greaves / Warsong Poacher's Greaves
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47935, [ATLASLOOT_IT_HORDE] = 48008 },	-- Armguards of the Nether Lord / Armplates of the Nether Lord
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47937, [ATLASLOOT_IT_HORDE] = 48009 },	-- Girdle of the Nether Champion / Belt of the Nether Champion
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47930, [ATLASLOOT_IT_HORDE] = 48011 },	-- Amulet of Binding Elements / Fortitude of the Infernal
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47939, [ATLASLOOT_IT_HORDE] = 48003 },	-- Endurance of the Infernal / Pendant of Binding Elements
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47928, [ATLASLOOT_IT_HORDE] = 48001 },	-- Firestorm Ring / Firestorm Band
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47934, [ATLASLOOT_IT_HORDE] = 48007 },	-- Planestalker Signet / Planestalker Band
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47938, [ATLASLOOT_IT_HORDE] = 48010 },	-- Dirk of the Night Watch / Orcish Deathblade
+				{ 23, "ac3996" },
+			},
+			[M25_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47042, [ATLASLOOT_IT_HORDE] = 47275 },	-- Pride of the Eredar / Pride of the Demon Lord
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47051, [ATLASLOOT_IT_HORDE] = 47274 },	-- Leggings of the Soothing Touch / Pants of the Soothing Touch
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47000, [ATLASLOOT_IT_HORDE] = 47270 },	-- Cuirass of Calamitous Fate / Vest of Calamitous Fate
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47055, [ATLASLOOT_IT_HORDE] = 47277 },	-- Bracers of the Autumn Willow / Bindings of the Autumn Willow
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47056, [ATLASLOOT_IT_HORDE] = 47280 },	-- Bracers of Cloudy Omen / Wristwraps of Cloudy Omen
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 46999, [ATLASLOOT_IT_HORDE] = 47268 },	-- Bloodbath Belt / Bloodbath Girdle
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47057, [ATLASLOOT_IT_HORDE] = 47279 },	-- Legplates of Failing Light / Leggings of Failing Light
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47052, [ATLASLOOT_IT_HORDE] = 47273 },	-- Legguards of Feverish Dedication / Legplates of Feverish Dedication
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 46997, [ATLASLOOT_IT_HORDE] = 47269 },	-- Dawnbreaker Greaves / Dawnbreaker Sabatons
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47043, [ATLASLOOT_IT_HORDE] = 47272 },	-- Charge of the Demon Lord / Charge of the Eredar
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47223, [ATLASLOOT_IT_HORDE] = 47278 },	-- Ring of the Darkmender / Circle of the Darkmender
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47041, [ATLASLOOT_IT_HORDE] = 47271 },	-- Solace of the Defeated / Solace of the Fallen
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47053, [ATLASLOOT_IT_HORDE] = 47276 },	-- Symbol of Transgression / Talisman of Heedless Sins
+				{ 23, [ATLASLOOT_IT_ALLIANCE] = 46996, [ATLASLOOT_IT_HORDE] = 47266 },	-- Lionhead Slasher / Blood Fury
+				{ 24, [ATLASLOOT_IT_ALLIANCE] = 46994, [ATLASLOOT_IT_HORDE] = 47267 },	-- Talonstrike / Death's Head Crossbow
+				{ 26, "ac3997" },
+			},
+			[M25H_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47063, [ATLASLOOT_IT_HORDE] = 47436 },	-- Pride of the Eredar / Pride of the Demon Lord
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47062, [ATLASLOOT_IT_HORDE] = 47435 },	-- Leggings of the Soothing Touch / Pants of the Soothing Touch
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47004, [ATLASLOOT_IT_HORDE] = 47431 },	-- Cuirass of Calamitous Fate / Vest of Calamitous Fate
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47066, [ATLASLOOT_IT_HORDE] = 47438 },	-- Bracers of the Autumn Willow / Bindings of the Autumn Willow
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47068, [ATLASLOOT_IT_HORDE] = 47441 },	-- Bracers of Cloudy Omen / Wristwraps of Cloudy Omen
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47002, [ATLASLOOT_IT_HORDE] = 47429 },	-- Bloodbath Belt / Bloodbath Girdle
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47067, [ATLASLOOT_IT_HORDE] = 47440 },	-- Legplates of Failing Light / Leggings of Failing Light
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47061, [ATLASLOOT_IT_HORDE] = 47434 },	-- Legguards of Feverish Dedication / Legplates of Feverish Dedication
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47003, [ATLASLOOT_IT_HORDE] = 47430 },	-- Dawnbreaker Greaves / Dawnbreaker Sabatons
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47060, [ATLASLOOT_IT_HORDE] = 47433 },	-- Charge of the Demon Lord / Charge of the Eredar
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47224, [ATLASLOOT_IT_HORDE] = 47439 },	-- Ring of the Darkmender / Circle of the Darkmender
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47059, [ATLASLOOT_IT_HORDE] = 47432 },	-- Solace of the Defeated / Solace of the Fallen
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47064, [ATLASLOOT_IT_HORDE] = 47437 },	-- Symbol of Transgression / Talisman of Heedless Sins
+				{ 23, [ATLASLOOT_IT_ALLIANCE] = 47001, [ATLASLOOT_IT_HORDE] = 47427 },	-- Lionhead Slasher / Blood Fury
+				{ 24, [ATLASLOOT_IT_ALLIANCE] = 46995, [ATLASLOOT_IT_HORDE] = 47428 },	-- Talonstrike / Death's Head Crossbow
+				{ 26, "ac3997" },
+			},
+		},
+		{	--TrialoftheCrusaderFactionChampions
+			name = BB["Faction Champions"],
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47721, [ATLASLOOT_IT_HORDE] = 47873 },	-- Sandals of the Silver Magus / Sunreaver Magus' Sandals
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47719, [ATLASLOOT_IT_HORDE] = 47878 },	-- Gloves of the Silver Assassin / Sunreaver Assassin's Gloves
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47718, [ATLASLOOT_IT_HORDE] = 47875 },	-- Helm of the Silver Ranger / Sunreaver Ranger's Helm
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47717, [ATLASLOOT_IT_HORDE] = 47876 },	-- Faceplate of the Silver Champion / Sunreaver Champion's Faceplate
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47720, [ATLASLOOT_IT_HORDE] = 47877 },	-- Pauldrons of the Silver Defender / Sunreaver Defender's Pauldrons
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47728, [ATLASLOOT_IT_HORDE] = 47880 },	-- Binding Light / Binding Stone
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47727, [ATLASLOOT_IT_HORDE] = 47882 },	-- Fervor of the Frostborn / Eitrigg's Oath
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47726, [ATLASLOOT_IT_HORDE] = 47879 },	-- Talisman of Volatile Power / Fetish of Volatile Power
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47725, [ATLASLOOT_IT_HORDE] = 47881 },	-- Victor's Call / Vengeance of the Forsaken
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47724, [ATLASLOOT_IT_HORDE] = 47874 },	-- Blade of the Silver Disciple / Sunreaver Disciple's Blade
+				{ 18, "ac3798" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47940, [ATLASLOOT_IT_HORDE] = 48012 },	-- Sandals of the Silver Magus / Sunreaver Magus' Sandals
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47945, [ATLASLOOT_IT_HORDE] = 48017 },	-- Gloves of the Silver Assassin / Sunreaver Assassin's Gloves
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47942, [ATLASLOOT_IT_HORDE] = 48014 },	-- Helm of the Silver Ranger / Sunreaver Ranger's Helm
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47943, [ATLASLOOT_IT_HORDE] = 48015 },	-- Faceplate of the Silver Champion / Sunreaver Champion's Faceplate
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47944, [ATLASLOOT_IT_HORDE] = 48016 },	-- Pauldrons of the Silver Defender / Sunreaver Defender's Pauldrons
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47947, [ATLASLOOT_IT_HORDE] = 48019 },	-- Binding Light / Binding Stone
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47949, [ATLASLOOT_IT_HORDE] = 48021 },	-- Fervor of the Frostborn / Eitrigg's Oath
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47946, [ATLASLOOT_IT_HORDE] = 48018 },	-- Talisman of Volatile Power / Fetish of Volatile Power
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47948, [ATLASLOOT_IT_HORDE] = 48020 },	-- Victor's Call / Vengeance of the Forsaken
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47941, [ATLASLOOT_IT_HORDE] = 48013 },	-- Blade of the Silver Disciple / Sunreaver Disciple's Blade
+				{ 18, "ac3798" },
+			},
+			[M25_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47089, [ATLASLOOT_IT_HORDE] = 47291 },	-- Cloak of Displacement / Shroud of Displacement
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47081, [ATLASLOOT_IT_HORDE] = 47286 },	-- Cord of Biting Cold / Belt of Biting Cold
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47092, [ATLASLOOT_IT_HORDE] = 47293 },	-- Boots of the Mourning Widow / Sandals of the Mourning Widow
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47094, [ATLASLOOT_IT_HORDE] = 47292 },	-- Vestments of the Shattered Fellowship / Robes of the Shattered Fellowship
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47071, [ATLASLOOT_IT_HORDE] = 47284 },	-- Treads of the Icewalker / Icewalker Treads
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47073, [ATLASLOOT_IT_HORDE] = 47281 },	-- Bracers of the Untold Massacre / Bracers of the Silent Massacre
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47083, [ATLASLOOT_IT_HORDE] = 47289 },	-- Legguards of Concealed Hatred / Leggings of Concealed Hatred
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47090, [ATLASLOOT_IT_HORDE] = 47295 },	-- Boots of Tremoring Earth / Sabatons of Tremoring Earth
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47082, [ATLASLOOT_IT_HORDE] = 47288 },	-- Chestplate of the Frostborn Hero / Chestplate of the Frostwolf Hero
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47093, [ATLASLOOT_IT_HORDE] = 47294 },	-- Vambraces of the Broken Bond / Bracers of the Broken Bond
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47072, [ATLASLOOT_IT_HORDE] = 47283 },	-- Girdle of Bloodied Scars / Belt of Bloodied Scars
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47070, [ATLASLOOT_IT_HORDE] = 47282 },	-- Ring of Callous Aggression / Band of Callous Aggression
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47080, [ATLASLOOT_IT_HORDE] = 47290 },	-- Satrina's Impeding Scarab / Juggernaut's Vitality
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47069, [ATLASLOOT_IT_HORDE] = 47285 },	-- Justicebringer / Dual-blade Butcher
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 47079, [ATLASLOOT_IT_HORDE] = 47287 },	-- Bastion of Purity / Bastion of Resolve
+			},
+			[M25H_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47095, [ATLASLOOT_IT_HORDE] = 47452 },	-- Cloak of Displacement / Shroud of Displacement
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47084, [ATLASLOOT_IT_HORDE] = 47447 },	-- Cord of Biting Cold / Belt of Biting Cold
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47097, [ATLASLOOT_IT_HORDE] = 47454 },	-- Boots of the Mourning Widow / Sandals of the Mourning Widow
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47096, [ATLASLOOT_IT_HORDE] = 47453 },	-- Vestments of the Shattered Fellowship / Robes of the Shattered Fellowship
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47077, [ATLASLOOT_IT_HORDE] = 47445 },	-- Treads of the Icewalker / Icewalker Treads
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47074, [ATLASLOOT_IT_HORDE] = 47442 },	-- Bracers of the Untold Massacre / Bracers of the Silent Massacre
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47087, [ATLASLOOT_IT_HORDE] = 47450 },	-- Legguards of Concealed Hatred / Leggings of Concealed Hatred
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47099, [ATLASLOOT_IT_HORDE] = 47456 },	-- Boots of Tremoring Earth / Sabatons of Tremoring Earth
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47086, [ATLASLOOT_IT_HORDE] = 47449 },	-- Chestplate of the Frostborn Hero / Chestplate of the Frostwolf Hero
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47098, [ATLASLOOT_IT_HORDE] = 47455 },	-- Vambraces of the Broken Bond / Bracers of the Broken Bond
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47076, [ATLASLOOT_IT_HORDE] = 47444 },	-- Girdle of Bloodied Scars / Belt of Bloodied Scars
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47075, [ATLASLOOT_IT_HORDE] = 47443 },	-- Ring of Callous Aggression / Band of Callous Aggression
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47088, [ATLASLOOT_IT_HORDE] = 47451 },	-- Satrina's Impeding Scarab / Juggernaut's Vitality
+				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47078, [ATLASLOOT_IT_HORDE] = 47446 },	-- Justicebringer / Dual-blade Butcher
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 47085, [ATLASLOOT_IT_HORDE] = 47448 },	-- Bastion of Purity / Bastion of Resolve
+			},
+		},
+		{	--TrialoftheCrusaderTwinValkyrs
+			name = BB["The Twin Val'kyr"],
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47745, [ATLASLOOT_IT_HORDE] = 47889 },	-- Gloves of Looming Shadow / Looming Shadow Wraps
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 49231, [ATLASLOOT_IT_HORDE] = 49232 },	-- Boots of the Grieving Soul / Sandals of the Grieving Soul
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47746, [ATLASLOOT_IT_HORDE] = 47891 },	-- Helm of the Snowy Grotto / Helm of the High Mesa
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47739, [ATLASLOOT_IT_HORDE] = 47887 },	-- Armor of Shifting Shadows / Vest of Shifting Shadows
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47744, [ATLASLOOT_IT_HORDE] = 47893 },	-- Gloves of the Azure Prophet / Sen'jin Ritualist Gloves
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47738, [ATLASLOOT_IT_HORDE] = 47885 },	-- Sabatons of the Lingering Vortex / Greaves of the Lingering Vortex
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47747, [ATLASLOOT_IT_HORDE] = 47890 },	-- Darkbane Pendant / Darkbane Amulet
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47700, [ATLASLOOT_IT_HORDE] = 47888 },	-- Loop of the Twin Val'kyr / Band of the Twin Val'kyr
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47742, [ATLASLOOT_IT_HORDE] = 47913 },	-- Chalice of Benedictus / Lightbane Focus
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47736, [ATLASLOOT_IT_HORDE] = 47886 },	-- Icefall Blade / Nemesis Blade
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47737, [ATLASLOOT_IT_HORDE] = 47884 },	-- Reckoning / Edge of Agony
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47743, [ATLASLOOT_IT_HORDE] = 47892 },	-- Enlightenment / Illumination
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47740, [ATLASLOOT_IT_HORDE] = 47883 },	-- The Diplomat / Widebarrel Flintlock
+				{ 21, "ac3799" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47956, [ATLASLOOT_IT_HORDE] = 48028 },	-- Gloves of Looming Shadow / Looming Shadow Wraps
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 49234, [ATLASLOOT_IT_HORDE] = 49233 },	-- Boots of the Grieving Soul / Sandals of the Grieving Soul
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47959, [ATLASLOOT_IT_HORDE] = 48034 },	-- Helm of the Snowy Grotto / Helm of the High Mesa
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47954, [ATLASLOOT_IT_HORDE] = 48026 },	-- Armor of Shifting Shadows / Vest of Shifting Shadows
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47961, [ATLASLOOT_IT_HORDE] = 48038 },	-- Gloves of the Azure Prophet / Sen'jin Ritualist Gloves
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47952, [ATLASLOOT_IT_HORDE] = 48024 },	-- Sabatons of the Lingering Vortex / Greaves of the Lingering Vortex
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47957, [ATLASLOOT_IT_HORDE] = 48030 },	-- Darkbane Pendant / Darkbane Amulet
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47955, [ATLASLOOT_IT_HORDE] = 48027 },	-- Loop of the Twin Val'kyr / Band of the Twin Val'kyr
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47958, [ATLASLOOT_IT_HORDE] = 48032 },	-- Chalice of Benedictus / Lightbane Focus
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47953, [ATLASLOOT_IT_HORDE] = 48025 },	-- Icefall Blade / Nemesis Blade
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47951, [ATLASLOOT_IT_HORDE] = 48023 },	-- Reckoning / Edge of Agony
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47960, [ATLASLOOT_IT_HORDE] = 48036 },	-- Enlightenment / Illumination
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47950, [ATLASLOOT_IT_HORDE] = 48022 },	-- The Diplomat / Widebarrel Flintlock
+				{ 21, "ac3799" },
+			},
+			[M25_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47126, [ATLASLOOT_IT_HORDE] = 47301 },	-- Skyweaver Robes / Skyweaver Vestments
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47141, [ATLASLOOT_IT_HORDE] = 47306 },	-- Bindings of Dark Essence / Dark Essence Bindings
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47107, [ATLASLOOT_IT_HORDE] = 47308 },	-- Belt of the Merciless Killer / Belt of Pale Thorns
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47140, [ATLASLOOT_IT_HORDE] = 47299 },	-- Cord of Pale Thorns / Belt of the Pitiless Killer
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47106, [ATLASLOOT_IT_HORDE] = 47296 },	-- Sabatons of Ruthless Judgment / Greaves of Ruthless Judgment
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47142, [ATLASLOOT_IT_HORDE] = 47310 },	-- Breastplate of the Frozen Lake / Chestplate of the Frozen Lake
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47108, [ATLASLOOT_IT_HORDE] = 47298 },	-- Bracers of the Shieldmaiden / Armguards of the Shieldmaiden
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47121, [ATLASLOOT_IT_HORDE] = 47304 },	-- Legguards of Ascension / Legplates of Ascension
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47116, [ATLASLOOT_IT_HORDE] = 47307 },	-- The Arbiter's Muse / Cry of the Val'kyr
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47105, [ATLASLOOT_IT_HORDE] = 47305 },	-- The Executioner's Malice / Legionnaire's Gorget
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47139, [ATLASLOOT_IT_HORDE] = 47297 },	-- Wail of the Val'kyr / The Executioner's Vice
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47115, [ATLASLOOT_IT_HORDE] = 47303 },	-- Death's Verdict / Death's Choice
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47138, [ATLASLOOT_IT_HORDE] = 47309 },	-- Chalice of Searing Light / Mystifying Charm
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47104, [ATLASLOOT_IT_HORDE] = 47300 },	-- Twin Spike / Gouge of the Frigid Heart
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47114, [ATLASLOOT_IT_HORDE] = 47302 },	-- Lupine Longstaff / Twin's Pact
+				{ 21, "ac3815" },
+			},
+			[M25H_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47129, [ATLASLOOT_IT_HORDE] = 47462 },	-- Skyweaver Robes / Skyweaver Vestments
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47143, [ATLASLOOT_IT_HORDE] = 47467 },	-- Bindings of Dark Essence / Dark Essence Bindings
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47112, [ATLASLOOT_IT_HORDE] = 47469 },	-- Belt of the Merciless Killer / Belt of Pale Thorns
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47145, [ATLASLOOT_IT_HORDE] = 47460 },	-- Cord of Pale Thorns / Belt of the Pitiless Killer
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47109, [ATLASLOOT_IT_HORDE] = 47457 },	-- Sabatons of Ruthless Judgment / Greaves of Ruthless Judgment
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47147, [ATLASLOOT_IT_HORDE] = 47471 },	-- Breastplate of the Frozen Lake / Chestplate of the Frozen Lake
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47111, [ATLASLOOT_IT_HORDE] = 47459 },	-- Bracers of the Shieldmaiden / Armguards of the Shieldmaiden
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47132, [ATLASLOOT_IT_HORDE] = 47465 },	-- Legguards of Ascension / Legplates of Ascension
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47133, [ATLASLOOT_IT_HORDE] = 47468 },	-- The Arbiter's Muse / Cry of the Val'kyr
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47110, [ATLASLOOT_IT_HORDE] = 47466 },	-- The Executioner's Malice / Legionnaire's Gorget
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47144, [ATLASLOOT_IT_HORDE] = 47458 },	-- Wail of the Val'kyr / The Executioner's Vice
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47131, [ATLASLOOT_IT_HORDE] = 47464 },	-- Death's Verdict / Death's Choice
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47146, [ATLASLOOT_IT_HORDE] = 47470 },	-- Chalice of Searing Light / Mystifying Charm
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47113, [ATLASLOOT_IT_HORDE] = 47461 },	-- Twin Spike / Gouge of the Frigid Heart
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47130, [ATLASLOOT_IT_HORDE] = 47463 },	-- Lupine Longstaff / Twin's Pact
+				{ 21, "ac3815" },
+			},
+		},
+		{	--TrialoftheCrusaderAnubarak
+			name = BB["Anub'arak"],
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47838, [ATLASLOOT_IT_HORDE] = 47906 },	-- Vestments of the Sleepless / Robes of the Sleepless
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47837, [ATLASLOOT_IT_HORDE] = 47909 },	-- Cinch of the Undying / Belt of the Eternal
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47832, [ATLASLOOT_IT_HORDE] = 47904 },	-- Spaulders of the Snow Bandit / Shoulderpads of the Snow Bandit
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47813, [ATLASLOOT_IT_HORDE] = 47897 },	-- Helmet of the Crypt Lord / Helm of the Crypt Lord
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47829, [ATLASLOOT_IT_HORDE] = 47901 },	-- Pauldrons of the Timeless Hunter / Pauldrons of the Shadow Hunter
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47811, [ATLASLOOT_IT_HORDE] = 47896 },	-- Chestguard of the Warden / Stoneskin Chestplate
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47836, [ATLASLOOT_IT_HORDE] = 47902 },	-- Legplates of the Immortal Spider / Legplates of Redeemed Blood
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47830, [ATLASLOOT_IT_HORDE] = 47908 },	-- Legplates of the Silver Hand / Sunwalker Legguards
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47810, [ATLASLOOT_IT_HORDE] = 47899 },	-- Crusader's Glory / Ardent Guard
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47814, [ATLASLOOT_IT_HORDE] = 47903 },	-- Westfall Saber / Forsaken Bonecarver
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47808, [ATLASLOOT_IT_HORDE] = 47898 },	-- The Lion's Maw / Frostblade Hatchet
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47809, [ATLASLOOT_IT_HORDE] = 47894 },	-- Argent Resolve / Mace of the Earthborn Chieftain
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47816, [ATLASLOOT_IT_HORDE] = 47905 },	-- The Grinder / Blackhorn Bludgeon
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47834, [ATLASLOOT_IT_HORDE] = 47911 },	-- Fordragon Blades / Anguish
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47815, [ATLASLOOT_IT_HORDE] = 47900 },	-- Cold Convergence / Perdition
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47835, [ATLASLOOT_IT_HORDE] = 47910 },	-- Bulwark of the Royal Guard / Aegis of the Coliseum
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47812, [ATLASLOOT_IT_HORDE] = 47895 },	-- Vigilant Ward / Pride of the Kor'kron
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47741, [ATLASLOOT_IT_HORDE] = 47907 },	-- Baelgun's Heavy Crossbow / Darkmaw Crossbow
+				{ 22, "ac3917" },
+				{ 23, "ac3800" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47974, [ATLASLOOT_IT_HORDE] = 48051 },	-- Vestments of the Sleepless / Robes of the Sleepless
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47977, [ATLASLOOT_IT_HORDE] = 48054 },	-- Cinch of the Undying / Belt of the Eternal
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47972, [ATLASLOOT_IT_HORDE] = 48049 },	-- Spaulders of the Snow Bandit / Shoulderpads of the Snow Bandit
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47965, [ATLASLOOT_IT_HORDE] = 48042 },	-- Headpiece of the Crypt Lord / Helm of the Crypt Lord
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47969, [ATLASLOOT_IT_HORDE] = 48046 },	-- Pauldrons of the Timeless Hunter / Pauldrons of the Shadow Hunter
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47964, [ATLASLOOT_IT_HORDE] = 48041 },	-- Chestguard of the Warden / Stoneskin Chestplate
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47976, [ATLASLOOT_IT_HORDE] = 48047 },	-- Legplates of the Immortal Spider / Legplates of Redeemed Blood
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47970, [ATLASLOOT_IT_HORDE] = 48053 },	-- Legplates of the Silver Hand / Sunwalker Legguards
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47967, [ATLASLOOT_IT_HORDE] = 48044 },	-- Crusader's Glory / Ardent Guard
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47971, [ATLASLOOT_IT_HORDE] = 48048 },	-- Westfall Saber / Forsaken Bonecarver
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47966, [ATLASLOOT_IT_HORDE] = 48043 },	-- The Lion's Maw / Frostblade Hatchet
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47962, [ATLASLOOT_IT_HORDE] = 48039 },	-- Argent Resolve / Mace of the Earthborn Chieftain
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47973, [ATLASLOOT_IT_HORDE] = 48050 },	-- The Grinder / Blackhorn Bludgeon
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47979, [ATLASLOOT_IT_HORDE] = 48056 },	-- Fordragon Blades / Anguish
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47968, [ATLASLOOT_IT_HORDE] = 48045 },	-- Cold Convergence / Perdition
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47978, [ATLASLOOT_IT_HORDE] = 48055 },	-- Bulwark of the Royal Guard / Aegis of the Coliseum
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47963, [ATLASLOOT_IT_HORDE] = 48040 },	-- Vigilant Ward / Pride of the Kor'kron
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47975, [ATLASLOOT_IT_HORDE] = 48052 },	-- Baelgun's Heavy Crossbow / Darkmaw Crossbow
+				{ 22, "ac3917" },
+				{ 23, "ac3918" },
+				{ 24, "ac3800" },
+			},
+			[M25_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47225, [ATLASLOOT_IT_HORDE] = 47328 },	-- Maiden's Favor / Maiden's Adoration
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47183, [ATLASLOOT_IT_HORDE] = 47320 },	-- Strength of the Nerub / Might of the Nerub
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47203, [ATLASLOOT_IT_HORDE] = 47324 },	-- Armbands of the Ashen Saint / Bindings of the Ashen Saint
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47235, [ATLASLOOT_IT_HORDE] = 47326 },	-- Gloves of the Lifeless Touch / Handwraps of the Lifeless Touch
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47187, [ATLASLOOT_IT_HORDE] = 47317 },	-- Leggings of the Deepening Void / Breeches of the Deepening Void
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47194, [ATLASLOOT_IT_HORDE] = 47321 },	-- Footpads of the Icy Floe / Boots of the Icy Floe
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47151, [ATLASLOOT_IT_HORDE] = 47313 },	-- Bracers of Dark Determination / Armbands of Dark Determination
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47186, [ATLASLOOT_IT_HORDE] = 47318 },	-- Legwraps of the Awakening / Leggings of the Awakening
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47204, [ATLASLOOT_IT_HORDE] = 47325 },	-- Chestguard of Flowing Elements / Cuirass of Flowing Elements
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47152, [ATLASLOOT_IT_HORDE] = 47311 },	-- Belt of Deathly Dominion / Waistguard of Deathly Dominion
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47184, [ATLASLOOT_IT_HORDE] = 47319 },	-- Legguards of the Lurking Threat / Leggings of the Lurking Threat
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47234, [ATLASLOOT_IT_HORDE] = 47330 },	-- Gloves of Bitter Reprisal / Gauntlets of Bitter Reprisal
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47195, [ATLASLOOT_IT_HORDE] = 47323 },	-- Belt of the Forgotten Martyr / Girdle of the Forgotten Martyr
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47150, [ATLASLOOT_IT_HORDE] = 47312 },	-- Greaves of the 7th Legion / Greaves of the Saronite Citadel
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47054, [ATLASLOOT_IT_HORDE] = 47315 },	-- Band of Deplorable Violence / Band of the Traitor King
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47149, [ATLASLOOT_IT_HORDE] = 47327 },	-- Signet of the Traitor King / Lurid Manifestation
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47182, [ATLASLOOT_IT_HORDE] = 47316 },	-- Reign of the Unliving / Reign of the Dead
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 47148, [ATLASLOOT_IT_HORDE] = 47314 },	-- Stormpike Cleaver / Hellscream Slicer
+				{ 23, [ATLASLOOT_IT_ALLIANCE] = 47193, [ATLASLOOT_IT_HORDE] = 47322 },	-- Misery's End / Suffering's End
+				{ 24, [ATLASLOOT_IT_ALLIANCE] = 47233, [ATLASLOOT_IT_HORDE] = 47329 },	-- Archon Glaive / Hellion Glaive
+				{ 26, "ac3916" },
+				{ 27, "ac3816" },
+			},
+			[M25H_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47238, [ATLASLOOT_IT_HORDE] = 47490 },	-- Maiden's Favor / Maiden's Adoration
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47192, [ATLASLOOT_IT_HORDE] = 47481 },	-- Strength of the Nerub / Might of the Nerub
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47208, [ATLASLOOT_IT_HORDE] = 47485 },	-- Armbands of the Ashen Saint / Bindings of the Ashen Saint
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47236, [ATLASLOOT_IT_HORDE] = 47487 },	-- Gloves of the Lifeless Touch / Handwraps of the Lifeless Touch
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47189, [ATLASLOOT_IT_HORDE] = 47478 },	-- Leggings of the Deepening Void / Breeches of the Deepening Void
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47205, [ATLASLOOT_IT_HORDE] = 47482 },	-- Footpads of the Icy Floe / Boots of the Icy Floe
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47155, [ATLASLOOT_IT_HORDE] = 47474 },	-- Bracers of Dark Determination / Armbands of Dark Determination
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47190, [ATLASLOOT_IT_HORDE] = 47479 },	-- Legwraps of the Awakening / Leggings of the Awakening
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47209, [ATLASLOOT_IT_HORDE] = 47486 },	-- Chestguard of Flowing Elements / Cuirass of Flowing Elements
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47153, [ATLASLOOT_IT_HORDE] = 47472 },	-- Belt of Deathly Dominion / Waistguard of Deathly Dominion
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47191, [ATLASLOOT_IT_HORDE] = 47480 },	-- Legguards of the Lurking Threat / Leggings of the Lurking Threat
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47240, [ATLASLOOT_IT_HORDE] = 47492 },	-- Gloves of Bitter Reprisal / Gauntlets of Bitter Reprisal
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47207, [ATLASLOOT_IT_HORDE] = 47484 },	-- Belt of the Forgotten Martyr / Girdle of the Forgotten Martyr
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47154, [ATLASLOOT_IT_HORDE] = 47473 },	-- Greaves of the 7th Legion / Greaves of the Saronite Citadel
+				{ 16, 47242 },	-- Trophy of the Crusade
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47237, [ATLASLOOT_IT_HORDE] = 47476 },	-- Band of Deplorable Violence / Band of the Traitor King
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47157, [ATLASLOOT_IT_HORDE] = 47489 },	-- Signet of the Traitor King / Lurid Manifestation
+				{ 20, [ATLASLOOT_IT_ALLIANCE] = 47188, [ATLASLOOT_IT_HORDE] = 47477 },	-- Reign of the Unliving / Reign of the Dead
+				{ 22, [ATLASLOOT_IT_ALLIANCE] = 47156, [ATLASLOOT_IT_HORDE] = 47475 },	-- Stormpike Cleaver / Hellscream Slicer
+				{ 23, [ATLASLOOT_IT_ALLIANCE] = 47206, [ATLASLOOT_IT_HORDE] = 47483 },	-- Misery's End / Suffering's End
+				{ 24, [ATLASLOOT_IT_ALLIANCE] = 47239, [ATLASLOOT_IT_HORDE] = 47491 },	-- Archon Glaive / Hellion Glaive
+				{ 26, "ac3916" },
+				{ 27, "ac3812" },
+				{ 28, "ac3816" },
+			},
+		},
+		{	--TrialoftheCrusaderPatterns
+			name = AL["Patterns/Plans"].." ("..string.format(AL["ilvl %d"], 245)..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = {
+				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47622, [ATLASLOOT_IT_HORDE] = 47640 },	-- Plans: Breastplate of the White Knight (p2 450)
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47623, [ATLASLOOT_IT_HORDE] = 47641 },	-- Plans: Saronite Swordbreakers (p2 450)
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47627, [ATLASLOOT_IT_HORDE] = 47642 },	-- Plans: Sunforged Bracers (p2 450)
+				{ 4, [ATLASLOOT_IT_ALLIANCE] = 47626, [ATLASLOOT_IT_HORDE] = 47643 },	-- Plans: Sunforged Breastplate (p2 450)
+				{ 5, [ATLASLOOT_IT_ALLIANCE] = 47624, [ATLASLOOT_IT_HORDE] = 47644 },	-- Plans: Titanium Razorplate (p2 450)
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 47625, [ATLASLOOT_IT_HORDE] = 47645 },	-- Plans: Titanium Spikeguards (p2 450)
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 47629, [ATLASLOOT_IT_HORDE] = 47646 },	-- Pattern: Black Chitin Bracers (p7 450)
+				{ 8, [ATLASLOOT_IT_ALLIANCE] = 47635, [ATLASLOOT_IT_HORDE] = 47647 },	-- Pattern: Bracers of Swift Death (p7 450)
+				{ 9, [ATLASLOOT_IT_ALLIANCE] = 47631, [ATLASLOOT_IT_HORDE] = 47648 },	-- Pattern: Crusader's Dragonscale Bracers (p7 450)
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 47630, [ATLASLOOT_IT_HORDE] = 47649 },	-- Pattern: Crusader's Dragonscale Breastplate (p7 450)
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 47628, [ATLASLOOT_IT_HORDE] = 47650 },	-- Pattern: Ensorcelled Nerubian Breastplate (p7 450)
+				{ 12, [ATLASLOOT_IT_ALLIANCE] = 47634, [ATLASLOOT_IT_HORDE] = 47651 },	-- Pattern: Knightbane Carapace (p7 450)
+				{ 13, [ATLASLOOT_IT_ALLIANCE] = 47632, [ATLASLOOT_IT_HORDE] = 47652 },	-- Pattern: Lunar Eclipse Chestguard (p7 450)
+				{ 14, [ATLASLOOT_IT_ALLIANCE] = 47633, [ATLASLOOT_IT_HORDE] = 47653 },	-- Pattern: Moonshadow Armguards (p7 450)
+				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47654, [ATLASLOOT_IT_HORDE] = 47639 },	-- Pattern: Bejeweled Wizard's Bracers (p8 450)
+				{ 17, [ATLASLOOT_IT_ALLIANCE] = 47655, [ATLASLOOT_IT_HORDE] = 47638 },	-- Pattern: Merlin's Robe (p8 450)
+				{ 18, [ATLASLOOT_IT_ALLIANCE] = 47656, [ATLASLOOT_IT_HORDE] = 47637 },	-- Pattern: Royal Moonshroud Bracers (p8 450)
+				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47657, [ATLASLOOT_IT_HORDE] = 47636 },	-- Pattern: Royal Moonshroud Robe (p8 450)
+				{ 21, 47556 },	-- Crusader Orb
+			},
+		},
+	}
+}
+
 data["Ulduar"] = {
 	name = ALIL["Ulduar"],
 	MapID = 529,
@@ -4414,5 +4832,1123 @@ data["Ulduar"] = {
 		},
 		WOTLK_RAID2_10_AC_TABLE,
 		WOTLK_RAID2_25_AC_TABLE,
+	}
+}
+
+data["VaultofArchavon"] = {
+	name = ALIL["Vault of Archavon"],
+	MapID = 532,
+	ContentType = RAID_CONTENT,
+	items = {
+		{	--Archavon
+			name = BB["Archavon the Stone Watcher"],
+			[NORMAL_DIFF] = {
+				{ 1, "ICON_spell_deathknight_frostpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Frost"].." / "..ALIL["Unholy"] },
+				{ 2, 39617 },	-- Heroes' Scourgeborne Battleplate
+				{ 3, 39618 },	-- Heroes' Scourgeborne Gauntlets
+				{ 4, 39620 },	-- Heroes' Scourgeborne Legplates
+				{ 6, "ICON_spell_deathknight_bloodpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Blood"] },
+				{ 7, 39623 },	-- Heroes' Scourgeborne Chestguard
+				{ 8, 39624 },	-- Heroes' Scourgeborne Handguards
+				{ 9, 39626 },	-- Heroes' Scourgeborne Legguards
+				{ 16, "ICON_Spell_deathknight_classicon", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], nil },
+				{ 17, 40781 },	-- Hateful Gladiator's Dreadplate Chestpiece
+				{ 18, 40803 },	-- Hateful Gladiator's Dreadplate Gauntlets
+				{ 19, 40841 },	-- Hateful Gladiator's Dreadplate Legguards
+				{ 101, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 102, 39547 },	-- Heroes' Dreamwalker Vestments
+				{ 103, 39544 },	-- Heroes' Dreamwalker Gloves
+				{ 104, 39546 },	-- Heroes' Dreamwalker Trousers
+				{ 106, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 107, 39554 },	-- Heroes' Dreamwalker Raiments
+				{ 108, 39557 },	-- Heroes' Dreamwalker Handgrips
+				{ 109, 39555 },	-- Heroes' Dreamwalker Legguards
+				{ 111, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 112, 39538 },	-- Heroes' Dreamwalker Robe
+				{ 113, 39543 },	-- Heroes' Dreamwalker Handguards
+				{ 114, 39539 },	-- Heroes' Dreamwalker Leggings
+				{ 116, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 117, 41314 },	-- Hateful Gladiator's Wyrmhide Robes
+				{ 118, 41291 },	-- Hateful Gladiator's Wyrmhide Gloves
+				{ 119, 41302 },	-- Hateful Gladiator's Wyrmhide Legguards
+				{ 121, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 122, 41659 },	-- Hateful Gladiator's Dragonhide Robes
+				{ 123, 41771 },	-- Hateful Gladiator's Dragonhide Gloves
+				{ 124, 41665 },	-- Hateful Gladiator's Dragonhide Legguards
+				{ 126, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 127, 41308 },	-- Hateful Gladiator's Kodohide Robes
+				{ 128, 41284 },	-- Hateful Gladiator's Kodohide Gloves
+				{ 129, 41296 },	-- Hateful Gladiator's Kodohide Legguards
+				{ 201, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 202, 39579 },	-- Heroes' Crypstalker Tunic
+				{ 203, 39582 },	-- Heroes' Crypstalker Handguards
+				{ 204, 39580 },	-- Heroes' Crypstalker Legguards
+				{ 206, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 207, 39492 },	-- Heroes' Frostfire Robe
+				{ 208, 39495 },	-- Heroes' Frostfire Gloves
+				{ 209, 39493 },	-- Heroes' Frostfire Leggings
+				{ 211, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 212, 39558 },	-- Heroes' Bonescythe Breastplate
+				{ 213, 39560 },	-- Heroes' Bonescythe Gauntlets
+				{ 214, 39564 },	-- Heroes' Bonescythe Legplates
+				{ 216, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 217, 41085 },	-- Hateful Gladiator's Chain Armor
+				{ 218, 41141 },	-- Hateful Gladiator's Chain Gauntlets
+				{ 219, 41203 },	-- Hateful Gladiator's Chain Leggings
+				{ 221, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 222, 41950 },	-- Hateful Gladiator's Silk Raiment
+				{ 223, 41969 },	-- Hateful Gladiator's Silk Handguards
+				{ 224, 41957 },	-- Hateful Gladiator's Silk Trousers
+				{ 226, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 227, 41648 },	-- Hateful Gladiator's Leather Tunic
+				{ 228, 41765 },	-- Hateful Gladiator's Leather Gloves
+				{ 229, 41653 },	-- Hateful Gladiator's Leather Legguards
+				{ 301, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 302, 39629 },	-- Heroes' Redemption Tunic
+				{ 303, 39632 },	-- Heroes' Redemption Gloves
+				{ 304, 39630 },	-- Heroes' Redemption Greaves
+				{ 306, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 307, 39633 },	-- Heroes' Redemption Chestpiece
+				{ 308, 39634 },	-- Heroes' Redemption Gauntlets
+				{ 309, 39636 },	-- Heroes' Redemption Legplates
+				{ 311, "ICON_spell_holy_devotionaura", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Protection"] },
+				{ 312, 39638 },	-- Heroes' Redemption Breastplate
+				{ 313, 39639 },	-- Heroes' Redemption Handguards
+				{ 314, 39641 },	-- Heroes' Redemption Legguards
+				{ 316, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 317, 40904 },	-- Hateful Gladiator's Ornamented Chestguard
+				{ 318, 40925 },	-- Hateful Gladiator's Ornamented Gloves
+				{ 319, 40937 },	-- Hateful Gladiator's Ornamented Legplates
+				{ 321, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 322, 40782 },	-- Hateful Gladiator's Scaled Chestpiece
+				{ 323, 40802 },	-- Hateful Gladiator's Scaled Gauntlets
+				{ 324, 40842 },	-- Hateful Gladiator's Scaled Legguards
+				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 402, 39515 },	-- Heroes' Robe of Faith
+				{ 403, 39519 },	-- Heroes' Gloves of Faith
+				{ 404, 39517 },	-- Heroes' Leggings of Faith
+				{ 406, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 407, 39523 },	-- Heroes' Raiments of Faith
+				{ 408, 39530 },	-- Heroes' Handwraps of Faith
+				{ 409, 39528 },	-- Heroes' Pants of Faith
+				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 417, 41857 },	-- Hateful Gladiator's Mooncloth Robe
+				{ 418, 41872 },	-- Hateful Gladiator's Mooncloth Gloves
+				{ 419, 41862 },	-- Hateful Gladiator's Mooncloth Leggings
+				{ 421, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 422, 41919 },	-- Hateful Gladiator's Satin Robe
+				{ 423, 41938 },	-- Hateful Gladiator's Satin Gloves
+				{ 424, 41925 },	-- Hateful Gladiator's Satin Leggings
+				{ 501, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 502, 39592 },	-- Heroes' Earthshatter Hauberk
+				{ 503, 39593 },	-- Heroes' Earthshatter Gloves
+				{ 504, 39595 },	-- Heroes' Earthshatter Kilt
+				{ 506, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 507, 39597 },	-- Heroes' Earthshatter Chestguard
+				{ 508, 39601 },	-- Heroes' Earthshatter Grips
+				{ 509, 39603 },	-- Heroes' Earthshatter War-Kilt
+				{ 511, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 512, 39588 },	-- Heroes' Earthshatter Tunic
+				{ 513, 39591 },	-- Heroes' Earthshatter Handguards
+				{ 514, 39589 },	-- Heroes' Earthshatter Legguards
+				{ 516, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 517, 40989 },	-- Hateful Gladiator's Mail Armor
+				{ 518, 41005 },	-- Hateful Gladiator's Mail Gauntlets
+				{ 519, 41031 },	-- Hateful Gladiator's Mail Leggings
+				{ 521, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 522, 41079 },	-- Hateful Gladiator's Linked Armor
+				{ 523, 41135 },	-- Hateful Gladiator's Linked Gauntlets
+				{ 524, 41162 },	-- Hateful Gladiator's Linked Leggings
+				{ 526, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 527, 40988 },	-- Hateful Gladiator's Ringmail Armor
+				{ 528, 40999 },	-- Hateful Gladiator's Ringmail Gauntlets
+				{ 529, 41025 },	-- Hateful Gladiator's Ringmail Leggings
+				{ 601, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 602, 39497 },	-- Heroes' Plagueheart Robe
+				{ 603, 39500 },	-- Heroes' Plagueheart Gloves
+				{ 604, 39498 },	-- Heroes' Plagueheart Leggings
+				{ 606, "ICON_ability_warrior_innerrage", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Arms"].." / "..ALIL["Fury"] },
+				{ 607, 39606 },	-- Heroes' Dreadnaught Battleplate
+				{ 608, 39609 },	-- Heroes' Dreadnaught Gauntlets
+				{ 609, 39607 },	-- Heroes' Dreadnaught Legplates
+				{ 611, "ICON_ability_warrior_defensivestance", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Protection"] },
+				{ 612, 39611 },	-- Heroes' Dreadnaught Breastplate
+				{ 613, 39622 },	-- Heroes' Dreadnaught Handguards
+				{ 614, 39612 },	-- Heroes' Dreadnaught Legguards
+				{ 616, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 617, 42001 },	-- Hateful Gladiator's Felweave Raiment
+				{ 618, 42015 },	-- Hateful Gladiator's Felweave Handguards
+				{ 619, 42003 },	-- Hateful Gladiator's Felweave Trousers
+				{ 621, "ICON_inv_sword_27", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], nil },
+				{ 622, 40783 },	-- Hateful Gladiator's Plate Chestpiece
+				{ 623, 40801 },	-- Hateful Gladiator's Plate Gauntlets
+				{ 624, 40840 },	-- Hateful Gladiator's Plate Legguards
+				{ 626, [ATLASLOOT_IT_ALLIANCE] = 43959, [ATLASLOOT_IT_HORDE] = 44083 },	-- Reins of the Grand Black War Mammoth
+				{ 628, "ac1722" },
+				{ 629, "ac4016" },
+			},
+			[M25_DIFF] = {
+				GetItemsFromDiff = NORMAL_DIFF,
+				{ 2, 40550 },	-- Valorous Scourgeborne Battleplate
+				{ 3, 40552 },	-- Valorous Scourgeborne Gauntlets
+				{ 4, 40556 },	-- Valorous Scourgeborne Legplates
+				{ 7, 40559 },	-- Valorous Scourgeborne Chestguard
+				{ 8, 40563 },	-- Valorous Scourgeborne Handguards
+				{ 9, 40567 },	-- Valorous Scourgeborne Legguards
+				{ 17, 40784 },	-- Deadly Gladiator's Dreadplate Chestpiece
+				{ 18, 40806 },	-- Deadly Gladiator's Dreadplate Gauntlets
+				{ 19, 40845 },	-- Deadly Gladiator's Dreadplate Legguards
+				{ 102, 40469 },	-- Valorous Dreamwalker Vestments
+				{ 103, 40466 },	-- Valorous Dreamwalker Gloves
+				{ 104, 40468 },	-- Valorous Dreamwalker Trousers
+				{ 107, 40471 },	-- Valorous Dreamwalker Raiments
+				{ 108, 40472 },	-- Valorous Dreamwalker Handgrips
+				{ 109, 40493 },	-- Valorous Dreamwalker Legguards
+				{ 112, 40463 },	-- Valorous Dreamwalker Robe
+				{ 113, 40460 },	-- Valorous Dreamwalker Handguards
+				{ 114, 40462 },	-- Valorous Dreamwalker Leggings
+				{ 117, 41315 },	-- Deadly Gladiator's Wyrmhide Robes
+				{ 118, 41292 },	-- Deadly Gladiator's Wyrmhide Gloves
+				{ 119, 41303 },	-- Deadly Gladiator's Wyrmhide Legguards
+				{ 122, 41660 },	-- Deadly Gladiator's Dragonhide Robes
+				{ 123, 41772 },	-- Deadly Gladiator's Dragonhide Gloves
+				{ 124, 41666 },	-- Deadly Gladiator's Dragonhide Legguards
+				{ 127, 41309 },	-- Deadly Gladiator's Kodohide Robes
+				{ 128, 41286 },	-- Deadly Gladiator's Kodohide Gloves
+				{ 129, 41297 },	-- Deadly Gladiator's Kodohide Legguards
+				{ 202, 40503 },	-- Valorous Crypstalker Tunic
+				{ 203, 40504 },	-- Valorous Crypstalker Handguards
+				{ 204, 40506 },	-- Valorous Crypstalker Legguards
+				{ 207, 40418 },	-- Valorous Frostfire Robe
+				{ 208, 40415 },	-- Valorous Frostfire Gloves
+				{ 209, 40417 },	-- Valorous Frostfire Leggings
+				{ 212, 40495 },	-- Valorous Bonescythe Breastplate
+				{ 213, 40496 },	-- Valorous Bonescythe Gauntlets
+				{ 214, 40500 },	-- Valorous Bonescythe Legplates
+				{ 217, 41086 },	-- Deadly Gladiator's Chain Armor
+				{ 218, 41142 },	-- Deadly Gladiator's Chain Gauntlets
+				{ 219, 41204 },	-- Deadly Gladiator's Chain Leggings
+				{ 222, 41951 },	-- Deadly Gladiator's Silk Raiment
+				{ 223, 41970 },	-- Deadly Gladiator's Silk Handguards
+				{ 224, 41958 },	-- Deadly Gladiator's Silk Trousers
+				{ 227, 41649 },	-- Deadly Gladiator's Leather Tunic
+				{ 228, 41766 },	-- Deadly Gladiator's Leather Gloves
+				{ 229, 41654 },	-- Deadly Gladiator's Leather Legguards
+				{ 302, 40569 },	-- Valorous Redemption Tunic
+				{ 303, 40570 },	-- Valorous Redemption Gloves
+				{ 304, 40572 },	-- Valorous Redemption Greaves
+				{ 307, 40574 },	-- Valorous Redemption Chestpiece
+				{ 308, 40575 },	-- Valorous Redemption Gauntlets
+				{ 309, 40577 },	-- Valorous Redemption Legplates
+				{ 312, 40579 },	-- Valorous Redemption Breastplate
+				{ 313, 40580 },	-- Valorous Redemption Handguards
+				{ 314, 40583 },	-- Valorous Redemption Legguards
+				{ 317, 40905 },	-- Deadly Gladiator's Ornamented Chestguard
+				{ 318, 40926 },	-- Deadly Gladiator's Ornamented Gloves
+				{ 319, 40938 },	-- Deadly Gladiator's Ornamented Legplates
+				{ 322, 40785 },	-- Deadly Gladiator's Scaled Chestpiece
+				{ 323, 40805 },	-- Deadly Gladiator's Scaled Gauntlets
+				{ 324, 40846 },	-- Deadly Gladiator's Scaled Legguards
+				{ 402, 40449 },	-- Valorous Robe of Faith
+				{ 403, 40445 },	-- Valorous Gloves of Faith
+				{ 404, 40448 },	-- Valorous Leggings of Faith
+				{ 407, 40458 },	-- Valorous Raiments of Faith
+				{ 408, 40454 },	-- Valorous Handwraps of Faith
+				{ 409, 40457 },	-- Valorous Pants of Faith
+				{ 417, 41858 },	-- Deadly Gladiator's Mooncloth Robe
+				{ 418, 41873 },	-- Deadly Gladiator's Mooncloth Gloves
+				{ 419, 41863 },	-- Deadly Gladiator's Mooncloth Leggings
+				{ 422, 41920 },	-- Deadly Gladiator's Satin Robe
+				{ 423, 41939 },	-- Deadly Gladiator's Satin Gloves
+				{ 424, 41926 },	-- Deadly Gladiator's Satin Leggings
+				{ 502, 40514 },	-- Valorous Earthshatter Hauberk
+				{ 503, 40515 },	-- Valorous Earthshatter Gloves
+				{ 504, 40517 },	-- Valorous Earthshatter Kilt
+				{ 507, 40523 },	-- Valorous Earthshatter Chestguard
+				{ 508, 40520 },	-- Valorous Earthshatter Grips
+				{ 509, 40522 },	-- Valorous Earthshatter War-Kilt
+				{ 512, 40508 },	-- Valorous Earthshatter Tunic
+				{ 513, 40509 },	-- Valorous Earthshatter Handguards
+				{ 514, 40512 },	-- Valorous Earthshatter Legguards
+				{ 517, 40991 },	-- Deadly Gladiator's Mail Armor
+				{ 518, 41006 },	-- Deadly Gladiator's Mail Gauntlets
+				{ 519, 41032 },	-- Deadly Gladiator's Mail Leggings
+				{ 522, 41080 },	-- Deadly Gladiator's Linked Armor
+				{ 523, 41136 },	-- Deadly Gladiator's Linked Gauntlets
+				{ 524, 41198 },	-- Deadly Gladiator's Linked Leggings
+				{ 527, 40990 },	-- Deadly Gladiator's Ringmail Armor
+				{ 528, 41000 },	-- Deadly Gladiator's Ringmail Gauntlets
+				{ 529, 41026 },	-- Deadly Gladiator's Ringmail Leggings
+				{ 602, 40423 },	-- Valorous Plagueheart Robe
+				{ 603, 40420 },	-- Valorous Plagueheart Gloves
+				{ 604, 40422 },	-- Valorous Plagueheart Leggings
+				{ 607, 40525 },	-- Valorous Dreadnaught Battleplate
+				{ 608, 40527 },	-- Valorous Dreadnaught Gauntlets
+				{ 609, 40529 },	-- Valorous Dreadnaught Legplates
+				{ 612, 40544 },	-- Valorous Dreadnaught Breastplate
+				{ 613, 40545 },	-- Valorous Dreadnaught Handguards
+				{ 614, 40547 },	-- Valorous Dreadnaught Legguards
+				{ 617, 41997 },	-- Deadly Gladiator's Felweave Raiment
+				{ 618, 42016 },	-- Deadly Gladiator's Felweave Handguards
+				{ 619, 42004 },	-- Deadly Gladiator's Felweave Trousers
+				{ 622, 40786 },	-- Deadly Gladiator's Plate Chestpiece
+				{ 623, 40804 },	-- Deadly Gladiator's Plate Gauntlets
+				{ 624, 40844 },	-- Deadly Gladiator's Plate Legguards
+				{ 628, "ac1721" },
+				{ 629, "ac4017" },
+			},
+		},
+		{	--Emalon
+			name = BB["Emalon the Storm Watcher"],
+			[NORMAL_DIFF] = {
+				{ 1, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 2, 45351 },	-- Valorous Nightsong Gloves
+				{ 3, 45353 },	-- Valorous Nightsong Trousers
+				{ 5, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 6, 45355 },	-- Valorous Nightsong Handgrips
+				{ 7, 45357 },	-- Valorous Nightsong Legguards
+				{ 9, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 10, 45345 },	-- Valorous Nightsong Handguards
+				{ 11, 45347 },	-- Valorous Nightsong Leggings
+				{ 16, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 17, 41292 },	-- Deadly Gladiator's Wyrmhide Gloves
+				{ 18, 41303 },	-- Deadly Gladiator's Wyrmhide Legguards
+				{ 20, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 21, 41772 },	-- Deadly Gladiator's Dragonhide Gloves
+				{ 22, 41666 },	-- Deadly Gladiator's Dragonhide Legguards
+				{ 24, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 25, 41286 },	-- Deadly Gladiator's Kodohide Gloves
+				{ 26, 41297 },	-- Deadly Gladiator's Kodohide Legguards
+				{ 101, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 102, 45360 },	-- Valorous Scourgestalker Handguards
+				{ 103, 45362 },	-- Valorous Scourgestalker Legguards
+				{ 105, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 106, 46131 },	-- Valorous Kirin Tor Gauntlets
+				{ 107, 45367 },	-- Valorous Kirin Tor Leggings
+				{ 109, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 110, 45397 },	-- Valorous Terrorblade Gauntlets
+				{ 111, 45399 },	-- Valorous Terrorblade Legplates
+				{ 113, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 114, 45419 },	-- Valorous Deathbringer Gloves
+				{ 115, 45420 },	-- Valorous Deathbringer Leggings
+				{ 116, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 117, 41142 },	-- Deadly Gladiator's Chain Gauntlets
+				{ 118, 41204 },	-- Deadly Gladiator's Chain Leggings
+				{ 120, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 121, 41970 },	-- Deadly Gladiator's Silk Handguards
+				{ 122, 41958 },	-- Deadly Gladiator's Silk Trousers
+				{ 124, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 125, 41766 },	-- Deadly Gladiator's Leather Gloves
+				{ 126, 41654 },	-- Deadly Gladiator's Leather Legguards
+				{ 128, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 129, 42016 },	-- Deadly Gladiator's Felweave Handguards
+				{ 130, 42004 },	-- Deadly Gladiator's Felweave Trousers
+				{ 201, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 202, 45370 },	-- Valorous Aegis Gloves
+				{ 203, 45371 },	-- Valorous Aegis Greaves
+				{ 205, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 206, 45376 },	-- Valorous Aegis Gauntlets
+				{ 207, 45379 },	-- Valorous Aegis Legplates
+				{ 209, "ICON_spell_holy_devotionaura", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Protection"] },
+				{ 210, 45383 },	-- Valorous Aegis Handguards
+				{ 211, 45384 },	-- Valorous Aegis Legguards
+				{ 216, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 217, 40926 },	-- Deadly Gladiator's Ornamented Gloves
+				{ 218, 40938 },	-- Deadly Gladiator's Ornamented Legplates
+				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 221, 40805 },	-- Deadly Gladiator's Scaled Gauntlets
+				{ 222, 40846 },	-- Deadly Gladiator's Scaled Legguards
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 302, 45387 },	-- Valorous Gloves of Sanctification
+				{ 303, 45388 },	-- Valorous Leggings of Sanctification
+				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 306, 45392 },	-- Valorous Handwraps of Sanctification
+				{ 307, 45394 },	-- Valorous Pants of Sanctification
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 317, 41873 },	-- Deadly Gladiator's Mooncloth Gloves
+				{ 318, 41863 },	-- Deadly Gladiator's Mooncloth Leggings
+				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 321, 41939 },	-- Deadly Gladiator's Satin Gloves
+				{ 322, 41926 },	-- Deadly Gladiator's Satin Leggings
+				{ 401, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 402, 45406 },	-- Valorous Worldbreaker Gloves
+				{ 403, 45409 },	-- Valorous Worldbreaker Kilt
+				{ 405, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 406, 45414 },	-- Valorous Worldbreaker Grips
+				{ 407, 45416 },	-- Valorous Worldbreaker War-Kilt
+				{ 409, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 410, 45401 },	-- Valorous Worldbreaker Handguards
+				{ 411, 45403 },	-- Valorous Worldbreaker Legguards
+				{ 416, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 417, 41006 },	-- Deadly Gladiator's Mail Gauntlets
+				{ 418, 41032 },	-- Deadly Gladiator's Mail Leggings
+				{ 420, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 421, 41136 },	-- Deadly Gladiator's Linked Gauntlets
+				{ 422, 41198 },	-- Deadly Gladiator's Linked Leggings
+				{ 424, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 425, 41000 },	-- Deadly Gladiator's Ringmail Gauntlets
+				{ 426, 41026 },	-- Deadly Gladiator's Ringmail Leggings
+				{ 501, "ICON_spell_deathknight_frostpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Frost"].." / "..ALIL["Unholy"] },
+				{ 502, 45341 },	-- Valorous Darkruned Gauntlets
+				{ 503, 45343 },	-- Valorous Darkruned Legplates
+				{ 505, "ICON_spell_deathknight_bloodpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Blood"] },
+				{ 506, 45337 },	-- Valorous Darkruned Handguards
+				{ 507, 45338 },	-- Valorous Darkruned Legguards
+				{ 509, "ICON_ability_warrior_innerrage", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Arms"].." / "..ALIL["Fury"] },
+				{ 510, 45430 },	-- Valorous Siegebreaker Gauntlets
+				{ 511, 45432 },	-- Valorous Siegebreaker Legplates
+				{ 513, "ICON_ability_warrior_defensivestance", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Protection"] },
+				{ 514, 45426 },	-- Valorous Siegebreaker Handguards
+				{ 515, 45427 },	-- Valorous Siegebreaker Legguards
+				{ 516, "ICON_Spell_deathknight_classicon", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], nil },
+				{ 517, 40806 },	-- Deadly Gladiator's Dreadplate Gauntlets
+				{ 518, 40845 },	-- Deadly Gladiator's Dreadplate Legguards
+				{ 524, "ICON_inv_sword_27", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], nil },
+				{ 525, 40804 },	-- Deadly Gladiator's Plate Gauntlets
+				{ 526, 40844 },	-- Deadly Gladiator's Plate Legguards
+				{ 601, 41908 },	-- Deadly Gladiator's Cuffs of Dominance
+				{ 602, 41897 },	-- Deadly Gladiator's Cord of Dominance
+				{ 603, 41902 },	-- Deadly Gladiator's Treads of Dominance
+				{ 605, 41892 },	-- Deadly Gladiator's Cuffs of Salvation
+				{ 606, 41880 },	-- Deadly Gladiator's Cord of Salvation
+				{ 607, 41884 },	-- Deadly Gladiator's Treads of Salvation
+				{ 616, 41639 },	-- Deadly Gladiator's Armwraps of Dominance
+				{ 617, 41629 },	-- Deadly Gladiator's Belt of Dominance
+				{ 618, 41634 },	-- Deadly Gladiator's Boots of Dominance
+				{ 620, 41624 },	-- Deadly Gladiator's Armwraps of Salvation
+				{ 621, 41616 },	-- Deadly Gladiator's Belt of Salvation
+				{ 622, 41620 },	-- Deadly Gladiator's Boots of Salvation
+				{ 624, 41839 },	-- Deadly Gladiator's Armwraps of Triumph
+				{ 625, 41831 },	-- Deadly Gladiator's Belt of Triumph
+				{ 626, 41835 },	-- Deadly Gladiator's Boots of Triumph
+				{ 701, 41064 },	-- Deadly Gladiator's Wristguards of Dominance
+				{ 702, 41069 },	-- Deadly Gladiator's Waistguard of Dominance
+				{ 703, 41074 },	-- Deadly Gladiator's Sabatons of Dominance
+				{ 705, 41059 },	-- Deadly Gladiator's Wristguards of Salvation
+				{ 706, 41048 },	-- Deadly Gladiator's Waistguard of Salvation
+				{ 707, 41054 },	-- Deadly Gladiator's Sabatons of Salvation
+				{ 709, 41224 },	-- Deadly Gladiator's Wristguards of Triumph
+				{ 710, 41234 },	-- Deadly Gladiator's Waistguard of Triumph
+				{ 711, 41229 },	-- Deadly Gladiator's Sabatons of Triumph
+				{ 716, 40982 },	-- Deadly Gladiator's Bracers of Salvation
+				{ 717, 40974 },	-- Deadly Gladiator's Girdle of Salvation
+				{ 718, 40975 },	-- Deadly Gladiator's Greaves of Salvation
+				{ 720, 40888 },	-- Deadly Gladiator's Bracers of Triumph
+				{ 721, 40879 },	-- Deadly Gladiator's Girdle of Triumph
+				{ 722, 40880 },	-- Deadly Gladiator's Greaves of Triumph
+				{ 801, 42064 },	-- Deadly Gladiator's Cloak of Ascendancy
+				{ 802, 42066 },	-- Deadly Gladiator's Cloak of Deliverance
+				{ 803, 42062 },	-- Deadly Gladiator's Cloak of Dominance
+				{ 804, 42065 },	-- Deadly Gladiator's Cloak of Salvation
+				{ 805, 42063 },	-- Deadly Gladiator's Cloak of Subjugation
+				{ 806, 42067 },	-- Deadly Gladiator's Cloak of Triumph
+				{ 807, 42068 },	-- Deadly Gladiator's Cloak of Victory
+				{ 809, 42030 },	-- Deadly Gladiator's Pendant of Ascendancy
+				{ 810, 42032 },	-- Deadly Gladiator's Pendant of Deliverance
+				{ 811, 42029 },	-- Deadly Gladiator's Pendant of Dominance
+				{ 812, 42033 },	-- Deadly Gladiator's Pendant of Salvation
+				{ 813, 42031 },	-- Deadly Gladiator's Pendant of Subjugation
+				{ 814, 42027 },	-- Deadly Gladiator's Pendant of Triumph
+				{ 815, 42028 },	-- Deadly Gladiator's Pendant of Victory
+				{ 816, 42114 },	-- Deadly Gladiator's Band of Ascendancy
+				{ 817, 42115 },	-- Deadly Gladiator's Band of Victory
+				{ 819, [ATLASLOOT_IT_ALLIANCE] = 43959, [ATLASLOOT_IT_HORDE] = 44083 },	-- Reins of the Grand Black War Mammoth
+				{ 821, "ac3136" },
+				{ 822, "ac4016" },
+			},
+			[M25_DIFF] = {
+				GetItemsFromDiff = NORMAL_DIFF,
+				{ 2, 46189 },	-- Conqueror's Nightsong Gloves
+				{ 3, 46192 },	-- Conqueror's Nightsong Trousers
+				{ 6, 46158 },	-- Conqueror's Nightsong Handgrips
+				{ 7, 46160 },	-- Conqueror's Nightsong Legguards
+				{ 10, 46183 },	-- Conqueror's Nightsong Handguards
+				{ 11, 46185 },	-- Conqueror's Nightsong Leggings
+				{ 17, 41293 },	-- Furious Gladiator's Wyrmhide Gloves
+				{ 18, 41304 },	-- Furious Gladiator's Wyrmhide Legguards
+				{ 21, 41773 },	-- Furious Gladiator's Dragonhide Gloves
+				{ 22, 41667 },	-- Furious Gladiator's Dragonhide Legguards
+				{ 25, 41287 },	-- Furious Gladiator's Kodohide Gloves
+				{ 26, 41298 },	-- Furious Gladiator's Kodohide Legguards
+				{ 102, 46142 },	-- Conqueror's Scourgestalker Handguards
+				{ 103, 46144 },	-- Conqueror's Scourgestalker Legguards
+				{ 106, 46132 },	-- Conqueror's Kirin Tor Gauntlets
+				{ 107, 46133 },	-- Conqueror's Kirin Tor Leggings
+				{ 110, 46124 },	-- Conqueror's Terrorblade Gauntlets
+				{ 111, 46126 },	-- Conqueror's Terrorblade Legplates
+				{ 114, 46135 },	-- Conqueror's Deathbringer Gloves
+				{ 115, 46139 },	-- Conqueror's Deathbringer Leggings
+				{ 117, 41143 },	-- Furious Gladiator's Chain Gauntlets
+				{ 118, 41205 },	-- Furious Gladiator's Chain Leggings
+				{ 121, 41971 },	-- Furious Gladiator's Silk Handguards
+				{ 122, 41959 },	-- Furious Gladiator's Silk Trousers
+				{ 125, 41767 },	-- Furious Gladiator's Leather Gloves
+				{ 126, 41655 },	-- Furious Gladiator's Leather Legguards
+				{ 129, 42017 },	-- Furious Gladiator's Felweave Handguards
+				{ 130, 42005 },	-- Furious Gladiator's Felweave Trousers
+				{ 202, 46179 },	-- Conqueror's Aegis Gloves
+				{ 203, 46181 },	-- Conqueror's Aegis Greaves
+				{ 206, 46155 },	-- Conqueror's Aegis Gauntlets
+				{ 207, 46153 },	-- Conqueror's Aegis Legplates
+				{ 210, 46174 },	-- Conqueror's Aegis Handguards
+				{ 211, 46176 },	-- Conqueror's Aegis Legguards
+				{ 217, 40927 },	-- Furious Gladiator's Ornamented Gloves
+				{ 218, 40939 },	-- Furious Gladiator's Ornamented Legplates
+				{ 221, 40808 },	-- Furious Gladiator's Scaled Gauntlets
+				{ 222, 40849 },	-- Furious Gladiator's Scaled Legguards
+				{ 302, 46188 },	-- Conqueror's Gloves of Sanctification
+				{ 303, 46195 },	-- Conqueror's Leggings of Sanctification
+				{ 306, 46163 },	-- Conqueror's Handwraps of Sanctification
+				{ 307, 46170 },	-- Conqueror's Pants of Sanctification
+				{ 317, 41874 },	-- Furious Gladiator's Mooncloth Gloves
+				{ 318, 41864 },	-- Furious Gladiator's Mooncloth Leggings
+				{ 321, 41940 },	-- Furious Gladiator's Satin Gloves
+				{ 322, 41927 },	-- Furious Gladiator's Satin Leggings
+				{ 402, 46207 },	-- Conqueror's Worldbreaker Gloves
+				{ 403, 46210 },	-- Conqueror's Worldbreaker Kilt
+				{ 406, 46200 },	-- Conqueror's Worldbreaker Grips
+				{ 407, 46208 },	-- Conqueror's Worldbreaker War-Kilt
+				{ 410, 46199 },	-- Conqueror's Worldbreaker Handguards
+				{ 411, 46202 },	-- Conqueror's Worldbreaker Legguards
+				{ 417, 41007 },	-- Furious Gladiator's Mail Gauntlets
+				{ 418, 41033 },	-- Furious Gladiator's Mail Leggings
+				{ 421, 41137 },	-- Furious Gladiator's Linked Gauntlets
+				{ 422, 41199 },	-- Furious Gladiator's Linked Leggings
+				{ 425, 41001 },	-- Furious Gladiator's Ringmail Gauntlets
+				{ 426, 41027 },	-- Furious Gladiator's Ringmail Leggings
+				{ 502, 46113 },	-- Conqueror's Darkruned Gauntlets
+				{ 503, 46116 },	-- Conqueror's Darkruned Legplates
+				{ 506, 46119 },	-- Conqueror's Darkruned Handguards
+				{ 507, 46121 },	-- Conqueror's Darkruned Legguards
+				{ 510, 46148 },	-- Conqueror's Siegebreaker Gauntlets
+				{ 511, 46150 },	-- Conqueror's Siegebreaker Legplates
+				{ 514, 46164 },	-- Conqueror's Siegebreaker Handguards
+				{ 515, 46169 },	-- Conqueror's Siegebreaker Legguards
+				{ 517, 40809 },	-- Furious Gladiator's Dreadplate Gauntlets
+				{ 518, 40848 },	-- Furious Gladiator's Dreadplate Legguards
+				{ 525, 40807 },	-- Furious Gladiator's Plate Gauntlets
+				{ 526, 40847 },	-- Furious Gladiator's Plate Legguards
+				{ 601, 41909 },	-- Furious Gladiator's Cuffs of Dominance
+				{ 602, 41898 },	-- Furious Gladiator's Cord of Dominance
+				{ 603, 41903 },	-- Furious Gladiator's Treads of Dominance
+				{ 605, 41893 },	-- Furious Gladiator's Cuffs of Salvation
+				{ 606, 41881 },	-- Furious Gladiator's Cord of Salvation
+				{ 607, 41885 },	-- Furious Gladiator's Slippers of Salvation
+				{ 616, 41640 },	-- Furious Gladiator's Armwraps of Dominance
+				{ 617, 41630 },	-- Furious Gladiator's Belt of Dominance
+				{ 618, 41635 },	-- Furious Gladiator's Boots of Dominance
+				{ 620, 41625 },	-- Furious Gladiator's Armwraps of Salvation
+				{ 621, 41617 },	-- Furious Gladiator's Belt of Salvation
+				{ 622, 41621 },	-- Furious Gladiator's Boots of Salvation
+				{ 624, 41840 },	-- Furious Gladiator's Armwraps of Triumph
+				{ 625, 41832 },	-- Furious Gladiator's Belt of Triumph
+				{ 626, 41836 },	-- Furious Gladiator's Boots of Triumph
+				{ 701, 41065 },	-- Furious Gladiator's Wristguards of Dominance
+				{ 702, 41070 },	-- Furious Gladiator's Waistguard of Dominance
+				{ 703, 41075 },	-- Furious Gladiator's Sabatons of Dominance
+				{ 705, 41060 },	-- Furious Gladiator's Wristguards of Salvation
+				{ 706, 41051 },	-- Furious Gladiator's Waistguard of Salvation
+				{ 707, 41055 },	-- Furious Gladiator's Sabatons of Salvation
+				{ 709, 41225 },	-- Furious Gladiator's Wristguards of Triumph
+				{ 710, 41235 },	-- Furious Gladiator's Waistguard of Triumph
+				{ 711, 41230 },	-- Furious Gladiator's Sabatons of Triumph
+				{ 716, 40983 },	-- Furious Gladiator's Bracers of Salvation
+				{ 717, 40976 },	-- Furious Gladiator's Girdle of Salvation
+				{ 718, 40977 },	-- Furious Gladiator's Greaves of Salvation
+				{ 720, 40889 },	-- Furious Gladiator's Bracers of Triumph
+				{ 721, 40881 },	-- Furious Gladiator's Girdle of Triumph
+				{ 722, 40882 },	-- Furious Gladiator's Greaves of Triumph
+				{ 801, 42071 },	-- Furious Gladiator's Cloak of Ascendancy
+				{ 802, 42073 },	-- Furious Gladiator's Cloak of Deliverance
+				{ 803, 42069 },	-- Furious Gladiator's Cloak of Dominance
+				{ 804, 42072 },	-- Furious Gladiator's Cloak of Salvation
+				{ 805, 42070 },	-- Furious Gladiator's Cloak of Subjugation
+				{ 806, 42074 },	-- Furious Gladiator's Cloak of Triumph
+				{ 807, 42075 },	-- Furious Gladiator's Cloak of Victory
+				{ 808, 42037 },	-- Furious Gladiator's Pendant of Ascendancy
+				{ 809, 42039 },	-- Furious Gladiator's Pendant of Deliverance
+				{ 810, 42036 },	-- Furious Gladiator's Pendant of Dominance
+				{ 811, 42040 },	-- Furious Gladiator's Pendant of Salvation
+				{ 812, 42038 },	-- Furious Gladiator's Pendant of Subjugation
+				{ 813, 46373 },	-- Furious Gladiator's Pendant of Sundering
+				{ 814, 42034 },	-- Furious Gladiator's Pendant of Triumph
+				{ 815, 42035 },	-- Furious Gladiator's Pendant of Victory
+				{ 816, 42116 },	-- Furious Gladiator's Band of Dominance
+				{ 817, 42117 },	-- Furious Gladiator's Band of VicTriumphtory
+				{ 821, "ac3137" },
+				{ 822, "ac4017" },
+			},
+		},
+		{	--Koralon
+			name = BB["Koralon the Flame Watcher"],
+			[NORMAL_DIFF] = {
+				{ 1, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 48162, [ATLASLOOT_IT_HORDE] = 48183 },	-- Stormrage's Gloves of Conquest / Runetotem's Gloves of Conquest
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 48160, [ATLASLOOT_IT_HORDE] = 48185 },	-- Stormrage's Trousers of Conquest / Runetotem's Trousers of Conquest
+				{ 5, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 48213, [ATLASLOOT_IT_HORDE] = 48192 },	-- Stormrage's Handgrips of Conquest / Runetotem's Handgrips of Conquest
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 48215, [ATLASLOOT_IT_HORDE] = 48190 },	-- Stormrage's Legguards of Conquest / Runetotem's Legguards of Conquest
+				{ 9, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 48132, [ATLASLOOT_IT_HORDE] = 48153 },	-- Stormrage's Handguards of Conquest / Runetotem's Handguards of Conquest
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 48130, [ATLASLOOT_IT_HORDE] = 48155 },	-- Stormrage's Leggings of Conquest / Runetotem's Leggings of Conquest
+				{ 16, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 17, 41293 },	-- Furious Gladiator's Wyrmhide Gloves
+				{ 18, 41304 },	-- Furious Gladiator's Wyrmhide Legguards
+				{ 20, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 21, 41773 },	-- Furious Gladiator's Dragonhide Gloves
+				{ 22, 41667 },	-- Furious Gladiator's Dragonhide Legguards
+				{ 24, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 25, 41287 },	-- Furious Gladiator's Kodohide Gloves
+				{ 26, 41298 },	-- Furious Gladiator's Kodohide Legguards
+				{ 101, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 102, [ATLASLOOT_IT_ALLIANCE] = 48254, [ATLASLOOT_IT_HORDE] = 48276 },	-- Windrunner's Handguards of Conquest
+				{ 103, [ATLASLOOT_IT_ALLIANCE] = 48252, [ATLASLOOT_IT_HORDE] = 48278 },	-- Windrunner's Legguards of Conquest
+				{ 105, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 106, [ATLASLOOT_IT_ALLIANCE] = 47752, [ATLASLOOT_IT_HORDE] = 47773 },	-- Khadgar's Gauntlets of Conquest / Sunstrider's Gauntlets of Conquest
+				{ 107, [ATLASLOOT_IT_ALLIANCE] = 47750, [ATLASLOOT_IT_HORDE] = 47775 },	-- Khadgar's Leggings of Conquest / Sunstrider's Leggings of Conquest
+				{ 109, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 110, [ATLASLOOT_IT_ALLIANCE] = 48222, [ATLASLOOT_IT_HORDE] = 48244 },	-- VanCleef's Gauntlets of Conquest / Garona's Gauntlets of Conquest
+				{ 111, [ATLASLOOT_IT_ALLIANCE] = 48220, [ATLASLOOT_IT_HORDE] = 48246 },	-- VanCleef's Legplates of Conquest / Garona's Legplates of Conquest
+				{ 113, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 114, [ATLASLOOT_IT_ALLIANCE] = 47783, [ATLASLOOT_IT_HORDE] = 47802 },	-- Kel'Thuzad's Gloves of Conquest / Gul'dan's Gloves of Conquest
+				{ 115, [ATLASLOOT_IT_ALLIANCE] = 47785, [ATLASLOOT_IT_HORDE] = 47800 },	-- Kel'Thuzad's Leggings of Conquest / Gul'dan's Leggings of Conquest
+				{ 116, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 117, 41143 },	-- Furious Gladiator's Chain Gauntlets
+				{ 118, 41205 },	-- Furious Gladiator's Chain Leggings
+				{ 120, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 121, 41971 },	-- Furious Gladiator's Silk Handguards
+				{ 122, 41959 },	-- Furious Gladiator's Silk Trousers
+				{ 124, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 125, 41767 },	-- Furious Gladiator's Leather Gloves
+				{ 126, 41655 },	-- Furious Gladiator's Leather Legguards
+				{ 128, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 129, 42017 },	-- Furious Gladiator's Felweave Handguards
+				{ 130, 42005 },	-- Furious Gladiator's Felweave Trousers
+				{ 201, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 202, [ATLASLOOT_IT_ALLIANCE] = 48574, [ATLASLOOT_IT_HORDE] = 48598 },	-- Turalyon's Gloves of Conquest / Liadrin's Gloves of Conquest
+				{ 203, [ATLASLOOT_IT_ALLIANCE] = 48568, [ATLASLOOT_IT_HORDE] = 48596 },	-- Turalyon's Greaves of Conquest / Liadrin's Greaves of Conquest
+				{ 205, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 206, [ATLASLOOT_IT_ALLIANCE] = 48603, [ATLASLOOT_IT_HORDE] = 48630 },	-- Turalyon's Gauntlets of Conquest / Liadrin's Gauntlets of Conquest
+				{ 207, [ATLASLOOT_IT_ALLIANCE] = 48605, [ATLASLOOT_IT_HORDE] = 48628 },	-- Turalyon's Legplates of Conquest / Liadrin's Legplates of Conquest
+				{ 209, "ICON_spell_holy_devotionaura", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Protection"] },
+				{ 210, [ATLASLOOT_IT_ALLIANCE] = 48633, [ATLASLOOT_IT_HORDE] = 48653 },	-- Turalyon's Handguards of Conquest / Liadrin's Handguards of Conquest
+				{ 211, [ATLASLOOT_IT_ALLIANCE] = 48635, [ATLASLOOT_IT_HORDE] = 48655 },	-- Turalyon's Legguards of Conquest / Liadrin's Legguards of Conquest
+				{ 216, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 217, 40927 },	-- Furious Gladiator's Ornamented Gloves
+				{ 218, 40939 },	-- Furious Gladiator's Ornamented Legplates
+				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 221, 40808 },	-- Furious Gladiator's Scaled Gauntlets
+				{ 222, 40849 },	-- Furious Gladiator's Scaled Legguards
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 302, [ATLASLOOT_IT_ALLIANCE] = 47982, [ATLASLOOT_IT_HORDE] = 48067 },	-- Velen's Gloves of Conquest / Zabra's Gloves of Conquest
+				{ 303, [ATLASLOOT_IT_ALLIANCE] = 47980, [ATLASLOOT_IT_HORDE] = 48069 },	-- Velen's Leggings of Conquest / Zabra's Leggings of Conquest
+				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 306, [ATLASLOOT_IT_ALLIANCE] = 48072, [ATLASLOOT_IT_HORDE] = 48097 },	-- Velen's Handwraps of Conquest / Zabra's Handwraps of Conquest
+				{ 307, [ATLASLOOT_IT_ALLIANCE] = 48074, [ATLASLOOT_IT_HORDE] = 48099 },	-- Velen's Pants of Conquest / Zabra's Pants of Conquest
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 317, 41874 },	-- Furious Gladiator's Mooncloth Gloves
+				{ 318, 41864 },	-- Furious Gladiator's Mooncloth Leggings
+				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 321, 41940 },	-- Furious Gladiator's Satin Gloves
+				{ 322, 41927 },	-- Furious Gladiator's Satin Leggings
+				{ 401, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 402, [ATLASLOOT_IT_ALLIANCE] = 48312, [ATLASLOOT_IT_HORDE] = 48337 },	-- Nobundo's Gloves of Conquest / Thrall's Gloves of Conquest
+				{ 403, [ATLASLOOT_IT_ALLIANCE] = 48314, [ATLASLOOT_IT_HORDE] = 48339 },	-- Nobundo's Kilt of Conquest / Thrall's Kilt of Conquest
+				{ 405, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 406, [ATLASLOOT_IT_ALLIANCE] = 48342, [ATLASLOOT_IT_HORDE] = 48367 },	-- Nobundo's Grips of Conquest / Thrall's Grips of Conquest
+				{ 407, [ATLASLOOT_IT_ALLIANCE] = 48344, [ATLASLOOT_IT_HORDE] = 48369 },	-- Nobundo's War-Kilt of Conquest / Thrall's War-Kilt of Conquest
+				{ 409, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 410, [ATLASLOOT_IT_ALLIANCE] = 48284, [ATLASLOOT_IT_HORDE] = 48296 },	-- Nobundo's Handguards of Conquest / Thrall's Handguards of Conquest
+				{ 411, [ATLASLOOT_IT_ALLIANCE] = 48282, [ATLASLOOT_IT_HORDE] = 48298 },	-- Nobundo's Legguards of Conquest / Thrall's Legguards of Conquest
+				{ 416, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 417, 41007 },	-- Furious Gladiator's Mail Gauntlets
+				{ 418, 41033 },	-- Furious Gladiator's Mail Leggings
+				{ 420, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 421, 41137 },	-- Furious Gladiator's Linked Gauntlets
+				{ 422, 41199 },	-- Furious Gladiator's Linked Leggings
+				{ 424, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 425, 41001 },	-- Furious Gladiator's Ringmail Gauntlets
+				{ 426, 41027 },	-- Furious Gladiator's Ringmail Leggings
+				{ 501, "ICON_spell_deathknight_frostpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Frost"].." / "..ALIL["Unholy"] },
+				{ 502, [ATLASLOOT_IT_ALLIANCE] = 48480, [ATLASLOOT_IT_HORDE] = 48502 },	-- Thassarian's Gauntlets of Conquest / Koltira's Gauntlets of Conquest
+				{ 503, [ATLASLOOT_IT_ALLIANCE] = 48476, [ATLASLOOT_IT_HORDE] = 48504 },	-- Thassarian's Legplates of Conquest / Koltira's Legplates of Conquest
+				{ 505, "ICON_spell_deathknight_bloodpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Blood"] },
+				{ 506, [ATLASLOOT_IT_ALLIANCE] = 48537, [ATLASLOOT_IT_HORDE] = 48559 },	-- Thassarian's Handguards of Conquest / Koltira's Handguards of Conquest
+				{ 507, [ATLASLOOT_IT_ALLIANCE] = 48533, [ATLASLOOT_IT_HORDE] = 48561 },	-- Thassarian's Legguards of Conquest / Koltira's Legguards of Conquest
+				{ 509, "ICON_ability_warrior_innerrage", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Arms"].." / "..ALIL["Fury"] },
+				{ 510, [ATLASLOOT_IT_ALLIANCE] = 48375, [ATLASLOOT_IT_HORDE] = 48387 },	-- Wrynn's Gauntlets of Conquest / Hellscream's Gauntlets of Conquest
+				{ 511, [ATLASLOOT_IT_ALLIANCE] = 48373, [ATLASLOOT_IT_HORDE] = 48389 },	-- Wrynn's Legplates of Conquest / Hellscream's Legplates of Conquest
+				{ 513, "ICON_ability_warrior_defensivestance", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Protection"] },
+				{ 514, [ATLASLOOT_IT_ALLIANCE] = 48449, [ATLASLOOT_IT_HORDE] = 48457 },	-- Wrynn's Handguards of Conquest / Hellscream's Handguards of Conquest
+				{ 515, [ATLASLOOT_IT_ALLIANCE] = 48445, [ATLASLOOT_IT_HORDE] = 48459 },	-- Wrynn's Legguards of Conquest / Hellscream's Legguards of Conquest
+				{ 516, "ICON_Spell_deathknight_classicon", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], nil },
+				{ 517, 40809 },	-- Furious Gladiator's Dreadplate Gauntlets
+				{ 518, 40848 },	-- Furious Gladiator's Dreadplate Legguards
+				{ 524, "ICON_inv_sword_27", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], nil },
+				{ 525, 40807 },	-- Furious Gladiator's Plate Gauntlets
+				{ 526, 40847 },	-- Furious Gladiator's Plate Legguards
+				{ 601, 41909 },	-- Furious Gladiator's Cuffs of Dominance
+				{ 602, 41898 },	-- Furious Gladiator's Cord of Dominance
+				{ 603, 41903 },	-- Furious Gladiator's Slippers of Dominance
+				{ 605, 41893 },	-- Furious Gladiator's Cuffs of Salvation
+				{ 606, 41881 },	-- Furious Gladiator's Cord of Salvation
+				{ 607, 41885 },	-- Furious Gladiator's Slippers of Salvation
+				{ 616, 41640 },	-- Furious Gladiator's Armwraps of Dominance
+				{ 617, 41630 },	-- Furious Gladiator's Belt of Dominance
+				{ 618, 41635 },	-- Furious Gladiator's Boots of Dominance
+				{ 620, 41625 },	-- Furious Gladiator's Armwraps of Salvation
+				{ 621, 41617 },	-- Furious Gladiator's Belt of Salvation
+				{ 622, 41621 },	-- Furious Gladiator's Boots of Salvation
+				{ 624, 41840 },	-- Furious Gladiator's Armwraps of Triumph
+				{ 625, 41832 },	-- Furious Gladiator's Belt of Triumph
+				{ 626, 41836 },	-- Furious Gladiator's Boots of Triumph
+				{ 701, 41065 },	-- Furious Gladiator's Wristguards of Dominance
+				{ 702, 41070 },	-- Furious Gladiator's Waistguard of Dominance
+				{ 703, 41075 },	-- Furious Gladiator's Sabatons of Dominance
+				{ 705, 41060 },	-- Furious Gladiator's Wristguards of Salvation
+				{ 706, 41051 },	-- Furious Gladiator's Waistguard of Salvation
+				{ 707, 41055 },	-- Furious Gladiator's Sabatons of Salvation
+				{ 709, 41225 },	-- Furious Gladiator's Wristguards of Triumph
+				{ 710, 41235 },	-- Furious Gladiator's Waistguard of Triumph
+				{ 711, 41230 },	-- Furious Gladiator's Sabatons of Triumph
+				{ 716, 40983 },	-- Furious Gladiator's Bracers of Salvation
+				{ 717, 40976 },	-- Furious Gladiator's Girdle of Salvation
+				{ 718, 40977 },	-- Furious Gladiator's Greaves of Salvation
+				{ 720, 40889 },	-- Furious Gladiator's Bracers of Triumph
+				{ 721, 40881 },	-- Furious Gladiator's Girdle of Triumph
+				{ 722, 40882 },	-- Furious Gladiator's Greaves of Triumph
+				{ 801, 42071 },	-- Furious Gladiator's Cloak of Ascendancy
+				{ 802, 42073 },	-- Furious Gladiator's Cloak of Deliverance
+				{ 803, 42069 },	-- Furious Gladiator's Cloak of Dominance
+				{ 804, 42072 },	-- Furious Gladiator's Cloak of Salvation
+				{ 805, 42070 },	-- Furious Gladiator's Cloak of Subjugation
+				{ 806, 42074 },	-- Furious Gladiator's Cloak of Triumph
+				{ 807, 42075 },	-- Furious Gladiator's Cloak of Victory
+				{ 808, 42037 },	-- Furious Gladiator's Pendant of Ascendancy
+				{ 809, 42039 },	-- Furious Gladiator's Pendant of Deliverance
+				{ 810, 42036 },	-- Furious Gladiator's Pendant of Dominance
+				{ 811, 42040 },	-- Furious Gladiator's Pendant of Salvation
+				{ 812, 42038 },	-- Furious Gladiator's Pendant of Subjugation
+				{ 813, 46373 },	-- Furious Gladiator's Pendant of Sundering
+				{ 814, 42034 },	-- Furious Gladiator's Pendant of Triumph
+				{ 815, 42035 },	-- Furious Gladiator's Pendant of Victory
+				{ 816, 42116 },	-- Furious Gladiator's Band of Dominance
+				{ 817, 42117 },	-- Furious Gladiator's Band of Triumph
+				{ 819, [ATLASLOOT_IT_ALLIANCE] = 43959, [ATLASLOOT_IT_HORDE] = 44083 },	-- Reins of the Grand Black War Mammoth
+				{ 821, "ac3836" },
+				{ 822, "ac4016" },
+			},
+			[M25_DIFF] = {
+				GetItemsFromDiff = NORMAL_DIFF,
+				{ 2, [ATLASLOOT_IT_ALLIANCE] = 48163, [ATLASLOOT_IT_HORDE] = 48182 },	-- Stormrage's Gloves of Triumph / Runetotem's Gloves of Triumph
+				{ 3, [ATLASLOOT_IT_ALLIANCE] = 48165, [ATLASLOOT_IT_HORDE] = 48180 },	-- Stormrage's Trousers of Triumph / Runetotem's Trousers of Triumph
+				{ 6, [ATLASLOOT_IT_ALLIANCE] = 48212, [ATLASLOOT_IT_HORDE] = 48193 },	-- Stormrage's Handgrips of Triumph / Runetotem's Handgrips of Triumph
+				{ 7, [ATLASLOOT_IT_ALLIANCE] = 48210, [ATLASLOOT_IT_HORDE] = 48195 },	-- Stormrage's Legguards of Triumph / Runetotem's Legguards of Triumph
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 48133, [ATLASLOOT_IT_HORDE] = 48152 },	-- Stormrage's Handguards of Triumph / Runetotem's Handguards of Triumph
+				{ 11, [ATLASLOOT_IT_ALLIANCE] = 48135, [ATLASLOOT_IT_HORDE] = 48150 },	-- Stormrage's Leggings of Triumph / Runetotem's Leggings of Triumph
+				{ 17, 41294 },	-- Relentless Gladiator's Wyrmhide Gloves
+				{ 18, 41305 },	-- Relentless Gladiator's Wyrmhide Legguards
+				{ 21, 41774 },	-- Relentless Gladiator's Dragonhide Gloves
+				{ 22, 41668 },	-- Relentless Gladiator's Dragonhide Legguards
+				{ 25, 41288 },	-- Relentless Gladiator's Kodohide Gloves
+				{ 26, 41299 },	-- Relentless Gladiator's Kodohide Legguards
+				{ 102, [ATLASLOOT_IT_ALLIANCE] = 48256, [ATLASLOOT_IT_HORDE] = 48273 },	-- Windrunner's Handguards of Triumph
+				{ 103, [ATLASLOOT_IT_ALLIANCE] = 48258, [ATLASLOOT_IT_HORDE] = 48271 },	-- Windrunner's Legguards of Triumph
+				{ 106, [ATLASLOOT_IT_ALLIANCE] = 47753, [ATLASLOOT_IT_HORDE] = 47772 },	-- Khadgar's Gauntlets of Triumph / Sunstrider's Gauntlets of Triumph
+				{ 107, [ATLASLOOT_IT_ALLIANCE] = 47755, [ATLASLOOT_IT_HORDE] = 47770 },	-- Khadgar's Leggings of Triumph / Sunstrider's Leggings of Triumph
+				{ 110, [ATLASLOOT_IT_ALLIANCE] = 48224, [ATLASLOOT_IT_HORDE] = 48241 },	-- VanCleef's Gauntlets of Triumph / Garona's Gauntlets of Triumph
+				{ 111, [ATLASLOOT_IT_ALLIANCE] = 48226, [ATLASLOOT_IT_HORDE] = 48239 },	-- VanCleef's Legplates of Triumph / Garona's Legplates of Triumph
+				{ 114, [ATLASLOOT_IT_ALLIANCE] = 47782, [ATLASLOOT_IT_HORDE] = 47803 },	-- Kel'Thuzad's Gloves of Triumph / Gul'dan's Gloves of Triumph
+				{ 115, [ATLASLOOT_IT_ALLIANCE] = 47780, [ATLASLOOT_IT_HORDE] = 47805 },	-- Kel'Thuzad's Leggings of Triumph / Gul'dan's Leggings of Triumph
+				{ 117, 41144 },	-- Relentless Gladiator's Chain Gauntlets
+				{ 118, 41206 },	-- Relentless Gladiator's Chain Leggings
+				{ 121, 41972 },	-- Relentless Gladiator's Silk Handguards
+				{ 122, 41960 },	-- Relentless Gladiator's Silk Trousers
+				{ 125, 41768 },	-- Relentless Gladiator's Leather Gloves
+				{ 126, 41656 },	-- Relentless Gladiator's Leather Legguards
+				{ 129, 42018 },	-- Relentless Gladiator's Felweave Handguards
+				{ 130, 42006 },	-- Relentless Gladiator's Felweave Trousers
+				{ 202, [ATLASLOOT_IT_ALLIANCE] = 48576, [ATLASLOOT_IT_HORDE] = 48593 },	-- Turalyon's Gloves of Triumph / Liadrin's Gloves of Triumph
+				{ 203, [ATLASLOOT_IT_ALLIANCE] = 48578, [ATLASLOOT_IT_HORDE] = 48591 },	-- Turalyon's Greaves of Triumph / Liadrin's Greaves of Triumph
+				{ 206, [ATLASLOOT_IT_ALLIANCE] = 48608, [ATLASLOOT_IT_HORDE] = 48625 },	-- Turalyon's Gauntlets of Triumph / Liadrin's Gauntlets of Triumph
+				{ 207, [ATLASLOOT_IT_ALLIANCE] = 48610, [ATLASLOOT_IT_HORDE] = 48623 },	-- Turalyon's Legplates of Triumph / Liadrin's Legplates of Triumph
+				{ 210, [ATLASLOOT_IT_ALLIANCE] = 48640, [ATLASLOOT_IT_HORDE] = 48658 },	-- Turalyon's Handguards of Triumph / Liadrin's Handguards of Triumph
+				{ 211, [ATLASLOOT_IT_ALLIANCE] = 48638, [ATLASLOOT_IT_HORDE] = 48660 },	-- Turalyon's Legguards of Triumph / Liadrin's Legguards of Triumph
+				{ 217, 40928 },	-- Relentless Gladiator's Ornamented Gloves
+				{ 218, 40940 },	-- Relentless Gladiator's Ornamented Legplates
+				{ 221, 40812 },	-- Relentless Gladiator's Scaled Gauntlets
+				{ 222, 40852 },	-- Relentless Gladiator's Scaled Legguards
+				{ 302, [ATLASLOOT_IT_ALLIANCE] = 47983, [ATLASLOOT_IT_HORDE] = 48066 },	-- Velen's Gloves of Triumph / Zabra's Gloves of Triumph
+				{ 303, [ATLASLOOT_IT_ALLIANCE] = 47985, [ATLASLOOT_IT_HORDE] = 48064 },	-- Velen's Leggings of Triumph / Zabra's Leggings of Triumph
+				{ 306, [ATLASLOOT_IT_ALLIANCE] = 48077, [ATLASLOOT_IT_HORDE] = 48096 },	-- Velen's Handwraps of Triumph / Zabra's Handwraps of Triumph
+				{ 307, [ATLASLOOT_IT_ALLIANCE] = 48079, [ATLASLOOT_IT_HORDE] = 48094 },	-- Velen's Pants of Triumph / Zabra's Pants of Triumph
+				{ 317, 41875 },	-- Relentless Gladiator's Mooncloth Gloves
+				{ 318, 41865 },	-- Relentless Gladiator's Mooncloth Leggings
+				{ 321, 41941 },	-- Relentless Gladiator's Satin Gloves
+				{ 322, 41928 },	-- Relentless Gladiator's Satin Leggings
+				{ 402, [ATLASLOOT_IT_ALLIANCE] = 48317, [ATLASLOOT_IT_HORDE] = 48334 },	-- Nobundo's Gloves of Triumph / Thrall's Gloves of Triumph
+				{ 403, [ATLASLOOT_IT_ALLIANCE] = 48319, [ATLASLOOT_IT_HORDE] = 48332 },	-- Nobundo's Kilt of Triumph / Thrall's Kilt of Triumph
+				{ 406, [ATLASLOOT_IT_ALLIANCE] = 48347, [ATLASLOOT_IT_HORDE] = 48364 },	-- Nobundo's Grips of Triumph / Thrall's Grips of Triumph
+				{ 407, [ATLASLOOT_IT_ALLIANCE] = 48349, [ATLASLOOT_IT_HORDE] = 48362 },	-- Nobundo's War-Kilt of Triumph / Thrall's War-Kilt of Triumph
+				{ 410, [ATLASLOOT_IT_ALLIANCE] = 48286, [ATLASLOOT_IT_HORDE] = 48301 },	-- Nobundo's Handguards of Triumph / Thrall's Handguards of Triumph
+				{ 411, [ATLASLOOT_IT_ALLIANCE] = 48288, [ATLASLOOT_IT_HORDE] = 48303 },	-- Nobundo's Legguards of Triumph / Thrall's Legguards of Triumph
+				{ 417, 41008 },	-- Relentless Gladiator's Mail Gauntlets
+				{ 418, 41034 },	-- Relentless Gladiator's Mail Leggings
+				{ 421, 41138 },	-- Relentless Gladiator's Linked Gauntlets
+				{ 422, 41200 },	-- Relentless Gladiator's Linked Leggings
+				{ 425, 41002 },	-- Relentless Gladiator's Ringmail Gauntlets
+				{ 426, 41028 },	-- Relentless Gladiator's Ringmail Leggings
+				{ 502, [ATLASLOOT_IT_ALLIANCE] = 48482, [ATLASLOOT_IT_HORDE] = 48499 },	-- Thassarian's Gauntlets of Triumph / Koltira's Gauntlets of Triumph
+				{ 503, [ATLASLOOT_IT_ALLIANCE] = 48484, [ATLASLOOT_IT_HORDE] = 48497 },	-- Thassarian's Legplates of Triumph / Koltira's Legplates of Triumph
+				{ 506, [ATLASLOOT_IT_ALLIANCE] = 48539, [ATLASLOOT_IT_HORDE] = 48556 },	-- Thassarian's Handguards of Triumph / Koltira's Handguards of Triumph
+				{ 507, [ATLASLOOT_IT_ALLIANCE] = 48541, [ATLASLOOT_IT_HORDE] = 48554 },	-- Thassarian's Legguards of Triumph / Koltira's Legguards of Triumph
+				{ 510, [ATLASLOOT_IT_ALLIANCE] = 48377, [ATLASLOOT_IT_HORDE] = 48392 },	-- Wrynn's Gauntlets of Triumph / Hellscream's Gauntlets of Triumph
+				{ 511, [ATLASLOOT_IT_ALLIANCE] = 48379, [ATLASLOOT_IT_HORDE] = 48394 },	-- Wrynn's Legplates of Triumph / Hellscream's Legplates of Triumph
+				{ 514, [ATLASLOOT_IT_ALLIANCE] = 48452, [ATLASLOOT_IT_HORDE] = 48462 },	-- Wrynn's Handguards of Triumph / Hellscream's Handguards of Triumph
+				{ 515, [ATLASLOOT_IT_ALLIANCE] = 48446, [ATLASLOOT_IT_HORDE] = 48464 },	-- Wrynn's Legguards of Triumph / Hellscream's Legguards of Triumph
+				{ 517, 40811 },	-- Relentless Gladiator's Dreadplate Gauntlets
+				{ 518, 40851 },	-- Relentless Gladiator's Dreadplate Legguards
+				{ 525, 40810 },	-- Relentless Gladiator's Plate Gauntlets
+				{ 526, 40850 },	-- Relentless Gladiator's Plate Legguards
+				{ 601, 41910 },	-- Relentless Gladiator's Cuffs of Dominance
+				{ 602, 41899 },	-- Relentless Gladiator's Cord of Dominance
+				{ 603, 41904 },	-- Relentless Gladiator's Treads of Dominance
+				{ 605, 41894 },	-- Relentless Gladiator's Cuffs of Salvation
+				{ 606, 41882 },	-- Relentless Gladiator's Cord of Salvation
+				{ 607, 41886 },	-- Relentless Gladiator's Treads of Salvation
+				{ 609, 49181 },	-- Relentless Gladiator's Cuffs of Alacrity
+				{ 610, 49179 },	-- Relentless Gladiator's Cord of Alacrity
+				{ 611, 49183 },	-- Relentless Gladiator's Treads of Alacrity
+				{ 616, 41641 },	-- Relentless Gladiator's Armwraps of Dominance
+				{ 617, 41631 },	-- Relentless Gladiator's Belt of Dominance
+				{ 618, 41636 },	-- Relentless Gladiator's Boots of Dominance
+				{ 620, 41626 },	-- Relentless Gladiator's Armwraps of Salvation
+				{ 621, 41618 },	-- Relentless Gladiator's Belt of Salvation
+				{ 622, 41622 },	-- Relentless Gladiator's Boots of Salvation
+				{ 624, 41841 },	-- Relentless Gladiator's Armwraps of Triumph
+				{ 625, 41833 },	-- Relentless Gladiator's Belt of Triumph
+				{ 626, 41837 },	-- Relentless Gladiator's Boots of Triumph
+				{ 701, 41066 },	-- Relentless Gladiator's Wristguards of Dominance
+				{ 702, 41071 },	-- Relentless Gladiator's Waistguard of Dominance
+				{ 703, 41076 },	-- Relentless Gladiator's Sabatons of Dominance
+				{ 705, 41061 },	-- Relentless Gladiator's Wristguards of Salvation
+				{ 706, 41052 },	-- Relentless Gladiator's Waistguard of Salvation
+				{ 707, 41056 },	-- Relentless Gladiator's Sabatons of Salvation
+				{ 709, 41226 },	-- Relentless Gladiator's Wristguards of Triumph
+				{ 710, 41236 },	-- Relentless Gladiator's Waistguard of Triumph
+				{ 711, 41231 },	-- Relentless Gladiator's Sabatons of Triumph
+				{ 716, 40984 },	-- Relentless Gladiator's Bracers of Salvation
+				{ 717, 40978 },	-- Relentless Gladiator's Girdle of Salvation
+				{ 718, 40979 },	-- Relentless Gladiator's Greaves of Salvation
+				{ 720, 40890 },	-- Relentless Gladiator's Bracers of Triumph
+				{ 721, 40883 },	-- Relentless Gladiator's Girdle of Triumph
+				{ 722, 40884 },	-- Relentless Gladiator's Greaves of Triumph
+				{ 801, 42078 },	-- Relentless Gladiator's Cloak of Ascendancy
+				{ 802, 42080 },	-- Relentless Gladiator's Cloak of Deliverance
+				{ 803, 42076 },	-- Relentless Gladiator's Cloak of Dominance
+				{ 804, 42079 },	-- Relentless Gladiator's Cloak of Salvation
+				{ 805, 42077 },	-- Relentless Gladiator's Cloak of Subjugation
+				{ 806, 42081 },	-- Relentless Gladiator's Cloak of Triumph
+				{ 807, 42082 },	-- Relentless Gladiator's Cloak of Victory
+				{ 808, 42044 },	-- Relentless Gladiator's Pendant of Ascendancy
+				{ 809, 42046 },	-- Relentless Gladiator's Pendant of Deliverance
+				{ 810, 42043 },	-- Relentless Gladiator's Pendant of Dominance
+				{ 811, 42047 },	-- Relentless Gladiator's Pendant of Salvation
+				{ 812, 42045 },	-- Relentless Gladiator's Pendant of Subjugation
+				{ 813, 46374 },	-- Relentless Gladiator's Pendant of Sundering
+				{ 814, 42041 },	-- Relentless Gladiator's Pendant of Triumph
+				{ 815, 42042 },	-- Relentless Gladiator's Pendant of Victory
+				{ 816, 42118 },	-- Relentless Gladiator's Band of Ascendancy
+				{ 817, 42119 },	-- Relentless Gladiator's Band of Victory
+				{ 821, "ac3837" },
+				{ 822, "ac4017" },
+			},
+		},
+		{	--Toravon
+			name = BB["Toravon the Ice Watcher"],
+			[NORMAL_DIFF] = {
+				{ 1, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 2, 50822 },	-- Lasherweave's Gloves
+				{ 3, 50820 },	-- Lasherweave's Trousers
+				{ 5, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 6, 50827 },	-- Lasherweave's Handgrips
+				{ 7, 50825 },	-- Lasherweave's Legguards
+				{ 9, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 10, 50107 },	-- Lasherweave's Gauntlets
+				{ 11, 50109 },	-- Lasherweave's Legplates
+				{ 16, "ICON_spell_nature_starfall", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Balance"] },
+				{ 17, 41294 },	-- Relentless Gladiator's Wyrmhide Gloves
+				{ 18, 41305 },	-- Relentless Gladiator's Wyrmhide Legguards
+				{ 20, "ICON_ability_druid_catform", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Feral"] },
+				{ 21, 41774 },	-- Relentless Gladiator's Dragonhide Gloves
+				{ 22, 41668 },	-- Relentless Gladiator's Dragonhide Legguards
+				{ 24, "ICON_spell_nature_healingtouch", nil, LOCALIZED_CLASS_NAMES_MALE["DRUID"], ALIL["Restoration"] },
+				{ 25, 41288 },	-- Relentless Gladiator's Kodohide Gloves
+				{ 26, 41299 },	-- Relentless Gladiator's Kodohide Legguards
+				{ 101, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 102, 50114 },	-- Ahn'Kahar Blood Hunter's Handguards
+				{ 103, 50116 },	-- Ahn'Kahar Blood Hunter's Legguards
+				{ 105, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 106, 50275 },	-- Bloodmage Gloves
+				{ 107, 50277 },	-- Bloodmage Leggings
+				{ 109, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 110, 50088 },	-- Shadowblade Gauntlets
+				{ 111, 50090 },	-- Shadowblade Legplates
+				{ 113, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 114, 50240 },	-- Dark Coven Gloves
+				{ 115, 50242 },	-- Dark Coven Leggings
+				{ 116, "ICON_inv_weapon_bow_07", nil, LOCALIZED_CLASS_NAMES_MALE["HUNTER"], nil },
+				{ 117, 41144 },	-- Relentless Gladiator's Chain Gauntlets
+				{ 118, 41206 },	-- Relentless Gladiator's Chain Leggings
+				{ 120, "ICON_inv_staff_13", nil, LOCALIZED_CLASS_NAMES_MALE["MAGE"], nil },
+				{ 121, 41972 },	-- Relentless Gladiator's Silk Handguards
+				{ 122, 41960 },	-- Relentless Gladiator's Silk Trousers
+				{ 124, "ICON_inv_throwingknife_04", nil, LOCALIZED_CLASS_NAMES_MALE["ROGUE"], nil },
+				{ 125, 41768 },	-- Relentless Gladiator's Leather Gloves
+				{ 126, 41656 },	-- Relentless Gladiator's Leather Legguards
+				{ 128, "ICON_spell_nature_drowsy", nil, LOCALIZED_CLASS_NAMES_MALE["WARLOCK"], nil },
+				{ 129, 42018 },	-- Relentless Gladiator's Felweave Handguards
+				{ 130, 42006 },	-- Relentless Gladiator's Felweave Trousers
+				{ 201, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 202, 50868 },	-- Lightsworn Gloves
+				{ 203, 50866 },	-- Lightsworn Greaves
+				{ 205, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 206, 50327 },	-- Lightsworn Gauntlets
+				{ 207, 50325 },	-- Lightsworn Legplates
+				{ 209, "ICON_spell_holy_devotionaura", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Protection"] },
+				{ 210, 50863 },	-- Lightsworn Handguards
+				{ 211, 50861 },	-- Lightsworn Legguards
+				{ 216, "ICON_Spell_Holy_HolyBolt", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Holy"] },
+				{ 217, 40928 },	-- Relentless Gladiator's Ornamented Gloves
+				{ 218, 40940 },	-- Relentless Gladiator's Ornamented Legplates
+				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
+				{ 221, 40812 },	-- Relentless Gladiator's Scaled Gauntlets
+				{ 222, 40852 },	-- Relentless Gladiator's Scaled Legguards
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 302, 50766 },	-- Crimson Acolyte Gloves
+				{ 303, 50769 },	-- Crimson Acolyte Leggings
+				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 306, 50391 },	-- Crimson Acolyte Handwraps
+				{ 307, 50393 },	-- Crimson Acolyte Pants
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 317, 41875 },	-- Relentless Gladiator's Mooncloth Gloves
+				{ 318, 41865 },	-- Relentless Gladiator's Mooncloth Leggings
+				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
+				{ 321, 41941 },	-- Relentless Gladiator's Satin Gloves
+				{ 322, 41928 },	-- Relentless Gladiator's Satin Leggings
+				{ 401, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 402, 50842 },	-- Frost Witch's Gloves
+				{ 403, 50844 },	-- Frost Witch's Kilt
+				{ 405, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 406, 50831 },	-- Frost Witch's Grips
+				{ 407, 50833 },	-- Frost Witch's War-Kilt
+				{ 409, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 410, 50836 },	-- Frost Witch's Handguards
+				{ 411, 50838 },	-- Frost Witch's Legguards
+				{ 416, "ICON_Spell_Nature_Lightning", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Elemental"] },
+				{ 417, 41008 },	-- Relentless Gladiator's Mail Gauntlets
+				{ 418, 41034 },	-- Relentless Gladiator's Mail Leggings
+				{ 420, "ICON_spell_nature_lightningshield", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Enhancement"] },
+				{ 421, 41138 },	-- Relentless Gladiator's Linked Gauntlets
+				{ 422, 41200 },	-- Relentless Gladiator's Linked Leggings
+				{ 424, "ICON_spell_nature_magicimmunity", nil, LOCALIZED_CLASS_NAMES_MALE["SHAMAN"], ALIL["Restoration"] },
+				{ 425, 41002 },	-- Relentless Gladiator's Ringmail Gauntlets
+				{ 426, 41028 },	-- Relentless Gladiator's Ringmail Leggings
+				{ 501, "ICON_spell_deathknight_frostpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Frost"].." / "..ALIL["Unholy"] },
+				{ 502, 50095 },	-- Scourgelord Gauntlets
+				{ 503, 50097 },	-- Scourgelord Legplates
+				{ 505, "ICON_spell_deathknight_bloodpresence", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], ALIL["Blood"] },
+				{ 506, 50856 },	-- Scourgelord Handguards
+				{ 507, 50854 },	-- Scourgelord Legguards
+				{ 509, "ICON_ability_warrior_innerrage", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Arms"].." / "..ALIL["Fury"] },
+				{ 510, 50079 },	-- Ymirjar Lord's Gauntlets
+				{ 511, 50081 },	-- Ymirjar Lord's Legplates
+				{ 513, "ICON_ability_warrior_defensivestance", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], ALIL["Protection"] },
+				{ 514, 50849 },	-- Ymirjar Lord's Handguards
+				{ 515, 50847 },	-- Ymirjar Lord's Legguards
+				{ 516, "ICON_Spell_deathknight_classicon", nil, LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"], nil },
+				{ 517, 40811 },	-- Relentless Gladiator's Dreadplate Gauntlets
+				{ 518, 40851 },	-- Relentless Gladiator's Dreadplate Legguards
+				{ 524, "ICON_inv_sword_27", nil, LOCALIZED_CLASS_NAMES_MALE["WARRIOR"], nil },
+				{ 525, 40810 },	-- Relentless Gladiator's Plate Gauntlets
+				{ 526, 40850 },	-- Relentless Gladiator's Plate Legguards
+				{ 601, 41910 },	-- Relentless Gladiator's Cuffs of Dominance
+				{ 602, 41899 },	-- Relentless Gladiator's Cord of Dominance
+				{ 603, 41904 },	-- Relentless Gladiator's Treads of Dominance
+				{ 605, 41894 },	-- Relentless Gladiator's Cuffs of Salvation
+				{ 606, 41882 },	-- Relentless Gladiator's Cord of Salvation
+				{ 607, 41886 },	-- Relentless Gladiator's Treads of Salvation
+				{ 609, 49181 },	-- Relentless Gladiator's Cuffs of Alacrity
+				{ 610, 49179 },	-- Relentless Gladiator's Cord of Alacrity
+				{ 611, 49183 },	-- Relentless Gladiator's Treads of Alacrity
+				{ 616, 41641 },	-- Relentless Gladiator's Armwraps of Dominance
+				{ 617, 41631 },	-- Relentless Gladiator's Belt of Dominance
+				{ 618, 41636 },	-- Relentless Gladiator's Boots of Dominance
+				{ 620, 41626 },	-- Relentless Gladiator's Armwraps of Salvation
+				{ 621, 41618 },	-- Relentless Gladiator's Belt of Salvation
+				{ 622, 41622 },	-- Relentless Gladiator's Boots of Salvation
+				{ 624, 41841 },	-- Relentless Gladiator's Armwraps of Triumph
+				{ 625, 41833 },	-- Relentless Gladiator's Belt of Triumph
+				{ 626, 41837 },	-- Relentless Gladiator's Boots of Triumph
+				{ 701, 41066 },	-- Relentless Gladiator's Wristguards of Dominance
+				{ 702, 41071 },	-- Relentless Gladiator's Waistguard of Dominance
+				{ 703, 41076 },	-- Relentless Gladiator's Sabatons of Dominance
+				{ 705, 41061 },	-- Relentless Gladiator's Wristguards of Salvation
+				{ 706, 41052 },	-- Relentless Gladiator's Waistguard of Salvation
+				{ 707, 41056 },	-- Relentless Gladiator's Sabatons of Salvation
+				{ 709, 41226 },	-- Relentless Gladiator's Wristguards of Triumph
+				{ 710, 41236 },	-- Relentless Gladiator's Waistguard of Triumph
+				{ 711, 41231 },	-- Relentless Gladiator's Sabatons of Triumph
+				{ 716, 40984 },	-- Relentless Gladiator's Bracers of Salvation
+				{ 717, 40978 },	-- Relentless Gladiator's Girdle of Salvation
+				{ 718, 40979 },	-- Relentless Gladiator's Greaves of Salvation
+				{ 720, 40890 },	-- Relentless Gladiator's Bracers of Triumph
+				{ 721, 40883 },	-- Relentless Gladiator's Girdle of Triumph
+				{ 722, 40884 },	-- Relentless Gladiator's Greaves of Triumph
+				{ 801, 42078 },	-- Relentless Gladiator's Cloak of Ascendancy
+				{ 802, 42080 },	-- Relentless Gladiator's Cloak of Deliverance
+				{ 803, 42076 },	-- Relentless Gladiator's Cloak of Dominance
+				{ 804, 42079 },	-- Relentless Gladiator's Cloak of Salvation
+				{ 805, 42077 },	-- Relentless Gladiator's Cloak of Subjugation
+				{ 806, 42081 },	-- Relentless Gladiator's Cloak of Triumph
+				{ 807, 42082 },	-- Relentless Gladiator's Cloak of Victory
+				{ 808, 42044 },	-- Relentless Gladiator's Pendant of Ascendancy
+				{ 809, 42046 },	-- Relentless Gladiator's Pendant of Deliverance
+				{ 810, 42043 },	-- Relentless Gladiator's Pendant of Dominance
+				{ 811, 42047 },	-- Relentless Gladiator's Pendant of Salvation
+				{ 812, 42045 },	-- Relentless Gladiator's Pendant of Subjugation
+				{ 813, 46374 },	-- Relentless Gladiator's Pendant of Sundering
+				{ 814, 42041 },	-- Relentless Gladiator's Pendant of Triumph
+				{ 815, 42042 },	-- Relentless Gladiator's Pendant of Victory
+				{ 816, 42118 },	-- Relentless Gladiator's Band of Ascendancy
+				{ 817, 42119 },	-- Relentless Gladiator's Band of Victory
+				{ 819, [ATLASLOOT_IT_ALLIANCE] = 43959, [ATLASLOOT_IT_HORDE] = 44083 },	-- Reins of the Grand Black War Mammoth
+				{ 821, "ac4585" },
+			},
+			[M25_DIFF] = {
+				GetItemsFromDiff = NORMAL_DIFF,
+				{ 2, 51148 },	-- Sanctified Lasherweave's Gloves
+				{ 3, 51146 },	-- Sanctified Lasherweave's Trousers
+				{ 6, 51144 },	-- Sanctified Lasherweave's Handgrips
+				{ 7, 51142 },	-- Sanctified Lasherweave's Legguards
+				{ 10, 51138 },	-- Sanctified Lasherweave's Gauntlets
+				{ 11, 51136 },	-- Sanctified Lasherweave's Legplates
+				{ 17, 51434 },	-- Wrathful Gladiator's Wyrmhide Gloves
+				{ 18, 51436 },	-- Wrathful Gladiator's Wyrmhide Legguards
+				{ 21, 51426 },	-- Wrathful Gladiator's Dragonhide Gloves
+				{ 22, 51428 },	-- Wrathful Gladiator's Dragonhide Legguards
+				{ 25, 51420 },	-- Wrathful Gladiator's Kodohide Gloves
+				{ 26, 51422 },	-- Wrathful Gladiator's Kodohide Legguards
+				{ 102, 51154 },	-- Sanctified Ahn'Kahar Blood Hunter's Handguards
+				{ 103, 51152 },	-- Sanctified Ahn'Kahar Blood Hunter's Legguards
+				{ 106, 51159 },	-- Sanctified Bloodmage Gloves
+				{ 107, 51157 },	-- Sanctified Bloodmage Leggings
+				{ 110, 51188 },	-- Sanctified Shadowblade Gauntlets
+				{ 111, 51186 },	-- Sanctified Shadowblade Legplates
+				{ 114, 51209 },	-- Sanctified Dark Coven Gloves
+				{ 115, 51207 },	-- Sanctified Dark Coven Leggings
+				{ 117, 51459 },	-- Wrathful Gladiator's Chain Gauntlets
+				{ 118, 51461 },	-- Wrathful Gladiator's Chain Leggings
+				{ 121, 51464 },	-- Wrathful Gladiator's Silk Handguards
+				{ 122, 51466 },	-- Wrathful Gladiator's Silk Trousers
+				{ 125, 51493 },	-- Wrathful Gladiator's Leather Gloves
+				{ 126, 51495 },	-- Wrathful Gladiator's Leather Legguards
+				{ 129, 51537 },	-- Wrathful Gladiator's Felweave Handguards
+				{ 130, 51539 },	-- Wrathful Gladiator's Felweave Trousers
+				{ 202, 51169 },	-- Sanctified Lightsworn Gloves
+				{ 203, 51168 },	-- Sanctified Lightsworn Greaves
+				{ 206, 51163 },	-- Sanctified Lightsworn Gauntlets
+				{ 207, 51161 },	-- Sanctified Lightsworn Legplates
+				{ 210, 51172 },	-- Sanctified Lightsworn Handguards
+				{ 211, 51171 },	-- Sanctified Lightsworn Legguards
+				{ 217, 51469 },	-- Wrathful Gladiator's Ornamented Gloves
+				{ 218, 51471 },	-- Wrathful Gladiator's Ornamented Legplates
+				{ 221, 51475 },	-- Wrathful Gladiator's Scaled Gauntlets
+				{ 222, 51477 },	-- Wrathful Gladiator's Scaled Legguards
+				{ 302, 51179 },	-- Sanctified Crimson Acolyte Gloves
+				{ 303, 51177 },	-- Sanctified Crimson Acolyte Leggings
+				{ 306, 51183 },	-- Sanctified Crimson Acolyte Handwraps
+				{ 307, 51181 },	-- Sanctified Crimson Acolyte Pants
+				{ 317, 51483 },	-- Wrathful Gladiator's Mooncloth Gloves
+				{ 318, 51485 },	-- Wrathful Gladiator's Mooncloth Leggings
+				{ 321, 51488 },	-- Wrathful Gladiator's Satin Gloves
+				{ 322, 51490 },	-- Wrathful Gladiator's Satin Leggings
+				{ 402, 51201 },	-- Sanctified Frost Witch's Gloves
+				{ 403, 51203 },	-- Sanctified Frost Witch's Kilt
+				{ 406, 51196 },	-- Sanctified Frost Witch's Grips
+				{ 407, 51198 },	-- Sanctified Frost Witch's War-Kilt
+				{ 410, 51191 },	-- Sanctified Frost Witch's Handguards
+				{ 411, 51193 },	-- Sanctified Frost Witch's Legguards
+				{ 417, 51510 },	-- Wrathful Gladiator's Mail Gauntlets
+				{ 418, 51512 },	-- Wrathful Gladiator's Mail Leggings
+				{ 421, 51504 },	-- Wrathful Gladiator's Linked Gauntlets
+				{ 422, 51506 },	-- Wrathful Gladiator's Linked Leggings
+				{ 425, 51498 },	-- Wrathful Gladiator's Ringmail Gauntlets
+				{ 426, 51500 },	-- Wrathful Gladiator's Ringmail Leggings
+				{ 502, 51128 },	-- Sanctified Scourgelord Gauntlets
+				{ 503, 51126 },	-- Sanctified Scourgelord Legplates
+				{ 506, 51132 },	-- Sanctified Scourgelord Handguards
+				{ 507, 51131 },	-- Sanctified Scourgelord Legguards
+				{ 510, 51213 },	-- Sanctified Ymirjar Lord's Gauntlets
+				{ 511, 51211 },	-- Sanctified Ymirjar Lord's Legplates
+				{ 514, 51217 },	-- Sanctified Ymirjar Lord's Handguards
+				{ 515, 51216 },	-- Sanctified Ymirjar Lord's Legguards
+				{ 517, 51414 },	-- Wrathful Gladiator's Dreadplate Gauntlets
+				{ 518, 51416 },	-- Wrathful Gladiator's Dreadplate Legguards
+				{ 525, 51542 },	-- Wrathful Gladiator's Plate Gauntlets
+				{ 526, 51544 },	-- Wrathful Gladiator's Plate Legguards
+				{ 601, 51329 },	-- Wrathful Gladiator's Cuffs of Dominance
+				{ 602, 51327 },	-- Wrathful Gladiator's Cord of Dominance
+				{ 603, 51328 },	-- Wrathful Gladiator's Treads of Dominance
+				{ 605, 51367 },	-- Wrathful Gladiator's Cuffs of Salvation
+				{ 606, 51365 },	-- Wrathful Gladiator's Cord of Salvation
+				{ 607, 51366 },	-- Wrathful Gladiator's Treads of Salvation
+				{ 609, 51339 },	-- Wrathful Gladiator's Cuffs of Alacrity
+				{ 610, 51337 },	-- Wrathful Gladiator's Cord of Alacrity
+				{ 611, 51338 },	-- Wrathful Gladiator's Treads of Alacrity
+				{ 616, 51345 },	-- Wrathful Gladiator's Armwraps of Dominance
+				{ 617, 51343 },	-- Wrathful Gladiator's Belt of Dominance
+				{ 618, 51344 },	-- Wrathful Gladiator's Boots of Dominance
+				{ 620, 51342 },	-- Wrathful Gladiator's Armwraps of Salvation
+				{ 621, 51340 },	-- Wrathful Gladiator's Belt of Salvation
+				{ 622, 51341 },	-- Wrathful Gladiator's Boots of Salvation
+				{ 624, 51370 },	-- Wrathful Gladiator's Armwraps of Triumph
+				{ 625, 51368 },	-- Wrathful Gladiator's Belt of Triumph
+				{ 626, 51369 },	-- Wrathful Gladiator's Boots of Triumph
+				{ 701, 51376 },	-- Wrathful Gladiator's Wristguards of Dominance
+				{ 702, 51374 },	-- Wrathful Gladiator's Waistguard of Dominance
+				{ 703, 51375 },	-- Wrathful Gladiator's Sabatons of Dominance
+				{ 705, 51373 },	-- Wrathful Gladiator's Wristguards of Salvation
+				{ 706, 51371 },	-- Wrathful Gladiator's Waistguard of Salvation
+				{ 707, 51372 },	-- Wrathful Gladiator's Sabatons of Salvation
+				{ 709, 51352 },	-- Wrathful Gladiator's Wristguards of Triumph
+				{ 710, 51350 },	-- Wrathful Gladiator's Waistguard of Triumph
+				{ 711, 51351 },	-- Wrathful Gladiator's Sabatons of Triumph
+				{ 716, 51361 },	-- Wrathful Gladiator's Bracers of Salvation
+				{ 717, 51359 },	-- Wrathful Gladiator's Girdle of Salvation
+				{ 718, 51360 },	-- Wrathful Gladiator's Greaves of Salvation
+				{ 720, 51364 },	-- Wrathful Gladiator's Bracers of Triumph
+				{ 721, 51362 },	-- Wrathful Gladiator's Girdle of Triumph
+				{ 722, 51363 },	-- Wrathful Gladiator's Greaves of Triumph
+				{ 801, 51334 },	-- Wrathful Gladiator's Cloak of Ascendancy
+				{ 802, 51348 },	-- Wrathful Gladiator's Cloak of Deliverance
+				{ 803, 51330 },	-- Wrathful Gladiator's Cloak of Dominance
+				{ 804, 51346 },	-- Wrathful Gladiator's Cloak of Salvation
+				{ 805, 51332 },	-- Wrathful Gladiator's Cloak of Subjugation
+				{ 806, 51354 },	-- Wrathful Gladiator's Cloak of Triumph
+				{ 807, 51356 },	-- Wrathful Gladiator's Cloak of Victory
+				{ 808, 51335 },	-- Wrathful Gladiator's Pendant of Ascendancy
+				{ 809, 51349 },	-- Wrathful Gladiator's Pendant of Deliverance
+				{ 810, 51331 },	-- Wrathful Gladiator's Pendant of Dominance
+				{ 811, 51347 },	-- Wrathful Gladiator's Pendant of Salvation
+				{ 812, 51333 },	-- Wrathful Gladiator's Pendant of Subjugation
+				{ 813, 51353 },	-- Wrathful Gladiator's Pendant of Sundering
+				{ 814, 51355 },	-- Wrathful Gladiator's Pendant of Triumph
+				{ 815, 51357 },	-- Wrathful Gladiator's Pendant of Victory
+				{ 816, 51336 },	-- Wrathful Gladiator's Band of Dominance
+				{ 817, 51358 },	-- Wrathful Gladiator's Band of Triumph
+				{ 821, "ac4586" },
+			},
+		},
 	}
 }

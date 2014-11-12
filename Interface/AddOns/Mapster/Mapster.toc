@@ -9,11 +9,10 @@
 ## Title: Mapster
 ## Author: Nevcairiel
 ## SavedVariables: MapsterDB
-## SavedVariablesPerCharacter: NPCMarkDB, NPCMarkMappingDB, MapMarkHide
 ## X-Category: Map
-## Version: 1.6.0
+## Version: 1.6.2
 ## X-License: All rights reserved.
-## X-Curse-Packaged-Version: 1.6.0
+## X-Curse-Packaged-Version: 1.6.2
 ## X-Curse-Project-Name: Mapster
 ## X-Curse-Project-ID: mapster
 ## X-Curse-Repository-ID: wow/mapster/mainline
@@ -52,8 +51,6 @@ FogClear.lua
 Scaling.lua
 
 Mark.lua
-
-
 ## Title: |cff880303[网易有爱]|r 地图增强
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027151200
+## X-163UI-Version: 2014111201

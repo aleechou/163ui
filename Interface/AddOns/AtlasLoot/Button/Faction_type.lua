@@ -266,16 +266,13 @@ function Faction.Refresh(button)
 		-- ##################
 		if button.RepID and standingID and button.RepID>standingID then
 			button.icon:SetDesaturated(true)
-			button.name:SetText("|cffff0000"..name)
+			button.extra:SetText("|cffff0000"..GetLocRepStanding(button.RepID or standingID))
 		else
-			button.name:SetText(name)
+			button.extra:SetText("|cFF"..FACTION_REP_COLORS[button.RepID or standingID]..GetLocRepStanding(button.RepID or standingID))
 		end
+		button.name:SetText("|cFF"..FACTION_REP_COLORS[button.RepID or standingID]..name)
 		
-		
-		-- ##################
-		-- description
-		-- ##################
-		button.extra:SetText("|cFF"..FACTION_REP_COLORS[button.RepID or standingID]..GetLocRepStanding(button.RepID or standingID))
+		--button.extra:SetText("|cFF"..FACTION_REP_COLORS[button.RepID or standingID]..GetLocRepStanding(button.RepID or standingID))
 	end
 
 	return true

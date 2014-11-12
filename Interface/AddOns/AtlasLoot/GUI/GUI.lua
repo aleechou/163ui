@@ -116,7 +116,7 @@ local function UpdateFrames(noPageUpdate)
 				GUI.frame.contentFrame.nextPageButton.info = nil
 				--GUI.frame.contentFrame.nextPageButton.info = bossID + 1	
 			elseif not moduleData[dataID].items[bossID+1].ExtraList and not moduleData[dataID].items[bossID].ExtraList then
-				GUI.frame.contentFrame.nextPageButton.info = true
+				GUI.frame.contentFrame.nextPageButton.info = GUI.frame.boss:CheckIfNext()
 			else
 				GUI.frame.contentFrame.nextPageButton.info = nil
 			end
@@ -126,7 +126,7 @@ local function UpdateFrames(noPageUpdate)
 		if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.prevPage and not moduleData[dataID].items[bossID].ExtraList then
 			GUI.frame.contentFrame.prevPageButton.info = tostring(GUI.frame.contentFrame.shownFrame.prevPage)
 		elseif moduleData[dataID].items[bossID-1] and not moduleData[dataID].items[bossID].ExtraList then
-			GUI.frame.contentFrame.prevPageButton.info = true
+			GUI.frame.contentFrame.prevPageButton.info = GUI.frame.boss:CheckIfPrev()
 		else
 			GUI.frame.contentFrame.prevPageButton.info = nil
 		end	
@@ -540,6 +540,7 @@ local function SubCatSelectFunction(self, id, arg)
 	--if dataExtra then
 		GUI.frame.extra:SetData(dataExtra)
 	--end
+	db.selected[3] = data[1] and data[1].id or 1
 	GUI.frame.boss:SetData(data, db.selected[3])
 	
 end

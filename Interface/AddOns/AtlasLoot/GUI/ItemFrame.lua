@@ -146,12 +146,14 @@ function ItemFrame:Refresh(skipProtect)
 	if AtlasLoot.db.profile.GUI.selected[5] - 1 >= 0 then
 		GUI.frame.contentFrame.prevPageButton.info = tostring(AtlasLoot.db.profile.GUI.selected[5] - 1)
 	else
+		--[[	this must be fixed later ... Check for pages 
 		if AtlasLoot.db.profile.GUI.selected[3] - 1 > 0 then
 			items, tableType = ItemDB:GetItemTable(AtlasLoot.db.profile.GUI.selected[1], AtlasLoot.db.profile.GUI.selected[2], AtlasLoot.db.profile.GUI.selected[3]-1, AtlasLoot.db.profile.GUI.selected[4])
 			if items and #items > 0 and floor(items[#items][1]/100) > 0 then
 				GUI.frame.contentFrame.prevPageButton.info = { AtlasLoot.db.profile.GUI.selected[3]-1, floor(items[#items][1]/100) }
 			end
 		end
+		]]--
 	end
 	ItemFrame.OnClassFilterUpdate()
 end

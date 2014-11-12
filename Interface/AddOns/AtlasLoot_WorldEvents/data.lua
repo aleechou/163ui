@@ -8,8 +8,16 @@ local ALIL = AtlasLoot.IngameLocales
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"])
-local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
-local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+
+-- change sortorder for factions
+local ALLIANCE_DIFF, HORDE_DIFF
+if UnitFactionGroup("player") == "Horde" then
+	HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+	ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
+else
+	ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
+	HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+end
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 
@@ -33,7 +41,7 @@ data["BrawlersGuild"] = {
 				{ 6, 93044, [PRICE_EXTRA_ITTYPE] = "money:10000" },	-- Rotten Banana
 				{ 7, 93045, [PRICE_EXTRA_ITTYPE] = "money:10000" },	-- Rotten Watermelon
 				{ 8, 93158, [PRICE_EXTRA_ITTYPE] = "money:10000" },	-- Expired Blackout Brew
-				{ 16, "INV_Box_01", nil, string.format(AL["Rank %d"], 4), nil },
+				{ 16, "ICON_warrior_talent_icon_furyintheblood", nil, string.format(AL["Rank %d"], 4), nil },
 				{ 17, 118907, [PRICE_EXTRA_ITTYPE] = "money:200000000" },	-- Pit Fighter's Punching Ring
 				{ 18, 98079, [QUEST_EXTRA_ITTYPE] = 32837 },	-- Floot-Tooter's Tunic
 				{ 19, 98081, [QUEST_EXTRA_ITTYPE] = 32841 },	-- The Boomshirt
@@ -53,20 +61,20 @@ data["BrawlersGuild"] = {
 		{	--Rank5-8
 			name = string.format(AL["Rank %d"], 5).." - "..string.format(AL["Rank %d"], 8),
 			[ALLIANCE_DIFF] = {
-				{ 1, "INV_Box_01", nil, string.format(AL["Rank %d"], 5), nil },
+				{ 1, "ICON_warrior_talent_icon_furyintheblood", nil, string.format(AL["Rank %d"], 5), nil },
 				{ 2, 98084, [QUEST_EXTRA_ITTYPE] = 32845 },	-- Ooze-Soaked Shirt
 				{ 3, 98083, [QUEST_EXTRA_ITTYPE] = 32843 },	-- Sharkskin Tunic
 				{ 4, 98086, [QUEST_EXTRA_ITTYPE] = 32849 },	-- Tuxedo-Like Shirt
-				{ 6, "INV_Box_01", nil, string.format(AL["Rank %d"], 6), nil },
+				{ 6, "ICON_warrior_talent_icon_furyintheblood", nil, string.format(AL["Rank %d"], 6), nil },
 				{ 7, 98080, [QUEST_EXTRA_ITTYPE] = 32839 },	-- Gorgeous Blouse
 				{ 8, 98091, [QUEST_EXTRA_ITTYPE] = 32851 },	-- Last Season's Shirt
-				{ 16, "INV_Box_01", nil, string.format(AL["Rank %d"], 7), nil },
+				{ 16, "ICON_warrior_talent_icon_furyintheblood", nil, string.format(AL["Rank %d"], 7), nil },
 				{ 17, 98543, "ac9176" },	-- Wraps of the Blood-Soaked Brawler
 				{ 18, 98085, [QUEST_EXTRA_ITTYPE] = 32847 },	-- Brucehide Jersey
 				{ 19, 98092, [QUEST_EXTRA_ITTYPE] = 32853 },	-- Digmaster's Bodysleeve
 				{ 20, 98087, [QUEST_EXTRA_ITTYPE] = 32857 },	-- Paper Shirt
 				{ 21, 98093, [QUEST_EXTRA_ITTYPE] = 32855 },	-- Sightless Mantle
-				{ 23, "INV_Box_01", nil, string.format(AL["Rank %d"], 8), nil },
+				{ 23, "ICON_warrior_talent_icon_furyintheblood", nil, string.format(AL["Rank %d"], 8), nil },
 				{ 24, 98405, "mount", [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Brawler's Burly Mushan Beast
 			},
 			[HORDE_DIFF] = {

@@ -5,8 +5,15 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
-local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+-- change sortorder for factions
+local ALLIANCE_DIFF, HORDE_DIFF
+if UnitFactionGroup("player") == "Horde" then
+	HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+	ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
+else
+	ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
+	HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+end
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 
@@ -1221,6 +1228,277 @@ data["WODS1WEAPONS"] = {
 				{ 117, 115068, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Primal Combatant's Touch of Defeat
 				{ 119, 119859, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Reprieve
 				{ 120, 119858, [PRICE_EXTRA_ITTYPE] = "honor:1250" },	-- Primal Combatant's Endgame
+			},
+		},
+	},
+}
+
+-- Mists of Pandaria Season 15
+
+data["MOPS15SETS"] = {
+	name = string.format(AL["Season %d"], 15).." "..AL["Class Sets"].." ("..AL["Mists of Pandaria"]..")",
+	ContentType = NORMAL_ITTYPE,
+	items = {
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 102713, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dreadplate Helm
+				{ 2, 102652, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dreadplate Shoulders
+				{ 3, 102676, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dreadplate Chestpiece
+				{ 4, 102650, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dreadplate Gauntlets
+				{ 5, 102651, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dreadplate Legguards
+				{ 16, 103181, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Helm
+				{ 17, 103183, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Shoulders
+				{ 18, 103179, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Chestpiece
+				{ 19, 103180, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Gauntlets
+				{ 20, 103182, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Legguards
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 1, 103378, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Helm
+				{ 2, 103380, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Shoulders
+				{ 3, 103376, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Chestpiece
+				{ 4, 103377, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Gauntlets
+				{ 5, 103379, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Legguards
+				{ 16, 102910, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Helm
+				{ 17, 102849, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Shoulders
+				{ 18, 102873, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Chestpiece
+				{ 19, 102847, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dreadplate Gauntlets
+				{ 20, 102848, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dreadplate Legguards
+			},
+		},
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"],
+			[ALLIANCE_DIFF] = {
+				-- Moonkin, 550 > 522
+				{ 1, 102634, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Helm
+				{ 2, 102700, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Wyrmhide Spaulders
+				{ 3, 102614, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Robes
+				{ 4, 102696, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Wyrmhide Gloves
+				{ 5, 102767, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Legguards
+				{ 16, 103202, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Helm
+				{ 17, 103205, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Wyrmhide Spaulders
+				{ 18, 103204, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Robes
+				{ 19, 103201, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Wyrmhide Gloves
+				{ 20, 103203, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Legguards
+				-- Cat/Bear, 550 > 522
+				{ 7, 102653, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Helm
+				{ 8, 102741, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dragonhide Spaulders
+				{ 9, 102740, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Robes
+				{ 10, 102739, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dragonhide Gloves
+				{ 11, 102654, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Legguards
+				{ 22, 103185, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Helm
+				{ 23, 103188, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dragonhide Spaulders
+				{ 24, 103187, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Robes
+				{ 25, 103184, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dragonhide Gloves
+				{ 26, 103186, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Legguards
+				-- Heal, 550 > 522
+				{ 101, 102776, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Helm
+				{ 102, 102658, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Kodohide Spaulders
+				{ 103, 102721, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Robes
+				{ 104, 102657, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Kodohide Gloves
+				{ 105, 102761, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Legguards
+				{ 116, 103193, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Helm
+				{ 117, 103196, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Kodohide Spaulders
+				{ 118, 103195, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Robes
+				{ 119, 103192, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Kodohide Gloves
+				{ 120, 103194, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Legguards
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				-- Moonkin, 550 > 522
+				{ 1, 103399, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Helm
+				{ 2, 103402, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Wyrmhide Spaulders
+				{ 3, 103401, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Robes
+				{ 4, 103398, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Wyrmhide Gloves
+				{ 5, 103400, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Wyrmhide Legguards
+				{ 16, 102831, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Helm
+				{ 17, 102897, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Wyrmhide Spaulders
+				{ 18, 102811, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Robes
+				{ 19, 102893, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Wyrmhide Gloves
+				{ 20, 102964, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Wyrmhide Legguards
+				-- Cat/Bear, 550 > 522
+				{ 7, 103382, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Helm
+				{ 8, 103385, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dragonhide Spaulders
+				{ 9, 103384, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Robes
+				{ 10, 103381, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Dragonhide Gloves
+				{ 11, 103383, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Dragonhide Legguards
+				{ 22, 102850, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Helm
+				{ 23, 102938, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dragonhide Spaulders
+				{ 24, 102937, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Robes
+				{ 25, 102936, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Dragonhide Gloves
+				{ 26, 102851, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Dragonhide Legguards
+				-- Heal, 550 > 522
+				{ 101, 103390, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Helm
+				{ 102, 103393, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Kodohide Spaulders
+				{ 103, 103392, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Robes
+				{ 104, 103389, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Kodohide Gloves
+				{ 105, 103391, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Kodohide Legguards
+				{ 116, 102973, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Helm
+				{ 117, 102855, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Kodohide Spaulders
+				{ 118, 102918, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Robes
+				{ 119, 102854, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Kodohide Gloves
+				{ 120, 102958, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Kodohide Legguards
+			},
+		},
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["HUNTER"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 102690, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Helm
+				{ 2, 102734, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Chain Spaulders
+				{ 3, 102689, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Armor
+				{ 4, 102737, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Chain Gauntlets
+				{ 5, 102670, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Leggings
+				{ 16, 103221, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Helm
+				{ 17, 103223, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Chain Spaulders
+				{ 18, 103219, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Armor
+				{ 19, 103220, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Chain Gauntlets
+				{ 20, 103222, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Leggings
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 1, 103418, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Helm
+				{ 2, 103420, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Chain Spaulders
+				{ 3, 103416, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Armor
+				{ 4, 103417, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Chain Gauntlets
+				{ 5, 103419, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Chain Leggings
+				{ 16, 102887, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Helm
+				{ 17, 102931, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Chain Spaulders
+				{ 18, 102886, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Armor
+				{ 19, 102934, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Chain Gauntlets
+				{ 20, 102867, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Chain Leggings
+			},
+		},
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["MAGE"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 102667, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Cowl
+				{ 2, 102673, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Silk Amice
+				{ 3, 102715, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Robe
+				{ 4, 102735, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Silk Handguards
+				{ 5, 102648, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Trousers
+				{ 16, 103225, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Cowl
+				{ 17, 103228, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Silk Amice
+				{ 18, 103227, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Robe
+				{ 19, 103224, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Silk Handguards
+				{ 20, 103226, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Trousers
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 1, 103422, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Cowl
+				{ 2, 103425, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Silk Amice
+				{ 3, 103424, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Robe
+				{ 4, 103421, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Silk Handguards
+				{ 5, 103423, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Silk Trousers
+				{ 16, 102864, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Cowl
+				{ 17, 102870, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Silk Amice
+				{ 18, 102912, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Robe
+				{ 19, 102932, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Silk Handguards
+				{ 20, 102845, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Silk Trousers
+			},
+		},
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["MONK"],
+			[ALLIANCE_DIFF] = {
+				-- Windwalker, 550 > 522
+				{ 1, 102712, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Helm
+				{ 2, 102626, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ironskin Spaulders
+				{ 3, 102720, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Tunic
+				{ 4, 102675, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ironskin Gloves
+				{ 5, 102656, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Legguards
+				{ 16, 103233, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Helm
+				{ 17, 103235, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ironskin Spaulders
+				{ 18, 103236, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Tunic
+				{ 19, 103232, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ironskin Gloves
+				{ 20, 103234, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Legguards
+				-- Mistweaver, 550 > 522
+				{ 7, 102628, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Helm
+				{ 8, 102777, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Copperskin Spaulders
+				{ 9, 102763, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Tunic
+				{ 10, 102627, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Copperskin Gloves
+				{ 11, 102762, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Legguards
+				{ 22, 103238, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Helm
+				{ 23, 103240, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Copperskin Spaulders
+				{ 24, 103241, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Tunic
+				{ 25, 103237, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Copperskin Gloves
+				{ 26, 103239, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Legguards
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				-- Windwalker, 550 > 522
+				{ 1, 103430, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Helm
+				{ 2, 103432, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ironskin Spaulders
+				{ 3, 103433, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Tunic
+				{ 4, 103429, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ironskin Gloves
+				{ 5, 103431, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ironskin Legguards
+				{ 16, 102909, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Helm
+				{ 17, 102823, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ironskin Spaulders
+				{ 18, 102917, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Tunic
+				{ 19, 102872, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ironskin Gloves
+				{ 20, 102853, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ironskin Legguards
+				-- Mistweaver, 550 > 522
+				{ 7, 103435, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Helm
+				{ 8, 103437, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Copperskin Spaulders
+				{ 9, 103438, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Tunic
+				{ 10, 103434, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Copperskin Gloves
+				{ 11, 103436, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Copperskin Legguards
+				{ 22, 102825, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Helm
+				{ 23, 102974, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Copperskin Spaulders
+				{ 24, 102960, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Tunic
+				{ 25, 102824, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Copperskin Gloves
+				{ 26, 102959, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Copperskin Legguards
+			},
+		},
+		{
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"],
+			[ALLIANCE_DIFF] = {
+				-- Retribution, 550 > 522
+				{ 1, 102779, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Helm
+				{ 2, 102744, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Scaled Spaulders
+				{ 3, 102747, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Chestguard
+				{ 4, 102630, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Scaled Gloves
+				{ 5, 102780, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Legguards
+				{ 16, 103244, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Helm
+				{ 17, 103246, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Scaled Spaulders
+				{ 18, 103242, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Chestguard
+				{ 19, 103243, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Scaled Gloves
+				{ 20, 103245, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Legguards
+				-- Holy, 550 > 522
+				{ 7, 102635, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Helm
+				{ 8, 102697, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ornamented Spaulders
+				{ 9, 102632, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Chestguard
+				{ 10, 102722, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ornamented Gloves
+				{ 11, 102768, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Legguards
+				{ 22, 103255, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Helm
+				{ 23, 103257, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ornamented Spaulders
+				{ 24, 103253, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Chestguard
+				{ 25, 103254, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ornamented Gloves
+				{ 26, 103256, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Legguards
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				-- Retribution, 550 > 522
+				{ 1, 103441, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Helm
+				{ 2, 103443, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Scaled Spaulders
+				{ 3, 103439, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Chestguard
+				{ 4, 103440, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Scaled Gloves
+				{ 5, 103442, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Scaled Legguards
+				{ 16, 102976, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Helm
+				{ 17, 102941, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Scaled Spaulders
+				{ 18, 102944, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Chestguard
+				{ 19, 102827, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Scaled Gloves
+				{ 20, 102977, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Scaled Legguards
+				-- Holy, 550 > 522
+				{ 7, 103452, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Helm
+				{ 8, 103454, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ornamented Spaulders
+				{ 9, 103450, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Chestguard
+				{ 10, 103451, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Prideful Gladiator's Ornamented Gloves
+				{ 11, 103453, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Prideful Gladiator's Ornamented Legguards
+				{ 22, 102832, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Helm
+				{ 23, 102894, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ornamented Spaulders
+				{ 24, 102829, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Chestguard
+				{ 25, 102919, [PRICE_EXTRA_ITTYPE] = "honor:1750" },	-- Grievous Gladiator's Ornamented Gloves
+				{ 26, 102965, [PRICE_EXTRA_ITTYPE] = "honor:2250" },	-- Grievous Gladiator's Ornamented Legguards
 			},
 		},
 	},

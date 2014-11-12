@@ -1656,7 +1656,7 @@ function FogClear:RealHasOverlays()
 	if overlayMap and next(overlayMap) then return true else return false end
 end
 
-local discoveredOverlays = {}
+local discoveredOverlays, overlayList = {}, {}
 local function updateOverlayTextures(frame, frameName, textureCache, scale, alphaMod)
 	local self = FogClear
 	local mapFileName, textureHeight, _, isMicroDungeon, microDungeonMapName = GetMapInfo()
@@ -1684,75 +1684,85 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 			discoveredOverlays[texName] = texID
 			overlayMap[texName] = texID
 		end
+		overlayList[i] = texName or ""
+	end
+
+	for texName in pairs(overlayMap) do
+		if not discoveredOverlays[texName] then
+			tinsert(overlayList, texName)
+		end
 	end
 
 	local textureCount = 0
 	local r, g, b, a = self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA
 
 	local numOv = #textureCache
-	for texName, texID in pairs(overlayMap) do
-		local textureName = pathPrefix .. texName
-		local textureWidth, textureHeight, offsetX, offsetY = mod(texID, 2^10), mod(floor(texID / 2^10), 2^10), mod(floor(texID / 2^20), 2^10), floor(texID / 2^30)
-		
-		local numTexturesWide = ceil(textureWidth / 256)
-		local numTexturesTall = ceil(textureHeight / 256)
-		local neededTextures = textureCount + (numTexturesWide * numTexturesTall)
-		if neededTextures > numOv then
-			for j = numOv + 1, neededTextures do
-				local texture = frame:CreateTexture(format(frameName, j), "ARTWORK")
-				tinsert(textureCache, texture)
+	for i, texName in ipairs(overlayList) do
+		if texName and texName ~= "" and overlayMap[texName] then
+			local texID = overlayMap[texName]
+			local textureName = pathPrefix .. texName
+			local textureWidth, textureHeight, offsetX, offsetY = mod(texID, 2^10), mod(floor(texID / 2^10), 2^10), mod(floor(texID / 2^20), 2^10), floor(texID / 2^30)
+
+			local numTexturesWide = ceil(textureWidth / 256)
+			local numTexturesTall = ceil(textureHeight / 256)
+			local neededTextures = textureCount + (numTexturesWide * numTexturesTall)
+			if neededTextures > numOv then
+				for j = numOv + 1, neededTextures do
+					local texture = frame:CreateTexture(format(frameName, j), "ARTWORK")
+					tinsert(textureCache, texture)
+				end
+				numOv = neededTextures
 			end
-			numOv = neededTextures
-		end
-		local texturePixelWidth, textureFileWidth, texturePixelHeight, textureFileHeight
-		for j = 1, numTexturesTall do
-			if j < numTexturesTall then
-				texturePixelHeight = 256
-				textureFileHeight = 256
-			else
-				texturePixelHeight = mod(textureHeight, 256)
-				if texturePixelHeight == 0 then
+			local texturePixelWidth, textureFileWidth, texturePixelHeight, textureFileHeight
+			for j = 1, numTexturesTall do
+				if j < numTexturesTall then
 					texturePixelHeight = 256
-				end
-				textureFileHeight = 16
-				while textureFileHeight < texturePixelHeight do
-					textureFileHeight = textureFileHeight * 2
-				end
-			end
-			for k = 1, numTexturesWide do
-				textureCount = textureCount + 1
-				local texture = textureCache[textureCount]
-				if k < numTexturesWide then
-					texturePixelWidth = 256
-					textureFileWidth = 256
+					textureFileHeight = 256
 				else
-					texturePixelWidth = mod(textureWidth, 256)
-					if texturePixelWidth == 0 then
+					texturePixelHeight = mod(textureHeight, 256)
+					if texturePixelHeight == 0 then
+						texturePixelHeight = 256
+					end
+					textureFileHeight = 16
+					while textureFileHeight < texturePixelHeight do
+						textureFileHeight = textureFileHeight * 2
+					end
+				end
+				for k = 1, numTexturesWide do
+					textureCount = textureCount + 1
+					local texture = textureCache[textureCount]
+					if k < numTexturesWide then
 						texturePixelWidth = 256
+						textureFileWidth = 256
+					else
+						texturePixelWidth = mod(textureWidth, 256)
+						if texturePixelWidth == 0 then
+							texturePixelWidth = 256
+						end
+						textureFileWidth = 16
+						while textureFileWidth < texturePixelWidth do
+							textureFileWidth = textureFileWidth * 2
+						end
 					end
-					textureFileWidth = 16
-					while textureFileWidth < texturePixelWidth do
-						textureFileWidth = textureFileWidth * 2
+					texture:SetWidth(texturePixelWidth*scale)
+					texture:SetHeight(texturePixelHeight*scale)
+					texture:SetTexCoord(0, texturePixelWidth / textureFileWidth, 0, texturePixelHeight / textureFileHeight)
+					texture:ClearAllPoints()
+					texture:SetPoint("TOPLEFT", (offsetX + (256 * (k-1))) * scale, -(offsetY + (256 * (j - 1))) * scale)
+					texture:SetTexture(format(textureName.."%d", ((j - 1) * numTexturesWide) + k))
+
+					if discoveredOverlays[texName] then
+						texture:SetVertexColor(1, 1, 1)
+						texture:SetAlpha(1 - (alphaMod or 0))
+						texture:SetDrawLayer("ARTWORK")
+					else
+						texture:SetVertexColor(r, g, b)
+						texture:SetAlpha(a * ( 1 - (alphaMod or 0)))
+						texture:SetDrawLayer("BORDER")
 					end
-				end
-				texture:SetWidth(texturePixelWidth*scale)
-				texture:SetHeight(texturePixelHeight*scale)
-				texture:SetTexCoord(0, texturePixelWidth / textureFileWidth, 0, texturePixelHeight / textureFileHeight)
-				texture:ClearAllPoints()
-				texture:SetPoint("TOPLEFT", (offsetX + (256 * (k-1))) * scale, -(offsetY + (256 * (j - 1))) * scale)
-				texture:SetTexture(format(textureName.."%d", ((j - 1) * numTexturesWide) + k))
 
-				if discoveredOverlays[texName] then
-					texture:SetVertexColor(1, 1, 1)
-					texture:SetAlpha(1 - (alphaMod or 0))
-					texture:SetDrawLayer("ARTWORK")
-				else
-					texture:SetVertexColor(r, g, b)
-					texture:SetAlpha(a * ( 1 - (alphaMod or 0)))
-					texture:SetDrawLayer("BORDER")
+					texture:Show()
 				end
-
-				texture:Show()
 			end
 		end
 	end
@@ -1761,6 +1771,7 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 	end
 
 	wipe(discoveredOverlays)
+	wipe(overlayList)
 end
 
 

@@ -473,7 +473,7 @@ function GUI.CreateDropDown()
 	self.EnableIcon = EnableIcon
 	--self.SetIcon = SetIcon
 	
-	self.frame = CreateFrame("Frame", frameName)
+	self.frame = CreateFrame("Button", frameName)
 	local frame = self.frame 
 	frame:ClearAllPoints()
 	frame:SetHeight(25)
@@ -481,6 +481,8 @@ function GUI.CreateDropDown()
 	frame:SetBackdrop(ATLASLOOT_STYLE_TT_BACKDROP)
 	frame:SetBackdropColor(0,0,0,1)
 	frame:SetScript("OnHide", MainFrame_OnHide)
+	frame:SetScript("OnClick", DropDownButtonOnClick)
+	frame.par = self
 	
 	frame.label = frame:CreateFontString(frameName.."-label", "ARTWORK", "GameFontNormalSmall")
 	frame.label:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, 0)

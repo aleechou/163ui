@@ -1,5 +1,7 @@
 local AtlasLoot = _G.AtlasLoot
-local Dummy = AtlasLoot.Button:AddType("Dummy", "INV_")
+local TYPE, ID_INV, ID_ICON = "Dummy", "INV_", "ICON_"
+local Dummy = AtlasLoot.Button:AddType(TYPE, ID_INV)
+local Dummy_ID_ICON = AtlasLoot.Button:AddIdentifier(TYPE, ID_ICON)
 
 local str_match = string.match
 
@@ -35,9 +37,13 @@ function Dummy.Refresh(button)
 		button.extra:SetText(button.Description)
 	end
 	
-	button.icon:SetTexture(button.Texture and "Interface\\Icons\\INV_"..button.Texture or "Interface\\Icons\\INV_Misc_QuestionMark")
+	button.icon:SetTexture(button.Texture and "Interface\\Icons\\"..button.Texture or "Interface\\Icons\\INV_Misc_QuestionMark")
 end
 
 function Dummy.GetStringContent(str)
-	return str_match(str, "(.+)")
+	return ID_INV..str
+end
+
+function Dummy_ID_ICON.GetStringContent(str)
+	return str
 end

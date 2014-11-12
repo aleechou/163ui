@@ -297,14 +297,14 @@ function Proto:Clear()
 	end
 	
 	if self.IsShown then
-		self.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-		self.name:SetText("")
-		self.extra:SetText("")
+		self.icon:SetTexture(nil)
+		self.name:SetText(nil)
+		self.extra:SetText(nil)
 		self.overlay:SetSize(self.icon:GetWidth(), self.icon:GetHeight())
 		self:Hide()
 	end
 	if self.secButton then
-		self.secButton:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+		self.secButton:SetNormalTexture(nil)
 		self.secButton.overlay:SetSize(self.secButton:GetWidth(), self.secButton:GetHeight())
 		self.secButton:Hide()
 	end
@@ -507,7 +507,7 @@ local EnhancedDescriptionProto = {
 		if not textFrame then
 			textFrame = self:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 			textFrame:SetJustifyH("LEFT")
-			textFrame:SetText("")
+			--textFrame:SetText("")
 			textFrame:SetHeight(10)
 			textFrame:SetTextColor(1, 1, 1, 1)
 			
@@ -615,11 +615,13 @@ function Button:AddType(typ, identifier)
 	assert(typ and type(typ) == "string", "typ must be a string.")
 	assert(identifier and type(identifier) == "string", "identifier must be a string.")
 	if not button_types[typ] then
+		button_types_index[#button_types_index+1] = typ
 		button_types[typ] = {
+			index = #button_types_index,
 			identifier = identifier,
 			identifierLength = str_len(identifier),
 		}
-		button_types_index[#button_types_index+1] = typ
+		
 		--[[
 		setmetatable(button_types[typ], {
 			--__newindex = function(t, k, v)
@@ -632,6 +634,12 @@ function Button:AddType(typ, identifier)
 	end
 	
 	return button_types[typ]
+end
+
+function Button:AddIdentifier(sourceType, identifier)
+	if button_types[sourceType] then
+		return setmetatable(Button:AddType(sourceType..identifier, identifier), {__index = button_types[sourceType]})
+	end
 end
 
 function Button:GetType(typ)

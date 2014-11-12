@@ -592,9 +592,9 @@ data["MOPFACTIONS"] = {
 				{ 16, "f1302rep8" },
 				{ 17, 81354, "mount", [PRICE_EXTRA_ITTYPE] = "money:40000000" },	-- Reins of the Azure Water Strider
 				{ 18, 89401, [PRICE_EXTRA_ITTYPE] = "money:80000" },	-- Anglers Tabard
-				{ 20, "INV_Box_01", nil, ALIL["Nat Pagle"], AL["Good Friend"] },
+				{ 20, "ICON_achievement_faction_anglers", nil, ALIL["Nat Pagle"], AL["Good Friend"] },
 				{ 21, 88563, [PRICE_EXTRA_ITTYPE] = "money:10000000" },	-- Nat's Fishing Journal
-				{ 23, "INV_Box_01", nil, ALIL["Nat Pagle"], AL["Best Friend"] },
+				{ 23, "ICON_achievement_faction_anglers", nil, ALIL["Nat Pagle"], AL["Best Friend"] },
 				{ 24, 88710, [PRICE_EXTRA_ITTYPE] = "money:2500000" },	-- Nat's Hat
 				{ 25, 86596 },	-- Nat's Fishing Chair
 			},
@@ -728,12 +728,12 @@ data["MOPFACTIONS"] = {
 				{ 127, 89847, [PRICE_EXTRA_ITTYPE] = "money:45000" },	-- Bag of Witchberry Seeds
 				{ 128, 91806, [PRICE_EXTRA_ITTYPE] = "money:30000" },	-- Unstable Portal Shard
 				{ 129, 89814, [PRICE_EXTRA_ITTYPE] = "money:1000000" },	-- "Earth-Slasher" Master Plow
-				{ 201, "INV_Box_01", nil, ALIL["Old Hillpaw"], AL["Best Friend"] },
+				{ 201, "ICON_achievement_faction_tillers", nil, ALIL["Old Hillpaw"], AL["Best Friend"] },
 				{ 202, 90893 },	-- Straw Hat
 				{ 203, 90894 },	-- Straw Hat
 				{ 204, 90895 },	-- Straw Hat
 				{ 205, 90896 },	-- Straw Hat
-				{ 207, "INV_Box_01", nil, ALIL["Sho"], AL["Best Friend"] },
+				{ 207, "ICON_achievement_faction_tillers", nil, ALIL["Sho"], AL["Best Friend"] },
 				{ 208, 85222, "pet1042" },	-- Red Cricket
 			},
 		},
@@ -1844,11 +1844,10 @@ data["BCFACTIONS"] = {
 				{ 104, 29115 },	-- Consortium Blaster
 				{ 105, 24178, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Pendant of the Null Rune (p12 360)
 				{ 106, 25734, [PRICE_EXTRA_ITTYPE] = "money:140000" },	-- Pattern: Fel Leather Leggings (p7 350)
-				{ 107, 22535, [PRICE_EXTRA_ITTYPE] = "money:100000" },	-- Formula: Enchant Ring - Striking (p4 360)
-				{ 108, 23874, [PRICE_EXTRA_ITTYPE] = "money:80000" },	-- Schematic: Elemental Seaforium Charge (p5 350)
-				{ 109, 25903, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Bracing Earthstorm Diamond (p12 365)
-				{ 110, 33156, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Crimson Sun (p12 360)
-				{ 111, 33305, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Don Julio's Heart (p12 360)
+				{ 107, 23874, [PRICE_EXTRA_ITTYPE] = "money:80000" },	-- Schematic: Elemental Seaforium Charge (p5 350)
+				{ 108, 25903, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Bracing Earthstorm Diamond (p12 365)
+				{ 109, 33156, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Crimson Sun (p12 360)
+				{ 110, 33305, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: Don Julio's Heart (p12 360)
 				{ 116, "f933rep8" },
 				{ 117, 29122 },	-- Nether Runner's Cowl
 				{ 118, 29119 },	-- Haramad's Bargain
