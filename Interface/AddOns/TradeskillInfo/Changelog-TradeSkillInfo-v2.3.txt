@@ -1,9 +1,56 @@
 ------------------------------------------------------------------------
-r687 | ethancentaurai | 2014-11-07 21:12:30 +0000 (Fri, 07 Nov 2014) | 1 line
+r693 | ethancentaurai | 2014-11-13 11:21:23 +0000 (Thu, 13 Nov 2014) | 1 line
 Changed paths:
-   A /tags/v2.2.18 (from /trunk:686)
+   A /tags/v2.3 (from /trunk:692)
 
-Tagging as v2.2.18.
+Tagging as v2.3.
+------------------------------------------------------------------------
+r692 | ethancentaurai | 2014-11-13 11:20:45 +0000 (Thu, 13 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Notes.txt
+
+Update developer notes to match new data layout.
+------------------------------------------------------------------------
+r691 | ethancentaurai | 2014-11-13 11:19:27 +0000 (Thu, 13 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Ran the dataminer to bring in new WoD recipe data.
+------------------------------------------------------------------------
+r690 | ethancentaurai | 2014-11-11 17:46:03 +0000 (Tue, 11 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+
+Do not include the datamining script in packages.
+------------------------------------------------------------------------
+r689 | ethancentaurai | 2014-11-09 15:21:10 +0000 (Sun, 09 Nov 2014) | 1 line
+Changed paths:
+   D /trunk/Data/Components.lua
+   M /trunk/Data/Data.lua
+   D /trunk/Data/FirstAid.lua
+   D /trunk/Data/Professions
+   D /trunk/Data/Recipes.lua
+   D /trunk/Data/SpecialCases.lua
+   M /trunk/TradeskillInfo.lua
+   M /trunk/TradeskillInfo.toc
+   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
+
+Ran the dataminer. THIS UPDATE WILL RESET YOUR SAVED VARIABLES.
+------------------------------------------------------------------------
+r688 | ethancentaurai | 2014-11-09 15:17:58 +0000 (Sun, 09 Nov 2014) | 3 lines
+Changed paths:
+   M /trunk/Data/Miner/TSInfo.java
+   M /trunk/Data/Miner/classes/Item.class
+   M /trunk/Data/Miner/classes/Recipe.class
+   D /trunk/Data/Miner/classes/SpecialCase.class
+   M /trunk/Data/Miner/classes/TSInfo.class
+   D /trunk/Data/Miner/classes/org/json/JSONObject$1.class
+   D /trunk/Data/Miner/classes/org/json/JSONString.class
+   M /trunk/Data/Miner/mine.sh
+
+- Update to jdk8u25.
+- Update dataminer to pull reagent data from WoWhead instead of GetBuffed.
+- Deleted unused class files.
 ------------------------------------------------------------------------
 r686 | ethancentaurai | 2014-11-07 21:11:11 +0000 (Fri, 07 Nov 2014) | 1 line
 Changed paths:

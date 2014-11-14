@@ -138,8 +138,8 @@ local function Register(Module, Name, Label, ParentAddOn)
 		if not ParentAddOn or IsAddOnLoaded(ParentAddOn) then
 			Load(Module)
 		else
-			local _, _, _, _, Loadable, Reason = GetAddOnInfo(ParentAddOn)
-			if Loadable or (Reason == "DISABLED" and IsAddOnLoadOnDemand(ParentAddOn)) then -- Potentially loadable
+			local _, _, _, Loadable, Reason = GetAddOnInfo(ParentAddOn)
+			if Loadable or (Reason == "DISABLED" and IsAddOnLoadOnDemand(ParentAddOn)) or Reason == "DEMAND_LOADED" then -- Potentially loadable
 			LoadQueue[ParentAddOn:upper()] = Module
 			else
 				Unregister(Module)

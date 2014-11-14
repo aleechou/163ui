@@ -1,13 +1,17 @@
-## Interface: 60000
-## X-Web: http://forum.gamer.com.tw/C.php?bsn=05219&snA=585731
+﻿## Interface: 60000
+## Title: EventAlertMod
+## Title-zhTW:EventAlertMod 法術監控觸發提示
+## Title-zhCN:EventAlertMod 法术监控触发提示
+## Notes: To notice or warning the specific Spells/Skills in large icon for the player. Command: /eam opt. By |cff69ccf0ACDACD@TW-REALM|r
+## Notes-zhTW:監控的法術觸發時, 以大型法術圖示來提示玩家, 法術設定指令:/eam opt. 指令說明:/eam help.
+## Notes-zhCN:监控的法术触发时, 以大型法术图示来提示玩家, 法术设定指令:/eam opt. 指令说明:/eam help.
 ## Author: Whitep@雷鱗 (Thanks for ACDACD as previous author of 4.7.02)
-## Version: 5.1.0.09
+## Version: 5.1.0.14
 ## SavedVariables: EA_Config, EA_Position, EA_Items, EA_AltItems, EA_TarItems, EA_ScdItems, EA_GrpItems, EA_Pos, EA_SpecCheckPower
-
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
-
+localization.kr.lua
 EventAlertMod.xml
 EventAlert_Options.xml
 EventAlert_IconOptions.xml
@@ -19,4 +23,4 @@ EventAlert_GroupAlerts.xml
 
 ## Title: |cff880303[网易有爱]|r EAM技能特效警报
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019001552
+## X-163UI-Version: 2014111401

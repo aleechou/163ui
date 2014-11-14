@@ -1,0 +1,13 @@
+tag 6.0.3.2
+325bbfae403781beb4579c98ac50c27dd0317f3e
+James D. Callahan III <jcallahan@curse.com>
+2014-11-13 04:16:04 -0600
+
+
+
+--------------------
+
+James D. Callahan III:
+	- Moved keybindings into the AddOns category.
+SLOKnightfall:
+	- -Updated mob information in the local file to reflect updated mob data. -Fixed anchor point of the toggle buttons on the world map (Ticket 37)

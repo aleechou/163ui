@@ -1,13 +1,13 @@
 <Bindings>
-	<Binding name="KEY _NPCScan.Overlay.Button:LeftButton" header="_NPCSCAN_OVERLAY">
+	<Binding name="KEY _NPCScan.Overlay.Button:LeftButton" header="_NPCSCAN_OVERLAY" category="ADDONS">
 				_G._NPCScan.Overlay.WorldMapKey_ToggleOnClick()
 	</Binding>
 
-	<Binding name="PATH _NPCScan.Overlay.Button:LeftButton">
+	<Binding name="PATH _NPCScan.Overlay.Button:LeftButton" category="ADDONS">
 		_G._NPCScan.Overlay.WorldMapPaths_ToggleOnClick()
 	</Binding>
 
-	<Binding name="MINIMAP_PATH _NPCScan.Overlay.Button:LeftButton">
+	<Binding name="MINIMAP_PATH _NPCScan.Overlay.Button:LeftButton" category="ADDONS">
 		Minimap_Toggle()
 	</Binding>
 

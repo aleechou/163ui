@@ -38,11 +38,13 @@ EA_TTIP_SPECFLAG_CHECK_SOULSHARDS = "開啟/關閉, 於本身BUFF框架左側第
 EA_TTIP_SPECFLAG_CHECK_ECLIPSE = "開啟/關閉, 於本身BUFF框架左側第一格顯示日月蝕能";
 EA_TTIP_SPECFLAG_CHECK_COMBOPOINT = "開啟/關閉, 於目標DEBUFF框架左側第一格顯示集星連擊數";
 EA_TTIP_SPECFLAG_CHECK_LIFEBLOOM = "開啟/關閉, 於本身BUFF框架左側第一格顯示生命之花堆疊與時間";
-EA_TTIP_SPECFLAG_CHECK_RAGE = "開啟/關閉, 於本身BUFF框架左側第一格顯示怒氣";					--  支援怒氣(戰士,熊D)
+EA_TTIP_SPECFLAG_CHECK_RAGE = "開啟/關閉, 於本身BUFF框架左側第一格顯示怒氣";				--  支援怒氣(戰士,熊D)
 EA_TTIP_SPECFLAG_CHECK_FOCUS = "開啟/關閉, 於本身BUFF框架左側第一格顯示集中值";				--  支援集中值(獵人)
 EA_TTIP_SPECFLAG_CHECK_ENERGY = "開啟/關閉, 於本身BUFF框架左側第一格顯示能量";				--  支援能量(賊,貓D,武僧)
-EA_TTIP_SPECFLAG_CHECK_LIGHTFORCE = "開啟/關閉, 於本身BUFF框架左側第一格顯示真氣堆疊數";		--  支援武僧真氣
+EA_TTIP_SPECFLAG_CHECK_LIGHTFORCE = "開啟/關閉, 於本身BUFF框架左側第一格顯示真氣堆疊數";	--  支援武僧真氣
 EA_TTIP_SPECFLAG_CHECK_SHADOWORBS = "開啟/關閉, 於本身BUFF框架左側第一格顯示暗影寶珠";		--  支援暗影寶珠(暗牧)
+EA_TTIP_SPECFLAG_CHECK_DEMONICFURY = "開啟/關閉於本身BUFF框架左側第一格顯示惡魔之怒";		--  支援惡魔之怒
+EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS = "開啟/關閉於本身BUFF框架左側第一格顯示燃火餘燼";		--  支援燃火餘燼
 
 EA_TTIP_GRPCFG_ICONALPHA = "變更圖示的透明度";
 EA_TTIP_GRPCFG_TALENT = "限定此天賦時才作用";

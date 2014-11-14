@@ -1,93 +1,5 @@
+-- Prevent tainting global _.
 local _
-local enable_drag
-local _ADDON, _NS = ...
-
-do
-    local run_script_on_frame = function(f, script, ...)
-        local func = f:GetScript(script)
-        if(func) then
-            return func(f, ...)
-        end
-    end
-
-    local onMouseDown = function(self, btn)
-        if(btn == 'LeftButton') then
-            self.isMoving = true
-
-            local p = self:GetParent()
-            p:SetMovable(true)
-            p:StartMoving()
-        elseif(btn == 'RightButton') then
-            if(not EA_Options_Frame:IsShown()) then
-                SlashCmdList["EVENTALERTMOD"]('opt')
-            end
-            if(not EA_Group_Events_Frame:IsShown()) then
-                EA_Options_Frame_ToggleGroupEvents:Click()
-            end
-        end
-    end
-
-    local onMouseUp = function(self)
-        if(self.isMoving) then
-            local p = self:GetParent()
-            p:StopMovingOrSizing()
-            p:SetDontSavePosition(true)
-            p.GC.IconPoint, _, p.GC.IconRelatePoint, p.GC.LocX, p.GC.LocY = p:GetPoint()
-        end
-    end
-
-    local onHide = function(self)
-        if(self.isMoving) then
-            return run_script_on_frame(self, 'OnMouseUp')
-        end
-    end
-
-    local _movers = {}
-
-    local create_drag = function(eaf)
-        local f = CreateFrame('Button', 'ea_163_grp_'..eaf.GC.GroupIndex)
-        f:SetSize(14,14)
-        f:SetNormalTexture("Interface\\BUTTONS\\UI-AutoCastableOverlay")
-        f:GetNormalTexture():SetTexCoord(0.215, 0.372, 0.217, 0.364)
-
-        f:SetParent(eaf)
-        f:SetPoint("TOPLEFT", eaf)
-        f:SetFrameStrata(eaf:GetFrameStrata())
-        f:SetFrameLevel(eaf:GetFrameLevel()+1)
-
-        f:SetScript('OnMouseDown', onMouseDown)
-        f:SetScript('OnMouseUp', onMouseUp)
-        f:SetScript('OnHide', onHide)
-
-        _movers[eaf] = f
-
-        return f
-    end
-
-    function enable_drag(eaf)
-        if(not eaf.__dragger) then
-            eaf.__dragger = create_drag(eaf)
-        end
-
-        if(EA_Config.LockFrame) then
-            eaf.__dragger:Hide()
-        else
-            eaf.__dragger:Show()
-        end
-    end
-
-    function EA_163_UpdateGrpAnchorFrames()
-        for eaf, f in next, _movers do
-            if(eaf:IsShown()) then
-                if(EA_Config.LockFrame) then
-                    f:Hide()
-                else
-                    f:Show()
-                end
-            end
-        end
-    end
-end
 
 --------------------------------------------------------------------------------
 -- Create Basic Spell Frames, Anchor Frames, Speciall Frames
@@ -279,7 +191,7 @@ function CreateFrames_SpecialFrames_Show(index)
 
 	local eaf = _G[sFramePrefix..index];
 	if (eaf ~= nil) then 
-		-- å·²å»ºç«‹ç‰¹æ®Šèƒ½åŠ›æ¡†æ¶ï¼Œç›´æ¥æ›´æ–°
+		-- ¤w«Ø¥ß¯S®í¯à¤O®Ø¬[¡Aª½±µ§ó·s
 		local iPowerType = (index - 10000) / 10;
 		
 		if (index == 33763) then
@@ -294,7 +206,7 @@ function CreateFrames_SpecialFrames_Show(index)
 		return;
 	end
 
-	-- å°šæœªå»ºç«‹ç‰¹æ®Šèƒ½åŠ›æ¡†æ¶ï¼Œä»¥ä¸‹æ˜¯ç¬¬ä¸€æ¬¡åŸ·è¡Œ
+	-- ©|¥¼«Ø¥ß¯S®í¯à¤O®Ø¬[¡A¥H¤U¬O²Ä¤@¦¸°õ¦æ
 	eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
 	eaf.spellName = eaf:CreateFontString(sFramePrefix..index.."_Name","OVERLAY");
 	eaf.spellTimer = eaf:CreateFontString(sFramePrefix..index.."_Timer","OVERLAY");
@@ -319,53 +231,49 @@ function CreateFrames_SpecialFrames_Show(index)
 	eaf:SetHeight(EA_Config.IconSize);
 
 	if index == 10010 then
-		-- æˆ°å£«/ç†ŠDæ€’æ°£çš„åœ–æ¡ˆ
+		-- ¾Ô¤h/ºµD«ã®ğªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_Warrior_Rampage"});
 	elseif index == 10020 then
-		-- çµäººé›†ä¸­å€¼çš„åœ–æ¡ˆ
+		-- Ây¤H¶°¤¤­Èªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_Marksmanship"});
 	elseif index == 10030 then
-		-- ç›œè³Š/è²“D/æ­¦åƒ§èƒ½é‡çš„åœ–æ¡ˆ
+		-- µs¸é/¿ßD/ªZ¹¬¯à¶qªº¹Ï®×
 		--eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Nature_Healingway"});
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Trade_Engineering"});
 	elseif index == 10060 then
-		-- æ­»äº¡é¨å£«ç¬¦æ–‡èƒ½é‡çš„åœ–æ¡ˆ
+		-- ¦º¤`ÃM¤h²Å¤å¯à¶qªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Arcane_Rune"});
 	elseif index == 10070 then
-		-- è¡“å£«éˆé­‚ç¢ç‰‡çš„åœ–æ¡ˆ
+		-- ³N¤hÆF»î¸H¤ùªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Inv_Misc_Gem_Amethyst_02"});
 	elseif index == 10081 then
-		-- é³¥Dæ—¥è•èƒ½é‡çš„åœ–æ¡ˆ
+		-- ³¾D¤é»k¯à¶qªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_Druid_Eclipse"});
 	elseif index == 10082 then
-		-- é³¥Dæœˆè•èƒ½é‡çš„åœ–æ¡ˆ
+		-- ³¾D¤ë»k¯à¶qªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_Druid_EclipseOrange"});
 	elseif index == 10090 then
-		-- è–é¨å£«çš„è–èƒ½åœ–æ¡ˆ
+		-- ¸tÃM¤hªº¸t¯à¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Holy_PowerwordBarrier"});		
 	elseif index == 10120 then
-		-- æ­¦åƒ§çœŸæ°£çš„åœ–æ¡ˆ
+		-- ªZ¹¬¯u®ğªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_Monk_HealthSphere"});			
 	elseif index == 10130 then
-		-- æš—ç‰§æš—å½±å¯¶ç çš„åœ–æ¡ˆ
+		-- ·tªª·t¼vÄ_¯]ªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Priest_ShadowOrbs"});			
 	elseif index == 10140 then
-		-- è¡“å£«ç‡ƒç«é¤˜ç‡¼çš„åœ–æ¡ˆ
+		-- ³N¤h¿U¤õ¾lÂuªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Inv_Misc_Embers"});			
 	elseif index == 10150 then
-		-- è¡“å£«æƒ¡é­”ä¹‹æ€’çš„åœ–æ¡ˆ
+		-- ³N¤h´cÅ]¤§«ãªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Fire_FelFlameRing"});			
 	elseif index == 33763 then
-		-- è£œDç”Ÿå‘½ä¹‹èŠ±çš„åœ–æ¡ˆ
+		-- ¸ÉD¥Í©R¤§ªáªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/INV_Misc_Herb_FelBlossom"});
 	elseif index == 10000 then
-		-- ç›œè³Š/è²“Dé€£æ“Šé»çš„åœ–æ¡ˆ
+		-- µs¸é/¿ßD³sÀ»ÂIªº¹Ï®×
 		eaf:SetBackdrop({bgFile = "Interface/Icons/Ability_WhirlWind"});
 	end
-
-    local f = _NS.create_mover('specframe', EA_Anchor_Frame3, 1, 4, EventAlert_PositionFrames)
-    _NS.set_mover(f, eaf)
-    -- print(eaf:GetName(), EventAlert_PositionFrames)
 end
 
 function CreateFrames_SpecialFrames_Hide(index)
@@ -555,12 +463,16 @@ function CreateFrames_CfgBtn_SaveSpellCondition(self)
 		Chk_Stack = false;
 		SC_Stack = nil;
 	end
+
 	SC_Self = EA_SpellCondition_Frame_Self:GetChecked();
-	if (SC_Self == 1) then
-		SC_Self = true;
-	else
-		SC_Self = false;
-	end
+
+	--CHKBOX ªº¤Ä¿ï¸ê°T¦^¶Ç¨ç¼Æ GetChecked() : trueªí¥Ü¥´¤Ä, false(nil)ªí¥ÜµL¥´¤Ä
+	--if (SC_Self == 1) then 
+	--	SC_Self = true;
+	--else
+	--	SC_Self = false;
+	--end
+
 	Chk_OverGrow, SC_OverGrow = CreateFrames_CfgBtnFun_GetChkText(EA_SpellCondition_Frame_OverGrow, EA_SpellCondition_Frame_OverGrowEditBox);
 	if ((not Chk_OverGrow) or (SC_OverGrow == nil) or (SC_OverGrow <= 0) or (SC_OverGrow >= 100)) then
 		Chk_OverGrow = false;
@@ -580,6 +492,7 @@ function CreateFrames_CfgBtn_SaveSpellCondition(self)
 
 	-- // Save Checkbox and TextEdit Value To SaveVariables
 	local function CreateFrames_CfgBtnFun_SaveToItem(EAItem)
+		
 		EAItem.stack = SC_Stack;
 		EAItem.self = SC_Self;
 		EAItem.overgrow = SC_OverGrow;
@@ -1107,8 +1020,6 @@ function CreateFrames_CreateGroupCheckFrame(iGroupIndex)
 	eaf:SetPoint(aGroupChecks.IconPoint, UIParent, aGroupChecks.IconRelatePoint, aGroupChecks.LocX, aGroupChecks.LocY);	-- 0, -100
 	eaf:SetWidth(0);
 	eaf:SetHeight(0);
-
-    enable_drag(eaf)
 end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -1180,7 +1091,7 @@ function CreateFrames_EventsFrame_AddSpell(FrameIndex)
 			local sname = GetSpellInfo(spellID);
 			if (sname ~= nil) then
 				CreateFrames_EventsFrame_ClearSpellList(FrameIndex);
-				-- ç‚ºäº†ä¾¿æ–¼åˆ†äº«æ³•è¡“id æ‰€ä»¥å„²å­˜æ™‚å¢åŠ å„²å­˜æ³•è¡“åç¨±
+				-- ¬°¤F«K©ó¤À¨Éªk³Nid ©Ò¥HÀx¦s®É¼W¥[Àx¦sªk³N¦WºÙ
 				local sname=GetSpellInfo(spellID);
 				if (FrameIndex==1 and EA_Items[EA_playerClass][spellID] == nil) then EA_Items[EA_playerClass][spellID] = {enable=true,name=sname} end;
 				if (FrameIndex==2 and EA_AltItems[EA_playerClass][spellID] == nil) then EA_AltItems[EA_playerClass][spellID] = {enable=true,name=sname} end;

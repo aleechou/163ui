@@ -444,9 +444,9 @@ function panel:OnLoad ( ... )
 	Toggle.Normal = Normal
 	Normal:SetAllPoints()
 	Toggle:RegisterForClicks("AnyUp")
-	Toggle:SetSize( 22, 22 )
+	Toggle:SetSize( 30, 30 )
 	Toggle:ClearAllPoints()
-	Toggle:SetPoint("BOTTOMRIGHT", WorldMapButton, "TOPRIGHT", -30,15)
+	Toggle:SetPoint("BOTTOMRIGHT", WorldMapFrameNavBar, "BOTTOMRIGHT", -30,0)
 
 -- Add key toggle button to world map
 	local KeyToggle = CreateFrame( "CheckButton", "_NPCScanKeyToggle", WorldMapFrameNavBar )
@@ -459,7 +459,7 @@ function panel:OnLoad ( ... )
 	KeyToggle.KeyNormal = KeyNormal
 	KeyNormal:SetAllPoints()
 	KeyToggle:RegisterForClicks("AnyUp")
-	KeyToggle:SetSize( 22, 22 )
+	KeyToggle:SetSize( 30, 30 )
 	KeyToggle:ClearAllPoints()
 	KeyToggle:SetPoint("TOPLEFT", Toggle, "TOPRIGHT", 0,0)
 	

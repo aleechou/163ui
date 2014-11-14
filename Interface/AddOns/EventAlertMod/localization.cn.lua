@@ -43,6 +43,8 @@ EA_TTIP_SPECFLAG_CHECK_FOCUS = "开启/关闭, 于本身BUFF框架左侧第一�
 EA_TTIP_SPECFLAG_CHECK_ENERGY = "开启/关闭, 于本身BUFF框架左侧第一格显示能量"; -- 支援能量(贼,猫D,武僧)
 EA_TTIP_SPECFLAG_CHECK_LIGHTFORCE = "开启/关闭, 于本身BUFF框架左侧第一格显示真气堆叠数"; -- 支援武僧真气
 EA_TTIP_SPECFLAG_CHECK_SHADOWORBS = "开启/关闭, 于本身BUFF框架左侧第一格显示暗影宝珠"; -- 支援暗影宝珠(暗牧)
+EA_TTIP_SPECFLAG_CHECK_DEMONICFURY = "开启/关闭于本身的BUFF框架左侧第一格显示恶魔之怒"; --  支援恶魔之怒
+EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS = "开启/关闭于本身的BUFF框架左侧第一格显示燃火余烬";		--  支援燃火余烬
 
 EA_TTIP_GRPCFG_ICONALPHA = "变更图示的透明度";
 EA_TTIP_GRPCFG_TALENT = "限定此天赋时才作用";

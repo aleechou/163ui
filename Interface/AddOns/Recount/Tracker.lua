@@ -4,7 +4,7 @@ local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale("Recount")
 local BossIDs = LibStub("LibBossIDs-1.0")
 
-local revision = tonumber(string.sub("$Revision: 1275 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1276 $", 12, -3))
 if Recount.Version < revision then
 	Recount.Version = revision
 end
@@ -519,7 +519,7 @@ end
 
 function Recount:SpellDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand, multistrike)
 
-	if string.match(dstGUID, "^Creature:0:%d+:%d+:%d+:76933:%w+$") then
+	if string.match(dstGUID, "^Creature%-0%-%d+%-%d+%-%d+%-76933%-%w+$") then
 		return
 	end
 

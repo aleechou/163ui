@@ -1,4 +1,4 @@
-## Interface: 60000
+## Interface: 50001
 ## LoadOnDemand: 1
 ## Title: Lib: Babble-Zone-3.0
 ## Notes: A library to help with localization of Zones.
