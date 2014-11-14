@@ -21,4 +21,4 @@ TradeskillInfoUI.xml
 
 ## Title: |cff880303[网易有爱]|r 商业技能百科设置窗口
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111401
+## X-163UI-Version: 20141114151506
