@@ -65,4 +65,4 @@ TradeskillInfoOptions.lua
 PatchBy163UI.lua
 ## Title: |cff880303[网易有爱]|r 商业技能百科
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141114151506
+## X-163UI-Version: 20141114175717
