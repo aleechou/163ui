@@ -20,4 +20,4 @@ data.lua
 options.lua
 ## Title: |cff880303[网易有爱]|r 内置CD监控
 ## X-Vendor: NetEase
-## 163UI-Version: 2014111601
+## X-163UI-Version: 20141116105020
