@@ -1,18 +1,18 @@
--- Prevent tainting global _.
+ï»¿-- Prevent tainting global _.
 local _
 
 EA_Config = { DoAlertSound, AlertSound, AlertSoundValue, LockFrame, ShareSettings, ShowFrame, ShowName, 
 	ShowFlash, ShowTimer, TimerFontSize, StackFontSize, SNameFontSize, ChangeTimer, Version, AllowESC, 
-	AllowAltAlerts, Target_MyDebuff,IsUseFloat };
+	AllowAltAlerts, Target_MyDebuff,IsUseFloat,IsKeepSCD,IsKeepGlowSCD };
 EA_Position = { Anchor, relativePoint, xLoc, yLoc, xOffset, yOffset, RedDebuff, GreenDebuff, Tar_NewLine, 
 	TarAnchor, TarrelativePoint, Tar_xOffset, Tar_yOffset, ScdAnchor, Scd_xOffset, Scd_yOffset, Execution, 
 	PlayerLv2BOSS, SCD_UseCooldown };
 
--- ±Ò¥Î/Ãö³¬¯S®í¯à¤OªºÀË¬d¾÷¨î	
+-- ï¿½Ò¥ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ë¬dï¿½ï¿½ï¿½ï¿½	
 EA_SpecCheckPower = { CheckMana, CheckRage, CheckFocus, CheckEnergy, CheckRunes, CheckRunicPower, CheckSoulShards, 
 	CheckEclipse, CheckHolyPower, CheckDarkForce, CheckLightForce, CheckShadowOrbs, CheckBurningEmbers, 
 	CheckDemonicFury, CheckComboPoint, CheckLifeBloom };
--- ÀË¬d¥Ø«e¤Ñ½á¨ã³Æ­þ¨Ç¯S®í¯à¤O
+-- ï¿½Ë¬dï¿½Ø«eï¿½Ñ½ï¿½ï¿½Æ­ï¿½ï¿½Ç¯Sï¿½ï¿½ï¿½O
 EA_SpecHasPower = { HasMana, HasRage, HasFocus, HasEnergy, HasRunes, HasRunicPower, HasSoulShards,
 	HasEclipse, HasHolyPower, HasDarkForce, HasLightForce, HasShadowOrbs, HasBurningEmbers,
 	HasDemonicFury, HasComboPoint, HasLifeBloom };
@@ -114,7 +114,7 @@ end
 -- The procedures of events
 function EventAlert_OnEvent(self, event, ...)
 	if (event == "PLAYER_ENTERING_WORLD") then
-		-- °»´ú¥Ø«e¨¤¦âªº¤Ñ½á¤Î¯S®í¯à¤O
+		-- ï¿½ï¿½ï¿½ï¿½ï¿½Ø«eï¿½ï¿½ï¿½âªºï¿½Ñ½ï¿½Î¯Sï¿½ï¿½ï¿½O
 		EventAlert_PlayerSpecPower_Update();
 	end
 
@@ -154,8 +154,9 @@ function EventAlert_OnEvent(self, event, ...)
 
 			if EA_Config.TimerFontSize == nil then EA_Config.TimerFontSize = 14 end;	
 
-			if EA_Config.IsUseFloat == nil then EA_Config.IsUseFloat = false end;		--buff,debuff,cdªº³Ñ¾l®É¶¡¬O§_Åã¥Ü¨ì¤p¼ÆÂI²Ä¤@¦ì(true/false)
-			--EA_Config.IsUseFloat=true;							--±j­¢±Ò¥Î
+			if EA_Config.IsUseFloat == nil then EA_Config.IsUseFloat = false end;		
+			if EA_Config.IsKeepSCD == nil then EA_Config.IsKeepSCD = true end;		
+			if EA_Config.IsKeepGlowSCD == nil then EA_Config.IsKeepGlowSCD = true end;		
 
 			if EA_Config.StackFontSize == nil then EA_Config.StackFontSize = 16 end;
 			if EA_Config.SNameFontSize == nil then EA_Config.SNameFontSize = 20 end;
@@ -211,14 +212,14 @@ function EventAlert_OnEvent(self, event, ...)
 			if EA_SpecCheckPower.CheckComboPoint == nil then EA_SpecCheckPower.CheckComboPoint = true end;
 			if EA_SpecCheckPower.CheckLifeBloom == nil then EA_SpecCheckPower.CheckLifeBloom = true end;
 			
-			--¥[¤J¶°¤¤­ÈFocus,«ã®ðRage,¯à¶qEnergy,ªZ¹¬¯u®ðLightForce,·t¼vÄ_¯]ShadowOrbs	
+			--ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Focus,ï¿½ï¿½ï¿½Rage,ï¿½ï¿½qEnergy,ï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½LightForce,ï¿½tï¿½vï¿½_ï¿½]ShadowOrbs	
 			if EA_SpecCheckPower.CheckRage == nil then EA_SpecCheckPower.CheckRage = true end;
 			if EA_SpecCheckPower.CheckFocus == nil then EA_SpecCheckPower.CheckFocus = true end;
 			if EA_SpecCheckPower.CheckEnergy == nil then EA_SpecCheckPower.CheckEnergy = true end;
 			if EA_SpecCheckPower.CheckLightForce == nil then EA_SpecCheckPower.CheckLightForce = true end;
 			if EA_SpecCheckPower.CheckShadowOrbs == nil then EA_SpecCheckPower.CheckShadowOrbs = true end;
 			
-			--¥[¤J¿U¤õ¾lÂu,´cÅ]¤§«ã
+			--ï¿½[ï¿½Jï¿½Uï¿½ï¿½ï¿½lï¿½u,ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
 			if EA_SpecCheckPower.CheckBurningEmbers == nil then EA_SpecCheckPower.CheckBurningEmbers = true end;
 			if EA_SpecCheckPower.CheckDemonicFury == nil then EA_SpecCheckPower.CheckDemonicFury = true end;
 			
@@ -321,82 +322,82 @@ function EventAlert_OnEvent(self, event, ...)
 			--	DEFAULT_CHAT_FRAME:AddMessage("EVENT(UNIT_POWER) = ("..arg1..",".."NULL"..")");
 			--end
 			
-			-- ¥H¤U§ó·s¯S®í¯à¤O®É¡A¥uÀË¬d¬O§_±Ò¥ÎºÊ±±¥\¯à¡A¥H¤Î¥Ø«e¤Ñ½á¬O§_¾Ö¦³³oºØ¯S®í¯à¤O
+			-- ï¿½Hï¿½Uï¿½ï¿½sï¿½Sï¿½ï¿½ï¿½Oï¿½É¡Aï¿½uï¿½Ë¬dï¿½Oï¿½_ï¿½Ò¥ÎºÊ±ï¿½ï¿½\ï¿½ï¿½Aï¿½Hï¿½Î¥Ø«eï¿½Ñ½ï¿½Oï¿½_ï¿½Ö¦ï¿½ï¿½oï¿½Ø¯Sï¿½ï¿½ï¿½O
 
 			if (arg2 == "COMBO_POINTS") then
 				if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then 
 					EventAlert_UpdateComboPoint();
 				end
 			end
-			-- «ã®ð
+			-- ï¿½ï¿½ï¿½
 			if ((arg2 == "RAGE") and EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
-				--¦pªG¥i¥HÅã¥Ü¯à¶q¤]¦P®ÉÅã¥Ü¯à¶q
+				--ï¿½pï¿½Gï¿½iï¿½Hï¿½ï¿½Ü¯ï¿½qï¿½]ï¿½Pï¿½ï¿½ï¿½ï¿½Ü¯ï¿½q
 				if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 				end
 			end 
 
-			-- ¶°¤¤­È
+			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if ((arg2 == "FOCUS") and EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_FOCUS);
 			end
 			
-			-- ¯à¶q
+			-- ï¿½ï¿½q
 			if ((arg2 == "ENERGY") and EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 
-				--¦pªG¥i¥HÅã¥Ü¯u®ð¤]¦P®ÉÅã¥Ü¯u®ð
+				--ï¿½pï¿½Gï¿½iï¿½Hï¿½ï¿½Ü¯uï¿½ï¿½]ï¿½Pï¿½ï¿½ï¿½ï¿½Ü¯uï¿½ï¿½
 				if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
 				end
 
-				--¦pªG¥i¥HÅã¥Ü«ã®ð¤]¦P®ÉÅã¥Ü«ã®ð
+				--ï¿½pï¿½Gï¿½iï¿½Hï¿½ï¿½Ü«ï¿½ï¿½]ï¿½Pï¿½ï¿½ï¿½ï¿½Ü«ï¿½ï¿½
 				if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);				
 				end 
 			end
 
-			-- ²Å¤å¯à¶q
+			-- ï¿½Å¤ï¿½ï¿½q
 			if ((arg2 == "RUNIC_POWER") and EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RUNIC_POWER);
 			end
 			
-			-- ÆF»î¸H¤ù
+			-- ï¿½Fï¿½ï¿½Hï¿½ï¿½
 			if ((arg2 == "SOUL_SHARDS") and EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_SOUL_SHARDS);
 			end 
 			
-			-- ¤é¤ë»k¯à
+			-- ï¿½ï¿½ï¿½kï¿½ï¿½
 			if ((arg2 == "ECLIPSE") and EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 				EventAlert_UpdateEclipse();
 			end
 			
-			-- ¸t¯à
+			-- ï¿½tï¿½ï¿½
 			if ((arg2 == "HOLY_POWER") and EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_HOLY_POWER);
 			end
 			
-			-- ¯u®ð
+			-- ï¿½uï¿½ï¿½
 			if ((arg2 == "CHI") and EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
-				--¦pªG¥i¥HÅã¥Ü¯à¶q¤]¦P®ÉÅã¥Ü¯à¶q
+				--ï¿½pï¿½Gï¿½iï¿½Hï¿½ï¿½Ü¯ï¿½qï¿½]ï¿½Pï¿½ï¿½ï¿½ï¿½Ü¯ï¿½q
 				if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 				end
 			end
 			
-			-- ·t¼vÄ_¯]
+			-- ï¿½tï¿½vï¿½_ï¿½]
 			if ((arg2 == "SHADOW_ORBS") and EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_SHADOW_ORBS);
 			end
 			
-			-- ´cÅ]¤§«ã
+			-- ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
 			if ((arg2 == "DEMONIC_FURY") and EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasDemonicFury) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_DEMONIC_FURY);
 			end
 			
-			-- ¿U¤õ¾lÂu
+			-- ï¿½Uï¿½ï¿½ï¿½lï¿½u
 			if ((arg2 == "BURNING_EMBERS") and EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_BURNING_EMBERS);
 			end
@@ -404,46 +405,46 @@ function EventAlert_OnEvent(self, event, ...)
 	end
 	
 	if (event == "PLAYER_DEAD" or event == "PLAYER_ENTERING_WORLD") then
-		-- ¥H¤U§ó·s¯S®í¯à¤O®É¡A¥uÀË¬d¬O§_±Ò¥ÎºÊ±±¥\¯à¡A¥H¤Î¥Ø«e¤Ñ½á¬O§_¾Ö¦³³oºØ¯S®í¯à¤O
+		-- ï¿½Hï¿½Uï¿½ï¿½sï¿½Sï¿½ï¿½ï¿½Oï¿½É¡Aï¿½uï¿½Ë¬dï¿½Oï¿½_ï¿½Ò¥ÎºÊ±ï¿½ï¿½\ï¿½ï¿½Aï¿½Hï¿½Î¥Ø«eï¿½Ñ½ï¿½Oï¿½_ï¿½Ö¦ï¿½ï¿½oï¿½Ø¯Sï¿½ï¿½ï¿½O
 		
-		-- «ã®ð
+		-- ï¿½ï¿½ï¿½
 		if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
-		-- ¶°¤¤­È
+		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_FOCUS);
-		-- ¯à¶q
+		-- ï¿½ï¿½q
 		elseif (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
-			--¦pªG¦³«ã®ð©Î¯u®ð¤]¦P®ÉÅã¥Ü
+			--ï¿½pï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½Î¯uï¿½ï¿½]ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½
 			if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
 			end
 			if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then 
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
 			end
-		-- ²Å¤å¯à¶q
+		-- ï¿½Å¤ï¿½ï¿½q
 		elseif (EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_RUNIC_POWER);
-		-- ÆF»î¸H¤ù
+		-- ï¿½Fï¿½ï¿½Hï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_SOUL_SHARDS);
-		-- ¿U¤õ¾lÂu
+		-- ï¿½Uï¿½ï¿½ï¿½lï¿½u
 		elseif (EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_BURNING_EMBERS);
-		-- ´cÅ]¤§«ã
+		-- ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasdDemonicFury) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_DEMONIC_FURY);
-		-- ¤é¤ë»k¯à
+		-- ï¿½ï¿½ï¿½kï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 			EventAlert_UpdateEclipse();
-		-- ¸t¯à
+		-- ï¿½tï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_HOLY_POWER);
-		-- ¯u®ð
+		-- ï¿½uï¿½ï¿½
 		elseif (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
-		-- ·t¼vÄ_¯]
+		-- ï¿½tï¿½vï¿½_ï¿½]
 		elseif (EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_SHADOW_ORBS);
 		end
@@ -464,8 +465,9 @@ function EventAlert_OnEvent(self, event, ...)
 	end
 	
 	if ((event == "ACTIVE_TALENT_GROUP_CHANGED") or (event == "UNIT_DISPLAYPOWER") or (event== "UPDATE_SHAPESHIFT_FORM") ) then
-		-- °»´ú¥Ø«e¨¤¦âªº¤Ñ½á¤Î¯S®í¯à¤O
+		-- ï¿½ï¿½ï¿½ï¿½ï¿½Ø«eï¿½ï¿½ï¿½âªºï¿½Ñ½ï¿½Î¯Sï¿½ï¿½ï¿½O
 		EventAlert_PlayerSpecPower_Update();
+        RemoveAllScdCurrentBuff();
 
 	end
 
@@ -483,8 +485,8 @@ function EventAlert_OnEvent(self, event, ...)
 
 	
 	if (event == "UNIT_AURA") then
-		-- ¥Ø«eªº¯S®í¯à¤O§ïÅÜ ¡]¦p¤pDÅÜ§Î¡BªZ¹¬¤Á´««º¶Õ¡^
-		-- UNIT_AURA¥u°õ¦æ¤@¦¸´N¦n¡A«á­±§ï¥ÑUNIT_DISPLAYPOWER¨ÓÀË¬d
+		-- ï¿½Ø«eï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ ï¿½]ï¿½pï¿½pDï¿½Ü§Î¡Bï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¡^
+		-- UNIT_AURAï¿½uï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Nï¿½nï¿½Aï¿½á­±ï¿½ï¿½ï¿½UNIT_DISPLAYPOWERï¿½ï¿½ï¿½Ë¬d
 		if (EA_FormType_FirstTimeCheck) then
 			--DEFAULT_CHAT_FRAME:AddMessage("First time check FormType");
 			EventAlert_PlayerSpecPower_Update();
@@ -558,7 +560,7 @@ function EventAlert_Buffs_Update()
 	end
 
 	for i=1,40 do
-		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("player", i)
+		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId , canApplyAura, isBossDebuff, value1, value2, value3= UnitBuff("player", i)
 		if (not spellId) then
 			break;
 		end
@@ -609,12 +611,13 @@ function EventAlert_Buffs_Update()
 			EA_SPELLINFO_SELF[spellId].unitCaster = unitCaster;
 			EA_SPELLINFO_SELF[spellId].isDebuff = false;
 			EA_SPELLINFO_SELF[spellId].orderWtd = orderWtd;
+			EA_SPELLINFO_SELF[spellId].value2 = value2;
 			table.insert(buffsCurrent, spellId);
 		end
 	end
 
 	for i=41,80 do
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff("player", i-40)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff, value1, value2, value3 = UnitDebuff("player", i-40)
 		if (not spellId) then
 			break;
 		end
@@ -662,6 +665,7 @@ function EventAlert_Buffs_Update()
 			EA_SPELLINFO_SELF[spellId].unitCaster = unitCaster;
 			EA_SPELLINFO_SELF[spellId].isDebuff = true;
 			EA_SPELLINFO_SELF[spellId].orderWtd = orderWtd;
+			EA_SPELLINFO_SELF[spellId].value2 = value2;			
 			table.insert(buffsCurrent, spellId);
 		end
 	end
@@ -732,7 +736,7 @@ function EventAlert_TarBuffs_Update()
 	-- end
 
 	for i=1,40 do
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff("target", i)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId , canApplyAura, isBossDebuff, value1, value2, value3= UnitDebuff("target", i)
 		if (not spellId) then
 			break;
 		end
@@ -763,13 +767,14 @@ function EventAlert_TarBuffs_Update()
 				EA_SPELLINFO_TARGET[spellId].unitCaster = unitCaster;
 				EA_SPELLINFO_TARGET[spellId].isDebuff = true;
 				EA_SPELLINFO_TARGET[spellId].orderWtd = orderWtd;
+				EA_SPELLINFO_TARGET[spellId].value2 = value2;
 				table.insert(buffsCurrent, spellId);
 			end
 		end
 	end
 
 	for i=41,80 do
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("target", i-40)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff, value1, value2, value3= UnitBuff("target", i-40)
 		if (not spellId) then
 			break;
 		end
@@ -800,6 +805,7 @@ function EventAlert_TarBuffs_Update()
 				EA_SPELLINFO_TARGET[spellId].unitCaster = unitCaster;
 				EA_SPELLINFO_TARGET[spellId].isDebuff = false;
 				EA_SPELLINFO_TARGET[spellId].orderWtd = orderWtd;
+				EA_SPELLINFO_TARGET[spellId].value2 = value2;
 				table.insert(buffsCurrent, spellId);
 			end
 		end
@@ -1032,7 +1038,7 @@ function EventAlert_OnUpdate(spellId)
 				EA_timeLeft = 0 + EA_expirationTime - EA_currentTime;
 			end
 			
-			--5.1­×¥¿:ª±®abuff®Ø¬[Åã¥Ü
+			--5.1ï¿½×¥ï¿½:ï¿½ï¿½ï¿½abuffï¿½Ø¬[ï¿½ï¿½ï¿½
 			--eaf:SetCooldown(EA_currentTime, EA_timeLeft);
 
 			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_Items[EA_playerClass][spellId]);
@@ -1080,16 +1086,18 @@ function EventAlert_OnTarUpdate(spellId)
 			local EA_Name = EA_SPELLINFO_TARGET[spellId].name;
 			local EA_count = EA_SPELLINFO_TARGET[spellId].count;
 			local EA_expirationTime = EA_SPELLINFO_TARGET[spellId].expirationTime;
+			local EA_value2 = EA_SPELLINFO_TARGET[spellId].value2;
 			local IfIsDebuff = EA_SPELLINFO_TARGET[spellId].isDebuff;
 			local EA_currentTime = 0;
 			local EA_timeLeft = 0;
+			
 			
 			if (EA_expirationTime ~= nil) then
 				EA_currentTime = GetTime();
 				EA_timeLeft = 0 + EA_expirationTime - EA_currentTime;
 			end
 			
-			--5.1­×¥¿:¥Ø¼Ðbuff®Ø¬[Åã¥Ü
+			--5.1ï¿½×¥ï¿½:ï¿½Ø¼ï¿½buffï¿½Ø¬[ï¿½ï¿½ï¿½
 			--eaf:SetCooldown(EA_currentTime, EA_timeLeft);
 
 			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_TarItems[EA_playerClass][spellId]);
@@ -1144,30 +1152,24 @@ function EventAlert_OnSCDUpdate(spellId)
 	local iShift = 0;
 	local eaf = _G["EAScdFrame_"..spellId];
 
-	local EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellId);								--¨ú±o§Þ¯à§N«o
-	local EA_ChargeCurrent, EA_ChargeMax, EA_ChargeStart,EA_ChargeDuration = GetSpellCharges(spellId);				--¨ú±o§Þ¯à¥R¯à
-
+	local EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellId);								--ï¿½ï¿½ï¿½oï¿½Þ¯ï¿½Nï¿½o
+	local EA_ChargeCurrent, EA_ChargeMax, EA_ChargeStart,EA_ChargeDuration = GetSpellCharges(spellId);				--ï¿½ï¿½ï¿½oï¿½Þ¯ï¿½Rï¿½ï¿½
+		
 	local flag_usable,flag_nomana =IsUsableSpell(spellId)			
 
 	if (eaf ~= nil) then
 		local gsiIcon = EA_SPELLINFO_SCD[spellId].icon;
 		eaf:SetBackdrop({bgFile = gsiIcon});
 		eaf:SetWidth(EA_Config.IconSize);
-		eaf:SetHeight(EA_Config.IconSize);
-		eaf:SetAlpha(1);
+		eaf:SetHeight(EA_Config.IconSize);		
 
 		if EA_ChargeCurrent then
 			local EA_timeLeft=EA_ChargeStart + EA_ChargeDuration - GetTime();
-			if EA_ChargeCurrent > 0 then 
-
-				if flag_usable then
-					ActionButton_ShowOverlayGlow(eaf)
-				else
-					ActionButton_HideOverlayGlow(eaf)
-				end	
-				
+			if EA_ChargeCurrent > 0 then 			
+				FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)				
 				if EA_ChargeCurrent == EA_ChargeMax then
-					EAFun_SetCountdownStackText(eaf,  0,EA_ChargeCurrent,0, 1);
+					EAFun_SetCountdownStackText(eaf,  0,EA_ChargeCurrent,0, 1);	
+					
 				else
 					EAFun_SetCountdownStackText(eaf,  EA_timeLeft,EA_ChargeCurrent,0, 1);
 				end
@@ -1177,34 +1179,31 @@ function EventAlert_OnSCDUpdate(spellId)
 			end
 		else
 
-			if (EA_Enable ~= 0) then
-				if (EA_start > 0) and (EA_duration > 0)  then
-					local EA_timeLeft = EA_start + EA_duration - GetTime();
-					-- DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");
-					if (EA_timeLeft > 1.5) then
-						ActionButton_HideOverlayGlow(eaf)
-							
-						if (EA_Config.ShowTimer) then EAFun_SetCountdownStackText(eaf, EA_timeLeft+0.5, 0, -1);	end				
+			if (EA_Enable == 1) then
+								
+				local EA_timeLeft = EA_start + EA_duration - GetTime();				
+				local EA_GCD=1.5/((100+UnitSpellHaste("player"))/100)
 				
-					else
-
-						eaf.spellTimer:SetText("")
-		
-						if flag_usable then
-							ActionButton_ShowOverlayGlow(eaf)
-						else
-							ActionButton_HideOverlayGlow(eaf)
-						end					
-						
-						
+				if EA_GCD < 1 then EA_GCD = 1 end
+				
+				--local EA_GCD=1.5
+				
+				if (EA_start > 0 and EA_duration > EA_GCD )  then					
+					 --DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");	
+					ActionButton_HideOverlayGlow(eaf)						
+					if (EA_Config.ShowTimer) then 
+						EAFun_SetCountdownStackText(eaf, EA_timeLeft ,0, -1);						
 					end
-
+				else	
+						
+					eaf.spellTimer:SetText("")						
+					FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)
 					
-				end
+				end			
 			end
 		end
-		eaf:SetAlpha(1);
-		eaf:Show();
+		
+		eaf:SetAlpha(1);		
 		EventAlert_ScdPositionFrames();				
 	end
 end
@@ -1314,6 +1313,7 @@ function EventAlert_TarPositionFrames(event)
 			local spellId = tonumber(v);
 			local gsiName = EA_SPELLINFO_TARGET[spellId].name;
 			local gsiIcon = EA_SPELLINFO_TARGET[spellId].icon;
+			local gsiValue2 = EA_SPELLINFO_TARGET[spellId].value2;
 			local gsiIsDebuff = EA_SPELLINFO_TARGET[spellId].isDebuff;
 
 			if eaf ~= nil then
@@ -1355,8 +1355,14 @@ function EventAlert_TarPositionFrames(event)
 				eaf:SetHeight(EA_Config.IconSize);
 				eaf:SetBackdrop({bgFile = gsiIcon});
 				if gsiIsDebuff then eaf:SetBackdropColor(EA_Position.GreenDebuff, 1.0, EA_Position.GreenDebuff) end;
+				local tmp;
 				if (EA_Config.ShowName == true) then
-					eaf.spellName:SetText(gsiName);
+					if gsiValue2 then 
+						tmp=gsiName.."("..gsiValue2..")"
+					else
+						tmp=gsiName
+					end
+					eaf.spellName:SetText(tmp);
 					SfontName, SfontSize = eaf.spellName:GetFont();
 					eaf.spellName:SetFont(SfontName, EA_Config.SNameFontSize);
 				else
@@ -1406,6 +1412,7 @@ function EventAlert_ScdPositionFrames()
 				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
 				eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize, "OUTLINE");
 				prevFrame = eaf;
+				--FrameShowOrHide(eaf,(eaf:IsShown() and EA_Config.IsKeepSCD))
 				eaf:Show();
 			end
 		end
@@ -1640,7 +1647,7 @@ function EventAlert_ShowVerURL(SiteIndex)
 		VerUrl = "http://forum.gamer.com.tw/Co.php?bsn=05219&sn=5125122&subbsn=0";
 	end
 
-	-- WOW API¸T¤îª½±µ±Ò°ÊÂsÄý¾¹³s¨ìºô­¶¡A¥u¯àÅã¥ÜURL¦b¹ï¸Üµøµ¡¤¤¡C
+	-- WOW APIï¿½Tï¿½îª½ï¿½ï¿½ï¿½Ò°ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½uï¿½ï¿½ï¿½ï¿½ï¿½URLï¿½bï¿½ï¿½Üµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½C
 	DEFAULT_CHAT_FRAME:AddMessage(VerUrl);
 end
 
@@ -1802,9 +1809,9 @@ function EAFun_GetFormattedTime(timeLeft)
 	if timeLeft <= 60 then
 		if EA_Config.IsUseFloat or (timeLeft < 3) then
 			formattedTime = tostring(format("%.1f",timeLeft));
-		else
-	
-			formattedTime = tostring(floor(timeLeft));
+		else	
+			--formattedTime = tostring(floor(timeLeft));
+			formattedTime = tostring(format("%d",timeLeft));
 		end 
 	else
 		formattedTime = format("%d:%02d", floor(timeLeft/60), timeLeft % 60);
@@ -1827,14 +1834,14 @@ function EAFun_SetCountdownStackText(eaf, EA_timeLeft, EA_count, SC_RedSecText)
 		end
 		if (EA_timeLeft < SC_RedSecText + 1) then
 			if (not eaf.redsectext) then
-				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize+5, "OUTLINE");
+				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize*1.1+5, "OUTLINE");
 				eaf.spellTimer:SetTextColor(1, 0, 0);
 				eaf.redsectext = true;
 				eaf.whitesectext = false;
 			end
 		else
 			if (not eaf.whitesectext) then
-				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
+				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize*1.1, "OUTLINE");
 				eaf.spellTimer:SetTextColor(1, 1, 1);
 				eaf.redsectext = false;
 				eaf.whitesectext = true;
@@ -1848,7 +1855,7 @@ function EAFun_SetCountdownStackText(eaf, EA_timeLeft, EA_count, SC_RedSecText)
 	eaf.spellStack:ClearAllPoints();
 	if (EA_count > 0) then
 		eaf.spellStack:SetPoint("CENTER", EA_Config.TimerFontSize/3*2, -EA_Config.TimerFontSize/3*2);
-		eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize, "OUTLINE");
+		eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize*1.05, "OUTLINE");
 		eaf.spellStack:SetFormattedText("%d", EA_count);
 	else
 		eaf.spellStack:SetFormattedText("");
@@ -1986,16 +1993,16 @@ function EventAlert_UpdateSinglePower(iPowerType)
 	if (iPowerType == EA_SPELL_POWER_SOUL_SHARDS) then iPowerName = EA_XSPECINFO_SOULSHARDS end;
 	if (iPowerType == EA_SPELL_POWER_HOLY_POWER) then iPowerName = EA_XSPECINFO_HOLYPOWER end;
 	
-	--5.1·s¼W by ZYF:¥[¤J¹ï·t¼vÄ_¯],«ã®ð ¶°¤¤­È ¯à¶qªº¤ä´©
+	--5.1ï¿½sï¿½W by ZYF:ï¿½[ï¿½Jï¿½ï¿½tï¿½vï¿½_ï¿½],ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½qï¿½ï¿½ï¿½ä´©
 	if (iPowerType == EA_SPELL_POWER_SHADOW_ORBS) then iPowerName = EA_XSPECINFO_SHADOWORBS end;
 	if (iPowerType == EA_SPELL_POWER_RAGE) then iPowerName = EA_XSPECINFO_RAGE end;
 	if (iPowerType == EA_SPELL_POWER_FOCUS) then iPowerName = EA_XSPECINFO_FOCUS end;	
 	if (iPowerType == EA_SPELL_POWER_ENERGY) then iPowerName = EA_XSPECINFO_ENERGY end;
 	
-	-- ¤ä´©ªZ¹¬¯u®ð
+	-- ï¿½ä´©ï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½
 	if (iPowerType == EA_SPELL_POWER_LIGHT_FORCE) then iPowerName = EA_XSPECINFO_LIGHTFORCE end;
 	
-	-- ¤ä´©¿U¤õ¾lÂu,´cÅ]¤§«ã
+	-- ï¿½ä´©ï¿½Uï¿½ï¿½ï¿½lï¿½u,ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
 	if (iPowerType == EA_SPELL_POWER_BURNING_EMBERS) then iPowerName = EA_XSPECINFO_BURNINGEMBERS end;
 	if (iPowerType == EA_SPELL_POWER_DEMONIC_FURY) then iPowerName = EA_XSPECINFO_DEMONICFURY end;
 	
@@ -2013,8 +2020,8 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				EA_SpecFrame_Self = true;
 				eaf:ClearAllPoints();
 				
-				--5.1·s¼W by ZYF:±N«ã®ð»P¯à¶q®Ø¬[¤À¶}¦ì¸m¥H§Q¼w¾|¥ì¿ëÃÑ
-				if (iPowerType==3) then				--­Y¬O¯à¶qÃþ§O´N±N®Ø¬[¦A©¹¥ª²¾°Ê¤@®æ
+				--5.1ï¿½sï¿½W by ZYF:ï¿½Nï¿½ï¿½ï¿½Pï¿½ï¿½qï¿½Ø¬[ï¿½ï¿½ï¿½}ï¿½ï¿½mï¿½Hï¿½Qï¿½wï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (iPowerType==3) then				--ï¿½Yï¿½Oï¿½ï¿½qï¿½ï¿½ï¿½Oï¿½Nï¿½Nï¿½Ø¬[ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤@ï¿½ï¿½
 					eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -2 * xOffset, -1 * yOffset);
 				else
 					eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -1 * xOffset, -1 * yOffset);
@@ -2038,7 +2045,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				eaf.spellTimer:SetText(iUnitPower);
 				eaf:Show();
 
-				-- ¸t¯à3¼h®É°ª«G«×¡A¥¼º¡3¼h¨ú®ø°ª«G«×
+				-- ï¿½tï¿½ï¿½3ï¿½hï¿½É°ï¿½ï¿½Gï¿½×¡Aï¿½ï¿½ï¿½ï¿½3ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½
 				if (iPowerType == EA_SPELL_POWER_HOLY_POWER) then
 					if (iUnitPower >=3) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2047,7 +2054,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 					end
 				end
 				
-				-- ·t¼vÄ_¯]3¼h®É°ª«G«×¡A¥¼º¡3¼h¨ú®ø°ª«G«×
+				-- ï¿½tï¿½vï¿½_ï¿½]3ï¿½hï¿½É°ï¿½ï¿½Gï¿½×¡Aï¿½ï¿½ï¿½ï¿½3ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½
 				if (iPowerType == EA_SPELL_POWER_SHADOW_ORBS) then
 					if (iUnitPower >=3) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2056,7 +2063,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 					end
 				end
 
-				-- ¯u®ð4¼h®É°ª«G«×¡A¥¼º¡4¼h¨ú®ø°ª«G«×
+				-- ï¿½uï¿½ï¿½4ï¿½hï¿½É°ï¿½ï¿½Gï¿½×¡Aï¿½ï¿½ï¿½ï¿½4ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½
 				if (iPowerType == EA_SPELL_POWER_LIGHT_FORCE) then
 					if (iUnitPower >=4) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2374,7 +2381,7 @@ function EAFun_GetUnitIDByName(EA_UnitName)
 			if EA_UnitName == sUnitName then fNotFound = false end;
 			iIndex = iIndex + 1;
 		end
-	-- 5.1­×§ï¡G±NGetNumPartyMembers()´«¦¨GetNumSubgroupMembers()
+	-- 5.1ï¿½×§ï¿½Gï¿½NGetNumPartyMembers()ï¿½ï¿½ï¿½ï¿½GetNumSubgroupMembers()
 	elseif GetNumSubgroupMembers() > 0 then
 		iIndex = 1;
 		while (fNotFound and iIndex <= 4) do
@@ -2607,7 +2614,7 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	-- If the Active-Talent should be checked
 	if (fShowResult) then
 		if (self.GC.ActiveTalentGroup ~= nil) then
-			--5.1­×¥¿:GetActiveTalentGroup() -> GetActiveSpecGroup()
+			--5.1ï¿½×¥ï¿½:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			iActiveTalentGroup = GetActiveSpecGroup();
 			if (iActiveTalentGroup ~= self.GC.ActiveTalentGroup) then
 				fShowResult = false;
@@ -2646,11 +2653,11 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	if (not fShowResult) then
 		EAFun_FireEventCheckHide(self);
 	else
-		--5.1­×¥¿"ACTIVE_TALENT_GROUP_CHANGED" -> "ACTIVE_SPEC_GROUP_CHANGED"
-		--5.3¨ú®ø¤W­z­×¥¿
+		--5.1ï¿½×¥ï¿½"ACTIVE_TALENT_GROUP_CHANGED" -> "ACTIVE_SPEC_GROUP_CHANGED"
+		--5.3ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½zï¿½×¥ï¿½
 		if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
 			-- If the Active-Talent should be checked
-			--5.1­×¥¿:GetActiveTalentGroup() -> GetActiveSpecGroup()
+			--5.1ï¿½×¥ï¿½:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			iActiveTalentGroup = GetActiveSpecGroup();
 			if (iActiveTalentGroup ~= self.GC.ActiveTalentGroup) then
 				fShowResult = false;
@@ -2856,59 +2863,59 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	end
 end
 
--- ÀË¬d¥Ø«e±Ò¥ÎªºÂ¾·~¤Ñ½á¡A¨Ã³]©w¥Ø«e¾Ö¦³ªº¯S®í¯à¤O¡]«ã®ð¡B¶°¤¤­È¡B¯à¶q¡B²Å¤å¯à¶q ...¡^
+-- ï¿½Ë¬dï¿½Ø«eï¿½Ò¥Îªï¿½Â¾ï¿½~ï¿½Ñ½ï¿½Aï¿½Ã³]ï¿½wï¿½Ø«eï¿½Ö¦ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Oï¿½]ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½È¡Bï¿½ï¿½qï¿½Bï¿½Å¤ï¿½ï¿½q ...ï¿½^
 --[[
-	Death Knight ¦º¤`ÃM¤h
-	250 - Blood ¦å¾z
-	251 - Frost ¦BÁ÷
-	252 - Unholy Â©¨¸
-	Druid ¼w¾|¥ì
-	102 - Balance ¥­¿Å (³¾D)
-	103 - Feral Combat ³¥©Ê¾Ô°« (¿ßD)
-	104 - Guardian ¦uÅ@ (ºµD)
-	105 - Restoration (¸ÉD)
-	Hunter Ây¤H
-	253 - Beast Mastery Ã~¤ý
-	254 - Marksmanship ®gÀ»
-	255 - Survival ¥Í¦s
-	Mage ªk®v
-	62 - Arcane ¯µªk
-	63 - Fire ¤õªk
-	64 - Frost ¦Bªk
-	Monk ªZ¹¬
-	268 - BrewMaster ÆC°s (©Z)
-	269 - WindWalker ±s­· (DD)
-	270 - MistWeaver Â´Ãú (¸É)
-	Paladin ¸tÃM¤h
-	65 - Holy ¯«¸t (¸É)
-	66 - Protection ¨¾Å@ (©Z)
-	70 - Retribution Ãg§Ù (DD)
-	Priest ªª®v
-	256 Discipline §Ù«ß (¸É)
-	257 Holy ¯«¸t (¸É)
-	258 Shadow ·t¼v (DD)
-	Rogue µs¸é
-	259 - Assassination ¨ë±þ
-	260 - Combat ¾Ô°«
-	261 - Subtlety ±Ó¾U
-	Shaman ÂÄº¡
-	262 - Elemental ¤¸ÂÄ (»·µ{DD)
-	263 - Enhancement ¼W±j (ªñ¾ÔDD)
-	264 - Restoration «ì´_ (¸É)
-	Warlock ³N¤h
-	265 - Affliction µh­W
-	266 - Demonology ´cÅ]¾ÇÃÑ
-	267 - Destruction ·´·À
+	Death Knight ï¿½ï¿½ï¿½`ï¿½Mï¿½h
+	250 - Blood ï¿½ï¿½z
+	251 - Frost ï¿½Bï¿½ï¿½
+	252 - Unholy Â©ï¿½ï¿½
+	Druid ï¿½wï¿½|ï¿½ï¿½
+	102 - Balance ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½D)
+	103 - Feral Combat ï¿½ï¿½ï¿½Ê¾Ô°ï¿½ (ï¿½ï¿½D)
+	104 - Guardian ï¿½uï¿½@ (ï¿½ï¿½D)
+	105 - Restoration (ï¿½ï¿½D)
+	Hunter ï¿½yï¿½H
+	253 - Beast Mastery ï¿½~ï¿½ï¿½
+	254 - Marksmanship ï¿½gï¿½ï¿½
+	255 - Survival ï¿½Í¦s
+	Mage ï¿½kï¿½v
+	62 - Arcane ï¿½ï¿½ï¿½k
+	63 - Fire ï¿½ï¿½ï¿½k
+	64 - Frost ï¿½Bï¿½k
+	Monk ï¿½Zï¿½ï¿½
+	268 - BrewMaster ï¿½Cï¿½s (ï¿½Z)
+	269 - WindWalker ï¿½sï¿½ï¿½ (DD)
+	270 - MistWeaver Â´ï¿½ï¿½ (ï¿½ï¿½)
+	Paladin ï¿½tï¿½Mï¿½h
+	65 - Holy ï¿½ï¿½ï¿½t (ï¿½ï¿½)
+	66 - Protection ï¿½ï¿½ï¿½@ (ï¿½Z)
+	70 - Retribution ï¿½gï¿½ï¿½ (DD)
+	Priest ï¿½ï¿½ï¿½v
+	256 Discipline ï¿½Ù«ï¿½ (ï¿½ï¿½)
+	257 Holy ï¿½ï¿½ï¿½t (ï¿½ï¿½)
+	258 Shadow ï¿½tï¿½v (DD)
+	Rogue ï¿½sï¿½ï¿½
+	259 - Assassination ï¿½ï¿½ï¿½
+	260 - Combat ï¿½Ô°ï¿½
+	261 - Subtlety ï¿½Ó¾U
+	Shaman ï¿½Äºï¿½
+	262 - Elemental ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½{DD)
+	263 - Enhancement ï¿½Wï¿½j (ï¿½ï¿½ï¿½DD)
+	264 - Restoration ï¿½ï¿½_ (ï¿½ï¿½)
+	Warlock ï¿½Nï¿½h
+	265 - Affliction ï¿½hï¿½W
+	266 - Demonology ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
+	267 - Destruction ï¿½ï¿½ï¿½ï¿½
 	Warrior 
-	71 - Arms ªZ¾¹ (DD)
-	72 - Furry ¨g«ã (DD)
-	73 - Protection ¨¾Å@ (©Z)
+	71 - Arms ï¿½Zï¿½ï¿½ (DD)
+	72 - Furry ï¿½gï¿½ï¿½ (DD)
+	73 - Protection ï¿½ï¿½ï¿½@ (ï¿½Z)
 --]]
 function EventAlert_PlayerSpecPower_Update()
 	-- /dump GetSpecializationInfo(GetActiveSpecGroup());
 	-- /dump GetSpecializationInfoForClassID(classID, specNum);
 
-	-- ªì©l¤Æ¥þ³£¬°false
+	-- ï¿½ï¿½lï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½false
 	EA_SpecHasPower.HasRage				= false;
 	EA_SpecHasPower.HasFocus 			= false;
 	EA_SpecHasPower.HasEnergy			= false;
@@ -2924,7 +2931,7 @@ function EventAlert_PlayerSpecPower_Update()
 	EA_SpecHasPower.HasDemonicFury		= false;
 	
 
-	-- °»´ú¥Ø«e±Ò¥Îªº¤Ñ½á¨Ó³]©w¥i¥HºÊ±±ªº¯S®í¯à¤O
+	-- ï¿½ï¿½ï¿½ï¿½ï¿½Ø«eï¿½Ò¥Îªï¿½ï¿½Ñ½ï¿½Ó³]ï¿½wï¿½iï¿½Hï¿½Ê±ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½O
 	--local id,_,_,icon,_,_ = GetSpecializationInfo(GetActiveSpecGroup());
 		
 	local id = 0;
@@ -2933,21 +2940,21 @@ function EventAlert_PlayerSpecPower_Update()
 	local powerTypeString = "NONE";
 	local pClass = "NONE";
 	
-	-- §PÂ_¥Ø«e¬O§_¦³Â¾·~±Mºë
+	-- ï¿½Pï¿½_ï¿½Ø«eï¿½Oï¿½_ï¿½ï¿½Â¾ï¿½~ï¿½Mï¿½ï¿½
 	local HasSpecCode = true;	
 	local CurrentSpecCode = GetSpecialization();
 	if (CurrentSpecCode == nil) then
 		HasSpecCode = false;
 	end
 	
-	-- ¦pªG¥Ø«e³£¨S±Mºë´N§ï§PÂ_Â¾·~¦WºÙ(­^¤å)
+	-- ï¿½pï¿½Gï¿½Ø«eï¿½ï¿½ï¿½Sï¿½Mï¿½ï¿½Nï¿½ï¿½Pï¿½_Â¾ï¿½~ï¿½Wï¿½ï¿½(ï¿½^ï¿½ï¿½)
 	if (HasSpecCode) then
 		id,_,_,icon,_,_ = GetSpecializationInfo(CurrentSpecCode);
 	end
 	powerType, powerTypeString = UnitPowerType("player");
 	_,pClass = UnitClass("player");					
 	
-	-- ¼w¾|¥ì©MªZ¹¬­n¥t¥~§PÂ_¥Ø«eªº«º¦¡©ÎÅÜ¨­«¬ºA¡A­è¶i¤J¹CÀ¸®É°»´ú·|¦³°ÝÃD¡A¥²¶·¤Á´««á¤~·|¥¿½T°»´ú¨ì
+	-- ï¿½wï¿½|ï¿½ï¿½Mï¿½Zï¿½ï¿½ï¿½nï¿½tï¿½~ï¿½Pï¿½_ï¿½Ø«eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¨ï¿½ï¿½ï¿½ï¿½Aï¿½Aï¿½ï¿½iï¿½Jï¿½Cï¿½ï¿½ï¿½É°ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½Dï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½|ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	local shapeindex = GetShapeshiftForm();
 	local shapeID = GetShapeshiftFormID();
 	--[[
@@ -2962,83 +2969,83 @@ function EventAlert_PlayerSpecPower_Update()
 	end
 	--]]
 
-	-- «ã®ð: ¾Ô¤h/¼w¾|¥ìºµ«¬ºA
+	-- ï¿½ï¿½ï¿½: ï¿½Ô¤h/ï¿½wï¿½|ï¿½ìºµï¿½ï¿½ï¿½A
 	if (pClass == EA_CLASS_WARRIOR) then
 		EA_SpecHasPower.HasRage = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		--if (shapeindex == 1)	then 	-- ºµD(1)
-		if (shapeID == 5)	then 	-- ºµD(5), ¿ßD(1)
+		--if (shapeindex == 1)	then 	-- ï¿½ï¿½D(1)
+		if (shapeID == 5)	then 	-- ï¿½ï¿½D(5), ï¿½ï¿½D(1)
 			EA_SpecHasPower.HasRage = true;			
 		end
 	end
 	
-	-- ¶°¤¤­È: Ây¤H
+	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½yï¿½H
 	if (pClass == EA_CLASS_HUNTER) then
 		EA_SpecHasPower.HasFocus = true;
 	end
 
-	-- ¯à¶q: µs¸é/ÆC°sªZ¹¬/±s­·ªZ¹¬/¦uÅ@ªÌ¼w¾|¥ì/³¥©Ê¼w¾|¥ì
+	-- ï¿½ï¿½q: ï¿½sï¿½ï¿½/ï¿½Cï¿½sï¿½Zï¿½ï¿½/ï¿½sï¿½ï¿½ï¿½Zï¿½ï¿½/ï¿½uï¿½@ï¿½Ì¼wï¿½|ï¿½ï¿½/ï¿½ï¿½ï¿½Ê¼wï¿½|ï¿½ï¿½
 	if (pClass == EA_CLASS_ROGUE) then
 		EA_SpecHasPower.HasEnergy = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		if ((shapeID == 5) or (shapeID == 1)) then 	-- ºµD(5), ¿ßD(1)
+		if ((shapeID == 5) or (shapeID == 1)) then 	-- ï¿½ï¿½D(5), ï¿½ï¿½D(1)
 			EA_SpecHasPower.HasEnergy = true;
 		end
 	elseif (pClass == EA_CLASS_MONK) then
-		--¦pªG¤£¬OÂ´ÃúªZ¹¬´N¦³¯à¶q
+		--ï¿½pï¿½Gï¿½ï¿½ï¿½OÂ´ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½q
 		if (id ~= 270) then			
 
 			EA_SpecHasPower.HasEnergy = true;
 		end
 	end
 	
-	-- ²Å¤å¯à¶q: ¦º¤`ÃM¤h
+	-- ï¿½Å¤ï¿½ï¿½q: ï¿½ï¿½ï¿½`ï¿½Mï¿½h
 	if (pClass == EA_CLASS_DK) then
 		EA_SpecHasPower.HasRunicPower = true;
 	end
 
-	-- ³N¤h¨S¿ìªk¥ÎPowerType§PÂ_¡A¥u¯à¥H¤Ñ½á¨Ó§PÂ_
-	-- ÆF»î¸H¤ù: µh­W³N¤h
+	-- ï¿½Nï¿½hï¿½Sï¿½ï¿½kï¿½ï¿½PowerTypeï¿½Pï¿½_ï¿½Aï¿½uï¿½ï¿½Hï¿½Ñ½ï¿½Ó§Pï¿½_
+	-- ï¿½Fï¿½ï¿½Hï¿½ï¿½: ï¿½hï¿½Wï¿½Nï¿½h
 	if (id == 265) then
 		EA_SpecHasPower.HasSoulShards = true;
-	-- ´cÅ]¤§«ã: ´cÅ]³N¤h
+	-- ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½: ï¿½cï¿½]ï¿½Nï¿½h
 	elseif (id == 266) then
 		EA_SpecHasPower.HasDemonicFury = true;
-	-- ¿U¤õ¾lÂu: ·´·À³N¤h
+	-- ï¿½Uï¿½ï¿½ï¿½lï¿½u: ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½h
 	elseif (id == 267) then
 		EA_SpecHasPower.HasBurningEmbers = true;
 	end
 	
-	-- ¤é¤ë»k¯à: ³¾D
+	-- ï¿½ï¿½ï¿½kï¿½ï¿½: ï¿½ï¿½D
 	if (id == 102) then
 		EA_SpecHasPower.HasEclipse = true;
 	end	
 	
-	-- ¸t¯à: ¸tÃM¤h
+	-- ï¿½tï¿½ï¿½: ï¿½tï¿½Mï¿½h
 	if (pClass == EA_CLASS_PALADIN) then
 		EA_SpecHasPower.HasHolyPower = true;
 	end
 	
-	-- ¯u®ð: ªZ¹¬
+	-- ï¿½uï¿½ï¿½: ï¿½Zï¿½ï¿½
 	if (pClass == EA_CLASS_MONK) then
 		EA_SpecHasPower.HasLightForce = true;
 	end
 	
-	-- ³sÀ»¼Æ: µs¸é/¿ßD
+	-- ï¿½sï¿½ï¿½ï¿½ï¿½: ï¿½sï¿½ï¿½/ï¿½ï¿½D
 	if (pClass == EA_CLASS_ROGUE) then
 		EA_SpecHasPower.HasComboPoint = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		--if (shapeID == 3) then 	-- ºµD(1), ¿ßD(3)
+		--if (shapeID == 3) then 	-- ï¿½ï¿½D(1), ï¿½ï¿½D(3)
 			EA_SpecHasPower.HasComboPoint = true;
 		--end
 	end
 	
-	-- ¥Í©R¤§ªá: ¸ÉD
+	-- ï¿½Í©Rï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½D
 	if (id == 105) then
 		EA_SpecHasPower.HasLifeBloom = true;
 	end
 	
-	-- ·t¼vÄ_¯]: ·tªª
+	-- ï¿½tï¿½vï¿½_ï¿½]: ï¿½tï¿½ï¿½
 	if (id == 258) then
 		EA_SpecHasPower.HasShadowOrbs = true;
 	end
@@ -3046,44 +3053,44 @@ function EventAlert_PlayerSpecPower_Update()
 	EventAlert_SpecialFrame_Update();
 end
 
--- ®Ú¾Ú¥Ø«eªº¤Ñ½á¨Ó«Ø¥ß©ÎÁôÂÃ¯S®í¯à¤Oªº®Ø¬[
+-- ï¿½Ú¾Ú¥Ø«eï¿½ï¿½ï¿½Ñ½ï¿½Ó«Ø¥ß©ï¿½ï¿½ï¿½ï¿½Ã¯Sï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ø¬[
 function EventAlert_SpecialFrame_Update()
-	-- «ã®ð
+	-- ï¿½ï¿½ï¿½
 	if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 		CreateFrames_SpecialFrames_Show(10010);
 	else
 		CreateFrames_SpecialFrames_Hide(10010);
 	end
 
-	-- ¶°¤¤­È
+	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 		CreateFrames_SpecialFrames_Show(10020);
 	else
 		CreateFrames_SpecialFrames_Hide(10020);
 	end
 	
-	-- ¯à¶q
+	-- ï¿½ï¿½q
 	if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 		CreateFrames_SpecialFrames_Show(10030);
 	else
 		CreateFrames_SpecialFrames_Hide(10030);
 	end
 	
-	-- ²Å¤å¯à¶q
+	-- ï¿½Å¤ï¿½ï¿½q
 	if (EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 		CreateFrames_SpecialFrames_Show(10060);
 	else
 		CreateFrames_SpecialFrames_Hide(10060);
 	end
 
-	-- ÆF»î¸H¤ù
+	-- ï¿½Fï¿½ï¿½Hï¿½ï¿½
 	if (EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 		CreateFrames_SpecialFrames_Show(10070);
 	else
 		CreateFrames_SpecialFrames_Hide(10070);
 	end
 	
-	-- ¤é¤ë»k¯à
+	-- ï¿½ï¿½ï¿½kï¿½ï¿½
 	if (EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 		CreateFrames_SpecialFrames_Show(10081);
 		CreateFrames_SpecialFrames_Show(10082);
@@ -3092,49 +3099,49 @@ function EventAlert_SpecialFrame_Update()
 		CreateFrames_SpecialFrames_Hide(10082);
 	end
 	
-	-- ¸t¯à
+	-- ï¿½tï¿½ï¿½
 	if (EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 		CreateFrames_SpecialFrames_Show(10090);
 	else
 		CreateFrames_SpecialFrames_Hide(10090);
 	end
 
-	-- ¯u®ð
+	-- ï¿½uï¿½ï¿½
 	if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 		CreateFrames_SpecialFrames_Show(10120);
 	else
 		CreateFrames_SpecialFrames_Hide(10120);
 	end
 	
-	-- ·t¼vÄ_¯]
+	-- ï¿½tï¿½vï¿½_ï¿½]
 	if (EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 		CreateFrames_SpecialFrames_Show(10130);
 	else
 		CreateFrames_SpecialFrames_Hide(10130);
 	end
 
-	-- ¿U¤õ¾lÂu
+	-- ï¿½Uï¿½ï¿½ï¿½lï¿½u
 	if (EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 		CreateFrames_SpecialFrames_Show(10140);
 	else
 		CreateFrames_SpecialFrames_Hide(10140);
 	end
 	
-	-- ´cÅ]¤§«ã
+	-- ï¿½cï¿½]ï¿½ï¿½ï¿½ï¿½
 	if (EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasDemonicFury) then
 		CreateFrames_SpecialFrames_Show(10150);
 	else
 		CreateFrames_SpecialFrames_Hide(10150);
 	end
 	
-	-- ³sÀ»¼Æ
+	-- ï¿½sï¿½ï¿½ï¿½ï¿½
 	if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then
 		CreateFrames_SpecialFrames_Show(10000);
 	else
 		CreateFrames_SpecialFrames_Hide(10000);
 	end
 		
-	-- ¥Í©R¤§ªá
+	-- ï¿½Í©Rï¿½ï¿½ï¿½ï¿½
 	if (EA_SpecCheckPower.CheckLifeBloom and EA_SpecHasPower.HasLifeBloom) then
 		CreateFrames_SpecialFrames_Show(33763);  -- Durid LifeBloom
 	else
@@ -3162,3 +3169,17 @@ function RemoveAllScdCurrentBuff()
 	
 	EventAlert_ScdPositionFrames();
 end
+function FrameShowOrHide(f,boolShow)
+	if boolShow then
+		f:Show()
+	else
+		f:Hide()
+	end 
+end 
+function FrameGlowShowOrHide(f,boolShow)
+	if boolShow then
+		ActionButton_ShowOverlayGlow(f)
+	else
+		ActionButton_HideOverlayGlow(f)
+	end 
+end 
