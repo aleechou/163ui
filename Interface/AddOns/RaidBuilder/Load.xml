@@ -20,4 +20,5 @@
   <Script file="DataBroker.lua" />
   <Script file="TeamNotice.lua" />
   <Script file="BatchApply.lua" />
+  <Script file="MicroButton.lua" />
 </Ui>

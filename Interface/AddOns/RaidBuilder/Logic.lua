@@ -56,7 +56,7 @@ function Logic:OnInitialize()
 end
 
 function Logic:IsRaidBuilderUsable()
-    return not IsTrialAccount() and UnitFactionGroup('player') ~= 'Neutral'
+    return not IsTrialAccount() and UnitFactionGroup('player') ~= 'Neutral' and not self.isNotSupport
 end
 
 function Logic:ServerConnect()
@@ -134,6 +134,7 @@ function Logic:SERVER_CONNECTED()
 end
 
 function Logic:SOCKET_VERSION(_, ...)
+    self.isNotSupport = not select(3, ...)
     self:SendMessage('RAIDBUILDER_NEW_VERSION', ...)
 end
 
@@ -161,7 +162,7 @@ function Logic:SOCKET_EVENT_DISBAND(_, leader)
     AppliedCache:DeleteApplied(leader)
 end
 
-function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msg, raidInfo)
+function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, progression, raidInfo, msg)
     local event = EventCache:GetCurrentEvent()
     if not event then
         self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_NULL')
@@ -209,7 +210,7 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
         return
     end
 
-    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msg, raidInfo)
+    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, progression, raidInfo, msg)
     GroupCache:SetUnitRole(sender, role)
     self:SendSocket(sender, 'SEJT')
 end
@@ -385,7 +386,6 @@ function Logic:CreateEvent(...)
         leaderLevel,
         leaderItemLevel,
         leaderPVPRating,
-        nil,
         leaderProgression,
         nil,
         GroupCache:GetCurrentRole())
@@ -421,10 +421,9 @@ function Logic:JoinEvent(event, role, password, msg, isAutoApply)
         UnitLevel('player'),
         GetPlayerItemLevel(),
         GetPlayerPVPRating(eventCode),
-        GetPlayerStats(role),
         GetPlayerRaidProgression(eventCode),
-        self:TextFilter(msg),
         GetPlayerSavedInstance(eventCode),
+        self:TextFilter(msg),
         isAutoApply)
 
     AppliedCache:AddApplied(leader, role, false, isAutoApply)
@@ -477,7 +476,6 @@ function Logic:BroadPlayerInfo()
     end
 
     local role = GroupCache:GetCurrentRole() or UnitGroupRolesAssigned('player')
-    local stat = GetPlayerStats(role)
     local class = GetPlayerClass()
     local level = UnitLevel('player')
     local itemLevel = GetPlayerItemLevel()
@@ -485,6 +483,7 @@ function Logic:BroadPlayerInfo()
     local progression = GetPlayerRaidProgression(eventCode)
     local battleTag = GetPlayerBattleTag()
     local rules = EventCache:GetCurrentEvent() and UnitIsGroupLeader('player') and GroupCache:GetCurrentEventRules() or nil
+    local raidInfo = GetPlayerSavedInstance(eventCode)
 
     self:SendSocket('@GROUP', 'GUI',
         eventCode,
@@ -493,9 +492,8 @@ function Logic:BroadPlayerInfo()
         level,
         itemLevel,
         pvpRating,
-        stat,
         progression,
-        nil,
+        raidInfo,
         role,
         rules)
 end

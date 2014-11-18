@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-local DataBroker = RaidBuilder:NewModule('DataBroker', 'AceEvent-3.0', 'NetEaseGUI-DropMenu-1.0')
+DataBroker = RaidBuilder:NewModule('DataBroker', 'AceEvent-3.0', 'NetEaseGUI-DropMenu-1.0')
 
 local LDB = LibStub('LibDataBroker-1.1')
 
@@ -82,24 +82,15 @@ function DataBroker:OnInitialize()
     BrokerText:SetPoint('CENTER')
     BrokerText:SetText(BrokerObject.text)
 
-    local BrokerFlash = CreateFrame('Frame', nil, BrokerPanel)
+    local BrokerFlash = GUI:GetClass('AlphaFlash'):New(BrokerPanel)
     BrokerFlash:Hide()
-    BrokerFlash:SetAllPoints(true)
-    BrokerFlash.bg = BrokerFlash:CreateTexture(nil, 'BACKGROUND')
-    BrokerFlash.bg:SetPoint('BOTTOM', 0, 2)
-    BrokerFlash.bg:SetPoint('LEFT')
-    BrokerFlash.bg:SetPoint('RIGHT')
-    BrokerFlash.bg:SetHeight(30)
-    BrokerFlash.bg:SetVertexColor(1.00, 0.89, 0.18)
-    BrokerFlash.bg:SetTexture([[INTERFACE\CHATFRAME\ChatFrameTab-NewMessage]])
-    BrokerFlash.bg:SetBlendMode('ADD')
-    BrokerFlash.Anim = BrokerFlash:CreateAnimationGroup()
-    BrokerFlash.Anim:SetLooping('BOUNCE')
-    BrokerFlash.Alpha = BrokerFlash.Anim:CreateAnimation('Alpha')
-    BrokerFlash.Alpha:SetDuration(0.75)
-    BrokerFlash.Alpha:SetChange(-0.7)
-    BrokerFlash:SetScript('OnShow', AnimParentOnShow)
-    BrokerFlash:SetScript('OnHide', AnimParentOnHide)
+    BrokerFlash:SetPoint('BOTTOM', 0, 2)
+    BrokerFlash:SetPoint('LEFT')
+    BrokerFlash:SetPoint('RIGHT')
+    BrokerFlash:SetHeight(30)
+    BrokerFlash:SetTexture([[INTERFACE\CHATFRAME\ChatFrameTab-NewMessage]])
+    BrokerFlash:SetVertexColor(1.00, 0.89, 0.18)
+    BrokerFlash:SetBlendMode('ADD')
 
     LibStub('LibWindow-1.1'):Embed(BrokerPanel)
     BrokerPanel:RegisterConfig(self.db.profile.settings.storage)
@@ -113,7 +104,6 @@ function DataBroker:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_FAVORITES_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_NEW_VERSION')
     self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED')
-    -- self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE')
 
     self.BrokerObject = BrokerObject
     self.BrokerPanel = BrokerPanel
@@ -146,9 +136,12 @@ function DataBroker:Refresh()
     local eventCount = EventCache:GetEventCount()
     local favCount = EventCache:GetFavoriteCount()
     local appliedCount = EventCache:GetCurrentEvent() and memberCount or AppliedCache:Count()
+    local flash = memberCount > 0 or nil
 
     self.BrokerObject.text = DATA_BROKER_FORMAT:format(appliedCount, eventCount, favCount)
-    self.BrokerObject.flash = memberCount > 0 or nil
+    self.BrokerObject.flash = flash
+
+    MicroButton:ToggleFlash(flash)
 end
 
 function DataBroker:RAIDBUILDER_NEW_VERSION(_, version, url, isCompat, changeLog)
@@ -184,12 +177,14 @@ function DataBroker:RAIDBUILDER_SETTING_CHANGED(_, key, value, onUser)
         else
             self.BrokerPanel:MakeDraggable()
         end
+    elseif key == 'microButton' then
+        if value then
+            MicroButton:Enable()
+        else
+            MicroButton:Disable()
+        end
     end
 end
-
--- function DataBroker:RAIDBUILDER_WEBSUPPORT_UPDATE(_, isWorking)
---     self.BrokerObject.icon = isWorking and [[Interface\Addons\RaidBuilder\Media\WebEvent]] or [[Interface\Addons\RaidBuilder\Media\Icon]]
--- end
 
 function DataBroker:ShowNewVersion(url)
     GUI:CallUrlDialog(url, L['发现集合石组团新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)

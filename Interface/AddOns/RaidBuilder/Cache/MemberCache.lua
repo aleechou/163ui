@@ -62,7 +62,7 @@ function MemberCache:RefreshMemberList()
     self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
 end
 
-function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, message, raidInfo)
+function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, progression, raidInfo, message)
     tDeleteItem(self.db.profile.memberList, target)
 
     local proxy = {

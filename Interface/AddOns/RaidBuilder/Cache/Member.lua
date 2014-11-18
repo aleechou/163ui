@@ -23,10 +23,8 @@ local attr = {
     'ItemLevel',
     'PVPRating',
     'Role',
-    'Stats',
     'Progression',
     'ApplyTime',
-    -- 'Fans',
     'Message',
     'RaidInfo',
 }
@@ -49,10 +47,6 @@ function Member:GetClassText()
     return GetColoredClass(self:GetClass())
 end
 
-function Member:GetStatInfo(key)
-    return self:GetStats() and self:GetStats()[key]
-end
-
 function Member:GetBattleTagText()
     return FormatBattleTag(self:GetBattleTag())
 end
@@ -64,12 +58,6 @@ end
 function Member:GetMemberLogoIndex()
     return GetUnitLogoIndex(self:GetName(), self:GetBattleTag())
 end
-
--- function Member:GetMessage()
---     local msgId = self:GetMsgId()
-
---     return msgId and QUICK_MSG_NAMES[msgId] or self:GetComment()
--- end
 
 function Member:BaseSortHandler()
     if not self.baseSortValue then

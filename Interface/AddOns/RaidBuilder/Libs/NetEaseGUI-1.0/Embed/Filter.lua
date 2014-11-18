@@ -1,6 +1,6 @@
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local View = GUI:NewEmbed('Filter', 2)
+local View = GUI:NewEmbed('Filter', 3)
 if not View then
     return
 end
@@ -20,10 +20,8 @@ function View:SetFilterText(filterText, ...)
         filterText = nil
     end
     self.filterText = filterText
-
-    for i = 1, 20 do
-        self['filterArg' .. i] = select(i, ...)
-    end
+    self.filterArgs = {...}
+    self.filterArgCount = select('#', ...)
 
     self:UpdateFilter()
     self:Refresh()
@@ -34,37 +32,13 @@ function View:GetFilterText()
 end
 
 function View:GetFilterArgs()
-    return  self.filterArg1,
-            self.filterArg2,
-            self.filterArg3,
-            self.filterArg4,
-            self.filterArg5,
-            self.filterArg6,
-            self.filterArg7,
-            self.filterArg8,
-            self.filterArg9,
-            self.filterArg10,
-            self.filterArg11,
-            self.filterArg12,
-            self.filterArg13,
-            self.filterArg14,
-            self.filterArg15,
-            self.filterArg16,
-            self.filterArg17,
-            self.filterArg18,
-            self.filterArg19,
-            self.filterArg20
+    if self.filterArgCount > 0 then
+        return unpack(self.filterArgs, 1, self.filterArgCount)
+    end
 end
 
 function View:HasFilterArgs()
-    if self.filterText then
-        return true
-    end
-    for i = 1, 20 do
-        if self['filterArg' .. i] then
-            return true
-        end
-    end
+    return self.filterText or self.filterArgCount > 0
 end
 
 function View:UpdateFilter()

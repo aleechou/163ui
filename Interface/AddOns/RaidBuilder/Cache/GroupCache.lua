@@ -31,7 +31,7 @@ function GroupCache:OnEnable()
     self:ScheduleTimer('RefreshPlayerInfo', 5)
 end
 
-function GroupCache:SaveUnitInfo(target, battleTag, class, level, itemLevel, pvpRating, stats, progression, _, role)
+function GroupCache:SaveUnitInfo(target, battleTag, class, level, itemLevel, pvpRating, progression, raidInfo, role)
     local member = self.unitCache[target]
     if not member then
         member = Member:New()
@@ -45,9 +45,8 @@ function GroupCache:SaveUnitInfo(target, battleTag, class, level, itemLevel, pvp
     member:SetLevel(level)
     member:SetItemLevel(itemLevel)
     member:SetPVPRating(pvpRating)
-    member:SetStats(stats)
     member:SetProgression(progression)
-    -- member:SetFans(fans or 0)
+    member:SetRaidInfo(raidInfo)
 
     if not PlayerIsGroupLeader() then
         self:SetUnitRole(target, role)

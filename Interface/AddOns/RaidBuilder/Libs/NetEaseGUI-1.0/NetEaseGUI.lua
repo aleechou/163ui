@@ -1,5 +1,5 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 12)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 13)
 if not GUI then
     return
 end
@@ -111,6 +111,16 @@ StaticPopupDialogs['NETEASE_COPY_URL'] = {
     hideOnEscape = 1,
     hasEditBox = true,
     editBoxWidth = 260,
+    EditBoxOnTextChanged = function(editBox, url)
+        if editBox:GetText() ~= url then
+            editBox:SetMaxBytes(nil)
+            editBox:SetMaxLetters(nil)
+            editBox:SetText(url)
+            editBox:HighlightText()
+            editBox:SetCursorPosition(0)
+            editBox:SetFocus()
+        end
+    end
 }
 
 function GUI:CallWarningDialog(text, showAlert, key, callback, ...)
@@ -203,15 +213,7 @@ function GUI:CallUrlDialog(url, title, showAlert)
     info.text = title or L.CopyUrl
     info.showAlert = showAlert or nil
 
-    local dialog = StaticPopup_Show('NETEASE_COPY_URL')
-    if dialog then
-        dialog.editBox:SetMaxBytes(nil)
-        dialog.editBox:SetMaxLetters(nil)
-        dialog.editBox:SetText(url)
-        dialog.editBox:HighlightText()
-        dialog.editBox:SetCursorPosition(0)
-        dialog.editBox:SetFocus()
-    end
+    StaticPopup_Show('NETEASE_COPY_URL', nil, nil, url)
 end
 
 function GUI:CallFeedbackDialog(addonName, callback)

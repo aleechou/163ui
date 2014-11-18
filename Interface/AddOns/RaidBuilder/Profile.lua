@@ -52,6 +52,7 @@ function Profile:OnInitialize()
                 teamNotice = true,
                 socialEnabled = true,
                 eventPusher = true,
+                microButton = true,
             },
 
             sharecontent = false,
@@ -72,6 +73,7 @@ function Profile:OnEnable()
         'panel',
         'panelLock',
         'teamNotice',
+        'microButton',
     }
 
     for _, key in ipairs(settings) do

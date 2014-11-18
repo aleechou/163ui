@@ -8,7 +8,5 @@
 ## X-WoWBox-Ver: 1
 Load.xml
 
-## Title-zhCN: |cff880303[网易有爱]|r 集合石组团模块
-## Notes-zhCN: 帮助您更好的组建队伍
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 2014111802

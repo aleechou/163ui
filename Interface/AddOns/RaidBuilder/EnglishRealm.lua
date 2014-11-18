@@ -356,4 +356,6 @@ REALM_EN_MAP = {
     ['zul\'aman'] = '祖阿曼',
     ['zul\'drak'] = '祖达克',
     ['zul\'jin'] = '祖尔金',
+    ['lili'] = '丽丽(四川)',
+    ['peakofserenity'] = '晴日峰(江苏)',
 }

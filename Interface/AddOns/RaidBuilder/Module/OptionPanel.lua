@@ -35,7 +35,7 @@ function SettingPanel:OnInitialize()
                 type = 'toggle',
                 name = L['显示小地图图标'],
                 width = 'full',
-                order = 2,
+                order = 1,
                 get = function()
                     return not self.db.profile.minimap.hide
                 end,
@@ -47,6 +47,12 @@ function SettingPanel:OnInitialize()
                         LibStub('LibDBIcon-1.0'):Hide('RaidBuilder')
                     end
                 end
+            },
+            microButton = {
+                type = 'toggle',
+                name = L['显示系统菜单按钮'],
+                width = 'full',
+                order = 2,
             },
             panel = {
                 type = 'toggle',

@@ -4,7 +4,7 @@ local SocketMiddleware = LibStub('NetEaseSocketMiddleware-2.0')
 local AceTimer = LibStub('AceTimer-3.0')
 local AceEvent = LibStub('AceEvent-3.0')
 
-local MAJOR, MINOR = 'SocketHandler-2.0', 7
+local MAJOR, MINOR = 'SocketHandler-2.0', 8
 local SocketHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not SocketHandler then return end
 
@@ -42,7 +42,7 @@ end
 
 local function formatTarget(target)
     if target then
-        return Ambiguate(target .. '-' .. (GetAutoCompleteRealms() or {GetRealmName():gsub(' ', '')})[1], 'none')
+        return Ambiguate(target .. '-' .. (GetAutoCompleteRealms() or {GetRealmName():gsub('%s+', '')})[1], 'none')
     end
 end
 

@@ -577,14 +577,6 @@ function MainPanel:OpenWaitTooltip(member)
         end
     end
     
-    if type(member:GetStats()) == 'table' then
-        GameTooltip:AddLine(' ')
-        for i, v in ipairs(STAT_LIST) do
-            if member:GetStatInfo(v) then
-                GameTooltip:AddLine(STAT_NAMES[v] .. member:GetStatInfo(v), 1, 1, 1)
-            end
-        end
-    end
     local eventCode = GroupCache:GetCurrentEventCode()
     if eventCode and type(member:GetProgression()) == 'table' then
         local progessionTitle = FormatProgressionTitle(member:GetProgression())

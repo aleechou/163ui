@@ -45,9 +45,9 @@ end
 
 function EventPusher:Toggle()
     local settings = Profile:GetCharacterDB().profile.settings
-    if settings.panel and settings.eventPusher and not BatchApply:IsWorking() then
+    if settings.panel and settings.eventPusher and not BatchApply:IsWorking() and Logic:IsRaidBuilderUsable() then
         self:CancelTimer(self.timer)
-        self.timer = self:ScheduleRepeatingTimer('PushEvent', 20)
+        self.timer = self:ScheduleRepeatingTimer('PushEvent', 60)
     else
         self:Hide()
         self:CancelAllTimers()

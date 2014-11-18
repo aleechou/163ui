@@ -26,4 +26,5 @@
   <Script file="TitleButton.lua" />
   <Script file="NumericBox.lua" />
   <Script file="Feedback.lua" />
+  <Script file="AlphaFlash.lua" />
 </Ui>

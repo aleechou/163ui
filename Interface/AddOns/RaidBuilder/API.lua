@@ -6,78 +6,6 @@ local function round(x, digits)
     return floor(x * s + 0.5) / s
 end
 
----- PlayerStats
-
-local function _GetSpellPower()
-    local pow = 0
-    for i = 1,7 do
-        pow = max(pow, GetSpellBonusDamage(i))
-    end
-    return pow
-end
-
-local function _GetSpellCritChance()
-    local minCrit = GetSpellCritChance(2)
-    for i = 1, 7 do
-        minCrit = min(minCrit, GetSpellCritChance(i))
-    end
-    return minCrit
-end
-
-local STATS_DIGITS = 1
-
-function GetPlayerStats(role)
-    local statType = 'NONE'
-    local specs = {
-        GetSpecialization() or 0,
-        GetActiveSpecGroup() or 0,
-        1, 2, 3, GetNumSpecializations() == 4 and 4 or nil,
-    }
-
-    for i, v in ipairs(specs) do
-        local id, _, _, _, _, specRole = GetSpecializationInfo(v)
-        if role == specRole then
-            statType = SPEC_STATS[id]
-            break
-        end
-    end
-
-    local stats = {}
-    if statType == 'TANK' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), STATS_DIGITS)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
-        stats[ STAT_EXP     ] = round(GetExpertise(), STATS_DIGITS)
-        stats[ STAT_ARMOR   ] = round(UnitArmor('player'), STATS_DIGITS)
-        stats[ STAT_DODGE   ] = round(GetDodgeChance(), STATS_DIGITS)
-        stats[ STAT_PARRY   ] = round(GetParryChance(), STATS_DIGITS)
-        stats[ STAT_BLOCK   ] = round(GetBlockChance(), STATS_DIGITS)
-    elseif statType == 'CASTER' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_SPELL), STATS_DIGITS)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
-        stats[ STAT_SPELL   ] = round(_GetSpellPower(), STATS_DIGITS)
-        stats[ STAT_CRIT    ] = round(_GetSpellCritChance(), STATS_DIGITS)
-        stats[ STAT_HASTE   ] = round(UnitSpellHaste('player'), STATS_DIGITS)
-    elseif statType == 'RDPS' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_RANGED), STATS_DIGITS)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
-        stats[ STAT_EXP     ] = round(select(3, GetExpertise()), STATS_DIGITS)
-        stats[ STAT_ATTACK  ] = round(UnitRangedAttackPower('player'), STATS_DIGITS)
-        stats[ STAT_CRIT    ] = round(GetRangedCritChance(), STATS_DIGITS)
-        stats[ STAT_HASTE   ] = round(GetRangedHaste(), STATS_DIGITS)
-    elseif statType == 'MDPS' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), STATS_DIGITS)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
-        stats[ STAT_EXP     ] = round(GetExpertise(), STATS_DIGITS)
-        stats[ STAT_ATTACK  ] = round(UnitAttackPower('player'), STATS_DIGITS)
-        stats[ STAT_CRIT    ] = round(GetCritChance(), STATS_DIGITS)
-        stats[ STAT_HASTE   ] = round(GetMeleeHaste(), STATS_DIGITS)
-    else
-        -- stats[ STAT_MONEY   ] = floor(GetMoney() / 10000)
-        stats = nil
-    end
-    return stats
-end
-
 ---- PlayerInfo
 
 function GetPlayerBattleTag()
@@ -155,7 +83,7 @@ local _RAID_DATA = setmetatable({}, {__index = function(o, eventCode)
         end
 
         -- TOC的最后BOSS
-        if eventCode == 0x1DFBF00 then
+        if eventCode == 0x1D7BF00 then
             tinsert(data.bossNames, '完成十字军的试炼')
 
             data[1][5] = { 4044, 4046 }
@@ -401,17 +329,9 @@ function GetEventMinLevel(eventCode)
     return EVENT_MINLEVELS[eventCode] or 1
 end
 
--- function SetEventMinLevel(eventCode, minLevel)
---     EVENT_MINLEVELS[eventCode] = tonumber(minLevel)
--- end
-
 function GetEventMaxMember(eventCode)
     return EVENT_MAXMEMBERS[eventCode] or 40
 end
-
--- function SetEventMaxMember(eventCode, maxMember)
---     EVENT_MAXMEMBERS[eventCode] = tonumber(maxMember)
--- end
 
 function GetEventDefaultMemberRole(eventCode)
     local roles = EVENT_DEFAULT_MEMBERROLES[eventCode]
@@ -422,19 +342,9 @@ function GetEventDefaultMemberRole(eventCode)
     end
 end
 
--- function SetEventDefaultMemberRole(eventCode, memberRole)
---     EVENT_DEFAULT_MEMBERROLES[eventCode] = {tonumberall(strsplit(',', memberRole or '0,0,0,0'))}
--- end
-
 function GetEventAllowCrossRealm(eventCode)
-    -- return EVENT_ALLOW_CROSSREALMS[eventCode]
-    -- return true
     return not EVENT_NOT_CROSSREALM[eventCode]
 end
-
--- function SetEventAllowCrossRealm(eventCode, flag)
---     -- EVENT_ALLOW_CROSSREALMS[eventCode] = flag or nil
--- end
 
 function FormatBattleTag(battleTag)
     if battleTag then

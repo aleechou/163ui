@@ -76,3 +76,7 @@ function RaidBuilder:FixBinding()
     end
     SaveBindings(set)
 end
+
+function RaidBuilder:ToggleMainPanel()
+    self:GetModule('DataBroker'):Toggle()
+end
