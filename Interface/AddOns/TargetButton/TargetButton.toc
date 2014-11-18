@@ -11,4 +11,4 @@ TargetButton.xml
 ## Notes-zhCN: 当你的目标是友好玩家时在目标框上加交易和查看装备的按钮
 ## Notes-zhTW: 當你的目標是友好玩家時在目標框上加交易和查看裝備的按鈕
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

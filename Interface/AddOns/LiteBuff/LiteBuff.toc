@@ -32,4 +32,4 @@ Options.lua
 ## Title: |cff880303[网易有爱]|r 职业便捷条
 ## Notes-zhCN: 针对每个职业配置的快捷施法条
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141103120902
+## X-163UI-Version: 20141118121700

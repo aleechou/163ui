@@ -23,4 +23,4 @@ Bindings.xml
 ## Title: |cff880303[网易有爱]|r 标记助手
 ## Notes-zhCN: 在界面上显示标记按钮和世界标记按钮
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

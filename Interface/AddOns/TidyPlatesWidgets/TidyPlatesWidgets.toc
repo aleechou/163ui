@@ -13,5 +13,5 @@ Widgets.xml
 ## Notes-zhCN: 强大到爆的多功能姓名版美化插件-设置模块。
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件-設置模塊。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019234034
+## X-163UI-Version: 20141118121700
 

@@ -23,4 +23,4 @@ AtlasLootReverse.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 装备掉落出处显示
 ## Notes-zhCN: 装备掉落出处显示
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027120320
+## X-163UI-Version: 20141118121700

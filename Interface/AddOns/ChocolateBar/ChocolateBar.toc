@@ -48,4 +48,4 @@ Brokers.lua
 ## Title: |cff880303[网易有爱]|r 巧克力信息条
 ## Notes-zhCN: 可以自定义显示在屏幕边缘的信息条框体
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021100737
+## X-163UI-Version: 20141118121700

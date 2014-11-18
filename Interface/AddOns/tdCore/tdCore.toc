@@ -9,4 +9,4 @@ load.xml
 ## Title: |cff880303[网易有爱]|r 背包整理核心
 ## Notes-zhCN: 背包整理核心程序.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

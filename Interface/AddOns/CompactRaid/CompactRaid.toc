@@ -43,4 +43,4 @@ Modules\RaidDebuff\embeds.xml
 ## Notes-zhCN: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
 ## Notes-zhTW: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019234034
+## X-163UI-Version: 20141118121700

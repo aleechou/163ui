@@ -18,4 +18,4 @@ core.lua
 ## Notes-zhCN: 高度可定制的提示信息增强插件
 ## Notes-zhTW: 高度可定制的提示信息增強插件
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

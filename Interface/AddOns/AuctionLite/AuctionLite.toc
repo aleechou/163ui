@@ -55,4 +55,4 @@ Util.lua
 ## Notes-zhCN: 拍卖行批量拍卖助手，一次性拍卖N件同样物品，Alt点击自动添加物品.
 ## Notes-zhTW: 拍賣行批量拍賣助手，一次性拍賣N件同樣物品，Alt點擊自動添加物品.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020144527
+## X-163UI-Version: 20141118121700

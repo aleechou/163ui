@@ -32,4 +32,4 @@ Options.lua
 ## Title: |cff880303[网易有爱]|r 距离显示设置模块
 ## Notes-zhCN: 距离显示设置模块
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141022163916
+## X-163UI-Version: 20141118121700

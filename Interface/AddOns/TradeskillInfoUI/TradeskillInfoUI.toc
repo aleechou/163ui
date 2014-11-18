@@ -21,4 +21,4 @@ TradeskillInfoUI.xml
 ## Notes-zhCN: 商业技能资料库设置窗口
 ## Notes-zhTW: 商業技能資料庫設置窗口
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141114151506
+## X-163UI-Version: 20141118121700

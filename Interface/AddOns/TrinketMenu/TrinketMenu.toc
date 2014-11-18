@@ -16,4 +16,4 @@ localization.lua
 ## Title: |cff880303[网易有爱]|r 饰品管理
 ## Notes-zhCN: 便捷更换和监视饰品
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019190425
+## X-163UI-Version: 20141118121700

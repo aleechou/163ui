@@ -17,4 +17,4 @@ ComboPoints.xml
 ## Notes-zhCN: 盗贼/德鲁伊连击点显示器|n命令/cbp
 ## Notes-zhTW: 盜賊/德魯伊連擊點顯示器|n命令/cbp
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

@@ -17,4 +17,4 @@ frame.xml
 ## Title: |cff880303[网易有爱]|r 聊天增强
 ## Notes-zhCN: 聊天增加插件，提供快捷切换频道和聊天表情等。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

@@ -12,4 +12,4 @@ main.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 虚空银行整合
 ## Notes-zhCN: 在一个窗口内显示所有虚空银行内的物品
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111801
+## X-163UI-Version: 20141118121700

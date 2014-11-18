@@ -44,7 +44,7 @@ db.lua
 
 ## Title: |cff880303[网易有爱]|r 副本掉落物品查询主程序
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700
 Locales\Locales.lua
 Locales\constants.lua
 Locales\constants.cn.lua

@@ -27,4 +27,4 @@ data.lua
 
 ## Title: |cff880303[网易有爱]|r 德拉诺之王副本物品信息查询
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700

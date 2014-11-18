@@ -44,4 +44,4 @@ GTFO.xml
 ## Notes-zhCN: 自动声音提示站位危险插件.
 ## Notes-zhTW: 自動聲音提示站位危險插件.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

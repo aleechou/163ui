@@ -17,4 +17,4 @@ Inspect.lua
 ## Notes-zhCN: 边框品质着色、人物界面耐久度显示.
 ## Notes-zhTW: 邊框品質著色、人物界面耐久度顯示.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

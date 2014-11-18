@@ -24,4 +24,4 @@ Options.lua
 ## Title: |cff880303[网易有爱]|r 巧克力信息条设置
 ## Notes-zhCN: 巧克力信息条设置组件
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020191120
+## X-163UI-Version: 20141118121700

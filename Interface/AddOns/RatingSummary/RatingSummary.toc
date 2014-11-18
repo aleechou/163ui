@@ -12,4 +12,4 @@ RatingSummary.xml
 ## Title: |cff880303[网易有爱]|r 装备属性统计
 ## Notes-zhCN: 显示角色装备提供的属性奖励，并可以与其他玩家对比。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

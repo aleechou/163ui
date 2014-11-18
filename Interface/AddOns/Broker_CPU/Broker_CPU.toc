@@ -19,7 +19,7 @@ Broker_CPU.lua
 ## Notes-zhCN: 一个支持LDB类信息条的系统监控小插件。
 ## Notes-zhTW: 一個支持LDB類信息條的系統監控小插件。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700
 
 
 

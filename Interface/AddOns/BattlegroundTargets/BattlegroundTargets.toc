@@ -24,4 +24,4 @@ BattlegroundTargets.lua
 ## Title: |cff880303[网易有爱]|r 战场PVP框体
 ## Notes-zhCN: 显示全部战场敌人。战场简洁敌对单位框体。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

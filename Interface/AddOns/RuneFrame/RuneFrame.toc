@@ -13,4 +13,4 @@ RuneFrame.lua
 ## Title: |cff880303[网易有爱]|r DK符文条
 ## Notes-zhCN: 简易的符文插件RuneFrame
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

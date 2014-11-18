@@ -19,4 +19,4 @@ ErrorFilter.lua
 ## Notes-zhCN: 自动过滤掉屏幕上方的红色提示文字.
 ## Notes-zhTW: 自動過濾掉屏幕上方的紅色提示文字.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

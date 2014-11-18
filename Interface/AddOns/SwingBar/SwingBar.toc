@@ -11,4 +11,4 @@ SwingBar.lua
 ## Notes-zhCN: 显示普通攻击的的进度。
 ## Notes-zhTW: 顯示普通攻擊的的進度。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

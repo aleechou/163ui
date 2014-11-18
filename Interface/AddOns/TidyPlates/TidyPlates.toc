@@ -11,4 +11,4 @@ TidyPlates.xml
 ## Notes-zhCN: 强大到爆的多功能姓名版美化插件。
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019234034
+## X-163UI-Version: 20141118121700

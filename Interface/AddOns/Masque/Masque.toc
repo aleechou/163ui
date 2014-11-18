@@ -49,4 +49,4 @@ Core\Options.lua
 ## Notes-zhCN: 一个动态按钮皮肤插件。
 ## Notes-zhTW: 動態套用按鈕佈景主題的插件。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141116105020
+## X-163UI-Version: 20141118121700

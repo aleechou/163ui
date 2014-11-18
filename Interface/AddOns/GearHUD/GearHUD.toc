@@ -5,4 +5,4 @@ GearHUD.xml
 ## Title: |cff880303[网易有爱]|r 齿轮血量提示
 ## Notes-zhCN: 模仿战争机器的齿轮血量提示, 在不同的阶段显示不同的材质。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

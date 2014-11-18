@@ -8,7 +8,7 @@
 ## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时
 ## Notes-zhCN: 给所有的技能冷却动画添加文字显示及冷却后的效果。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141027151200
+## X-163UI-Version: 20141118121700
 
 ## SavedVariables: OmniCC4Config
 

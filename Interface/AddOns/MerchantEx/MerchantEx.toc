@@ -18,4 +18,4 @@ OptionFrame.lua
 ## Title: |cff880303[网易有爱]|r 自动修理贩卖
 ## Notes-zhCN: 自动出售灰色物品/修理装备/购买指定物品
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

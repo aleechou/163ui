@@ -14,5 +14,5 @@ EN_UnitFrames.xml
 ## Notes-zhCN: 增强显示头像，显示目标的目标的目标，小队头像显示队员职业等级，并显示生命值及法力值
 ## Notes-zhTW: 增強顯示頭像，顯示目標的目標的目標，小隊頭像顯示隊員職業等級，並顯示生命值及法力值
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700
 SBuff_Buffs.lua

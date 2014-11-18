@@ -16,4 +16,4 @@ profiles.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 多米诺-设置界面
 ## Notes-zhCN: 多米诺-设置界面模块
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

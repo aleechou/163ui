@@ -19,4 +19,4 @@ core.lua
 ## Notes-zhCN: 增强物品提示信息
 ## Notes-zhTW: 增強物品提示信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

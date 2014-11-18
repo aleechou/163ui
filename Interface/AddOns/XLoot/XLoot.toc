@@ -32,4 +32,4 @@ XLoot_Master\load.xml
 ## Title: |cff880303[网易有爱]|r 拾取框增强
 ## Notes-zhCN: 美化拾取框,方便快捷的通告掉落到团队 工会  小队等频道.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141109122456
+## X-163UI-Version: 20141118121700
