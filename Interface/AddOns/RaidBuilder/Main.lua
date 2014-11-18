@@ -9,12 +9,18 @@ GUI = LibStub('NetEaseGUI-1.0')
 RaidBuilder = LibStub('AceAddon-3.0'):NewAddon('RaidBuilder',
     'AceEvent-3.0',
     'AceHook-3.0',
+    'AceTimer-3.0',
     'LibModule-1.0',
     'LibClass-1.0')
 
 function RaidBuilder:OnInitialize()
     self:RawHook('PromoteToLeader', 'PromoteToLeader', true)
     self:RawHook('LeaveParty', 'LeaveParty', true)
+end
+
+function RaidBuilder:OnEnable()
+    self:FixBinding()
+    self:RegisterEvent('PLAYER_LOGOUT', 'FixBinding')
 end
 
 function RaidBuilder:PromoteToLeader(arg1, arg2)
@@ -53,4 +59,20 @@ end
 
 function RaidBuilder:IsSocialServerEnabled()
     return self.socialServerEnabled
+end
+
+function RaidBuilder:FixBinding()
+    local set = GetCurrentBindingSet()
+    if not set or not (set == 1 or set == 2) then
+        return self:ScheduleTimer('FixBinding', 1)
+    end
+
+    local keys = {GetBindingKey('RAIDBUILDER_TOGGLE')}
+    for _, key in ipairs(keys) do
+        SetBinding(key, nil)
+    end
+    for _, key in ipairs(keys) do
+        SetBinding(key, 'RAIDBUILDER_TOGGLE')
+    end
+    SaveBindings(set)
 end

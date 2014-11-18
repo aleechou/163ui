@@ -1,13 +1,24 @@
 
 BuildEnv(...)
 
-FavoritePanel = RaidBuilder:NewModule(CreateFrame('Frame'), 'FavoritePanel', 'AceEvent-3.0')
+FavoritePanel = RaidBuilder:NewModule(CreateFrame('Frame'), 'FavoritePanel', 'AceEvent-3.0', 'NetEaseGUI-DropMenu-1.0')
 
 local BROAD_HEADER = {
     {
+        key = 'FavStatus',
+        text = '@',
+        width = 25,
+        style = 'ICON',
+        showHandler = function(data)
+            if data.isFav then
+                return nil, nil, nil, nil, [[INTERFACE\COMMON\ReputationStar]], 0, 1/2, 0, 1/2
+            end
+        end
+    },
+    {
         key = 'B-Tag',
         text = L['战网昵称'],
-        width = 200,
+        width = 150,
         style = 'LEFT',
         showHandler = function(data)
             return data.btag
@@ -16,19 +27,28 @@ local BROAD_HEADER = {
     {
         key = 'Time',
         text = L['添加时间'],
-        width = 200,
+        width = 150,
         style = 'LEFT',
         showHandler = function(data)
             return date('%Y-%m-%d %H:%M', data.recordDate)
         end,
     },
     {
-        key = 'Reason',
-        text = L['注释'],
-        width = 408,
+        key = 'Event',
+        text = L['活动'],
+        width = 150,
         style = 'LEFT',
         showHandler = function(data)
-            return data.reason
+            return data.eventCode and EVENT_NAMES[data.eventCode] or ''
+        end
+    },
+    {
+        key = 'Reason',
+        text = L['注释'],
+        width = 308,
+        style = 'LEFT',
+        showHandler = function(data)
+            return data.reason or L['历史团长']
         end,
     },
 }
@@ -36,17 +56,17 @@ local BROAD_HEADER = {
 function FavoritePanel:OnInitialize()
     GUI:Embed(self, 'Owner', 'Tab', 'Refresh')
 
-    OptionPanel:RegisterPanel(L['关注列表'], self, 0)
+    OptionPanel:RegisterPanel(L['关注及历史团长'], self, 0)
 
     self:ClearAllPoints()
     self:SetPoint('TOPLEFT', 0, -25)
     self:SetPoint('BOTTOMRIGHT')
 
-    local DelButton = GUI:GetClass('ClearButton'):New(self)
-    DelButton:SetScript('OnClick', function(DelButton)
-        self:Del(DelButton.btag)
-    end)
-    GUI:SetTooltip(DelButton, 'ANCHOR_RIGHT', L['取消关注'])
+    -- local DelButton = GUI:GetClass('ClearButton'):New(self)
+    -- DelButton:SetScript('OnClick', function(DelButton)
+    --     self:Del(DelButton.btag)
+    -- end)
+    -- GUI:SetTooltip(DelButton, 'ANCHOR_RIGHT', L['取消关注'])
 
     local FavoriteList = GUI:GetClass('DataGridView'):New(self)
     FavoriteList:SetPoint('TOPLEFT', 8, 0)
@@ -57,21 +77,24 @@ function FavoritePanel:OnInitialize()
     FavoriteList:InitHeader(BROAD_HEADER)
     FavoriteList:SetHeaderPoint('BOTTOMLEFT', FavoriteList, 'TOPLEFT', 0, 0)
     FavoriteList:SetSortHandler(function(data)
-        return - data.recordDate
+        return format('%d%08x', data.isFav and 1 or 0, data.recordDate) 
+    end, true)
+    FavoriteList:SetCallback('OnItemMenu', function(_, button, data)
+        self:ToggleRightMenu(button, data)
     end)
-    FavoriteList:SetCallback('OnGridEnter', function(_, grid, data)
-        DelButton:Show()
-        DelButton:ClearAllPoints()
-        DelButton:SetParent(grid:GetParent())
-        DelButton:SetPoint('RIGHT', grid:GetParent(), -10, 0)
-        DelButton:SetFrameLevel(grid:GetFrameLevel() + 10)
-        DelButton.btag = data.btag
-    end)
-    FavoriteList:SetCallback('OnGridLeave', function(_, grid, data)
-        if not DelButton:IsMouseOver() then
-           DelButton:Hide() 
-        end
-    end)
+    -- FavoriteList:SetCallback('OnGridEnter', function(_, grid, data)
+    --     DelButton:Show()
+    --     DelButton:ClearAllPoints()
+    --     DelButton:SetParent(grid:GetParent())
+    --     DelButton:SetPoint('RIGHT', grid:GetParent(), -10, 0)
+    --     DelButton:SetFrameLevel(grid:GetFrameLevel() + 10)
+    --     DelButton.btag = data.btag
+    -- end)
+    -- FavoriteList:SetCallback('OnGridLeave', function(_, grid, data)
+    --     if not DelButton:IsMouseOver() then
+    --        DelButton:Hide() 
+    --     end
+    -- end)
 
     local Tips = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
     Tips:SetPoint('BOTTOMRIGHT', self:GetOwner():GetOwner(), -7, 7)
@@ -88,7 +111,7 @@ function FavoritePanel:Update()
     local FavoriteList = self.FavoriteList
 
     for k, v in pairs(Profile:GetFavorites()) do
-        tinsert(list, {btag = k, reason = v.reason, recordDate = v.recordDate})
+        tinsert(list, {btag = k, reason = v.reason, recordDate = v.recordDate, eventCode = v.eventCode, isFav = v.isFav})
     end
 
     FavoriteList:SetItemList(list)
@@ -99,23 +122,25 @@ function FavoritePanel:Update()
     end
 end
 
-function FavoritePanel:Add(btag, callback)
+function FavoritePanel:Add(btag, callback, isEdit)
     if type(btag) ~= 'string' then
          return
     end
 
-    if Profile:IsInFavorite(btag) then
+    if not isEdit and Profile:IsInFavorite(btag, true) then
         GUI:CallWarningDialog(L['|cffffd100%s|r 已经在关注列表。']:format(btag))
     else
-        GUI:CallInputDialog(format(L['你确定将 |cffffd100%s|r 加入关注列表吗？'], btag), function(result, text)
-            if result then
-                Profile:AddFavorite(btag, text)
-                Logic:SendServer('SFAV', btag, 1)
-                if type(callback) == 'function' then
-                    callback()
+        GUI:CallInputDialog(
+            isEdit and format(L['请输入 |cffffd100%s|r 的注释'], btag) or format(L['你确定将 |cffffd100%s|r 加入关注列表吗？'], btag),
+            function(result, text)
+                if result then
+                    Profile:AddFavorite(btag, text, true)
+                    if type(callback) == 'function' then
+                        callback()
+                    end
                 end
-            end
-        end, nil, L['好团长'], 255)
+            end,
+            nil, L['好团长'], 255)
     end
 end
 
@@ -127,7 +152,29 @@ function FavoritePanel:Del(btag)
     GUI:CallMessageDialog(format(L['你确定将 |cffffd100%s|r 移出关注列表吗？'], btag), function(result)
         if result then
             Profile:DeleteFavorite(btag)
-            Logic:SendServer('SFAV', btag, 0)
         end
     end)
+end
+
+function FavoritePanel:ToggleRightMenu(button, data)
+    self:ToggleMenu(button, {
+        {
+            text = data.btag,
+            isTitle = true,
+        },
+        {
+            text = function()
+                return Profile:IsInFavorite(data.btag, true) and L['修改注释'] or L['修改注释并添加到关注']
+            end,
+            func = function()
+                self:Add(data.btag, nil, true)
+            end
+        },
+        {
+            text = L['取消关注'],
+            func = function()
+                self:Del(data.btag)
+            end,
+        },
+    }, 'cursor')
 end

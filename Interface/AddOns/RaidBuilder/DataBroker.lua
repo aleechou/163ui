@@ -17,7 +17,7 @@ function DataBroker:OnInitialize()
     local BrokerObject = LDB:NewDataObject('RaidBuilder', {
         type = 'data source',
         text = L['集合石组团'],
-        icon = [[Interface\AddOns\RaidBuilder\Media\Icon]],
+        icon = ADDON_LOGO,
 
         OnEnter = function(owner)
             local isLeader = EventCache:GetCurrentEvent()
@@ -34,6 +34,10 @@ function DataBroker:OnInitialize()
             GameTooltip:AddDoubleLine(ICON3 .. L['团队人数'], groupCount, 1, 1, 1, 1, 1, 1)
             GameTooltip:AddDoubleLine(ICON4 .. L['关注团长的活动'], favCount, 1, 1, 1, 1, 1, 1)
             GameTooltip:Show()
+        end,
+
+        OnLeave = function()
+            GameTooltip:Hide()
         end,
 
         OnClick = function(owner, button)
@@ -67,9 +71,7 @@ function DataBroker:OnInitialize()
     BrokerPanel:SetBackdropBorderColor(1, 0.82, 0)
     if BrokerObject.OnEnter then
         BrokerPanel:SetScript('OnEnter', BrokerObject.OnEnter)
-        BrokerPanel:SetScript('OnLeave', function()
-            GameTooltip:Hide()
-        end)
+        BrokerPanel:SetScript('OnLeave', BrokerObject.OnLeave)
     end
     if BrokerObject.OnClick then
         BrokerPanel:SetScript('OnClick', BrokerObject.OnClick)
@@ -107,11 +109,11 @@ function DataBroker:OnInitialize()
     self:RegisterEvent('GROUP_ROSTER_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_MEMBER_LIST_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
-    self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_APPLY_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_FAVORITES_UPDATE', 'Refresh')
     self:RegisterMessage('RAIDBUILDER_NEW_VERSION')
     self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED')
-    self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE')
+    -- self:RegisterMessage('RAIDBUILDER_WEBSUPPORT_UPDATE')
 
     self.BrokerObject = BrokerObject
     self.BrokerPanel = BrokerPanel
@@ -119,12 +121,6 @@ function DataBroker:OnInitialize()
     self.BrokerFlash = BrokerFlash
 
     LDB.RegisterCallback(self, 'LibDataBroker_AttributeChanged_RaidBuilder', 'OnDataBrokerChanged')
-
-    self.Minimap = LibStub('LibDBIcon-1.0'):GetMinimapButton('RaidBuilder')
-
-    if not self.db.profile.settings.minimapPack then
-        self.Minimap:SetParent(UIParent)
-    end
 end
 
 function DataBroker:OnDataBrokerChanged(_, name, key, value, object)
@@ -174,11 +170,9 @@ function DataBroker:RAIDBUILDER_NEW_VERSION(_, version, url, isCompat, changeLog
 end
 
 function DataBroker:RAIDBUILDER_SETTING_CHANGED(_, key, value, onUser)
-    if key == 'minimap' then
-        self.Minimap:SetShown(value)
-    elseif key == 'panel' then
+    if key == 'panel' then
         self.BrokerPanel:SetShown(value)
-    elseif key == 'minimapPack' or key == 'socialEnabled' then
+    elseif key == 'socialEnabled' then
         if onUser then
             GUI:CallWarningDialog(L['这项设置将在下次载入插件时生效。'], true)
         end
@@ -193,9 +187,9 @@ function DataBroker:RAIDBUILDER_SETTING_CHANGED(_, key, value, onUser)
     end
 end
 
-function DataBroker:RAIDBUILDER_WEBSUPPORT_UPDATE(_, isWorking)
-    self.BrokerObject.icon = isWorking and [[Interface\Addons\RaidBuilder\Media\WebEvent]] or [[Interface\Addons\RaidBuilder\Media\Icon]]
-end
+-- function DataBroker:RAIDBUILDER_WEBSUPPORT_UPDATE(_, isWorking)
+--     self.BrokerObject.icon = isWorking and [[Interface\Addons\RaidBuilder\Media\WebEvent]] or [[Interface\Addons\RaidBuilder\Media\Icon]]
+-- end
 
 function DataBroker:ShowNewVersion(url)
     GUI:CallUrlDialog(url, L['发现集合石组团新版本，您当前的版本不兼容，请按<|cff00ff00Ctrl+C|r>复制下载链接更新新版本以继续使用'], 1)

@@ -27,6 +27,6 @@
 ## X-AtlasLoot-LootModule: 1
 
 data.lua
-## Title: |cff880303[网易有爱]|r AtlasLoot_Cataclysm
+## Title: |cff880303[网易有爱]|r 大地的裂变副本物品查询
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356

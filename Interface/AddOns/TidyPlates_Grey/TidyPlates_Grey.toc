@@ -1,14 +1,14 @@
 ## Interface: 60000
 ## Title: Tidy Plates: Grey Theme
-## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 GreyTheme
-## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 GreyTheme
 ## Notes: Use apostrophes wisely.
-## Notes-zhTW: 強大到爆的多功能姓名版美化插件-GreyTheme風格模塊。
-## Notes-zhCN: 强大到爆的多功能姓名版美化插件-GreyTheme风格模块。
 ## Author: Binny
 ## Dependencies: TidyPlates, TidyPlatesHub
 
 Grey.lua
 ## Title: |cff880303[网易有爱]|r 姓名板增强 GreyTheme
+## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 GreyTheme
+## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 GreyTheme
+## Notes-zhCN: 强大到爆的多功能姓名版美化插件-GreyTheme风格模块。
+## Notes-zhTW: 強大到爆的多功能姓名版美化插件-GreyTheme風格模塊。
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141019234034

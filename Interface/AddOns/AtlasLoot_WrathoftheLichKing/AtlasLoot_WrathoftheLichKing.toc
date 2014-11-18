@@ -25,6 +25,6 @@
 
 data.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLoot_WrathoftheLichKing
+## Title: |cff880303[网易有爱]|r 巫妖王之怒副本物品信息查询
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356

@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'SummaryHtml', 3
+local WIDGET, VERSION = 'SummaryHtml', 5
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local SummaryHtml = GUI:NewClass(WIDGET, 'SimpleHTML', VERSION)
@@ -21,6 +21,17 @@ function SummaryHtml:Constructor(parent)
     self:SetScript('OnHyperlinkClick', self.OnHyperlinkClick)
     self:SetScript('OnHyperlinkEnter', self.OnHyperlinkEnter)
     self:SetScript('OnHyperlinkLeave', GameTooltip_Hide)
+    self:SetScript('OnSizeChanged', self.OnSizeChanged)
+end
+
+local orig_SetText = SummaryHtml.SetText
+function SummaryHtml:SetText(text)
+    self.text = text
+    return orig_SetText(self, text)
+end
+
+function SummaryHtml:GetText()
+    return self.text
 end
 
 function SummaryHtml:OnHyperlinkClick(link)
@@ -30,8 +41,7 @@ function SummaryHtml:OnHyperlinkClick(link)
     elseif linkType == 'help' then
         self:OpenHelper(data)
     elseif linkType == 'urlIndex' then
-        -- LoadURLIndex(data)
-        StaticPopup_Show("CONFIRM_LAUNCH_URL", nil, nil, {index = data})
+        StaticPopup_Show('CONFIRM_LAUNCH_URL', nil, nil, {index = data})
     end
 end
 
@@ -39,9 +49,14 @@ function SummaryHtml:OnHyperlinkEnter(link)
     local linkType, data = link:match('^([^:]+):(.+)$')
     if linkType == 'url' then
         GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
-        GameTooltip:SetText(data, nil, nil, nil, true)
+        GameTooltip:SetText('点击复制')
+        GameTooltip:AddLine(data, 1, 1, 1, true)
         GameTooltip:Show()
     end
+end
+
+function SummaryHtml:OnSizeChanged()
+    self:SetText(self:GetText())
 end
 
 local HelperTip

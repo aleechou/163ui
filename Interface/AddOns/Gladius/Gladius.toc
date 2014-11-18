@@ -32,5 +32,6 @@ Modules\Layout.lua
 Modules\Dispel.lua
 
 ## Title: |cff880303[网易有爱]|r 竞技场头像
+## Notes-zhCN: 竞技场显示对方的头像框体
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112174807

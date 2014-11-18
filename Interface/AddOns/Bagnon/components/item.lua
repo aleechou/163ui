@@ -191,7 +191,7 @@ end
 
 function ItemSlot:OnPreClick(button)
 	if button == 'RightButton' then 
-		if Addon.BagEvents.atBank and IsReagentBankUnlocked() then
+		if Addon.BagEvents.atBank and IsReagentBankUnlocked() and GetContainerNumFreeSlots(REAGENTBANK_CONTAINER) > 0 and ItemSearch:TooltipPhrase(self:GetItem(), PROFESSIONS_USED_IN_COOKING) then
 			return UseContainerItem(self:GetBag(), self:GetID(), nil, true)
 		end
 
@@ -226,8 +226,6 @@ function ItemSlot:OnModifiedClick(...)
 end
 
 function ItemSlot:OnEnter()
-	ResetCursor()
-
 	if self:IsCached() then
 		local dummy = self:GetDummySlot()
 		dummy:SetParent(self)
@@ -282,11 +280,11 @@ function ItemSlot:Update()
 end
 
 function ItemSlot:SetItem(item)
-	self.item = item
+	self.hasItem = item -- CursorUpdate
 end
 
 function ItemSlot:GetItem()
-	return self.item
+	return self.hasItem
 end
 
 
@@ -350,6 +348,13 @@ function ItemSlot:UpdateBorder()
 	self:HideBorder()
 
 	if item then
+		local isQuestItem, isQuestStarter = self:IsQuestItem()
+		if isQuestStarter then
+			self.QuestBorder:SetTexture(TEXTURE_ITEM_QUEST_BANG)
+			self.QuestBorder:Show()
+			return
+		end
+
 		if self:HighlightNewItems() and self:IsNew() then
 			if not self.flashAnim:IsPlaying() then
 				self.flashAnim:Play()
@@ -366,18 +371,13 @@ function ItemSlot:UpdateBorder()
 			end
 		end
 
-		if self:HighlightQuestItems() then
-			local isQuestItem, isQuestStarter = self:IsQuestItem()
-			if isQuestItem then
-				return self:SetBorderColor(1, .82, .2)
-			end
-
-			if isQuestStarter then
-				self.QuestBorder:SetTexture(TEXTURE_ITEM_QUEST_BANG)
-				self.QuestBorder:Show()
-				return
-			end
+		if self:HighlightQuestItems() and isQuestItem then
+			return self:SetBorderColor(1, .82, .2)
 		end
+
+		if self:HighlightSetItems() and ItemSearch:InSet(item) then
+	   		return self:SetBorderColor(.1, 1, 1)
+	  	end
 
 		if self:HighlightUnusableItems() and Unfit:IsItemUnusable(item) then
 			return self:SetBorderColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
@@ -621,6 +621,7 @@ function ItemSlot:CreateDummySlot()
 		end
 		
 		parent:LockHighlight()
+		CursorUpdate(parent)
 	end
 
 	local function Slot_OnLeave(self)

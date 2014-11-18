@@ -30,5 +30,6 @@ Broker_RaidSave.lua
 
 
 ## Title: |cff880303[网易有爱]|r 信息条_团本进度
+## Notes-zhCN: 监控账号下各个角色的团队副本进度。
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

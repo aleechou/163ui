@@ -1,6 +1,13 @@
 
 BuildEnv(...)
 
+local function round(x, digits)
+    local s = 10 ^ (digits or 0)
+    return floor(x * s + 0.5) / s
+end
+
+---- PlayerStats
+
 local function _GetSpellPower()
     local pow = 0
     for i = 1,7 do
@@ -17,10 +24,7 @@ local function _GetSpellCritChance()
     return minCrit
 end
 
-local function round(x, decimal)
-    local s = 10 ^ (decimal or 0)
-    return floor(x * s + 0.5) / s
-end
+local STATS_DIGITS = 1
 
 function GetPlayerStats(role)
     local statType = 'NONE'
@@ -40,33 +44,33 @@ function GetPlayerStats(role)
 
     local stats = {}
     if statType == 'TANK' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), 2)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), 2)
-        stats[ STAT_EXP     ] = round(GetExpertise(), 2)
-        stats[ STAT_ARMOR   ] = round(UnitArmor('player'), 2)
-        stats[ STAT_DODGE   ] = round(GetDodgeChance(), 2)
-        stats[ STAT_PARRY   ] = round(GetParryChance(), 2)
-        stats[ STAT_BLOCK   ] = round(GetBlockChance(), 2)
+        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), STATS_DIGITS)
+        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
+        stats[ STAT_EXP     ] = round(GetExpertise(), STATS_DIGITS)
+        stats[ STAT_ARMOR   ] = round(UnitArmor('player'), STATS_DIGITS)
+        stats[ STAT_DODGE   ] = round(GetDodgeChance(), STATS_DIGITS)
+        stats[ STAT_PARRY   ] = round(GetParryChance(), STATS_DIGITS)
+        stats[ STAT_BLOCK   ] = round(GetBlockChance(), STATS_DIGITS)
     elseif statType == 'CASTER' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_SPELL), 2)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), 2)
-        stats[ STAT_SPELL   ] = round(_GetSpellPower(), 2)
-        stats[ STAT_CRIT    ] = round(_GetSpellCritChance(), 2)
-        stats[ STAT_HASTE   ] = round(UnitSpellHaste('player'), 2)
+        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_SPELL), STATS_DIGITS)
+        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
+        stats[ STAT_SPELL   ] = round(_GetSpellPower(), STATS_DIGITS)
+        stats[ STAT_CRIT    ] = round(_GetSpellCritChance(), STATS_DIGITS)
+        stats[ STAT_HASTE   ] = round(UnitSpellHaste('player'), STATS_DIGITS)
     elseif statType == 'RDPS' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_RANGED), 2)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), 2)
-        stats[ STAT_EXP     ] = round(select(3, GetExpertise()), 2)
-        stats[ STAT_ATTACK  ] = round(UnitRangedAttackPower('player'), 2)
-        stats[ STAT_CRIT    ] = round(GetRangedCritChance(), 2)
-        stats[ STAT_HASTE   ] = round(GetRangedHaste(), 2)
+        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_RANGED), STATS_DIGITS)
+        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
+        stats[ STAT_EXP     ] = round(select(3, GetExpertise()), STATS_DIGITS)
+        stats[ STAT_ATTACK  ] = round(UnitRangedAttackPower('player'), STATS_DIGITS)
+        stats[ STAT_CRIT    ] = round(GetRangedCritChance(), STATS_DIGITS)
+        stats[ STAT_HASTE   ] = round(GetRangedHaste(), STATS_DIGITS)
     elseif statType == 'MDPS' then
-        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), 2)
-        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), 2)
-        stats[ STAT_EXP     ] = round(GetExpertise(), 2)
-        stats[ STAT_ATTACK  ] = round(UnitAttackPower('player'), 2)
-        stats[ STAT_CRIT    ] = round(GetCritChance(), 2)
-        stats[ STAT_HASTE   ] = round(GetMeleeHaste(), 2)
+        stats[ STAT_HIT     ] = round(GetCombatRatingBonus(CR_HIT_MELEE), STATS_DIGITS)
+        stats[ STAT_MASTERY ] = round(GetMasteryEffect(), STATS_DIGITS)
+        stats[ STAT_EXP     ] = round(GetExpertise(), STATS_DIGITS)
+        stats[ STAT_ATTACK  ] = round(UnitAttackPower('player'), STATS_DIGITS)
+        stats[ STAT_CRIT    ] = round(GetCritChance(), STATS_DIGITS)
+        stats[ STAT_HASTE   ] = round(GetMeleeHaste(), STATS_DIGITS)
     else
         -- stats[ STAT_MONEY   ] = floor(GetMoney() / 10000)
         stats = nil
@@ -74,17 +78,30 @@ function GetPlayerStats(role)
     return stats
 end
 
+---- PlayerInfo
+
+function GetPlayerBattleTag()
+    return (select(2, BNGetInfo()))
+end
+
+function GetPlayerItemLevel()
+    return floor(GetAverageItemLevel())
+end
+
+function GetPlayerClass()
+    return (select(3, UnitClass('player')))
+end
+
+---- 
+
 local _REAL_EVENTNAME = {
     [0x1DFEF00] = '玛里苟斯',
     [0x1DFFF00] = '冬拥湖',
     [0x1DFDF00] = '龙神之厅',
-    [0x1B7B601] = '决战奥格瑞玛',
-    [0x1B7B602] = '决战奥格瑞玛',
-    [0x1B7B604] = '决战奥格瑞玛',
-    [0x1B7B608] = '决战奥格瑞玛',
 }
 
 local _RAID_WVER_CATEGORIES = {
+    [0xA00000] = 15233,
     [0xB00000] = 15164,
     [0xC00000] = 15096,
     [0xD00000] = 14823,
@@ -121,15 +138,18 @@ local _RAID_DATA = setmetatable({}, {__index = function(o, eventCode)
                     end
                     local mode = modeName:match('普通') and 1 or
                                  modeName:match('英雄') and 2 or
-                                 modeName:match('随机') and 3 or
+                                 modeName:match('随机') and 0 or
                                  modeName:match('弹性') and 4 or
+                                 modeName:match('史诗') and 5 or
                                  modeName:match('大十字军') and 2 or 1
 
-                    local index = bossIndexCache[bossName]
-                    data[mode] = data[mode] or {}
-                    data[mode][index] = data[mode][index] or {}
+                    if mode ~= 0 then
+                        local index = bossIndexCache[bossName]
+                        data[mode] = data[mode] or {}
+                        data[mode][index] = data[mode][index] or {}
 
-                    tinsert(data[mode][index], id)
+                        tinsert(data[mode][index], id)
+                    end
                 end
             end
         end
@@ -284,10 +304,11 @@ local _RAID_MODE_TEXTS = {
     [2] = L['英雄'],
     [3] = L['随机'],
     [4] = L['弹性'],
+    [5] = L['史诗'],
 }
 
 local _RAID_MODE_ORDER = {
-    3, 4, 1, 2
+    4, 1, 2, 5
 }
 
 function FormatProgressionTitle(progession)
@@ -407,7 +428,8 @@ end
 
 function GetEventAllowCrossRealm(eventCode)
     -- return EVENT_ALLOW_CROSSREALMS[eventCode]
-    return true
+    -- return true
+    return not EVENT_NOT_CROSSREALM[eventCode]
 end
 
 -- function SetEventAllowCrossRealm(eventCode, flag)
@@ -424,8 +446,8 @@ function FormatBattleTag(battleTag)
     return UNKNOWN
 end
 
-function GetEventModeMenuTable(eventCode)
-    return EVENT_MODE_MENUTABLE[bit.band(eventCode, EVENT_MATCH_TYPE)]
+function GetEventModeMenuTable(eventCode, withAll)
+    return (withAll and EVENT_MODE_MENUTABLE_WITHALL or EVENT_MODE_MENUTABLE)[bit.band(eventCode, EVENT_MATCH_TYPE)]
 end
 
 function GetUnitLogoIndex(name, btag)
@@ -566,12 +588,13 @@ function MakeMessage(frame, event, text, target)
 end
 
 local function IsCanWhisperByBlizzard(target)
-    return Invite:IsSameRealm(target) or UnitInRaid(target) or UnitInParty(target)
+    return Invite:IsSameRealm(target) or UnitInGroup(target)
 end
 
 local lastSendTime = time()
 local function SendRaidBuilderWhisper(text, target, channel)
     if time() - lastSendTime > 1 then
+        text = Logic:TextFilter(text)
         Logic:SendSocket(target, 'WHISPER', text)
         MakeChatEvent('CHAT_MSG_WHISPER_INFORM', text, channel, '', '', nil, 'RAIDBUILDER', 0, 0, nil, nil, 0, nil)
         lastSendTime = time()
@@ -595,10 +618,74 @@ function _G.SendChatMessage(text, chatType, language, channel)
     orig_SendChatMessage(text, chatType, language, channel)
 end
 
-function GetShortVersion()
-    return (GetAddOnMetadata(ADDON_NAME, 'Version'):gsub('(%d)%d(%d)%d%d%.(%d%d)','%1%2%3'))
-end
-
 function GetFullVersion(version)
     return tostring(version):gsub('(%d)(%d)(%d%d)', '%10%200.%3')
+end
+
+function safematch(source, pattern)
+    local ok, result = pcall(strmatch, source, pattern)
+    return ok and result
+end
+
+function GetPlayerSavedInstance(eventCode)
+    if bit.band(eventCode, EVENT_MATCH_TYPE) ~= EVENT_TYPE_RAID then
+        return
+    end
+
+    local name = EVENT_NAMES[eventCode]
+    if not name then
+        return
+    end
+
+    local eventName, eventDifficulty = ('-'):split(name)
+    for index = 1, GetNumSavedInstances() do
+        local name, id, reset, difficulty, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress = GetSavedInstanceInfo(index)
+        if name == eventName and (not eventDifficulty or eventDifficulty == difficultyName) then
+            local result = 0
+            for bossIndex = 1, numEncounters do
+                if select(3, GetSavedInstanceEncounterInfo(index, bossIndex)) then
+                    result = bit.bor(result, bit.lshift(1, bossIndex - 1)) 
+                end
+            end
+            return result ~= 0 and result or nil
+        end
+    end
+end
+
+function FormatInstanceColor(value, index)
+    return value and bit.band(value, bit.lshift(1, index-1)) > 0 and [[|cffff0000%s|r]] or [[|cff00ff00%s|r]]
+end
+
+local _GetClassInfo = _G.GetClassInfo
+local function GetClassInfo(id)
+    if type(id) == 'number' then
+        return _GetClassInfo(id)
+    else
+        return CLASS_NAMES[id], id
+    end
+end
+
+function GetColoredClass(id)
+    local text, class = GetClassInfo(id)
+    if class then
+        local color = RAID_CLASS_COLORS[class]
+        if color then
+            return format('|c%s%s|r', color.colorStr, text)
+        end
+    end
+    return text or ''
+end
+
+function GetColoredName(name, id)
+    if not name then
+        return
+    end
+    local _, class = GetClassInfo(id)
+    if class then
+        local color = RAID_CLASS_COLORS[class]
+        if color then
+            return format('|c%s%s|r', color.colorStr, name)
+        end
+    end
+    return name
 end

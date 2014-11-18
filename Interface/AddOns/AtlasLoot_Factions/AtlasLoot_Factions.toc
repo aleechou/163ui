@@ -23,7 +23,7 @@
 
 ## X-AtlasLoot-LootModule: 1
 
-## Title: |cff880303[网易有爱]|r AtlasLoot阵营声望物品信息
+## Title: |cff880303[网易有爱]|r 阵营声望物品信息查询
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356
 data.lua

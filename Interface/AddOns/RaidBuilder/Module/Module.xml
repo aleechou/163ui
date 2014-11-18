@@ -2,11 +2,12 @@
 ..\FrameXML\UI.xsd">
   <Script file="MainPanel.lua" />
   <Script file="CurrentPanel.lua" />
+  <Script file="BrowseParent.lua" />
   <Script file="BrowsePanel.lua" />
+  <Script file="BatchPanel.lua" />
   <Script file="CreatePanel.lua" />
   <Script file="WaitPanel.lua" />
   <Script file="YiXinPanel.lua" />
-  <Script file="WebBrowsePanel.lua" />
   <Script file="MallPanel.lua" />
   <Script file="RewardPanel.lua" />
   <Script file="OptionPanel.lua" />
@@ -14,7 +15,7 @@
   <Script file="RecentMemberPanel.lua" />
   <Script file="BlackListPanel.lua" />
   <Script file="LogPanel.lua" />
-  <Script file="WebInvitePanel.lua" />
+  <Script file="AboutPanel.lua" />
   <Script file="AnnPanel.lua" />
   <Script file="EventPusher.lua" />
 </Ui>

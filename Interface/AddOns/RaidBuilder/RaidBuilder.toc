@@ -2,11 +2,13 @@
 ## Title: Raid Builder
 ## Title-zhCN: |cffff565e[集合石]|r 组团模块
 ## Notes-zhCN: 帮助您更好的组建队伍
-## Version: 60000.03
+## Version: 60000.04
 ## SavedVariables: RAIDBUILDER_UI_DB
 ## SavedVariablesPerCharacter: RAIDBUILDER_CHARACTER_DB
 ## X-WoWBox-Ver: 1
 Load.xml
 
+## Title-zhCN: |cff880303[网易有爱]|r 集合石组团模块
+## Notes-zhCN: 帮助您更好的组建队伍
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141020202936

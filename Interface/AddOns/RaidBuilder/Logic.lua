@@ -1,28 +1,19 @@
 
 BuildEnv(...)
 
-Logic = RaidBuilder:NewModule('Logic', 
-    'NetEaseBroad-1.0',
-    'NetEaseSocket-1.0',
-    'NetEaseSocketRepeater-1.0',
-    'NetEaseSocketClient-1.0',
+Logic = RaidBuilder:NewModule('Logic',
+    'NetEaseSocket-2.0',
+    'NetEaseSocketRepeater-2.0',
     'AceSerializer-3.0',
     'AceTimer-3.0',
     'AceEvent-3.0',
-    'AceBucket-3.0')
+    'AceBucket-3.0',
+    'AceHook-3.0',
+    'NetEaseTextFilter-1.0')
 
 function Logic:OnInitialize()
-    self:RegisterBroad('BROAD_DISCONNECTED', 'BroadConnect')
-    self:RegisterBroad('BROAD_CONNECTED', 'RefreshCurrentEvent')
-
-    self:RegisterBroad('BEI', 'BROAD_EVENT_INFO')
-    self:RegisterBroad('BED', 'BROAD_EVENT_DISBAND')
-    self:RegisterBroad('BWEI', 'BROAD_WEBEVENT_INFO')
-
-    self:RegisterServerBroad('BDV', 'BROAD_DATA_VALUE')
-    self:RegisterServerBroad('BSYS', 'BROAD_SYSTEM')
-
-    self:ListenSocket('NERB')
+    self:ListenSocket('NERB', 'S1' .. UnitFactionGroup('player'))
+    
     self:RegisterSocket('SEJ', 'SOCKET_EVENT_JOIN')
     self:RegisterSocket('SEJT', 'SOCKET_EVENT_JOIN_RESULT')
     self:RegisterSocket('SEL', 'SOCKET_EVENT_LEAVE')
@@ -32,61 +23,96 @@ function Logic:OnInitialize()
     self:RegisterSocket('WHISPER')
     self:RegisterServer('WHISPER_OFFLINE')
     
-    self:RegisterServer('SOCKET_DISCONNECTED', 'ServerConnect')
-    self:RegisterServer('SOCKET_CONNECTED')
+    self:RegisterServer('SERVER_CONNECTED')
+    self:RegisterServer('SERVER_DISCONNECTED', 'ServerConnect')
+
+    self:RegisterServer('CHANNEL_CONNECTED', 'RefreshCurrentEvent')
+    self:RegisterServer('CHANNEL_DISCONNECTED', 'ConnectChannel')
+    self:RegisterServer('CHANNEL_CONNECT_FAILED')
+
     self:RegisterServer('SEI', 'SOCKET_EVENT_INFO')
     self:RegisterServer('SED', 'SOCKET_EVENT_DISBAND')
     self:RegisterServer('SWEI', 'SOCKET_WEBEVENT_INFO')
-    -- self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
-    -- self:RegisterServer('SDH', 'SOCKET_DATA_HASH')
-    self:RegisterServer('SVERSION', 'SOCKET_VERSION')
+    self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
+    self:RegisterServer('SSM', 'SOCKET_SYSTEM_MESSAGE')
     self:RegisterServer('SARGS', 'SOCKET_ARGS')
+    self:RegisterServer('SVERSION', 'SOCKET_VERSION')
 
     self:RegisterServer('EXCHANGE_RESULT')
     self:RegisterServer('MALLPURCHASE_RESULT')
     self:RegisterServer('MALLQUERY_RESULT')
 
     self:ServerConnect()
-    self:BroadConnect()
 
-    self:RegisterEvent('PARTY_INVITE_REQUEST')
     self:RegisterEvent('GROUP_JOINED')
+    self:RegisterEvent('PARTY_INVITE_REQUEST')
+
+    self:SecureHook('DeclineGroup', 'OnInviteReset')
+    self:SecureHook('AcceptGroup', 'OnInviteReset')
 
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 10, 'RefreshCurrentEvent')
     self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'RefreshCurrentEvent')
     self:RegisterMessage('RAIDBUILDER_CURRENT_ROLE_UPDATE', 'RefreshCurrentEvent')
 end
 
-function Logic:ServerConnect()
-    if not IsTrialAccount() then
-        self:ConnectServer('NERB', 'S1' .. UnitFactionGroup('player'))
-    end
+function Logic:IsRaidBuilderUsable()
+    return not IsTrialAccount() and UnitFactionGroup('player') ~= 'Neutral'
 end
 
-function Logic:BroadConnect()
-    if not IsTrialAccount() then
-        self:ConnectBroad('CHANNEL', L.RaidBuilderChannel)
+function Logic:ServerConnect()
+    if self:IsRaidBuilderUsable() then
+        self:ConnectServer()
     end
 end
 
 function Logic:GetAddonVersion()
-    local version = GetAddOnMetadata(ADDON_NAME, 'Version')
-    return tonumber(version) or 0
+    return tonumber(ADDON_VERSION) or 0
+end
+
+---- Hook
+
+function Logic:OnInviteReset()
+    self:UnregisterEvent('CHAT_MSG_SYSTEM')
+    self:SendMessage('RAIDBUILDER_INVITE_RESET')
 end
 
 ---- Event
 
-function Logic:PARTY_INVITE_REQUEST(_, sender)
-    sender = Ambiguate(sender:gsub('%s+', ''), 'none')
+function Logic:PARTY_INVITE_REQUEST(_, sender, arg2, arg3, arg4, isXRealm)
+    sender = Ambiguate(sender:gsub(' ', ''), 'none')
+
+    local event = EventCache:GetEvent(sender)
+    if event and event:IsApplied() then
+        local which = isXRealm and 'PARTY_INVITE_XREALM' or 'PARTY_INVITE'
+        local dialog = StaticPopup_FindVisible(which)
+        if dialog then
+            _G[dialog:GetName()..'Text']:SetFormattedText(L['集合石活动 |cffffd100%s|r\n\n'] .. StaticPopupDialogs[which].text, event:GetEventName(), event:GetLeaderText())
+
+            StaticPopup_Resize(dialog, which)
+        end
+    end
 
     GroupCache:SetCurrentRole(AppliedCache:GetAppliedRole(sender))
     AppliedCache:DeleteApplied(sender)
+
+    self:RegisterEvent('CHAT_MSG_SYSTEM')
+    self:SendMessage('RAIDBUILDER_INVITE_REQUEST', sender)
+end
+
+local ERR_INVITED_ALREADY_IN_GROUP_MATCH = ERR_INVITED_ALREADY_IN_GROUP_SS:format('(.+)', '(.+)'):gsub('([%[%]])', '%%%1')
+function Logic:CHAT_MSG_SYSTEM(_, msg)
+    local name = msg:match(ERR_INVITED_ALREADY_IN_GROUP_MATCH)
+    if name then
+        name = Ambiguate(name, 'none')
+        AppliedCache:DeleteApplied(name)
+        self:SendMessage('RAIDBUILDER_APPLY_FAILED', name)
+    end
 end
 
 function Logic:GROUP_JOINED()
     self:LeaveAllEvents()
 
-    if EventCache:GetCurrentEvent() and not EventCache:IsCurrentEventPaused() and not PlayerIsGroupLeader() then
+    if EventCache:GetCurrentEvent() and not EventCache:IsCurrentEventPaused() and (not PlayerIsGroupLeader() or IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then
         EventCache:PauseCurrentEvent()
         System:Errorf(L['你创建的活动已被暂停，如需继续活动，请点击|cffffd100小地图按钮右键菜单|r内的|cffffd100%s|r。'], L['恢复招募'])
     end
@@ -94,18 +120,39 @@ end
 
 ---- Broad
 
-function Logic:BROAD_EVENT_INFO(event, sender, leader, ...)
-    local leader = Ambiguate(leader or sender, 'none')
+function Logic:CHANNEL_CONNECT_FAILED()
+    self:SendServer('SCJF', L.RaidBuilderChannel)
+    self:ScheduleTimer('ConnectChannel', 5)
+end
+
+---- Socket
+
+function Logic:SERVER_CONNECTED()
+    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource())
+
+    self:SendMessage('RAIDBUILDER_SERVER_CONNECTED')
+end
+
+function Logic:SOCKET_VERSION(_, ...)
+    self:SendMessage('RAIDBUILDER_NEW_VERSION', ...)
+end
+
+function Logic:SOCKET_DATA_VALUE(_, key, data)
+    DataCache:SaveData(key, data)
+end
+
+function Logic:SOCKET_EVENT_INFO(_, leader, ...)
+    local leader = Ambiguate(leader, 'none')
     if leader and not Profile:IsInBlackList(select(13, ...)) then
         EventCache:CacheEvent(leader, ...)
     end
 end
 
-function Logic:BROAD_WEBEVENT_INFO(event, sender, ...)
+function Logic:SOCKET_WEBEVENT_INFO(_, ...)
     WebEventCache:CacheEvent(...)
 end
 
-function Logic:BROAD_EVENT_DISBAND(event, sender, leader)
+function Logic:SOCKET_EVENT_DISBAND(_, leader)
     local leader = Ambiguate(leader or sender, 'none')
     if UnitIsUnit(leader, 'player') and EventCache:GetCurrentEvent() then
         return
@@ -114,41 +161,7 @@ function Logic:BROAD_EVENT_DISBAND(event, sender, leader)
     AppliedCache:DeleteApplied(leader)
 end
 
-function Logic:BROAD_DATA_VALUE(_, _, key, data)
-    DataCache:SaveData(key, data)
-end
-
----- Socket
-
-function Logic:SOCKET_VERSION(_, ...)
-    self:SendMessage('RAIDBUILDER_NEW_VERSION', ...)
-end
-
-function Logic:SOCKET_CONNECTED()
-    self:SendServer('SLOGIN', self:GetAddonVersion(), UnitGUID('player'), self:GetAddonSource())
-end
-
--- function Logic:SOCKET_DATA_VALUE(_, ...)
---     self:SendBroadMessage('BDV', ...)
---     self:BROAD_DATA_VALUE(nil, nil, ...)
--- end
-
-function Logic:SOCKET_EVENT_INFO(_, ...)
-    self:SendBroadMessage('BEI', ...)
-    self:BROAD_EVENT_INFO(nil, nil, ...)
-end
-
-function Logic:SOCKET_WEBEVENT_INFO(_, ...)
-    self:SendBroadMessage('BWEI', ...)
-    self:BROAD_WEBEVENT_INFO(nil, nil, ...)
-end
-
-function Logic:SOCKET_EVENT_DISBAND(_, ...)
-    self:SendBroadMessage('BED', ...)
-    self:BROAD_EVENT_DISBAND(nil, nil, ...)
-end
-
-function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
+function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msg, raidInfo)
     local event = EventCache:GetCurrentEvent()
     if not event then
         self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_NULL')
@@ -170,11 +183,12 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
         return
     end
 
+    if level < event:GetMinLevel() or level > event:GetMaxLevel() then
+        self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_LEVEL')
+        return
+    end
+
     if event:GetForceVerify() and role ~= 'NONE' then
-        if level < event:GetMinLevel() or level > event:GetMaxLevel() then
-            self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_LEVEL')
-            return
-        end
         if itemLevel < event:GetItemLevel() then
             self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_ITEMLEVEL')
             return
@@ -185,7 +199,17 @@ function Logic:SOCKET_EVENT_JOIN(_, sender, password, role, battleTag, class, le
         end
     end
 
-    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId)
+    if event:IsMemberFull() then
+        self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_FULL')
+        return
+    end
+
+    if event:IsRoleFull(role) then
+        self:SendSocket(sender, 'SEJT', 'EVENT_ERROR_ROLEFULL')
+        return
+    end
+
+    MemberCache:AddMember(sender, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msg, raidInfo)
     GroupCache:SetUnitRole(sender, role)
     self:SendSocket(sender, 'SEJT')
 end
@@ -195,8 +219,9 @@ function Logic:SOCKET_EVENT_JOIN_RESULT(_, sender, info)
         if info == 'EVENT_ERROR_NULL' then
             EventCache:RemoveEvent(sender)
         end
-        System:Logf(L['申请加入%s的活动失败，%s'], sender, L[info])
         AppliedCache:DeleteApplied(sender)
+        System:Logf(L['申请加入%s的活动失败，%s'], sender, L[info])
+        self:SendMessage('RAIDBUILDER_APPLY_FAILED', sender)
     else
         System:Logf(L['已提交申请加入%s的活动。'], sender)
         AppliedCache:AddApplied(sender, nil, true)
@@ -208,33 +233,29 @@ function Logic:SOCKET_EVENT_LEAVE(_, sender)
 end
 
 function Logic:SOCKET_EVENT_REFUSE(_, sender)
-    AppliedCache:DeleteApplied(sender, nil)
-
+    AppliedCache:DeleteApplied(sender)
     System:Logf(L['%s拒绝了你的活动申请'], sender)
+    self:SendMessage('RAIDBUILDER_APPLY_FAILED', sender)
 end
 
--- function Logic:SOCKET_DATA_HASH(_, key, hash)
---     DataCache:SaveHash(key, hash)
--- end
-
 function Logic:SOCKET_ARGS(_, fans, socialEnabled)
-    self.fans = fans
-
     RaidBuilder:SetSocialEnabled(socialEnabled)
 end
 
-function Logic:GROUP_UNIT_INFO(_, sender, eventCode, ...)
+function Logic:GROUP_UNIT_INFO(_, sender, eventCode, battleTag, ...)
     if UnitIsGroupLeader(sender) and not UnitIsUnit('player', sender) then
         GroupCache:SetCurrentEventCode(eventCode, GetFullName(sender))
-        GroupCache:SetCurrentEventRules((select(10, ...)))
+        GroupCache:SetCurrentEventRules((select(9, ...)))
+        Profile:AddFavorite(battleTag)
+        Profile:UpdateFavoriteEventCode(battleTag, eventCode)
     end
     if eventCode ~= GroupCache:GetCurrentEventCode() then
         return
     end
-    GroupCache:SaveUnitInfo(sender, ...)
+    GroupCache:SaveUnitInfo(sender, battleTag, ...)
 end
 
-function Logic:BROAD_SYSTEM(_, _, msg)
+function Logic:SOCKET_SYSTEM_MESSAGE(_, msg)
     SendSystemMessage(msg)
 end
 
@@ -260,18 +281,12 @@ function Logic:RefreshCurrentEvent()
         event:SetTimeStamp(time())
         event:SetCurrentMemberRole(_GetGroupRoles())
 
-        if EventCache:IsCurrentEventPaused() then
-            self:SendBroadMessage('BED')
-
-            if event:GetCrossRealm() then
-                self:SendServer('SED')
-            end
-        else
-            -- self:SendBroadMessage('BEI', event:ToSocket())
+        if not EventCache:IsCurrentEventPaused() then
             self:SendServer('SEI', event:ToSocket())
         end
         if not EventCache:IsCurrentEventPaused() and event:IsMemberFull() then
             EventCache:PauseCurrentEvent()
+            self:SendServer('SED', event:GetCrossRealm())
             System:Logf(L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，请点击|cffffd100小地图按钮右键菜单|r的|cffffd100%s|r'], L['恢复招募'])
         end
     end
@@ -303,6 +318,7 @@ function Logic:ToggleEventStatus()
     else
         EventCache:PauseCurrentEvent()
         System:Logf(L['已暂停招募']);
+        self:SendServer('SED', EventCache:GetCurrentEvent():GetCrossRealm())
     end
 
     self.toggleTimer = self:ScheduleTimer('OnPauseTimer', 5)
@@ -319,18 +335,18 @@ function Logic:CreateEvent(...)
           summary, crossRealm, forceVerify, password, memberRole, eventRules = ...
 
     local leader = UnitName('player')
-    local leaderBattleTag = select(2, BNGetInfo())
-    local leaderClass = select(2, UnitClass('player'))
+    local leaderBattleTag = GetPlayerBattleTag()
+    local leaderClass = GetPlayerClass()
     local leaderLevel = UnitLevel('player')
-    local leaderItemLevel = floor(GetAverageItemLevel())
+    local leaderItemLevel = GetPlayerItemLevel()
     local leaderProgression = GetPlayerRaidProgression(eventCode)
     local leaderPVPRating = GetPlayerPVPRating(eventCode)
-    local faction = UnitFactionGroup('player')
+    local leaderRaidInfo = GetPlayerSavedInstance(eventCode)
     local source = self:GetAddonSource(true)
 
     local event = EventCache:CacheEvent(
         leader,
-        GetShortVersion(),
+        ADDON_VERSION_SHORT,
         eventCode,
         eventMode,
         minLevel,
@@ -348,9 +364,7 @@ function Logic:CreateEvent(...)
         leaderItemLevel,
         leaderPVPRating,
         leaderProgression,
-        faction,
-        self.fans or 0,
-        nil,
+        leaderRaidInfo,
         source)
     event:SetRules(eventRules)
 
@@ -373,7 +387,7 @@ function Logic:CreateEvent(...)
         leaderPVPRating,
         nil,
         leaderProgression,
-        self.fans or 0,
+        nil,
         GroupCache:GetCurrentRole())
 
     self:RefreshCurrentEvent()
@@ -388,29 +402,32 @@ function Logic:DisbandEvent()
         return
     end
 
+    local crossRealm = event:GetCrossRealm()
+
     System:Logf(L['解散活动 %s'], event:GetEventName())
     EventCache:SetCurrentEvent(nil)
     MemberCache:ClearMemberList()
 
-    self:SendBroadMessage('BED')
-
-    if event:GetCrossRealm() then
-        self:SendServer('SED')
-    end
+    self:SendServer('SED', crossRealm)
 end
 
-function Logic:JoinEvent(event, role, password, msgId)
-    self:SendSocket(event:GetLeader(), 'SEJ', password, role,
-        select(2, BNGetInfo()),
-        select(2, UnitClass('player')),
-        UnitLevel('player'),
-        floor(GetAverageItemLevel()),
-        GetPlayerPVPRating(event:GetEventCode()),
-        GetPlayerStats(role),
-        GetPlayerRaidProgression(event:GetEventCode()),
-        msgId)
+function Logic:JoinEvent(event, role, password, msg, isAutoApply)
+    local eventCode = event:GetEventCode()
+    local leader = event:GetLeader()
 
-    AppliedCache:AddApplied(event:GetLeader(), role, false)
+    self:SendSocket(leader, 'SEJ', password, role,
+        GetPlayerBattleTag(),
+        GetPlayerClass(),
+        UnitLevel('player'),
+        GetPlayerItemLevel(),
+        GetPlayerPVPRating(eventCode),
+        GetPlayerStats(role),
+        GetPlayerRaidProgression(eventCode),
+        self:TextFilter(msg),
+        GetPlayerSavedInstance(eventCode),
+        isAutoApply)
+
+    AppliedCache:AddApplied(leader, role, false, isAutoApply)
 end
 
 function Logic:LeaveEvent(event)
@@ -461,12 +478,12 @@ function Logic:BroadPlayerInfo()
 
     local role = GroupCache:GetCurrentRole() or UnitGroupRolesAssigned('player')
     local stat = GetPlayerStats(role)
-    local class = select(2, UnitClass('player'))
+    local class = GetPlayerClass()
     local level = UnitLevel('player')
-    local itemLevel = floor(GetAverageItemLevel())
+    local itemLevel = GetPlayerItemLevel()
     local pvpRating = GetPlayerPVPRating(eventCode)
     local progression = GetPlayerRaidProgression(eventCode)
-    local battleTag = select(2, BNGetInfo())
+    local battleTag = GetPlayerBattleTag()
     local rules = EventCache:GetCurrentEvent() and UnitIsGroupLeader('player') and GroupCache:GetCurrentEventRules() or nil
 
     self:SendSocket('@GROUP', 'GUI',
@@ -478,33 +495,33 @@ function Logic:BroadPlayerInfo()
         pvpRating,
         stat,
         progression,
-        self.fans or 0,
+        nil,
         role,
         rules)
 end
 
 function Logic:GetPlayerFans()
-    return self.fans or 0
+    return 0
 end
 
 -- function Logic:SignIn(id)
 --     if Profile:IsSignIn(id) then
 --         return
 --     end
---     local btag = select(2, BNGetInfo())
+--     local btag = GetPlayerBattleTag()
 --     self:SendServer('SIGNIN', UnitGUID('player'), btag, id, GetCurrentMapAreaID())
 --     Profile:SetSignIn(id)
 -- end
 
-function Logic:Referenced(target)
-    if not target or target == '' then
-        return
-    end
+-- function Logic:Referenced(target)
+--     if not target or target == '' then
+--         return
+--     end
 
-    local btag = select(2, BNGetInfo())
-    self:SendServer('REFERENCE', UnitGUID('player'), btag, target, self:GetAddonVersion())
-    Profile:SetReferenced(target)
-end
+--     local btag = GetPlayerBattleTag()
+--     self:SendServer('REFERENCE', UnitGUID('player'), btag, target, self:GetAddonVersion())
+--     Profile:SetReferenced(target)
+-- end
 
 function Logic:ReportEvent(input, event)
     self:SendServer('SREPORT', input, event:GetLeaderBattleTag(), event:GetLeader(), event:GetSummary(), self:GetAddonVersion())
@@ -532,12 +549,12 @@ function Logic:EXCHANGE_RESULT(event, ...)
     self:SendMessage('RAIDBUILDER_REWARD_RESULT', ...)
 end
 
-function Logic:MallPurchase(id)
+function Logic:MallPurchase(id, ok)
     if not id then
         return
     end
 
-    self:SendServer('MALLPURCHASE', id, UnitGUID('player'), self:GetAddonVersion())
+    self:SendServer('MALLPURCHASE', id, UnitGUID('player'), self:GetAddonVersion(), ok)
 end
 
 function Logic:MALLPURCHASE_RESULT(event, ...)
@@ -558,7 +575,7 @@ function Logic:Statistics(id, ...)
     end
 
     local pGUID = UnitGUID('player')
-    local bTag = select(2, BNGetInfo())
+    local bTag = GetPlayerBattleTag()
     local pFaction = UnitFactionGroup('player')
     local pLevel = UnitLevel('player')
     local pClass = select(2, UnitClass('player'))

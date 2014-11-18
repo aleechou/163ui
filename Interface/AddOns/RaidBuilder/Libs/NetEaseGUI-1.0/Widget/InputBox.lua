@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'InputBox', 1
+local WIDGET, VERSION = 'InputBox', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local InputBox = GUI:NewClass(WIDGET, 'EditBox', VERSION)
@@ -27,52 +27,52 @@ function InputBox:Constructor(parent)
     tMid:SetPoint('BOTTOMRIGHT', tRight, 'BOTTOMLEFT')
 
     self:SetScript('OnEscapePressed', EditBox_ClearFocus)
+    self:SetScript('OnEnterPressed', EditBox_ClearFocus)
     self:SetScript('OnEditFocusLost', EditBox_ClearHighlight)
     self:SetScript('OnEditFocusGained', EditBox_HighlightText)
+    self:SetScript('OnTextChanged', self.OnTextChanged)
 
     self:SetParent(parent)
-    self:SetFontObject('GameFontDisable')
+    self:SetFontObject('GameFontHighlightSmall')
     self:SetAutoFocus(nil)
     self:SetTextInsets(8, 8, 0, 0)
 
-    self:SetScript('OnEditFocusLost', self.OnEditFocusLost)
-    self:SetScript('OnEditFocusGained', self.OnEditFocusGained)
-    self:SetScript('OnShow', self.OnEditFocusLost)
-end
+    local Prompt = self:CreateFontString(nil, 'ARTWORK', 'GameFontDisableSmall')
+    Prompt:SetJustifyH('LEFT')
+    Prompt:SetJustifyV('TOP')
+    Prompt:SetPoint('LEFT', 8, 0)
 
-local orig_GetText = InputBox.GetText
-local orig_SetText = InputBox.SetText
-
-function InputBox:OnEditFocusLost()
-    self:HighlightText(0, 0)
-    if self:GetText() == '' then
-        orig_SetText(self, self.prompt)
-        self:SetFontObject('GameFontDisable')
-    end
-end
-
-function InputBox:OnEditFocusGained()
-    self:HighlightText()
-    self:SetFontObject('ChatFontSmall')
-    if orig_GetText(self) == self.prompt then
-        orig_SetText(self, '')
-    end
+    self.Prompt = Prompt
 end
 
 function InputBox:SetPrompt(prompt)
-    self.prompt = prompt
-    self:SetText(prompt)
+    self.Prompt:SetText(prompt)
 end
 
-function InputBox:GetText()
-    local text = orig_GetText(self)
-    return text == self.prompt and '' or text
+function InputBox:GetPrompt()
+    return self.Prompt:GetText()
 end
 
-function InputBox:SetText(text)
-    if not text or text == '' then
-        orig_SetText(self, self.prompt or '')
-    else
-        orig_SetText(self, text)
-    end
+function InputBox:OnTextChanged(...)
+    self.Prompt:SetShown(self:GetText() == '')
+    self:Fire('OnTextChanged', ...)
+end
+
+local _MatchChars = {
+    ['('] = '%(',
+    [')'] = '%)',
+    ['.'] = '%.',
+    ['%'] = '%%',
+    ['+'] = '%+',
+    ['-'] = '%-',
+    ['*'] = '%*',
+    ['?'] = '%?',
+    ['['] = '%[',
+    [']'] = '%]',
+    ['^'] = '%^',
+    ['$'] = '%$',
+}
+
+function InputBox:GetMatchText()
+    return (self:GetText():gsub('[().%+-*?^$%%%[%]]', _MatchChars))
 end

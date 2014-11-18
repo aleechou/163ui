@@ -4,7 +4,7 @@
 --]]
 
 local Search = LibStub('CustomSearch-1.0')
-local Lib = LibStub:NewLibrary('LibItemSearch-1.2', 5)
+local Lib = LibStub:NewLibrary('LibItemSearch-1.2', 6)
 if Lib then
 	Lib.Filters = {}
 else
@@ -16,6 +16,14 @@ end
 
 function Lib:Matches(link, search)
 	return Search(link, search, self.Filters)
+end
+
+function Lib:Tooltip(link, search)
+	return link and self.Filters.tip:match(link, nil, search)
+end
+
+function Lib:TooltipPhrase(link, search)
+	return link and self.Filters.tipPhrases:match(link, nil, search)
 end
 
 function Lib:InSet(link, search)
@@ -98,10 +106,30 @@ Lib.Filters.quality = {
 --[[ Tooltip Searches ]]--
 
 local scanner = LibItemSearchTooltipScanner or CreateFrame('GameTooltip', 'LibItemSearchTooltipScanner', UIParent, 'GameTooltipTemplate')
-local line2 = LibItemSearchTooltipScannerTextLeft2
-local line3 = LibItemSearchTooltipScannerTextLeft3
 
-Lib.Filters.bind = {
+Lib.Filters.tip = {
+	tags = {'tt', 'tip', 'tooltip'},
+	onlyTags = true,
+
+	canSearch = function(self, _, search)
+		return search
+	end,
+
+	match = function(self, link, _, search)
+		if link:find('item:') then
+			scanner:SetOwner(UIParent, 'ANCHOR_NONE')
+			scanner:SetHyperlink(link)
+
+			for i = 1, scanner:NumLines() do
+				if Search:Find(search, _G[scanner:GetName() .. 'TextLeft' .. i]:GetText()) then
+					return true
+				end
+			end
+		end
+	end
+}
+
+Lib.Filters.tipPhrases = {
 	canSearch = function(self, _, search)
 		return self.keywords[search]
 	end,
@@ -140,30 +168,9 @@ Lib.Filters.bind = {
 		['bop'] = ITEM_BIND_ON_PICKUP,
 		['bou'] = ITEM_BIND_ON_USE,
 		['quest'] = ITEM_BIND_QUEST,
-		['boa'] = ITEM_BIND_TO_BNETACCOUNT
+		['boa'] = ITEM_BIND_TO_BNETACCOUNT,
+		['reagent'] = PROFESSIONS_USED_IN_COOKING
 	}
-}
-
-Lib.Filters.tooltip = {
-	tags = {'tt', 'tip', 'tooltip'},
-	onlyTags = true,
-
-	canSearch = function(self, _, search)
-		return search
-	end,
-
-	match = function(self, link, _, search)
-		if link:find('item:') then
-			scanner:SetOwner(UIParent, 'ANCHOR_NONE')
-			scanner:SetHyperlink(link)
-
-			for i = 1, scanner:NumLines() do
-				if Search:Find(search, _G[scanner:GetName() .. 'TextLeft' .. i]:GetText()) then
-					return true
-				end
-			end
-		end
-	end
 }
 
 

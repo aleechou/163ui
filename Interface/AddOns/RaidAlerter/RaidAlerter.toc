@@ -3,9 +3,7 @@
 ## Title: |cFF8000FFRaidAlerter|r
 ## Notes: RaidAlerter
 ## Title-zhCN: |cFF8000FFRaidAlerter|r 团队报警
-## Notes-zhCN: 提供RAID和5人副本队伍的各种特色警报如：MT血量危急、嘲讽抵抗、仇恨、驱散、猎人误导、被控制、打破控制和团队检查等。建议配合团队助手和首领模块一起使用。发送团队警报需要团长L或者助理A权限，小队报警则无需权限。
 ## Title-zhTW: |cFF8000FFRaidAlerter|r 團隊報警
-## Notes-zhTW: 提供RAID和5人副本隊伍的各種特色警報如：MT血量危急、嘲諷抵抗、仇恨、驅散、獵人誤導、被控制、打破控制和團隊檢查等。建議配合團隊助手和首領模組一起使用。發送團隊警報需要團長L或者助理A權限，小隊報警則無需權限。
 ## Version: 5.2
 ## URL: http://bbs.ngacn.cc/read.php?tid=4282320
 ## OptionalDeps: oRA3, oRA2, CT_RaidAssist, Recount
@@ -16,5 +14,8 @@
 RaidAlerter.xml
 
 ## Title:  |cff880303[网易有爱]|r 团队报警
+## Title-zhCN: |cff880303[网易有爱]|r 团队报警
+## Notes-zhCN: 提供RAID和5人副本队伍的各种特色警报如：MT血量危急、嘲讽抵抗、仇恨、驱散、猎人误导、被控制、打破控制和团队检查等。建议配合团队助手和首领模块一起使用。发送团队警报需要团长L或者助理A权限，小队报警则无需权限。
+## Notes-zhTW: 提供RAID和5人副本隊伍的各種特色警報如：MT血量危急、嘲諷抵抗、仇恨、驅散、獵人誤導、被控制、打破控制和團隊檢查等。建議配合團隊助手和首領模組一起使用。發送團隊警報需要團長L或者助理A權限，小隊報警則無需權限。
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

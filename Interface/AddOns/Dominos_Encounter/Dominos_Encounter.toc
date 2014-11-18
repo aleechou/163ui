@@ -7,4 +7,6 @@ bar.lua
 controller.lua
 
 ## Title-zhCN: |cff880303[网易有爱]|r 多米诺-特殊能量条
+## Notes-zhCN: 多米诺-特殊能量条模块
+## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

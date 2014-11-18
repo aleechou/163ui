@@ -1,13 +1,9 @@
 ﻿## Interface: 60000
 ## Title: |cffe1a500w|cff69ccf0Marker
-## Notes: 在界面上显示标记按钮和世界标记按钮
 ## Author: Waky
 ## Dependencies: 
 ## Version: 2.5.2
 ## SavedVariablesPerCharacter: wMarkerDB, wFlaresDB
-## Title: |cff880303[网易有爱]|r wMarker
-## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
 
 Localization\enUS.lua
 Localization\esES.lua
@@ -25,5 +21,6 @@ config.lua
 Bindings.xml
 
 ## Title: |cff880303[网易有爱]|r 标记助手
+## Notes-zhCN: 在界面上显示标记按钮和世界标记按钮
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

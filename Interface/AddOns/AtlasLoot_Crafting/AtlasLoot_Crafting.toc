@@ -28,6 +28,6 @@
 
 data.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLoot_Crafting
+## Title: |cff880303[网易有爱]|r 专业制造物品信息查询
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356

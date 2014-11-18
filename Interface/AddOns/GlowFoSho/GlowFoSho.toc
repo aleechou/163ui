@@ -2,8 +2,6 @@
 ## Notes: Allows you to preview weapon glow in Dressing Room.
 ## Notes-frFR: Permet de prÃ©visualiser les enchantements d'arme dans la cabine d'essayage.
 ## Notes-deDE: Erlaubt eine Vorschau der leuchtenden Waffenverzauberungen im Anproberaum.
-## Notes-zhCN: 可以在试衣间预览武器附魔效果。
-## Notes-zhTW: 可以在試衣間預覽武器附魔效果。
 ## Interface: 60000
 ## Version: 4.02
 ## Author: bigzero (update Boneshaman)
@@ -25,5 +23,7 @@ enchants.lua
 GlowFoSho.lua
 
 ## Title: |cff880303[网易有爱]|r 附魔特效预览
+## Notes-zhCN: 可以在试衣间预览武器附魔效果。
+## Notes-zhTW: 可以在試衣間預覽武器附魔效果。
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

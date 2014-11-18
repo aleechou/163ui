@@ -59,5 +59,6 @@ modules\DropdownMenu.lua
 #dep: Config, Sorting, DropDown
 modules\HookedFunctions.lua
 ## Title: |cff880303[网易有爱]|r 宠物搜索过滤
+## Notes-zhCN: 宠物搜索过滤增强
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141027151200

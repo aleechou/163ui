@@ -4,6 +4,7 @@
 ## Version: 1.14_163_20121126
 ## Author: pceric
 # SavedVariables: AtlasLootReverseDB
+## Notes-zhCN: 装备掉落出处显示。
 ## X-Website: http://www.wowinterface.com/downloads/info12834-AtlasLootReverse.html
 ## X-Category: Interface Enhancements
 ## X-Embeds: Ace3, LibExtraTip
@@ -19,8 +20,7 @@ db_tw.lua
 
 AtlasLootReverse.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLootReverse
+## Title-zhCN: |cff880303[网易有爱]|r 装备掉落出处显示
+## Notes-zhCN: 装备掉落出处显示
 ## X-Vendor: NetEase
-
-
 ## X-163UI-Version: 20141027120320

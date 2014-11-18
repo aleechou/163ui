@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'Panel', 5
+local WIDGET, VERSION = 'Panel', 6
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local Panel = GUI:NewClass(WIDGET, 'Frame.NetEasePanelTemplate', VERSION)
@@ -167,9 +167,9 @@ function Panel:GetTabFrame()
         TabFrame:SetCallback('OnSelectChanged', function(tabframe, index, data)
             for i, data in ipairs(self.PanelList) do
                 if i == index then
-                    data.panel:Show()
                     self:SetTopHeight(data.topHeight)
                     self:SetBottomHeight(data.bottomHeight)
+                    data.panel:Show()
                 else
                     data.panel:Hide()
                 end

@@ -3,12 +3,12 @@
 ## Title-zhCN:幻化提示
 ## Author: Rabbit
 ## Notes: 幻化装备提示
-## Notes-zhCN: 幻化装备提示，整套预览
 ## OptionalDeps: !!!iLib,Ace3,LibItemData-1.0
 
 LibItemData-1.0\lib.xml
 Core.lua
 
 ## Title: |cff880303[网易有爱]|r 幻化装备提示
+## Notes-zhCN: 幻化装备提示，整套预览
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

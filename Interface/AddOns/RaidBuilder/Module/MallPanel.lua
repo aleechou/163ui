@@ -10,11 +10,12 @@ function MallPanel:OnInitialize()
     MainPanel:RegisterPanel(L['兑换平台'], self, 0, 70)
 
     local Blocker = CreateFrame('Frame', nil, self)
-    Blocker:SetAllPoints(true)
+    Blocker:SetPoint('TOPLEFT', 5, -5)
+    Blocker:SetPoint('BOTTOMRIGHT', -5, 5)
     Blocker:SetFrameLevel(50)
     Blocker:EnableMouse(true)
     Blocker:EnableMouseWheel(true)
-    Blocker:SetScript('OnMouseWheel', function() end)
+    Blocker:SetScript('OnMouseWheel', nop)
     Blocker:Hide()
 
     local bg = Blocker:CreateTexture(nil, 'OVERLAY')
@@ -29,7 +30,7 @@ function MallPanel:OnInitialize()
     local Loading = Blocker:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
     Loading:SetPoint('TOPRIGHT')
 
-    self.timeout = 120
+    self.timeout = 180
     self.Loading = Loading
     self.Blocker = Blocker
 end
@@ -164,7 +165,7 @@ function MallItemsPanel:OnInitialize()
 
     local QueryPointButton = Button:New(self)
     QueryPointButton:SetIcon([[INTERFACE\ICONS\INV_MISC_NOTE_02]])
-    QueryPointButton:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -130, 10)
+    QueryPointButton:SetPoint('TOPRIGHT', self:GetParent():GetOwner(), 'TOPRIGHT', -130, -30)
     QueryPointButton:SetText(L['查询我的积分'])
     QueryPointButton:SetTooltip(L['查看您当前账号的可用积分'], L['查询间隔120秒'])
     QueryPointButton:SetScript('OnClick', function()
@@ -213,7 +214,7 @@ function MallItemsPanel:OnInitialize()
     HowToGetPoint:SetText(L['如何获取积分?'])
     HowToGetPoint:SetIcon([[INTERFACE\ICONS\INV_MISC_NOTE_01]])
     HowToGetPoint:SetScript('OnClick', function()
-        GUI:CallUrlDialog('https://www.battlenet.com.cn/account/management/ebalance-purchase.html',
+        GUI:CallUrlDialog('http://reward.battlenet.com.cn/wow/item/share/9654927',
             L.HowToGetPoints,
             true)
     end)
@@ -304,21 +305,34 @@ function MallItemsPanel:SetBlocker(enable)
         local item = self:GetItem() or {}
         MallPanel:SetBlocker(true, format(L.MallPurchaseSummary, item.text, item.price),
             function()
-                MallItemsPanel:PurchaseResult(nil, L['购买失败：操作超时，请稍后再试。'])
+                MallItemsPanel:PurchaseResult(nil, L['操作超时，请|cff00ff00查询积分|r，如果积分|cffff0000已经扣除|r，请留意当前角色游戏邮箱，如果|cff00ff00积分未扣除|r，请稍后再尝试购买。'])
             end)
     else
         MallPanel:SetBlocker(false)
     end
 end
 
-function MallItemsPanel:PurchaseResult(event, result)
-    self:SetBlocker(false)
-
-    System:Error(result)
-
+function MallItemsPanel:PurchaseResult(event, result, reply)
     local item = self:GetItem()
-    if item then
-        System:Logf(L['兑换平台购买%s，%s'], item.text, result)
+
+    if reply then
+        if item then
+            GUI:CallMessageDialog(result, function(ok)
+                if ok then
+                    Logic:MallPurchase(item.id, ok)
+                end
+            end)
+        else
+            System:Error(L['购买失败：未选择商品，请重试。'])
+            System:Logf(L['购买失败：未选择商品，请重试。'])
+        end
+    else
+        self:SetBlocker(false)
+        System:Error(result)
+
+        if item then
+            System:Logf(L['兑换平台购买%s，%s'], item.text, result)
+        end
     end
 end
 

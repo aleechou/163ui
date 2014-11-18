@@ -18,13 +18,6 @@ function MemberCache:OnInitialize()
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 10)
 end
 
-function MemberCache:OnEnable()
-    self:ScheduleTimer(function()
-        self:GROUP_ROSTER_UPDATE()
-        self:CheckMemberList()
-    end, 5)
-end
-
 function MemberCache:GROUP_ROSTER_UPDATE()
     for i, v in ripairs(self.db.profile.memberList) do
         if UnitInGroup(v) then
@@ -53,6 +46,11 @@ function MemberCache:RAIDBUILDER_EVENT_LOADED()
     else
         self:RefreshMemberList()
     end
+
+    self:ScheduleTimer(function()
+        self:GROUP_ROSTER_UPDATE()
+        self:CheckMemberList()
+    end, 5)
 end
 
 function MemberCache:RefreshMemberList()
@@ -64,7 +62,7 @@ function MemberCache:RefreshMemberList()
     self:SendMessage('RAIDBUILDER_MEMBER_LIST_UPDATE')
 end
 
-function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, msgId, isLFG, comment)
+function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel, pvpRating, stats, progression, message, raidInfo)
     tDeleteItem(self.db.profile.memberList, target)
 
     local proxy = {
@@ -78,9 +76,8 @@ function MemberCache:AddMember(target, role, battleTag, class, level, itemLevel,
         Stats = stats,
         Progression = progression,
         ApplyTime = time(),
-        MsgId = msgId,
-        IsLFG = isLFG,
-        Comment = comment,
+        Message = message,
+        RaidInfo = raidInfo,
     }
 
     tinsert(self.db.profile.memberList, target)

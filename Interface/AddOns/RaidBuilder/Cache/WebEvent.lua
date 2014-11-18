@@ -67,10 +67,10 @@ function WebEvent:Match(text)
 
     text = text:lower()
 
-    if self:GetLeader():lower():match(text) then
+    if safematch(self:GetLeader():lower(), text) then
         return true
     end
-    if self:GetEventName():lower():match(text) then
+    if safematch(self:GetEventName():lower(), text) then
         return true
     end
     return false

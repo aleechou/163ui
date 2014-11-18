@@ -25,6 +25,6 @@
 
 data.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLoot_WorldEvents
+## Title: |cff880303[网易有爱]|r 世界事件物品信息查询
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356

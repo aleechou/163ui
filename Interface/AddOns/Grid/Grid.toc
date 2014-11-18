@@ -50,5 +50,6 @@ Statuses\GridStatusVoiceComm.lua
 ConfigMenu.lua
 
 ## Title: |cff880303[网易有爱]|r Grid
+## Notes-zhCN: 强大的团队框体，支持多种功能。
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141020142520

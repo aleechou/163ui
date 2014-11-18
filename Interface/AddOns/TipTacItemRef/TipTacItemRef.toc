@@ -1,13 +1,10 @@
 ## Interface: 60000
 ## Version: 14.05.24
 ## Title: TipTacItemRef
-## Title-zhCN: |cff880303[网易有爱]|r TipTacItemRef (物品信息)
-## Title-zhTW: |cff880303[网易有爱]|r TipTacItemRef (物品信息)
+
 ## Author: Aezay (Earthen Ring EU)
 ## Author-zhCN: Aezay (Earthen Ring EU), Localized by springsnow (Feathermoon CN)
 ## Notes: Improved ItemRefTooltip
-## Notes-zhCN: 增强物品提示信息
-## Notes-zhTW: 增強物品提示信息
 ## Dependencies: TipTac
 Libs\AceLocale-3.0\AceLocale-3.0.lua
 Libs\LibStub\LibStub.lua
@@ -17,5 +14,9 @@ Local_zhTW.lua
 GetUpgradedItemLevel.lua
 core.lua
 
+## Title-zhCN: |cff880303[网易有爱]|r TipTacItemRef (物品信息)
+## Title-zhTW: |cff880303[网易有爱]|r TipTacItemRef (物品信息)
+## Notes-zhCN: 增强物品提示信息
+## Notes-zhTW: 增強物品提示信息
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

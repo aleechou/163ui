@@ -14,6 +14,8 @@ L.EVENT_ERROR_LEVEL = '角色等级不符合要求'
 L.EVENT_ERROR_NULL = '该活动不存在'
 L.EVENT_ERROR_PASSWORD = '密码错误'
 L.EVENT_ERROR_PVPRATING = 'PVP等级不符合要求'
+L.EVENT_ERROR_ROLEFULL = '你申请的职责已经满员'
+L.EVENT_ERROR_FULL = '活动已经满员'
 
 L.EVENT_ANNOUNCEMENT_CONTENT = '我在<' .. ADDON_TITLE .. '>创建了活动<%s-%s>，小伙伴们快来参加啊！'
 L.EVENT_ANNOUNCEMENT_CONTENT_MEMBER = '我在<' .. ADDON_TITLE .. '>参加了%s创建的活动<%s>，小伙伴们快来参加啊！'
@@ -21,6 +23,50 @@ L.ADDON_SHARE_CONTENT = '我正在用跨服组团神器<' .. ADDON_TITLE .. '>�
 L.TEAM_NOTICE_CONTENT = '<' .. ADDON_TITLE .. '>欢迎加入本活动(%s)，体验便捷的跨服组队，畅游WOW。'
 L.TEAM_NOTICE_CONTENT_UNIT = '<' .. ADDON_TITLE .. '>欢迎加入本活动(%s)，您目前的职责是(%s)，体验便捷的跨服组队，畅游WOW。'
 
+L['更新日志'] = true
+L['只申请高于填写等级你能够加入的活动'] = true
+L['只申请高于填写PVP等级你能够加入的活动'] = true
+L['只申请高于填写装备等级你能够加入的活动'] = true
+L['你正在随机副本里，不能创建活动'] = true
+L['返回列表'] = true
+L['已开始自动申请活动。'] = true
+L['已停止自动申请活动。'] = true
+L['你正在队伍中，不能快速申请'] = true
+L['你正在组织活动，不能快速申请'] = true
+L['|cffff0000你正在组织一个活动，不能使用快速申请。|r'] = true
+L['你正在使用快速申请，不能创建活动'] = true
+L['PVP等级不能高于你当前的PVP等级'] = true
+L['你选择你要担任的职责'] = true
+L['停止搜索'] = true
+L['勾选此项则排除活动说明内包含关键字的活动'] = true
+L['开始搜索'] = true
+L['快速申请'] = true
+L['指定加入活动说明内包含关键字的活动'] = true
+L['排除'] = true
+L['最低PVP等级要求'] = true
+L['最低装备等级要求'] = true
+L['最低角色等级要求'] = true
+L['职责选择'] = true
+L['装备等级不能高于你当前的装备等级'] = true
+L['角色等级'] = true
+L['角色等级不能高于你当前的等级'] = true
+L['设置匹配关键字'] = true
+L['说明匹配'] = true
+L['这个活动不需要PVP等级'] = true
+L['留言'] = true
+L['留言：'] = true
+L['搜索'] = true
+L['搜索团长或说明'] = true
+L['联系我们'] = true
+L['官方QQ群'] = true
+L['我知道了'] = true
+L['活动'] = true
+L['历史团长'] = true
+L['修改注释'] = true
+L['请输入 |cffffd100%s|r 的注释'] = true
+L['修改注释并添加到关注'] = true
+L['集合石活动 |cffffd100%s|r\n\n'] = true
+L['史诗'] = true
 L['%s 开始推送易信（若超过推送次数上限将无法发送）'] = true
 L['%s拒绝了你的活动申请'] = true
 L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'] = true
@@ -91,7 +137,7 @@ L['公告'] = true
 L['共 %d 人'] = true
 L['共|cffffd100%d|r名成员，平均装等|cffffd100%s|r'] = true
 L['关注'] = true
-L['关注列表'] = true
+L['关注及历史团长'] = true
 L['关注团长的活动'] = true
 L['其他'] = true
 L['分享插件'] = true
@@ -306,7 +352,7 @@ L['请选择活动形式'] = true
 L['请选择活动类型'] = true
 L['请选择活动类型及活动形式'] = true
 L['请验证请求是否合法'] = true
-L['购买失败：操作超时，请稍后再试。'] = true
+L['操作超时，请|cff00ff00查询积分|r，如果积分|cffff0000已经扣除|r，请留意当前角色游戏邮箱，如果|cff00ff00积分未扣除|r，请稍后再尝试购买。'] = true
 L['跳转到创建活动页面创建游戏内团队'] = true
 L['躲闪：'] = true
 L['转到'] = true
@@ -474,30 +520,36 @@ L.RecommendSummary = [[
 </html>
 ]]
 
-L.BrowseHelp1 = [[
+L.BrowseHelpFilter = [[
 活动类型：下拉列表选择你想要参加的活动
 
-团长查找：输入团长名字精确查找
+搜索：输入团长名字或说明精确查找
 
 复选框：辅助你筛选所有的活动
 ]]
 
-L.BrowseHelp2 = [[
+L.BrowseHelpList = [[
 活动呈现界面，可以在这里寻找自己喜欢的活动。
 
 鼠标悬停：可以查看活动队长的具体信息。
 ]]
 
-L.BrowseHelp3 = [[
-鼠标悬浮：活动当前的状态图示
+L.BrowseHelpMisc = [[
+图示：活动当前的状态图示
+
+最近的战友：切换到最近组队界面
 ]]
 
-L.BrowseHelp4 = [[
+L.BrowseHelpApply = [[
 选择你要加入的队伍后，单击申请加入按钮。
 ]]
 
-L.BrowseHelp5 = [[
+L.BrowseHelpStatus = [[
 你申请的活动数量以及当前团队总数量
+]]
+
+L.BrowseHelpBatchApply = [[
+你可以快速申请指定规则的活动
 ]]
 
 L.RewardSummary = [[
@@ -515,8 +567,8 @@ L.RewardSummary = [[
 L.MallSummary = [[
 <html>
 <body>
-<p>请您选择所需要的虚拟物品进行操作，一旦兑换成功，积分被扣除后将无法返还。</p>
-<p>兑换成功后，系统会在1个工作日内将虚拟物品发送到您当前角色的游戏邮箱内，请注意查收。您可以在 |Hurl:http://reward.battlenet.com.cn|h|cff00ffff[http://reward.battlenet.com.cn]|r|h 查看详细积分变更信息及兑换记录。</p>
+<p>兑换成功系统会在1个工作日内将虚拟物品发送到您当前角色的游戏邮箱内，请注意查收。如果出现积分扣除，但未收到物品，可以|Hurl:http://bnet.163.com/dj/exchange/query/wow|h|cff00ffff[点击这里]|r|h查询兑换码后，手动进行兑换。</p>
+<p>查看详细积分变更信息及兑换记录请|Hurl:http://reward.battlenet.com.cn|h|cff00ffff[访问这里]|r|h</p>
 </body>
 </html>
 ]]
@@ -560,6 +612,26 @@ L.GoodsLoadingSummary = [[
 <p>如果您刚上线，将在十分钟内读取到商品数据。</p>
 <br/>
 <p>如果长时间无法收到商品数据，请检查插件版本或者联系集合石官方QQ群|Hurl:317548615|h|cff00ffff[317548615]|r|h。</p>
+</body>
+</html>
+]]
+
+L.AboutSummary = [[
+<html>
+<body>
+<h3>联系我们</h3>
+<br/>
+<p>感谢您使用|cffff565e集合石插件|r</p>
+<p>您的支持就是我们最大的动力！</p>
+<br/>
+<h1>专题：</h1>
+<p>|Hurl:http://w.163.com/special/wowsocial/|h|cff00ffff[http://w.163.com/special/wowsocial/]|r|h</p>
+<br/>
+<h1>官方论坛：</h1>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
+<br/>
+<h1>官方QQ群</h1>
+<p>|Hurl:317548615|h|cff00ffff[317548615]|r|h</p>
 </body>
 </html>
 ]]

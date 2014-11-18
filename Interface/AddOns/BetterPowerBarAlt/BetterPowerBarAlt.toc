@@ -1,0 +1,18 @@
+## Interface: 60000
+## Title: BetterPowerBarAlt
+## Notes: Fancy up the PlayerPowerBarAlt frame
+## Author: Neb
+## Version: 1.4.2
+## SavedVariables: BetterPowerBarAltDB
+## X-Curse-Packaged-Version: 1.4.2
+## X-Curse-Project-Name: BetterPowerBarAlt
+## X-Curse-Project-ID: betterpowerbaralt
+## X-Curse-Repository-ID: wow/betterpowerbaralt/mainline
+
+BetterPowerBarAlt.lua
+
+## Title: |cff880303[网易有爱]|r BetterPowerBarAlt
+## Title-zhCN: |cff880303[网易有爱]|r 特殊能量条设置
+## Notes-zhCN: 在boss战中方便快捷的移动特殊能量条.
+## X-Vendor: NetEase
+## X-163UI-Version: 2014111701

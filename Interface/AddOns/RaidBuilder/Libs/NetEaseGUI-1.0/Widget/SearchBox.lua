@@ -1,21 +1,11 @@
 
-local WIDGET, VERSION = 'SearchBox', 1
+local WIDGET, VERSION = 'SearchBox', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local SearchBox = GUI:NewClass(WIDGET, GUI:GetClass('InputBox'), VERSION)
 if not SearchBox then
     return
 end
-
-local objects = {}
-
-WorldFrame:HookScript('OnMouseDown', function()
-    if next(objects) then
-        for object in pairs(objects) do
-            object:Clear()
-        end
-    end
-end)
 
 function SearchBox:Constructor(parent)
     local SearchIcon = self:CreateTexture(nil, 'ARTWORK')
@@ -36,38 +26,39 @@ function SearchBox:Constructor(parent)
 
     self:SetPrompt(SEARCH)
     self:SetTextInsets(21, 20, 0, 0)
-    self:SetFontObject('GameFontDisable')
+    self:SetFontObject('GameFontHighlightSmall')
 
-    self:HookScript('OnEditFocusLost', self.OnEditFocusLost)
-    self:HookScript('OnEditFocusGained', self.OnEditFocusGained)
+    self:SetScript('OnEditFocusLost', self.OnEditFocusLost)
+    self:SetScript('OnEditFocusGained', self.OnEditFocusGained)
+    self:SetScript('OnHide', self.OnHide)
 
-    objects[self] = true
+    self.Prompt:ClearAllPoints();
+    self.Prompt:SetPoint('TOPLEFT', self, 'TOPLEFT', 21, 0)
+    self.Prompt:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -20, 0)
 end
 
 function SearchBox:OnEditFocusLost()
     self:HighlightText(0, 0)
-    self:SetFontObject('GameFontDisable')
-    self.SearchIcon:SetVertexColor(0.6, 0.6, 0.6)
+
     if self:GetText() == '' then
+        self.SearchIcon:SetVertexColor(0.6, 0.6, 0.6)
         self.ClearButton:Hide()
     end
 end
 
 function SearchBox:OnEditFocusGained()
     self:HighlightText()
-    self:SetFontObject('ChatFontSmall')
     self.SearchIcon:SetVertexColor(1.0, 1.0, 1.0)
     self.ClearButton:Show()
 end
 
 function SearchBox:Clear()
-    -- PlaySound('igMainMenuOptionCheckBoxOn')
-    if self.clearFunc then
-        self.clearFunc(self)
-    end
+    PlaySound('igMainMenuOptionCheckBoxOn')
     self:SetText('')
-    if not self:HasFocus() then
-        self:GetScript('OnEditFocusLost')(self)
-    end
     self:ClearFocus()
+    self:OnEditFocusLost()
+end
+
+function SearchBox:OnHide()
+    self:SetText('')
 end

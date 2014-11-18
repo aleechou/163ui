@@ -128,13 +128,15 @@ function Cache:DeletePlayer(realm, player)
 	local guild = realm[player].guild
 	realm[player] = nil
 
-	for _, actor in pairs(realm) do
-		if actor.guild == guild then
-			return
+	if guild then
+		for _, actor in pairs(realm) do
+			if actor.guild == guild then
+				return
+			end
 		end
-	end
 
-	realm[guild .. '*'] = nil
+		realm[guild .. '*'] = nil
+	end
 end
 
 function Cache:GetPlayers(realm)
@@ -146,4 +148,16 @@ function Cache:GetPlayers(realm)
 	end
 
 	return players
+end
+
+
+--[[ Realms ]]--
+
+function Cache:GetRealms()
+	local realms = {}
+	for name in pairs(BrotherBags) do
+		tinsert(realms, name)
+	end
+
+	return realms
 end

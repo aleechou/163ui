@@ -20,7 +20,6 @@ function EventPusher:OnInitialize()
     local Text = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
     Text:SetPoint('LEFT', 5, 0)
     Text:SetPoint('RIGHT', -5, 0)
-    Text:SetText('fshdifhsl;fhslhfslhfkjshfksjh')
 
     self:SetFontString(Text)
 
@@ -40,7 +39,19 @@ function EventPusher:OnInitialize()
     self.Alpha = Alpha
     self.Group = Group
 
-    self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED')
+    self:RegisterMessage('RAIDBUILDER_SETTING_CHANGED', 'Toggle')
+    self:RegisterMessage('RAIDBUILDER_BATCHAPPLY_STATUS_UPDATE', 'Toggle')
+end
+
+function EventPusher:Toggle()
+    local settings = Profile:GetCharacterDB().profile.settings
+    if settings.panel and settings.eventPusher and not BatchApply:IsWorking() then
+        self:CancelTimer(self.timer)
+        self.timer = self:ScheduleRepeatingTimer('PushEvent', 20)
+    else
+        self:Hide()
+        self:CancelAllTimers()
+    end
 end
 
 function EventPusher:OnShow()
@@ -48,8 +59,8 @@ function EventPusher:OnShow()
 end
 
 function EventPusher:OnClick()
-    RaidBuilder:ToggleModule('MainPanel')
-    MainPanel:SelectPanel(BrowsePanel)
+    RaidBuilder:ShowModule('MainPanel')
+    MainPanel:SelectPanel(BrowseParent)
     BrowsePanel:QuickToggle(self.event:GetEventCode(), self.event)
     Logic:Statistics(4, self.event:GetEventCode())
 end
@@ -63,49 +74,32 @@ function EventPusher:OnFinished()
     end
 end
 
-function EventPusher:OnTimer()
-    self:PushEvent()
-    self:ScheduleTimer('OnTimer', 60)
-end
-
-function EventPusher:RAIDBUILDER_SETTING_CHANGED(_, key, value)
-    if not (key == 'eventPusher' or key == 'panel') then
-        return
-    end
-
-    local settings = Profile:GetCharacterDB().profile.settings
-
-    if settings.panel and settings.eventPusher then
-        self:ScheduleTimer('OnTimer', 60)
-    else
-        self:Hide()
-        self:CancelAllTimers()
-    end
-end
-
 function EventPusher:PushEvent()
     if UnitInGroup('player') then
         return
     end
 
     local cache = {}
+    local minRemain = 40
     for _, event in EventCache:IterateEvents() do
         if event:IsUsable() and event:IsRoleUsable() and not event:IsMemberFull() then
-            tinsert(cache, {
-                event = event,
-                count = event:GetRoleCurrentAll() - event:GetRoleTotalAll(),
-            })
+            local remain = event:GetRemain()
+            if remain < minRemain then
+                wipe(cache)
+                minRemain = remain
+            end
+            if remain == minRemain then
+                tinsert(cache, event)
+            end
         end
     end
-    if #cache == 0 then
+
+    local count = #cache
+    if count == 0 then
         return
     end
 
-    sort(cache, function(a, b)
-        return a.count > b.count
-    end)
-
-    local event = cache[1].event
+    local event = cache[fastrandom(1, count)]
 
     self:SetText(format([[点击加入：|cffffd100%s|r %s]],
         event:GetEventName(),

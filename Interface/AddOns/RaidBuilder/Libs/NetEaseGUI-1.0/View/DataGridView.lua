@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'DataGridView', 6
+local WIDGET, VERSION = 'DataGridView', 7
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local DataGridView = GUI:NewClass(WIDGET, GUI:GetClass('ListView'), VERSION)
@@ -144,9 +144,9 @@ function DataGridView:InitHeader(data)
     end
 end
 
-function DataGridView:SetSortHandler(sortHandler)
+function DataGridView:SetSortHandler(sortHandler, desc)
     if sortHandler ~= self.sortHandler then
-        self.sortDesc = false
+        self.sortDesc = desc
     else
         self.sortDesc = not self.sortDesc
     end

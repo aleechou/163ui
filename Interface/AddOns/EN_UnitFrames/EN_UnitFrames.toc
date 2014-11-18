@@ -1,11 +1,6 @@
 ## Interface: 60000
 ## Title: Enigma Unit Frames
-# Title-zhCN: 头像增强 EN_UnitFrames
 ## Notes: Enhanced Unit Frames including HP/MP values, class, race, level tag, and more ...
-## Notes-zhCN: 增强显示头像，显示目标的目标的目标，小队头像显示队员职业等级，并显示生命值及法力值
-
-# Title-zhTW: [介面]頭像增強 EN_UnitFrames
-## Notes-zhTW: 增強顯示頭像，顯示目標的目標的目標，小隊頭像顯示隊員職業等級，並顯示生命值及法力值
 ## Version: 3.1.1
 ## Author: Enigma
 ## SavedVariables: mg_EUF_Options
@@ -14,6 +9,10 @@
 EN_UnitFrames.xml
 
 ## Title: |cff880303[网易有爱]|r EUF头像框体
+## Title-zhCN: 头像增强 EN_UnitFrames
+## Title-zhTW: [介面]頭像增強 EN_UnitFrames
+## Notes-zhCN: 增强显示头像，显示目标的目标的目标，小队头像显示队员职业等级，并显示生命值及法力值
+## Notes-zhTW: 增強顯示頭像，顯示目標的目標的目標，小隊頭像顯示隊員職業等級，並顯示生命值及法力值
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437
 SBuff_Buffs.lua

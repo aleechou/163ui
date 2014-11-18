@@ -42,7 +42,7 @@ Init.lua
 Constants.lua
 db.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLoot
+## Title: |cff880303[网易有爱]|r 副本掉落物品查询主程序
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141112183356
 Locales\Locales.lua

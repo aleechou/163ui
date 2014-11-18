@@ -4,23 +4,26 @@ BuildEnv(...)
 local MallItem = RaidBuilder:NewClass('MallItem', GUI:GetClass('ItemButton'))
 
 function MallItem:Constructor(parent)
-    local bg = self:CreateTexture(nil, 'BACKGROUND')
-    bg:SetTexture([[Interface\Store\Store-Main]])
-    bg:SetTexCoord(0.18457031, 0.32714844, 0.64550781, 0.84960938)
-    bg:SetSize(146, 209)
-    bg:SetAllPoints(true)
+    local Background = self:CreateTexture(nil, 'BACKGROUND')
+    Background:SetTexture([[Interface\Store\Store-Main]])
+    Background:SetTexCoord(0.18457031, 0.32714844, 0.64550781, 0.84960938)
+    Background:SetSize(146, 209)
+    Background:SetAllPoints(true)
 
     local Shadows = self:CreateTexture(nil, 'BACKGROUND', nil, 2)
     Shadows:SetTexture([[Interface\Store\Store-Main]])
     Shadows:SetTexCoord(0.84375000, 0.97851563, 0.29980469, 0.37011719)
     Shadows:SetSize(138, 72)
     Shadows:SetPoint('CENTER')
-    Shadows:Hide()
 
     local Icon = self:CreateTexture(nil, 'ARTWORK')
     Icon:SetSize(63, 63)
     Icon:SetPoint('TOP', 0, -36)
-    Icon:Hide()
+    local IconBorder = self:CreateTexture(nil, 'ARTWORK', nil, 2)
+    IconBorder:SetTexture([[Interface\Store\Store-Main]])
+    IconBorder:SetTexCoord(0.84375000, 0.92187500, 0.37207031, 0.45117188)
+    IconBorder:SetSize(80, 81)
+    IconBorder:SetPoint('TOP', 0, -33)
 
     local Price = self:CreateFontString(nil, 'ARTWORK', 'GameFontNormalMed3')
     Price:SetPoint('BOTTOM', 0, 32)
@@ -89,6 +92,7 @@ function MallItem:Constructor(parent)
     self.Model = Model
     self.Magnifier = Magnifier
     self.Name = Name
+    self.IconBorder = IconBorder
 end
 
 function MallItem:SetMagnifier(enable)
@@ -108,7 +112,8 @@ function MallItem:SetText(text)
 end
 
 function MallItem:SetModel(id)
-    self.Magnifier:SetShown(id)
+    self.Model:SetShown(id)
+    self.Shadows:SetShown(id)
 
     if not id then
         return
@@ -127,7 +132,10 @@ function MallItem:IsMagnifierShown()
 end
 
 function MallItem:SetIcon(id)
-    self.Icon:SetShown(id)
+    local enable = not self.data.model
+    self.Icon:SetShown(enable)
+    self.IconBorder:SetShown(enable)
+
     if not id then
         return
     end
@@ -138,7 +146,10 @@ function MallItem:SetIcon(id)
         return
     end
 
-    self.Icon:SetTexture(texture)
+    if enable then
+        SetPortraitToTexture(self.Icon, texture)
+    end
+
     self.data.link = link
 
     if not self.data.text then
@@ -150,7 +161,7 @@ end
 function MallItem:SetData(data)
     self.data = data
     self:SetText(data.text)
-    -- self:SetModel(data.model)
+    self:SetModel(data.model)
     self:SetPrice(data.price)
     self:SetIcon(data.itemId)
 end

@@ -1,6 +1,6 @@
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local View = GUI:NewEmbed('Tab', 1)
+local View = GUI:NewEmbed('Tab', 2)
 if not View then
     return
 end
@@ -65,9 +65,16 @@ function View:IterateInputBoxes()
     return ipairs(_Objects[self])
 end
 
+function View:ClearInputBoxFocus()
+    for _, inputBox in self:IterateInputBoxes() do
+        inputBox:ClearFocus()
+    end
+end
+
 function View:Embed(target)
     target.RegisterInputBox = self.RegisterInputBox
     target.IterateInputBoxes = self.IterateInputBoxes
+    target.ClearInputBoxFocus = self.ClearInputBoxFocus
 
     _Objects[target] = _Objects[target] or {}
 end

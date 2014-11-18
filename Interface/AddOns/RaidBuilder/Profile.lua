@@ -4,7 +4,7 @@ BuildEnv(...)
 Profile = RaidBuilder:NewModule('Profile', 'AceEvent-3.0')
 
 function Profile:OnInitialize()
-    local globaldb = {
+    local gdb = {
         global = {
             blackList = {},
             setting = {
@@ -18,7 +18,7 @@ function Profile:OnInitialize()
         }
     }
 
-    local characterdb = {
+    local cdb = {
         profile = {
             eventCache = {},
             memberList = {},
@@ -27,6 +27,9 @@ function Profile:OnInitialize()
             groupCacheProfile = {
                 unitCache = {},
                 unitRoles = {},
+            },
+            batchApplyProfile = {
+                refuseList = {},
             },
             inviteQueue = {},
             inviteBNets = {},
@@ -43,8 +46,6 @@ function Profile:OnInitialize()
                 minimapPos = 243,
             },
             settings = {
-                minimap = true,
-                minimapPack = false,
                 panel = UnitFactionGroup('player') ~= 'Neutral',
                 panelLock = false,
                 storage = { point = 'TOP', x = 0, y = -20},
@@ -57,29 +58,29 @@ function Profile:OnInitialize()
         }
     }
 
-    self.globaldb = LibStub('AceDB-3.0'):New('RAIDBUILDER_UI_DB', globaldb)
-    self.characterdb = LibStub('AceDB-3.0'):New('RAIDBUILDER_CHARACTER_DB', characterdb)
+    self.gdb = LibStub('AceDB-3.0'):New('RAIDBUILDER_UI_DB', gdb)
+    self.cdb = LibStub('AceDB-3.0'):New('RAIDBUILDER_CHARACTER_DB', cdb)
 
-    self.globaldb.profile.eventProfiles = nil
-    self.characterdb.profile.serverDatas = nil
+    -- self.gdb.profile.eventProfiles = nil
+    -- self.cdb.profile.serverDatas = nil
+    self.cdb.profile.settings.minimap = nil
+    self.cdb.profile.settings.minimapPack = nil
 end
 
 function Profile:OnEnable()
     local settings = {
-        'minimap',
-        'minimapPack',
         'panel',
         'panelLock',
         'teamNotice',
     }
 
     for _, key in ipairs(settings) do
-        self:SendMessage('RAIDBUILDER_SETTING_CHANGED', key, self.characterdb.profile.settings[key])
+        self:SendMessage('RAIDBUILDER_SETTING_CHANGED', key, self.cdb.profile.settings[key])
     end
 end
 
 function Profile:SaveEventProfile(event)
-    self.globaldb.global.eventProfiles[event:GetEventCode()] = {
+    self.gdb.global.eventProfiles[event:GetEventCode()] = {
         MinLevel    = event:GetMinLevel(),
         MaxLevel    = event:GetMaxLevel(),
         ItemLevel   = event:GetItemLevel(),
@@ -96,23 +97,23 @@ function Profile:SaveEventProfile(event)
 end
 
 function Profile:GetEventProfile(eventCode)
-    local profile = self.globaldb.global.eventProfiles[eventCode]
+    local profile = self.gdb.global.eventProfiles[eventCode]
     if profile then
         return Event:New(profile)
     end
 end
 
 function Profile:GetGlobalDB()
-    return self.globaldb
+    return self.gdb
 end
 
 function Profile:GetCharacterDB()
-    return self.characterdb
+    return self.cdb
 end
 
 
 function Profile:AddBlackList(battleTag, reason)
-    self.globaldb.global.blackList[battleTag] = {
+    self.gdb.global.blackList[battleTag] = {
         reason = reason,
         recordDate = time(),
     }
@@ -120,57 +121,86 @@ function Profile:AddBlackList(battleTag, reason)
 end
 
 function Profile:DeleteBlackList(battleTag)
-    self.globaldb.global.blackList[battleTag] = nil
+    self.gdb.global.blackList[battleTag] = nil
     self:SendMessage('RAIDBUILDER_BLACKLIST_UPDATE')
 end
 
 function Profile:IsInBlackList(battleTag)
-    return self.globaldb.global.blackList[battleTag]
+    return self.gdb.global.blackList[battleTag]
 end
 
 function Profile:GetBlackList()
-    return self.globaldb.global.blackList
+    return self.gdb.global.blackList
 end
 
 function Profile:GetReferenced()
-    return self.globaldb.global.setting.reference
+    return self.gdb.global.setting.reference
 end
 
 function Profile:SetReferenced(result)
-    self.globaldb.global.setting.reference = result
+    self.gdb.global.setting.reference = result
 end
 
 -- function Profile:IsSignIn(id)
---     return self.globaldb.global.setting.signin[id] == date('%Y-%m-%d')
+--     return self.gdb.global.setting.signin[id] == date('%Y-%m-%d')
 -- end
 
 -- function Profile:SetSignIn(id)
---     self.globaldb.global.setting.signin[id] = date('%Y-%m-%d')
+--     self.gdb.global.setting.signin[id] = date('%Y-%m-%d')
 -- end
 
-function Profile:AddFavorite(battleTag, reason)
-    self.globaldb.global.favorites[battleTag] = {
+function Profile:AddFavorite(battleTag, reason, isFav)
+    local info = self.gdb.global.favorites[battleTag]
+    if info and info.isFav and not isFav then
+        return
+    end
+
+    self.gdb.global.favorites[battleTag] = {
         reason = reason,
         recordDate = time(),
+        isFav = isFav,
+        eventCode = info and info.eventCode or nil
     }
     self:SendMessage('RAIDBUILDER_FAVORITES_UPDATE')
 end
 
+function Profile:UpdateFavoriteEventCode(battleTag, eventCode)
+    local info = self.gdb.global.favorites[battleTag]
+    if info then
+        info.eventCode = eventCode
+        info.recordDate = time()
+        self:SendMessage('RAIDBUILDER_FAVORITES_UPDATE')
+    end
+end
+
 function Profile:DeleteFavorite(battleTag)
-    self.globaldb.global.favorites[battleTag] = nil
+    local info = self.gdb.global.favorites[battleTag]
+    if not info then
+        return
+    end
+
+    self.gdb.global.favorites[battleTag] = nil
     self:SendMessage('RAIDBUILDER_FAVORITES_UPDATE')
 end
 
 function Profile:GetFavorites()
-    return self.globaldb.global.favorites
+    return self.gdb.global.favorites
 end
 
-function Profile:IsInFavorite(battleTag)
-    return self.globaldb.global.favorites[battleTag]
+function Profile:IsInFavorite(battleTag, isFav)
+    local info = self.gdb.global.favorites[battleTag]
+    if not info then
+        return false
+    end
+    if isFav then
+        return info.isFav
+    else
+        return not not info
+    end
 end
 
 function Profile:AddRecentList(name, realm, race, class, level, battleTag, from)
-    local list = self.globaldb.global.recentlist
+    local list = self.gdb.global.recentlist
     self.RecentCache = self.RecentCache or {}
 
     if #list >= 80 then
@@ -205,7 +235,7 @@ function Profile:AddRecentList(name, realm, race, class, level, battleTag, from)
 end
 
 function Profile:GetRecentList()
-    return self.globaldb.global.recentlist
+    return self.gdb.global.recentlist
 end
 
 function Profile:AddAnnData(title, content)
@@ -225,11 +255,11 @@ function Profile:AddAnnData(title, content)
         unread = true
     })
 
-    self:RefreshAnnData()
+    -- self:RefreshAnnData()
 end
 
 function Profile:GetAnnList()
-    return self.globaldb.global.annData
+    return self.gdb.global.annData
 end
 
 function Profile:SetAnnRead(index)
@@ -239,45 +269,54 @@ function Profile:SetAnnRead(index)
         list[index].unread = nil
     end
 
-    self:RefreshAnnData()
+    -- self:RefreshAnnData()
 end
 
-function Profile:RefreshAnnData()
-    local hasUnread = false
-    for i, v in ipairs(self:GetAnnList()) do
-        if v.unread then
-            hasUnread = true
-            break
-        end
-    end
-    self:SendMessage('RAIDBUILDER_ANNOUNCEMENT_UPDATE', hasUnread)
+function Profile:GetCurrentAnnData()
+    local list = self:GetAnnList()
+    return list and list[1]
 end
+
+-- function Profile:RefreshAnnData()
+--     local hasUnread = false
+--     for i, v in ipairs(self:GetAnnList()) do
+--         if v.unread then
+--             hasUnread = true
+--             break
+--         end
+--     end
+--     self:SendMessage('RAIDBUILDER_ANNOUNCEMENT_UPDATE', hasUnread)
+-- end
 
 function Profile:IsYiXinValid()
-    local db = self.characterdb.profile.yiXin
+    local db = self.cdb.profile.yiXin
     local flag = db.times > 2 and db.lastSend > GetGameDateTime(true) and 0 or 1
     return flag == 1
 end
 
 function Profile:IsSocialEnabled()
-    return self.characterdb.profile.settings.socialEnabled
+    return self.cdb.profile.settings.socialEnabled
 end
 
 function Profile:SaveVersion()
-    self.globaldb.global.version = GetAddOnMetadata('RaidBuilder', 'Version')
+    self.gdb.global.version = ADDON_VERSION
 end
 
 function Profile:IsNewVersion()
-    local pVersion = tonumber(self.globaldb.global.version) or 0
-    local cVersion = tonumber(GetAddOnMetadata('RaidBuilder', 'Version')) or 0
+    local pVersion = tonumber(self.gdb.global.version) or 0
+    local cVersion = tonumber(ADDON_VERSION) or 0
 
     return pVersion < cVersion
 end
 
 function Profile:GetDefalutPanel()
-    return self.characterdb.profile.settings.defaultPanel
+    return self.cdb.profile.settings.defaultPanel
 end
 
 function Profile:SetDefaultPanel(index)
-    self.characterdb.profile.settings.defaultPanel = index
+    self.cdb.profile.settings.defaultPanel = index
+end
+
+function Profile:GetBatchApplyProfile()
+    return self.cdb.profile.batchApplyProfile
 end

@@ -1,10 +1,6 @@
 ## Interface: 60000
 ## Title: ComboPoints
 ## Notes: A movable, turnable, colourable combo point bar
-# Title-zhCN: |CFF8000FF职业|R 贼/德 连击点显示器
-## Notes-zhCN: 盗贼/德鲁伊连击点显示器|n命令/cbp
-# Title-zhTW: |CFF8000FF職業|R 賊/德 連擊點顯示器
-## Notes-zhTW: 盜賊/德魯伊連擊點顯示器|n命令/cbp
 ## X-Repple: 职业
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
@@ -16,5 +12,9 @@ Data.lua
 ComboPoints.xml
 
 ## Title: |cff880303[网易有爱]|r 连击点显示
+## Title-zhCN: |CFF8000FF职业|R 贼/德 连击点显示器
+## Title-zhTW: |CFF8000FF職業|R 賊/德 連擊點顯示器
+## Notes-zhCN: 盗贼/德鲁伊连击点显示器|n命令/cbp
+## Notes-zhTW: 盜賊/德魯伊連擊點顯示器|n命令/cbp
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

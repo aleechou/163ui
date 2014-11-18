@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, MainPanel), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0', 'NetEaseGUI-DropMenu-1.0')
+BrowsePanel = RaidBuilder:NewModule(CreateFrame('Frame', nil, BrowseParent), 'BrowsePanel', 'AceEvent-3.0', 'AceBucket-3.0', 'NetEaseGUI-DropMenu-1.0')
 
 local function _NormalSortHandler(event)
     return format('%04d%08x', event:GetLeaderLogoIndex(), event:GetEventCode())
@@ -60,7 +60,7 @@ local BROWSE_HEADER = {
         width = 135,
         class = RaidBuilder:GetClass('MemberRoleGrid'),
         sortHandler = function(event)
-            return event:GetRoleCurrentAll() - event:GetRoleTotalAll()
+            return -event:GetRemain()
         end,
         formatHandler = function(grid, event)
             grid:SetEvent(event)
@@ -113,7 +113,7 @@ local BROWSE_HEADER = {
         style = 'ICONTEXT',
         width = 130,
         showHandler = function(event)
-            return event:GetLeaderText(), nil, nil, nil, event:GetLeaderLogoTexture()
+            return event:GetLeaderShortText(), nil, nil, nil, event:GetLeaderLogoTexture()
         end,
         sortHandler = function(event)
             return format('%04d%s', event:GetLeaderLogoIndex(), strpadright(event:GetLeader(), 40))
@@ -131,31 +131,68 @@ local BROWSE_HEADER = {
 }
 
 function BrowsePanel:OnInitialize()
-    GUI:Embed(self, 'Owner', 'Refresh')
+    GUI:Embed(self, 'Refresh')
 
-    MainPanel:RegisterPanel(L['查找活动'], self, 5, 90)
+    self:Hide()
+    self:SetAllPoints(true)
 
     local function RefreshFilter()
-        local leader = self.LeaderInput:GetText()
+        local search = self.SearchInput:GetText()
         local filter = self.Filter:GetValue()
         local usable = self.Usable:GetChecked() or nil
-        local encrypt = self.Encrypt:GetChecked() or nil
+        -- local encrypt = self.Encrypt:GetChecked() or nil
+        local encrypt = nil
         local favorite = self.Favorite:GetChecked() or nil
         local eventCode = filter ~= 0 and filter or nil
 
-        self.EventList:SetFilterText(leader, eventCode, usable, encrypt, favorite)
+        self.EventList:SetFilterText(search, eventCode, usable, encrypt, favorite)
     end
 
-    local HelpButton = CreateFrame('Button', nil, self, 'MainHelpPlateButton')
-    HelpButton:SetPoint('TOPLEFT', self:GetOwner(), 39, 20)
-    HelpButton:SetScript('OnClick', function()
-        self:ToggleHelpPlate()
-    end)
+    local HelpPlate = {
+        FramePos = { x = -10,          y = 75 },
+        FrameSize = { width = 830, height = 425 },
+        {
+            ButtonPos = { x = 300,   y = -5 },
+            HighLightBox = { x = 60, y = -5, width = 600, height = 45 },
+            ToolTipDir = "DOWN",
+            ToolTipText = L.BrowseHelpFilter,
+        },
+        {
+            ButtonPos = { x = 370,  y = -190 },
+            HighLightBox = { x = 5, y = -55, width = 820, height = 338 },
+            ToolTipDir = "RIGHT",
+            ToolTipText = L.BrowseHelpList,
+        },
+        {
+            ButtonPos = { x = 180,  y = -389 },
+            HighLightBox = { x = 5, y = -397, width = 220, height = 28 },
+            ToolTipDir = "UP",
+            ToolTipText = L.BrowseHelpMisc,
+        },
+        {
+            ButtonPos = { x = 300,  y = -389 },
+            HighLightBox = { x = 300, y = -397, width = 200, height = 28 },
+            ToolTipDir = "UP",
+            ToolTipText = L.BrowseHelpApply,
+        },
+        {
+            ButtonPos = { x = 550,  y = -389 },
+            HighLightBox = { x = 550, y = -397, width = 275, height = 28 },
+            ToolTipDir = "UP",
+            ToolTipText = L.BrowseHelpStatus,
+        },
+        {
+            ButtonPos = { x = 665, y = -5 },
+            HighLightBox = { x = 665, y = -5, width = 160, height = 45 },
+            ToolTipDir = 'DOWN',
+            ToolTipText = L.BrowseHelpBatchApply,
+        }
+    }
 
-    MainPanel:AddHelpButton(HelpButton)
+    MainPanel:AddHelpButton(self, HelpPlate)
 
     local FilterLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmall')
-    FilterLabel:SetPoint('TOPLEFT', self:GetOwner(), 'TOPLEFT', 80, -40)
+    FilterLabel:SetPoint('TOPLEFT', MainPanel, 'TOPLEFT', 80, -40)
     FilterLabel:SetText(L['活动类型'])
 
     local Filter = GUI:GetClass('Dropdown'):New(self)
@@ -166,29 +203,53 @@ function BrowsePanel:OnInitialize()
     Filter:SetText(L['全部'])
     Filter:SetCallback('OnSelectChanged', RefreshFilter)
 
-    local LeaderLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
-    LeaderLabel:SetPoint('LEFT', Filter, 'RIGHT', 10, 0)
-    LeaderLabel:SetText(L['团长查找'])
+    local SearchLabel = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
+    SearchLabel:SetPoint('LEFT', Filter, 'RIGHT', 10, 0)
+    SearchLabel:SetText(L['搜索'])
 
-    local LeaderInput = GUI:GetClass('SearchBox'):New(self)
-    LeaderInput:SetPoint('LEFT', LeaderLabel, 'RIGHT', 5, 0)
-    LeaderInput:SetSize(140, 15)
-    LeaderInput:SetScript('OnTextChanged', RefreshFilter)
+    local SearchInput = GUI:GetClass('SearchBox'):New(self)
+    SearchInput:SetPoint('LEFT', SearchLabel, 'RIGHT', 5, 0)
+    SearchInput:SetSize(180, 15)
+    SearchInput:SetCallback('OnTextChanged', RefreshFilter)
+    SearchInput:SetPrompt(L['搜索团长或说明'])
 
     local Usable = GUI:GetClass('CheckBox'):New(self)
-    Usable:SetPoint('LEFT', LeaderInput, 'RIGHT', 10, 0)
+    Usable:SetPoint('LEFT', SearchInput, 'RIGHT', 10, 10)
     Usable:SetSize(20, 20)
     Usable:SetText(L['符合条件'])
     Usable:SetScript('OnClick', RefreshFilter)
 
-    local Encrypt = GUI:GetClass('CheckBox'):New(self)
-    Encrypt:SetPoint('LEFT', Usable, 'RIGHT', 80, 0)
-    Encrypt:SetSize(20, 20)
-    Encrypt:SetText(L['没有密码'])
-    Encrypt:SetScript('OnClick', RefreshFilter)
+    local BatchButton = Button:New(self)
+    BatchButton:SetPoint('TOPRIGHT', MainPanel, 'TOPRIGHT', -94, -30)
+    BatchButton:SetText(L['快速申请'])
+    BatchButton:SetIcon([[Interface\ICONS\Achievement_Boss_CThun]])
+    BatchButton:SetTooltip(L['快速申请'])
+    BatchButton:SetScript('OnClick', function()
+        BrowseParent:OpenBatchPanel()
+    end)
+
+    -- local BatchShine = GUI:GetClass('ShineWidget'):New(BatchButton)
+    -- BatchShine:SetPoint('TOPLEFT', 4, -4)
+    -- BatchShine:SetPoint('BOTTOMRIGHT', -3, 3)
+    -- BatchShine:Start()
+
+    -- BatchButton:HookScript('OnEnable', function(self)
+    --     BatchShine:Start()
+    -- end)
+    -- BatchButton:HookScript('OnDisable', function(self)
+    --     BatchShine:Stop()
+    -- end)
+
+    -- local Encrypt = GUI:GetClass('CheckBox'):New(self)
+    -- Encrypt:SetPoint('LEFT', Usable, 'RIGHT', 80, 0)
+    -- Encrypt:SetSize(20, 20)
+    -- Encrypt:SetText(L['没有密码'])
+    -- Encrypt:SetScript('OnClick', RefreshFilter)
+    -- Encrypt:Hide()
 
     local Favorite = GUI:GetClass('CheckBox'):New(self)
-    Favorite:SetPoint('LEFT', Encrypt, 'RIGHT', 80, 0)
+    -- Favorite:SetPoint('LEFT', Encrypt, 'RIGHT', 80, 0)
+    Favorite:SetPoint('TOP', Usable, 'BOTTOM', 0, 0)
     Favorite:SetSize(20, 20)
     Favorite:SetText(L['仅关注'])
     Favorite:SetScript('OnClick', RefreshFilter)
@@ -249,7 +310,7 @@ function BrowsePanel:OnInitialize()
     EmptySummary:SetText(L.EmptySummary)
 
     local JoinButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    JoinButton:SetPoint('BOTTOM', self:GetOwner(), 'BOTTOM', 0, 4)
+    JoinButton:SetPoint('BOTTOM', MainPanel, 'BOTTOM', 0, 4)
     JoinButton:SetSize(120, 22)
     JoinButton:SetText(L['申请加入'])
     JoinButton:SetScript('OnClick', function()
@@ -257,11 +318,11 @@ function BrowsePanel:OnInitialize()
     end)
 
     local TotalEvents = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallRight')
-    TotalEvents:SetPoint('BOTTOMRIGHT', self:GetOwner(), -7, 7)
+    TotalEvents:SetPoint('BOTTOMRIGHT', MainPanel, -7, 7)
 
     local IconSummary = CreateFrame('Button', nil, self)
     IconSummary:SetSize(50, 16)
-    IconSummary:SetPoint('BOTTOMLEFT', self:GetOwner(), 10, 5)
+    IconSummary:SetPoint('BOTTOMLEFT', MainPanel, 10, 5)
     local icon = IconSummary:CreateTexture(nil, 'OVERLAY')
     icon:SetSize(16, 16)
     icon:SetPoint('LEFT')
@@ -312,10 +373,11 @@ function BrowsePanel:OnInitialize()
     self.Usable = Usable
     self.EventList = EventList
     self.TotalEvents = TotalEvents
-    self.Encrypt = Encrypt
+    -- self.Encrypt = Encrypt
     self.Favorite = Favorite
-    self.LeaderInput = LeaderInput
+    self.SearchInput = SearchInput
     self.EmptySummary = EmptySummary
+    self.BatchButton = BatchButton
 
     self:SetScript('OnShow', function(self)
         self:Refresh()
@@ -324,14 +386,13 @@ function BrowsePanel:OnInitialize()
         end
     end)
     self:SetScript('OnHide', function()
-        HelpPlate_Hide()
         RaidBuilder:HideModule('RolePanel')
     end)
 
-    -- self:RegisterMessage('RAIDBUILDER_APPLIED_UPDATE', 'Refresh')
+    -- self:RegisterMessage('RAIDBUILDER_APPLY_UPDATE', 'Refresh')
     -- self:RegisterMessage('RAIDBUILDER_EVENT_LIST_UPDATE', 'Refresh')
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1, 'Refresh')
-    self:RegisterBucketMessage({'RAIDBUILDER_APPLIED_UPDATE', 'RAIDBUILDER_EVENT_LIST_UPDATE'}, 1, 'Refresh')
+    self:RegisterBucketMessage({'RAIDBUILDER_APPLY_UPDATE', 'RAIDBUILDER_EVENT_LIST_UPDATE'}, 1, 'Refresh')
 end
 
 function BrowsePanel:Update()
@@ -383,7 +444,7 @@ function BrowsePanel:JoinOrLeaveEvent(event)
             end
         end)
     else
-        if AppliedCache:Count() > AppliedCache:Max() then
+        if not AppliedCache:IsCanApply() then
             System:Error(L['申请队列已经满员，请等待或取消之前的申请'])
         elseif IsInGroup() then
             System:Error(L['你已经在一个队伍中，不能申请其它活动。'])
@@ -401,58 +462,16 @@ function BrowsePanel:JoinOrLeaveEvent(event)
 end
 
 function BrowsePanel:JoinEvent(event)
-    RaidBuilder:ShowModule('RolePanel', function(role, password, msgId)
-        Logic:JoinEvent(event, role, password, msgId)
+    RaidBuilder:ShowModule('RolePanel', function(role, password, msg)
+        Logic:JoinEvent(event, role, password, msg)
     end, event)
 end
 
 function BrowsePanel:QuickToggle(code, item)
     self.Filter:SetValue(code)
+    self.SearchInput:SetText('')
     if item then
         self.EventList:SetSelectedItem(item)
-    end
-end
-
-local helpPlate = {
-    FramePos = { x = -10,          y = 75 },
-    FrameSize = { width = 830, height = 425 },
-    {
-        ButtonPos = { x = 300,   y = -5 },
-        HighLightBox = { x = 60, y = -5, width = 765, height = 45 },
-        ToolTipDir = "DOWN",
-        ToolTipText = L.BrowseHelp1,
-    },
-    {
-        ButtonPos = { x = 370,  y = -190 },
-        HighLightBox = { x = 5, y = -55, width = 820, height = 338 },
-        ToolTipDir = "RIGHT",
-        ToolTipText = L.BrowseHelp2,
-    },
-    {
-        ButtonPos = { x = 90,  y = -389 },
-        HighLightBox = { x = 5, y = -397, width = 130, height = 28 },
-        ToolTipDir = "UP",
-        ToolTipText = L.BrowseHelp3,
-    },
-    {
-        ButtonPos = { x = 300,  y = -389 },
-        HighLightBox = { x = 300, y = -397, width = 200, height = 28 },
-        ToolTipDir = "UP",
-        ToolTipText = L.BrowseHelp4,
-    },
-    {
-        ButtonPos = { x = 550,  y = -389 },
-        HighLightBox = { x = 550, y = -397, width = 275, height = 28 },
-        ToolTipDir = "UP",
-        ToolTipText = L.BrowseHelp5,
-    },
-}
-
-function BrowsePanel:ToggleHelpPlate()
-    if helpPlate and not HelpPlate_IsShowing(helpPlate) then
-        HelpPlate_Show(helpPlate, self, self.HelpButton, true )
-    else
-        HelpPlate_Hide(true)
     end
 end
 

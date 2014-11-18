@@ -1,11 +1,13 @@
 
-local WIDGET, VERSION = 'QRCodeWidget', 1
+local WIDGET, VERSION = 'QRCodeWidget', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
-local QRCodeWidget = GUI:NewClass(WIDGET, 'Frame', VERSION)
+local QRCodeWidget = GUI:NewClass(WIDGET, 'Button', VERSION)
 if not QRCodeWidget then
     return
 end
+
+
 --- The qrcode library is licensed under the 3-clause BSD license (aka "new BSD")
 --- To get in contact with the author, mail to <gundlach@speedata.de>.
 ---
@@ -1233,17 +1235,34 @@ local function qrcode( str, ec_level, mode )
     return true, tab
 end
 
-local _Meta = {__index = function(o, k)
-    o[k] = {}
-    return o[k]
-end}
+local L = GetLocale() == 'zhCN' and {
+    TooSmall = '二维码太小\n点击放大',
+    Loading = '二维码生成中',
+    QRCode = '二维码',
+} or {
+    TooSmall = 'Qr code is too small\nClick to enlarge',
+    Loading = 'Qr code loading',
+    QRCode = 'Qr code',
+}
 
 function QRCodeWidget:Constructor(parent)
     if not parent then
         return
     end
-    self.children = setmetatable({}, _Meta)
+
+    local CodeFrame = CreateFrame('Frame', nil, self)
+    CodeFrame:SetPoint('TOPLEFT', 10, -10)
+    CodeFrame:SetPoint('BOTTOMRIGHT', -10, 10)
+
+    self:SetNormalFontObject('GameFontNormal')
+    self:SetHighlightFontObject('GameFontGreen')
+
+    self.CodeFrame = CodeFrame
+
+    self.regions = {}
     self:SetParent(parent)
+
+    self:SetScript('OnClick', self.OnClick)
 
     local bg = self:CreateTexture(nil, 'BACKGROUND')
     bg:SetAllPoints(true)
@@ -1251,10 +1270,24 @@ function QRCodeWidget:Constructor(parent)
 end
 
 function QRCodeWidget:SetValue(value)
-    local ok, info = qrcode(value)
+    if type(value) ~= 'string' then
+        error(([[bad argument #1 to 'SetValue' (string expected, got %s)]]):format(type(value)), 2)
+    end
+    if value == self.value then
+        return
+    end
+
+    local ok, info = qrcode(value, 3)
 
     self.info = info
     self.value = value
+    self.size = #info
+    self:Refresh()
+end
+
+function QRCodeWidget:SetMargin(margin)
+    self.CodeFrame:SetPoint('TOPLEFT', margin, -margin)
+    self.CodeFrame:SetPoint('BOTTOMRIGHT', -margin, margin)
     self:Refresh()
 end
 
@@ -1262,60 +1295,112 @@ function QRCodeWidget:GetValue()
     return self.value
 end
 
-function QRCodeWidget:GetChild(x, y)
-    return self.children[x][y] or self:CreateChild(x, y)
+function QRCodeWidget:Done()
+    self:SetScript('OnUpdate', nil)
+    self.CodeFrame:Show()
+    self:SetText('')
 end
 
-function QRCodeWidget:CreateChild(x, y)
-    local child = self:CreateTexture(nil, 'ARTWORK')
-    if y > 1 then
-        child:SetPoint('TOPLEFT', self:GetChild(x, y-1), 'TOPRIGHT')
-    elseif x > 1 then
-        child:SetPoint('TOPLEFT', self:GetChild(x-1,y), 'BOTTOMLEFT')
-    else
-        child:SetPoint('TOPLEFT', 10, -10)
+function QRCodeWidget:Clear()
+    for i = 1, self.size do
+        local region = self:PickupRegion()
+        if not region then
+            return self:SetScript('OnUpdate', self.Done)
+        else
+            region:Hide()
+        end
     end
-
-    self.children[x][y] = child
-
-    return child
 end
 
 function QRCodeWidget:Update()
-    local count = #self.info
-
-    if self.index > max(count, #self.children) then
-        self:SetScript('OnUpdate', nil)
-        return
+    local y = self.y
+    if y > self.size then
+        return self:SetScript('OnUpdate', self.Clear)
     end
 
-    local size = (self:GetWidth() - 20) / count
-
-    for y = 1, max(#self.children, count) do
-        local value = self:GetCodeValue(self.index, y)
-        local child = self:GetChild(self.index, y)
-        child:SetSize(size, size)
-
-        if not value then
-            child:Hide()
-        else
-            child:Show()
-            if value > 0 then
-                child:SetTexture(0,0,0)
-            else
-                child:SetTexture(1,1,1)
-            end
+    for x = 1, size do
+        local value = self:GetCodeValue(x, y)
+        if value and value > 0 then
+            local region = self:PickupRegion(true)
+            region:SetSize(self.regionSize, self.regionSize)
+            region:SetPoint('TOPLEFT', (x-1)*self.regionSize, -(y-1)*self.regionSize)
+            region:Show()
         end
     end
 
-    self.index = self.index + 1
+    self.y = y + 1
+end
+
+function QRCodeWidget:PickupRegion(force)
+    self.regionIndex = self.regionIndex + 1
+
+    if self.regions[self.regionIndex] then
+        return self.regions[self.regionIndex]
+    elseif force then
+        return self:MakeRegion()
+    end
+end
+
+function QRCodeWidget:MakeRegion()
+    local region = self.CodeFrame:CreateTexture(nil, 'ARTWORK')
+    region:SetTexture(0,0,0)
+
+    tinsert(self.regions, region)
+
+    return region
 end
 
 function QRCodeWidget:GetCodeValue(x, y)
-    return self.info[y] and self.info[y][x] or nil
+    return self.info[x] and self.info[x][y] or nil
 end
 
 function QRCodeWidget:Refresh()
-    self.index = 1
-    self:SetScript('OnUpdate', self.Update)
+    if not self.value then
+        return
+    end
+    
+    self.regionSize = self.CodeFrame:GetWidth() / self.size
+    self.regionIndex = 0
+    self.y = 1
+
+    if self.regionSize < 3 then
+    -- if false then
+        self.CodeFrame:Hide()
+        self:SetText(L.TooSmall)
+    else
+        self.CodeFrame:Hide()
+        self:SetText(L.Loading)
+        self:SetScript('OnUpdate', self.Update)
+    end
+end
+
+function QRCodeWidget:OnClick()
+    if self.regionSize < 3 then
+        local BigQRFrame = self.BigQRFrame or self:CreateBigQRFrame()
+        BigQRFrame:Open(self:GetValue())
+    end
+end
+
+local TitlePanel = GUI:GetClass('TitlePanel')
+
+function QRCodeWidget:CreateBigQRFrame()
+    local BigQRFrame = TitlePanel:New(UIParent)
+    BigQRFrame:SetFrameStrata('DIALOG')
+    BigQRFrame:SetText(L.QRCode)
+    BigQRFrame:SetPoint('CENTER')
+    BigQRFrame:SetSize(350, 370)
+
+    local QRWidget = QRCodeWidget:New(BigQRFrame)
+    QRWidget:SetPoint('BOTTOM', 0, 15)
+    QRWidget:SetSize(320, 320)
+
+    BigQRFrame.QRWidget = QRWidget
+    QRCodeWidget.BigQRFrame = BigQRFrame
+
+    function BigQRFrame:Open(value)
+        self.QRWidget:SetValue(value)
+        self:Show()
+    end
+
+    return BigQRFrame
 end

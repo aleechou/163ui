@@ -1,2 +1,0 @@
-Hendrik Leppkes:
-	- Avoid a division by zero for channeling spells without ticks

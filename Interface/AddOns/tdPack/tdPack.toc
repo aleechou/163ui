@@ -8,6 +8,7 @@
 
 load.xml
 
-## Title: |cff880303[网易有爱]|r tdPack
+## Title: |cff880303[网易有爱]|r 背包整理
+## Notes-zhCN: 背包整理
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

@@ -1,14 +1,7 @@
 
 BuildEnv(...)
 
-if ... == 'RaidBuilder' then
-    Event = LibStub('NetEaseTextFilter-1.0'):Embed((RaidBuilder or Addon):NewClass('Event'))
-else
-    Event = (RaidBuilder or Addon):NewClass('Event')
-    Event.TextFilter = function(self, str)
-        return str
-    end
-end
+Event = RaidBuilder:NewClass('Event')
 
 function Event:Constructor(proxy)
     self.proxy = proxy or {
@@ -41,14 +34,12 @@ local attr = {
     'LeaderItemLevel',
     'LeaderPVPRating',
     'LeaderProgression',
-    'LeaderFans',
+    'LeaderRaidInfo',
 
     'TimeStamp',
 
     'Password',
 
-    'Faction',
-    'Realm',
     'Version',
 }
 
@@ -109,9 +100,7 @@ function Event:ToSocket()
             self:GetLeaderItemLevel(),
             self:GetLeaderPVPRating(),
             self:GetLeaderProgression(),
-            self:GetFaction(),
-            self:GetLeaderFans(),
-            self:GetRealm(),
+            self:GetLeaderRaidInfo(),
             self:GetSource()
 end
 
@@ -120,12 +109,10 @@ function Event:FromSocket(...)
             minLevel, maxLevel, itemLevel, pvpRating,
             summary, crossRealm, forceVerify, hasPassword, memberRole,
             leaderBattleTag, leaderClass, leaderLevel,
-            leaderItemLevel, leaderPVPRating, leaderProgression, faction, fans, realm, source = ...
-    summary = self:TextFilter(summary:gsub('\n', ''))
+            leaderItemLevel, leaderPVPRating, leaderProgression, leaderRaidInfo, source = ...
 
     self.baseSortValue = nil
     self.eventCodeSortValue = nil
-    version = type(version) == 'number' and '5420' or version
     
     self:SetLeader(leader)
     self:SetVersion(version)
@@ -146,9 +133,7 @@ function Event:FromSocket(...)
     self:SetLeaderItemLevel(leaderItemLevel)
     self:SetLeaderPVPRating(leaderPVPRating)
     self:SetLeaderProgression(leaderProgression)
-    self:SetLeaderFans(fans)
-    self:SetFaction(faction)
-    self:SetRealm(realm)
+    self:SetLeaderRaidInfo(leaderRaidInfo)
     self:SetSource(source)
 end
 
@@ -191,7 +176,7 @@ local MatchCache = setmetatable({}, {
     end
 })
 
-function Event:Match(leader, eventCode, usable, noPassword, favorite)
+function Event:Match(search, eventCode, usable, noPassword, favorite)
     -- if usable then
     --     if not self:IsUsable() then
     --         return false
@@ -212,8 +197,12 @@ function Event:Match(leader, eventCode, usable, noPassword, favorite)
     if favorite and not self:IsInFavorite() then
         return false
     end
-    if leader and leader ~= '' and not self:GetLeader():lower():match(leader:lower()) then
-        return false
+    if search and search ~= '' then
+        search = search:lower()
+
+        if not (safematch(self:GetLeader():lower(), search) or safematch(self:GetSummary():lower(), search)) then
+            return false
+        end
     end
     if not eventCode or eventCode == 0 or eventCode == self:GetEventCode() then
         return true
@@ -239,7 +228,7 @@ function Event:IsLevelValid()
 end
 
 function Event:IsItemLevelValid()
-    local equipLevel = GetAverageItemLevel()
+    local equipLevel = GetPlayerItemLevel()
     return equipLevel >= self:GetItemLevel()
 end
 
@@ -282,29 +271,24 @@ function Event:IsInEvent()
 end
 
 function Event:GetLeaderClassText()
-    local class = self:GetLeaderClass()
-    local color = RAID_CLASS_COLORS[class].colorStr
-
-    return ('|c%s%s|r'):format(color, CLASS_NAMES[class])
+    return GetColoredClass(self:GetLeaderClass())
 end
 
-function Event:GetLeaderText(full)
-    local name, realm = strsplit('-', self:GetLeader())
-    local color = RAID_CLASS_COLORS[self:GetLeaderClass()].colorStr
+function Event:GetLeaderText()
+    return GetColoredName(self:GetLeader(), self:GetLeaderClass())
+end
 
-    if realm  then
-        if full then
-            return ('|c%s%s|r'):format(color, self:GetLeader())
-        else
-            return ('|c%s%s|r'):format(color, name .. FOREIGN_SERVER_LABEL)
-        end
+function Event:GetLeaderShortText()
+    local name, realm = strsplit('-', self:GetLeader())
+    if realm then
+        return GetColoredName(name .. FOREIGN_SERVER_LABEL, self:GetLeaderClass())
     else
-        return ('|c%s%s|r'):format(color, name)
+        return GetColoredName(name, self:GetLeaderClass())
     end
 end
 
 function Event:IsArenaEvent()
-    return bit.band(self:GetEventCode(), EVENT_MATCH_TYPE) == EVENT_TYPE_ARENA
+    return IsHasPVPRating(self:GetEventCode())
 end
 
 function Event:GetLeaderBTag()
@@ -392,7 +376,8 @@ end
 
 function Event:BaseSortHandler()
     if not self.baseSortValue then
-        self.baseSortValue = format('%08x%02x%02x%s',
+        self.baseSortValue = format('%08x%08x%02x%02x%s',
+            self:GetRemain(),
             self:GetEventCode(),
             self:GetEventMode(),
             self:GetStatusSortValue(),
@@ -407,4 +392,8 @@ function Event:GetStatusSortValue()
             self:IsApplied() and 3 or
             self:IsInFavorite() and 4 or
             self:GetHasPassword() and 5 or 6
+end
+
+function Event:GetRemain()
+    return self:GetRoleTotalAll() - self:GetRoleCurrentAll()
 end

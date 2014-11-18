@@ -8,4 +8,6 @@ rollBar.lua
 
 
 ## Title-zhCN: |cff880303[网易有爱]|r 多米诺-ROLL点框
+## Notes-zhCN: 多米诺-ROLL点框模块
+## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

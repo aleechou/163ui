@@ -64,7 +64,7 @@ local WAIT_HEADER = {
     },
     {
         key = 'Msg',
-        text = L['说明'],
+        text = L['留言'],
         width = 200,
         style = 'LEFT',
         showHandler = function(member)

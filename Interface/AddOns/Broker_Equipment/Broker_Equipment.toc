@@ -15,5 +15,6 @@ libs\LibDataBroker-1.1.lua
 Broker_Equipment.lua
 
 ## Title: |cff880303[网易有爱]|r 装备管理
+## Notes-zhCN: 快捷显示套装名称
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

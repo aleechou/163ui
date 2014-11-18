@@ -1,5 +1,0 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
-  <Script file="BroadHandler-1.0.lua" />
-  <Script file="NetEaseBroad-1.0.lua" />
-</Ui>

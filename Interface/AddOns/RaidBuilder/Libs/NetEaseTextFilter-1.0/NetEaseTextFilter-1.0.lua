@@ -65,7 +65,7 @@ local SafeWords = setmetatable({}, {
     })
 
 function TextFilter:TextFilter(text)
-    return SafeWords[text]
+    return text and SafeWords[text] or nil
 end
 
 TextFilter.embeds = TextFilter.embeds or {}

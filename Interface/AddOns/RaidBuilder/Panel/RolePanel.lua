@@ -16,7 +16,7 @@ function RolePanel:OnInitialize()
     }
 
     local RoleList = GUI:GetClass('GridView'):New(self)
-    RoleList:SetPoint('TOP', 0, -80)
+    RoleList:SetPoint('TOP', 0, -50)
     RoleList:SetSize(1, 1)
     RoleList:SetItemClass(RaidBuilder:GetClass('RoleCheckBox'))
     RoleList:SetAutoSize(true)
@@ -52,38 +52,29 @@ function RolePanel:OnInitialize()
     Label:SetPoint('BOTTOM', RoleList, 'TOP', 0, 15)
     Label:SetText(L['请选择你的职责：'])
 
-    local HelpButton = CreateFrame('Button', nil, self)
-    HelpButton:SetPoint('BOTTOM', Label, 'TOP', 0, 10)
-    HelpButton:SetPoint('LEFT')
-    HelpButton:SetPoint('RIGHT')
-    HelpButton:SetHeight(30)
+    -- local HelpButton = CreateFrame('Button', nil, self)
+    -- HelpButton:SetPoint('BOTTOM', Label, 'TOP', 0, 10)
+    -- HelpButton:SetPoint('LEFT')
+    -- HelpButton:SetPoint('RIGHT')
+    -- HelpButton:SetHeight(30)
 
-    local Text = HelpButton:CreateFontString(nil, 'OVERLAY')
-    Text:SetPoint('CENTER', -15, 0)
+    -- local Text = HelpButton:CreateFontString(nil, 'OVERLAY')
+    -- Text:SetPoint('CENTER', -15, 0)
 
-    local Icon = HelpButton:CreateTexture(nil, 'ARTWORK')
-    Icon:SetTexture([[INTERFACE\Calendar\EventNotification]])
-    Icon:SetSize(30, 30)
-    Icon:SetPoint('LEFT', Text, 'RIGHT')
+    -- local Icon = HelpButton:CreateTexture(nil, 'ARTWORK')
+    -- Icon:SetTexture([[INTERFACE\Calendar\EventNotification]])
+    -- Icon:SetSize(30, 30)
+    -- Icon:SetPoint('LEFT', Text, 'RIGHT')
 
-    HelpButton:SetFontString(Text)
-    HelpButton:SetNormalFontObject('GameFontGreenSmall')
-    HelpButton:SetHighlightFontObject('GameFontNormalSmall')
-    HelpButton:SetText(L['想以后继续参加这个团长的活动吗'])
-    HelpButton:SetScript('OnClick', function(button)
-        local name, realm = strsplit('-', GetFullName(self.event:GetLeader()))
-        RaidBuilder:ShowModule('YiXinSummary', name, realm)
-        HideParentPanel(button)
-    end)
-
-    local Password = GUI:GetClass('InputBox'):New(self)
-    Password:SetPoint('TOP', RoleList, 'BOTTOM', 0, -5)
-    Password:SetSize(200, 26)
-    Password:SetPrompt(L['请输入密码'])
-    Password:SetMaxLetters(6)
-    Password:SetScript('OnTextChanged', function()
-        self:UpdateAcceptButton()
-    end)
+    -- HelpButton:SetFontString(Text)
+    -- HelpButton:SetNormalFontObject('GameFontGreenSmall')
+    -- HelpButton:SetHighlightFontObject('GameFontNormalSmall')
+    -- HelpButton:SetText(L['想以后继续参加这个团长的活动吗'])
+    -- HelpButton:SetScript('OnClick', function(button)
+    --     local name, realm = strsplit('-', GetFullName(self.event:GetLeader()))
+    --     RaidBuilder:ShowModule('YiXinSummary', name, realm)
+    --     HideParentPanel(button)
+    -- end)
 
     local AcceptButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     AcceptButton:SetSize(120, 22)
@@ -104,11 +95,20 @@ function RolePanel:OnInitialize()
         self.event = nil
     end)
 
-    local QuickMsg = GUI:GetClass('Dropdown'):New(self)
-    QuickMsg:SetPoint('BOTTOM', 0, 45)
-    QuickMsg:SetSize(205, 26)
-    QuickMsg:SetMenuTable(QUICK_MSG_MENUTABLE)
-    QuickMsg:SetDefaultText(L['你想对团长说什么？'])
+    local QuickMsg = GUI:GetClass('InputBox'):New(self)
+    QuickMsg:SetPoint('TOP', RoleList, 'BOTTOM', 0, -5)
+    QuickMsg:SetSize(220, 26)
+    QuickMsg:SetPrompt(L['你想对团长说什么？'])
+    QuickMsg:SetMaxBytes(46)
+
+    local Password = GUI:GetClass('InputBox'):New(self)
+    Password:SetPoint('TOP', QuickMsg, 'BOTTOM', 0, 0)
+    Password:SetSize(220, 26)
+    Password:SetPrompt(L['请输入密码'])
+    Password:SetMaxLetters(6)
+    Password:SetCallback('OnTextChanged', function()
+        self:UpdateAcceptButton()
+    end)
 
     self.QuickMsg = QuickMsg
     self.AcceptButton = AcceptButton
@@ -164,31 +164,33 @@ function RolePanel:SetArguments(callback, event)
 
     local height = 160
     if hasPassword then
-        height = height + 30
+        height = height + 25
     end
     if not isSelf then
-        height = height + 50
+        height = height + 30
     end
 
-    if isSelf then
-        self.QuickMsg:Hide()
-        self.HelpButton:Hide()
-        self.RoleList:SetPoint('TOP', 0, -50)
-    else
-        self.QuickMsg:Show()
-        self.QuickMsg:SetValue(nil)
-        self.HelpButton:Show()
-        self.RoleList:SetPoint('TOP', 0, -80)
+    -- if isSelf then
+    --     self.QuickMsg:Hide()
+    --     self.HelpButton:Hide()
+    --     self.RoleList:SetPoint('TOP', 0, -50)
+    -- else
+    --     self.QuickMsg:Show()
+    --     self.QuickMsg:SetText('')
+    --     self.HelpButton:Show()
+    --     self.RoleList:SetPoint('TOP', 0, -80)
 
-        GUI:SetTooltip(self.HelpButton, 'ANCHOR_BOTTOM',
-            L['在|cff00ffff易信|r中关注Ta仅需两步：'],
-            ' ',
-            L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'],
-            (L['2.向“|cffffd100魔兽世界|r”发送“|cffffd100关注%s@%s|r”即可']):format(strsplit('-', GetFullName(event:GetLeader()))),
-            ' ',
-            L['点击查看详细步骤'])
-    end
+    --     GUI:SetTooltip(self.HelpButton, 'ANCHOR_BOTTOM',
+    --         L['在|cff00ffff易信|r中关注Ta仅需两步：'],
+    --         ' ',
+    --         L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'],
+    --         (L['2.向“|cffffd100魔兽世界|r”发送“|cffffd100关注%s@%s|r”即可']):format(strsplit('-', GetFullName(event:GetLeader()))),
+    --         ' ',
+    --         L['点击查看详细步骤'])
+    -- end
 
+    self.QuickMsg:SetShown(not isSelf)
+    self.QuickMsg:SetText('')
     self.Password:SetShown(hasPassword)
     self.Password:SetText('')
     self:SetHeight(height)
@@ -208,10 +210,11 @@ function RolePanel:AcceptOnClick()
     if not role then
         return
     end
-    local password = self.Password:IsShown() and self.Password:GetNumber()
-    local msgId = self.QuickMsg:IsShown() and self.QuickMsg:GetValue()
+    local password = self.Password:IsShown() and self.Password:GetNumber() or nil
+    local msg = self.QuickMsg:IsShown() and self.QuickMsg:GetText()
+    msg = msg and msg ~= '' and msg or nil
 
-    self.callback(role, password, msgId)
+    self.callback(role, password, msg)
 end
 
 function RolePanel:UpdateAcceptButton()

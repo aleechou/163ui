@@ -1,0 +1,14 @@
+tag 3.2.3
+f72f3b693d76c39688dc222925c5f553874339ed
+Hendrik Leppkes <h.leppkes@gmail.com>
+2014-11-17 09:21:17 +0100
+
+Tag as 3.2.3
+
+
+--------------------
+
+Hendrik Leppkes:
+	- Use a SecureHook for DoTradeSkill as tainting causes the Enchanter's Study to break.
+	Untested, this may break the tradeskill cast bar functions slightly.
+	- Fix typo

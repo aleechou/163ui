@@ -1,10 +1,6 @@
 ﻿## Interface: 60000
 ## Title: Fizzle
-## Title-zhTW: |cff880303[网易有爱]|r 裝備耐久 Fizzle
-## Title-zhCN: |cff880303[网易有爱]|r 装备耐久 Fizzle
 ## Notes: Show item durability and quality in the character frame.
-## Notes-zhTW: 邊框品質著色、人物界面耐久度顯示.
-## Notes-zhCN: 边框品质着色、人物界面耐久度显示.
 ## Author: phyber
 ## Version: 50400-1
 ## SavedVariablesPerCharacter: FizzleDB
@@ -16,5 +12,9 @@ Core.lua
 Inspect.lua
 
 ## Title: |cff880303[网易有爱]|r 装备耐久
+## Title-zhCN: |cff880303[网易有爱]|r 装备耐久 Fizzle
+## Title-zhTW: |cff880303[网易有爱]|r 裝備耐久 Fizzle
+## Notes-zhCN: 边框品质着色、人物界面耐久度显示.
+## Notes-zhTW: 邊框品質著色、人物界面耐久度顯示.
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141016233437

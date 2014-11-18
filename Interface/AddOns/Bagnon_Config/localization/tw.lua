@@ -1,6 +1,6 @@
 --[[
   Bagnon Config Localization: Chinese Traditional
-		Credits: 狂飆@cwdg, yleaf@cwdg, Seraveegd@鬼霧峰
+		Credits: 狂飆@cwdg, yleaf@cwdg, Seraveegd@日落沼澤
 --]]
 
 local L = LibStub('AceLocale-3.0'):NewLocale('Bagnon-Config', 'zhTW')
@@ -25,6 +25,7 @@ L.FrameLayer = '視窗層級'
 L.EnableBagFrame = '啟用背包框架'
 L.EnableMoneyFrame = '啟用貨幣視窗'
 L.EnableDBOFrame = '啟用資訊視窗'
+L.EnableSortButton = '啟用排序按鈕'
 L.EnableSearchToggle = '啟用搜索按鈕'
 L.EnableOptionsToggle = '啟用設定按鈕'
 L.EnableFrame_inventory = '啟用背包框架'
@@ -69,3 +70,4 @@ L.ItemSlotColor_gem = '寶石包槽顏色'
 L.ItemSlotColor_mine = '礦石包槽顏色'
 L.ItemSlotColor_tackle = '工具箱槽顏色'
 L.ItemSlotColor_cooking = '烹飪包槽顏色'
+L.ItemSlotColor_reagent = '材料銀行顏色'

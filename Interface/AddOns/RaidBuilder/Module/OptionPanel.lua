@@ -31,17 +31,22 @@ function SettingPanel:OnInitialize()
             self:SendMessage('RAIDBUILDER_SETTING_CHANGED', key, value, true)
         end,
         args = {
-            minimapPack = {
-                type = 'toggle',
-                name = L['允许小地图图标被整合'],
-                width = 'full',
-                order = 1,
-            },
             minimap = {
                 type = 'toggle',
                 name = L['显示小地图图标'],
                 width = 'full',
                 order = 2,
+                get = function()
+                    return not self.db.profile.minimap.hide
+                end,
+                set = function(_, value)
+                    self.db.profile.minimap.hide = not value
+                    if value then
+                        LibStub('LibDBIcon-1.0'):Show('RaidBuilder')
+                    else
+                        LibStub('LibDBIcon-1.0'):Hide('RaidBuilder')
+                    end
+                end
             },
             panel = {
                 type = 'toggle',
@@ -93,7 +98,7 @@ function SettingPanel:OnInitialize()
                     return GetBindingKey('RAIDBUILDER_TOGGLE')
                 end,
                 set = function(info, key)
-                    GetBindingAction(key)
+                    -- GetBindingAction(key)
                     for _, key in ipairs({GetBindingKey('RAIDBUILDER_TOGGLE')}) do
                         SetBinding(key, nil)
                     end
@@ -136,43 +141,5 @@ function SettingPanel:OnInitialize()
     end)
 
     LibStub('AceConfigRegistry-3.0'):RegisterOptionsTable('RaidBuilder', options)
-    -- LibStub('AceConfigDialog-3.0'):Open('RaidBuilder', group)
-    
-    -- for k, v in pairs(group.children[1].children) do
-    --     if v.type == 'Keybinding' then
-    --         v.msgframe.msg:SetText(L['点击按键以绑定命令->集合石组团，点击ESC或者再次点击按钮取消设置。'])
-    --     end
-    -- end
-
-    -- local SignInButton = BigButton:New(self)
-    -- SignInButton:SetPoint('TOPRIGHT', -20, -20)
-    -- SignInButton:SetText(Profile:IsSignIn() and L['今日已签到'] or L['签到'])
-    -- SignInButton:SetEnabled(not Profile:IsSignIn())
-    -- SignInButton:SetScript('OnClick', function(self)
-    --     Logic:SignIn()
-    --     self:Disable()
-    --     self:SetText(L['今日已签到'])
-    --     System:Message(L['今日签到成功'])
-    -- end)
-    -- SignInButton:Hide()
-
-    local ReferenceButton = BigButton:New(self)
-    -- ReferenceButton:SetPoint('TOPRIGHT', SignInButton, 'BOTTOMRIGHT', 0, -10)
-    ReferenceButton:SetPoint('TOPRIGHT', -20, -20)
-    ReferenceButton:SetText(Profile:GetReferenced() and L['已填写推荐'] or L['推荐人'])
-    ReferenceButton:SetEnabled(not Profile:GetReferenced())
-    ReferenceButton:SetScript('OnClick', function(self)
-        GUI:CallInputDialog(format(L['请输入邀请人的角色名和服务器，格式如下：|cffffd100%s-%s|r'], UnitName('player'), GetRealmName()), function(result, text)
-            if result then
-                Logic:Referenced(text)
-                self:Disable()
-                self:SetText(L['已填写推荐'])
-                System:Message(L['推荐人填写成功'])
-            end
-        end, nil, nil, 255)
-    end)
-    -- ReferenceButton:Hide()
-
-    self.ReferenceButton = ReferenceButton
 end
 

@@ -1,8 +1,6 @@
 ## Interface: 60000
 ## Title: TradeSkillInfo UI
 ## Notes: Complete tradeskill information browser module.
-## Notes-zhCN: 商业技能资料库设置窗口
-## Notes-zhTW: 商業技能資料庫設置窗口
 ## Notes-esES: UI con Info Completa de las Habilidades de Comercio
 ## Notes-koKR: 전문기술 정보 UI
 ## Author: Ethan Centaurai
@@ -20,5 +18,7 @@ TradeskillInfoUI.lua
 TradeskillInfoUI.xml
 
 ## Title: |cff880303[网易有爱]|r 商业技能百科设置窗口
+## Notes-zhCN: 商业技能资料库设置窗口
+## Notes-zhTW: 商業技能資料庫設置窗口
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141114151506

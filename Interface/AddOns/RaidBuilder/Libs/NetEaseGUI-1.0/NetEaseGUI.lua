@@ -1,5 +1,5 @@
 
-local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 10)
+local GUI = LibStub:NewLibrary('NetEaseGUI-1.0', 12)
 if not GUI then
     return
 end
@@ -14,10 +14,53 @@ local L = GetLocale() == 'zhCN' and {
 
 local Class = LibStub('LibClass-1.0')
 
-local classes = {}
-local cversions = {}
-local embeds = {}
-local eversions = {}
+GUI.embeds = GUI.embeds or {}
+GUI.classes = GUI.classes or {}
+GUI.eversions = GUI.eversions or {}
+GUI.cversions = GUI.cversions or {}
+GUI.tooltips = GUI.tooltips or {}
+GUI.specialFrames = GUI.specialFrames or {}
+GUI.SpecialHandler = GUI.SpecialHandler or {}
+
+local classes = GUI.classes
+local cversions = GUI.cversions
+local embeds = GUI.embeds
+local eversions = GUI.eversions
+local tooltips = GUI.tooltips
+local specialFrames = GUI.specialFrames
+local SpecialHandler = GUI.SpecialHandler
+
+_G['NetEaseSpecialWindowsHandler'] = SpecialHandler
+
+if not tContains(UISpecialFrames, 'NetEaseSpecialWindowsHandler') then
+    tinsert(UISpecialFrames, 'NetEaseSpecialWindowsHandler')
+end
+
+---- Class
+
+function GUI:NewClass(name, super, version, ...)
+    local class = classes[name]
+    local oldversion = cversions[name]
+
+    if not class or not oldversion or (version and oldversion < version) then
+        class = Class:New(name, super)
+
+        classes[name] = class
+        cversions[name] = version
+
+        self:Embed(class, ...)
+        return class
+    end
+end
+
+function GUI:GetClass(name)
+    if not classes[name] then
+        error('Can`t found Class ' .. name, 2)
+    end
+    return classes[name]
+end
+
+---- Embed
 
 function GUI:Embed(target, ...)
     if type(target) == 'string' then
@@ -40,25 +83,6 @@ function GUI:Embed(target, ...)
     end
 end
 
-function GUI:NewClass(name, super, version, ...)
-    local class = classes[name]
-    local oldversion = cversions[name]
-
-    if not class or not oldversion or (version and oldversion < version) then
-        class = Class:New(name, super)
-
-        classes[name] = class
-        cversions[name] = version
-
-        self:Embed(class, ...)
-        return class
-    end
-end
-
-function GUI:GetClass(name)
-    return classes[name]
-end
-
 function GUI:NewEmbed(name, version)
     local embed = embeds[name]
     local oldversion = eversions[name]
@@ -75,36 +99,7 @@ function GUI:GetEmbed(name)
     return embeds[name]
 end
 
-local UISpecialFrames = {}
-local orig_CloseSpecialWindows = _G.CloseSpecialWindows
-
-function _G.CloseSpecialWindows()
-    local found = orig_CloseSpecialWindows()
-    for frame in pairs(UISpecialFrames) do
-        if frame:IsShown() then
-            frame:Hide()
-            found = 1
-        end
-    end
-    return found
-end
-
-function GUI:RegisterUIPanel(frame)
-    if not Class:IsWidget(frame) then
-        return
-    end
-    UISpecialFrames[frame] = true
-end
-
-function GUI:UnregisterUIPanel(frame)
-    if not Class:IsWidget(frame) then
-        return
-    end
-    UISpecialFrames[frame] = nil
-end
-
-GUI.RegisterUIMenu = GUI.RegisterUIPanel
-GUI.UnregisterUIMenu = GUI.UnregisterUIPanel
+---- Dialog
 
 StaticPopupDialogs['NECLOUD_CONFIRM_DIALOG'] = {}
 StaticPopupDialogs['NETEASE_COPY_URL'] = {
@@ -115,8 +110,7 @@ StaticPopupDialogs['NETEASE_COPY_URL'] = {
     whileDead = 1,
     hideOnEscape = 1,
     hasEditBox = true,
-    maxBytes = 2000,
-    maxLetters = 2000,
+    editBoxWidth = 260,
 }
 
 function GUI:CallWarningDialog(text, showAlert, key, callback, ...)
@@ -130,8 +124,9 @@ function GUI:CallWarningDialog(text, showAlert, key, callback, ...)
 
     if type(callback) == 'function' then
         local args = {...}
+        local argCount = select('#', ...)
         t.OnAccept = function()
-            callback(unpack(args))
+            callback(unpack(args, 1, argCount))
         end
     end
 
@@ -149,11 +144,12 @@ function GUI:CallMessageDialog(text, callback, key, ...)
 
     if type(callback) == 'function' then
         local args = {...}
+        local argCount = select('#', ...)
         t.OnAccept = function()
-            callback(true, nil, unpack(args))
+            callback(true, nil, unpack(args, 1, argCount))
         end
         t.OnCancel = function()
-            callback(false, nil, unpack(args))
+            callback(false, nil, unpack(args, 1, argCount))
         end
     end
 
@@ -173,22 +169,23 @@ function GUI:CallInputDialog(text, callback, key, default, maxBytes, ...)
     t.maxBytes = maxBytes or 255
     t.timeout = 60
 
-    local args = {...}
-
     if type(callback) == 'function' then
+        local args = {...}
+        local argCount = select('#', ...)
+
         t.OnAccept = function(self)
-            callback(true, self.editBox:GetText(), unpack(args))
+            callback(true, self.editBox:GetText(), unpack(args, 1, argCount))
         end
         t.EditBoxOnEnterPressed = function(self)
-            callback(true, self:GetText(), unpack(args))
+            callback(true, self:GetText(), unpack(args, 1, argCount))
             self:GetParent():Hide()
         end
         t.EditBoxOnEscapePressed = function(self)
-            callback(false, nil, unpack(args))
+            callback(false, nil, unpack(args, 1, argCount))
             self:GetParent():Hide()
         end
         t.OnCancel = function()
-            callback(false, nil, unpack(args))
+            callback(false, nil, unpack(args, 1, argCount))
         end
     end
 
@@ -208,6 +205,8 @@ function GUI:CallUrlDialog(url, title, showAlert)
 
     local dialog = StaticPopup_Show('NETEASE_COPY_URL')
     if dialog then
+        dialog.editBox:SetMaxBytes(nil)
+        dialog.editBox:SetMaxLetters(nil)
         dialog.editBox:SetText(url)
         dialog.editBox:HighlightText()
         dialog.editBox:SetCursorPosition(0)
@@ -233,7 +232,7 @@ function GUI:CloseDialog(key)
     StaticPopup_Hide('NECLOUD_CONFIRM_DIALOG', key)
 end
 
-local tooltips = {}
+---- Tooltip
 
 local function OnEnter(self)
     local anchor = tooltips[self].anchor
@@ -276,3 +275,32 @@ function GUI:SetTooltip(object, anchor, text, ...)
         tooltips[object].anchor = nil
     end
 end
+
+---- specialFrames
+
+function GUI:RegisterUIPanel(frame)
+    if not Class:IsWidget(frame) then
+        return
+    end
+    specialFrames[frame] = true
+end
+
+function GUI:UnregisterUIPanel(frame)
+    if not Class:IsWidget(frame) then
+        return
+    end
+    specialFrames[frame] = nil
+end
+
+function SpecialHandler:IsShown()
+    local found
+    for frame in pairs(specialFrames) do
+        if frame:IsShown() then
+            frame:Hide()
+            found = true
+        end
+    end
+    return found
+end
+
+SpecialHandler.Hide = nop

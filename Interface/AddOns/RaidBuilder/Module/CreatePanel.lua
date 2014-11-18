@@ -1,7 +1,7 @@
 
 BuildEnv(...)
 
-local CreatePanel = RaidBuilder:NewModule(CreateFrame('Frame'), 'CreatePanel', 'AceEvent-3.0', 'AceTimer-3.0')
+local CreatePanel = RaidBuilder:NewModule(CreateFrame('Frame'), 'CreatePanel', 'AceEvent-3.0', 'AceTimer-3.0', 'NetEaseTextFilter-1.0')
 
 function CreatePanel:OnInitialize()
     GUI:Embed(self, 'Owner', 'Tab', 'Refresh')
@@ -29,7 +29,7 @@ function CreatePanel:OnInitialize()
     Mode:SetDefaultText(L['请选择活动形式'])
 
     local YiXinButton = Button:New(self)
-    YiXinButton:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -80, 20)
+    YiXinButton:SetPoint('TOPRIGHT', self:GetOwner(), 'TOPRIGHT', -94, -30)
     YiXinButton:SetText(L['易信推送'])
     YiXinButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\YiXin]])
     YiXinButton:SetTooltip(
@@ -110,15 +110,7 @@ function CreatePanel:OnInitialize()
     SummaryBox:GetEditBox():SetMaxBytes(46)
 
     local function CheckError()
-        local err, content = self:CheckError()
-        if err and content then
-            self.ErrorText:SetText(content)
-            self.CreateButton:Disable()
-            return
-        end
-
-        self.ErrorText:SetText()
-        self.CreateButton:SetEnabled(not self.Blocker:IsShown())
+        self:UpdateControl()
     end
 
     local TankBox = RaidBuilder:GetClass('RoleInputBox'):New(RoleWidget)
@@ -157,7 +149,7 @@ function CreatePanel:OnInitialize()
     ItemLevel:SetPoint('BOTTOMLEFT', 20, 10)
     ItemLevel:SetPoint('BOTTOMRIGHT', -36, 10)
     ItemLevel:SetHeight(40)
-    ItemLevel:SetMinMaxValues(0, 600)
+    ItemLevel:SetMinMaxValues(0, 700)
     ItemLevel:SetValueStep(10)
 
     local PVPRating = GUI:GetClass('NumericBox'):New(PVPWidget)
@@ -213,12 +205,12 @@ function CreatePanel:OnInitialize()
     ErrorText:SetPoint('TOP', 0, -5)
 
     local Blocker = CreateFrame('Frame', nil, self)
-    Blocker:SetAllPoints(self)
-    -- Blocker:SetToplevel(true)
+    Blocker:SetPoint('TOPLEFT', -3, 3)
+    Blocker:SetPoint('BOTTOMRIGHT', 3, -3)
     Blocker:SetFrameLevel(50)
     Blocker:EnableMouse(true)
     Blocker:EnableMouseWheel(true)
-    Blocker:SetScript('OnMouseWheel', function() end)
+    Blocker:SetScript('OnMouseWheel', nop)
 
     local bg = Blocker:CreateTexture(nil, 'OVERLAY')
     bg:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background-Dark]])
@@ -258,14 +250,13 @@ function CreatePanel:OnInitialize()
     self.ErrorText = ErrorText
     self.RestoreButton = RestoreButton
 
-    Filter:SetCallback('OnSelectChanged', function(_, data)
-        self.Mode:SetMenuTable(GetEventModeMenuTable(data.value))
+    Filter:SetCallback('OnSelectChanged', function()
         self.Mode:SetValue(nil)
-        self.CrossRealm:SetEnabled(GetEventAllowCrossRealm(data.value))
-        self:SetEvent(Profile:GetEventProfile(data.value))
+        self:UpdateInputControl()
+        self:UpdateInput()
         self:Refresh()
     end)
-    Mode:SetCallback('OnSelectChanged', function(_, data)
+    Mode:SetCallback('OnSelectChanged', function()
         self:Refresh()
     end)
 
@@ -274,59 +265,98 @@ function CreatePanel:OnInitialize()
     end)
 
     self:SetScript('OnShow', self.OnShow)
-    self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'OnShow')
-    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'OnShow')
-    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE', 'OnShow')
+    self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_UPDATE', 'Refresh')
+    self:RegisterMessage('RAIDBUILDER_EVENT_LOCK_STATUS_UPDATE', 'Refresh')
+    self:RegisterEvent('GROUP_ROSTER_UPDATE', 'Refresh')
 end
 
 function CreatePanel:OnShow()
     local event = EventCache:GetCurrentEvent()
     if event then
-        local paused = EventCache:IsCurrentEventPaused()
-
         self.Filter:SetValue(event:GetEventCode())
         self.Mode:SetValue(event:GetEventMode())
-        self:SetEvent(event, false, false, false)
-
-        self.CrossRealm:Disable()
-        self.Filter:Disable()
-        self.YiXinButton:SetEnabled(not paused)
-        self.ShareButton:SetEnabled(not paused)
-        self.RestoreButton:SetEnabled(not Logic:IsEventStatusLockdown() and not event:IsMemberFull())
-
-        self.CreateButton:SetText(L['更新活动'])
-        self.RestoreButton:SetText(paused and L['恢复招募'] or L['暂停招募'])
     else
         self.Filter:SetValue(nil)
         self.Mode:SetValue(nil)
-        self:SetEvent(nil)
-
-        self.CrossRealm:Enable()
-        self.Filter:Enable()
-        self.YiXinButton:Disable()
-        self.ShareButton:Disable()
-        self.RestoreButton:Disable()
-
-        self.CreateButton:SetText(L['创建活动'])
-        self.RestoreButton:SetText(L['暂无活动'])
     end
     self:Refresh()
 end
 
 function CreatePanel:Update()
-    local event = self.event
-    local eventCode = event and event:GetEventCode() or self.Filter:GetValue()
+    self:UpdateBlocker()
+    self:UpdateControl()
+end
+
+function CreatePanel:UpdateBlocker()
+    if EventCache:GetCurrentEvent() then
+        self:SetBlocker(false)
+    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        self:SetBlocker(L['你正在随机副本里，不能创建活动'])
+    elseif BatchApply:IsWorking() then
+        self:SetBlocker(L['你正在使用快速申请，不能创建活动'])
+    elseif not PlayerIsGroupLeader() then
+        self:SetBlocker(L['你不是队长，不能创建活动'])
+    elseif not self.Filter:GetValue() or not self.Mode:GetValue() then
+        self:SetBlocker(L['请选择活动类型及活动形式'])
+    else
+        self:SetBlocker(false)
+    end
+end
+
+function CreatePanel:UpdateControl()
+    local event = EventCache:GetCurrentEvent()
+    local statusLockdown = Logic:IsEventStatusLockdown()
+    local isLeader = PlayerIsGroupLeader()
+    local inputError = self:CheckError()
+
+    self.ShareButton:SetEnabled(event)
+    self.YiXinButton:SetEnabled(event)
+    self.RestoreButton:SetEnabled(isLeader and event and not event:IsMemberFull() and not Logic:IsEventStatusLockdown())
+    self.CreateButton:SetEnabled(isLeader and not inputError and not self.Blocker:IsShown())
+
+    self.Filter:SetEnabled(not event)
+    self.CrossRealm:SetEnabled(not event and GetEventAllowCrossRealm(eventCode))
+
+    self.ErrorText:SetText(inputError)
+    self.CreateButton:SetText(event and L['更新活动'] or L['创建活动'])
+    self.RestoreButton:SetText(not event and L['暂无活动'] or EventCache:IsCurrentEventPaused() and L['恢复招募'] or L['暂停招募'])
+end
+
+function CreatePanel:UpdateInputControl()
+    local eventCode = self.Filter:GetValue()
+    if not eventCode then
+        return
+    end
+    self.Mode:SetMenuTable(GetEventModeMenuTable(eventCode))
+
+    self.MinLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
+    self.MaxLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
+    self.ItemLevel:SetMinMaxValues(0, GetPlayerItemLevel() + 10)
+
+    self.PVPRating:SetEnabled(IsHasPVPRating(eventCode))
+    self.PVPRating:SetMinMaxValues(0, GetPlayerPVPRating(eventCode))
+end
+
+function CreatePanel:UpdateInput()
+    local eventCode = self.Filter:GetValue()
+    if not eventCode then
+        return
+    end
+    local event = Profile:GetEventProfile(self.Filter:GetValue())
     local tank, healer, damager, none = GetEventDefaultMemberRole(eventCode)
     if event then
+        self.Mode:SetValue(event:GetEventMode())
+
         self.MinLevel:SetNumber(event:GetMinLevel() or GetEventMinLevel(eventCode))
         self.MaxLevel:SetNumber(event:GetMaxLevel() or MAX_PLAYER_LEVEL)
         self.ItemLevel:SetNumber(event:GetItemLevel() or 0)
         self.PVPRating:SetNumber(event:GetPVPRating() or 0)
         self.Password:SetText(event:GetPassword() or '')
         self.SummaryBox:SetText(event:GetSummary() or '')
+        self.RulesBox:SetText(event:GetRules() or '')
         self.CrossRealm:SetChecked(event:GetCrossRealm())
         self.ForceVerify:SetChecked(event:GetForceVerify())
-        self.RulesBox:SetText(event:GetRules() or '')
 
         self.TankNumber:SetNumber(event:GetRoleTotal('TANK') or tank)
         self.HealerNumber:SetNumber(event:GetRoleTotal('HEALER') or healer)
@@ -339,33 +369,23 @@ function CreatePanel:Update()
         self.PVPRating:SetNumber(0)
         self.Password:SetText('')
         self.SummaryBox:SetText('')
-        self.CrossRealm:SetChecked(true)
-        self.ForceVerify:SetChecked(false)
         self.RulesBox:SetText('')
+        self.CrossRealm:SetChecked(GetEventAllowCrossRealm(eventCode))
+        self.ForceVerify:SetChecked(false)
+
         self.TankNumber:SetNumber(tank)
         self.HealerNumber:SetNumber(healer)
         self.DamagerNumber:SetNumber(damager)
         self.NoneNumber:SetNumber(none)
     end
+end
 
-    local isLeader = PlayerIsGroupLeader()
-    local eventCode = self.Filter:GetValue()
-    local nonBlock = isLeader and eventCode and self.Mode:GetValue()
-
-    self.MinLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
-    self.MaxLevel:SetMinMaxValues(GetEventMinLevel(eventCode), MAX_PLAYER_LEVEL)
-
-    self.Blocker:SetShown(not nonBlock)
-    self.CreateButton:SetEnabled(nonBlock)
-    self.BlockerText:SetText(isLeader and L['请选择活动类型及活动形式'] or L['你不是队长，不能创建活动'])
-
-    if eventCode then
-        if IsHasPVPRating(eventCode) then
-            self.PVPRating:Enable()
-        else
-            self.PVPRating:Disable()
-            self.PVPRating:SetNumber(0)
-        end
+function CreatePanel:SetBlocker(text)
+    if not text then
+        self.Blocker:Hide()
+    else
+        self.BlockerText:SetText(text)
+        self.Blocker:Show()
     end
 end
 
@@ -422,7 +442,7 @@ function CreatePanel:CreateEvent()
     local eventMode = self.Mode:GetValue()
     local itemLevel = self.ItemLevel:GetNumber()
     local pvpRating = self.PVPRating:GetNumber()
-    local summary = self.SummaryBox:GetText()
+    local summary = self:TextFilter(self.SummaryBox:GetText():gsub('\n', ''))
     local crossRealm = not not self.CrossRealm:GetChecked()
     local forceVerify = not not self.ForceVerify:GetChecked()
     local password = tonumber(self.Password:GetText())
@@ -469,12 +489,12 @@ end
 function CreatePanel:CheckError()
     local eventCode = self.Filter:GetValue()
     if not eventCode then
-        return true
+        return ''
     end
     local _maxMember = GetEventMaxMember(eventCode)
 
     if not self:CheckMemberRole(_maxMember) then
-        return true, format(L['职责总人数不能小于2或大于%d'], _maxMember)
+        return format(L['职责总人数不能小于2或大于%d'], _maxMember)
     end
 
     local minLevel = self.MinLevel:GetNumber()
@@ -482,13 +502,13 @@ function CreatePanel:CheckError()
     local _minLevel = GetEventMinLevel(eventCode)
 
     if maxLevel > MAX_PLAYER_LEVEL then
-        return true, format(L['等级最高不能超过%d'], MAX_PLAYER_LEVEL)
+        return format(L['等级最高不能超过%d'], MAX_PLAYER_LEVEL)
     end
     if minLevel < _minLevel then
-        return true, format(L['这个活动等级最低不能低于%d'], _minLevel)
+        return format(L['这个活动等级最低不能低于%d'], _minLevel)
     end
     if minLevel > maxLevel then
-        return true, L['最低等级不能超过最高等级']
+        return L['最低等级不能超过最高等级']
     end
 
     local event = Event:New()
@@ -500,6 +520,6 @@ function CreatePanel:CheckError()
     event:SetMaxLevel(maxLevel)
 
     if event:GetRoleTotalAll() > 5 and minLevel < 10 then
-        return true, L['大于5人的活动，最低等级不能低于10级']
+        return L['大于5人的活动，最低等级不能低于10级']
     end
 end

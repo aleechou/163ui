@@ -10,6 +10,6 @@ L.PurchaseDialog = 'Möchten Sie das Leerenlager aktivieren?|n|n|cffffd200Kosten
 L.CannotPurchaseDialog = 'Das verfügbare Gold reicht nicht um das Leerenlager zu aktivieren|n|n|cffff2020Kosten:|r %s'
 L.AskMafia = 'Mafia Fragen'
 
-L.Title = [[%s's Leerenlager]]
+L.Title = 'Leerenlager von %s'
 L.NumDeposit = '%d Einlagerung'
 L.NumWithdraw = '%d Entnahme'
