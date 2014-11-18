@@ -126,8 +126,10 @@ function CreateFrames_CreateSpellFrame(index, typeIndex)
 	local eaf = _G[sFramePrefix..index];
 	if (eaf == nil) then 
 		if ((typeIndex == 3) and EA_Position.SCD_UseCooldown) then
-			eaf = CreateFrame("Cooldown", sFramePrefix..index, EA_Main_Frame, "CooldownFrameTemplate");
-			eaf.useCooldown = true;
+			eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
+			eaf.useCooldown = false;
+			--eaf = CreateFrame("Cooldown", sFramePrefix..index, EA_Main_Frame, "CooldownFrameTemplate");
+			--eaf.useCooldown = true;
 		else
 			eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
 			eaf.useCooldown = false;
