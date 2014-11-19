@@ -29,4 +29,4 @@ sounds.lua
 ## Notes-zhCN:《燃烧的远征》物品信息
 ## Notes-zhTW:《燃燒遠征》物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 20141119180744

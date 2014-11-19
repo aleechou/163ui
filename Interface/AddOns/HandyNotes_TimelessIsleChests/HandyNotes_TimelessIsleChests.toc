@@ -24,4 +24,4 @@ HandyNotes_TimelessIsleChests.lua
 ## Notes-zhCN: 在永恒岛地图上显示宝箱 稀有怪物坐标等特殊物品.
 ## Notes-zhTW: 在永恆島地圖上顯示寶箱 稀有怪物座標等特殊物品.
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111901
+## X-163UI-Version: 20141119180744

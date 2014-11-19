@@ -52,4 +52,4 @@ HandyNotes_EditFrame.lua
 ## Notes-zhCN: 一个小巧且全能的地图标记注释功能类插件. 设置口令：/handynotes
 ## Notes-zhTW: 一個小巧且全能的地圖標記註釋功能類插件. 設置口令：/handynotes.
 ## X-Vendor: NetEase
-## 163UI-Version: 2014052801
+## X-163UI-Version: 20141119180744
