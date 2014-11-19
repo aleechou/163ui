@@ -29,6 +29,6 @@ multiActionBarFixer.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 多米诺动作条
 ## Notes-zhCN: 一个简单易用的动作条移动插件，可以移动动作条、施法条、姿态条、宠物条、图腾条等等。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118230555
+## X-163UI-Version: 2014111901
 
 163UI-patch.lua
