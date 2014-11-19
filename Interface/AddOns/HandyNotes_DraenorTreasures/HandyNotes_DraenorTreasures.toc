@@ -19,4 +19,4 @@ HandyNotes_DraenorTreasures.lua
 ## Notes-zhCN: 在德拉诺之王地图上显示宝箱 稀有怪物坐标等特殊物品.
 ## Notes-zhTW: 在德拉諾之霸地圖上顯示寶箱 稀有怪物座標等特殊物品.
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014111901
+## X-163UI-Version: 20141119180744
