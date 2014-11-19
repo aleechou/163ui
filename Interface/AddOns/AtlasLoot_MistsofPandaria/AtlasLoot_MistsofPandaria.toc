@@ -7,27 +7,23 @@
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
-
 ## Title: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
-## Title-zhCN: AtlasLoot |cFF0099FF[熊猫人之谜]|r
-## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 潘達利亞之謎
-
 ## Notes: AtlasLoot loot tables from Mists of Pandaria
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Mists of Pandaria
-## Notes-zhCN: AtlasLoot 《熊猫人之谜》物品信息
-## Notes-zhTW: AtlasLoot 潘達利亞之謎資料片物品掉落資料庫
-
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
-
 ## X-AtlasLoot-LootModule: 1
 
 data.lua
 sounds.lua
 
-## Title: |cff880303[网易有爱]|r 熊猫人之谜副本物品信息查询
+## Title: |cff880303[网易有爱]|r 熊猫人之谜副本物品信息查询模块
+## Title-zhCN: |cff880303[网易有爱]|r 熊猫人之谜副本物品信息查询模块
+## Title-zhTW: |cff880303[網易有愛]|r 潘達利亞之謎資料片物品掉落資料庫
+## Notes-zhCN:《熊猫人之谜》物品信息
+## Notes-zhTW: 潘達利亞之謎資料片物品掉落資料庫
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141118121700

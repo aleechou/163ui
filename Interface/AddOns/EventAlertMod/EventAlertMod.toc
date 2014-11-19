@@ -21,9 +21,9 @@ EventAlert_SCDAlerts.xml
 EventAlert_GroupAlerts.xml
 
 ## Title: |cff880303[网易有爱]|r EAM技能特效警报
-## Title-zhCN: EventAlertMod 法术监控触发提示
-## Title-zhTW: EventAlertMod 法術監控觸發提示
+## Title-zhCN: |cff880303[网易有爱]|r EAM技能特效警报
+## Title-zhTW: |cff880303[网易有爱]|r EAM技能特效警报
 ## Notes-zhCN: 监控的法术触发时, 以大型法术图示来提示玩家, 法术设定指令:/eam opt. 指令说明:/eam help.
 ## Notes-zhTW: 監控的法術觸發時, 以大型法術圖示來提示玩家, 法術設定指令:/eam opt. 指令說明:/eam help.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118133539
+## X-163UI-Version: 2014111901

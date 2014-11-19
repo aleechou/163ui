@@ -9,15 +9,10 @@
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
-
 ## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Burning Crusade]|r
-## Title-zhCN: AtlasLoot |cFF0099FF[燃烧的远征]|r
-
 ## Notes: AtlasLoot loot tables from Burning Crusade
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Burning Crusade
-## Notes-zhCN: AtlasLoot 《燃烧的远征》物品信息
-
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
@@ -28,6 +23,10 @@
 data.lua
 sounds.lua
 
-## Title: |cff880303[网易有爱]|r 燃烧远征副本物品查询
+## Title: |cff880303[网易有爱]|r 燃烧远征副本物品查询模块
+## Title-zhCN:  |cff880303[网易有爱]|r 燃烧远征副本物品查询模块
+## Title-zhTW: |cff880303[網易有愛]|r 燃燒遠征副本物品查詢模塊
+## Notes-zhCN:《燃烧的远征》物品信息
+## Notes-zhTW:《燃燒遠征》物品信息
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141118121700

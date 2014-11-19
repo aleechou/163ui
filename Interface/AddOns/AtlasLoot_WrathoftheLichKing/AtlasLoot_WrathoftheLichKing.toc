@@ -7,24 +7,22 @@
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
-
 ## Title: AtlasLoot |cFF0099FF[Wrath of the Lich King]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Wrath of the Lich King]|r
-## Title-zhCN: AtlasLoot |cFF0099FF[巫妖王之怒]|r
-## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 巫妖王之怒
 ## Notes: AtlasLoot loot tables from Wrath of the Lich King
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Wrath of the Lich King
-## Notes-zhCN: AtlasLoot 《巫妖王之怒》物品信息
-## Notes-zhTW: AtlasLoot 巫妖王之怒資料片物品掉落資料庫
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
-
 ## X-AtlasLoot-LootModule: 1
 
 data.lua
 
-## Title: |cff880303[网易有爱]|r 巫妖王之怒副本物品信息查询
+## Title: |cff880303[网易有爱]|r 巫妖王之怒副本物品信息查询模块
+## Title-zhCN: |cff880303[网易有爱]|r 巫妖王之怒副本物品信息查询模块
+## Title-zhTW: |cff880303[網易有愛]|r 巫妖王之怒副本物品信息查詢模塊
+## Notes-zhCN:《巫妖王之怒》物品信息
+## Notes-zhTW:《巫妖王之怒》副本物品掉落資料庫
 ## X-Vendor: NetEase
 ## X-163UI-Version: 20141118121700

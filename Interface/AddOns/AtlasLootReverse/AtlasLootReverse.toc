@@ -4,7 +4,6 @@
 ## Version: 1.14_163_20121126
 ## Author: pceric
 # SavedVariables: AtlasLootReverseDB
-## Notes-zhCN: 装备掉落出处显示。
 ## X-Website: http://www.wowinterface.com/downloads/info12834-AtlasLootReverse.html
 ## X-Category: Interface Enhancements
 ## X-Embeds: Ace3, LibExtraTip
