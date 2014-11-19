@@ -1,10 +1,6 @@
 ﻿## Interface: 60000
 ## Title: GTFO
-## Title-zhTW: |cff880303[网易有爱]|r 站位提醒 GTFO
-## Title-zhCN: |cff880303[网易有爱]|r 站位提醒 GTFO
 ## Notes: GTFO, you're dying!
-## Notes-zhTW: 自動聲音提示站位危險插件.
-## Notes-zhCN: 自动声音提示站位危险插件.
 ## Author: Zensunim of Dragonblight
 ## Version: 4.30.1a
 ## DefaultState: Enabled
@@ -43,5 +39,9 @@ GTFO.xml
 
 
 ## Title: |cff880303[网易有爱]|r 站位提醒
+## Title-zhCN: |cff880303[网易有爱]|r 站位提醒 GTFO
+## Title-zhTW: |cff880303[网易有爱]|r 站位提醒 GTFO
+## Notes-zhCN: 自动声音提示站位危险插件.
+## Notes-zhTW: 自動聲音提示站位危險插件.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

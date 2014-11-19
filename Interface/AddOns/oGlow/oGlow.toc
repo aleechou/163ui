@@ -39,5 +39,6 @@ filters\quality.lua
 
 
 ## Title: |cff880303[网易有爱]|r 物品品质高亮
+## Notes-zhCN: 在人物栏高亮物品品质
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

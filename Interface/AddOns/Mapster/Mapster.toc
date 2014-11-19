@@ -1,10 +1,6 @@
 ## Interface: 60000
 ## Title: Mapster
-## Title-zhTW: |cff880303[网易有爱]|r 地图增强
-## Title-zhCN: |cff880303[网易有爱]|r 地图增强
 ## Notes: Simple Map Mod
-## Notes-zhTW: 簡單實用的地圖顯示、未探索區域顯示、副本地圖、NPC位置插件.
-## Notes-zhCN: 简单实用的地图显示、未探索区域显示、副本地图、NPC位置插件.
 ## Notes-frFR: Simples modifications de la carte.
 ## Title: Mapster
 ## Author: Nevcairiel
@@ -52,5 +48,9 @@ Scaling.lua
 
 Mark.lua
 ## Title: |cff880303[网易有爱]|r 地图增强
+## Title-zhCN: |cff880303[网易有爱]|r 地图增强
+## Title-zhTW: |cff880303[网易有爱]|r 地图增强
+## Notes-zhCN: 简单实用的地图显示、未探索区域显示、副本地图、NPC位置插件.
+## Notes-zhTW: 簡單實用的地圖顯示、未探索區域顯示、副本地圖、NPC位置插件.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700

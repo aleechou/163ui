@@ -38,20 +38,20 @@ function ModelItem:Constructor(parent)
     UnitState:SetSize(50, 20)
     UnitState:SetPoint('BOTTOMRIGHT', -5, 5)
 
-    local YiXinButton = CreateFrame('Button', nil, self)
-    YiXinButton:SetNormalTexture([[Interface\AddOns\RaidBuilder\Media\YiXinSmall]])
-    YiXinButton:SetHighlightTexture([[INTERFACE\BUTTONS\UI-Panel-MinimizeButton-Highlight]], 'ADD')
-    YiXinButton:GetNormalTexture():SetTexCoord(0, 19/32, 1/128, 20/32)
-    YiXinButton:SetSize(20, 20)
-    YiXinButton:SetPoint('BOTTOMLEFT', RoleIcon, 'TOPLEFT')
-    local YiXinButtonText = YiXinButton:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
-    YiXinButtonText:SetPoint('LEFT', YiXinButton, 'RIGHT', 1, 0)
-    YiXinButton:SetFontString(YiXinButtonText)
-    YiXinButton:SetHighlightFontObject('GameFontNormalSmallLeft')
-    YiXinButton:SetScript('OnClick', function()
-        local name, realm = _G.UnitFullName(self:GetUnitId())
-        RaidBuilder:ShowModule('YiXinSummary', name, realm)
-    end)
+    -- local YiXinButton = CreateFrame('Button', nil, self)
+    -- YiXinButton:SetNormalTexture([[Interface\AddOns\RaidBuilder\Media\YiXinSmall]])
+    -- YiXinButton:SetHighlightTexture([[INTERFACE\BUTTONS\UI-Panel-MinimizeButton-Highlight]], 'ADD')
+    -- YiXinButton:GetNormalTexture():SetTexCoord(0, 19/32, 1/128, 20/32)
+    -- YiXinButton:SetSize(20, 20)
+    -- YiXinButton:SetPoint('BOTTOMLEFT', RoleIcon, 'TOPLEFT')
+    -- local YiXinButtonText = YiXinButton:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
+    -- YiXinButtonText:SetPoint('LEFT', YiXinButton, 'RIGHT', 1, 0)
+    -- YiXinButton:SetFontString(YiXinButtonText)
+    -- YiXinButton:SetHighlightFontObject('GameFontNormalSmallLeft')
+    -- YiXinButton:SetScript('OnClick', function()
+    --     local name, realm = _G.UnitFullName(self:GetUnitId())
+    --     RaidBuilder:ShowModule('YiXinSummary', name, realm)
+    -- end)
 
     local AssistantIcon = self:CreateTexture(nil, 'ARTWORK')
     AssistantIcon:SetPoint('TOPLEFT', 5, 0)
@@ -72,7 +72,7 @@ function ModelItem:Constructor(parent)
     self.RoleIcon = RoleIcon
     self.RaidTargetIcon = RaidTargetIcon
     self.UnitState = UnitState
-    self.YiXinButton = YiXinButton
+    -- self.YiXinButton = YiXinButton
     self.AssistantIcon = AssistantIcon
     self.FavButton = FavButton
 end
@@ -94,11 +94,13 @@ function ModelItem:UpdateGroupAssistant()
     end
 end
 
+
+--[==[
 function ModelItem:UpdateYiXinFans()
     local unitId = self:GetUnitId()
     local YiXinButton = self.YiXinButton
 
-    if not UnitIsGroupLeader(unitId) and (UnitInRaid('player') or UnitInParty('player')) then
+    if not UnitIsGroupLeader(unitId) and UnitInGroup('player') then
         self.YiXinButton:Hide()
         return
     end
@@ -125,6 +127,7 @@ function ModelItem:UpdateYiXinFans()
         ' ',
         L['点击查看详细步骤'])
 end
+--]==]
 
 function ModelItem:UpdateRaidTargetIcon()
     local unitId = self:GetUnitId()
@@ -180,7 +183,7 @@ function ModelItem:Clear()
     self.RaidTargetIcon:SetTexture('')
     self:SetBackdropColor(0, 0, 0)
     self.UnitState:SetText()
-    self.YiXinButton:Hide()
+    -- self.YiXinButton:Hide()
     self:Hide()
     self.UnitId = nil
 end
@@ -217,7 +220,7 @@ function ModelItem:SetUnit(unitId, isShowModel)
     self:UpdateRoleIcon()
     self:UpdateRaidTargetIcon()
     self:UpdateUnitState()
-    self:UpdateYiXinFans()
+    -- self:UpdateYiXinFans()
     self:UpdateGroupAssistant()
 end
 

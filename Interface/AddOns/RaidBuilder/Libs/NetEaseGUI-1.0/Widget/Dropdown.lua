@@ -1,5 +1,5 @@
 
-local WIDGET, VERSION = 'Dropdown', 1
+local WIDGET, VERSION = 'Dropdown', 2
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local Dropdown = GUI:NewClass(WIDGET, 'Button', VERSION)
@@ -8,6 +8,11 @@ if not Dropdown then
 end
 
 local DropMenu = GUI:GetClass('DropMenu')
+
+local function ButtonOnClick(self)
+    PlaySound('igMainMenuOptionCheckBoxOn')
+    self:GetParent():ToggleMenu()
+end
 
 function Dropdown:Constructor(parent)
     if not parent then
@@ -41,14 +46,11 @@ function Dropdown:Constructor(parent)
     MenuButton:SetPushedTexture([[Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down]])
     MenuButton:SetDisabledTexture([[Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled]])
     MenuButton:SetHighlightTexture([[Interface\Buttons\UI-Common-MouseHilight]], 'ADD')
-
-    MenuButton:SetScript('OnClick', function(self)
-        self:GetParent():ToggleMenu()
-    end)
+    MenuButton:SetScript('OnClick', ButtonOnClick)
 
     local Text = self:CreateFontString(nil, 'OVERLAY', 'GameFontHighlightSmallLeft')
     Text:SetPoint('LEFT', 10, 0)
-    Text:SetPoint('RIGHT', MenuButton, 'LEFT', -3, 0)
+    Text:SetPoint('RIGHT', MenuButton, 'LEFT')
 
     self.Text = Text
     self.MenuButton = MenuButton
@@ -112,7 +114,10 @@ function Dropdown:GetMenuTable()
 end
 
 function Dropdown:ToggleMenu()
-    DropMenu:ToggleMenu(1, self:GetMenuTable(), self, 'TOPLEFT', self, 'BOTTOMLEFT')
+    local menuTable = self:GetMenuTable()
+    if menuTable and #menuTable > 0 then
+        DropMenu:ToggleMenu(1, self:GetMenuTable(), self, 'TOPLEFT', self, 'BOTTOMLEFT')
+    end
 end
 
 function Dropdown:SetItem(data)

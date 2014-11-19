@@ -11,8 +11,8 @@ function MallCategoryItem:Constructor(parent)
 
     local Text = self:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
     Text:SetJustifyH('LEFT')
-    Text:SetWordWrap(true)
-    Text:SetSize(60, 38)
+    -- Text:SetWordWrap(true)
+    -- Text:SetSize(60, 38)
     Text:SetPoint('LEFT', 48, 4)
 
     local hasNew = self:CreateTexture(nil, 'ARTWORK')

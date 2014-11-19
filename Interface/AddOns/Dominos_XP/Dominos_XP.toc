@@ -11,4 +11,6 @@ xp.lua
 
 
 ## Title-zhCN: |cff880303[网易有爱]|r 多米诺-经验条
-## X-163UI-Version: 20141020021310
+## Notes-zhCN: 多米诺-经验条模块
+## X-Vendor: NetEase
+## X-163UI-Version: 20141118121700

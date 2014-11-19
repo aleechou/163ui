@@ -14,6 +14,8 @@ L.EVENT_ERROR_LEVEL = '角色等级不符合要求'
 L.EVENT_ERROR_NULL = '该活动不存在'
 L.EVENT_ERROR_PASSWORD = '密码错误'
 L.EVENT_ERROR_PVPRATING = 'PVP等级不符合要求'
+L.EVENT_ERROR_ROLEFULL = '你申请的职责已经满员'
+L.EVENT_ERROR_FULL = '活动已经满员'
 
 L.EVENT_ANNOUNCEMENT_CONTENT = '我在<' .. ADDON_TITLE .. '>创建了活动<%s-%s>，小伙伴们快来参加啊！'
 L.EVENT_ANNOUNCEMENT_CONTENT_MEMBER = '我在<' .. ADDON_TITLE .. '>参加了%s创建的活动<%s>，小伙伴们快来参加啊！'
@@ -21,6 +23,8 @@ L.ADDON_SHARE_CONTENT = '我正在用跨服组团神器<' .. ADDON_TITLE .. '>�
 L.TEAM_NOTICE_CONTENT = '<' .. ADDON_TITLE .. '>欢迎加入本活动(%s)，体验便捷的跨服组队，畅游WOW。'
 L.TEAM_NOTICE_CONTENT_UNIT = '<' .. ADDON_TITLE .. '>欢迎加入本活动(%s)，您目前的职责是(%s)，体验便捷的跨服组队，畅游WOW。'
 
+L['显示系统菜单按钮'] = true
+L['集合石插件帮助你快速找到队伍。'] = true
 L['%s 开始推送易信（若超过推送次数上限将无法发送）'] = true
 L['%s拒绝了你的活动申请'] = true
 L['1.下载易信并关注公众号“|cffffd100魔兽世界|r”'] = true
@@ -29,11 +33,13 @@ L['90303人气团长'] = true
 L['PVE人气团长'] = true
 L['PVP 等级'] = true
 L['PVP人气团长'] = true
+L['PVP等级不能高于你当前的PVP等级'] = true
 L['PVP：'] = true
 L['|cff00ffff集合石：|r'] = true
 L['|cff33ff99邀请入群|r'] = true
 L['|cffff0000(非当前角色)|r'] = true
 L['|cffff0000你创建的活动已满员将暂停招募，如有玩家离队需重新招募，请点击|cffffd100小地图按钮右键菜单|r的|cffffd100%s|r'] = true
+L['|cffff0000你正在组织一个活动，不能使用快速申请。|r'] = true
 L['|cffff0000注意：关注列表仅储存在本地配置中|r'] = true
 L['|cffff0000注意：该记录仅储存在本地配置中|r'] = true
 L['|cffff0000注意：黑名单仅储存在本地配置中|r'] = true
@@ -55,8 +61,12 @@ L['你不是队长，不能创建活动'] = true
 L['你创建的活动已被暂停，如需继续活动，请点击|cffffd100小地图按钮右键菜单|r内的|cffffd100%s|r。'] = true
 L['你已经在一个队伍中，不能申请其它活动。'] = true
 L['你想对团长说什么？'] = true
+L['你正在使用快速申请，不能创建活动'] = true
 L['你正在申请加入一些活动，是否取消申请以创建自己的活动？'] = true
 L['你正在组织一个活动，是否解散活动以申请其它活动？'] = true
+L['你正在组织活动，不能快速申请'] = true
+L['你正在队伍中，不能快速申请'] = true
+L['你正在随机副本里，不能创建活动'] = true
 L['你每天有3次机会向关注你的玩家发送活动通知。'] = true
 L['你每天有三次发送活动通知的机会'] = true
 L['你的等级、物品等级或职业不符合要求，不能选择该职责。'] = true
@@ -68,8 +78,12 @@ L['你确定要举报玩家 |cffffd100%s|r 吗？\n请填写举报原因。'] = 
 L['你确定要取消申请这个活动？'] = true
 L['你确定要清理战网昵称好友吗？'] = true
 L['你确定要解散这个活动？'] = true
+L['你选择你要担任的职责'] = true
 L['使用手机推送功能后，将会把本次活动信息通过易信消息发送到关注你的玩家手机上。'] = true
 L['使用本功能需要具备的条件？'] = true
+L['修改注释'] = true
+L['修改注释并添加到关注'] = true
+L['停止搜索'] = true
 L['允许小地图图标被整合'] = true
 L['兑换列表'] = true
 L['兑换失败：兑换码已使用。'] = true
@@ -91,7 +105,7 @@ L['公告'] = true
 L['共 %d 人'] = true
 L['共|cffffd100%d|r名成员，平均装等|cffffd100%s|r'] = true
 L['关注'] = true
-L['关注列表'] = true
+L['关注及历史团长'] = true
 L['关注团长的活动'] = true
 L['其他'] = true
 L['分享插件'] = true
@@ -103,6 +117,8 @@ L['副本经验'] = true
 L['加入到黑名单'] = true
 L['加入黑名单'] = true
 L['加密活动'] = true
+L['勾选此项则排除活动说明内包含关键字的活动'] = true
+L['历史团长'] = true
 L['友团奖品兑换'] = true
 L['发现新版本'] = true
 L['发现新版本：%s，请及时下载更新\n下载链接：%s'] = true
@@ -112,9 +128,12 @@ L['发送'] = true
 L['发送通知'] = true
 L['取消关注'] = true
 L['取消申请'] = true
+L['只申请高于填写PVP等级你能够加入的活动'] = true
+L['只申请高于填写等级你能够加入的活动'] = true
+L['只申请高于填写装备等级你能够加入的活动'] = true
 L['可申请'] = true
+L['史诗'] = true
 L['名单信息错误'] = true
-L['命中：'] = true
 L['团长'] = true
 L['团长副本经验'] = true
 L['团长可以使用网站上的组队代码实现一键组队'] = true
@@ -132,13 +151,16 @@ L['好友申请中'] = true
 L['好团长'] = true
 L['如何关注好团长?'] = true
 L['如何获取积分?'] = true
+L['官方QQ群'] = true
 L['密语'] = true
 L['屏蔽日期'] = true
 L['屠龙点数'] = true
+L['已停止自动申请活动。'] = true
 L['已加入'] = true
 L['已加入活动'] = true
 L['已取消申请加入%s的活动。'] = true
 L['已填写推荐'] = true
+L['已开始自动申请活动。'] = true
 L['已恢复招募'] = true
 L['已成功提交举报信息。'] = true
 L['已提交申请加入%s的活动。'] = true
@@ -150,6 +172,7 @@ L['开启集合石聊天'] = true
 L['开团'] = true
 L['开团时间'] = true
 L['开始体验'] = true
+L['开始搜索'] = true
 L['开始邀请'] = true
 L['弹性'] = true
 L['当前人数'] = true
@@ -160,7 +183,7 @@ L['形式'] = true
 L['形式：'] = true
 L['忙碌'] = true
 L['快捷邀请'] = true
-L['急速：'] = true
+L['快速申请'] = true
 L['恢复招募'] = true
 L['您当前可用积分为：%d'] = true
 L['悬赏：'] = true
@@ -168,6 +191,7 @@ L['想以后继续参加这个团长的活动吗'] = true
 L['意见建议'] = true
 L['我的活动'] = true
 L['我的队伍'] = true
+L['我知道了'] = true
 L['战网昵称'] = true
 L['战网昵称：'] = true
 L['战网通告'] = true
@@ -175,19 +199,21 @@ L['打开/关闭集合石组团按键设置'] = true
 L['打开主界面'] = true
 L['批量邀请入群'] = true
 L['找团'] = true
-L['护甲：'] = true
 L['拒绝'] = true
-L['招架：'] = true
+L['指定加入活动说明内包含关键字的活动'] = true
 L['按键已绑定到|cffffd100%s|r，你确定要覆盖吗？'] = true
 L['排名'] = true
 L['排行榜'] = true
+L['排除'] = true
 L['推荐人'] = true
 L['推荐人填写成功'] = true
 L['插件简介'] = true
+L['搜索'] = true
+L['搜索团长或说明'] = true
 L['操作'] = true
 L['操作记录'] = true
+L['操作超时，请|cff00ff00查询积分|r，如果积分|cffff0000已经扣除|r，请留意当前角色游戏邮箱，如果|cff00ff00积分未扣除|r，请稍后再尝试购买。'] = true
 L['收到一个|cff00ffff集合石|r预约活动请求，请验证是否合法。'] = true
-L['攻强：'] = true
 L['新手指引'] = true
 L['易信下载二维码'] = true
 L['易信推送'] = true
@@ -199,9 +225,12 @@ L['暂无'] = true
 L['暂无活动'] = true
 L['暂无详细介绍'] = true
 L['暂离'] = true
-L['暴击：'] = true
+L['更新日志'] = true
 L['更新活动'] = true
+L['最低PVP等级要求'] = true
 L['最低等级不能超过最高等级'] = true
+L['最低装备等级要求'] = true
+L['最低角色等级要求'] = true
 L['最近的战友'] = true
 L['最近组队'] = true
 L['服务器'] = true
@@ -215,13 +244,12 @@ L['查询中，请稍后 ...'] = true
 L['查询我的积分'] = true
 L['查询间隔120秒'] = true
 L['格式正确，请点击[确认兑换]按钮'] = true
-L['格档：'] = true
 L['正在招募'] = true
 L['每日签到'] = true
 L['没有密码'] = true
 L['治疗'] = true
-L['法伤：'] = true
 L['注释'] = true
+L['活动'] = true
 L['活动人员已组满，无法继续邀请！'] = true
 L['活动名称'] = true
 L['活动形式'] = true
@@ -249,6 +277,8 @@ L['申请加入%s的活动失败，%s'] = true
 L['申请加入'] = true
 L['申请密码'] = true
 L['申请队列已经满员，请等待或取消之前的申请'] = true
+L['留言'] = true
+L['留言：'] = true
 L['确认使用兑换码？'] = true
 L['确认兑换'] = true
 L['确认消耗 |cff00ff00%d|r 积分购买 |cff00ff00%s|r 吗？'] = true
@@ -262,8 +292,6 @@ L['等级最高不能超过%d'] = true
 L['等级范围'] = true
 L['等级：'] = true
 L['签到'] = true
-L['精准：'] = true
-L['精通：'] = true
 L['组队代码有误，请重试！'] = true
 L['组队日期'] = true
 L['组队码错误'] = true
@@ -273,24 +301,31 @@ L['网站活动'] = true
 L['职业'] = true
 L['职业：'] = true
 L['职责总人数不能小于2或大于%d'] = true
+L['职责选择'] = true
+L['联系我们'] = true
 L['英雄'] = true
 L['表示你愿意以其他的身份参加该活动。'] = true
 L['装备和PVP等级必须符合'] = true
 L['装备等级'] = true
+L['装备等级不能高于你当前的装备等级'] = true
 L['装等'] = true
 L['装等：'] = true
 L['要求'] = true
 L['角色名'] = true
+L['角色等级'] = true
+L['角色等级不能高于你当前的等级'] = true
 L['解散活动 %s'] = true
 L['解散活动'] = true
 L['解除屏蔽'] = true
 L['设置'] = true
+L['设置匹配关键字'] = true
 L['设置集合石职责'] = true
 L['该职责已满，不能选择该职责。'] = true
 L['详情'] = true
 L['详细介绍'] = true
 L['详细介绍（加入活动后才能查看）'] = true
 L['说明'] = true
+L['说明匹配'] = true
 L['说明：'] = true
 L['请勿频繁密语'] = true
 L['请在这里输入兑换码'] = true
@@ -298,6 +333,7 @@ L['请在这里输入活动说明'] = true
 L['请在这里输入详细介绍，团员加入活动后可在我的队伍面板查看'] = true
 L['请将网页上复制的组队代码粘贴在此'] = true
 L['请确定每个职责的人数：'] = true
+L['请输入 |cffffd100%s|r 的注释'] = true
 L['请输入兑换码'] = true
 L['请输入密码'] = true
 L['请输入邀请人的角色名和服务器，格式如下：|cffffd100%s-%s|r'] = true
@@ -306,12 +342,12 @@ L['请选择活动形式'] = true
 L['请选择活动类型'] = true
 L['请选择活动类型及活动形式'] = true
 L['请验证请求是否合法'] = true
-L['购买失败：操作超时，请稍后再试。'] = true
 L['跳转到创建活动页面创建游戏内团队'] = true
-L['躲闪：'] = true
 L['转到'] = true
 L['输入兑换码：'] = true
 L['输出'] = true
+L['返回列表'] = true
+L['这个活动不需要PVP等级'] = true
 L['这个活动等级最低不能低于%d'] = true
 L['这项设置将在下次载入插件时生效。'] = true
 L['邀请'] = true
@@ -320,7 +356,6 @@ L['邀请时间：'] = true
 L['邀请状态'] = true
 L['邀请组队中'] = true
 L['邀请角色：'] = true
-L['金币：'] = true
 L['锁定悬浮窗'] = true
 L['队列中'] = true
 L['阵营'] = true
@@ -330,6 +365,7 @@ L['集合石人气团长'] = true
 L['集合石开发团队'] = true
 L['集合石总榜团长'] = true
 L['集合石月榜团长'] = true
+L['集合石活动 |cffffd100%s|r\n\n'] = true
 L['集合石组团'] = true
 L['集合石网站预约活动请求'] = true
 L['集合石聊天'] = true
@@ -474,30 +510,36 @@ L.RecommendSummary = [[
 </html>
 ]]
 
-L.BrowseHelp1 = [[
+L.BrowseHelpFilter = [[
 活动类型：下拉列表选择你想要参加的活动
 
-团长查找：输入团长名字精确查找
+搜索：输入团长名字或说明精确查找
 
 复选框：辅助你筛选所有的活动
 ]]
 
-L.BrowseHelp2 = [[
+L.BrowseHelpList = [[
 活动呈现界面，可以在这里寻找自己喜欢的活动。
 
 鼠标悬停：可以查看活动队长的具体信息。
 ]]
 
-L.BrowseHelp3 = [[
-鼠标悬浮：活动当前的状态图示
+L.BrowseHelpMisc = [[
+图示：活动当前的状态图示
+
+最近的战友：切换到最近组队界面
 ]]
 
-L.BrowseHelp4 = [[
+L.BrowseHelpApply = [[
 选择你要加入的队伍后，单击申请加入按钮。
 ]]
 
-L.BrowseHelp5 = [[
+L.BrowseHelpStatus = [[
 你申请的活动数量以及当前团队总数量
+]]
+
+L.BrowseHelpBatchApply = [[
+你可以快速申请指定规则的活动
 ]]
 
 L.RewardSummary = [[
@@ -515,8 +557,8 @@ L.RewardSummary = [[
 L.MallSummary = [[
 <html>
 <body>
-<p>请您选择所需要的虚拟物品进行操作，一旦兑换成功，积分被扣除后将无法返还。</p>
-<p>兑换成功后，系统会在1个工作日内将虚拟物品发送到您当前角色的游戏邮箱内，请注意查收。您可以在 |Hurl:http://reward.battlenet.com.cn|h|cff00ffff[http://reward.battlenet.com.cn]|r|h 查看详细积分变更信息及兑换记录。</p>
+<p>兑换成功系统会在1个工作日内将虚拟物品发送到您当前角色的游戏邮箱内，请注意查收。如果出现积分扣除，但未收到物品，可以|Hurl:http://bnet.163.com/dj/exchange/query/wow|h|cff00ffff[点击这里]|r|h查询兑换码后，手动进行兑换。</p>
+<p>查看详细积分变更信息及兑换记录请|Hurl:http://reward.battlenet.com.cn|h|cff00ffff[访问这里]|r|h</p>
 </body>
 </html>
 ]]
@@ -560,6 +602,26 @@ L.GoodsLoadingSummary = [[
 <p>如果您刚上线，将在十分钟内读取到商品数据。</p>
 <br/>
 <p>如果长时间无法收到商品数据，请检查插件版本或者联系集合石官方QQ群|Hurl:317548615|h|cff00ffff[317548615]|r|h。</p>
+</body>
+</html>
+]]
+
+L.AboutSummary = [[
+<html>
+<body>
+<h3>联系我们</h3>
+<br/>
+<p>感谢您使用|cffff565e集合石插件|r</p>
+<p>您的支持就是我们最大的动力！</p>
+<br/>
+<h1>专题：</h1>
+<p>|Hurl:http://w.163.com/special/wowsocial/|h|cff00ffff[http://w.163.com/special/wowsocial/]|r|h</p>
+<br/>
+<h1>官方论坛：</h1>
+<p>|Hurl:http://www.battlenet.com.cn/wow/zh/forum/12507946/|h|cff00ffff[http://www.battlenet.com.cn/wow/zh/forum/12507946/]|r|h</p>
+<br/>
+<h1>官方QQ群</h1>
+<p>|Hurl:317548615|h|cff00ffff[317548615]|r|h</p>
 </body>
 </html>
 ]]

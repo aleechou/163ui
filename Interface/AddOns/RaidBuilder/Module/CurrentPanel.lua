@@ -101,7 +101,7 @@ local function CreateMenuTable(unit)
             {
                 text = L['设置集合石职责'],
                 hasArrow = true,
-                disabled = (not UnitInRaid(unit) and not UnitInParty(unit)) or not playerIsLeader,
+                disabled = not UnitInGroup(unit) or not playerIsLeader,
                 menuTable =
                 {
                     {
@@ -241,7 +241,7 @@ function CurrentPanel:OnInitialize()
     TitleLabel:SetText(L['当前没有活动'])
 
     local YiXinButton = Button:New(self)
-    YiXinButton:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -80, 20)
+    YiXinButton:SetPoint('TOPRIGHT', self:GetOwner(), 'TOPRIGHT', -94, -30)
     YiXinButton:SetText(L['易信推送'])
     YiXinButton:SetIcon([[Interface\AddOns\RaidBuilder\Media\YiXin]])
     YiXinButton:SetTooltip(
@@ -464,6 +464,8 @@ function CurrentPanel:OnInitialize()
     self:RegisterMessage('RAIDBUILDER_UNIT_INFO_UPDATE', 'UpdateGroup')
     self:RegisterMessage('RAIDBUILDER_CURRENT_EVENT_RULES_UPDATE', 'UpdateRules')
     self:ScheduleRepeatingTimer('OnTimer', 5)
+
+    self:SetScript('OnShow', self.RefreshButton)
 end
 
 function CurrentPanel:OnEnable()

@@ -47,7 +47,7 @@ function Tab:Update()
 		return
 	end
 
-	local name, icon, viewable, _,_, remainingWithdrawals = self:GetInfo()
+	local name, icon, viewable, _,_, numWithdrawals, cached = self:GetInfo()
 	if icon then
 		local color = viewable and 1 or 0.1
 
@@ -56,7 +56,10 @@ function Tab:Update()
 		_G[self:GetName() .. 'IconTexture']:SetDesaturated(not viewable)
 
 		self:UpdateChecked()
-		self:UpdateCount(remainingWithdrawals)
+
+		if cached or self:GetChecked() then
+			self.Count:SetText(numWithdrawals)
+		end
 	end
 
 	self:EnableMouse(icon)
@@ -65,12 +68,6 @@ end
 
 function Tab:UpdateChecked()
 	self:SetChecked(self:GetID() == GetCurrentGuildBankTab())
-end
-
-function Tab:UpdateCount(count)
-	if self:GetChecked() or self:IsCached() then
-		self.Count:SetText(count or select(6, self:GetInfo()))
-	end
 end
 
 function Tab:UpdateTooltip()
@@ -107,14 +104,10 @@ function Tab:UpdateEvents()
 	if self:IsVisible() then
 		self:RegisterEvent('GUILDBANK_UPDATE_TABS')
 		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
-
 		self:RegisterMessage('GUILD_BANK_TAB_CHANGE')
 	end
 end
 
-function Tab:GUILDBANKBAGSLOTS_CHANGED()
-	self:UpdateCount()
-end
-
 Tab.GUILDBANK_UPDATE_TABS = Tab.Update
+Tab.GUILDBANKBAGSLOTS_CHANGED = Tab.Update
 Tab.GUILD_BANK_TAB_CHANGE = Tab.UpdateChecked

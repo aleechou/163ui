@@ -8,23 +8,13 @@
     change    
 ]]--
 
-local WIDGET, VERSION = 'EditBox', 5
+local WIDGET, VERSION = 'EditBox', 7
 
 local GUI = LibStub('NetEaseGUI-1.0')
 local EditBox = GUI:NewClass(WIDGET, 'Frame', VERSION)
 if not EditBox then
     return
 end
-
-local objects = {}
-
-WorldFrame:HookScript('OnMouseDown', function()
-    if next(objects) then
-        for object in pairs(objects) do
-            object:ClearFocus()
-        end
-    end
-end)
 
 function EditBox:Constructor(parent)
     if not parent then
@@ -150,8 +140,6 @@ function EditBox:Constructor(parent)
     self:SetParent(parent)
     self:SetAutoHide(true)
     self:SetTop(true)
-
-    objects[self] = true
 end
 
 function EditBox:SetPrompt(text)
@@ -206,10 +194,7 @@ function EditBox:OnTextChanged(userinput)
     if parent.ScrollFrame.isTop and not self:HasFocus() then
         parent.ScrollFrame:SetVerticalScroll(0)
     end
-
-    if userinput then
-        parent:Fire('OnTextChanged', self:GetText())
-    end
+    parent:Fire('OnTextChanged', userinput)
 end
 
 function EditBox:SetAutoHide(auto)

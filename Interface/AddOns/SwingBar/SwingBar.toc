@@ -1,14 +1,14 @@
 ﻿## Interface: 60000
 ## Title: SwingBar
-## Title-zhTW: |cff880303[网易有爱]|r 攻擊計時
-## Title-zhCN: |cff880303[网易有爱]|r 普攻计时
 ## Notes: Shows the progress of the normal attack
-## Notes-zhTW: 顯示普通攻擊的的進度。
-## Notes-zhCN: 显示普通攻击的的进度。
 ## Author: 独孤傲雪,Warbaby
 
 SwingBar.lua
 
 ## Title: |cff880303[网易有爱]|r 普攻计时
+## Title-zhCN: |cff880303[网易有爱]|r 普攻计时
+## Title-zhTW: |cff880303[网易有爱]|r 攻擊計時
+## Notes-zhCN: 显示普通攻击的的进度。
+## Notes-zhTW: 顯示普通攻擊的的進度。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

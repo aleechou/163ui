@@ -261,7 +261,7 @@ flareClear:SetNormalTexture("interface\\glues\\loadingscreens\\dynamicelements")
 flareClear:GetNormalTexture():SetTexCoord(0,0.5,0,0.5)
 flareClear:SetPoint("LEFT", wFlares.flare["Star"], "RIGHT",3,0)
 flareClear:SetAttribute("type", "macro")
-flareClear:SetAttribute("macrotext1", "/cwm all")
+flareClear:SetAttribute("macrotext1", "/cwm 0")
 flareClear:SetScript("OnEnter", function(self) if (wFlaresDB.tooltips==true) then GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:ClearLines(); GameTooltip:AddLine(L["Clear all world markers"]); GameTooltip:Show() end end)
 flareClear:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
 wFlares.flareClear = flareClear

@@ -1,11 +1,7 @@
 ## Interface: 60000
 ## Title: CompactRaid
 ## Version: 4.02
-## Title-zhTW: |cff880303[网易有爱]|r 團隊框架增强
-## Title-zhCN: |cff880303[网易有爱]|r 团队框架增强
 ## Notes: A modular, lightweight, and screen-estate saving grid of party/raid unit frames.
-## Notes-zhTW: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
-## Notes-zhCN: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
 ## Author: Abin
 ## SavedVariables: CompactRaidDB
 ## SavedVariablesPerCharacter: CompactRaidCharDB
@@ -42,5 +38,9 @@ Modules\ClickSets\embeds.xml
 Modules\CornerIndicators\embeds.xml
 Modules\RaidDebuff\embeds.xml
 ## Title: |cff880303[网易有爱]|r 团队框架增强
+## Title-zhCN: |cff880303[网易有爱]|r 团队框架增强
+## Title-zhTW: |cff880303[网易有爱]|r 團隊框架增强
+## Notes-zhCN: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
+## Notes-zhTW: 增强和美化暴雪自带的团队框架。包括点击施法、减益DEBUFF显示等功能。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019234034
+## X-163UI-Version: 20141118121700

@@ -1,135 +1,18 @@
+﻿-- Prevent tainting global _.
 local _
---for normal button move, group button is in EventAlert_CreateFrames.lua
-
-local create_mover, set_mover
-do
-    local _, _NS = ...
-    local _movers = {}
-    local _anchor_frame_max = 10
-
-    local run_script_on_frame = function(f, script, ...)
-        local func = f:GetScript(script)
-        if(func) then
-            return func(f, ...)
-        end
-    end
-
-    local function onHide(self)
-        if(self.isMoving) then
-            return run_script_on_frame(self, 'OnMouseUp')
-        end
-    end
-
-    local function onMouseDown(self, btn)
-        if(btn == 'LeftButton') then
-            self.isMoving = true
-            EA_Config.LockFrame = false
-            EA_Anchor_Frame1:Show()
-            EventAlert_Icon_Options_Frame_PaintAlertFrame()
-            for i = 1, _anchor_frame_max do
-                if not (i >= self.start and i <= self._end) then
-                    _G['EA_Anchor_Frame'..i]:Hide()
-                end
-            end
-
-            return run_script_on_frame(self.anchor_frame, 'OnMouseDown')
-        elseif(btn == 'RightButton') then
-            if(not EA_Options_Frame:IsShown()) then
-                SlashCmdList["EVENTALERTMOD"]('opt')
-            end
-            if(not EA_Icon_Options_Frame:IsShown()) then
-                EA_Options_Frame_ToggleIconOptions:Click()
-            end
-        end
-    end
-
-    local function onMouseUp(self)
-        if(self.isMoving) then
-            self.isMoving = nil
-            run_script_on_frame(self.anchor_frame, 'OnMouseUp')
-            for i = 1, _anchor_frame_max do
-                if(i >= self.start and i<= self._end) then
-                    _G['EA_Anchor_Frame'..i]:Hide()
-                end
-            end
-
-            if(self.update_func) then
-                return self.update_func()
-            end
-        end
-    end
-
-    local function create(name)
-        local f = CreateFrame('Button', 'ea_163_anchorframe_'..name)
-        f:SetSize(10,10)
-        f:SetNormalTexture("Interface\\BUTTONS\\UI-AutoCastableOverlay")
-        f:GetNormalTexture():SetTexCoord(0.215, 0.372, 0.217, 0.364)
-
-        f:SetScript("OnMouseUp", onMouseUp)
-        f:SetScript("OnMouseDown", onMouseDown)
-        f:SetScript('OnHide', onHide)
-
-        if CoreUIEnableTooltip then CoreUIEnableTooltip(f, "拖动位置", "右键：打开设置\n锁定后会隐藏拖动按钮\n设置命令：/eam opt") end
-
-        _movers[name] = f
-
-        return f
-    end
-
-    function create_mover(name, anchor_frame, f_start, f_end, update_func)
-        local f = _movers[name] or create(name)
-
-        f.update_func = update_func
-        f.anchor_frame = anchor_frame
-        f.start = f_start
-        f._end = f_end
-
-        return f
-    end
-
-    function EA_163_UpdateAnchorFrames()
-        for _, f in next, _movers do
-            local p = f:GetParent()
-            if(p:IsShown()) then
-                if(EA_Config.LockFrame) then
-                    f:Hide()
-                else
-                    f:Show()
-                end
-            end
-        end
-    end
-
-    function set_mover(f, eaf)
-        f:SetParent(eaf)
-        f:SetPoint("TOPLEFT", eaf)
-        f:SetFrameStrata(eaf:GetFrameStrata())
-        f:SetFrameLevel(eaf:GetFrameLevel()+1)
-
-        if(EA_Config.LockFrame) then
-            return f:Hide()
-        else
-            return f:Show()
-        end
-    end
-
-    _NS.set_mover = set_mover
-    _NS.create_mover = create_mover
-
-end
 
 EA_Config = { DoAlertSound, AlertSound, AlertSoundValue, LockFrame, ShareSettings, ShowFrame, ShowName, 
 	ShowFlash, ShowTimer, TimerFontSize, StackFontSize, SNameFontSize, ChangeTimer, Version, AllowESC, 
-	AllowAltAlerts, Target_MyDebuff };
+	AllowAltAlerts, Target_MyDebuff,IsUseFloat,IsKeepSCD,IsKeepGlowSCD };
 EA_Position = { Anchor, relativePoint, xLoc, yLoc, xOffset, yOffset, RedDebuff, GreenDebuff, Tar_NewLine, 
 	TarAnchor, TarrelativePoint, Tar_xOffset, Tar_yOffset, ScdAnchor, Scd_xOffset, Scd_yOffset, Execution, 
 	PlayerLv2BOSS, SCD_UseCooldown };
 
--- 啟用/關閉特殊能力的檢查機制	
+-- �ҥ�/�����S���O���ˬd����	
 EA_SpecCheckPower = { CheckMana, CheckRage, CheckFocus, CheckEnergy, CheckRunes, CheckRunicPower, CheckSoulShards, 
 	CheckEclipse, CheckHolyPower, CheckDarkForce, CheckLightForce, CheckShadowOrbs, CheckBurningEmbers, 
 	CheckDemonicFury, CheckComboPoint, CheckLifeBloom };
--- 檢查目前天賦具備哪些特殊能力
+-- �ˬd�ثe�ѽ��ƭ��ǯS���O
 EA_SpecHasPower = { HasMana, HasRage, HasFocus, HasEnergy, HasRunes, HasRunicPower, HasSoulShards,
 	HasEclipse, HasHolyPower, HasDarkForce, HasLightForce, HasShadowOrbs, HasBurningEmbers,
 	HasDemonicFury, HasComboPoint, HasLifeBloom };
@@ -169,12 +52,15 @@ function EventAlert_OnLoad(self)
 	self:RegisterEvent("COMBAT_TEXT_UPDATE");
 	self:RegisterEvent("UNIT_AURA");
 	self:RegisterEvent("PLAYER_TARGET_CHANGED");
-	-- self:RegisterEvent("SPELL_UPDATE_COOLDOWN");
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN");
+	self:RegisterEvent("SPELL_UPDATE_CHARGES");
 	-- self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
 	-- self:RegisterEvent("UNIT_SPELLCAST_CAST");
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("UNIT_DISPLAYPOWER");
 	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM");
+	self:RegisterEvent("PLAYER_TALENT_UPDATE");
+	self:RegisterEvent("PLAYER_TALENT_WIPE");
 	-- self:RegisterEvent("ACTIVE_SPEC_GROUP_CHANGED");
 
 	self:RegisterEvent("UNIT_COMBO_POINTS");
@@ -228,7 +114,7 @@ end
 -- The procedures of events
 function EventAlert_OnEvent(self, event, ...)
 	if (event == "PLAYER_ENTERING_WORLD") then
-		-- 偵測目前角色的天賦及特殊能力
+		-- �����ثe���⪺�ѽ�ίS���O
 		EventAlert_PlayerSpecPower_Update();
 	end
 
@@ -252,27 +138,28 @@ function EventAlert_OnEvent(self, event, ...)
 					
 			--'// 2. Check EAM version. If version isn't match. Load Default Spells automatically.
 			EventAlert_VersionCheck();
-			--DEFAULT_CHAT_FRAME:AddMessage(EA_XLOAD_LOAD..EA_Config.Version.."\124r");
-            -- XXX 163
-            if(not EA_Config._163_LockFrame) then
-                EA_Config.LockFrame = false
-                EA_Config._163_LockFrame = true
-            end
-
+			DEFAULT_CHAT_FRAME:AddMessage(EA_XLOAD_LOAD..EA_Config.Version.."\124r");
+			
 			--'// 3. Start to check the savedvariables
 			if EA_Config.AlertSound == nil then EA_Config.AlertSound = "Sound\\Spells\\ShaysBell.wav" end;
 			if EA_Config.AlertSoundValue == nil then EA_Config.AlertSoundValue = 1 end;
 			if EA_Config.DoAlertSound == nil then EA_Config.DoAlertSound = true end;
-			-- if EA_Config.LockFrame == nil then EA_Config.LockFrame = true end; -- XXX 163
+			if EA_Config.LockFrame == nil then EA_Config.LockFrame = false end;
 			if EA_Config.ShareSettings == nil then EA_Config.ShareSettings = true end;
 			if EA_Config.ShowFrame == nil then EA_Config.ShowFrame = true end;
 			if EA_Config.ShowName == nil then EA_Config.ShowName = true end;
 			if EA_Config.ShowFlash == nil then EA_Config.ShowFlash = false end;
 			if EA_Config.ShowTimer == nil then EA_Config.ShowTimer = true end;
 			if EA_Config.IconSize == nil then EA_Config.IconSize = 60 end;
-			if EA_Config.TimerFontSize == nil then EA_Config.TimerFontSize = 32 end;
-			if EA_Config.StackFontSize == nil then EA_Config.StackFontSize = 18 end;
-			if EA_Config.SNameFontSize == nil then EA_Config.SNameFontSize = 14 end;
+
+			if EA_Config.TimerFontSize == nil then EA_Config.TimerFontSize = 14 end;	
+
+			if EA_Config.IsUseFloat == nil then EA_Config.IsUseFloat = false end;		
+			if EA_Config.IsKeepSCD == nil then EA_Config.IsKeepSCD = true end;		
+			if EA_Config.IsKeepGlowSCD == nil then EA_Config.IsKeepGlowSCD = true end;		
+
+			if EA_Config.StackFontSize == nil then EA_Config.StackFontSize = 16 end;
+			if EA_Config.SNameFontSize == nil then EA_Config.SNameFontSize = 20 end;
 			if EA_Config.ChangeTimer == nil then EA_Config.ChangeTimer = true end;
 			if EA_Config.AllowESC == nil then EA_Config.AllowESC = false end;
 			if EA_Config.AllowAltAlerts == nil then EA_Config.AllowAltAlerts = false end;
@@ -311,7 +198,7 @@ function EventAlert_OnEvent(self, event, ...)
 			if EA_Pos[EA_CLASS_WARRIOR] == nil then EA_Pos[EA_CLASS_WARRIOR] = EA_Position end;
 			if EA_Pos[EA_CLASS_MONK] == nil then EA_Pos[EA_CLASS_MONK] = EA_Position end;
 
-			if (not EA_Config.ShareSettings) then
+			if (EA_Config.ShareSettings ~= true) then
 				EA_Position = EA_Pos[EA_playerClass];
 				if EA_Position.Tar_NewLine == nil then EA_Position.Tar_NewLine = true end;
 				if EA_Position.Execution == nil then EA_Position.Execution = 0 end;
@@ -325,14 +212,14 @@ function EventAlert_OnEvent(self, event, ...)
 			if EA_SpecCheckPower.CheckComboPoint == nil then EA_SpecCheckPower.CheckComboPoint = true end;
 			if EA_SpecCheckPower.CheckLifeBloom == nil then EA_SpecCheckPower.CheckLifeBloom = true end;
 			
-			--加入集中值Focus,怒氣Rage,能量Energy,武僧真氣LightForce,暗影寶珠ShadowOrbs	
+			--�[�J������Focus,���Rage,��qEnergy,�Z���u��LightForce,�t�v�_�]ShadowOrbs	
 			if EA_SpecCheckPower.CheckRage == nil then EA_SpecCheckPower.CheckRage = true end;
 			if EA_SpecCheckPower.CheckFocus == nil then EA_SpecCheckPower.CheckFocus = true end;
 			if EA_SpecCheckPower.CheckEnergy == nil then EA_SpecCheckPower.CheckEnergy = true end;
 			if EA_SpecCheckPower.CheckLightForce == nil then EA_SpecCheckPower.CheckLightForce = true end;
 			if EA_SpecCheckPower.CheckShadowOrbs == nil then EA_SpecCheckPower.CheckShadowOrbs = true end;
 			
-			--加入燃火餘燼,惡魔之怒
+			--�[�J�U���l�u,�c�]����
 			if EA_SpecCheckPower.CheckBurningEmbers == nil then EA_SpecCheckPower.CheckBurningEmbers = true end;
 			if EA_SpecCheckPower.CheckDemonicFury == nil then EA_SpecCheckPower.CheckDemonicFury = true end;
 			
@@ -366,7 +253,7 @@ function EventAlert_OnEvent(self, event, ...)
 	--  -- EventAlert_ScdBuffs_Update(arg1, arg2, arg5);
 	-- end
 
-	if (event == "COMBAT_LOG_EVENT_UNFILTERED")  then
+	if (event == "COMBAT_LOG_EVENT_UNFILTERED")   then
 		-- WOW 4.1
 		-- local timestp, event, hideCaster, surGUID, surName, surFlags, dstGUID, dstName, dstFlags, spellID, spellName = ...;
 		-- WOW 4.2
@@ -379,6 +266,7 @@ function EventAlert_OnEvent(self, event, ...)
 			local iUnitPower = UnitPower("player", 8);
 			if (EA_playerClass == EA_CLASS_DRUID and EA_SpecCheckPower.CheckLifeBloom and iUnitPower == 0) then
 				local EA_PlayerName = UnitName("player");
+
 				if (surName == EA_PlayerName and spellID == 33763 and dstName ~= nil) then
 					-- print ("tar="..arg8.." /spid="..arg10);
 					local EA_UnitID = "";
@@ -389,6 +277,7 @@ function EventAlert_OnEvent(self, event, ...)
 					else
 						EA_UnitID = EAFun_GetUnitIDByName(dstName);
 					end
+
 					EventAlert_UpdateLifeBloom(EA_UnitID);
 				end
 			end
@@ -433,77 +322,82 @@ function EventAlert_OnEvent(self, event, ...)
 			--	DEFAULT_CHAT_FRAME:AddMessage("EVENT(UNIT_POWER) = ("..arg1..",".."NULL"..")");
 			--end
 			
-			-- 以下更新特殊能力時，只檢查是否啟用監控功能，以及目前天賦是否擁有這種特殊能力
-			
-			-- 怒氣
+			-- �H�U��s�S���O�ɡA�u�ˬd�O�_�ҥκʱ��\��A�H�Υثe�ѽ�O�_�֦��o�دS���O
+
+			if (arg2 == "COMBO_POINTS") then
+				if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then 
+					EventAlert_UpdateComboPoint();
+				end
+			end
+			-- ���
 			if ((arg2 == "RAGE") and EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
-				--如果可以顯示能量也同時顯示能量
+				--�p�G�i�H��ܯ�q�]�P����ܯ�q
 				if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 				end
 			end 
 
-			-- 集中值
+			-- ������
 			if ((arg2 == "FOCUS") and EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_FOCUS);
 			end
 			
-			-- 能量
+			-- ��q
 			if ((arg2 == "ENERGY") and EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 
-				--如果可以顯示真氣也同時顯示真氣
+				--�p�G�i�H��ܯu��]�P����ܯu��
 				if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
 				end
 
-				--如果可以顯示怒氣也同時顯示怒氣
+				--�p�G�i�H��ܫ��]�P����ܫ��
 				if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);				
 				end 
 			end
 
-			-- 符文能量
+			-- �Ť��q
 			if ((arg2 == "RUNIC_POWER") and EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RUNIC_POWER);
 			end
 			
-			-- 靈魂碎片
+			-- �F��H��
 			if ((arg2 == "SOUL_SHARDS") and EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_SOUL_SHARDS);
 			end 
 			
-			-- 日月蝕能
+			-- ���k��
 			if ((arg2 == "ECLIPSE") and EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 				EventAlert_UpdateEclipse();
 			end
 			
-			-- 聖能
+			-- �t��
 			if ((arg2 == "HOLY_POWER") and EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_HOLY_POWER);
 			end
 			
-			-- 真氣
+			-- �u��
 			if ((arg2 == "CHI") and EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
-				--如果可以顯示能量也同時顯示能量
+				--�p�G�i�H��ܯ�q�]�P����ܯ�q
 				if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 					EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
 				end
 			end
 			
-			-- 暗影寶珠
+			-- �t�v�_�]
 			if ((arg2 == "SHADOW_ORBS") and EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_SHADOW_ORBS);
 			end
 			
-			-- 惡魔之怒
+			-- �c�]����
 			if ((arg2 == "DEMONIC_FURY") and EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasDemonicFury) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_DEMONIC_FURY);
 			end
 			
-			-- 燃火餘燼
+			-- �U���l�u
 			if ((arg2 == "BURNING_EMBERS") and EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_BURNING_EMBERS);
 			end
@@ -511,46 +405,46 @@ function EventAlert_OnEvent(self, event, ...)
 	end
 	
 	if (event == "PLAYER_DEAD" or event == "PLAYER_ENTERING_WORLD") then
-		-- 以下更新特殊能力時，只檢查是否啟用監控功能，以及目前天賦是否擁有這種特殊能力
+		-- �H�U��s�S���O�ɡA�u�ˬd�O�_�ҥκʱ��\��A�H�Υثe�ѽ�O�_�֦��o�دS���O
 		
-		-- 怒氣
+		-- ���
 		if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
-		-- 集中值
+		-- ������
 		elseif (EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_FOCUS);
-		-- 能量
+		-- ��q
 		elseif (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_ENERGY);
-			--如果有怒氣或真氣也同時顯示
+			--�p�G�����ίu��]�P�����
 			if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_RAGE);
 			end
 			if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then 
 				EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
 			end
-		-- 符文能量
+		-- �Ť��q
 		elseif (EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_RUNIC_POWER);
-		-- 靈魂碎片
+		-- �F��H��
 		elseif (EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_SOUL_SHARDS);
-		-- 燃火餘燼
+		-- �U���l�u
 		elseif (EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_BURNING_EMBERS);
-		-- 惡魔之怒
+		-- �c�]����
 		elseif (EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasdDemonicFury) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_DEMONIC_FURY);
-		-- 日月蝕能
+		-- ���k��
 		elseif (EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 			EventAlert_UpdateEclipse();
-		-- 聖能
+		-- �t��
 		elseif (EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_HOLY_POWER);
-		-- 真氣
+		-- �u��
 		elseif (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_LIGHT_FORCE);
-		-- 暗影寶珠
+		-- �t�v�_�]
 		elseif (EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 			EventAlert_UpdateSinglePower(EA_SPELL_POWER_SHADOW_ORBS);
 		end
@@ -570,14 +464,29 @@ function EventAlert_OnEvent(self, event, ...)
 		end
 	end
 	
-	if ((event == "ACTIVE_TALENT_GROUP_CHANGED") or (event == "UNIT_DISPLAYPOWER") or (event== "UPDATE_SHAPESHIFT_FORM")) then
-		-- 偵測目前角色的天賦及特殊能力
+	if ((event == "ACTIVE_TALENT_GROUP_CHANGED") or (event == "UNIT_DISPLAYPOWER") or (event== "UPDATE_SHAPESHIFT_FORM") ) then
+		-- �����ثe���⪺�ѽ�ίS���O
 		EventAlert_PlayerSpecPower_Update();
+        RemoveAllScdCurrentBuff();
+
 	end
+
+	if ((event=="PLAYER_TALENT_UPDATE") or (envet=="PLAYER_TALENT_WIPE")) then
+		
+		EventAlert_PlayerSpecPower_Update();
+		RemoveAllScdCurrentBuff();
+	end
+	if ((event=="SPELL_UPDATE_COOLDOWN") or (envet=="SPELL_UPDATE_CHARGES")) then
+		
+
+	--	EventAlert_ScdPositionFrames();	
+	end
+
+
 	
 	if (event == "UNIT_AURA") then
-		-- 目前的特殊能力改變 （如小D變形、武僧切換姿勢）
-		-- UNIT_AURA只執行一次就好，後面改由UNIT_DISPLAYPOWER來檢查
+		-- �ثe���S���O���� �]�p�pD�ܧΡB�Z���������ա^
+		-- UNIT_AURA�u����@���N�n�A�᭱���UNIT_DISPLAYPOWER���ˬd
 		if (EA_FormType_FirstTimeCheck) then
 			--DEFAULT_CHAT_FRAME:AddMessage("First time check FormType");
 			EventAlert_PlayerSpecPower_Update();
@@ -651,7 +560,7 @@ function EventAlert_Buffs_Update()
 	end
 
 	for i=1,40 do
-		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("player", i)
+		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId , canApplyAura, isBossDebuff, value1, value2, value3= UnitBuff("player", i)
 		if (not spellId) then
 			break;
 		end
@@ -696,30 +605,19 @@ function EventAlert_Buffs_Update()
 			-- EA_SPELLINFO_SELF[spellId].name = name;
 			-- EA_SPELLINFO_SELF[spellId].rank = rank;
 			-- EA_SPELLINFO_SELF[spellId].icon = icon;
-
-            -- XXX begin
-            -- fixed http://bih-d-2462/index.php?do=details&task_id=2
-            if(not EA_SPELLINFO_SELF[spellId]) then
-                EA_SPELLINFO_SELF[spellId] = {
-                    name = name,
-                    rank = rank,
-                    icon = icon,
-                }
-            end
-            -- XXX end
-
 			EA_SPELLINFO_SELF[spellId].count = count;
 			EA_SPELLINFO_SELF[spellId].duration = duration;
 			EA_SPELLINFO_SELF[spellId].expirationTime = expirationTime;
 			EA_SPELLINFO_SELF[spellId].unitCaster = unitCaster;
 			EA_SPELLINFO_SELF[spellId].isDebuff = false;
 			EA_SPELLINFO_SELF[spellId].orderWtd = orderWtd;
+			EA_SPELLINFO_SELF[spellId].value2 = value2;
 			table.insert(buffsCurrent, spellId);
 		end
 	end
 
 	for i=41,80 do
-		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff("player", i-40)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff, value1, value2, value3 = UnitDebuff("player", i-40)
 		if (not spellId) then
 			break;
 		end
@@ -767,6 +665,7 @@ function EventAlert_Buffs_Update()
 			EA_SPELLINFO_SELF[spellId].unitCaster = unitCaster;
 			EA_SPELLINFO_SELF[spellId].isDebuff = true;
 			EA_SPELLINFO_SELF[spellId].orderWtd = orderWtd;
+			EA_SPELLINFO_SELF[spellId].value2 = value2;			
 			table.insert(buffsCurrent, spellId);
 		end
 	end
@@ -837,7 +736,7 @@ function EventAlert_TarBuffs_Update()
 	-- end
 
 	for i=1,40 do
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff("target", i)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId , canApplyAura, isBossDebuff, value1, value2, value3= UnitDebuff("target", i)
 		if (not spellId) then
 			break;
 		end
@@ -868,13 +767,14 @@ function EventAlert_TarBuffs_Update()
 				EA_SPELLINFO_TARGET[spellId].unitCaster = unitCaster;
 				EA_SPELLINFO_TARGET[spellId].isDebuff = true;
 				EA_SPELLINFO_TARGET[spellId].orderWtd = orderWtd;
+				EA_SPELLINFO_TARGET[spellId].value2 = value2;
 				table.insert(buffsCurrent, spellId);
 			end
 		end
 	end
 
 	for i=41,80 do
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("target", i-40)
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff, value1, value2, value3= UnitBuff("target", i-40)
 		if (not spellId) then
 			break;
 		end
@@ -905,6 +805,7 @@ function EventAlert_TarBuffs_Update()
 				EA_SPELLINFO_TARGET[spellId].unitCaster = unitCaster;
 				EA_SPELLINFO_TARGET[spellId].isDebuff = false;
 				EA_SPELLINFO_TARGET[spellId].orderWtd = orderWtd;
+				EA_SPELLINFO_TARGET[spellId].value2 = value2;
 				table.insert(buffsCurrent, spellId);
 			end
 		end
@@ -984,9 +885,9 @@ function EventAlert_ScdBuffs_Update(EA_Unit, EA_SpellName, EA_SpellID)
 				end
 			end
 
-			if (spellId==47666 or spellId==47750) then spellId=47540 end;   -- Priest Penance
-			if (spellId==73921 or spellId==98887) then spellId=73920 end;   -- Shaman Healing Rain
-			if (spellId==61391) then spellId=50516 end;   			-- Druid Typhoon
+			--if (spellId==47666 or spellId==47750) then spellId=47540 end;   -- Priest Penance
+			--if (spellId==73921 or spellId==98887) then spellId=73920 end;   -- Shaman Healing Rain
+			--if (spellId==61391) then spellId=50516 end;   			-- Druid Typhoon
 			SpellEnable = EAFun_GetSpellItemEnable(EA_ScdItems[EA_playerClass][spellId]);
 			if (SpellEnable) then
 				-- DEFAULT_CHAT_FRAME:AddMessage("spellId="..spellId.." / EA_ScdItems[EA_playerClass][spellId]=true");
@@ -1137,7 +1038,7 @@ function EventAlert_OnUpdate(spellId)
 				EA_timeLeft = 0 + EA_expirationTime - EA_currentTime;
 			end
 			
-			--5.1修正:玩家buff框架顯示
+			--5.1�ץ�:���abuff�ج[���
 			--eaf:SetCooldown(EA_currentTime, EA_timeLeft);
 
 			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_Items[EA_playerClass][spellId]);
@@ -1185,16 +1086,18 @@ function EventAlert_OnTarUpdate(spellId)
 			local EA_Name = EA_SPELLINFO_TARGET[spellId].name;
 			local EA_count = EA_SPELLINFO_TARGET[spellId].count;
 			local EA_expirationTime = EA_SPELLINFO_TARGET[spellId].expirationTime;
+			local EA_value2 = EA_SPELLINFO_TARGET[spellId].value2;
 			local IfIsDebuff = EA_SPELLINFO_TARGET[spellId].isDebuff;
 			local EA_currentTime = 0;
 			local EA_timeLeft = 0;
+			
 			
 			if (EA_expirationTime ~= nil) then
 				EA_currentTime = GetTime();
 				EA_timeLeft = 0 + EA_expirationTime - EA_currentTime;
 			end
 			
-			--5.1修正:目標buff框架顯示
+			--5.1�ץ�:�ؼ�buff�ج[���
 			--eaf:SetCooldown(EA_currentTime, EA_timeLeft);
 
 			SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_TarItems[EA_playerClass][spellId]);
@@ -1249,53 +1152,59 @@ function EventAlert_OnSCDUpdate(spellId)
 	local iShift = 0;
 	local eaf = _G["EAScdFrame_"..spellId];
 
-	local EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellId);
+	local EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellId);								--���o�ޯ�N�o
+	local EA_ChargeCurrent, EA_ChargeMax, EA_ChargeStart,EA_ChargeDuration = GetSpellCharges(spellId);				--���o�ޯ�R��
+		
+	local flag_usable,flag_nomana =IsUsableSpell(spellId)			
+
 	if (eaf ~= nil) then
-		if (EA_Enable ~= 0) then
-			if (EA_start > 0) and (EA_duration > 0) then
-				local EA_timeLeft = EA_start + EA_duration - GetTime();
-				-- DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");
-				if 1.5 <= EA_timeLeft then
-					local gsiIcon = EA_SPELLINFO_SCD[spellId].icon;
-					eaf:SetBackdrop({bgFile = gsiIcon});
-					eaf:SetWidth(EA_Config.IconSize);
-					eaf:SetHeight(EA_Config.IconSize);
-					eaf:SetAlpha(1);
-					if (eaf.useCooldown) then
-						eaf:SetCooldown(EA_start, EA_duration);
-					end
-					if (EA_Config.ShowTimer) then
-						EAFun_SetCountdownStackText(eaf, EA_timeLeft+0.5, 0, -1);
-					end
-					eaf:Show();
-				elseif 0 <= EA_timeLeft and EA_timeLeft < 1.5 then
-					if (EA_timeLeft < 0.5) then
-						EASCDFrame_AnimateOut(eaf);
-					end
-					if (EA_Config.ShowTimer) then
-						EAFun_SetCountdownStackText(eaf, EA_timeLeft+0.5, 0, -1);
-					end
+		local gsiIcon = EA_SPELLINFO_SCD[spellId].icon;
+		eaf:SetBackdrop({bgFile = gsiIcon});
+		eaf:SetWidth(EA_Config.IconSize);
+		eaf:SetHeight(EA_Config.IconSize);		
+
+		if EA_ChargeCurrent then
+			local EA_timeLeft=EA_ChargeStart + EA_ChargeDuration - GetTime();
+			if EA_ChargeCurrent > 0 then 			
+				FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)				
+				if EA_ChargeCurrent == EA_ChargeMax then
+					EAFun_SetCountdownStackText(eaf,  0,EA_ChargeCurrent,0, 1);	
+					
 				else
-					eaf:Hide();
-					if (eaf.useCooldown) then
-						--eaf:SetCooldown(1, 0);
-					end
-					eaf:SetAlpha(0);
-					eaf:SetScript("OnUpdate", nil);
-					removeBuffValue(EA_ScdCurrentBuffs, spellId);
-					EventAlert_ScdPositionFrames();
+					EAFun_SetCountdownStackText(eaf,  EA_timeLeft,EA_ChargeCurrent,0, 1);
 				end
 			else
-				eaf:Hide();
-				if (eaf.useCooldown) then
-					--eaf:SetCooldown(1, 0);
-				end
-				eaf:SetAlpha(0);
-				eaf:SetScript("OnUpdate", nil);
-				removeBuffValue(EA_ScdCurrentBuffs, spellId);
-				EventAlert_ScdPositionFrames();
+				ActionButton_HideOverlayGlow(eaf)
+				EAFun_SetCountdownStackText(eaf, EA_timeLeft , EA_ChargeCurrent, -1);								
+			end
+		else
+
+			if (EA_Enable == 1) then
+								
+				local EA_timeLeft = EA_start + EA_duration - GetTime();				
+				local EA_GCD=1.5/((100+UnitSpellHaste("player"))/100)
+				
+				if EA_GCD < 1 then EA_GCD = 1 end
+				
+				--local EA_GCD=1.5
+				
+				if (EA_start > 0 and EA_duration > EA_GCD )  then					
+					 --DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");	
+					ActionButton_HideOverlayGlow(eaf)						
+					if (EA_Config.ShowTimer) then 
+						EAFun_SetCountdownStackText(eaf, EA_timeLeft ,0, -1);						
+					end
+				else	
+						
+					eaf.spellTimer:SetText("")						
+					FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)
+					
+				end			
 			end
 		end
+		
+		eaf:SetAlpha(1);		
+		EventAlert_ScdPositionFrames();				
 	end
 end
 
@@ -1323,11 +1232,6 @@ function EventAlert_PositionFrames(event)
 
 		EA_CurrentBuffs = EAFun_SortCurrBuffs(1, EA_CurrentBuffs);
 
-        -- if(EA_SpecFrame_Self) then
-        --     local f = create_mover('spec_self', EA_Anchor_Frame3, 1, 4, EA_SpecFrame_Self.updateFunc)
-        --     set_mover(f, EA_SpecFrame_Self)
-        -- end
-
 		for k,v in ipairs(EA_CurrentBuffs) do
 			local eaf = _G["EAFrame_"..v];
 			local spellId = tonumber(v);
@@ -1346,9 +1250,6 @@ function EventAlert_PositionFrames(event)
 							else
 								eaf:SetPoint(EA_Position.Anchor, prevFrame2, EA_Position.Anchor, -1 * xOffset, -1 * yOffset);
 							end
-                            local f = create_mover('player_debuff', EA_Anchor_Frame3, 1, 4, EventAlert_PositionFrames)
-                            -- local f = create_mover('player_debuff', EA_Anchor_Frame3, 1, 4, EA_SpecFrame_Self and EA_SpecFrame_Self.updateFunc or EventAlert_PositionFrames)
-                            set_mover(f, eaf)
 						else
 							eaf:SetPoint("CENTER", prevFrame2, "CENTER", -1 * xOffset, -1 * yOffset);
 						end
@@ -1357,10 +1258,6 @@ function EventAlert_PositionFrames(event)
 						if (prevFrame == "EA_Main_Frame" or prevFrame == eaf) then
 							prevFrame = "EA_Main_Frame";
 							eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, 0, 0);
-
-                            local f = create_mover('player_buff', EA_Anchor_Frame1, 1, 4, EventAlert_PositionFrames)
-                            -- local f = create_mover('player_buff', EA_Anchor_Frame1, 1, 4, EA_SpecFrame_Self and EA_SpecFrame_Self.updateFunc or EventAlert_PositionFrames)
-                            set_mover(f, eaf)
 						else
 							eaf:SetPoint("CENTER", prevFrame, "CENTER", xOffset, yOffset);
 						end
@@ -1411,16 +1308,12 @@ function EventAlert_TarPositionFrames(event)
 
 		EA_TarCurrentBuffs = EAFun_SortCurrBuffs(2, EA_TarCurrentBuffs);
 
---         if(EA_SpecFrame_Target) then
---             local f = create_mover('spec_target', EA_Anchor_Frame7, 5, 8, EA_SpecFrame_Target.updateFunc)
---             set_mover(f, EA_SpecFrame_Target)
---         end
-
 		for k,v in ipairs(EA_TarCurrentBuffs) do
 			local eaf = _G["EATarFrame_"..v];
 			local spellId = tonumber(v);
 			local gsiName = EA_SPELLINFO_TARGET[spellId].name;
 			local gsiIcon = EA_SPELLINFO_TARGET[spellId].icon;
+			local gsiValue2 = EA_SPELLINFO_TARGET[spellId].value2;
 			local gsiIsDebuff = EA_SPELLINFO_TARGET[spellId].isDebuff;
 
 			if eaf ~= nil then
@@ -1430,10 +1323,6 @@ function EventAlert_TarPositionFrames(event)
 						if (prevFrame == "EA_Main_Frame" or prevFrame == eaf) then
 							prevFrame = "EA_Main_Frame";
 							eaf:SetPoint(EA_Position.TarAnchor, UIParent, EA_Position.TarAnchor, EA_Position.Tar_xOffset, EA_Position.Tar_yOffset);
-
-                            local f = create_mover('target_debuff', EA_Anchor_Frame5, 5, 8, EventAlert_TarPositionFrames)
-                            -- local f = create_mover('target_debuff', EA_Anchor_Frame5, 5, 8, EA_SpecFrame_Target and EA_SpecFrame_Target.updateFunc or EventAlert_TarPositionFrames)
-                            set_mover(f, eaf)
 						else
 							eaf:SetPoint("CENTER", prevFrame, "CENTER", xOffset, yOffset);
 						end
@@ -1448,9 +1337,6 @@ function EventAlert_TarPositionFrames(event)
 								eaf:SetPoint(EA_Position.TarAnchor, UIParent, EA_Position.TarAnchor, EA_Position.Tar_xOffset - xOffset, EA_Position.Tar_yOffset - yOffset);
 								-- eaf:SetPoint(EA_Position.TarAnchor, prevFrame2, EA_Position.TarAnchor, -1 * xOffset, -1 * yOffset);
 							end
-                            local f = create_mover('target_mover', EA_Anchor_Frame7, 5, 8, EventAlert_TarPositionFrames)
-                            -- local f = create_mover('target_mover', EA_Anchor_Frame7, 5, 8, EA_SpecFrame_Target and EA_SpecFrame_Target.updateFunc or EventAlert_TarPositionFrames)
-                            set_mover(f, eaf)
 						else
 							eaf:SetPoint("CENTER", prevFrame2, "CENTER", -1 * xOffset, -1 * yOffset);
 						end
@@ -1469,8 +1355,14 @@ function EventAlert_TarPositionFrames(event)
 				eaf:SetHeight(EA_Config.IconSize);
 				eaf:SetBackdrop({bgFile = gsiIcon});
 				if gsiIsDebuff then eaf:SetBackdropColor(EA_Position.GreenDebuff, 1.0, EA_Position.GreenDebuff) end;
+				local tmp;
 				if (EA_Config.ShowName == true) then
-					eaf.spellName:SetText(gsiName);
+					if gsiValue2 then 
+						tmp=gsiName.."("..gsiValue2..")"
+					else
+						tmp=gsiName
+					end
+					eaf.spellName:SetText(tmp);
 					SfontName, SfontSize = eaf.spellName:GetFont();
 					eaf.spellName:SetFont(SfontName, EA_Config.SNameFontSize);
 				else
@@ -1506,9 +1398,6 @@ function EventAlert_ScdPositionFrames()
 				if (prevFrame == "EA_Main_Frame" or prevFrame == eaf) then
 					prevFrame = "EA_Main_Frame";
 					eaf:SetPoint("CENTER", UIParent, EA_Position.ScdAnchor, EA_Position.Scd_xOffset, EA_Position.Scd_yOffset);
-
-                    local f = create_mover('scd', EA_Anchor_Frame9, 9, 10, EventAlert_ScdPositionFrames)
-                    set_mover(f, eaf)
 				else
 					eaf:SetPoint("CENTER", prevFrame, "CENTER", xOffset, yOffset);
 				end
@@ -1523,6 +1412,7 @@ function EventAlert_ScdPositionFrames()
 				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
 				eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize, "OUTLINE");
 				prevFrame = eaf;
+				--FrameShowOrHide(eaf,(eaf:IsShown() and EA_Config.IsKeepSCD))
 				eaf:Show();
 			end
 		end
@@ -1545,13 +1435,8 @@ function EventAlert_SlashHandler(msg)
 		listSec = tonumber(para1);
 	end
 
-    if(     cmdtype == 'options'
-        or  cmdtype == 'option'
-        or  cmdtype == 'opt'
-        or  cmdtype == 'gui'
-        or  cmdtype == 'config'
-        ) then
-        if not EA_Options_Frame:IsVisible() then
+	if (cmdtype == "options" or cmdtype == "opt") then
+		if not EA_Options_Frame:IsVisible() then
 			-- ShowUIPanel(EA_Options_Frame);
 			EA_Options_Frame:Show();
 		else
@@ -1762,9 +1647,8 @@ function EventAlert_ShowVerURL(SiteIndex)
 		VerUrl = "http://forum.gamer.com.tw/Co.php?bsn=05219&sn=5125122&subbsn=0";
 	end
 
-	ChatFrame1EditBox:SetText(VerUrl)
-	if not ChatFrame1EditBox:IsShown() then ChatFrame1EditBox:Show() end;
-	ChatFrame1EditBox:HighlightText()
+	-- WOW API�T����Ұ��s�����s�����A�u�����URL�b��ܵ������C
+	DEFAULT_CHAT_FRAME:AddMessage(VerUrl);
 end
 
 
@@ -1923,7 +1807,12 @@ end
 function EAFun_GetFormattedTime(timeLeft)
 	local formattedTime = "";
 	if timeLeft <= 60 then
-		formattedTime = tostring(floor(timeLeft));
+		if EA_Config.IsUseFloat or (timeLeft < 3) then
+			formattedTime = tostring(format("%.1f",timeLeft));
+		else	
+			--formattedTime = tostring(floor(timeLeft));
+			formattedTime = tostring(format("%d",timeLeft));
+		end 
 	else
 		formattedTime = format("%d:%02d", floor(timeLeft/60), timeLeft % 60);
 	end
@@ -1941,30 +1830,32 @@ function EAFun_SetCountdownStackText(eaf, EA_timeLeft, EA_count, SC_RedSecText)
 		if (EA_Config.ChangeTimer == true) then
 			eaf.spellTimer:SetPoint("CENTER", 0, 0);
 		else
-			eaf.spellTimer:SetPoint("TOP", 0, EA_Config.TimerFontSize*1.1);
+			eaf.spellTimer:SetPoint("TOP", 0, EA_Config.TimerFontSize);
 		end
 		if (EA_timeLeft < SC_RedSecText + 1) then
 			if (not eaf.redsectext) then
-				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize+5, "OUTLINE");
+				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize*1.1+5, "OUTLINE");
 				eaf.spellTimer:SetTextColor(1, 0, 0);
 				eaf.redsectext = true;
 				eaf.whitesectext = false;
 			end
 		else
 			if (not eaf.whitesectext) then
-				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
+				eaf.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize*1.1, "OUTLINE");
 				eaf.spellTimer:SetTextColor(1, 1, 1);
 				eaf.redsectext = false;
 				eaf.whitesectext = true;
 			end
 		end
 		eaf.spellTimer:SetText(EAFun_GetFormattedTime(EA_timeLeft));
+	else
+		eaf.spellTimer:SetText("");
 	end
 
 	eaf.spellStack:ClearAllPoints();
-	if (EA_count > 1) then
-		eaf.spellStack:SetPoint("BOTTOMRIGHT", 0, 0);
-		eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize, "OUTLINE");
+	if (EA_count > 0) then
+		eaf.spellStack:SetPoint("CENTER", EA_Config.TimerFontSize/3*2, -EA_Config.TimerFontSize/3*2);
+		eaf.spellStack:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.StackFontSize*1.05, "OUTLINE");
 		eaf.spellStack:SetFormattedText("%d", EA_count);
 	else
 		eaf.spellStack:SetFormattedText("");
@@ -1999,7 +1890,11 @@ function EventAlert_UpdateComboPoint()
 
 				EAFun_SetCountdownStackText(eaf, iComboPoint, 0, -1);
 				eaf:Show();
-				if (iComboPoint >= 5) then ActionButton_ShowOverlayGlow(eaf) end;
+				if (iComboPoint >= 5) then 
+					ActionButton_ShowOverlayGlow(eaf)
+				else
+					ActionButton_HideOverlayGlow(eaf)
+				end;
 			else
 				ActionButton_HideOverlayGlow(eaf);
 				EA_SpecFrame_Target = false;
@@ -2098,16 +1993,16 @@ function EventAlert_UpdateSinglePower(iPowerType)
 	if (iPowerType == EA_SPELL_POWER_SOUL_SHARDS) then iPowerName = EA_XSPECINFO_SOULSHARDS end;
 	if (iPowerType == EA_SPELL_POWER_HOLY_POWER) then iPowerName = EA_XSPECINFO_HOLYPOWER end;
 	
-	--5.1新增 by ZYF:加入對暗影寶珠,怒氣 集中值 能量的支援
+	--5.1�s�W by ZYF:�[�J��t�v�_�],��� ������ ��q���䴩
 	if (iPowerType == EA_SPELL_POWER_SHADOW_ORBS) then iPowerName = EA_XSPECINFO_SHADOWORBS end;
 	if (iPowerType == EA_SPELL_POWER_RAGE) then iPowerName = EA_XSPECINFO_RAGE end;
 	if (iPowerType == EA_SPELL_POWER_FOCUS) then iPowerName = EA_XSPECINFO_FOCUS end;	
 	if (iPowerType == EA_SPELL_POWER_ENERGY) then iPowerName = EA_XSPECINFO_ENERGY end;
 	
-	-- 支援武僧真氣
+	-- �䴩�Z���u��
 	if (iPowerType == EA_SPELL_POWER_LIGHT_FORCE) then iPowerName = EA_XSPECINFO_LIGHTFORCE end;
 	
-	-- 支援燃火餘燼,惡魔之怒
+	-- �䴩�U���l�u,�c�]����
 	if (iPowerType == EA_SPELL_POWER_BURNING_EMBERS) then iPowerName = EA_XSPECINFO_BURNINGEMBERS end;
 	if (iPowerType == EA_SPELL_POWER_DEMONIC_FURY) then iPowerName = EA_XSPECINFO_DEMONICFURY end;
 	
@@ -2125,8 +2020,8 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				EA_SpecFrame_Self = true;
 				eaf:ClearAllPoints();
 				
-				--5.1新增 by ZYF:將怒氣與能量框架分開位置以利德魯伊辨識
-				if (iPowerType==3) then				--若是能量類別就將框架再往左移動一格
+				--5.1�s�W by ZYF:�N���P��q�ج[���}��m�H�Q�w�|�����
+				if (iPowerType==3) then				--�Y�O��q���O�N�N�ج[�A�������ʤ@��
 					eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -2 * xOffset, -1 * yOffset);
 				else
 					eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -1 * xOffset, -1 * yOffset);
@@ -2150,7 +2045,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				eaf.spellTimer:SetText(iUnitPower);
 				eaf:Show();
 
-				-- 聖能3層時高亮度，未滿3層取消高亮度
+				-- �t��3�h�ɰ��G�סA����3�h�������G��
 				if (iPowerType == EA_SPELL_POWER_HOLY_POWER) then
 					if (iUnitPower >=3) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2159,7 +2054,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 					end
 				end
 				
-				-- 暗影寶珠3層時高亮度，未滿3層取消高亮度
+				-- �t�v�_�]3�h�ɰ��G�סA����3�h�������G��
 				if (iPowerType == EA_SPELL_POWER_SHADOW_ORBS) then
 					if (iUnitPower >=3) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2168,7 +2063,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 					end
 				end
 
-				-- 真氣4層時高亮度，未滿4層取消高亮度
+				-- �u��4�h�ɰ��G�סA����4�h�������G��
 				if (iPowerType == EA_SPELL_POWER_LIGHT_FORCE) then
 					if (iUnitPower >=4) then 
 						ActionButton_ShowOverlayGlow(eaf);
@@ -2223,6 +2118,7 @@ function EventAlert_UpdateLifeBloom(EA_Unit)
 	local iFrameIndex = 33763;
 	local fNewToShow = false;
 	local eaf = _G["EAFrameSpec_"..iFrameIndex];
+
 	if (eaf ~= nil) then
 		if (EA_Unit ~= "") then
 			if (EA_Config.ShowFrame == true) then
@@ -2372,7 +2268,7 @@ function EventAlert_Lookup(para1, fullmatch)
 		end
 	end
 	EA_Version_Frame:Show();
-	-- DEFAULT_CHAT_FRAME:AddMessage(EA_XLOOKUP_RESULT1..": \124cffFFFF00"..tostring(iCount).."\124r"..EA_XLOOKUP_RESULT2);
+	DEFAULT_CHAT_FRAME:AddMessage(EA_XLOOKUP_RESULT1..": \124cffFFFF00"..tostring(iCount).."\124r"..EA_XLOOKUP_RESULT2);
 end
 
 
@@ -2485,7 +2381,7 @@ function EAFun_GetUnitIDByName(EA_UnitName)
 			if EA_UnitName == sUnitName then fNotFound = false end;
 			iIndex = iIndex + 1;
 		end
-	-- 5.1修改：將GetNumPartyMembers()換成GetNumSubgroupMembers()
+	-- 5.1�ק�G�NGetNumPartyMembers()����GetNumSubgroupMembers()
 	elseif GetNumSubgroupMembers() > 0 then
 		iIndex = 1;
 		while (fNotFound and iIndex <= 4) do
@@ -2497,52 +2393,59 @@ function EAFun_GetUnitIDByName(EA_UnitName)
 	end
 
 	if (fNotFound) then
+		local UnitType={"mouseover","target","focus"}
+		for i=1,#UnitType do
+			if UnitName(UnitType[i])==EA_UnitName then
+				return UnitType[i];
+			end	
+		end
 		return "";
 	else
 		return sUnitID;
 	end
+	
 end
 
 function EAFun_HookTooltips()
-	-- hooksecurefunc(GameTooltip, "SetUnitBuff", function(self,...)
-	-- 	local id = select(11,UnitBuff(...))
-	-- 	if id then
-	-- 		self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
-	-- 		self:Show()
-	-- 	end
-	-- end)
+	hooksecurefunc(GameTooltip, "SetUnitBuff", function(self,...)
+		local id = select(11,UnitBuff(...))
+		if id then
+			self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
+			self:Show()
+		end
+	end)
 
-	-- hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self,...)
-	-- 	local id = select(11,UnitDebuff(...))
-	-- 	if id then
-	-- 		self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
-	-- 		self:Show()
-	-- 	end
-	-- end)
+	hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self,...)
+		local id = select(11,UnitDebuff(...))
+		if id then
+			self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
+			self:Show()
+		end
+	end)
 
-	-- hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
-	-- 	local id = select(11,UnitAura(...))
-	-- 	if id then
-	-- 		self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
-	-- 		self:Show()
-	-- 	end
-	-- end)
+	hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
+		local id = select(11,UnitAura(...))
+		if id then
+			self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
+			self:Show()
+		end
+	end)
 
-	-- hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
-	-- 	if string.find(link,"^spell:") then
-	-- 		local id = string.sub(link,7)
-	-- 		ItemRefTooltip:AddDoubleLine(EX_XCLSALERT_SPELL,id)
-	-- 		ItemRefTooltip:Show()
-	-- 	end
-	-- end)
+	hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
+		if string.find(link,"^spell:") then
+			local id = string.sub(link,7)
+			ItemRefTooltip:AddDoubleLine(EX_XCLSALERT_SPELL,id)
+			ItemRefTooltip:Show()
+		end
+	end)
 
-	-- GameTooltip:HookScript("OnTooltipSetSpell", function(self)
-	-- 	local id = select(3,self:GetSpell())
-	-- 	if id then
-	-- 		self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
-	-- 		self:Show()
-	-- 	end
-	-- end)
+	GameTooltip:HookScript("OnTooltipSetSpell", function(self)
+		local id = select(3,self:GetSpell())
+		if id then
+			self:AddDoubleLine(EX_XCLSALERT_SPELL,id)
+			self:Show()
+		end
+	end)
 end
 
 -- For OrderWtd, to sort the order of the buffs/debuffs.
@@ -2711,7 +2614,7 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	-- If the Active-Talent should be checked
 	if (fShowResult) then
 		if (self.GC.ActiveTalentGroup ~= nil) then
-			--5.1修正:GetActiveTalentGroup() -> GetActiveSpecGroup()
+			--5.1�ץ�:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			iActiveTalentGroup = GetActiveSpecGroup();
 			if (iActiveTalentGroup ~= self.GC.ActiveTalentGroup) then
 				fShowResult = false;
@@ -2750,11 +2653,11 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	if (not fShowResult) then
 		EAFun_FireEventCheckHide(self);
 	else
-		--5.1修正"ACTIVE_TALENT_GROUP_CHANGED" -> "ACTIVE_SPEC_GROUP_CHANGED"
-		--5.3取消上述修正
+		--5.1�ץ�"ACTIVE_TALENT_GROUP_CHANGED" -> "ACTIVE_SPEC_GROUP_CHANGED"
+		--5.3�����W�z�ץ�
 		if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
 			-- If the Active-Talent should be checked
-			--5.1修正:GetActiveTalentGroup() -> GetActiveSpecGroup()
+			--5.1�ץ�:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			iActiveTalentGroup = GetActiveSpecGroup();
 			if (iActiveTalentGroup ~= self.GC.ActiveTalentGroup) then
 				fShowResult = false;
@@ -2960,59 +2863,59 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	end
 end
 
--- 檢查目前啟用的職業天賦，並設定目前擁有的特殊能力（怒氣、集中值、能量、符文能量 ...）
+-- �ˬd�ثe�ҥΪ�¾�~�ѽ�A�ó]�w�ثe�֦����S���O�]���B�����ȡB��q�B�Ť��q ...�^
 --[[
-	Death Knight 死亡騎士
-	250 - Blood 血魄
-	251 - Frost 冰霜
-	252 - Unholy 穢邪
-	Druid 德魯伊
-	102 - Balance 平衡 (鳥D)
-	103 - Feral Combat 野性戰鬥 (貓D)
-	104 - Guardian 守護 (熊D)
-	105 - Restoration (補D)
-	Hunter 獵人
-	253 - Beast Mastery 獸王
-	254 - Marksmanship 射擊
-	255 - Survival 生存
-	Mage 法師
-	62 - Arcane 秘法
-	63 - Fire 火法
-	64 - Frost 冰法
-	Monk 武僧
-	268 - BrewMaster 釀酒 (坦)
-	269 - WindWalker 御風 (DD)
-	270 - MistWeaver 織霧 (補)
-	Paladin 聖騎士
-	65 - Holy 神聖 (補)
-	66 - Protection 防護 (坦)
-	70 - Retribution 懲戒 (DD)
-	Priest 牧師
-	256 Discipline 戒律 (補)
-	257 Holy 神聖 (補)
-	258 Shadow 暗影 (DD)
-	Rogue 盜賊
-	259 - Assassination 刺殺
-	260 - Combat 戰鬥
-	261 - Subtlety 敏銳
-	Shaman 薩滿
-	262 - Elemental 元薩 (遠程DD)
-	263 - Enhancement 增強 (近戰DD)
-	264 - Restoration 恢復 (補)
-	Warlock 術士
-	265 - Affliction 痛苦
-	266 - Demonology 惡魔學識
-	267 - Destruction 毀滅
+	Death Knight ���`�M�h
+	250 - Blood ��z
+	251 - Frost �B��
+	252 - Unholy ©��
+	Druid �w�|��
+	102 - Balance ���� (��D)
+	103 - Feral Combat ���ʾ԰� (��D)
+	104 - Guardian �u�@ (��D)
+	105 - Restoration (��D)
+	Hunter �y�H
+	253 - Beast Mastery �~��
+	254 - Marksmanship �g��
+	255 - Survival �ͦs
+	Mage �k�v
+	62 - Arcane ���k
+	63 - Fire ���k
+	64 - Frost �B�k
+	Monk �Z��
+	268 - BrewMaster �C�s (�Z)
+	269 - WindWalker �s�� (DD)
+	270 - MistWeaver ´�� (��)
+	Paladin �t�M�h
+	65 - Holy ���t (��)
+	66 - Protection ���@ (�Z)
+	70 - Retribution �g�� (DD)
+	Priest ���v
+	256 Discipline �٫� (��)
+	257 Holy ���t (��)
+	258 Shadow �t�v (DD)
+	Rogue �s��
+	259 - Assassination ���
+	260 - Combat �԰�
+	261 - Subtlety �ӾU
+	Shaman �ĺ�
+	262 - Elemental ���� (���{DD)
+	263 - Enhancement �W�j (���DD)
+	264 - Restoration ��_ (��)
+	Warlock �N�h
+	265 - Affliction �h�W
+	266 - Demonology �c�]����
+	267 - Destruction ����
 	Warrior 
-	71 - Arms 武器 (DD)
-	72 - Furry 狂怒 (DD)
-	73 - Protection 防護 (坦)
+	71 - Arms �Z�� (DD)
+	72 - Furry �g�� (DD)
+	73 - Protection ���@ (�Z)
 --]]
 function EventAlert_PlayerSpecPower_Update()
 	-- /dump GetSpecializationInfo(GetActiveSpecGroup());
 	-- /dump GetSpecializationInfoForClassID(classID, specNum);
 
-	-- 初始化全都為false
+	-- ��l�ƥ�����false
 	EA_SpecHasPower.HasRage				= false;
 	EA_SpecHasPower.HasFocus 			= false;
 	EA_SpecHasPower.HasEnergy			= false;
@@ -3028,7 +2931,7 @@ function EventAlert_PlayerSpecPower_Update()
 	EA_SpecHasPower.HasDemonicFury		= false;
 	
 
-	-- 偵測目前啟用的天賦來設定可以監控的特殊能力
+	-- �����ثe�ҥΪ��ѽ�ӳ]�w�i�H�ʱ����S���O
 	--local id,_,_,icon,_,_ = GetSpecializationInfo(GetActiveSpecGroup());
 		
 	local id = 0;
@@ -3037,22 +2940,23 @@ function EventAlert_PlayerSpecPower_Update()
 	local powerTypeString = "NONE";
 	local pClass = "NONE";
 	
-	-- 判斷目前是否有職業專精
+	-- �P�_�ثe�O�_��¾�~�M��
 	local HasSpecCode = true;	
 	local CurrentSpecCode = GetSpecialization();
 	if (CurrentSpecCode == nil) then
 		HasSpecCode = false;
 	end
 	
-	-- 如果目前都沒專精就改判斷職業名稱(英文)
+	-- �p�G�ثe���S�M��N��P�_¾�~�W��(�^��)
 	if (HasSpecCode) then
 		id,_,_,icon,_,_ = GetSpecializationInfo(CurrentSpecCode);
 	end
 	powerType, powerTypeString = UnitPowerType("player");
 	_,pClass = UnitClass("player");					
 	
-	-- 德魯伊和武僧要另外判斷目前的姿式或變身型態，剛進入遊戲時偵測會有問題，必須切換後才會正確偵測到
+	-- �w�|��M�Z���n�t�~�P�_�ثe���������ܨ����A�A��i�J�C���ɰ����|�����D�A����������~�|���T������
 	local shapeindex = GetShapeshiftForm();
+	local shapeID = GetShapeshiftFormID();
 	--[[
 	DEFAULT_CHAT_FRAME:AddMessage("Current shape = "..shapeindex);
 	if ((shapeindex > 0) and (shapeindex <= GetNumShapeshiftForms())) then
@@ -3065,86 +2969,83 @@ function EventAlert_PlayerSpecPower_Update()
 	end
 	--]]
 
-	-- 怒氣: 戰士/德魯伊熊型態
+	-- ���: �Ԥh/�w�|�캵���A
 	if (pClass == EA_CLASS_WARRIOR) then
 		EA_SpecHasPower.HasRage = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		if (shapeindex == 1) then 	-- 熊D(1), 貓D(3)
-			EA_SpecHasPower.HasRage = true;
+		--if (shapeindex == 1)	then 	-- ��D(1)
+		if (shapeID == 5)	then 	-- ��D(5), ��D(1)
+			EA_SpecHasPower.HasRage = true;			
 		end
 	end
 	
-	-- 集中值: 獵人
+	-- ������: �y�H
 	if (pClass == EA_CLASS_HUNTER) then
 		EA_SpecHasPower.HasFocus = true;
 	end
 
-	-- 能量: 盜賊/釀酒武僧/御風武僧/守護者德魯伊/野性德魯伊
+	-- ��q: �s��/�C�s�Z��/�s���Z��/�u�@�̼w�|��/���ʼw�|��
 	if (pClass == EA_CLASS_ROGUE) then
 		EA_SpecHasPower.HasEnergy = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		if ((shapeindex == 1) or (shapeindex == 3)) then 	-- 熊D(1), 貓D(3)
+		if ((shapeID == 5) or (shapeID == 1)) then 	-- ��D(5), ��D(1)
 			EA_SpecHasPower.HasEnergy = true;
 		end
 	elseif (pClass == EA_CLASS_MONK) then
-		if (id == 270) then
-			-- 織霧武僧只有在切換猛虎式時才會有能量
-			--if (powerType == EA_SPELL_POWER_ENERGY) then
-			if (shapeindex == 2) then 	-- 靈蛟式(1), 猛虎式(2)
-				EA_SpecHasPower.HasEnergy = true;
-			end
-		else	-- 釀酒/御風都有能量
+		--�p�G���O´���Z���N����q
+		if (id ~= 270) then			
+
 			EA_SpecHasPower.HasEnergy = true;
 		end
 	end
 	
-	-- 符文能量: 死亡騎士
+	-- �Ť��q: ���`�M�h
 	if (pClass == EA_CLASS_DK) then
 		EA_SpecHasPower.HasRunicPower = true;
 	end
 
-	-- 術士沒辦法用PowerType判斷，只能以天賦來判斷
-	-- 靈魂碎片: 痛苦術士
+	-- �N�h�S��k��PowerType�P�_�A�u��H�ѽ�ӧP�_
+	-- �F��H��: �h�W�N�h
 	if (id == 265) then
 		EA_SpecHasPower.HasSoulShards = true;
-	-- 惡魔之怒: 惡魔術士
+	-- �c�]����: �c�]�N�h
 	elseif (id == 266) then
 		EA_SpecHasPower.HasDemonicFury = true;
-	-- 燃火餘燼: 毀滅術士
+	-- �U���l�u: �����N�h
 	elseif (id == 267) then
 		EA_SpecHasPower.HasBurningEmbers = true;
 	end
 	
-	-- 日月蝕能: 鳥D
+	-- ���k��: ��D
 	if (id == 102) then
 		EA_SpecHasPower.HasEclipse = true;
 	end	
 	
-	-- 聖能: 聖騎士
+	-- �t��: �t�M�h
 	if (pClass == EA_CLASS_PALADIN) then
 		EA_SpecHasPower.HasHolyPower = true;
 	end
 	
-	-- 真氣: 武僧
+	-- �u��: �Z��
 	if (pClass == EA_CLASS_MONK) then
 		EA_SpecHasPower.HasLightForce = true;
 	end
 	
-	-- 連擊數: 盜賊/貓D
+	-- �s����: �s��/��D
 	if (pClass == EA_CLASS_ROGUE) then
 		EA_SpecHasPower.HasComboPoint = true;
 	elseif (pClass == EA_CLASS_DRUID) then
-		if (shapeindex == 3) then 	-- 熊D(1), 貓D(3)
+		--if (shapeID == 3) then 	-- ��D(1), ��D(3)
 			EA_SpecHasPower.HasComboPoint = true;
-		end
+		--end
 	end
 	
-	-- 生命之花: 補D
+	-- �ͩR����: ��D
 	if (id == 105) then
 		EA_SpecHasPower.HasLifeBloom = true;
 	end
 	
-	-- 暗影寶珠: 暗牧
+	-- �t�v�_�]: �t��
 	if (id == 258) then
 		EA_SpecHasPower.HasShadowOrbs = true;
 	end
@@ -3152,44 +3053,44 @@ function EventAlert_PlayerSpecPower_Update()
 	EventAlert_SpecialFrame_Update();
 end
 
--- 根據目前的天賦來建立或隱藏特殊能力的框架
+-- �ھڥثe���ѽ�ӫإߩ����ïS���O���ج[
 function EventAlert_SpecialFrame_Update()
-	-- 怒氣
+	-- ���
 	if (EA_SpecCheckPower.CheckRage and EA_SpecHasPower.HasRage) then
 		CreateFrames_SpecialFrames_Show(10010);
 	else
 		CreateFrames_SpecialFrames_Hide(10010);
 	end
 
-	-- 集中值
+	-- ������
 	if (EA_SpecCheckPower.CheckFocus and EA_SpecHasPower.HasFocus) then
 		CreateFrames_SpecialFrames_Show(10020);
 	else
 		CreateFrames_SpecialFrames_Hide(10020);
 	end
 	
-	-- 能量
+	-- ��q
 	if (EA_SpecCheckPower.CheckEnergy and EA_SpecHasPower.HasEnergy) then
 		CreateFrames_SpecialFrames_Show(10030);
 	else
 		CreateFrames_SpecialFrames_Hide(10030);
 	end
 	
-	-- 符文能量
+	-- �Ť��q
 	if (EA_SpecCheckPower.CheckRunicPower and EA_SpecHasPower.HasRunicPower) then
 		CreateFrames_SpecialFrames_Show(10060);
 	else
 		CreateFrames_SpecialFrames_Hide(10060);
 	end
 
-	-- 靈魂碎片
+	-- �F��H��
 	if (EA_SpecCheckPower.CheckSoulShards and EA_SpecHasPower.HasSoulShards) then
 		CreateFrames_SpecialFrames_Show(10070);
 	else
 		CreateFrames_SpecialFrames_Hide(10070);
 	end
 	
-	-- 日月蝕能
+	-- ���k��
 	if (EA_SpecCheckPower.CheckEclipse and EA_SpecHasPower.HasEclipse) then
 		CreateFrames_SpecialFrames_Show(10081);
 		CreateFrames_SpecialFrames_Show(10082);
@@ -3198,49 +3099,49 @@ function EventAlert_SpecialFrame_Update()
 		CreateFrames_SpecialFrames_Hide(10082);
 	end
 	
-	-- 聖能
+	-- �t��
 	if (EA_SpecCheckPower.CheckHolyPower and EA_SpecHasPower.HasHolyPower) then
 		CreateFrames_SpecialFrames_Show(10090);
 	else
 		CreateFrames_SpecialFrames_Hide(10090);
 	end
 
-	-- 真氣
+	-- �u��
 	if (EA_SpecCheckPower.CheckLightForce and EA_SpecHasPower.HasLightForce) then
 		CreateFrames_SpecialFrames_Show(10120);
 	else
 		CreateFrames_SpecialFrames_Hide(10120);
 	end
 	
-	-- 暗影寶珠
+	-- �t�v�_�]
 	if (EA_SpecCheckPower.CheckShadowOrbs and EA_SpecHasPower.HasShadowOrbs) then
 		CreateFrames_SpecialFrames_Show(10130);
 	else
 		CreateFrames_SpecialFrames_Hide(10130);
 	end
 
-	-- 燃火餘燼
+	-- �U���l�u
 	if (EA_SpecCheckPower.CheckBurningEmbers and EA_SpecHasPower.HasBurningEmbers) then
 		CreateFrames_SpecialFrames_Show(10140);
 	else
 		CreateFrames_SpecialFrames_Hide(10140);
 	end
 	
-	-- 惡魔之怒
+	-- �c�]����
 	if (EA_SpecCheckPower.CheckDemonicFury and EA_SpecHasPower.HasDemonicFury) then
 		CreateFrames_SpecialFrames_Show(10150);
 	else
 		CreateFrames_SpecialFrames_Hide(10150);
 	end
 	
-	-- 連擊數
+	-- �s����
 	if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then
 		CreateFrames_SpecialFrames_Show(10000);
 	else
 		CreateFrames_SpecialFrames_Hide(10000);
 	end
 		
-	-- 生命之花
+	-- �ͩR����
 	if (EA_SpecCheckPower.CheckLifeBloom and EA_SpecHasPower.HasLifeBloom) then
 		CreateFrames_SpecialFrames_Show(33763);  -- Durid LifeBloom
 	else
@@ -3249,3 +3150,36 @@ function EventAlert_SpecialFrame_Update()
 
 	EventAlert_PositionFrames();	
 end
+function RemoveAllScdCurrentBuff()
+
+	for k,v in ipairs(EA_ScdCurrentBuffs) do
+		local SpellName,SpellIcon=GetSpellInfo(v)
+		local HasSpell=GetSpellInfo(SpellName)
+		if HasSpell==nil then
+
+			local eaf = _G["EAScdFrame_"..v];
+			local spellId = tonumber(v);
+			eaf:Hide();
+			removeBuffValue(EA_ScdCurrentBuffs,v);
+			eaf:SetScript("OnUpdate", nil);
+			removeBuffValue(EA_ScdCurrentBuffs, spellId);			
+		end
+					
+	end
+	
+	EventAlert_ScdPositionFrames();
+end
+function FrameShowOrHide(f,boolShow)
+	if boolShow then
+		f:Show()
+	else
+		f:Hide()
+	end 
+end 
+function FrameGlowShowOrHide(f,boolShow)
+	if boolShow then
+		ActionButton_ShowOverlayGlow(f)
+	else
+		ActionButton_HideOverlayGlow(f)
+	end 
+end 

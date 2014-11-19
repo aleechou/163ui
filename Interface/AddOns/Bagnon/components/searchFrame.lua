@@ -103,11 +103,10 @@ function SearchFrame:UpdateEvents()
 	self:UnregisterAllMessages()
 	self:RegisterMessage('TEXT_SEARCH_ENABLE')
 	self:RegisterMessage('TEXT_SEARCH_DISABLE')
---[[	
+	
 	if self:IsVisible() then
 		self:RegisterMessage('TEXT_SEARCH_UPDATE')
 	end
---]]
 end
 
 function SearchFrame:UpdateShown()
@@ -121,7 +120,10 @@ function SearchFrame:UpdateShown()
 end
 
 function SearchFrame:UpdateText()
-	self:SetText(self:GetSearch())
+	local text = self:GetSearch()
+	if text ~= self:GetText() then -- required for asian locales
+		self:SetText(text)
+	end
 end
 
 

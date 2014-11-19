@@ -188,7 +188,7 @@ function EventAlert_Icon_Options_Frame_PaintAlertFrame()
 		if (EA_SpecCheckPower.CheckEnergy) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10030, "", false);  -- Rogue Energy
 		end
-	elseif (EA_playerClass == EA_CLASS_WARLOCK) then -- ÊîØÊè¥‰∏âÁ≥ªË°ìÂ£´
+	elseif (EA_playerClass == EA_CLASS_WARLOCK) then -- §‰¥©§T®t≥N§h
 		if (EA_SpecCheckPower.CheckSoulShards) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10070, "", false);  -- Warlock Soul Shards
 		elseif (EA_SpecCheckPower.CheckBurningEmbers) then
@@ -196,19 +196,19 @@ function EventAlert_Icon_Options_Frame_PaintAlertFrame()
 		elseif (EA_SpecCheckPower.CheckDemonicFury) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10150, "", false);  -- Warlock Demonic Fury
 		end
-	elseif (EA_playerClass == EA_CLASS_MONK) then	--  ÊîØÊè¥Ê≠¶ÂÉßÁúüÊ∞£
+	elseif (EA_playerClass == EA_CLASS_MONK) then	--  §‰¥©™Zπ¨ØuÆ
 		if (EA_SpecCheckPower.CheckLightForce) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10120, "", false);  -- Monk Light Force (Chi)
 		end
-	elseif (EA_playerClass == EA_CLASS_PRIEST) then	--  ÊîØÊè¥ÊöóÁâßÊöóÂΩ±ÂØ∂Áè†
+	elseif (EA_playerClass == EA_CLASS_PRIEST) then	--  §‰¥©∑t™™∑tºvƒ_Ø]
 		if (EA_SpecCheckPower.CheckLightForce) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10130, "", false);  -- Monk Light Force (Chi)
 		end
-	elseif (EA_playerClass == EA_CLASS_WARRIOR) then --  ÊîØÊè¥Êà∞Â£´ÊÄíÊ∞£
+	elseif (EA_playerClass == EA_CLASS_WARRIOR) then --  §‰¥©æ‘§h´„Æ
 		if (EA_SpecCheckPower.CheckRage) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10010, "", false);  -- Warrior Rage
 		end
-	elseif (EA_playerClass == EA_CLASS_HUNTER) then --  ÊîØÊè¥Áçµ‰∫∫ÈõÜ‰∏≠ÂÄº
+	elseif (EA_playerClass == EA_CLASS_HUNTER) then --  §‰¥©¬y§H∂∞§§≠»
 		if (EA_SpecCheckPower.CheckFocus) then
 			EventAlert_Icon_Options_Frame_SetAlertFrameText(EAFrameSpec_10020, "", false);  -- Hunter Focus
 		end
@@ -217,11 +217,17 @@ end
 
 function EventAlert_Icon_Options_Frame_AdjustTimerFontSize()
 	if (EA_Config.ChangeTimer == true) then
-		EA_Config.TimerFontSize = 32 + (EA_Config.IconSize - 60) * 0.4;
-		EA_Config.StackFontSize = 20 + (EA_Config.IconSize - 60) * 0.3;
+		if EA_Config.IsUseFloat==true then
+			EA_Config.TimerFontSize = 14 + (EA_Config.IconSize - 40) * 0.4;
+			EA_Config.StackFontSize = 16 + (EA_Config.IconSize - 40) * 0.3;
+		else
+			EA_Config.TimerFontSize = 24 + (EA_Config.IconSize - 60) * 0.4;
+			EA_Config.StackFontSize = 16 + (EA_Config.IconSize - 60) * 0.3;
+		end
 	else
-		EA_Config.TimerFontSize = 28 + (EA_Config.IconSize - 60) * 0.4;
-		EA_Config.StackFontSize = 18 + (EA_Config.IconSize - 60) * 0.3;
+			EA_Config.TimerFontSize = 28 + (EA_Config.IconSize - 60) * 0.4;
+			EA_Config.StackFontSize = 18 + (EA_Config.IconSize - 60) * 0.3;
+		
 	end
 	EA_Config.SNameFontSize = EA_Config.IconSize / 4;
 	if EA_Config.SNameFontSize < 10 then EA_Config.SNameFontSize = 10 end;

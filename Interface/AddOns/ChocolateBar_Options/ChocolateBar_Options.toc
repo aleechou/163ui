@@ -11,7 +11,7 @@
 ## X-Curse-Project-Name: ChocolateBar Broker Display
 ## X-Curse-Project-ID: chocolatebar
 ## X-Curse-Repository-ID: wow/chocolatebar/mainline
-## Notes:巧克力信息条配置组件
+## Notes:巧克力信息条设置组件
 #@no-lib-strip@
 libs\AceGUI-3.0\AceGUI-3.0.xml
 libs\AceConfig-3.0\AceConfig-3.0.xml
@@ -21,6 +21,7 @@ libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
 
 Options.lua
 
-## Title: |cff880303[网易有爱]|r 信息条设置
+## Title: |cff880303[网易有爱]|r 巧克力信息条设置
+## Notes-zhCN: 巧克力信息条设置组件
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020191120
+## X-163UI-Version: 20141118121700

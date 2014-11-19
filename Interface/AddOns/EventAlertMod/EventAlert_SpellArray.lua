@@ -81,51 +81,59 @@ function EventAlert_LoadSpellArray()
 	EADef_Items = {};
 
 --------------------------------------------------------------------------------
--- Death Knight / æ­»äº¡é¨å£«
+-- Death Knight / ¦º¤`ÃM¤h
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_DK] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[48707] = {enable=true,},   -- åé­”æ³•è­·ç½©
-			[48792] = {enable=true,},   -- å†°éŒ®å …éŸŒ
-			[49039] = {enable=true,},   -- å·«å¦–ä¹‹è»€
-			[49222] = {enable=true,},   -- éª¸éª¨ä¹‹ç›¾
-			[51124] = {enable=true,},   -- Killing  Machine / æ®ºæˆ®é…·åˆ‘
-			[52424] = {enable=true,},   -- åæ“Šé¢¨æš´
-			[53386] = {enable=true,},   -- Cinderglacier (Runeforge) /  å†°ç‡¼
-			[57330] = {enable=true,},   -- å‡œå†¬è™Ÿè§’
-			[59052] = {enable=true,},   -- Rime (Freezing Fog) / å†°å°ä¹‹éœ§
-			[81141] = {enable=true,},   -- èµ¤è¡€ç½ç¦
+			[48707] = {enable=true,},   -- ¤ÏÅ]ªkÅ@¸n
+			[48792] = {enable=true,},   -- ¦BÀD°í¶´
+			[49039] = {enable=true,},   -- §Å§¯¤§Âß
+			[49222] = {enable=true,},   -- Àe°©¤§¬Ş
+			[51124] = {enable=true,},   -- Killing  Machine / ±ş¼®»Å¦D
+			[52424] = {enable=true,},   -- ¤ÏÀ»­·¼É
+			[53386] = {enable=true,},   -- Cinderglacier (Runeforge) /  ¦BÂu
+			[57330] = {enable=true,},   -- »ş¥V¸¹¨¤
+			[59052] = {enable=true,},   -- Rime (Freezing Fog) / ¦B«Ê¤§Ãú
+			[81141] = {enable=true,},   -- ¨ª¦å¨aº×
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
-			[56815] = {enable=true,},   -- Rune Strike / ç¬¦æ–‡æ‰“æ“Š
+			[56815] = {enable=true,},   -- Rune Strike / ²Å¤å¥´À»
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[55095] = {enable=true, self=true,},    -- å†°éœœç†±ç–«
-			[55078] = {enable=true, self=true,},    -- è¡€é­„ç˜Ÿç–«
-			[81130] = {enable=true, self=true,},    -- è¡€è‰²ç†±ç–«
-			[81326] = {enable=true, self=false},	-- ç‰©ç†æ˜“å‚·
-			[115798] = {enable=true, self=false,},	-- å¼±åŒ–æ”»æ“Š	
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[55095] = {enable=true, self=true,},    -- ¦BÁ÷¼ö¬Ì
+			[55078] = {enable=true, self=true,},    -- ¦å¾z½E¬Ì
+			[81130] = {enable=true, self=true,},    -- ¦å¦â¼ö¬Ì
+			[81326] = {enable=true, self=false},	-- ª«²z©ö¶Ë
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[43265] = {enable=true,},   -- æ­»äº¡å‡‹é›¶
-			[45524] = {enable=true,},   -- å†°éŠè¡“
-			[47476] = {enable=true,},   -- çµæ®º
-			[47528] = {enable=true,},   -- å¿ƒæ™ºå†°å°
-			[48707] = {enable=true,},   -- åé­”æ³•è­·ç½©
-			[48721] = {enable=true,},   -- æ²¸è¡€è¡“
-			[48792] = {enable=true,},   -- å†°éŒ®å …éŸŒ
-			[49020] = {enable=true,},   -- æ»…å¯‚
-			[49576] = {enable=true,},   -- æ­»äº¡ä¹‹æ¡
-			[49998] = {enable=true,},   -- æ­»äº¡æ‰“æ“Š
-			[77575] = {enable=true,},   -- ç–«ç—…çˆ†ç™¼
-			[85948] = {enable=true,},   -- è†¿ç˜¡æ½°æ“Š
+			[43265] = {enable=true,},   -- ¦º¤`­ä¹s
+			[45524] = {enable=true,},   -- ¦BÁå³N
+			[47476] = {enable=true,},   -- µ±±ş
+			[47528] = {enable=true,},   -- ¤ß´¼¦B«Ê
+			[48707] = {enable=true,},   -- ¤ÏÅ]ªkÅ@¸n
+			[48721] = {enable=true,},   -- ªm¦å³N
+			[48792] = {enable=true,},   -- ¦BÀD°í¶´
+			[49020] = {enable=true,},   -- ·À±I
+			[49576] = {enable=true,},   -- ¦º¤`¤§´¤
+			[49998] = {enable=true,},   -- ¦º¤`¥´À»
+			[77575] = {enable=true,},   -- ¬Ì¯fÃzµo
+			[85948] = {enable=true,},   -- Áw½H¼ìÀ»
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -138,23 +146,23 @@ function EventAlert_LoadSpellArray()
 				-- ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 57330,	-- 57330 å‡œå†¬è™Ÿè§’
+						SpellIconID = 57330,	-- 57330 »ş¥V¸¹¨¤
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- ç©å®¶èº«ä¸Šæ²’æœ‰å‡œé¢¨è™Ÿè§’ã€ä¸¦ä¸”å‡œå†¬è™Ÿè§’ä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- ç·¨è™Ÿ1çš„é‚è¼¯é‹ç®—å¯ä»¥ç„¡è¦–
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "player",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										CheckAuraNotExist = 57330,	-- æª¢æ¸¬"å‡œå†¬è™Ÿè§’"Buffæ˜¯å¦"ä¸å­˜åœ¨"
-										CheckCD = 57330,		-- æª¢æ¸¬"å‡œå†¬è™Ÿè§’"æŠ€èƒ½æ˜¯å¦"CDä¸­"
+									[1] = {	-- ª±®a¨­¤W¨S¦³»ş­·¸¹¨¤¡B¨Ã¥B»ş¥V¸¹¨¤¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ½s¸¹1ªºÅŞ¿è¹Bºâ¥i¥HµLµø
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "player",		-- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										CheckAuraNotExist = 57330,	-- ÀË´ú"»ş¥V¸¹¨¤"Buff¬O§_"¤£¦s¦b"
+										CheckCD = 57330,		-- ÀË´ú"»ş¥V¸¹¨¤"§Ş¯à¬O§_"CD¤¤"
 									},
-									[2] = {	-- ä¸¦ä¸”(true)ï¼Œèº«ä¸Šæ²’æœ‰æˆ°å£«çš„åŠ›é‡æ€’å¼(ä¸æª¢æŸ¥æ­¤æŠ€èƒ½ä¹‹CD)
-										SubCheckAndOp = true,		-- true:ä¸¦ä¸”, false:æˆ–è€…
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "player",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										CheckAuraNotExist = 6673, 	-- æª¢æ¸¬"åŠ›é‡æ€’å¼"Buffæ˜¯å¦"ä¸å­˜åœ¨"
+									[2] = {	-- ¨Ã¥B(true)¡A¨­¤W¨S¦³¾Ô¤hªº¤O¶q«ã§q(¤£ÀË¬d¦¹§Ş¯à¤§CD)
+										SubCheckAndOp = true,		-- true:¨Ã¥B, false:©ÎªÌ
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "player",		-- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										CheckAuraNotExist = 6673, 	-- ÀË´ú"¤O¶q«ã§q"Buff¬O§_"¤£¦s¦b"
 									},
 								},
 							},
@@ -173,7 +181,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 49222,	-- 49222 é§­éª¨ä¹‹ç›¾
+						SpellIconID = 49222,	-- 49222 Àb°©¤§¬Ş
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -196,54 +204,62 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Druid / å¾·é­¯ä¾
+-- Druid / ¼w¾|¨Ì
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_DRUID] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[16870] = {enable=true,},   -- Omen of Clarity / æ¸…æ™°é å…†
-			[16886] = {enable=true,},   -- Nature's Grace / è‡ªç„¶ä¹‹è³œ
-			[48517] = {enable=true,},   -- Eclipse / æ—¥è•
-			[48518] = {enable=true,},   -- Eclipse / æœˆè•
-			[50334] = {enable=true,},   -- Berserk / ç‹‚æš´
-			[52610] = {enable=true,},   -- Savage Roar / å…‡è »å’†å˜¯
-			[81192] = {enable=true,},   -- æœˆæ²
-			[93400] = {enable=true,},   -- å°„æ˜Ÿè¡“
-			[93622] = {enable=true,},   -- ç‹‚æš´(å…è²»å‰²ç¢)
-			[100977] = {enable=true,},  -- å…±ç”Ÿ
+			[16870] = {enable=true,},   -- Omen of Clarity / ²M´·¹w¥ü
+			[16886] = {enable=true,},   -- Nature's Grace / ¦ÛµM¤§½ç
+			[48517] = {enable=true,},   -- Eclipse / ¤é»k
+			[48518] = {enable=true,},   -- Eclipse / ¤ë»k
+			[50334] = {enable=true,},   -- Berserk / ¨g¼É
+			[52610] = {enable=true,},   -- Savage Roar / ¥ûÆZ©H¼S
+			[81192] = {enable=true,},   -- ¤ë¨N
+			[93400] = {enable=true,},   -- ®g¬P³N
+			[93622] = {enable=true,},   -- ¨g¼É(§K¶O³Î¸H)
+			[100977] = {enable=true,},  -- ¦@¥Í
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			--[770] = {enable=true, self=true,},    -- Faerie Fire / ç²¾éˆä¹‹ç«
-			--[16857] = {enable=true, self=true,},  -- Faerie Fire (Feral) / ç²¾éˆä¹‹ç«(é‡æ€§)
-			--[48564] = {enable=true, self=true,},  -- Mangle(Bear) / å‰²ç¢(ç†Šå½¢æ…‹)
-			[99] = {enable=true, self=true,},       -- æŒ«å¿—å’†å“®
-			[774] = {enable=true, self=true,},      -- å›æ˜¥è¡“
-			[1079] = {enable=true, self=true,},     -- Rip / æ’•æ‰¯
-			[1822] = {enable=true, self=true,},     -- Rake / æƒæ“Š
-			[5570] = {enable=true, self=true,},     -- Insect Swarm / èŸ²ç¾¤
-			[8921] = {enable=true, self=true,},     -- Moonfire / æœˆç«è¡“
-			[33745] = {enable=true, self=true,},    -- Lacerate / å‰²è£‚
-			[33763] = {enable=true, self=true,},    -- ç”Ÿå‘½ä¹‹èŠ±
-			[33876] = {enable=true, self=true,},    -- Mangle(Cat) / å‰²ç¢(çµè±¹å½¢æ…‹)
-			[52610] = {enable=true, self=true,},    -- å…‡è »å’†å“®
-			[81326] = {enable=true, self=false},	-- ç‰©ç†æ˜“å‚·
-			[93402] = {enable=true, self=true,},    -- Moonfire / æ—¥ç‚è¡“
-			[115798] = {enable=true, self=false,},	-- å¼±åŒ–æ”»æ“Š
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			--[770] = {enable=true, self=true,},    -- Faerie Fire / ºëÆF¤§¤õ
+			--[16857] = {enable=true, self=true,},  -- Faerie Fire (Feral) / ºëÆF¤§¤õ(³¥©Ê)
+			--[48564] = {enable=true, self=true,},  -- Mangle(Bear) / ³Î¸H(ºµ§ÎºA)
+			[99] = {enable=true, self=true,},       -- ®À§Ó©H­ı
+			[774] = {enable=true, self=true,},      -- ¦^¬K³N
+			[1079] = {enable=true, self=true,},     -- Rip / ¼¹§è
+			[1822] = {enable=true, self=true,},     -- Rake / ±½À»
+			[5570] = {enable=true, self=true,},     -- Insect Swarm / ÂÎ¸s
+			[8921] = {enable=true, self=true,},     -- Moonfire / ¤ë¤õ³N
+			[33745] = {enable=true, self=true,},    -- Lacerate / ³Îµõ
+			[33763] = {enable=true, self=true,},    -- ¥Í©R¤§ªá
+			[33876] = {enable=true, self=true,},    -- Mangle(Cat) / ³Î¸H(Ây°\§ÎºA)
+			[52610] = {enable=true, self=true,},    -- ¥ûÆZ©H­ı
+			[81326] = {enable=true, self=false},	-- ª«²z©ö¶Ë
+			[93402] = {enable=true, self=true,},    -- Moonfire / ¤éª¢³N
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[17116] = {enable=true,},   -- è‡ªç„¶è¿…æ·
-			[18562] = {enable=true,},   -- è¿…ç™’
-			[29166] = {enable=true,},   -- å•Ÿå‹•
-			[48438] = {enable=true,},   -- é‡æ€§ç—Šç™’
-			[78674] = {enable=true,},   -- æ˜Ÿæ¹§è¡“
+			[17116] = {enable=true,},   -- ¦ÛµM¨³±¶
+			[18562] = {enable=true,},   -- ¨³Â¡
+			[29166] = {enable=true,},   -- ±Ò°Ê
+			[48438] = {enable=true,},   -- ³¥©Ê²¬Â¡
+			[78674] = {enable=true,},   -- ¬P´é³N
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -256,7 +272,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 5217,	-- 5217 çŒ›è™ä¹‹æ€’
+						SpellIconID = 5217,	-- 5217 ²rªê¤§«ã
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -288,7 +304,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 48438,	-- 48438 é‡æ€§ç™’åˆ
+						SpellIconID = 48438,	-- 48438 ³¥©ÊÂ¡¦X
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -320,7 +336,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 29166,	-- 29166 å•Ÿå‹•
+						SpellIconID = 29166,	-- 29166 ±Ò°Ê
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -352,7 +368,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 18562,	-- 18562 è¿…æ„ˆ
+						SpellIconID = 18562,	-- 18562 ¨³·U
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -373,7 +389,7 @@ function EventAlert_LoadSpellArray()
 					},
 				},
 			},
-			-- 1.å‰²ç¢ 2.ç„¡å‰²è£‚ï¼Œè£œå‰²è£‚ 3.æœ‰å‰²è£‚ç„¡ç²‰ç¢ï¼Œè£œç²‰ç¢ 4.ç—›æ“Š 5.æ®æ“Š
+			-- 1.³Î¸H 2.µL³Îµõ¡A¸É³Îµõ 3.¦³³ÎµõµL¯»¸H¡A¸É¯»¸H 4.µhÀ» 5.´§À»
 			[5] = {
 				enable=false,
 				LocX = -80,
@@ -385,19 +401,19 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 33878,	-- å‰²ç¢
+						SpellIconID = 33878,	-- ³Î¸H
 						Checks = {
 							[1] = {
-								CheckAndOp = true,	-- å¯ç„¡è¦–
+								CheckAndOp = true,	-- ¥iµLµø
 								SubChecks = {
-									[1] = {	-- ç©å®¶æ€’æ°£æ»¿15ä»¥ä¸Šï¼Œä¸¦ä¸”å‰²ç¢ä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_POWER",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"èƒ½é‡ç•°å‹•é¡"
-										UnitType = "player",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										PowerTypeNum = 1, 		-- èƒ½é‡é¡å‹ç·¨è™Ÿ(1:æ€’æ°£)
-										PowerType = "RAGE",		-- èƒ½é‡é¡å‹, å¯ç„¡è¦–
-										CheckCD = 33878,		-- æª¢æ¸¬"å‰²ç¢"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										PowerCompType = 4,		-- èƒ½é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ª±®a«ã®ğº¡15¥H¤W¡A¨Ã¥B³Î¸H¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_POWER",	-- ¨Æ¥ó§O¡AÄİ©ó"¯à¶q²§°ÊÃş"
+										UnitType = "player",		-- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										PowerTypeNum = 1, 		-- ¯à¶qÃş«¬½s¸¹(1:«ã®ğ)
+										PowerType = "RAGE",		-- ¯à¶qÃş«¬, ¥iµLµø
+										CheckCD = 33878,		-- ÀË´ú"³Î¸H"§Ş¯à¬O§_"CD¤¤"
+										PowerCompType = 4,		-- ¯à¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										PowerLessThanValue = 15,	-- 15
 									},
 								},
@@ -405,115 +421,115 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[2] = {
-						SpellIconID = 33745,	-- å‰²è£‚
+						SpellIconID = 33745,	-- ³Îµõ
 						Checks = {
 							[1] = {
-								CheckAndOp = true,	-- å¯ç„¡è¦–
+								CheckAndOp = true,	-- ¥iµLµø
 								SubChecks = {
-									[1] = {	-- ç©å®¶æ€’æ°£æ»¿15ä»¥ä¸Šï¼Œä¸¦ä¸”å‰²è£‚ä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_POWER",       -- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"èƒ½é‡ç•°å‹•é¡"
-										UnitType = "player",            -- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										PowerTypeNum = 1,               -- èƒ½é‡é¡å‹ç·¨è™Ÿ(1:æ€’æ°£)
-										PowerType = "RAGE",             -- èƒ½é‡é¡å‹, å¯ç„¡è¦–
-										CheckCD = 33745,                -- æª¢æ¸¬"å‰²è£‚"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										PowerCompType = 4,          -- èƒ½é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ª±®a«ã®ğº¡15¥H¤W¡A¨Ã¥B³Îµõ¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_POWER",       -- ¨Æ¥ó§O¡AÄİ©ó"¯à¶q²§°ÊÃş"
+										UnitType = "player",            -- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										PowerTypeNum = 1,               -- ¯à¶qÃş«¬½s¸¹(1:«ã®ğ)
+										PowerType = "RAGE",             -- ¯à¶qÃş«¬, ¥iµLµø
+										CheckCD = 33745,                -- ÀË´ú"³Îµõ"§Ş¯à¬O§_"CD¤¤"
+										PowerCompType = 4,          -- ¯à¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										PowerLessThanValue = 15,        -- 15
 									},
 								},
 							},
 							[2] = {
-								CheckAndOp = true,	-- true:ä¸¦ä¸”, false:æˆ–è€…
+								CheckAndOp = true,	-- true:¨Ã¥B, false:©ÎªÌ
 								SubChecks = {
-									[1] = {	-- ç›®æ¨™èº«ä¸Šç„¡å‰²è£‚
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "target",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç›®æ¨™"
-										CastByPlayer = true,		-- true:åªæª¢æ¸¬ç©å®¶æ–½æ”¾çš„
-										CheckAuraNotExist = 33745,	-- æª¢æ¸¬"å‰²è£‚"DeBuffæ˜¯å¦"ä¸å­˜åœ¨"
+									[1] = {	-- ¥Ø¼Ğ¨­¤WµL³Îµõ
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "target",		-- ÀË´ú¹ï¶H¡A¬°"¥Ø¼Ğ"
+										CastByPlayer = true,		-- true:¥uÀË´úª±®a¬I©ñªº
+										CheckAuraNotExist = 33745,	-- ÀË´ú"³Îµõ"DeBuff¬O§_"¤£¦s¦b"
 									},
-									[2] = {	-- æˆ–è€…(false)ï¼Œç›®æ¨™èº«ä¸Šå‰²è£‚å°æ–¼ç­‰æ–¼2å±¤å †ç–Š
-										SubCheckAndOp = false,		-- true:ä¸¦ä¸”, false:æˆ–è€…
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "target",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç›®æ¨™"
-										CheckAuraExist = 33745,		-- æª¢æ¸¬"å‰²è£‚"DeBuffæ˜¯å¦"å­˜åœ¨"
-										CastByPlayer = true,		-- true:åªæª¢æ¸¬ç©å®¶æ–½æ”¾çš„
-										StackCompType = 2,		-- å †ç–Šå±¤æ•¸, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
-										StackLessThanValue = 2,		-- 2å±¤
+									[2] = {	-- ©ÎªÌ(false)¡A¥Ø¼Ğ¨­¤W³Îµõ¤p©óµ¥©ó2¼h°ïÅ|
+										SubCheckAndOp = false,		-- true:¨Ã¥B, false:©ÎªÌ
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "target",		-- ÀË´ú¹ï¶H¡A¬°"¥Ø¼Ğ"
+										CheckAuraExist = 33745,		-- ÀË´ú"³Îµõ"DeBuff¬O§_"¦s¦b"
+										CastByPlayer = true,		-- true:¥uÀË´úª±®a¬I©ñªº
+										StackCompType = 2,		-- °ïÅ|¼h¼Æ, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
+										StackLessThanValue = 2,		-- 2¼h
 									},
-									[3] = {	-- æˆ–è€…(false)ï¼Œç›®æ¨™èº«ä¸Šå‰²è£‚å‰©é¤˜æ™‚é–“ï¼Œå°æ–¼ç­‰æ–¼3ç§’
-										SubCheckAndOp = false,		-- true:ä¸¦ä¸”, false:æˆ–è€…
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "target",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç›®æ¨™"
-										CheckAuraExist = 33745,		-- æª¢æ¸¬"å‰²è£‚"DeBuffæ˜¯å¦"å­˜åœ¨"
-										CastByPlayer = true,		-- true:åªæª¢æ¸¬ç©å®¶æ–½æ”¾çš„
-										TimeCompType = 2,		-- å‰©é¤˜æ™‚é–“, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
-										TimeLessThanValue = 3,		-- 3ç§’
+									[3] = {	-- ©ÎªÌ(false)¡A¥Ø¼Ğ¨­¤W³Îµõ³Ñ¾l®É¶¡¡A¤p©óµ¥©ó3¬í
+										SubCheckAndOp = false,		-- true:¨Ã¥B, false:©ÎªÌ
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "target",		-- ÀË´ú¹ï¶H¡A¬°"¥Ø¼Ğ"
+										CheckAuraExist = 33745,		-- ÀË´ú"³Îµõ"DeBuff¬O§_"¦s¦b"
+										CastByPlayer = true,		-- true:¥uÀË´úª±®a¬I©ñªº
+										TimeCompType = 2,		-- ³Ñ¾l®É¶¡, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
+										TimeLessThanValue = 3,		-- 3¬í
 									},
 								},
 							},
 						},
 					},
 					[3] = {
-						SpellIconID = 80313,	-- ç²‰ç¢
+						SpellIconID = 80313,	-- ¯»¸H
 						Checks = {
 							[1] = {
-								CheckAndOp = true,	-- å¯ç„¡è¦–
+								CheckAndOp = true,	-- ¥iµLµø
 								SubChecks = {
-									[1] = {	-- ç©å®¶æ€’æ°£æ»¿15ä»¥ä¸Šï¼Œä¸¦ä¸”ç²‰ç¢ä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_POWER",       -- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"èƒ½é‡ç•°å‹•é¡"
-										UnitType = "player",            -- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										PowerTypeNum = 1,               -- èƒ½é‡é¡å‹ç·¨è™Ÿ(1:æ€’æ°£)
-										PowerType = "RAGE",             -- èƒ½é‡é¡å‹, å¯ç„¡è¦–
-										CheckCD = 80313,                -- æª¢æ¸¬"å‰²ç¢"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										PowerCompType = 4,          -- èƒ½é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ª±®a«ã®ğº¡15¥H¤W¡A¨Ã¥B¯»¸H¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_POWER",       -- ¨Æ¥ó§O¡AÄİ©ó"¯à¶q²§°ÊÃş"
+										UnitType = "player",            -- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										PowerTypeNum = 1,               -- ¯à¶qÃş«¬½s¸¹(1:«ã®ğ)
+										PowerType = "RAGE",             -- ¯à¶qÃş«¬, ¥iµLµø
+										CheckCD = 80313,                -- ÀË´ú"³Î¸H"§Ş¯à¬O§_"CD¤¤"
+										PowerCompType = 4,          -- ¯à¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										PowerLessThanValue = 15,        -- 15
 									},
-									[2] = {	-- ä¸¦ä¸”(true)ï¼Œç›®æ¨™èº«ä¸Šæœ‰ç©å®¶æ–½æ”¾çš„å‰²è£‚Debuff
-										SubCheckAndOp = true,		-- true:ä¸¦ä¸”, false:æˆ–è€…
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "target",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç›®æ¨™"
-										CastByPlayer = true,		-- true:åªæª¢æ¸¬ç©å®¶æ–½æ”¾çš„
-										CheckAuraExist = 33745,		-- æª¢æ¸¬"å‰²è£‚"DeBuffæ˜¯å¦"å­˜åœ¨"
+									[2] = {	-- ¨Ã¥B(true)¡A¥Ø¼Ğ¨­¤W¦³ª±®a¬I©ñªº³ÎµõDebuff
+										SubCheckAndOp = true,		-- true:¨Ã¥B, false:©ÎªÌ
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "target",		-- ÀË´ú¹ï¶H¡A¬°"¥Ø¼Ğ"
+										CastByPlayer = true,		-- true:¥uÀË´úª±®a¬I©ñªº
+										CheckAuraExist = 33745,		-- ÀË´ú"³Îµõ"DeBuff¬O§_"¦s¦b"
 									},
 								},
 							},
 							[2] = {
-								CheckAndOp = true,	-- true:ä¸¦ä¸”, false:æˆ–è€…
+								CheckAndOp = true,	-- true:¨Ã¥B, false:©ÎªÌ
 								SubChecks = {
-									[1] = {	-- ç©å®¶èº«ä¸Šçš„ç²‰ç¢Buffå‰©é¤˜æ™‚é–“ï¼Œå°æ–¼ç­‰æ–¼3ç§’
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "player",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										CheckAuraExist = 80951,		-- æª¢æ¸¬"ç²‰ç¢"Buffæ˜¯å¦"å­˜åœ¨"
-										TimeCompType = 2,		-- å‰©é¤˜æ™‚é–“, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
-										TimeLessThanValue = 3,		-- 3ç§’
+									[1] = {	-- ª±®a¨­¤Wªº¯»¸HBuff³Ñ¾l®É¶¡¡A¤p©óµ¥©ó3¬í
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "player",		-- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										CheckAuraExist = 80951,		-- ÀË´ú"¯»¸H"Buff¬O§_"¦s¦b"
+										TimeCompType = 2,		-- ³Ñ¾l®É¶¡, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
+										TimeLessThanValue = 3,		-- 3¬í
 									},
-									[2] = {	-- æˆ–è€…(false)ï¼Œç©å®¶èº«ä¸Šæ²’æœ‰ç²‰ç¢Buff
-										SubCheckAndOp = false,		-- true:ä¸¦ä¸”, false:æˆ–è€…
-										EventType = "UNIT_AURA",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"AURAç•°å‹•é¡"
-										UnitType = "player",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										CheckAuraNotExist = 80951,	-- æª¢æ¸¬"ç²‰ç¢"Buffæ˜¯å¦"ä¸å­˜åœ¨"
+									[2] = {	-- ©ÎªÌ(false)¡Aª±®a¨­¤W¨S¦³¯»¸HBuff
+										SubCheckAndOp = false,		-- true:¨Ã¥B, false:©ÎªÌ
+										EventType = "UNIT_AURA",	-- ¨Æ¥ó§O¡AÄİ©ó"AURA²§°ÊÃş"
+										UnitType = "player",		-- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										CheckAuraNotExist = 80951,	-- ÀË´ú"¯»¸H"Buff¬O§_"¤£¦s¦b"
 									},
 								},
 							},
 						},
 					},
 					[4] = {
-						SpellIconID = 77758,	-- ç—›æ“Š
+						SpellIconID = 77758,	-- µhÀ»
 						Checks = {
 							[1] = {
-								CheckAndOp = true,	-- å¯ç„¡è¦–
+								CheckAndOp = true,	-- ¥iµLµø
 								SubChecks = {
-									[1] = {	-- ç©å®¶æ€’æ°£æ»¿25ä»¥ä¸Šï¼Œä¸¦ä¸”ç—›æ“Šä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_POWER",       -- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"èƒ½é‡ç•°å‹•é¡"
-										UnitType = "player",            -- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										PowerTypeNum = 1,               -- èƒ½é‡é¡å‹ç·¨è™Ÿ(1:æ€’æ°£)
-										PowerType = "RAGE",             -- èƒ½é‡é¡å‹, å¯ç„¡è¦–
-										CheckCD = 77758,                -- æª¢æ¸¬"ç—›æ“Š"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										PowerCompType = 4,          -- èƒ½é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ª±®a«ã®ğº¡25¥H¤W¡A¨Ã¥BµhÀ»¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_POWER",       -- ¨Æ¥ó§O¡AÄİ©ó"¯à¶q²§°ÊÃş"
+										UnitType = "player",            -- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										PowerTypeNum = 1,               -- ¯à¶qÃş«¬½s¸¹(1:«ã®ğ)
+										PowerType = "RAGE",             -- ¯à¶qÃş«¬, ¥iµLµø
+										CheckCD = 77758,                -- ÀË´ú"µhÀ»"§Ş¯à¬O§_"CD¤¤"
+										PowerCompType = 4,          -- ¯à¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										PowerLessThanValue = 25,        -- 25
 									},
 								},
@@ -521,19 +537,19 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[5] = {
-						SpellIconID = 779,	-- æ®æ“Š
+						SpellIconID = 779,	-- ´§À»
 						Checks = {
 							[1] = {
-								CheckAndOp = true,	-- å¯ç„¡è¦–
+								CheckAndOp = true,	-- ¥iµLµø
 								SubChecks = {
-									[1] = {	-- ç©å®¶æ€’æ°£æ»¿25ä»¥ä¸Šï¼Œä¸¦ä¸”æ®æ“Šä¸åœ¨CDä¸­
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_POWER",       -- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"èƒ½é‡ç•°å‹•é¡"
-										UnitType = "player",            -- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç©å®¶"
-										PowerTypeNum = 1,               -- èƒ½é‡é¡å‹ç·¨è™Ÿ(1:æ€’æ°£)
-										PowerType = "RAGE",             -- èƒ½é‡é¡å‹, å¯ç„¡è¦–
-										CheckCD = 779,                  -- æª¢æ¸¬"æ®æ“Š"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										PowerCompType = 4,          -- èƒ½é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ª±®a«ã®ğº¡25¥H¤W¡A¨Ã¥B´§À»¤£¦bCD¤¤
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_POWER",       -- ¨Æ¥ó§O¡AÄİ©ó"¯à¶q²§°ÊÃş"
+										UnitType = "player",            -- ÀË´ú¹ï¶H¡A¬°"ª±®a"
+										PowerTypeNum = 1,               -- ¯à¶qÃş«¬½s¸¹(1:«ã®ğ)
+										PowerType = "RAGE",             -- ¯à¶qÃş«¬, ¥iµLµø
+										CheckCD = 779,                  -- ÀË´ú"´§À»"§Ş¯à¬O§_"CD¤¤"
+										PowerCompType = 4,          -- ¯à¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										PowerLessThanValue = 15,        -- 15
 									},
 								},
@@ -547,87 +563,103 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Hunter / çµäºº
+-- Hunter / Ây¤H
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_HUNTER] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[3045] = {enable=true,},    -- æ€¥é€Ÿå°„æ“Š
-			[34471] = {enable=true,},   -- ç¸å¿ƒ
-			[34477] = {enable=true,},   -- èª¤å°
-			[35079] = {enable=true,},   -- èª¤å°
-			[53220] = {enable=true,},   -- Improved Stead Shot / å¼·åŒ–ç©©å›ºå°„æ“Š
-			[53257] = {enable=true,},   -- çœ¼é¡è›‡ä¹‹æ“Š
-			[53434] = {enable=true,},   -- ç‹‚é‡å‘¼å–š
-			[56453] = {enable=true,},   -- Lock and Load / è“„å‹¢å¾…ç™¼
-			[70728] = {enable=true,},   -- æ”»æ“Šå¼±é»
-			[82925] = {enable=true,},   -- æº–å‚™ã€å°±ç·’ã€ç„æº–â€¦
-			[82926] = {enable=true,},   -- å°„æ“Š!
-			[89388] = {enable=true,},   -- æ”»æ“Šæ•µäºº
-			[94007] = {enable=true,},   -- é€£æ®º
-			[95712] = {enable=true,},   -- Xå…‰ç„æº–å™¨
+			[3045] = {enable=true,},    -- «æ³t®gÀ»
+			[34471] = {enable=true,},   -- Ã~¤ß
+			[34477] = {enable=true,},   -- »~¾É
+			[35079] = {enable=true,},   -- »~¾É
+			[53220] = {enable=true,},   -- Improved Stead Shot / ±j¤ÆÃ­©T®gÀ»
+			[53257] = {enable=true,},   -- ²´Ãè³D¤§À»
+			[53434] = {enable=true,},   -- ¨g³¥©I³ê
+			[56453] = {enable=true,},   -- Lock and Load / »W¶Õ«İµo
+			[70728] = {enable=true,},   -- §ğÀ»®zÂI
+			[82925] = {enable=true,},   -- ·Ç³Æ¡B´Nºü¡BºË·Ç¡K
+			[82926] = {enable=true,},   -- ®gÀ»!
+			[89388] = {enable=true,},   -- §ğÀ»¼Ä¤H
+			[94007] = {enable=true,},   -- ³s±ş
+			[95712] = {enable=true,},   -- X¥úºË·Ç¾¹
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
-			[53351] = {enable=true,},   -- Kill Shot / æ“Šæ®ºå°„æ“Š
+			[53351] = {enable=true,},   -- Kill Shot / À»±ş®gÀ»
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[118253] = {enable=true, self=true,},     -- æ¯’è›‡é‡˜åˆº
-			[1130] = {enable=true, self=true,},     -- çµäººå°è¨˜
-			[19503] = {enable=true, self=true,},    -- é©…æ•£å°„æ“Š
-			[63468] = {enable=true, self=true,},    -- ç©¿é€å°„æ“Š
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[1978] = {enable=true, self=true,},     -- ¬r³D°v¨ë
+			[1130] = {enable=true, self=true,},     -- Ây¤H¦L°O
+			[19503] = {enable=true, self=true,},    -- ÅX´²®gÀ»
+			[63468] = {enable=true, self=true,},    -- ¬ï³z®gÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[781] = {enable=true,},     -- é€ƒè„«
+			[781] = {enable=true,},     -- °k²æ
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 		},
 	}
 
 
 --------------------------------------------------------------------------------
--- Mage / æ³•å¸«
+-- Mage / ªk®v
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_MAGE] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[12042] = {enable=true,},   -- ç§˜æ³•å¼·åŒ–
-			[12051] = {enable=true,},   -- å–šé†’
-			[36032] = {enable=true,},   -- Arcane Blast / å¥§è¡å †ç–Š
-			[44544] = {enable=true,},   -- Fingers of Frost / å†°éœœä¹‹æŒ‡
-			[48108] = {enable=true,},   -- Hot Streak / ç„¦ç‚ä¹‹ç—•
-			[57761] = {enable=true,},   -- Brain Freeze / è…¦éƒ¨å‡çµ
-			[64343] = {enable=true,},   -- è¡æ“Š
-			[79683] = {enable=true,},   -- Missile Barrage! / ç§˜æ³•é£›å½ˆ!
-			[87023] = {enable=true,},   -- ç‡’ç¼
-			[116257] = {enable=true,},   -- å¡‘èƒ½å¸«ä¹‹èƒ½ (å–šé†’)
+			[12042] = {enable=true,},   -- ¯µªk±j¤Æ
+			[12051] = {enable=true,},   -- ³ê¿ô
+			[36032] = {enable=true,},   -- Arcane Blast / ¶ø½Ä°ïÅ|
+			[44544] = {enable=true,},   -- Fingers of Frost / ¦BÁ÷¤§«ü
+			[48108] = {enable=true,},   -- Hot Streak / µJª¢¤§²ª
+			[57761] = {enable=true,},   -- Brain Freeze / ¸£³¡­áµ²
+			[64343] = {enable=true,},   -- ½ÄÀ»
+			[79683] = {enable=true,},   -- Missile Barrage! / ¯µªk­¸¼u!
+			[87023] = {enable=true,},   -- ¿N¨`
+			[116257] = {enable=true,},   -- ¶ì¯à®v¤§¯à (³ê¿ô)
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[12654] = {enable=true, self=true,},    -- é»ç‡ƒ
-			[22959] = {enable=true, self=true,},    -- ç«ç„°é‡æ“Š
-			[31589] = {enable=true, self=true,},    -- Slow / æ¸›é€Ÿè¡“
-			[44457] = {enable=true, self=true,},    -- Living Bomb / æ´»é«”çˆ†å½ˆ
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[12654] = {enable=true, self=true,},    -- ÂI¿U
+			[22959] = {enable=true, self=true,},    -- ¤õµK­«À»
+			[31589] = {enable=true, self=true,},    -- Slow / ´î³t³N
+			[44457] = {enable=true, self=true,},    -- Living Bomb / ¬¡ÅéÃz¼u
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[122] = {enable=true,},     -- å†°éœœæ–°æ˜Ÿ
-			[1953] = {enable=true,},    -- é–ƒç¾
-			[12042] = {enable=true,},   -- ç§˜æ³•å¼·åŒ–
-			[12043] = {enable=true,},   -- æ°£å®šç¥é–’
-			[12051] = {enable=true,},   -- å–šé†’
-			[44572] = {enable=true,},   -- æ¥µåº¦å†°å‡
-			[45438] = {enable=true,},   -- å¯’å†°å±éšœ
+			[122] = {enable=true,},     -- ¦BÁ÷·s¬P
+			[1953] = {enable=true,},    -- °{²{
+			[12042] = {enable=true,},   -- ¯µªk±j¤Æ
+			[12043] = {enable=true,},   -- ®ğ©w¯«¶¢
+			[12051] = {enable=true,},   -- ³ê¿ô
+			[44572] = {enable=true,},   -- ·¥«×¦B­á
+			[45438] = {enable=true,},   -- ´H¦B«Ì»Ù
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -640,7 +672,7 @@ function EventAlert_LoadSpellArray()
 				-- ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 12051,	-- 12051 å–šé†’
+						SpellIconID = 12051,	-- 12051 ³ê¿ô
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -666,62 +698,71 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Paladin / è–é¨å£«
+-- Paladin / ¸tÃM¤h
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_PALADIN] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[498] = {enable=true,},     -- è–ä½‘è¡“
-			[642] = {enable=true,},     -- è–ç›¾è¡“
-			[20925] = {enable=true,},   -- å´‡è–è­·ç›¾
-			[31821] = {enable=true,},   -- è™”èª å…‰ç’°
-			[31842] = {enable=true,},   -- ç¥æ©è¡“
-			[31850] = {enable=true,},   -- å¿ èª é˜²è¡›è€…
-			[31884] = {enable=true,},   -- å¾©ä»‡ä¹‹æ€’
-			[53657] = {enable=true,},   -- ç´”æ½”å¯©åˆ¤
-			[59578] = {enable=true,},   -- æˆ°çˆ­è—è¡“
-			[84963] = {enable=true,},   -- ç•°ç«¯å¯©å•
-			[86659] = {enable=true,},   -- é å¤è«¸ç‹å®ˆè­·è€…
-			[105809] = {enable=true,},   -- ç¥è–å¾©ä»‡è€…
-			[114163] = {enable=true,},	-- æ°¸æ†ä¹‹ç«
+			[498] = {enable=true,},     -- ¸t¦ö³N
+			[642] = {enable=true,},     -- ¸t¬Ş³N
+			[20925] = {enable=true,},   -- ±R¸tÅ@¬Ş
+			[31821] = {enable=true,},   -- °@¸Û¥úÀô
+			[31842] = {enable=true,},   -- ¯«®¦³N
+			[31850] = {enable=true,},   -- ©¾¸Û¨¾½ÃªÌ
+			[31884] = {enable=true,},   -- ´_¤³¤§«ã
+			[53657] = {enable=true,},   -- ¯Â¼ä¼f§P
+			[59578] = {enable=true,},   -- ¾Ôª§ÃÀ³N
+			[84963] = {enable=true,},   -- ²§ºİ¼f°İ
+			[86659] = {enable=true,},   -- »·¥j½Ñ¤ı¦uÅ@ªÌ(©Z)
+			[86698] = {enable=true,},   -- »·¥j½Ñ¤ı¦uÅ@ªÌ(DD)
+			[90174] = {enable=true,},	-- ¯«¸t·N¹Ï
+			[105809] = {enable=true,},   -- ¯«¸t´_¤³ªÌ
+			[114163] = {enable=true,},	-- ¥Ã«í¤§¤õ
+			[114637] = {enable=true,},	-- ºaÄ£¾ÀÂS
+			[121467] = {enable=true,},	-- ³·¥Õ¤§¬Ş
+			[132403] = {enable=true,},	-- ¤½¥¿¤§¬Ş(´î¶Ë)
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
-			[24275] = {enable=true,},   -- Hammer of Wrath / æ†¤æ€’ä¹‹éŒ˜
+			[24275] = {enable=true,},   -- Hammer of Wrath / ¼««ã¤§Áè
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[853] = {enable=true, self=true,},      -- åˆ¶è£ä¹‹éŒ˜
-			[10326] = {enable=true, self=true,},    -- é€€é‚ªè¡“
-			[20066] = {enable=true, self=true,},    -- æ‡ºæ‚”
-			[31803] = {enable=true, self=true,},    -- è­´è²¬
-			[81298] = {enable=true, self=true},		-- å¥‰ç»
-			[81326] = {enable=true, self=false},	-- ç‰©ç†æ˜“å‚·
-			[114163] = {enable=true, self=true,},	-- æ°¸æ†ä¹‹ç«
-			[114916] = {enable=true, self=true,},	-- æ­»åˆ‘å®£åˆ¤
-			[115798] = {enable=true, self=false,},	-- å¼±åŒ–æ”»æ“Š
-			[117737] = {enable=true, self=false,},	-- ç™²ç‹‚ (é­”å¤å±±4ç‹)
-			[117756] = {enable=true, self=false,},	-- æ€¯æ‡¦ (é­”å¤å±±4ç‹)
-			[123471] = {enable=true, self=false},	-- å¢å¼· (ææ‡¼ä¹‹å¿ƒ2ç‹)
-			[126958] = {enable=true, self=false,},	-- ç´æ‹‰å¡ç…ä¹‹è§¸ (é­”å¤å±±å°æ€ª)
-			[127372] = {enable=true, self=false,},	-- ä¸ç©©å®šè¡€æ¸…
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[853] = {enable=true, self=true,},      -- ¨îµô¤§Áè
+			[10326] = {enable=true, self=true,},    -- °h¨¸³N
+			[20066] = {enable=true, self=true,},    -- Äb®¬
+			[31803] = {enable=true, self=true,},    -- Äş³d
+			[81298] = {enable=true, self=true},		-- ©^Äm
+			[81326] = {enable=true, self=false},	-- ª«²z©ö¶Ë
+			[110300] = {enable=true, self=true,},	-- ¸o¤§­«¾á
+			[114163] = {enable=true, self=true,},	-- ¥Ã«í¤§¤õ
+			[114916] = {enable=true, self=true,},	-- ¦º¦D«Å§P
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[498] = {enable=true,},     -- è–ä½‘è¡“
-			[853] = {enable=true,},     -- åˆ¶è£ä¹‹éš
-			[20066] = {enable=true,},   -- æ‡ºæ‚”
-			[20925] = {enable=true,},   -- å´‡è–è­·ç›¾
-			[28730] = {enable=true,},   -- å¥§æµä¹‹è¡“
-			[54428] = {enable=true,},   -- ç¥æ€§ç¥ˆæ±‚
-			[96231] = {enable=true,},   -- è²¬é›£
-			[114157] = {enable=true,},   -- æ­»åˆ‘å®£åˆ¤
-			[114158] = {enable=true,},   -- è–å…‰ä¹‹éŒ˜
-			[114165] = {enable=true,},   -- ç¥è–ç¨œçŸ³
-			[115750] = {enable=true,},   -- ç›²ç›®ä¹‹å…‰
+			[498] = {enable=true,},     -- ¸t¦ö³N
+			[853] = {enable=true,},     -- ¨îµô¤§Âñ
+			[20066] = {enable=true,},   -- Äb®¬
+			[20925] = {enable=true,},   -- ±R¸tÅ@¬Ş
+			[28730] = {enable=true,},   -- ¶ø¬y¤§³N
+			[54428] = {enable=true,},   -- ¯«©Ê¬è¨D
+			[96231] = {enable=true,},   -- ³dÃø
+			[114157] = {enable=true,},   -- ¦º¦D«Å§P
+			[114158] = {enable=true,},   -- ¸t¥ú¤§Áè
+			[114165] = {enable=true,},   -- ¯«¸t¸W¥Û
+			[115750] = {enable=true,},   -- ª¼¥Ø¤§¥ú
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -734,7 +775,7 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 85673,	-- 85673 æ¦®è€€è–è¨€
+						SpellIconID = 85673,	-- 85673 ºaÄ£¸t¨¥
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -761,7 +802,7 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[2] = {
-						SpellIconID = 85222,	-- 85222 é»æ˜æ›™å…‰(æ‰‹é›»ç­’)
+						SpellIconID = 85222,	-- 85222 ¾¤©úÀÆ¥ú(¤â¹qµ©)
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -918,52 +959,60 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Priest / ç‰§å¸«
+-- Priest / ªª®v
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_PRIEST] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[17] = {enable=true,},      -- çœŸè¨€è¡“:ç›¾
-			[6788] = {enable=true,},    -- è™›å¼±éˆé­‚
-			[47585] = {enable=true,},   -- å½±æ•£
-			[63735] = {enable=true,},   -- æ©Ÿç·£å›å¾©
-			[77487] = {enable=true,},   -- æš—å½±å¯¶ç 
-			[81206] = {enable=true,},   -- è„ˆè¼ªé‹è½‰:åº‡è­·
-			[81208] = {enable=true,},   -- è„ˆè¼ªé‹è½‰:å¹³éœ
-			[81209] = {enable=true,},   -- è„ˆè¼ªé‹è½‰:è­´è²¬
-			[81782] = {enable=true,},   -- çœŸè¨€è¡“:å£
-			[87153] = {enable=true,},   -- é»‘å¤©ä½¿
-			[87160] = {enable=true,},   -- å¿ƒéˆç†”è•
+			[17] = {enable=true,},      -- ¯u¨¥³N:¬Ş
+			[6788] = {enable=true,},    -- µê®zÆF»î
+			[47585] = {enable=true,},   -- ¼v´²
+			[63735] = {enable=true,},   -- ¾÷½t¦^´_
+			[77487] = {enable=true,},   -- ·t¼vÄ_¯]
+			[81206] = {enable=true,},   -- ¯ß½ü¹BÂà:§ÈÅ@
+			[81208] = {enable=true,},   -- ¯ß½ü¹BÂà:¥­ÀR
+			[81209] = {enable=true,},   -- ¯ß½ü¹BÂà:Äş³d
+			[81782] = {enable=true,},   -- ¯u¨¥³N:¾À
+			[87153] = {enable=true,},   -- ¶Â¤Ñ¨Ï
+			[87160] = {enable=true,},   -- ¤ßÆFº²»k
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[139] = {enable=true, self=true,},      -- æ¢å¾©
-			[589] = {enable=true, self=true,},      -- Shadow Word: Pain / æš—è¨€è¡“:ç—›
-			[2944] = {enable=true, self=true,},     -- Devouring Plague / å™¬éˆç˜Ÿç–«
-			[6788] = {enable=true, self=true,},     -- Weakened Soul / è™›å¼±éˆé­‚
-			[34914] = {enable=true, self=true,},    -- Vampiric Touch / å¸è¡€ä¹‹è§¸
-			[47753] = {enable=true, self=true,},    -- ç¥ç¦¦ä¹‹ç›¾
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[139] = {enable=true, self=true,},      -- «ì´_
+			[589] = {enable=true, self=true,},      -- Shadow Word: Pain / ·t¨¥³N:µh
+			[2944] = {enable=true, self=true,},     -- Devouring Plague / ¾½ÆF½E¬Ì
+			[6788] = {enable=true, self=true,},     -- Weakened Soul / µê®zÆF»î
+			[34914] = {enable=true, self=true,},    -- Vampiric Touch / §l¦å¤§Ä²
+			[47753] = {enable=true, self=true,},    -- ¯«¿m¤§¬Ş
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[17] = {enable=true,},      -- çœŸè¨€è¡“:ç›¾
-			[10060] = {enable=true,},   -- æ³¨å…¥èƒ½é‡
-			[28730] = {enable=true,},   -- å¥§æµä¹‹è¡“
-			[32379] = {enable=true,},   -- æš—è¨€è¡“:æ­»
-			[33206] = {enable=true,},   -- ç—›è‹¦é®å£“
-			[34433] = {enable=true,},   -- æš—å½±æƒ¡é­”
-			[47540] = {enable=true,},   -- æ‡ºæ‚Ÿ
-			[47585] = {enable=true,},   -- å½±æ•£
-			[81700] = {enable=true,},   -- å¤§å¤©ä½¿
-			[88684] = {enable=true,},   -- è–è¨€è¡“:å¯§
-			[89485] = {enable=true,},   -- å¿ƒéˆå°ˆæ³¨
-			[126172] = {enable=true,},   -- è„ˆè¼ªé‹è½‰
+			[17] = {enable=true,},      -- ¯u¨¥³N:¬Ş
+			[10060] = {enable=true,},   -- ª`¤J¯à¶q
+			[28730] = {enable=true,},   -- ¶ø¬y¤§³N
+			[32379] = {enable=true,},   -- ·t¨¥³N:¦º
+			[33206] = {enable=true,},   -- µh­WÂíÀ£
+			[34433] = {enable=true,},   -- ·t¼v´cÅ]
+			[47540] = {enable=true,},   -- Äb®©
+			[47585] = {enable=true,},   -- ¼v´²
+			[81700] = {enable=true,},   -- ¤j¤Ñ¨Ï
+			[88684] = {enable=true,},   -- ¸t¨¥³N:¹ç
+			[89485] = {enable=true,},   -- ¤ßÆF±Mª`
+			[126172] = {enable=true,},   -- ¯ß½ü¹BÂà
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -976,7 +1025,7 @@ function EventAlert_LoadSpellArray()
 				-- ActiveTalentGroup=1,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 34433,	-- 34433 æš—å½±æƒ¡é­”
+						SpellIconID = 34433,	-- 34433 ·t¼v´cÅ]
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -1008,17 +1057,17 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 32379,	-- 32379 æš—è¨€è¡“: æ­»
+						SpellIconID = 32379,	-- 32379 ·t¨¥³N: ¦º
 						Checks = {
-							[1] = {	-- ç›®æ¨™è¡€é‡å°æ–¼ç­‰æ–¼25%ã€ä¸¦ä¸”æš—è¨€è¡“:æ­»ä¸åœ¨CDä¸­ã€‚
+							[1] = {	-- ¥Ø¼Ğ¦å¶q¤p©óµ¥©ó25%¡B¨Ã¥B·t¨¥³N:¦º¤£¦bCD¤¤¡C
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- ç›®æ¨™è¡€é‡å°æ–¼ç­‰æ–¼25%ã€ä¸¦ä¸”æš—è¨€è¡“:æ­»ä¸åœ¨CDä¸­ã€‚
-										SubCheckAndOp = true,		-- å¯ç„¡è¦–
-										EventType = "UNIT_HEALTH",	-- äº‹ä»¶åˆ¥ï¼Œå±¬æ–¼"è¡€é‡ç•°å‹•é¡"
-										UnitType = "target",		-- æª¢æ¸¬å°è±¡ï¼Œç‚º"ç›®æ¨™"
-										CheckCD = 32379,		-- æª¢æ¸¬"æš—è¨€è¡“: æ­»"æŠ€èƒ½æ˜¯å¦"CDä¸­"
-										HealthCompType = 2,		-- è¡€é‡, true:å°æ–¼ç­‰æ–¼, false:å¤§æ–¼ç­‰æ–¼
+									[1] = {	-- ¥Ø¼Ğ¦å¶q¤p©óµ¥©ó25%¡B¨Ã¥B·t¨¥³N:¦º¤£¦bCD¤¤¡C
+										SubCheckAndOp = true,		-- ¥iµLµø
+										EventType = "UNIT_HEALTH",	-- ¨Æ¥ó§O¡AÄİ©ó"¦å¶q²§°ÊÃş"
+										UnitType = "target",		-- ÀË´ú¹ï¶H¡A¬°"¥Ø¼Ğ"
+										CheckCD = 32379,		-- ÀË´ú"·t¨¥³N: ¦º"§Ş¯à¬O§_"CD¤¤"
+										HealthCompType = 2,		-- ¦å¶q, true:¤p©óµ¥©ó, false:¤j©óµ¥©ó
 										HealthLessThanPercent = 25,	-- 25%
 									},
 								},
@@ -1038,12 +1087,12 @@ function EventAlert_LoadSpellArray()
 				ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 8092,	-- 8092 å¿ƒéˆéœ‡çˆ†
+						SpellIconID = 8092,	-- 8092 ¤ßÆF¾_Ãz
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- å¿ƒçˆ†æœªCDï¼Œä¸”MPå¤ 
+									[1] = {	-- ¤ßÃz¥¼CD¡A¥BMP°÷
 										SubCheckAndOp = true,
 										EventType = "UNIT_POWER",
 										UnitType = "player",
@@ -1053,7 +1102,7 @@ function EventAlert_LoadSpellArray()
 										PowerCompType = 4,
 										PowerLessThanValue = 3500,
 									},
-									[2] = {	-- ä¸” é»‘çƒå­˜åœ¨
+									[2] = {	-- ¥B ¶Â²y¦s¦b
 										SubCheckAndOp = true,
 										EventType = "UNIT_AURA",
 										UnitType = "player",
@@ -1064,7 +1113,7 @@ function EventAlert_LoadSpellArray()
 							[2] = {
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- ç´…çƒå‰©3ç§’
+									[1] = {	-- ¬õ²y³Ñ3¬í
 										SubCheckAndOp = true,
 										EventType = "UNIT_AURA",
 										UnitType = "player",
@@ -1072,13 +1121,13 @@ function EventAlert_LoadSpellArray()
 										TimeCompType = 2,
 										TimeLessThanValue = 3,
 									},
-									[2] = {	-- æˆ– ç´…çƒä¸å­˜åœ¨
+									[2] = {	-- ©Î ¬õ²y¤£¦s¦b
 										SubCheckAndOp = false,
 										EventType = "UNIT_AURA",
 										UnitType = "player",
 										CheckAuraNotExist = 95799,
 									},
-									[3] = {	-- æˆ– é»‘çƒx3
+									[3] = {	-- ©Î ¶Â²yx3
 										SubCheckAndOp = false,
 										EventType = "UNIT_AURA",
 										UnitType = "player",
@@ -1091,12 +1140,12 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[2] = {
-						SpellIconID = 34914,	-- 34914 å¸è¡€ä¹‹è§¸
+						SpellIconID = 34914,	-- 34914 §l¦å¤§Ä²
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- å¸è¡€ä¹‹è§¸æœªCDï¼Œä¸”MPå¤ 
+									[1] = {	-- §l¦å¤§Ä²¥¼CD¡A¥BMP°÷
 										SubCheckAndOp = true,
 										EventType = "UNIT_POWER",
 										UnitType = "player",
@@ -1111,7 +1160,7 @@ function EventAlert_LoadSpellArray()
 							[1] = {
 								CheckAndOp = true,
 								SubChecks = {
-									[1] = {	-- å¸è¡€ä¹‹è§¸å‰©2ç§’
+									[1] = {	-- §l¦å¤§Ä²³Ñ2¬í
 										SubCheckAndOp = true,
 										EventType = "UNIT_AURA",
 										UnitType = "target",
@@ -1120,7 +1169,7 @@ function EventAlert_LoadSpellArray()
 										TimeCompType = 2,
 										TimeLessThanValue = 2,
 									},
-									[2] = {	-- æˆ– ç›®æ¨™èº«ä¸Š ç„¡ å¸è¡€ä¹‹è§¸
+									[2] = {	-- ©Î ¥Ø¼Ğ¨­¤W µL §l¦å¤§Ä²
 										SubCheckAndOp = false,
 										EventType = "UNIT_AURA",
 										UnitType = "target",
@@ -1132,7 +1181,7 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[3] = {
-						SpellIconID = 589,	-- 589 æš—è¨€è¡“:ç—›
+						SpellIconID = 589,	-- 589 ·t¨¥³N:µh
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -1159,7 +1208,7 @@ function EventAlert_LoadSpellArray()
 						},
 					},
 					[4] = {
-						SpellIconID = 2944,	-- 2944 å™¬éˆç˜Ÿç–«
+						SpellIconID = 2944,	-- 2944 ¾½ÆF½E¬Ì
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -1192,34 +1241,42 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Rogue / ç›œè³Š
+-- Rogue / µs¸é
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_ROGUE] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[5171] = {enable=true,},    -- åˆ‡å‰²
-			[1966] = {enable=true,},    -- ä½¯æ”»
-			[57934] = {enable=true,},   -- å·å¤©æ›æ—¥
-			[59628] = {enable=true,},   -- å·å¤©æ›æ—¥
-			[58427] = {enable=true,},   -- æ¥µé™æ®ºæˆ®
-			[84590] = {enable=true,},   -- è‡´å‘½æ®ºé™£
+			[5171] = {enable=true,},    -- ¤Á³Î
+			[1966] = {enable=true,},    -- ¨Ë§ğ
+			[57934] = {enable=true,},   -- °½¤Ñ´«¤é
+			[59628] = {enable=true,},   -- °½¤Ñ´«¤é
+			[58427] = {enable=true,},   -- ·¥­­±ş¼®
+			[84590] = {enable=true,},   -- ­P©R±ş°}
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
-			[14251] = {enable=true,},   -- Riposte / é‚„æ“Š
+			[14251] = {enable=true,},   -- Riposte / ÁÙÀ»
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[1943] = {enable=true, self=true,},     -- å‰²è£‚
-			[84617] = {enable=true, self=true,},    -- æ­åº•ä¹‹æ“Š
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[1943] = {enable=true, self=true,},     -- ³Îµõ
+			[84617] = {enable=true, self=true,},    -- ´¦©³¤§À»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[65961] = {enable=true,},   -- æš—å½±æŠ«é¢¨
-			[79140] = {enable=true,},   -- å®¿æ€¨
+			[65961] = {enable=true,},   -- ·t¼v©Ü­·
+			[79140] = {enable=true,},   -- ±J«è
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				enable=false,
@@ -1232,7 +1289,7 @@ function EventAlert_LoadSpellArray()
 				--ActiveTalentGroup=2,	-- nil for all, 1 for primary, 2 for secondary
 				Spells = {
 					[1] = {
-						SpellIconID = 53,	-- 53 èƒŒåˆº
+						SpellIconID = 53,	-- 53 ­I¨ë
 						Checks = {
 							[1] = {
 								CheckAndOp = true,
@@ -1265,49 +1322,62 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Shaman / è–©æ»¿
+-- Shaman / ÂÄº¡
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_SHAMAN] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[324] = {enable=true,},		-- é–ƒé›»ä¹‹ç›¾
-			[16188] = {enable=true,},	-- å…ˆç¥–è¿…æ·
-			[30884] = {enable=true,},	-- è‡ªç„¶å®ˆè­·è€…
-			[53390] = {enable=true,},	-- æ²»ç™‚ä¹‹æ½®
-			[53817] = {enable=true, stack=5,},	-- æ°£æ¼©æ­¦å™¨
-			[73685] = {enable=true,},	-- é‡‹æ”¾å¤§åœ°ç”Ÿå‘½
-			[79206] = {enable=true,},	-- éˆè¡Œè€…ä¹‹è³œ
-			[105763] = {enable=true,},	-- å¿ƒéˆæ¿€å‹µ (æ³•åŠ›ä¹‹æ½®)
-			[114893] = {enable=true,},	-- çŸ³ä¹‹å£å£˜
+			[324] = {enable=true,},		-- °{¹q¤§¬Ş
+			[16166] = {enable=true,},	-- ºë³q¤¸¯À
+			[16188] = {enable=true,},	-- ¥ı¯ª¨³±¶
+			[30884] = {enable=true,},	-- ¦ÛµM¦uÅ@ªÌ
+			[53390] = {enable=true,},	-- ªvÀø¤§¼é
+			[53817] = {enable=true, stack=5,},	-- ®ğºxªZ¾¹
+			[73685] = {enable=true,},	-- ÄÀ©ñ¤j¦a¥Í©R
+			[79206] = {enable=true,},	-- ÆF¦æªÌ¤§½ç
+			[105763] = {enable=true,},	-- ¤ßÆF¿EÀy (ªk¤O¤§¼é)
+			[114050] = {enable=true,},	-- ¨ô¶V³N¡]¤¸¯À¡^
+			[114051] = {enable=true,},	-- ¨ô¶V³N¡]¼W±j¡^
+			[114052] = {enable=true,},	-- ¨ô¶V³N¡]«ì´_¡^
+			[114893] = {enable=true,},	-- ¥Û¤§¾ÀÂS
+			[118522] = {enable=true,},	-- ¤¸¯À½ÄÀ»
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[8050] = {enable=true, self=true,},		-- çƒˆç„°éœ‡æ“Š
-			[51514] = {enable=true, self=true,},	-- å¦–è¡“
-			[100955] = {enable=true, self=true,},	-- é›·éœ†é¢¨æš´
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[8050] = {enable=true, self=true,},		-- ¯PµK¾_À»
+			[51514] = {enable=true, self=true,},	-- §¯³N
+			[100955] = {enable=true, self=true,},	-- ¹p¾^­·¼É
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[16166] = {enable=true,},	-- ç²¾é€šå…ƒç´ 
-			[16188] = {enable=true,},	-- å…ˆç¥–è¿…æ·
-			[16190] = {enable=true,},	-- æ³•åŠ›ä¹‹æ½®åœ–é¨°
-			[51505] = {enable=true,},	-- ç†”å²©çˆ†ç™¼
-			[61295] = {enable=true,},	-- æ¿€æµ
-			[73680] = {enable=true,},	-- é‡‹æ”¾å…ƒç´ èƒ½é‡
-			[73920] = {enable=true,},	-- æ²»ç™’å¤§é›¨
-			[79206] = {enable=true,},	-- éˆè¡Œè€…ä¹‹è³œ
-			[98008] = {enable=true,},	-- éˆé­‚é€£çµåœ–é¨°
-			[108271] = {enable=true,},	-- æ˜Ÿç•Œè½‰ç§»
-			[108285] = {enable=true,},	-- å…ƒç´ å‘¼å–š
-			[108270] = {enable=true,},	-- çŸ³ä¹‹å£å£˜åœ–é¨°
-			[108280] = {enable=true,},	-- ç™‚ç™’ä¹‹æ½®åœ–é¨°
+			[16166] = {enable=true,},	-- ºë³q¤¸¯À
+			[16188] = {enable=true,},	-- ¥ı¯ª¨³±¶
+			[16190] = {enable=true,},	-- ªk¤O¤§¼é¹ÏÄË
+			[51505] = {enable=true,},	-- º²©¥Ãzµo
+			[61295] = {enable=true,},	-- ¿E¬y
+			[73680] = {enable=true,},	-- ÄÀ©ñ¤¸¯À¯à¶q
+			[73920] = {enable=true,},	-- ªvÂ¡¤§«B
+			[79206] = {enable=true,},	-- ÆF¦æªÌ¤§½ç
+			[98008] = {enable=true,},	-- ÆF»î³sµ²¹ÏÄË
+			[108270] = {enable=true,},	-- ¥Û¤§¾ÀÂS¹ÏÄË
+			[108271] = {enable=true,},	-- ¬P¬ÉÂà²¾
+			[108280] = {enable=true,},	-- ÀøÂ¡¤§¼é¹ÏÄË
+			[108285] = {enable=true,},	-- ¤¸¯À©I³ê
 
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 			[1] = {
 				["enable"] = false,
@@ -1464,199 +1534,243 @@ function EventAlert_LoadSpellArray()
 
 
 --------------------------------------------------------------------------------
--- Warlock / è¡“å£«
+-- Warlock / ³N¤h
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_WARLOCK] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[18095] = {enable=true,},   -- å¤œæš®
-			[19028] = {enable=true,},   -- éˆé­‚éˆçµ
-			[34939] = {enable=true,},   -- åè¡
-			[47283] = {enable=true,},   -- Empowered Imp / å¼·åŠ›å°é¬¼
-			[63158] = {enable=true,},   -- å± è™
-			[63167] = {enable=true,},   -- å± è™
-			[71165] = {enable=true,},   -- ç†”ç«ä¹‹å¿ƒ
-			[85383] = {enable=true,},   -- å¼·åŒ–éˆé­‚ä¹‹ç«
-			[89937] = {enable=true,},   -- é­”åŒ–ç«å…‰
+			[18095] = {enable=true,},   -- ©]¼Ç
+			[19028] = {enable=true,},   -- ÆF»îÃìµ²
+			[34939] = {enable=true,},   -- ¤Ï½Ä
+			[47283] = {enable=true,},   -- Empowered Imp / ±j¤O¤p°­
+			[63158] = {enable=true,},   -- ±O­h
+			[63167] = {enable=true,},   -- ±O­h
+			[71165] = {enable=true,},   -- º²¤õ¤§¤ß
+			[85383] = {enable=true,},   -- ±j¤ÆÆF»î¤§¤õ
+			[89937] = {enable=true,},   -- Å]¤Æ¤õ¥ú
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[146739] = {enable=true, self=true,},      -- Corruption / è…è•è¡“
-			[348] = {enable=true, self=true,},      -- Immolate / ç»ç¥­
-			[686] = {enable=true, self=true,},      -- æœ«æ—¥ç½å„
-			[603] = {enable=true, self=true,},      -- æš—å½±ç®­
-			[980] = {enable=true, self=true,},      -- ç—›è‹¦ç½å„
-			[1490] = {enable=true, self=true,},     -- Curse of the Elements / å…ƒç´ è©›å’’
-			[29722] = {enable=true, self=true,},    -- ç‡’ç›¡
-			[30108] = {enable=true, self=true,},    -- ç—›è‹¦å‹•ç›ª
-			[48181] = {enable=true, self=true,},    -- è•é­‚è¡“
-			[50796] = {enable=true, self=true,},    -- æ··æ²Œç®­
-			[80240] = {enable=true, self=true,},    -- æµ©åŠ«ç½å„
-			[86000] = {enable=true, self=true,},    -- å¤çˆ¾ä¸¹è©›å’’
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[172] = {enable=true, self=true,},      -- Corruption / »G»k³N
+			[348] = {enable=true, self=true,},      -- Immolate / Äm²½
+			[686] = {enable=true, self=true,},      -- ¥½¤é¨a¤Ì
+			[603] = {enable=true, self=true,},      -- ·t¼v½b
+			[980] = {enable=true, self=true,},      -- µh­W¨a¤Ì
+			[1490] = {enable=true, self=true,},     -- Curse of the Elements / ¤¸¯À¶A©G
+			[29722] = {enable=true, self=true,},    -- ¿NºÉ
+			[30108] = {enable=true, self=true,},    -- µh­W°ÊÀú
+			[48181] = {enable=true, self=true,},    -- »k»î³N
+			[50796] = {enable=true, self=true,},    -- ²V¨P½b
+			[80240] = {enable=true, self=true,},    -- ¯E§T¨a¤Ì
+			[86000] = {enable=true, self=true,},    -- ¥jº¸¤¦¶A©G
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[17962] = {enable=true,},   -- ç„šç‡’
-			[59672] = {enable=true,},   -- æƒ¡é­”åŒ–èº«
-			[71165] = {enable=true,},   -- ç†”ç«ä¹‹å¿ƒ
+			[17962] = {enable=true,},   -- µI¿N
+			[59672] = {enable=true,},   -- ´cÅ]¤Æ¨­
+			[71165] = {enable=true,},   -- º²¤õ¤§¤ß
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 		},
 	}
 
 
 --------------------------------------------------------------------------------
--- Warrior / æˆ°å£«
+-- Warrior / ¾Ô¤h
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_WARRIOR] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[871] = {enable=true,},     -- ç›¾ç‰†(é˜²ç¦¦å§¿æ…‹)
-			[1134] = {enable=true,},    -- å¿ƒéˆä¹‹æ€’
-			[2565] = {enable=true,},    -- ç›¾ç‰Œæ ¼æª”(é˜²ç¦¦å§¿æ…‹)
-			[12328] = {enable=true,},   -- æ©«æƒæ”»æ“Š(æˆ°é¬¥ï¼Œç‹‚æš´å§¿æ…‹)
-			[12964] = {enable=true,},   -- æˆ°é¬¥æ²ˆæ€
-			[12975] = {enable=true,},   -- ç ´æ–§æ²ˆèˆŸ
-			[14202] = {enable=true,},   -- ç‹‚æ€’(ç­‰ç´š 3)
-			[16491] = {enable=true,},   -- è¡€ä¹‹ç‹‚ç†±
-			[20230] = {enable=true,},   -- åæ“Šé¢¨æš´(æˆ°é¬¥å§¿æ…‹)
-			[23885] = {enable=true,},   -- å—œè¡€
-			[23920] = {enable=true,},   -- æ³•è¡“åå°„(æˆ°é¬¥ï¼Œé˜²ç¦¦å§¿æ…‹)
-			[29841] = {enable=true,},   -- å¾©ç”¦ä¹‹é¢¨(ç­‰ç´š1)
-			[32216] = {enable=true,},   -- å‹åˆ©
-			[46916] = {enable=true,},   -- Bloodsurge (Slam) / ç†±è¡€æ²¸é¨°
-			[50227] = {enable=true,},   -- åŠç›¾åˆå£
-			[52437] = {enable=true,},   -- é©Ÿäº¡
-			[55694] = {enable=true,},   -- ç‹‚æ€’æ¢å¾©
-			[57516] = {enable=true,},   -- ç‹‚æ€’(ç­‰ç´š 2)
-			[57519] = {enable=true,},   -- ç‹‚æ€’(ç­‰ç´š 2)
-			[60503] = {enable=true,},   -- è¡€è…¥é«”é©—
-			[65156] = {enable=true,},   -- å‹¢ä¸å¯ç•¶
-			[82368] = {enable=true,},   -- å‹åˆ©
-			[84586] = {enable=true,},   -- å± å®°(ç­‰ç´š 3)
-			[84620] = {enable=true,},   -- å …å®ˆé™£ç·š
-			[85730] = {enable=true,},   -- æ²‰è‘—æ®ºæ©Ÿ
-			[86627] = {enable=true,},   -- æ¿€å‹•
-			[87096] = {enable=true,},   -- é›·æ“Š
-			[90806] = {enable=true,},   -- è™•æ±ºè€…
+			[871] = {enable=true,},     -- ¬ŞÀğ(¨¾¿m«ººA)
+			[1134] = {enable=true,},    -- ¤ßÆF¤§«ã
+			[2565] = {enable=true,},    -- ¬ŞµP®æÀÉ(¨¾¿m«ººA)
+			[12328] = {enable=true,},   -- ¾î±½§ğÀ»(¾Ô°«¡A¨g¼É«ººA)
+			[12964] = {enable=true,},   -- ¾Ô°«¨H«ä
+			[12975] = {enable=true,},   -- ¯}©ò¨H¦à
+			[14202] = {enable=true,},   -- ¨g«ã(µ¥¯Å 3)
+			[16491] = {enable=true,},   -- ¦å¤§¨g¼ö
+			[20230] = {enable=true,},   -- ¤ÏÀ»­·¼É(¾Ô°««ººA)
+			[23885] = {enable=true,},   -- ¶İ¦å
+			[23920] = {enable=true,},   -- ªk³N¤Ï®g(¾Ô°«¡A¨¾¿m«ººA)
+			[29841] = {enable=true,},   -- ´_µd¤§­·(µ¥¯Å1)
+			[32216] = {enable=true,},   -- ³Ó§Q
+			[46916] = {enable=true,},   -- Bloodsurge (Slam) / ¼ö¦åªmÄË
+			[50227] = {enable=true,},   -- ¼C¬Ş¦X¾À
+			[52437] = {enable=true,},   -- ÆJ¤`
+			[55694] = {enable=true,},   -- ¨g«ã«ì´_
+			[57516] = {enable=true,},   -- ¨g«ã(µ¥¯Å 2)
+			[57519] = {enable=true,},   -- ¨g«ã(µ¥¯Å 2)
+			[60503] = {enable=true,},   -- ¦å¸{ÅéÅç
+			[65156] = {enable=true,},   -- ¶Õ¤£¥i·í
+			[82368] = {enable=true,},   -- ³Ó§Q
+			[84586] = {enable=true,},   -- ±O®_(µ¥¯Å 3)
+			[84620] = {enable=true,},   -- °í¦u°}½u
+			[85730] = {enable=true,},   -- ¨IµÛ±ş¾÷
+			[86627] = {enable=true,},   -- ¿E°Ê
+			[87096] = {enable=true,},   -- ¹pÀ»
+			[90806] = {enable=true,},   -- ³B¨MªÌ
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[81326] = {enable=true, self=false},	-- ç‰©ç†æ˜“å‚·
-			[94009] = {enable=true, self=true,},    -- æ’•è£‚
-			[115798] = {enable=true, self=false,},	-- å¼±åŒ–æ”»æ“Š
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[81326] = {enable=true, self=false},	-- ª«²z©ö¶Ë
+			[94009] = {enable=true, self=true,},    -- ¼¹µõ
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 		},
 	}
 
 
 --------------------------------------------------------------------------------
--- Monk / æ­¦åƒ§
+-- Monk / ªZ¹¬
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_MONK] = {
-		-- Primary Alert / æœ¬è·æ¥­æé†’å€
+		-- Primary Alert / ¥»Â¾·~´£¿ô°Ï
 		["ITEMS"] = {
-			[115175] = {enable=true,},   -- èˆ’å’Œä¹‹éœ§
-			[118674] = {enable=true,},   -- ç²¾æ´»è¿·éœ§
-			[119611] = {enable=true,},   -- å›ç”Ÿè¿·éœ§
-			[120954] = {enable=true,},   -- çŸ³å½¢çµ•é‡€
-			[125359] = {enable=true,},   -- è™å¨
-			[132120] = {enable=true,},   -- è¿·éœ§ç¹šç¹
+			[115175] = {enable=true,},   -- µÎ©M¤§Ãú
+			[118674] = {enable=true,},   -- ºë¬¡°gÃú
+			[119611] = {enable=true,},   -- ¦^¥Í°gÃú
+			[120954] = {enable=true,},   -- ¥Û§Îµ´ÆC
+			[125359] = {enable=true,},   -- ªê«Â
+			[132120] = {enable=true,},   -- °gÃúÂ·Â¶
 		},
-		-- Alternate Alert / æœ¬è·æ¥­é¡å¤–æé†’å€
+		-- Alternate Alert / ¥»Â¾·~ÃB¥~´£¿ô°Ï
 		["ALTITEMS"] = {
 		},
-		-- Target Alert / ç›®æ¨™æé†’å€
+		-- Target Alert / ¥Ø¼Ğ´£¿ô°Ï
 		["TARITEMS"] = {
-			[81326] = {enable=true, self=false},	-- ç‰©ç†æ˜“å‚·
-			[115078] = {enable=true, self=true,},   -- é»ç©´
-			[115175] = {enable=true, self=true,},   -- èˆ’å’Œä¹‹éœ§
-			[115798] = {enable=true, self=false,},	-- å¼±åŒ–æ”»æ“Š
-			[119611] = {enable=true, self=true,},   -- å›ç”Ÿè¿·éœ§
-			[132120] = {enable=true, self=true,},   -- è¿·éœ§ç¹šç¹
-			[132726] = {enable=true, self=false,},	-- æˆé•·
+			[81326] = {enable=true, self=false},	-- ª«²z©ö¶Ë
+			[115078] = {enable=true, self=true,},   -- ÂI¥Ş
+			[115175] = {enable=true, self=true,},   -- µÎ©M¤§Ãú
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[119611] = {enable=true, self=true,},   -- ¦^¥Í°gÃú
+			[132120] = {enable=true, self=true,},   -- °gÃúÂ·Â¶
+			[115798] = {enable=true, self=false,},	-- ®z¤Æ§ğÀ»
+			[117737] = {enable=true, self=false,},	-- Åö¨g (Å]¥j¤s4¤ı)
+			[117756] = {enable=true, self=false,},	-- ©ÄÀ¶ (Å]¥j¤s4¤ı)
+			[123059] = {enable=true, self=false,},	-- °Ê·n (®£Äß5¤ı¼W¶Ëbuff)
+			[123471] = {enable=true, self=false},	-- ¼W±j (®£Äß¤§¤ß2¤ı)
+			[126958] = {enable=true, self=false,},	-- ¯Ç©Ô¥d·Ù¤§Ä² (Å]¥j¤s¤p©Ç)
+			[127372] = {enable=true, self=false,},	-- ¤£Ã­©w¦å²M
+			[131996] = {enable=true, self=false,},	-- µhÀ» (Â×¬u¥x4¤ı¤j©Û)			
+			[132726] = {enable=true, self=false,},	-- ¦¨ªø
+			[136431] = {enable=true, self=false,},	-- Àt´ß½ÄÀ» (¹p¾^4¤ı¼W¶Ë)
 		},
-		-- Spell Cooldown Alert / æœ¬è·æ¥­æŠ€èƒ½CDå€
+		-- Spell Cooldown Alert / ¥»Â¾·~§Ş¯àCD°Ï
 		["SCDITEMS"] = {
-			[101545] = {enable=true,},   -- ç¿”é¾è…³
-			[109132] = {enable=true,},   -- è¿…ç©ºç¿»
-			[113656] = {enable=true,},   -- ç‹‚æ‹³é€£æ‰“
-			[115008] = {enable=true,},   -- çœŸæ°£é£›é¾ç©¿
-			[115078] = {enable=true,},   -- é»ç©´
-			[115080] = {enable=true,},   -- å¹½å†¥æŒ
-			[115098] = {enable=true,},   -- çœŸæ°£æ³¢
-			[115151] = {enable=true,},   -- å›ç”Ÿè¿·éœ§
-			[115203] = {enable=true,},   -- çŸ³å½¢çµ•é‡€
-			[115288] = {enable=true,},   -- å‡ç¥çµ•é‡€
-			[115399] = {enable=true,},   -- çœŸæ°£çµ•é‡€
-			[116705] = {enable=true,},   -- å¤©çŸ›é–å–‰æ‰‹
-			[116847] = {enable=true,},   -- é£›ç‰ç–¾é¢¨
-			[119381] = {enable=true,},   -- æƒè‘‰è…¿
-			[119392] = {enable=true,},   -- éµç‰›è¡é‹’æ³¢
-			[122278] = {enable=true,},   -- å¸å‹è¨£
-			[122470] = {enable=true,},   -- ä¹¾å¤æŒªç§»
-			[122783] = {enable=true,},   -- ç¥›é­”è¨£
-			[123904] = {enable=true,},   -- å¬å–šç™½è™é›ªæ€’
+			[101545] = {enable=true,},   -- µ¾Às¸}
+			[109132] = {enable=true,},   -- ¨³ªÅÂ½
+			[113656] = {enable=true,},   -- ¨g®±³s¥´
+			[115008] = {enable=true,},   -- ¯u®ğ­¸Às¬ï
+			[115078] = {enable=true,},   -- ÂI¥Ş
+			[115080] = {enable=true,},   -- «Õ­ß´x
+			[115098] = {enable=true,},   -- ¯u®ğªi
+			[115151] = {enable=true,},   -- ¦^¥Í°gÃú
+			[115203] = {enable=true,},   -- ¥Û§Îµ´ÆC
+			[115288] = {enable=true,},   -- ¾®¯«µ´ÆC
+			[115399] = {enable=true,},   -- ¯u®ğµ´ÆC
+			[116705] = {enable=true,},   -- ¤Ñ¥ÙÂê³ï¤â
+			[116847] = {enable=true,},   -- ­¸¥É¯e­·
+			[119381] = {enable=true,},   -- ±½¸­»L
+			[119392] = {enable=true,},   -- ÅK¤û½Ä¾Wªi
+			[122278] = {enable=true,},   -- ¨ø«l³Z
+			[122470] = {enable=true,},   -- °®©[®¿²¾
+			[122783] = {enable=true,},   -- ÒçÅ]³Z
+			[123904] = {enable=true,},   -- ¥l³ê¥Õªê³·«ã
 		},
-		-- GroupEvent Alert / æœ¬è·æ¥­æ¢ä»¶æŠ€èƒ½å€
+		-- GroupEvent Alert / ¥»Â¾·~±ø¥ó§Ş¯à°Ï
 		["GRPITEMS"] = {
 		},
 	}
 
 
 --------------------------------------------------------------------------------
--- Other / è·¨è·æ¥­å…±é€šå€
+-- Other / ¸óÂ¾·~¦@³q°Ï
 --------------------------------------------------------------------------------
 	EADef_Items[EA_CLASS_OTHER] = {
-		[17] = {enable=true,},		-- ç‰§å¸« - çœŸè¨€è¡“:ç›¾
-		[7001] = {enable=true,},	-- ç‰§å¸« - å…‰æŸæ³‰æ¢å¾©
-		[10060] = {enable=true,},	-- ç‰§å¸« - æ³¨å…¥èƒ½é‡
-		[33206] = {enable=true,},	-- ç‰§å¸« - ç—›è‹¦é®å£“
-		[81782] = {enable=true,},	-- ç‰§å¸« - çœŸè¨€è¡“:å£
-		[98007] = {enable=true,},	-- è–©æ»¿ - éˆé­‚é€£çµåœ–é¨°
+		[17] = {enable=true,},		-- ªª®v - ¯u¨¥³N:¬Ş
+		[7001] = {enable=true,},	-- ªª®v - ¥ú§ô¬u«ì´_
+		[10060] = {enable=true,},	-- ªª®v - ª`¤J¯à¶q
+		[16191] = {enable=true,},	-- ÂÄº¡ - ªk¤O¤§¼é¹ÏÄË
+		[29166] = {enable=true,},	-- ¼w¾|¨Ì - ±Ò°Ê
+		[33206] = {enable=true,},	-- ªª®v - µh­WÂíÀ£
+		[81782] = {enable=true,},	-- ªª®v - ¯u¨¥³N:¾À
+		[98007] = {enable=true,},	-- ÂÄº¡ - ÆF»î³sµ²¹ÏÄË
 
-		[29166] = {enable=true,},	-- å¾·é­¯ä¾ - å•Ÿå‹•
+		[32182] = {enable=true,},	-- ÂÄº¡ - ­^«i®ğ·§
+		[80353] = {enable=true,},	-- ªk®v - ®É¶¡§á¦±
+		[90355] = {enable=true,},	-- Ây¤H - ¤W¥j¨g¶Ã
 
-		[32182] = {enable=true,},	-- è–©æ»¿ - è‹±å‹‡æ°£æ¦‚
-		[80353] = {enable=true,},	-- æ³•å¸« - æ™‚é–“æ‰­æ›²
-		[90355] = {enable=true,},	-- çµäºº - ä¸Šå¤ç‹‚äº‚
-
-
-		[115798] = {enable=true,},	-- å¼±åŒ–æ”»æ“Š
-		[116631] = {enable=true,},	-- å·¨åƒ
-		[117878] = {enable=true,},	-- è¶…è¼‰ (é­”å¤å±±å¯¶åº«5ç‹-è‰¾æ‹‰å´—)
-		[128988] = {enable=true,},	-- å¤©ç¥è­·ä½‘
+		[104993] = {enable=true,},	-- ¥É»î (ªşÅ])
+		[116631] = {enable=true,},	-- ¥¨¹³ (ªşÅ])
+		[120032] = {enable=true,},	-- ¿ûÅK¤§»R (ªşÅ])
+		[125487] = {enable=true,},	-- ¥ú¯¾ (ªşÅ])
+		[125488] = {enable=true,},	-- ·t½÷ (ªşÅ])
+		[126266] = {enable=true,},	-- ±Ò»X (ªÅªº¤ôªG±í)
+		[126577] = {enable=true,},	-- ¤ßÆF¥ú½÷ (¦t©z¤§¥ú)
+		[126582] = {enable=true,},	-- ¤£²¾¤§¤O (¹p¯«ªº³Ì«á©R¥O)
+		[126599] = {enable=true,},	-- ¯e³t (»A¥É¨®¾r¨è¹³)
+		[126640] = {enable=true,},	-- ¯P¥ú (¤Ó¶§¤§»î)
+		[126646] = {enable=true,},	-- Ä²¸I¤£¤Î (¹ÚÆL¤§ª«)
+		[126657] = {enable=true,},	-- ÁB±¶ (·tÃú±Û´õ)
+		[128984] = {enable=true,},	-- ¤Ñ¯«½çºÖ (³·«ã¸tª«)
+		[128985] = {enable=true,},	-- ¤Ñ¯«½çºÖ (¨ª¦N¸tª«)
+		[128986] = {enable=true,},	-- ¤Ñ¯«½çºÖ (³·«ã¸tª«)
+		[128987] = {enable=true,},	-- ¤Ñ¯«½çºÖ (¥ÉÀs¸tª«)
+		[128988] = {enable=true,},	-- ¤Ñ¯«Å@¦ö («ã¥ü¸tª«)
+		[136087] = {enable=true,},	-- ·x¤ßªÌ (¼v¼ï¤§Å§ªº°í©w©G²Å)
+		[138728] = {enable=true,},	-- ¾Ô²¤Âà¶i (¼v¼ï¤§Å§ªº°í©w©G²Å)
+	
+		[117878] = {enable=true,overgrow=6},	-- ¶W¸ü (Å]¥j¤sÄ_®w5¤ı-¦ã©Ô±^)
+		[118091] = {enable=true,overgrow=5},	-- Á¶Âp¤§¦a (Â×¬u¥x1¤ı)
+		[118977] = {enable=true,redsectext=5},	-- µL¬È (Â×¬u¥x4¤ı)
+		[122752] = {enable=true,},	-- ·t¼v¤§®§ (Â×¬u¥x2¤ı)
+		[122768] = {enable=true,overgrow=8},	-- ®£©Æ³±¼v (Â×¬u¥x2¤ı)
+		[122858] = {enable=true,},	-- ¤é¥úÅ¢¸n (Â×¬u¥x2¤ı)
+		[123081] = {enable=true,},	-- ±Ó·P (®£Äß¤§¤ß3¤ı)
+		[123121] = {enable=true,overgrow=8},	-- ¼QÂq (Â×¬u¥x3¤ı)
+		[123180] = {enable=true,},	-- ¯e­·¨B (®£Äß¤§¤ß2¤ı)
+		[123474] = {enable=true,overgrow=2},	-- À£­Ë©ÊÅ§À» (®£Äß¤§¤ß2¤ı)
+		[123707] = {enable=true,overgrow=3},	-- ¤k¬Ó¤§²´ (®£Äß¤§¤ß6¤ı)
+		[130742] = {enable=true,redsectext=5},	-- µL¬È (Â×¬u¥x4¤ı)
 		
-		[123180] = {enable=true,},	-- ç–¾é¢¨æ­¥ (ææ‡¼ä¹‹å¿ƒ2ç‹)
-		[123474] = {enable=true,},	-- å£“å€’æ€§åŠ›é‡ (ææ‡¼ä¹‹å¿ƒ2ç‹)
-		[123081] = {enable=true,},	-- æ•æ„Ÿ (ææ‡¼ä¹‹å¿ƒ3ç‹)		
+		[136767] = {enable=true,overgrow=5},	-- ¤T­«¬ï¨ë (¹p¾^2¤ı)
+		[136903] = {enable=true,overgrow=9},	-- ÄY´H¤§À» (¹p¾^3¤ı-Á÷¤ı)
+		[136911] = {enable=true,overgrow=9},	-- ÄY´H¤§À» (¹p¾^3¤ı-Á÷¤ı)
+		[138002] = {enable=true,},	-- ¬y½è®ÄªG (¹p¾^1¤ı¼W¶Ë)
+		[138349] = {enable=true,},	-- ÀR¹q³Ğ¶Ë (¹p¾^1¤ı)
+		[138389] = {enable=true,},	-- ÀR¹q³Ğ¶Ë (¹p¾^1¤ı)
+		
 	}
 
-
---     XXX 163
---     for class, classcfg in next, EADef_Items do
---         for item, config in next, classcfg do
---             if(item == 'GRPITEMS') then
---                 for i, v in next, config do
---                     v.enable = false
---                     v.IconSize = 60
---                 end
---             end
---         end
---     end
 
 end

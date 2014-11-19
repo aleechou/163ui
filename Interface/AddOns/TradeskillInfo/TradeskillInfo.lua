@@ -74,7 +74,7 @@ end
 
 
 function TradeskillInfo:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("TradeskillInfoDB", {
+	self.db = LibStub("AceDB-3.0"):New("TradeSkillInfoDB", {
 		profile = {
 			ShowSkillLevel = true,
 			ShowSkillProfit = true,
@@ -119,9 +119,11 @@ function TradeskillInfo:OnInitialize()
 			UIScale = 1,
 		},
 		realm = {
-			userdata = {}, -- Stores all known characters
+			["*"] = { -- stores all known characters
+				knownRecipes = {}, skills = {},
+			},
 		},
-	})
+	}, "Default")
 
 	self:RegisterChatCommand("tsi", "ChatCommand")
 	self:RegisterChatCommand("tradeskillinfo", "ChatCommand")
@@ -130,10 +132,6 @@ end
 
 function TradeskillInfo:OnEnable()
 	self.vars.playername = UnitName("player")
-
-	if not self.db.realm.userdata[self.vars.playername] then
-		self.db.realm.userdata[self.vars.playername] = { knownRecipes = {}, skills = {} }
-	end
 
 	self:PopulateProfessionNames()
 
@@ -321,7 +319,7 @@ end
 function TradeskillInfo:UpdateSkills()
 	local prof1, prof2, _, _, cook, firstAid = GetProfessions()
 	local professions = {prof1, prof2, cook, firstAid}
-	local userData = self.db.realm.userdata[self.vars.playername]
+	local userData = self.db.realm[self.vars.playername]
 	for _,idx in ipairs(professions) do
 		local name, _, rank = GetProfessionInfo(idx)
 		if self.vars.skillnames[name] then
@@ -375,10 +373,10 @@ function TradeskillInfo:UpdateKnownTradeRecipes(startLine, endLine)
 
 		elseif (itemType ~= "header" and itemType ~= "subheader") then
 			local link = GetTradeSkillRecipeLink(i)
-			local spellId = getIdFromLink(link)
-			local id = self:MakeSpecialCase(getIdFromLink(GetTradeSkillItemLink(i)), spellId)
+			local _, _, id = strfind(link, "enchant:(%d+)")
+			id = tonumber(id)
 
-			self.db.realm.userdata[self.vars.playername].knownRecipes[id] = self.vars.difficultyLevel[itemType]
+			self.db.realm[self.vars.playername].knownRecipes[id] = self.vars.difficultyLevel[itemType]
 		end
 	end
 end
@@ -390,28 +388,20 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 	if not IsTradeSkillReady() then return end
 
 	local skillName, skillType = GetTradeSkillInfo(id)
-	if not skillName then return end
-
 	if skillType == "header" or skillType == "subheader" then return end
 	if GetTradeSkillSelectionIndex() > GetNumTradeSkills() then return end
 
-	local link = GetTradeSkillItemLink(TradeSkillFrame.selectedSkill)
-	local itemId = getIdFromLink(link)
+	local spellLink = GetTradeSkillRecipeLink(TradeSkillFrame.selectedSkill)
+	local _, _, spellId = strfind(spellLink, "enchant:(%d+)")
+	spellId = tonumber(spellId)
 
-	if not self:CombineExists(itemId) then
-		local spellLink = GetTradeSkillRecipeLink(TradeSkillFrame.selectedSkill)
-		local spellId = getIdFromLink(spellLink)
-		itemId = self:MakeSpecialCase(itemId, spellId)
-	end
-
-	if self:CombineExists(itemId) then
+	if self:CombineExists(spellId) then
 		local yPos = 50
 
 		if self:ShowingSkillLevel() then
-			-- Insert skill required.
+			-- insert skill required
 			if TradeskillInfoSkillText then
-				TradeskillInfoSkillText:SetText(L["Skill Level"] .. ": " ..
-												self:GetColoredDifficulty(itemId))
+				TradeskillInfoSkillText:SetText(L["Skill Level"] .. ": " .. self:GetColoredDifficulty(spellId))
 				TradeskillInfoSkillText:Show()
 				yPos = yPos + 4 + TradeskillInfoSkillText:GetHeight()
 			end
@@ -424,17 +414,15 @@ function TradeskillInfo:TradeSkillFrame_SetSelection(id)
 			local value, cost, profit
 
 			if self:ShowingSkillAuctioneerProfit() then
-				value,cost,profit = self:GetCombineAuctioneerCost(itemId)
+				value,cost,profit = self:GetCombineAuctioneerCost(spellId)
 				profitLabel = L["Auction"]
 			else
-				value,cost,profit = self:GetCombineCost(itemId)
+				value,cost,profit = self:GetCombineCost(spellId)
 				profitLabel = L["Vendor"]
 			end
 
-			-- Insert item value and reagent costs
-			TradeskillInfoProfitText:SetText(profitLabel .. ": " ..
-				string.format("%s - %s = %s",
-							  self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
+			-- insert item value and reagent costs
+			TradeskillInfoProfitText:SetText(profitLabel .. ": " .. string.format("%s - %s = %s", self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit)))
 			TradeskillInfoProfitText:SetPoint("TOPLEFT", 5, -yPos)
 			TradeskillInfoProfitText:Show()
 			yPos = yPos + 4 + TradeskillInfoProfitText:GetHeight()
@@ -590,7 +578,7 @@ function TradeskillInfo:GetCombine(id)
 	if not self:CombineExists(id) then return end
 
 	local combine = {}
-	local _, _, skill, spec, level, _, _, _, _, recipe, yield, item = string.find(self.vars.combines[id], "-?%d*|?(%u)(%l*)(%d+)/?(%d*)/?(%d*)/?(%d*)|([^|]+)[|]?(%d*)[|]?([^|]*)[|]?(%d*)")
+	local _, _, item, skill, spec, level, _, _, _, _, recipe, yield = string.find(self.vars.combines[id], "-?(%d*)|?(%u)(%l*)(%d+)/?(%d*)/?(%d*)/?(%d*)|([^|]+)[|]?(%d*)[|]?([^|]*)[|]?(%d*)")
 
 	combine.skill = skill
 	combine.spec = spec
@@ -611,30 +599,20 @@ function TradeskillInfo:GetCombine(id)
 	return combine
 end
 
+local spellCache = {}
 function TradeskillInfo:GetCombineName(id)
 	local name
 
-	if id > 0 then
-		id = self:GetSpecialCase(id)
-		name = GetItemInfo(id)
-	else
-		name = GetSpellInfo(-id)
+	if not spellCache[id] then
+		spellCache[id] = GetSpellInfo(id)
 	end
 
-	if not name then name = tostring(id) end
-
-	return name
+	return spellCache[id] or tostring(id)
 end
 
 function TradeskillInfo:GetCombineEnchantId(id)
-	if not self:CombineExists(id) then return 0 end
-	local enchantId
-	if id > 0 then
-		enchantId = string.match(self.vars.combines[id],"(-?%d*)|?%a+%d+")
-	else
-		enchantId = -1 * id
-	end
-	return tonumber(enchantId)
+	-- DELETE ME --
+	return tonumber(id)
 end
 
 function TradeskillInfo:GetCombineLevel(id)
@@ -676,7 +654,7 @@ end
 
 function TradeskillInfo:GetCombineItem(id)
 	if not self:CombineExists(id) then return end
-	local _, _, item = string.find(self.vars.combines[id],"-?%d*|?[^|]+|[^|]+[|]?%d*[|]?[^|]*[|]?(%d*)")
+	local _, _, item = string.find(self.vars.combines[id],"-?(%d*)|?[^|]+|[^|]+[|]?%d*[|]?[^|]*[|]?%d*")
 	if item and item ~= "" then item = tonumber(item) else item = nil end
 	return item
 end
@@ -733,7 +711,7 @@ function TradeskillInfo:GetCombineAvailability(id)
 		end
 	end
 
-	for name in pairs(self.db.realm.userdata) do
+	for name in pairs(self.db.realm) do
 		if name ~= self.vars.playername then
 			local skillLevel = self:GetCharSkillLevel(name,combineSkill)
 			local charSpec = self:GetCharSkillLevel(name,combineSpec)
@@ -1215,19 +1193,19 @@ end
 
 function TradeskillInfo:GetChars()
 	local chars = {}
-	for n,_ in pairs(self.db.realm.userdata) do
+	for n,_ in pairs(self.db.realm) do
 		table.insert(chars,n)
 	end
 	return chars
 end
 
 function TradeskillInfo:Chars()
-	return pairs(self.db.realm.userdata)
+	return pairs(self.db.realm)
 end
 
 function TradeskillInfo:GetAltChars()
 	local chars = {}
-	for n,_ in pairs(self.db.realm.userdata) do
+	for n,_ in pairs(self.db.realm) do
 		if n ~= self.vars.playername then
 			table.insert(chars,n)
 		end
@@ -1237,9 +1215,9 @@ end
 
 function TradeskillInfo:AltChars()
 	return function()
-		local name = next(self.db.realm.userdata)
+		local name = next(self.db.realm)
 		if name == self.vars.playername then
-			name = next(self.db.realm.userdata)
+			name = next(self.db.realm)
 		end
 		if name then
 			return name
@@ -1250,33 +1228,30 @@ function TradeskillInfo:AltChars()
 end
 
 function TradeskillInfo:GetCharSkillLevel(name,skill)
-	return self.db.realm.userdata[name].skills[skill]
+	return self.db.realm[name].skills[skill]
 end
 
 function TradeskillInfo:GetCharSkills(name)
 	local skills = {}
-	for skill,level in pairs(self.db.realm.userdata[name].skills) do
+	for skill,level in pairs(self.db.realm[name].skills) do
 		skills[skill] = level
 	end
 	return skills
 end
 
 function TradeskillInfo:CharSkills(name)
-	return pairs(self.db.realm.userdata[name].skills)
+	return pairs(self.db.realm[name].skills)
 end
 
 function TradeskillInfo:IsCombineKnowByChar(name,id)
-	local spellId = self:GetCombineEnchantId(id)
-	-- Hack alert! Using negative spellId to indicate recipes whose item name instead of spell name is used.
-	if (spellId < 0) then spellId = -spellId end
-	return self.db.realm.userdata[name].knownRecipes[id] or self.db.realm.userdata[name].knownRecipes[-spellId]
+	return self.db.realm[name].knownRecipes[id]
 end
 
 function TradeskillInfo:GetCombineKnownBy(id, tooltip)
 	local text
 	local c = self.db.profile.ColorKnownBy
 	local Ltext, Rtext
-	for name in pairs(self.db.realm.userdata) do
+	for name in pairs(self.db.realm) do
 		local known = self:IsCombineKnowByChar(name,id)
 		if known then
 			Rtext = self.vars.diffcolors[known]..name.."|r"
@@ -1308,7 +1283,7 @@ function TradeskillInfo:GetCombineLearnableBy(id, tooltip)
 	local text
 	local c = self.db.profile.ColorLearnableBy
 	local Ltext, Rtext
-	for name, _ in pairs(self.db.realm.userdata) do
+	for name, _ in pairs(self.db.realm) do
 		local charLevel = self:IsCombineLearnableByChar(name,id)
 		if charLevel then
 			Rtext = name.." ("..charLevel..")"
@@ -1343,7 +1318,7 @@ function TradeskillInfo:GetCombineAvailableTo(id, tooltip)
 	local text
 	local c = self.db.profile.ColorAvailableTo
 	local Ltext, Rtext
-	for name, _ in pairs(self.db.realm.userdata) do
+	for name, _ in pairs(self.db.realm) do
 		local charLevel = self:IsCombineAvailableToChar(name,id)
 		if charLevel then
 			Rtext = name.." ("..charLevel..")"
@@ -1388,7 +1363,7 @@ function TradeskillInfo:GetItemUsableBy(id, tooltip)
 	local c = self.db.profile.ColorUsableBy
 	local Ltext, Rtext
 
-	for name, _ in pairs(self.db.realm.userdata) do
+	for name, _ in pairs(self.db.realm) do
 		local num, diff = self:GetItemUsableByChar(name, id)
 
 		if num > 0 then
@@ -1460,22 +1435,39 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 
 	if recipeId then
 		kind = "R" -- it's a recipe
---		id = recipeId
+
+		if self:ShowingTooltipKnownBy(kind) then
+			self:GetCombineKnownBy(recipeId, tooltip)
+		end
+
+		if self:ShowingTooltipLearnableBy(kind) then
+			self:GetCombineLearnableBy(recipeId, tooltip)
+		end
+
+		if self:ShowingTooltipAvailableTo(kind) then
+			self:GetCombineAvailableTo(recipeId, tooltip)
+		end
+
 	else
-		kind = self:GetCombineSkill(id)
-		recipeId = id
-	end
+		-- there is probably a better way to do this, but I haven't found it yet
+		-- answers on a postcard please
+		for spellID, combine in pairs(self.vars.combines) do
+			if self:GetCombineItem(spellID) == id then
+				kind = self:GetCombineSkill(spellID)
+				
+				if self:ShowingTooltipKnownBy(kind) then
+					self:GetCombineKnownBy(spellID, tooltip)
+				end
 
-	if self:ShowingTooltipKnownBy(kind) then
-		self:GetCombineKnownBy(recipeId, tooltip)
-	end
+				if self:ShowingTooltipLearnableBy(kind) then
+					self:GetCombineLearnableBy(spellID, tooltip)
+				end
 
-	if self:ShowingTooltipLearnableBy(kind) then
-		self:GetCombineLearnableBy(recipeId, tooltip)
-	end
-
-	if self:ShowingTooltipAvailableTo(kind) then
-		self:GetCombineAvailableTo(recipeId, tooltip)
+				if self:ShowingTooltipAvailableTo(kind) then
+					self:GetCombineAvailableTo(spellID, tooltip)
+				end
+			end
+		end
 	end
 
 	-- item/spell id

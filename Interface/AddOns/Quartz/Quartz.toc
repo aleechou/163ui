@@ -2,10 +2,10 @@
 ## Interface: 60000
 ## Notes: Modular casting bar.
 ## Author: Nevcairiel, Nymbia
-## Version: 3.2.1-1-gdbbf897
+## Version: 3.2.3
 ## X-License: GPL v2
 ## X-Credits: Ammo (some code based on PitBull_CastBar), kergoth (Tradeskill Merge module idea), Roartindon (Lag Embed mode for Latency module)
-## X-Curse-Packaged-Version: 3.2.1-1-gdbbf897
+## X-Curse-Packaged-Version: 3.2.3
 ## X-Curse-Project-Name: Quartz
 ## X-Curse-Project-ID: quartz
 ## X-Curse-Repository-ID: wow/quartz/mainline
@@ -62,6 +62,8 @@ modules\Interrupt.lua
 modules\Range.lua
 modules\Flight.lua
 modules\EnemyCasts.lua
+
 ## Title: |cff880303[网易有爱]|r 美化施法条
+## Notes-zhCN: 美化和增强施法条，支持延迟显示等贴心功能
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141025101614
+## X-163UI-Version: 20141118121700

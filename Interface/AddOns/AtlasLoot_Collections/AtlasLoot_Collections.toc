@@ -7,15 +7,10 @@
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
-
 ## Title: AtlasLoot |cFF0099FF[Collections]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Sammlungen]|r
-## Title-zhCN: AtlasLoot |cFF0099FF[收藏物品信息]|r
-## Title-zhTW: AtlasLoot |cFF0099FF[收藏物品信息]|r
 ## Notes: AtlasLoot collections loot tables (e.g. Mounts & Pets)
 ## Notes-deDE: AtlasLoot Sammlungs-Beuteverzeichnisse (z.B. Reit- und Haustiere)
-## Notes-zhCN: AtlasLoot 《收藏》物品信息
-
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
@@ -23,7 +18,11 @@
 
 ## X-AtlasLoot-LootModule: 1
 
-## Title: |cff880303[网易有爱]|r AtlasLoot 收藏物品信息
+## Title: |cff880303[网易有爱]|r 收藏物品信息查询模块
+## Title-zhCN: |cff880303[网易有爱]|r 收藏物品信息查询模块
+## Title-zhTW: |cff880303[網易有愛]|r 收藏物品信息模塊
+## Notes-zhCN: 《收藏》物品信息查询模块
+## Notes-zhTW: 《收藏》物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700
 data.lua

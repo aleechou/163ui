@@ -64,7 +64,7 @@ function Menu:Embed(target)
     local frame = _MenuFrames[target] or MenuFrame:New(target)
     _MenuFrames[target] = frame
 
-    GUI:RegisterUIMenu(target)
+    GUI:RegisterUIPanel(target)
 
     target.GetMenuFrame = self.GetMenuFrame
 end

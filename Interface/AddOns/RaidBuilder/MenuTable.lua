@@ -1,7 +1,7 @@
 BuildEnv(...)
 
 local function menuDisable(data)
-    return UnitLevel('player') < GetEventMinLevel(data.value)
+    return UnitLevel('player') < GetEventMinLevel(data.value) or (IsHasPVPRating(data.value) and GetCurrentArenaSeason() == 0)
 end
 
 EVENT_CREATE_MENUTABLE  = {
@@ -114,7 +114,7 @@ EVENT_CREATE_MENUTABLE  = {
                     },
                     [10] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = 'MOP世界Boss一波流',
+                        ['text'] = '熊猫人之迷世界Boss',
                         ['value'] = 0x1BFFF00,
                     },
                 },
@@ -424,7 +424,7 @@ EVENT_CREATE_MENUTABLE  = {
                     },
                     [3] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '永恒岛PvP',
+                        ['text'] = '阿什兰PvP',
                         ['value'] = 0x40FF0FF,
                     },
                 },
@@ -443,6 +443,49 @@ EVENT_CREATE_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '霜火岭',
+                        ['value'] = 0x6001001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '影月谷',
+                        ['value'] = 0x6001002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '戈尔隆德',
+                        ['value'] = 0x6001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '塔拉多',
+                        ['value'] = 0x6001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '阿兰卡峰林',
+                        ['value'] = 0x6001005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '纳格兰',
+                        ['value'] = 0x6001006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '塔纳安丛林',
+                        ['value'] = 0x6001007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '阿什兰',
+                        ['value'] = 0x6001008,
+                    },
+                },
                 ['text'] = '任务升级',
                 ['value'] = 0x6001000,
             },
@@ -682,7 +725,7 @@ EVENT_FILTER_MENUTABLE  = {
                     [10] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = 'MOP世界Boss一波流',
+                        ['text'] = '熊猫人之迷世界Boss',
                         ['value'] = 0x1BFFF00,
                     },
                 },
@@ -1036,7 +1079,7 @@ EVENT_FILTER_MENUTABLE  = {
                     [3] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '永恒岛PvP',
+                        ['text'] = '阿什兰PvP',
                         ['value'] = 0x40FF0FF,
                     },
                 },
@@ -1055,6 +1098,57 @@ EVENT_FILTER_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '霜火岭',
+                        ['value'] = 0x6001001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '影月谷',
+                        ['value'] = 0x6001002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '戈尔隆德',
+                        ['value'] = 0x6001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '塔拉多',
+                        ['value'] = 0x6001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '阿兰卡峰林',
+                        ['value'] = 0x6001005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '纳格兰',
+                        ['value'] = 0x6001006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '塔纳安丛林',
+                        ['value'] = 0x6001007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '阿什兰',
+                        ['value'] = 0x6001008,
+                    },
+                },
                 ['notClickable'] = false,
                 ['text'] = '任务升级',
                 ['value'] = 0x6001000,
@@ -1193,7 +1287,7 @@ EVENT_MODE_MENUTABLE = {
         },
         [4] = {
             ['text'] = '幻化',
-            ['value'] = 8,
+            ['value'] = 5,
         },
         [5] = {
             ['text'] = '开荒',
@@ -1202,12 +1296,12 @@ EVENT_MODE_MENUTABLE = {
     },
     [0x2000000] = {
         [1] = {
-            ['text'] = '刷勇气',
-            ['value'] = 10,
+            ['text'] = '勇气',
+            ['value'] = 7,
         },
         [2] = {
-            ['text'] = '刷正义',
-            ['value'] = 11,
+            ['text'] = '正义',
+            ['value'] = 8,
         },
         [3] = {
             ['text'] = '成就',
@@ -1215,17 +1309,17 @@ EVENT_MODE_MENUTABLE = {
         },
         [4] = {
             ['text'] = '自强',
-            ['value'] = 9,
+            ['value'] = 6,
         },
         [5] = {
             ['text'] = '挑战',
-            ['value'] = 14,
+            ['value'] = 11,
         },
     },
     [0x3000000] = {
         [1] = {
-            ['text'] = '刷勇气',
-            ['value'] = 10,
+            ['text'] = '勇气',
+            ['value'] = 7,
         },
         [2] = {
             ['text'] = '成就',
@@ -1234,70 +1328,223 @@ EVENT_MODE_MENUTABLE = {
     },
     [0x4000000] = {
         [1] = {
-            ['text'] = '刷荣誉',
-            ['value'] = 13,
+            ['text'] = '荣誉',
+            ['value'] = 10,
         },
         [2] = {
-            ['text'] = '刷征服',
-            ['value'] = 12,
+            ['text'] = '征服',
+            ['value'] = 9,
         },
         [3] = {
             ['text'] = '冲分',
-            ['value'] = 15,
+            ['value'] = 12,
         },
         [4] = {
             ['text'] = '混分',
-            ['value'] = 16,
+            ['value'] = 13,
         },
     },
     [0x6000000] = {
         [1] = {
             ['text'] = '练级',
-            ['value'] = 17,
+            ['value'] = 14,
         },
     },
     [0x7000000] = {
         [1] = {
             ['text'] = '娱乐',
-            ['value'] = 20,
+            ['value'] = 17,
         },
     },
     [0x9000000] = {
         [1] = {
             ['text'] = '求助',
-            ['value'] = 22,
+            ['value'] = 19,
         },
         [2] = {
             ['text'] = '声望',
-            ['value'] = 18,
+            ['value'] = 15,
         },
         [3] = {
             ['text'] = '任务',
-            ['value'] = 19,
-        },
-        [4] = {
-            ['text'] = '其它',
-            ['value'] = 7,
+            ['value'] = 16,
         },
     },
     [0xE000000] = {
         [1] = {
             ['text'] = '招募',
-            ['value'] = 21,
+            ['value'] = 18,
         },
     },
     [0xF000000] = {
         [1] = {
             ['text'] = '其它',
-            ['value'] = 7,
+            ['value'] = 99,
         },
         [2] = {
             ['text'] = '声望',
-            ['value'] = 18,
+            ['value'] = 15,
         },
         [3] = {
             ['text'] = '任务',
+            ['value'] = 16,
+        },
+    },
+}
+
+EVENT_MODE_MENUTABLE_WITHALL = {
+    [0x1000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = 'Roll',
+            ['value'] = 1,
+        },
+        [3] = {
+            ['text'] = '带新',
+            ['value'] = 2,
+        },
+        [4] = {
+            ['text'] = '成就',
+            ['value'] = 3,
+        },
+        [5] = {
+            ['text'] = '幻化',
+            ['value'] = 5,
+        },
+        [6] = {
+            ['text'] = '开荒',
+            ['value'] = 4,
+        },
+    },
+    [0x2000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '勇气',
+            ['value'] = 7,
+        },
+        [3] = {
+            ['text'] = '正义',
+            ['value'] = 8,
+        },
+        [4] = {
+            ['text'] = '成就',
+            ['value'] = 3,
+        },
+        [5] = {
+            ['text'] = '自强',
+            ['value'] = 6,
+        },
+        [6] = {
+            ['text'] = '挑战',
+            ['value'] = 11,
+        },
+    },
+    [0x3000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '勇气',
+            ['value'] = 7,
+        },
+        [3] = {
+            ['text'] = '成就',
+            ['value'] = 3,
+        },
+    },
+    [0x4000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '荣誉',
+            ['value'] = 10,
+        },
+        [3] = {
+            ['text'] = '征服',
+            ['value'] = 9,
+        },
+        [4] = {
+            ['text'] = '冲分',
+            ['value'] = 12,
+        },
+        [5] = {
+            ['text'] = '混分',
+            ['value'] = 13,
+        },
+    },
+    [0x6000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '练级',
+            ['value'] = 14,
+        },
+    },
+    [0x7000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '娱乐',
+            ['value'] = 17,
+        },
+    },
+    [0x9000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '求助',
             ['value'] = 19,
+        },
+        [3] = {
+            ['text'] = '声望',
+            ['value'] = 15,
+        },
+        [4] = {
+            ['text'] = '任务',
+            ['value'] = 16,
+        },
+    },
+    [0xE000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '招募',
+            ['value'] = 18,
+        },
+    },
+    [0xF000000] = {
+        [1] = {
+            ['text'] = '全部',
+            ['value'] = 0,
+        },
+        [2] = {
+            ['text'] = '其它',
+            ['value'] = 99,
+        },
+        [3] = {
+            ['text'] = '声望',
+            ['value'] = 15,
+        },
+        [4] = {
+            ['text'] = '任务',
+            ['value'] = 16,
         },
     },
 }

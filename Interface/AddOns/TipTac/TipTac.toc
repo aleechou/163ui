@@ -1,16 +1,10 @@
 ## Interface: 60000
 ## Version: 14.05.24
 ## Title: TipTac
-## Title-zhCN: |cff880303[网易有爱]|r TipTac (提示信息增强)
-## Title-zhTW: |cff880303[网易有爱]|r TipTac (提示信息增強)
 ## Author: Aezay (Earthen Ring EU)
 ## Author-zhCN: Aezay (Earthen Ring EU), Localized by springsnow (Feathermoon CN)
 ## Notes: Highly Customizable Tooltip Enhancement Addon
-## Notes-zhCN: 高度可定制的提示信息增强插件
-## Notes-zhTW: 高度可定制的提示信息增強插件
 ## SavedVariables: TipTac_Config
-## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
 
 Libs\AceLocale-3.0\AceLocale-3.0.lua
 Libs\LibStub\LibStub.lua
@@ -18,3 +12,10 @@ Local_enUS.lua
 Local_zhCN.lua
 Local_zhTW.lua
 core.lua
+
+## Title-zhCN: |cff880303[网易有爱]|r TipTac (提示信息增强)
+## Title-zhTW: |cff880303[网易有爱]|r TipTac (提示信息增強)
+## Notes-zhCN: 高度可定制的提示信息增强插件
+## Notes-zhTW: 高度可定制的提示信息增強插件
+## X-Vendor: NetEase
+## X-163UI-Version: 20141118121700

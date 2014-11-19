@@ -1,0 +1,16 @@
+tag 6.0.3.2
+fee3c219e6fbb48a52b835751945159ba9ad07d4
+James D. Callahan III <jcallahan@curse.com>
+2014-11-13 04:14:29 -0600
+
+
+
+--------------------
+
+James D. Callahan III:
+	- Fixed code formatting, nuked unnecessary select() call, and killed semicolons.
+	- Added localization entries for Shadow Clone, Broker, and Garrison Ford.
+	- Ran /npcscan dump to fix formatting of data as well as correcting some NPC names.
+	- Moved keybindings into the AddOns category.
+SLOKnightfall:
+	- Updated local and npcdata to reflect new scan of WoWhead's mobs using the live data. Fixed expected_zone_name in the OnFoundTamable function.  (Ticket 77)

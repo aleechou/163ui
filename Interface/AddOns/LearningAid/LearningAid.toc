@@ -23,5 +23,9 @@ Locale\zhCN.lua
 Locale\zhTW.lua
 
 ## Title: |cff880303[网易有爱]|r LearningAid
+## Title-zhCN: |cff880303[网易有爱]|r 新技能提醒
+# Title-zhTW: |cff880303[网易有爱]|r 新技能提醒
+## Notes-zhCN: 当切换天赋或者学习到新技能、获得新坐骑、新宠物后，弹出小窗口列出这些新学会的法术。
+## Notes-zhTW: 当切换天赋或者学习到新技能、获得新坐骑、新宠物后，弹出小窗口列出这些新学会的法术。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

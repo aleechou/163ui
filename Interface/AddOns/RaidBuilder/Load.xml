@@ -5,6 +5,7 @@
   <Script file="EventData.lua" />
   <Script file="ChangeLog.lua" />
   <Script file="Data.lua" />
+  <Script file="EnglishRealm.lua" />
   <Script file="API.lua" />
   <Script file="MenuTable.lua" />
   <Script file="Main.lua" />
@@ -18,5 +19,6 @@
   <Script file="Invite.lua" />
   <Script file="DataBroker.lua" />
   <Script file="TeamNotice.lua" />
-  <Script file="WebSupport.lua" />
+  <Script file="BatchApply.lua" />
+  <Script file="MicroButton.lua" />
 </Ui>

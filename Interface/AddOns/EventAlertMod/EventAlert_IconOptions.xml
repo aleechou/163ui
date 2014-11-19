@@ -23,7 +23,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="30" y="-30" />
+							<AbsDimension x="50" y="-30" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -37,8 +37,6 @@
 						else
 							EA_Config.LockFrame = false;
 						end
-                        EA_163_UpdateAnchorFrames()
-                        EA_163_UpdateGrpAnchorFrames()
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");

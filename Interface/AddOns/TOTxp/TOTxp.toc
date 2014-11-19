@@ -1,11 +1,12 @@
 ## Interface: 60000
 ## LoadOnDemand: 0
 ## Title: |cFF00FF00[B]|rTOTxp-目标的目标
-## Notes: 目标的目标信息增强,OT提示等。warbaby最早期的作品之一，很古老了，但一直都还能用）
 ## SavedVariables: TOTxpAggroMode, TOTxpIgnoreWarriorOT, TOTxp_SHOW_TOTOT
 
 TOTxp.xml
 
+
 ## Title: |cff880303[网易有爱]|r TOT信息增强
+## Notes-zhCN: 目标的目标信息增强,OT提示等。warbaby最早期的作品之一，很古老了，但一直都还能用）
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

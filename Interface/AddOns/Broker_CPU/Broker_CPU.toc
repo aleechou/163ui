@@ -1,10 +1,6 @@
 ## Interface: 60000
 ## Title: Broker_CPU
-## Title-zhTW: |cff880303[网易有爱]|r 系統監控 Broker_CPU
-## Title-zhCN: |cff880303[网易有爱]|r 系统监控 Broker_CPU
 ## Notes: A lightweight Data Broker plugin to visualize AddOn CPU/Memory usage, Framerate, Latency.
-## Notes-zhTW: 一個支持LDB類信息條的系統監控小插件。
-## Notes-zhCN: 一个支持LDB类信息条的系统监控小插件。
 ## Author: Merah
 ## Version: 50001
 ## X-Website: https://brokercpu.googlecode.com
@@ -18,9 +14,12 @@
 
 
 Broker_CPU.lua
-
+## Title-zhCN: |cff880303[网易有爱]|r 系统监控 Broker_CPU
+## Title-zhTW: |cff880303[网易有爱]|r 系統監控 Broker_CPU
+## Notes-zhCN: 一个支持LDB类信息条的系统监控小插件。
+## Notes-zhTW: 一個支持LDB類信息條的系統監控小插件。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700
 
 
 

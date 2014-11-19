@@ -80,8 +80,7 @@ end
 
 --- Toggles the module when its checkbox is clicked.
 function panel:ModuleEnabledOnClick ()
-	local Enable = self:GetChecked() == 1;
-
+	local Enable = self:GetChecked() == true;
 	PlaySound( Enable and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff" );
 	private.Modules[ Enable and "Enable" or "Disable" ]( self:GetParent().Module.Name );
 end

@@ -3,10 +3,6 @@
 ## Author: mitch0
 ## Version: v4.2.5
 ## Notes: Configuration options for RangeDisplay
-## Title-zhCN: |CFFFF8000辅助|R 目标距离 设置模块
-## Notes-zhCN: 监视目标距离
-# Title-zhTW: |CFFFF8000輔助|R 目標距離 設置模組
-## Notes-zhTW: 監視目標距離
 ## X-Repple: 辅助
 ## OptionalDeps: AceGUI-3.0-SharedMediaWidgets
 ## Dependencies: RangeDisplay
@@ -29,6 +25,10 @@ libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
 localizations.lua
 Options.lua
 
-## Title: |cff880303[网易有爱]|r 距离显示设置
+## Title: |cff880303[网易有爱]|r 距离显示设置模块
+## Title-zhCN: |cff880303[网易有爱]|r 目标距离 设置模块
+## Title-zhTW: |cff880303[网易有爱]|r 目標距離 設置模組
+## Notes-zhCN: 距离显示设置模块
+## Notes-zhTW: 目標距離 設置模組
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141022163916
+## X-163UI-Version: 20141118121700

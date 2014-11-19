@@ -73,15 +73,15 @@ function SharePanel:OnInitialize()
     ShareContent:SetPoint('TOPRIGHT', ShareList, 'BOTTOMRIGHT', 0, -10)
     ShareContent:SetHeight(50)
     ShareContent:SetMaxBytes(255)
-    ShareContent:SetCallback('OnTextChanged', function(ShareContent, text)
-        if not self.isRecord then
+    ShareContent:SetCallback('OnTextChanged', function(ShareContent, userInput)
+        if not userInput or not self.isRecord then
             return
         end
         -- if text ~= '' and not text:find(format('<%s>', ADDON_TITLE)) then
         --     text = format('<%s>%s', ADDON_TITLE, text)
         --     ShareContent:SetText(text)
         -- end
-        self.db.sharecontent = text
+        self.db.sharecontent = ShareContent:GetText()
     end)
 
     local ShareButton = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
@@ -142,7 +142,7 @@ function SharePanel:SetArguments(titel, content, isRecord)
     if GetGuildInfo('player') then
         tinsert(list, { text = CHAT_MSG_GUILD, value = 'GUILD' })
     end
-    if select(2, BNGetInfo()) then
+    if GetPlayerBattleTag() then
         tinsert(list, { text = L['战网通告'], value = 'BN_INLINE_TOAST_BROADCAST' })
     end
 
@@ -153,7 +153,7 @@ function SharePanel:SetArguments(titel, content, isRecord)
 
     for i = 1, #channels, 2 do
         local id, name = channels[i], channels[i+1]
-        if not name:find('友团') then
+        if not (name:find('集合石') or name:find('友团')) then
             tinsert(list, { text = name, value = 'CHANNEL', id = id })
         end
     end

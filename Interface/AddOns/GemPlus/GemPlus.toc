@@ -13,5 +13,6 @@ Core.lua
 MenuTemplates.lua
 Supports.lua
 ## Title: |cff880303[网易有爱]|r 宝石助手
+## Notes-zhCN: 在拍卖行或者某些输入窗口快捷显示宝石属性以便于搜索.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020152400
+## X-163UI-Version: 20141118121700

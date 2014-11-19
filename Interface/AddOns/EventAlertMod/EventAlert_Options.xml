@@ -668,9 +668,9 @@
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
-			<EditBox name="$parent_StackEditBox" letters="1" multiLine="false" numeric="true" ignoreArrows="false" autoFocus="false">
+			<EditBox name="$parent_StackEditBox" letters="2" multiLine="false" numeric="true" ignoreArrows="false" autoFocus="false">
 				<Size>
-					<AbsDimension x="25" y="25" />
+					<AbsDimension x="30" y="25" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_Stack" relativePoint="TOPRIGHT">
@@ -758,9 +758,9 @@
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
-			<EditBox name="$parent_OverGrowEditBox" letters="1" multiLine="false" numeric="true" ignoreArrows="false" autoFocus="false">
+			<EditBox name="$parent_OverGrowEditBox" letters="2" multiLine="false" numeric="true" ignoreArrows="false" autoFocus="false">
 				<Size>
-					<AbsDimension x="25" y="25" />
+					<AbsDimension x="30" y="25" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_OverGrow" relativePoint="TOPRIGHT">

@@ -8,8 +8,6 @@
   <Script file="OperationGrid.lua" />
   <Script file="ModelItem.lua" />
   <Script file="Button.lua" />
-  <Script file="BigButton.lua" />
-  <Script file="WebInviteButton.lua" />
   <Script file="MallCategoryItem.lua" />
   <Script file="MallItem.lua" />
 </Ui>

@@ -23,13 +23,10 @@ local attr = {
     'ItemLevel',
     'PVPRating',
     'Role',
-    'Stats',
     'Progression',
     'ApplyTime',
-    'Fans',
-    'MsgId',
-    'IsLFG',
-    'Comment',
+    'Message',
+    'RaidInfo',
 }
 
 for i, v in ipairs(attr) do
@@ -43,25 +40,11 @@ for i, v in ipairs(attr) do
 end
 
 function Member:GetNameText()
-    local color = RAID_CLASS_COLORS[self:GetClass()]
-    if color then
-        return ('|c%s%s|r'):format(color.colorStr, self:GetName())
-    else
-        return self:GetName()
-    end
+    return GetColoredName(self:GetName(), self:GetClass())
 end
 
 function Member:GetClassText()
-    local color = RAID_CLASS_COLORS[self:GetClass()]
-    if color then
-        return ('|c%s%s|r'):format(color.colorStr, CLASS_NAMES[self:GetClass()])
-    else
-        return self:GetClass()
-    end
-end
-
-function Member:GetStatInfo(key)
-    return self:GetStats() and self:GetStats()[key]
+    return GetColoredClass(self:GetClass())
 end
 
 function Member:GetBattleTagText()
@@ -74,12 +57,6 @@ end
 
 function Member:GetMemberLogoIndex()
     return GetUnitLogoIndex(self:GetName(), self:GetBattleTag())
-end
-
-function Member:GetMessage()
-    local msgId = self:GetMsgId()
-
-    return msgId and QUICK_MSG_NAMES[msgId] or self:GetComment()
 end
 
 function Member:BaseSortHandler()

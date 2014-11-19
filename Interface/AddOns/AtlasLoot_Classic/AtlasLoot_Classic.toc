@@ -7,16 +7,10 @@
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
-
 ## Title: AtlasLoot |cFF0099FF[Classic]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Classic]|r
-## Title-zhCN: AtlasLoot |cFF0099FF[经典旧世]|r
-## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 艾澤拉斯世界
 ## Notes: AtlasLoot loot tables from Classic
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Classic
-## Notes-zhCN: AtlasLoot 《经典旧世》物品信息
-## Notes-zhTW: AtlasLoot 艾澤拉斯舊世界的物品掉落資料庫
-
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
@@ -26,6 +20,10 @@
 
 data.lua
 
-## Title: |cff880303[网易有爱]|r AtlasLoot_ClassicWoW
+## Title: |cff880303[网易有爱]|r 经典旧世副本物品查询模块
+## Title-zhCN: |cff880303[网易有爱]|r 经典旧世副本物品查询模块
+## Title-zhTW: |cff880303[網易有愛]|r :艾澤拉斯舊世界的物品掉落資料庫
+## Notes-zhCN: 《经典旧世》物品信息
+## Notes-zhTW:艾澤拉斯舊世界的物品掉落資料庫
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700

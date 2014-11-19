@@ -1,8 +1,6 @@
 ## Interface: 60000
 ## Title: Parrot
 ## Notes: Floating Combat Text of awesomeness. Caw. It'll eat your crackers.
-## Notes-zhCN: 绝妙的浮动战斗记录指示器。
-## Notes-zhTW: 絕妙的浮動戰鬥記錄指示器。
 ## Author: ckknight, profalbert
 ## X-eMail: ckknight AT gmail DOT com, cedwani AT quantentunnel DOT de
 ## X-Website: http://www.wowace.com/
@@ -42,6 +40,8 @@ Data\Cooldowns.lua
 Data\Loot.lua
 Data\CombatStatus.lua
 
-## Title: |cff880303[网易有爱]|r Parrot
+## Title: |cff880303[网易有爱]|r 战斗信息特效显示
+## Notes-zhCN: 绝妙的浮动战斗记录指示器。
+## Notes-zhTW: 絕妙的浮動戰鬥記錄指示器。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141112183356
+## X-163UI-Version: 20141118121700

@@ -305,8 +305,7 @@ function TradeskillInfoUI:DoFrameUpdate()
 		if ( skillIndex <= numTradeSkills ) then
 			local skillName, skillType, isExpanded = self:GetTradeSkillInfo(skillIndex)
 			-- If we got ???? or an ID instead of a skill name ...
-			if skillName == "????" or
-			   string.match(skillName, "-?%d+") == skillName then
+			if skillName == "????" or string.match(skillName, "%d+") == skillName then
 				-- ... update the local cache ...
 				self:UpdateCacheIndex(self.vars.searchResult[skillIndex], self.vars.coUpdate_Frame)
 				-- .. If we need to restart drawing, return early. We'll be called again ...
@@ -1413,15 +1412,15 @@ do
 
 	tipframe:SetOwner(UIParent, "ANCHOR_NONE")
 
-	tipframe:SetScript("OnTooltipSetItem", function()
-		local _, itemLink = tipframe:GetItem()
-		local itemId = tonumber(string.match(itemLink, "item:(%d+):"))
-		performIdAction(itemId)
-	end)
+--	tipframe:SetScript("OnTooltipSetItem", function()
+--		local _, itemLink = tipframe:GetItem()
+--		local itemId = tonumber(string.match(itemLink, "item:(%d+):"))
+--		performIdAction(itemId)
+--	end)
 
 	tipframe:SetScript("OnTooltipSetSpell", function()
 		local _, _, spellId = tipframe:GetSpell()
-		performIdAction(-spellId)
+		performIdAction(spellId)
 	end)
 
 	-- Update the cache of the specified item or spell, and refresh the details frame.
@@ -1452,13 +1451,14 @@ do
 		idAction[id] = coObj
 		local skillLink
 
-		if id > 0 then
+--		if id > 0 then
 			-- it could be a specialcase ID. Get the real item ID.
-			id = TradeskillInfo:GetSpecialCase(id)
-			skillLink = "item:" .. id .. ":0:0:0:0:0:0:0"
-		else
-			skillLink = "spell:" .. -id
-		end
+--			id = TradeskillInfo:GetSpecialCase(id)
+--			skillLink = "item:" .. id .. ":0:0:0:0:0:0:0"
+--		else
+--			skillLink = "spell:" .. -id
+			skillLink = "spell:" .. id
+--		end
 
 		local attempts = 0
 		local name
@@ -1467,14 +1467,21 @@ do
 			performIdAction(id)
 			tipframe:SetHyperlink(skillLink)
 			coroutine.yield()
-			if id > 0 then
-				name = GetItemInfo(id)
-			else
-				name = GetSpellInfo(-id)
-			end
+--			if id > 0 then
+--				name = GetItemInfo(id)
+--			else
+--				name = GetSpellInfo(-id)
+				name = GetSpellInfo(id)
+--			end
 			-- If we update successfully, stop. Otherwise, try again.
 			if name then break end
-			if not name and attempts >= 3 then TradeskillInfo:Print("Could not find "..skillLink..". Please report this error, as the item/recipe may have been removed.") break end
+
+			if not name then
+				if attempts >= 3 then
+					TradeskillInfo:Print("Could not find "..skillLink..". The item/recipe may have been removed.")
+				end
+				break
+			end
 		end
 		idAction[id] = nil
     end

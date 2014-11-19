@@ -7,23 +7,20 @@
 ## X-Curse-Project-Name: Broker_Currency
 ## X-Curse-Project-ID: broker-currency
 ## X-Curse-Repository-ID: wow/broker-currency/mainline
-
 ## Notes: LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-deDE: LDB-Anzeige von Währungen, Summe des Goldes und Gold-Statistik pro Sitzung / Tag / Woche für alle Charaktere auf einem Server.
 ## Notes-esES: LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-frFR: LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-koKR: 자동으로LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
 ## Notes-ruRU: Динамические LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.
-## Notes-zhCN: 显示在界面顶部的多功能信息条
-## Notes-zhTW: 一組LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.。
 
+## Notes-zhTW: 一組LDB display of currencies, gold totals and session / daily / weekly statistics for all characters on a server.。
 ## DefaultState: enabled
 ## UIType: 动作条
 ## UIType-zhTW: 動作條
 ## X-Category: Interface Enhancements
 ## X-Website: http://www.wowace.com/projects/broker-currency
 ## X-Credits: MoneyFu for getting me hooked on seeing my precious gold and soon the periodic calculations.
-
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibQTip-1.0, TipTac
 ## SavedVariablesPerCharacter: Broker_CurrencyCharDB
 ## SavedVariables: Broker_CurrencyDB
@@ -39,5 +36,6 @@ embeds.xml
 Broker_Currency.lua
 
 ## Title: |cff880303[网易有爱]|r Broker信息条核心
+## Notes-zhCN: 显示在界面顶部的多功能信息条
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

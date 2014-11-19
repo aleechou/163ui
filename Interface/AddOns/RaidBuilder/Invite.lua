@@ -49,7 +49,7 @@ function Invite:OnInitialize()
 end
 
 ---- Cache
-function Invite:OnEnable(event)
+function Invite:OnEnable()
     local realms = GetAutoCompleteRealms() or {(GetRealmName():gsub('%s+', ''))}
     for i, v in ipairs(realms) do
         self.realms[v] = true
@@ -74,15 +74,15 @@ function Invite:CacheBNetToons()
     wipe(self.bnToons)
     wipe(self.bnFriends)
 
-    local pids = {}
-
     for i = 1, BNGetNumFriends() do
         local id, pid, battleTag, _, _, _, _, isOnline = BNGetFriendInfo(i)
         if isOnline then
             for toonIndex = 1, BNGetNumFriendToons(i) do
                 local _, toonName, client, realmName, _, faction = BNGetFriendToonInfo(i, toonIndex)
                 if client == 'WoW' and faction == UnitFactionGroup('player') then
-                    local name = Ambiguate(GetFullName(toonName, (realmName:gsub('%s+', ''))), 'none')
+                    realmName = realmName:gsub('%s', '')
+                    realmName = REALM_EN_MAP[realmName:lower()] or realmName
+                    local name = Ambiguate(GetFullName(toonName, realmName), 'none')
                     
                     battleTag = battleTag or ''
 
@@ -145,7 +145,7 @@ end
 
 function Invite:BN_FRIEND_INVITE_ADDED()
     local now = time()
-    local hasAppied = AppliedCache:Count() > 0
+    local hasAppied = AppliedCache:IsAnyApplied()
 
     for i = 1, BNGetNumFriendInvites() do
         local id, pid, isBattleTag, _, stamp = BNGetFriendInviteInfo(i)
@@ -158,6 +158,10 @@ function Invite:BN_FRIEND_INVITE_ADDED()
         else
             self.igonredPids[pid] = true
         end
+    end
+
+    if self.lastInviteRequest ~= now and GetCVarBool('showToastWindow') and GetCVarBool('showToastFriendRequest') then
+        BNToastFrame_AddToast(5)
     end
 end
 
@@ -347,7 +351,7 @@ function Invite:IsCanInvite(name)
 end
 
 function Invite:IsInGroup(name)
-    return UnitInRaid(name) or UnitInParty(name) or UnitIsUnit('player', name)
+    return UnitInGroup(name) or UnitIsUnit('player', name)
 end
 
 function Invite:IsBNetFriend(battleTag)

@@ -36,5 +36,6 @@ Broker_DurabilityInfo.lua
 
 
 ## Title: |cff880303[网易有爱]|r 装备耐久信息
+## Notes-zhCN: 在信息条中显示人物装备耐久信息.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141020142520
+## X-163UI-Version: 20141118121700

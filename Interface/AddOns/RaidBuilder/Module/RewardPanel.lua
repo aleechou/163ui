@@ -47,7 +47,11 @@ function RewardPanel:OnInitialize()
         self:Purchase()
         end)
 
-    InputBox:SetCallback('OnTextChanged', function(InputBox, text)
+    InputBox:SetCallback('OnTextChanged', function(InputBox, userInput)
+        if not userInput then
+            return
+        end
+        local text = InputBox:GetText()
         local nText = select(2, text:find('%w+'))
         local isTextOK = not text:find('%W+')
         if isTextOK then
@@ -61,7 +65,7 @@ function RewardPanel:OnInitialize()
             ErrorLabel:SetText(#text > 0 and L['兑换码格式错误'] or nil)
         end
         ConfirmButton:SetEnabled(isTextOK and nText == 16)
-        end)
+    end)
 
     self.InputBox = InputBox
     self.ConfirmButton = ConfirmButton

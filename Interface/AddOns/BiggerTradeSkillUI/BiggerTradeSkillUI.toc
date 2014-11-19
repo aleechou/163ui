@@ -12,5 +12,6 @@
 BiggerTradeSkillUI.lua
 
 ## Title: |cff880303[网易有爱]|r 制造面板增强
+## Notes-zhCN: 更大的专业技能面板，更方便的查看和寻找配方。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700

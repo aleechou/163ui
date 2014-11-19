@@ -14,14 +14,14 @@
 ## Notes-esMX: Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.
 ## Notes-koKR: 쏠로, 파티, 공격대를 위한 고급화된 필터링과 시스템 우선권으로 고통들의 표시와 제거를 합니다.
 ## Notes-ruRU: Отображение и инструменты для развеивания дебаффов для одиночной игры, игры в группе и рейде, с развитой системой фильтрации и приоритетов.
-## Notes-zhCN: 当单独、小队和团队时清除有害状态，并可使用高级过滤和优先等级系统。
-## Notes-zhTW: 當單獨、小隊和團隊時清除有害狀態，並可使用高級過濾和優先等級系統。
 ## Notes-ptBR: Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.
 ## Notes-itIT: Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.
 
-## Title: |cff880303[网易有爱]|r 一键驱散Decursive
+## Title: |cff880303[网易有爱]|r 一键驱散
+## Notes-zhCN: 当单独、小队和团队时清除有害状态，并可使用高级过滤和优先等级系统。
+## Notes-zhTW: 當單獨、小隊和團隊時清除有害狀態，並可使用高級過濾和優先等級系統。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141021184833
+## X-163UI-Version: 20141118121700
 
 ## SavedVariables: DecursiveDB
 

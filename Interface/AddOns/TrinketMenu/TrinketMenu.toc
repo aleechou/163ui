@@ -2,7 +2,6 @@
 ## Title: TrinketMenu |cFF99CC01rev|r |cFFFF00006.0.1|r
 ## Version: 6.0.1
 ## Author: Gello, Resike
-## Notes: 便捷更换和监视饰品
 ## SavedVariables: TrinketMenuOptions
 ## SavedVariablesPerCharacter: TrinketMenuPerOptions, TrinketMenuQueue
 
@@ -15,5 +14,6 @@ TrinketMenuQueue.xml
 localization.lua
 
 ## Title: |cff880303[网易有爱]|r 饰品管理
+## Notes-zhCN: 便捷更换和监视饰品
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141019190425
+## X-163UI-Version: 20141118121700

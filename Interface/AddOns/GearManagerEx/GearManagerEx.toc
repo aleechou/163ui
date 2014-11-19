@@ -13,5 +13,6 @@ Menu.lua
 ToolBar.lua
 
 ## Title: |cff880303[网易有爱]|r 套装管理
+## Notes-zhCN:提供快捷切换套装按钮
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 20141118121700
