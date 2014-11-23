@@ -14,12 +14,12 @@ local CONFLICTS = addon:BuildSpellList(nil, 127230, 105689, 105691, 105693, 1056
 local crystalName, crystalLink
 
 local button = addon:CreateActionButton("CrystalOfInsanity", L["crystal of insanity"], nil, 3600, "PLAYER_AURA", "ITEM")
-button:SetItem(86569)
-button:RequireItem(86569)
+button:SetItem(118922)
+button:RequireItem(118922)
 button:SetFlyProtect("type", "item")
 button.icon.text:Hide()
 
-LibItemQuery:QueryItem(86569, button, 1)
+LibItemQuery:QueryItem(118922, button, 1)
 
 function button:OnItemInfoReceived(itemId, name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture)
 	self:SetAttribute("item", name)
