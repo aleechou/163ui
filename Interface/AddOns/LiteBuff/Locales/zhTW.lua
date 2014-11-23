@@ -57,5 +57,5 @@ addon.L = {
 	["shouts"] = "怒吼",
 	["general options"] = "一般選項",
 	["disable buttons"] = "禁用按鈕",
-	["crystal of insanity"] = "精神錯亂水晶",
+	["crystal of insanity"] = "水晶",
 }
