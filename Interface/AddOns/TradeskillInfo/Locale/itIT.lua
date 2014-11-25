@@ -79,6 +79,8 @@ if not L then return end
 -- L["Name"] = ""
 -- L["Neutral"] = ""
 -- L["Not Currently Obtainable"] = ""
+-- L["Only add extra data to recipes"] = ""
+-- L["Only show extra profession data in recipe tooltips instead of every crafted item ever"] = ""
 -- L["Opposing"] = ""
 -- L["Pick Pocket"] = ""
 -- L["Player can learn"] = ""

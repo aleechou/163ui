@@ -143,6 +143,13 @@ local tooltipOptions = {
 					arg = "TooltipAvailableTo",
 					order = 12,
 				},
+				recipesOnly = {
+					name = L["Only add extra data to recipes"],
+					desc = L["Only show extra profession data in recipe tooltips instead of every crafted item ever"],
+					type = "toggle",
+					arg = "RecipesOnly",
+					order = 13,
+				},
 			},
 		},
 		colors = {

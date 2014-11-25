@@ -14,13 +14,13 @@
         callback = function(cfg, v, loading) SlashCmdList["ACECONSOLE_MAPSTER"]("") end,
     },
 
-    {
-        text = "重置所有控制台设定",
-        callback = function(cfg, v, loading)
-            MapsterDB = nil; ReloadUI();
-            NPCMarkMappingDB = nil; ReloadUI();
-            NPCMarkDB = nil; ReloadUI();
-            MapMarkHide = nil; ReloadUI();
-        end,
-    },
+  --  {
+  --      text = "重置所有控制台设定",
+  --      callback = function(cfg, v, loading)
+  --          MapsterDB = nil; ReloadUI();
+  --          NPCMarkMappingDB = nil; ReloadUI();
+  --          NPCMarkDB = nil; ReloadUI();
+  --          MapMarkHide = nil; ReloadUI();
+   --     end,
+  --  },
 });

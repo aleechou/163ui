@@ -1,9 +1,53 @@
 ------------------------------------------------------------------------
-r693 | ethancentaurai | 2014-11-13 11:21:23 +0000 (Thu, 13 Nov 2014) | 1 line
+r702 | ethancentaurai | 2014-11-21 20:22:11 +0000 (Fri, 21 Nov 2014) | 1 line
 Changed paths:
-   A /tags/v2.3 (from /trunk:692)
+   A /tags/v2.3.2 (from /trunk:701)
 
-Tagging as v2.3.
+Tagging as v2.3.2.
+------------------------------------------------------------------------
+r701 | ethancentaurai | 2014-11-21 20:19:47 +0000 (Fri, 21 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Daily dataminer run.
+------------------------------------------------------------------------
+r700 | ethancentaurai | 2014-11-21 20:17:27 +0000 (Fri, 21 Nov 2014) | 2 lines
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+   M /trunk/TradeskillInfoOptions.lua
+
+Added an option to only add extra data to recipe tooltips, off by default.
+Requested by Maelynn on WoWinterface.
+------------------------------------------------------------------------
+r699 | ethancentaurai | 2014-11-21 18:28:15 +0000 (Fri, 21 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Extra data on recipe tooltips now obeys the Learnable By and Known By visibility settings.
+------------------------------------------------------------------------
+r698 | ethancentaurai | 2014-11-19 18:44:49 +0000 (Wed, 19 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Daily dataminer run.
+------------------------------------------------------------------------
+r696 | ethancentaurai | 2014-11-18 23:22:23 +0000 (Tue, 18 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Ran the dataminer.
+------------------------------------------------------------------------
+r695 | ethancentaurai | 2014-11-16 14:11:17 +0000 (Sun, 16 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Prevent the addon from adding extra tooltip information while in combat.
+------------------------------------------------------------------------
+r694 | ethancentaurai | 2014-11-15 22:03:56 +0000 (Sat, 15 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Fixed an error that occurs when a recipe search returns no results.
 ------------------------------------------------------------------------
 r692 | ethancentaurai | 2014-11-13 11:20:45 +0000 (Thu, 13 Nov 2014) | 1 line
 Changed paths:
@@ -135,51 +179,4 @@ Changed paths:
    M /trunk/Data/Professions/Blacksmithing.lua
 
 Blacksmithing: Removed Socket Bracers and Socket Gloves recipes.
-------------------------------------------------------------------------
-r672 | ethancentaurai | 2014-10-20 23:19:29 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoOptions.lua
-
-This typo fix didn't get sent to the repository somehow.
-------------------------------------------------------------------------
-r671 | ethancentaurai | 2014-10-20 22:55:42 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/Data/Professions/Blacksmithing.lua
-   M /trunk/Data/Professions/Enchanting.lua
-   M /trunk/Data/Professions/Inscription.lua
-   M /trunk/Data/Professions/Jewelcrafting.lua
-   M /trunk/Data/Professions/Leatherworking.lua
-
-Applied reesonline's profession data patch. Thank you! Closes ticket 92.
-------------------------------------------------------------------------
-r670 | ethancentaurai | 2014-10-20 22:48:14 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfo.lua
-   M /trunk/TradeskillInfoOptions.lua
-
-Fixed a typo. Closes ticket 91.
-------------------------------------------------------------------------
-r669 | ethancentaurai | 2014-10-20 22:44:52 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfo.lua
-
-Fixed a capitalisation fail. ("Stack size" -> "Stack Size")
-------------------------------------------------------------------------
-r668 | ethancentaurai | 2014-10-20 22:41:09 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.toc
-
-TradeSkillInfoUI is no longer marked as out-of-date.
-------------------------------------------------------------------------
-r666 | ethancentaurai | 2014-10-17 15:51:29 +0000 (Fri, 17 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfo.toc
-
-Bump Interface number to 60000.
-------------------------------------------------------------------------
-r665 | ethancentaurai | 2014-09-28 10:32:23 +0000 (Sun, 28 Sep 2014) | 1 line
-Changed paths:
-   M /trunk/Data/TradeskillData.lua
-
-Updated Nessa Shadowsong's co-ordinates.
 ------------------------------------------------------------------------
