@@ -16,4 +16,4 @@
 ## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 Skin.lua
 TimerSkin.xml
-## X-163UI-Version: 2014112801
+## X-163UI-Version: 20141128202850

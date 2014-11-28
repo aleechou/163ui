@@ -71,4 +71,4 @@ Bindings.xml
 ## Notes-zhCN: 考古学助手
 ## Notes-zhTW: 考古學助手
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014102801
+## X-163UI-Version: 20141128202850
