@@ -25,6 +25,7 @@ overlay.texture = texture
 
 overlay:EnableMouse(true)
 overlay:SetScript("OnMouseDown", function(self, button)
+	if BetterPowerBarAltDB.locked then return end
 	if button == "LeftButton" and not locked then
 		local frame = self:GetParent()
 		frame:ClearAllPoints()
@@ -34,15 +35,11 @@ overlay:SetScript("OnMouseDown", function(self, button)
 end)
 
 overlay:SetScript("OnMouseUp", function(self, button)
+	if BetterPowerBarAltDB.locked then return end
 	if button == "RightButton" then
 		locked = not locked
-		if locked then
-			self.texture:Hide()
-			self:EnableMouseWheel(false)
-		else
-			self.texture:Show()
-			self:EnableMouseWheel(true)
-		end
+		self.texture:SetShown(not locked)
+		self:EnableMouseWheel(not locked)
 
 	elseif button == "MiddleButton" then
 		if not locked then
@@ -111,12 +108,55 @@ overlay:SetScript("OnLeave", function(self) UnitPowerBarAlt_OnLeave(self:GetPare
 -- in case the frame is under the ui or offscreen
 SLASH_BETTERPOWERBARALT1 = "/bpba"
 SlashCmdList["BETTERPOWERBARALT"] = function(input)
-	if input:trim() == "reset" then
+	if input == "reset" then
+		BetterPowerBarAltDB.locked = nil
 		PlayerPowerBarAlt:ClearAllPoints()
 		PlayerPowerBarAlt:SetPoint("CENTER")
 		print("|cff33ff99BetterPowerBarAlt|r:", "Frame position reset")
+	elseif input == "toggle" then
+		if UnitAlternatePowerInfo("player") then return end -- don't mess with it if it's real!
+
+		local self = PlayerPowerBarAlt
+		UnitPowerBarAlt_TearDown(self)
+		if not self:IsShown() then
+			-- good ol' maw of madness bar
+			UnitPowerBarAlt_SetUp(self, 26)
+			local textureInfo = {
+				frame = { "Interface\\UNITPOWERBARALT\\UndeadMeat_Horizontal_Frame", 1, 1, 1 },
+				background = { "Interface\\UNITPOWERBARALT\\Generic1Player_Horizontal_Bgnd", 1, 1, 1 },
+				fill = { "Interface\\UNITPOWERBARALT\\Generic1_Horizontal_Fill", 0.16862745583057, 0.87450987100601, 0.24313727021217 },
+				spark = { nil, 1, 1, 1 },
+				flash = { "Interface\\UNITPOWERBARALT\\Meat_Horizontal_Flash", 1, 1, 1 },
+			}
+			for name, info in next, textureInfo do
+				local texture = self[name]
+				local path, r, g, b = unpack(info)
+				texture:SetTexture(path)
+				texture:SetVertexColor(r, g, b)
+			end
+
+			self.minPower = 0
+			self.maxPower = 300
+			self.range = self.maxPower - self.minPower
+			self.value = 150
+			self.displayedValue = self.value
+			TextStatusBar_UpdateTextStringWithValues(self.statusFrame, self.statusFrame.text, self.displayedValue, self.minPower, self.maxPower)
+
+			self:UpdateFill()
+			self:Show()
+		else
+			self:Hide()
+		end
+	elseif input == "lock" then
+		BetterPowerBarAltDB.locked = not BetterPowerBarAltDB.locked or nil
+		if not locked then
+			locked = true
+			overlay.texture:Hide()
+			overlay:EnableMouseWheel(false)
+		end
+		print("|cff33ff99BetterPowerBarAlt|r:", "Frame", BetterPowerBarAltDB.locked and "locked" or "unlocked")
 	else
-		print("Usage: /bpba reset")
-		print("Reset the frame position")
+		print("Usage: /bpba [reset||toggle||lock]")
+		print("Reset the frame position, toggle showing frame, or lock the frame")
 	end
 end
