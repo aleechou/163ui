@@ -1,8 +1,10 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Heart of Fear|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Heart of Fear
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 恐惧之心
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 恐懼之心
+## Notes-zhCN: |cff00ff00DBM-HeartofFear|r
+## Notes-zhTW: |cff00ff00DBM-HeartofFear|r
 ## Author: MysticalOS
-## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMHeartofFear_SavedVars, DBMHeartofFear_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -17,6 +19,7 @@
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
+
 Zorlok.lua
 Tayak.lua
 Garalon.lua
@@ -24,4 +27,4 @@ Meljarak.lua
 Unsok.lua
 Shekzeer.lua
 HoFTrash.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

@@ -193,7 +193,7 @@ local function BeamEnded()
 		sndWOP:Schedule(66, "countone")
 		timerDisintegrationBeamCD:Start(186)
 		mod:Schedule(176, function()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
 			sndWOP:Schedule(6, "countfour")	
@@ -209,7 +209,7 @@ local function BeamEnded()
 		sndWOP:Schedule(39, "countone")
 		timerDisintegrationBeamCD:Start()
 		mod:Schedule(126, function()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
 			sndWOP:Schedule(6, "countfour")	
@@ -270,7 +270,7 @@ function mod:OnCombatStart(delay)
 		timerLifeDrainCD:Start(151)
 		timerDisintegrationBeamCD:Start(161-delay)
 		self:Schedule(151, function()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
 			sndWOP:Schedule(6, "countfour")	
@@ -282,7 +282,7 @@ function mod:OnCombatStart(delay)
 		timerLifeDrainCD:Start(210)
 		timerDisintegrationBeamCD:Start(135-delay)
 		self:Schedule(125, function()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
 			sndWOP:Schedule(6, "countfour")	
@@ -361,7 +361,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnForceOfWill:Show()
 			yellForceOfWill:Yell()
 			if not self:IsDifficulty("lfr25") then
-				DBM.Flash:Shake(1, 0, 0)
+				-- DBM.Flash:Shake(1, 0, 0)
 				sndWOP:Play("runaway")
 			end
 		else
@@ -390,7 +390,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			else
 				specWarnBlueBeam:Show()
 			end
-			DBM.Flash:Shake(0, 0, 1)
+			-- DBM.Flash:Shake(0, 0, 1)
 			sndWOP:Play("ex_tt_lgzb") --藍光
 		end
 		if self.Options.SetIconRays then
@@ -401,7 +401,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		lastRed = args.destName
 		if args:IsPlayer() then
 			specWarnRedBeam:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_hgzb") --紅光
 		end
 		if self.Options.SetIconRays then
@@ -425,7 +425,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if args:IsPlayer() then
 			specWarnYellowBeam:Show()
-			DBM.Flash:Shake(1, 1, 0)			
+			-- DBM.Flash:Shake(1, 1, 0)			
 			sndWOP:Play("ex_tt_hgsd") --黃光
 		end
 		mod:Schedule(1.5, function()
@@ -488,7 +488,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				self:Schedule(soundholdtime, function()
 					if UnitDebuff("player", GetSpellInfo(133597)) then
 						specWarnHold:Show(soundholdtime)
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWOP:Play("holdit") --快開自保
 					end
 				end)
@@ -528,7 +528,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		lingeringGazeTargets[#lingeringGazeTargets + 1] = args.destName
 		if args:IsPlayer() then
 			specWarnLingeringGaze:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_xxns")--小心凝視
 			sndWOP:Schedule(1, "leavecenter")
 			sndWOP:Schedule(2, "leavecenter")
@@ -646,20 +646,20 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 			--BH ADD
 			if npc == azureFog then
 				if lastBlue == UnitName("player") then
-					DBM.Flash:Shake(0, 0, 1)
+					-- DBM.Flash:Shake(0, 0, 1)
 					sndWOP:Play("stopmove") --停止移動
 				else
 					sndWOP:Play("ex_tt_lgcx") --蓝怪出現
 				end
 			elseif npc == crimsonFog then
 				if lastRed == UnitName("player") then
-					DBM.Flash:Shake(1, 0, 0)
+					-- DBM.Flash:Shake(1, 0, 0)
 					sndWOP:Play("stopmove") --停止移動
 				else
 					sndWOP:Play("ex_hong") --紅色快打
 				end
 			elseif npc == amberFog then
-				DBM.Flash:Shake(1, 1, 0)
+				-- DBM.Flash:Shake(1, 1, 0)
 				sndWOP:Play("ex_huang") --黃色快打
 			end
 			--BH ADD END
@@ -677,7 +677,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 		end
 		lifeDrained = true
 		if target == UnitName("player") then
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			yellLifeDrainFix:Yell()
 			sndWOP:Play("ex_tt_xxdn") --吸血點你
 		else
@@ -747,7 +747,7 @@ function mod:UNIT_AURA(uId)
 				else
 					specWarnBlueBeam:Show()
 				end
-				DBM.Flash:Shake(0, 0, 1)
+				-- DBM.Flash:Shake(0, 0, 1)
 				sndWOP:Play("ex_tt_lgzb") --藍光
 			end
 --[[		if self.Options.SetIconRays then
@@ -760,7 +760,7 @@ function mod:UNIT_AURA(uId)
 			lastRed = name
 			if name == UnitName("player") then
 				specWarnRedBeam:Show()
-				DBM.Flash:Shake(1, 0, 0)
+				-- DBM.Flash:Shake(1, 0, 0)
 				sndWOP:Play("ex_tt_hgzb") --紅光
 			end
 --[[		if self.Options.SetIconRays then

@@ -288,14 +288,14 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, _, _, _, target)
 			if MyAddDown(flockCount+1) then
 				if self:IsDifficulty("normal10", "heroic10", "lfr25") then
 					self:Schedule(34, function()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(34, L.Lower, flockName, flockCount+1)
 					sndWOP:Schedule(34, "ex_tt_xfxg")
 					sndWOP:Schedule(40, "ex_tt_ddfh")
 				else
 					self:Schedule(24, function()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(24, L.Lower, flockName, flockCount+1)
 					sndWOP:Schedule(24, "ex_tt_xfxg")
@@ -305,14 +305,14 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, _, _, _, target)
 			if MyAddUp(flockCount+1) then
 				if self:IsDifficulty("normal10", "heroic10", "lfr25") then
 					self:Schedule(34, function()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(34, L.Upper, flockName, flockCount+1)
 					sndWOP:Schedule(34, "ex_tt_sfxg")
 					sndWOP:Schedule(40, "ex_tt_ddfh")
 				else
 					self:Schedule(24, function()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 					end)
 					specWarnFlock:Schedule(24, L.Upper, flockName, flockCount+1)
 					sndWOP:Schedule(24, "ex_tt_sfxg")

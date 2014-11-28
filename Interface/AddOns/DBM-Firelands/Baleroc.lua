@@ -107,7 +107,7 @@ function mod:OnCombatStart(delay)
 			DBM.InfoFrame:Show(5, "playerbuffstacks", 99262, 99263, 1)
 		else
 			DBM.InfoFrame:SetHeader(tormented)
-			DBM.InfoFrame:Show(5, "playerdebuffstacks", 100231)		
+			-- DBM.InfoFrame:Show(5, "playerdebuffstacks", 100231)
 		end
 	end
 end
@@ -216,12 +216,12 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 			else
 				if args.amount == 11 or args.amount == 13 or args.amount == 18 then
 					specWarnTorment:Show(args.amount)
-					if args.amount == 12 then					
+					if args.amount == 12 then
 						sndWOP:Play("awayshard")
 					end
 				end
 			end
-		end		
+		end
 	end
 end
 

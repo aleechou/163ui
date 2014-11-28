@@ -1,6 +1,9 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Terrace of Endless Spring|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Terrace of Endless Spring
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 永春台
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 豐泉台
+## Notes-zhCN: |cff00ff00DBM-TerraceofEndlessSpring|r
+## Notes-zhTW: |cff00ff00DBM-TerraceofEndlessSpring|r
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMTerraceofEndlessSpring_SavedVars, DBMTerraceofEndlessSpring_SavedStats, ShaAssistDB
@@ -19,9 +22,10 @@
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
+
 ProtectorsofEndless.lua
 Tsulong.lua
 LeiShi.lua
 ShaofFear.lua
 ShaOfFearAssist.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

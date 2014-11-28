@@ -109,15 +109,7 @@ function mod:RAID_BOSS_EMOTE(msg)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.FirstPull or msg:find(L.FirstPull) then--Additional pull yell on first pull 11 seconds before actual combat, all timers +11, auto correct timers.
-		enrageTimer:Start(371)
-		timerNextBigBang:Start(101)
-		announcePreBigBang:Schedule(91)
-		timerCDCosmicSmash:Start(36)
-		timerNextCollapsingStar:Start(26)
-		timerCombatStart:Start(11)
-		warnFirstPull:Show()
-	elseif msg == L.Phase2 or msg:find(L.Phase2) then
+	if msg == L.Phase2 or msg:find(L.Phase2) then
 		timerNextCollapsingStar:Cancel()
 		warnPhase2:Show()
 	end

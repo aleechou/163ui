@@ -45,21 +45,14 @@
 --    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
---
-
---情人节 = 214
---七夕 =  77 
---猜疑 = 妒忌 = 隐瞒 = true,
---承诺 = true;
---光棍节 = ((情人节 - 七夕)<<猜疑<<妒忌<<隐瞒) + ((承诺<<承诺<<承诺<<承诺<<承诺) - 承诺)
 
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 11855 $"):sub(12, -3)),
-	DisplayVersion = "6.0.5 VE", -- the string that is shown as version
-	ReleaseRevision = 11829 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 11888 $"):sub(12, -3)),
+	DisplayVersion = "6.0.6 VE", -- the string that is shown as version
+	ReleaseRevision = 11873 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -198,6 +191,7 @@ DBM.DefaultOptions = {
 	SettingsMessageShown = false,
 	ForumsMessageShown = false,
 	PGMessageShown = false,
+	MCMessageShown = false,
 	AlwaysShowSpeedKillTimer = true,
 	CRT_Enabled = false,
 --	HelpMessageShown = false,
@@ -1976,6 +1970,7 @@ do
 					raidUIds[v.id] = nil
 					raidGuids[v.guid] = nil
 					raid[i] = nil
+					removeEntry(newerVersionPerson, i)
 					fireEvent("raidLeave", i)
 				else
 					v.updated = nil
@@ -2038,6 +2033,7 @@ do
 					raidUIds[v.id] = nil
 					raidGuids[v.guid] = nil
 					raid[i] = nil
+					removeEntry(newerVersionPerson, i)
 					fireEvent("partyLeave", i)
 				else
 					v.updated = nil
@@ -2059,6 +2055,7 @@ do
 			enableIcons = true
 			fireEvent("raidLeave", playerName)
 			twipe(raid)
+			twipe(newerVersionPerson)
 			-- restore playerinfo into raid table on raidleave. (for solo raid)
 			raid[playerName] = {}
 			raid[playerName].name = playerName
@@ -2633,6 +2630,9 @@ do
 		if not DBM.Options.PGMessageShown and LastInstanceMapID == 1148 and not GetAddOnInfo("DBM-ProvingGrounds") then
 			DBM.Options.PGMessageShown = true
 			DBM:AddMsg(DBM_CORE_PROVINGGROUNDS_AD)
+		elseif not DBM.Options.MCMessageShown and LastInstanceMapID == 409 and not GetAddOnInfo("DBM-MC") then
+			DBM.Options.MCMessageShown = true
+			DBM:AddMsg(DBM_CORE_MOLTENCORE_AD)
 		end
 	end
 	--Faster and more accurate loading for instances, but useless outside of them
@@ -2643,11 +2643,16 @@ do
 	end
 
 	function DBM:LoadModsOnDemand(checkTable, checkValue)
+		DBM:Debug("LoadModsOnDemand fired")
 		for i, v in ipairs(DBM.AddOns) do
 			local modTable = v[checkTable]
 			local enabled = GetAddOnEnableState(playerName, v.modId)
-			if enabled ~= 0 and not IsAddOnLoaded(v.modId) and modTable and checkEntry(modTable, checkValue) then
-				self:LoadMod(v)
+			if not IsAddOnLoaded(v.modId) and modTable and checkEntry(modTable, checkValue) then			
+				if enabled ~= 0 then
+					self:LoadMod(v)
+				else
+					DBM:Debug("Not loading "..v.name.." because it is not enabled")
+				end
 			end
 		end
 		DBM:ScenarioCheck()--Do not filter. Because ScenarioCheck function includes filter.
@@ -2691,8 +2696,9 @@ function DBM:LoadMod(mod, force)
 		end
 		return
 	end
+	DBM:Debug("LoadAddOn should have fired for "..mod.name)
 	local loaded, reason = LoadAddOn(mod.modId)
-	DBM:Debug("LoadMod should have fired LoadAddOn for "..mod.name)
+	DBM:Debug("LoadAddOn should have succeeded for "..mod.name, 2)
 	if not loaded then
 		if reason then
 			self:AddMsg(DBM_CORE_LOAD_MOD_ERROR:format(tostring(mod.name), tostring(_G["ADDON_"..reason or ""])))
@@ -4144,7 +4150,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 					speedTimer:Start()
 				end
 			end
-			if DBM.Options.CRT_Enabled and difficultyIndex >= 14 then--14-17 difficulties, all of the difficulty sizes of WoD.
+			if DBM.Options.CRT_Enabled and difficultyIndex >= 14 and difficultyIndex < 18 then--14-17 difficulties, all of the difficulty sizes of WoD.
 				local time = 90/LastGroupSize
 				time = time * 60
 				loopCRTimer(time, mod)
@@ -4866,6 +4872,7 @@ do
 
 	local function getNumRealAlivePlayers()
 		local alive = 0
+		SetMapToCurrentZone()
 		local currentMapId = GetCurrentMapAreaID()
 		local currentMapName = GetMapNameByID(currentMapId)
 		if IsInRaid() then
@@ -5431,6 +5438,14 @@ end
 function bossModPrototype:IsMythic()
 	local diff = DBM:GetCurrentInstanceDifficulty()
 	if diff == "mythic" then
+		return true
+	end
+	return false
+end
+
+function bossModPrototype:IsEvent()
+	local diff = DBM:GetCurrentInstanceDifficulty()
+	if diff == "event5" or diff == "event20" or diff == "event40" then
 		return true
 	end
 	return false
@@ -7882,7 +7897,7 @@ function bossModPrototype:SetIcon(target, icon, timer)
 	self:UnscheduleMethod("SetIcon", target)
 	icon = icon and icon >= 0 and icon <= 8 and icon or 8
 	local uId = DBM:GetRaidUnitId(target)
-	if uId and UnitIsUnit(uId, "player") and not IsInGroup() then return end--Solo raid, no reason to put icon on yourself.
+	if uId and UnitIsUnit(uId, "player") and DBM:GetNumRealGroupMembers() < 2 then return end--Solo raid, no reason to put icon on yourself.
 	if uId or UnitExists(target) then--target accepts uid, unitname both.
 		uId = uId or target
 		--save previous icon into a table.

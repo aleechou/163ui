@@ -6,6 +6,6 @@
 ## DefaultState: enabled
 ## RequiredDeps: DBM-Core
 ## Author: Yike Xia, Mini_Dragon
-## Notes: 还是要去向女神表白的, 万一女神瞎了呢?
-## Version: 14.11.10
-## X-163UI-Version: 20141112202657
+## Notes: 语音DBM文件.
+## Version: 14.11.22
+## X-163UI-Version: 2014112801

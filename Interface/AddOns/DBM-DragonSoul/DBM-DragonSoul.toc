@@ -1,8 +1,9 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dragon Soul|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0巨龍之魂|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0巨龙之魂|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Dragon Soul
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 巨龙之魂
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 巨龍之魂
+## Notes-zhCN: |cff00ff00DBM-DragonSoul|r
+## Notes-zhTW: |cff00ff00DBM-DragonSoul|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -13,9 +14,11 @@
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-MapID: 967
 ## X-DBM-Mod-Sort: 100
+
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
+
 Morchok.lua
 Zonozz.lua
 Yorsahj.lua
@@ -25,4 +28,4 @@ Blackhorn.lua
 SpineDeathwing.lua
 MadnessDeathwing.lua
 DSTrash.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

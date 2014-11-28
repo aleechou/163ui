@@ -213,7 +213,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		DBM.Arrow:Hide()
 		specWarnCore:Show()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 --		timerDespawnFloor:Start()--Should be pretty accurate, may need minor tweak
 	elseif args:IsSpellID(119360) then
 		if not mod:IsHealer() then

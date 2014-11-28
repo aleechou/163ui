@@ -25,14 +25,14 @@ local specWarnTimeToFeedOther	= mod:NewSpecialWarningTarget(162415, mod:IsHealer
 local timerTimeToFeedCD			= mod:NewCDTimer(22, 162415)--22 to 30 second variation. In CM targets random players, not just tank, so timer for all.
 
 function mod:OnCombatStart(delay)
-	timerTimeToFeedCD:Start(18-delay)
+	--timerTimeToFeedCD:Start(18-delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 162415 then
 		warnTimeToFeed:Show(args.destName)
 		specWarnTimeToFeedOther:Show(args.destName)
-		timerTimeToFeedCD:Start()
+		--timerTimeToFeedCD:Start()
 		if args:IsPlayer() then
 			specWarnTimeToFeed:Show()
 		end

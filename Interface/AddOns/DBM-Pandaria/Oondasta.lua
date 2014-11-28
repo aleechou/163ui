@@ -65,7 +65,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnPiercingRoar:Show()
 		timerPiercingRoarCD:Start()
 		if mod:IsManaUser() and mod:IsRanged() then
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("stopcast") --停止施法
 		else
 			sndWOP:Play("aesoon")

@@ -40,7 +40,9 @@ function mod:ShieldTarget(targetname, uId)
 	elseif self.Options.ShieldArrow then
 		DBM.Arrow:ShowRunTo(targetname, 0, 8)
 	end
-	sndWOP:Schedule(3, "findshield")
+	if not mod:IsTank() then
+		sndWOP:Schedule(3, "findshield")
+	end
 end
 
 function mod:OnCombatStart(delay)

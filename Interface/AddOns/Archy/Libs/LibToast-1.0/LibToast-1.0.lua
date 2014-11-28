@@ -18,7 +18,7 @@ local MAJOR = "LibToast-1.0"
 
 _G.assert(LibStub, MAJOR .. " requires LibStub")
 
-local MINOR = 7 -- Should be manually increased
+local MINOR = 10 -- Should be manually increased
 local lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then
@@ -37,9 +37,9 @@ lib.button_heap = lib.button_heap or {}
 
 lib.sink_icons = lib.sink_icons or {}
 lib.sink_template = lib.sink_template or {} -- Cheating here, since users can only use strings.
+lib.sink_titles = lib.sink_titles or {}
 lib.registered_sink = lib.registered_sink
 lib.addon_names = lib.addon_names or {}
-lib.addon_objects = lib.addon_objects or {}
 
 -----------------------------------------------------------------------
 -- Variables.
@@ -61,13 +61,16 @@ local METHOD_USAGE_FORMAT = MAJOR .. ":%s() - %s."
 
 local DEFAULT_FADE_HOLD_TIME = 5
 local DEFAULT_FADE_IN_TIME = 0.5
-local DEFAULT_FADE_OUT_TIME = 1
+local DEFAULT_FADE_OUT_TIME = 1.2
 local DEFAULT_TOAST_WIDTH = 250
 local DEFAULT_TOAST_HEIGHT = 50
+local DEFAULT_GLOW_WIDTH = 252
+local DEFAULT_GLOW_HEIGHT = 56
 local DEFAULT_ICON_SIZE = 30
+local DEFAULT_OS_SPAWN_POINT = _G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT"
 
 local DEFAULT_TOAST_BACKDROP = {
-    bgFile = [[Interface\CHATFRAME\CHATFRAMEBACKGROUND]],
+    bgFile = [[Interface\FriendsFrame\UI-Toast-Background]],
     edgeFile = [[Interface\FriendsFrame\UI-Toast-Border]],
     tile = true,
     tileSize = 12,
@@ -104,6 +107,18 @@ local TOAST_BUTTONS = {
     tertiary_button = true,
 }
 local TOAST_BUTTON_HEIGHT = 18
+
+local POINT_TRANSLATION = {
+    CENTER = DEFAULT_OS_SPAWN_POINT,
+    BOTTOM = "BOTTOMRIGHT",
+    BOTTOMLEFT = "BOTTOMLEFT",
+    BOTTOMRIGHT = "BOTTOMRIGHT",
+    LEFT = "TOPLEFT",
+    RIGHT = "TOPRIGHT",
+    TOP = "TOPRIGHT",
+    TOPLEFT = "TOPLEFT",
+    TOPRIGHT = "TOPRIGHT",
+}
 
 local SIBLING_ANCHORS = {
     TOPRIGHT = "BOTTOMRIGHT",
@@ -167,7 +182,15 @@ end
 -- Settings functions.
 -----------------------------------------------------------------------
 local function ToastSpawnPoint()
-    return _G.Toaster and _G.Toaster:SpawnPoint() or "BOTTOMRIGHT"
+    return _G.Toaster and _G.Toaster:SpawnPoint() or DEFAULT_OS_SPAWN_POINT
+end
+
+local function ToastOffsetX()
+    return (_G.Toaster and _G.Toaster.SpawnOffsetX) and _G.Toaster:SpawnOffsetX() or nil
+end
+
+local function ToastOffsetY()
+    return (_G.Toaster and _G.Toaster.SpawnOffsetY) and _G.Toaster:SpawnOffsetY() or nil
 end
 
 local function ToastTitleColors(urgency)
@@ -217,6 +240,21 @@ end
 -----------------------------------------------------------------------
 -- Helper functions.
 -----------------------------------------------------------------------
+local function AnimationHideParent(animation)
+    animation:GetParent():Hide()
+end
+
+local function GetEffectiveSpawnPoint(frame)
+    local x, y = frame:GetCenter()
+    if not x or not y then
+        return DEFAULT_OS_SPAWN_POINT
+    end
+
+    local hhalf = (x > _G.UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < _G.UIParent:GetWidth() / 3) and "LEFT" or ""
+    local vhalf = (y > _G.UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
+    return vhalf .. hhalf
+end
+
 local function CallingObject()
     return calling_object
 end
@@ -239,7 +277,7 @@ end
 if not lib.templates[lib.sink_template] then
     lib.templates[lib.sink_template] = function(toast, ...)
         local calling_object = CallingObject()
-        toast:SetTitle(StringValue(lib.addon_names[calling_object]))
+        toast:SetTitle(StringValue(lib.sink_titles[calling_object]))
         toast:SetText(...)
         toast:SetIconTexture(StringValue(lib.sink_icons[calling_object]))
     end
@@ -249,7 +287,7 @@ local function _positionToastIcon(toast)
     toast.icon:ClearAllPoints()
 
     if ToastHasFloatingIcon() then
-        local lower_point = ToastSpawnPoint():lower()
+        local lower_point = POINT_TRANSLATION[GetEffectiveSpawnPoint(toast)]:lower()
 
         if lower_point:find("right") then
             toast.icon:SetPoint("TOPRIGHT", toast, "TOPLEFT", -5, -10)
@@ -284,7 +322,6 @@ local function _reclaimToast(toast)
     toast.sound_file = nil
     toast:Hide()
 
-    _G.UIFrameFadeRemoveFrame(toast)
     table.insert(toast_heap, toast)
 
     local remove_index
@@ -299,6 +336,8 @@ local function _reclaimToast(toast)
         table.remove(active_toasts, remove_index):ClearAllPoints()
     end
     local spawn_point = ToastSpawnPoint()
+    local offset_x = ToastOffsetX() or OFFSET_X[spawn_point]
+    local offset_y = ToastOffsetY() or OFFSET_Y[spawn_point]
 
     for index = 1, #active_toasts do
         local indexed_toast = active_toasts[index]
@@ -306,31 +345,37 @@ local function _reclaimToast(toast)
         _positionToastIcon(indexed_toast)
 
         if index == 1 then
-            indexed_toast:SetPoint(spawn_point, _G.UIParent, spawn_point, OFFSET_X[spawn_point], OFFSET_Y[spawn_point])
+            indexed_toast:SetPoint(spawn_point, _G.UIParent, spawn_point, offset_x, offset_y)
         else
+            spawn_point = POINT_TRANSLATION[GetEffectiveSpawnPoint(active_toasts[1])]
             indexed_toast:SetPoint(spawn_point, active_toasts[index - 1], SIBLING_ANCHORS[spawn_point], 0, SIBLING_OFFSET_Y[spawn_point])
         end
     end
 end
 
-local function _finishToastDisplay(toast)
-    local fade_info = toast.fade_out_info
-    fade_info.fadeTimer = 0
-    fade_info.finishedFunc = _reclaimToast
-    fade_info.finishedArg1 = toast
-
-    -- XXX 163
-    -- _G.UIFrameFade(toast, fade_info)
-    UICoreFrameFade(toast, fade_info)
+local function AnimationDismissToast(animation)
+    _reclaimToast(animation.toast)
 end
 
-local function _showDismissButton(frame, motion)
-    frame.dismiss_button:Show()
+local function Focus_OnEnter(frame, motion)
+    local toast = frame.toast
+    toast.dismiss_button:Show()
+
+    if not toast.is_persistent then
+        toast.waitAndAnimateOut:Stop()
+        toast.waitAndAnimateOut.animateOut:SetStartDelay(1)
+    end
 end
 
-local function _hideDismissButton(frame, motion)
-    if not frame.dismiss_button:IsMouseOver() then
-        frame.dismiss_button:Hide()
+local function Focus_OnLeave(frame, motion)
+    local toast = frame.toast
+
+    if not toast.dismiss_button:IsMouseOver() then
+        toast.dismiss_button:Hide()
+    end
+
+    if not toast.is_persistent then
+        toast.waitAndAnimateOut:Play()
     end
 end
 
@@ -347,7 +392,6 @@ local function _acquireToast()
         toast:Hide()
 
         local toast_icon = toast:CreateTexture(nil, "BORDER")
-
         toast_icon:SetSize(DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE)
         toast.icon = toast_icon
 
@@ -361,13 +405,13 @@ local function _acquireToast()
 
         local focus = _G.CreateFrame("Frame", nil, toast)
         focus:SetAllPoints(toast)
-        focus:SetScript("OnEnter", _showDismissButton)
-        focus:SetScript("OnLeave", _hideDismissButton)
-        focus:SetScript("OnShow", _hideDismissButton)
+        focus:SetScript("OnEnter", Focus_OnEnter)
+        focus:SetScript("OnLeave", Focus_OnLeave)
+        focus:SetScript("OnShow", Focus_OnLeave)
+        focus.toast = toast
 
         local dismiss_button = _G.CreateFrame("Button", nil, toast)
-        dismiss_button:SetWidth(18)
-        dismiss_button:SetHeight(18)
+        dismiss_button:SetSize(18, 18)
         dismiss_button:SetPoint("TOPRIGHT", toast, "TOPRIGHT", -4, -4)
         dismiss_button:SetFrameStrata("DIALOG")
         dismiss_button:SetFrameLevel(toast:GetFrameLevel() + 2)
@@ -377,7 +421,7 @@ local function _acquireToast()
         dismiss_button:Hide()
         dismiss_button:SetScript("OnClick", _dismissToast)
 
-        focus.dismiss_button = dismiss_button
+        toast.dismiss_button = dismiss_button
 
         local text = toast:CreateFontString(nil, "BORDER", "FriendsFont_Normal")
         text:SetJustifyH("LEFT")
@@ -386,19 +430,58 @@ local function _acquireToast()
         text:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
         toast.text = text
 
-        toast.fade_in_info = {
-            timeToFade = DEFAULT_FADE_IN_TIME,
-            startAlpha = 0,
-            endAlpha = 1,
-        }
+        local toastAnimateIn = toast:CreateAnimationGroup()
+        toast.animateIn = toastAnimateIn
 
-        toast.fade_out_info = {
-            timeToFade = DEFAULT_FADE_OUT_TIME,
-            finishedFunc = _reclaimToast,
-            finishedArg1 = toast,
-            startAlpha = 1,
-            endAlpha = 0,
-        }
+        local toastAnimateInFirst = toastAnimateIn:CreateAnimation("Alpha")
+        toastAnimateInFirst:SetOrder(1)
+        toastAnimateInFirst:SetChange(-1)
+        toastAnimateInFirst:SetDuration(0)
+
+        local toastAnimateInSecond = toastAnimateIn:CreateAnimation("Alpha")
+        toastAnimateInSecond:SetOrder(2)
+        toastAnimateInSecond:SetChange(1)
+        toastAnimateInSecond:SetDuration(0.2)
+
+        local toastWaitAndAnimateOut = toast:CreateAnimationGroup()
+        toast.waitAndAnimateOut = toastWaitAndAnimateOut
+
+        local toastAnimateOut = toastWaitAndAnimateOut:CreateAnimation("Alpha")
+        toastAnimateOut:SetStartDelay(DEFAULT_FADE_HOLD_TIME)
+        toastAnimateOut:SetChange(-1)
+        toastAnimateOut:SetDuration(DEFAULT_FADE_OUT_TIME)
+        toastAnimateOut:SetScript("OnFinished", AnimationDismissToast)
+
+        toastAnimateOut.toast = toast
+        toastWaitAndAnimateOut.animateOut = toastAnimateOut
+
+        local glowFrame = _G.CreateFrame("Frame", nil, toast)
+        glowFrame:SetAllPoints(toast)
+        toast.glowFrame = glowFrame
+
+        local glowTexture = glowFrame:CreateTexture(nil, "OVERLAY")
+        glowTexture:SetSize(DEFAULT_GLOW_WIDTH, DEFAULT_GLOW_HEIGHT)
+        glowTexture:SetPoint("TOPLEFT", -1, 3)
+        glowTexture:SetPoint("BOTTOMRIGHT", 1, -3)
+        glowTexture:SetTexture([[Interface\FriendsFrame\UI-Toast-Flair]])
+        glowTexture:SetBlendMode("ADD")
+        glowTexture:Hide()
+
+        glowFrame.glow = glowTexture
+
+        local glowAnimateIn = glowTexture:CreateAnimationGroup()
+        glowAnimateIn:SetScript("OnFinished", AnimationHideParent)
+        glowTexture.animateIn = glowAnimateIn
+
+        local glowAnimateInFirst = glowAnimateIn:CreateAnimation("Alpha")
+        glowAnimateInFirst:SetOrder(1)
+        glowAnimateInFirst:SetChange(1)
+        glowAnimateInFirst:SetDuration(0.2)
+
+        local glowAnimateInSecond = glowAnimateIn:CreateAnimation("Alpha")
+        glowAnimateInSecond:SetOrder(2)
+        glowAnimateInSecond:SetChange(-1)
+        glowAnimateInSecond:SetDuration(0.5)
     end
     toast:SetSize(DEFAULT_TOAST_WIDTH, DEFAULT_TOAST_HEIGHT)
     toast:SetBackdrop(DEFAULT_TOAST_BACKDROP)
@@ -439,7 +522,7 @@ function lib:Spawn(template_name, ...)
     end
     local source_addon
 
-    if self == lib then
+    if is_lib then
         source_addon = _G.select(3, ([[\]]):split(_G.debugstack(2)))
     else
         source_addon = lib.addon_names[self] or _G.UNKNOWN
@@ -493,19 +576,6 @@ function lib:Spawn(template_name, ...)
     r, g, b = current_toast:GetBackdropBorderColor()
     current_toast:SetBackdropBorderColor(r, g, b, opacity)
 
-    local fade_in_info = current_toast.fade_in_info
-    fade_in_info.fadeTimer = 0
-    fade_in_info.fadeHoldTime = current_toast.is_persistent and 0 or ToastDuration()
-
-    if fade_in_info.fadeHoldTime > 0 then
-        fade_in_info.finishedFunc = _finishToastDisplay
-        fade_in_info.finishedArg1 = current_toast
-    else
-        fade_in_info.finishedFunc = nil
-        fade_in_info.finishedArg1 = nil
-    end
-    _positionToastIcon(current_toast)
-
     if ToastHasFloatingIcon() or not current_toast.icon:GetTexture() then
         current_toast.title:SetPoint("TOPLEFT", current_toast, "TOPLEFT", 10, -10)
     else
@@ -521,7 +591,6 @@ function lib:Spawn(template_name, ...)
 
     if current_toast.text:GetText() then
         current_toast.text:SetWidth(current_toast:GetWidth() - current_toast.icon:GetWidth() - 20)
-
         current_toast.text:Show()
     else
         current_toast.text:Hide()
@@ -533,19 +602,36 @@ function lib:Spawn(template_name, ...)
     -- Anchor and spawn.
     -----------------------------------------------------------------------
     local spawn_point = ToastSpawnPoint()
+    local offset_x = ToastOffsetX() or OFFSET_X[spawn_point]
+    local offset_y = ToastOffsetY() or OFFSET_Y[spawn_point]
 
     if #active_toasts > 0 then
+        spawn_point = POINT_TRANSLATION[GetEffectiveSpawnPoint(active_toasts[1])]
         current_toast:SetPoint(spawn_point, active_toasts[#active_toasts], SIBLING_ANCHORS[spawn_point], 0, SIBLING_OFFSET_Y[spawn_point])
     else
-        current_toast:SetPoint(spawn_point, _G.UIParent, spawn_point, OFFSET_X[spawn_point], OFFSET_Y[spawn_point])
+        current_toast:SetPoint(spawn_point, _G.UIParent, spawn_point, offset_x, offset_y)
     end
     active_toasts[#active_toasts + 1] = current_toast
-    -- XXX 163
-    -- _G.UIFrameFade(current_toast, fade_in_info)
-    UICoreFrameFade(current_toast, fade_in_info)
+
+    _positionToastIcon(current_toast)
 
     if current_toast.sound_file and not ToastsAreMuted(source_addon) then
         _G.PlaySoundFile(current_toast.sound_file)
+    end
+
+    current_toast:Show()
+    current_toast.animateIn:Play()
+    current_toast.glowFrame.glow:Show()
+    current_toast.glowFrame.glow.animateIn:Play()
+    current_toast.waitAndAnimateOut:Stop() -- Stop prior fade attempt.
+
+    if not current_toast.is_persistent then
+        if current_toast:IsMouseOver() then
+            current_toast.waitAndAnimateOut.animateOut:SetStartDelay(1)
+        else
+            current_toast.waitAndAnimateOut.animateOut:SetStartDelay(ToastDuration())
+            current_toast.waitAndAnimateOut:Play()
+        end
     end
 end
 
@@ -557,14 +643,13 @@ function lib:DefineSink(display_name, texture_path)
     if texture_path and (path_type ~= "function" and (path_type ~= "string" or texture_path == "")) then
         error(METHOD_USAGE_FORMAT:format(is_lib and "DefineSink" or "DefineSinkToast", "texture_path must be a non-empty string, a function that returns one, or nil"), 2)
     end
-    local source_addon = _G.select(3, ([[\]]):split(_G.debugstack(2)))
-    lib.addon_objects[display_name] = self
-
     if display_name and (display_type ~= "function" and (display_type ~= "string" or display_name == "")) then
         error(METHOD_USAGE_FORMAT:format(is_lib and "DefineSink" or "DefineSinkToast", "display_name must be a non-empty string, a function that returns one, or nil"), 2)
     end
+    local source_addon = _G.select(3, ([[\]]):split(_G.debugstack(2)))
+    lib.addon_names[self] = source_addon or _G.UNKNOWN
     lib.sink_icons[self] = texture_path
-    lib.addon_names[self] = display_name
+    lib.sink_titles[self] = display_name
 
     if not lib.registered_sink then
         local LibSink = LibStub("LibSink-2.0")
@@ -627,6 +712,10 @@ end
 
 function toast_proxy:SetFormattedText(text, ...)
     current_toast.text:SetFormattedText(text, ...)
+end
+
+function toast_proxy:SetIconAtlas(...)
+    current_toast.icon:SetAtlas(...)
 end
 
 function toast_proxy:SetIconTexture(texture)

@@ -301,7 +301,7 @@ function mod:SPELL_CAST_START(args)
 		if args.sourceGUID == UnitGUID("target") then
 			specWarnSleightOfHand:Show(args.sourceName)
 			sndWOP:Play("stopatk") --注意停手
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		end
 		timerSleightOfHand:Start()
 		timerSleightOfHandCD:Start()
@@ -347,11 +347,11 @@ function mod:SPELL_CAST_START(args)
 		if args.sourceGUID == UnitGUID("target") then
 			sndWOP:Play("stopatk") --注意停手
 			specWarnShieldOfDarkness:Show(args.sourceName)
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		elseif mod:IsMagicDispeller() then
 			sndWOP:Play("ex_mop_zyhd") --注意护盾
 			specWarnShieldOfDarkness:Show(args.sourceName)
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		end
 		if mod:IsMagicDispeller() then
 			sndWOP:Schedule(1.5, "dispelnow") --快驅散
@@ -425,11 +425,11 @@ function mod:SPELL_CAST_START(args)
 		if isDispellerZ then
 			specWarnImperviousShield:Show(args.sourceName)
 			sndWOP:Schedule(1.5, "dispelnow")
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		elseif args.sourceGUID == UnitGUID("target") then
 			specWarnImperviousShield:Show(args.sourceName)
 			sndWOP:Play("stopatk") --注意停手
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		end
 	end
 end

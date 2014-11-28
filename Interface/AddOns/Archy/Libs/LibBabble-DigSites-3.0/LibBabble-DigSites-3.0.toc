@@ -1,0 +1,25 @@
+## Interface: 60000
+## LoadOnDemand: 1
+## Title: Lib: Babble-DigSites-3.0
+## Version: r54
+## Notes: A library to help with localization of Archeology dig sites
+## Notes-frFR: Une librairie pour aider à la traduction des sites de fouilles archéologiques
+## Notes-deDE: Eine Bibliothek um bei der Lokalisierung von Archäologie Grabungsstätten zu helfen
+## Notes-koKR: 도서관은 고고학의 발굴 사이트의 지방화에 도움이
+## Notes-ruRU: Вспомогательная библиотека локализаций археологических мест раскопок
+## Notes-esES: Una biblioteca para ayudar en la localización de los sitios de excavación Arqueológica
+## Notes-esMX: Una biblioteca para ayudar en la localización de los sitios de excavación Arqueológica
+## Notes-ptBR: Uma biblioteca para ajudar com a localização dos locais de escavação Arqueológicas
+## Notes-itIT: Una biblioteca per aiutare con la localizzazione dei siti di scavo Archeologia
+## Notes-zhCN: 考古学挖掘场本地化库
+## Notes-zhTW: 考古學挖掘場本地化庫
+## Author: Torhal, Myrroddin
+## X-Category: Library
+## X-License: MIT
+## X-Curse-Packaged-Version: r54
+## X-Curse-Project-Name: LibBabble-DigSites-3.0
+## X-Curse-Project-ID: libbabble-digsites-3-0
+## X-Curse-Repository-ID: wow/libbabble-digsites-3-0/mainline
+
+LibStub\LibStub.lua
+lib.xml

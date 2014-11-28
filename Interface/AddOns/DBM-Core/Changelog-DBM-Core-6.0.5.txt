@@ -1,4 +1,29 @@
+tag 6.0.5
+9709a21a08d13baffcae2b4c4baab1b6c822aaeb
+subversion <svn@deadlybossmods.com>
+2014-11-22 21:47:10 +0100
+
+Tagging as 6.0.5
+
+
+--------------------
+
 subversion:
+	- increment version number to 6.0.5
+	- Omega via svn r11873: CN update
+	- Omega via svn r11872: Advertise molten core mod if it's not installed (only once).
+	- Omega via svn r11871: add a simple IsEvent check
+	- Omega via svn r11870: Fix combat rez timer showing in Molten core, (well, all event5 and event40 dungeons actually).
+	- nbluewiz via svn r11869: # koKR update.
+	- Omega via svn r11868: fix lua error
+	- ultrashining via svn r11867: zhTW update
+	- Omega via svn r11866: disable time to feed timer, it's quite wrong now. need more data to enable a new better one.
+	- Omega via svn r11865: First flame slash is 5 seconds, not 8
+	- Omega via svn r11864: Health based, no timer
+	- Omega via svn r11863: more toc. not sure this will 100% work though
+	- Omega via svn r11862: TOC Fix
+	- Omega via svn r11861: First pass at dungeon fixes, I'm not going to list all of them in change log
+	- Omega via svn r11860: use DBM:GetNumRealGroupMembers() for more accuracy in icons and rangeframe. Make sure to set map to current zone in the very last function in dbm that still uses mapIDs
 	- ebmor via svn r11859: deDE update
 	- Omega via svn r11858: Arrow no longer relies on map so no reason for this restriction
 	- Omega via svn r11857: Text tweaks

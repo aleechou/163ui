@@ -145,7 +145,7 @@ function mod:SPELL_CAST_START(args)
 		sndWOP:Cancel("counttwo")
 		sndWOP:Cancel("countone")
 		if mod:IsManaUser() and mod:IsRanged() then
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("stopcast") --停止施法
 		else
 			sndWOP:Play("ex_tt_dfzj") --斷法震擊
@@ -296,7 +296,7 @@ function mod:RAID_BOSS_WHISPER(msg, npc)
 			yellCrimsonWake:Yell()
 		end
 ----BH DELETE	soundCrimsonWake:Play()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("justrun")  --快跑
 		self:SendSync("WakeTarget", UnitGUID("player"))
 	end

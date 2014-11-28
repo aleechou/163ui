@@ -1,22 +1,22 @@
 <Bindings>
-	<Binding name="OPTIONSARCHY" header="ARCHY">
+	<Binding name="OPTIONSARCHY" header="ARCHY" category="ADDONS">
 		InterfaceOptionsFrame_OpenToCategory(Archy.optionsFrame)
 	</Binding>
-	<Binding name="TOGGLEARCHY">
+	<Binding name="TOGGLEARCHY" category="ADDONS">
 		Archy.db.profile.general.show = not Archy.db.profile.general.show
 		Archy:ConfigUpdated()
 	</Binding>
-	<Binding name="SOLVEARCHY">
+	<Binding name="SOLVEARCHY" category="ADDONS">
 		Archy:SolveAnyArtifact(false)
 	</Binding>
-	<Binding name="SOLVE_WITH_KEYSTONESARCHY">
+	<Binding name="SOLVE_WITH_KEYSTONESARCHY" category="ADDONS">
 		Archy:SolveAnyArtifact(true)
 	</Binding>
-	<Binding name="ARTIFACTSARCHY">
+	<Binding name="ARTIFACTSARCHY" category="ADDONS">
 		Archy.db.profile.artifact.show = not Archy.db.profile.artifact.show
 		Archy:ConfigUpdated('artifact')
 	</Binding>
-	<Binding name="DIGSITESARCHY">
+	<Binding name="DIGSITESARCHY" category="ADDONS">
 		Archy.db.profile.digsite.show = not Archy.db.profile.digsite.show
 		Archy:ConfigUpdated('digsite')
 	</Binding>

@@ -105,7 +105,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		stormEnergyTargets[#stormEnergyTargets + 1] = args.destName
 		if args:IsPlayer() then
 			specWarnStormEnergy:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("runout")
 		else
 			if self.Options.HudMAP then

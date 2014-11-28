@@ -1,27 +1,59 @@
 ## Interface: 60000
 ## Title: Archy - Archaeology Assistant
-## Version: 1.8.43
+## Version: 1.8.56
+## Notes: Archaeology assistant
 ## Author: Torhal, Myrroddin, daihenka, Dridzt
 ## X-Credits: Cidrei on wowinterface for fan fixes
 ## X-Category: Archaeology
 ## SavedVariables: ArchyDB
 ## OptionalDeps: Ace3, LibDBIcon-1.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSink-2.0, TomTom, LibAboutPanel, LibQTip-1.0, LibBabble-DigSites-3.0, LibBabble-Artifacts-3.0, LibDialog-1.0, LibToast-1.0
-## X-Curse-Packaged-Version: 1.8.43
+## X-Curse-Packaged-Version: 1.8.56
 ## X-Curse-Project-Name: Archy - Archaeology Assistant
 ## X-Curse-Project-ID: archy
 ## X-Curse-Repository-ID: wow/archy/mainline
-## Notes:考古助手
 
-..\LibBabble-3.0\LibBabble-3.0.lua
-..\LibBabble-3.0\LibBabble-DigSites-3.0.lua
-..\LibBabble-3.0\LibBabble-Artifacts-3.0.lua
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceHook-3.0\AceHook-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.xml
+Libs\AceBucket-3.0\AceBucket-3.0.xml
 
+Libs\LibSink-2.0\lib.xml
+Libs\LibSharedMedia-3.0\lib.xml
+Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+Libs\LibAboutPanel\lib.xml
+Libs\LibQTip-1.0\LibQTip-1.0.lua
+Libs\LibBabble-DigSites-3.0\lib.xml
+Libs\LibBabble-Artifacts-3.0\lib.xml
 Libs\LibDialog-1.0\lib.xml
 Libs\LibToast-1.0\lib.xml
+#@end-no-lib-strip@
 
 Libs\Astrolabe-1.0\Load.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+#@no-lib-strip@
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+#@end-no-lib-strip@
 
 Locale\enUS.lua
+Locale\esES.lua
+Locale\esMX.lua
+Locale\deDE.lua
+Locale\frFR.lua
+Locale\itIT.lua
+Locale\koKR.lua
+Locale\ruRU.lua
+Locale\ptBR.lua
 Locale\zhCN.lua
 Locale\zhTW.lua
 
@@ -34,5 +66,9 @@ Config.lua
 Bindings.xml
 
 ## Title: |cff880303[网易有爱]|r 考古助手
+## Title-zhCN: Archy - 考古学助手
+## Title-zhTW: Archy - 考古學助手
+## Notes-zhCN: 考古学助手
+## Notes-zhTW: 考古學助手
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141016233437
+## X-163UI-Version: 2014102801

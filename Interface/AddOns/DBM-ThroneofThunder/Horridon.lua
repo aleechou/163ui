@@ -125,12 +125,12 @@ local function checksprange()
 			if min and max then
 				if min <= 8 then
 					if mod:AntiSpam(1, 6) then
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWSP:Play("stilldanger") --危險
 					end
 				elseif min <= 15 then
 					if mod:AntiSpam(4, 5) then
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWSP:Play("killspirit") --靈魂快打
 					end
 --				elseif min >= 60 then
@@ -342,7 +342,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		--BH MODIFY
 		if mod.Options.ddyls then
 			specWarnMending:Show(args.sourceName)
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("kickcast")--快打斷
 		end
 		--BH MODIFY END
@@ -373,7 +373,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDireFixate:Show()
 --BH DELETE		soundDireFixate:Play()
 			-- BH ADD
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_lhsd")
 			sndWOP:Schedule(1,"ex_tt_lhsd")
 			checksprange()
@@ -520,7 +520,7 @@ function mod:OnSync(msg, target)
 		if target == UnitName("player") then
 			specWarnCharge:Show()
 			yellCharge:Yell()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_nbcf")
 			sndWOP:Schedule(0.5,"ex_tt_nbcf")
 		else

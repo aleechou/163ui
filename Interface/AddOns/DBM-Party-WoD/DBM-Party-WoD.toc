@@ -27,10 +27,6 @@
 ## X-DBM-Mod-Name-zhCN: 队伍首领(德拉诺之王)
 ## X-DBM-Mod-Sort: 125
 ## X-DBM-Mod-MapID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
-## X-Curse-Packaged-Version: 6.0.4-31-g65bcc60
-## X-Curse-Project-Name: Deadly Boss Mods
-## X-Curse-Project-ID: deadly-boss-mods
-## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 localization.en.lua
 localization.kr.lua
 localization.de.lua
@@ -70,4 +66,5 @@ UBRS\Kyrak.lua
 UBRS\Tharbek.lua
 UBRS\Ragewing.lua
 UBRS\Zaela.lua
-## X-163UI-Version: 20141112202657
+UBRS\UBRSTrash.lua
+## X-163UI-Version: 2014112801

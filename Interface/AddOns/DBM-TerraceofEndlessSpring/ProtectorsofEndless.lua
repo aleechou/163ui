@@ -298,7 +298,7 @@ function mod:OnCombatStart(delay)
 			if myGroup == 1 then
 				outgroup = true
 				specWarnYourGroup:Show()
-				DBM.Flash:Shake(1, 0, 0)
+				-- DBM.Flash:Shake(1, 0, 0)
 				sndWOP:Play("mobsoon") --準備小怪
 			end
 		end)
@@ -392,9 +392,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if (args.amount or 1) >= 9 then
 				specWarnCorruptedEssence:Show(args.amount)
-				self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
-				self:Schedule(1.5, function() DBM.Flash:Shake(0, 0, 1) end)
-				self:Schedule(2, function() DBM.Flash:Shake(1, 0, 0) end)
+				-- self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
+				-- self:Schedule(1.5, function() DBM.Flash:Shake(0, 0, 1) end)
+				-- self:Schedule(2, function() DBM.Flash:Shake(1, 0, 0) end)
 				sndWOP:Schedule(1, "mobenough") --能量已滿 遠離小怪
 			end
 		end
@@ -537,7 +537,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 					if myGroup == 1 then
 						outgroup = true
 						specWarnYourGroup:Show()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 1 and outgroup then
@@ -553,7 +553,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 					if myGroup == 2 then
 						outgroup = true
 						specWarnYourGroup:Show()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWOP:Play("mobsoon") --準備小怪
 					end
 					if myGroup ~= 2 and outgroup then
@@ -569,7 +569,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 					if myGroup == 3 then
 						outgroup = true
 						specWarnYourGroup:Show()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 3 and outgroup then
@@ -585,7 +585,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 					if myGroup == 4 then
 						outgroup = true
 						specWarnYourGroup:Show()
-						DBM.Flash:Shake(1, 0, 0)
+						-- DBM.Flash:Shake(1, 0, 0)
 						sndWOP:Play("mobsoon")
 					end
 					if myGroup ~= 4 and outgroup then
@@ -602,7 +602,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 						if myGroup == 5 then
 							outgroup = true
 							specWarnYourGroup:Show()
-							DBM.Flash:Shake(1, 0, 0)
+							-- DBM.Flash:Shake(1, 0, 0)
 							sndWOP:Play("mobsoon")
 						end
 						if myGroup ~= 5 and outgroup then

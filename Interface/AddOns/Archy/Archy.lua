@@ -317,13 +317,14 @@ local ZONE_ID_TO_NAME = {} -- Popupated in OnInitialize()
 local MAP_CONTINENTS = {} -- Popupated in CacheMapData()
 
 local LOREWALKER_ITEMS = {
- 	MAP = {id=87549,spell=126957}, 
- 	LODESTONE = {id=87548,spell=126956},
+	MAP = { id = 87549, spell = 126957 },
+	LODESTONE = { id = 87548, spell = 126956 },
 }
 local QUEST_ITEM_IDS = {
 	[79049] = true
 }
-local CRATE_OF_FRAGMENTS = { -- all pre-MoP races at Mists of Pandaria expansion
+local CRATE_OF_FRAGMENTS = {
+	-- all pre-MoP races at Mists of Pandaria expansion
 	[87533] = true, -- Dwarven
 	[87534] = true, -- Draenei
 	[87535] = true, -- Fossil
@@ -386,7 +387,7 @@ local prevTheme
 local Blizzard_SolveArtifact
 local ClearTomTomPoint, UpdateTomTomPoint, RefreshTomTom
 local UpdateMinimapPOIs
-local CacheMapData, UpdateAllSites
+local UpdateAllSites
 
 -----------------------------------------------------------------------
 -- Metatables.
@@ -594,6 +595,7 @@ local function GetArchaeologyRank()
 	local _, _, rank, maxRank = _G.GetProfessionInfo(archaeology_index)
 	return rank, maxRank
 end
+
 private.GetArchaeologyRank = GetArchaeologyRank
 
 local function GetArtifactStats(race_id, name)
@@ -610,6 +612,7 @@ local function GetArtifactStats(race_id, name)
 		end
 	end
 end
+
 private.GetArtifactStats = GetArtifactStats
 
 local function GetCrateUseString(spellID)
@@ -619,14 +622,14 @@ local function GetCrateUseString(spellID)
 	private.scantip:ClearLines()
 	private.scantip:SetSpellByID(spellID)
 
-	while (_G["ArchyScanTipTextLeft".. line_num]:GetText()) do
+	while (_G["ArchyScanTipTextLeft" .. line_num]:GetText()) do
 		-- overwrite until we get the contents of bottom fontstring on the left
-		spell_text = (_G["ArchyScanTipTextLeft".. line_num]:GetText())
+		spell_text = (_G["ArchyScanTipTextLeft" .. line_num]:GetText())
 		line_num = line_num + 1
 	end
 
 	if spell_text then
-		return _G.ITEM_SPELL_TRIGGER_ONUSE.." ".. spell_text
+		return _G.ITEM_SPELL_TRIGGER_ONUSE .. " " .. spell_text
 	end
 end
 
@@ -634,7 +637,7 @@ end
 local function HasArchaeology()
 	local _, _, arch = _G.GetProfessions()
 	if arch then
-		private.scantip = private.scantip or _G.CreateFrame("GameTooltip","ArchyScanTip",nil,"GameTooltipTemplate")
+		private.scantip = private.scantip or _G.CreateFrame("GameTooltip", "ArchyScanTip", nil, "GameTooltipTemplate")
 		private.scantip:SetOwner(_G.UIParent, "ANCHOR_NONE")
 		CRATE_USE_STRING = CRATE_USE_STRING or GetCrateUseString(CRATE_SPELL_ID)
 
@@ -647,11 +650,13 @@ local function HasArchaeology()
 	end
 	return arch
 end
+
 private.HasArchaeology = HasArchaeology
 
 local function IsTaintable()
 	return (private.in_combat or _G.InCombatLockdown() or (_G.UnitAffectingCombat("player") or _G.UnitAffectingCombat("pet")))
 end
+
 private.IsTaintable = IsTaintable
 
 function private:ResetPositions()
@@ -823,19 +828,18 @@ local function ToggleDistanceIndicator()
 	if private.db.digsite.distanceIndicator.showCrateButton then
 		private.distance_indicator_frame.crateButton:Show()
 		local w = private.distance_indicator_frame:GetWidth()
-		private.distance_indicator_frame:SetWidth(w+10+private.distance_indicator_frame.crateButton:GetWidth())
+		private.distance_indicator_frame:SetWidth(w + 10 + private.distance_indicator_frame.crateButton:GetWidth())
 	else
 		private.distance_indicator_frame.crateButton:Hide()
 	end
-	
+
 	if private.db.digsite.distanceIndicator.showLorItemButton then
 		private.distance_indicator_frame.loritemButton:Show()
 		local w = private.distance_indicator_frame:GetWidth()
-		private.distance_indicator_frame:SetWidth(w+10+private.distance_indicator_frame.loritemButton:GetWidth())
+		private.distance_indicator_frame:SetWidth(w + 10 + private.distance_indicator_frame.loritemButton:GetWidth())
 	else
 		private.distance_indicator_frame.loritemButton:Hide()
 	end
-
 end
 
 Dialog:Register("ArchyConfirmSolve", {
@@ -1097,7 +1101,6 @@ local function GetContinentSites(continent_id)
 	if not showDig then
 		_G.SetCVar("digSites", "1")
 		_G.WorldMapArchaeologyDigSites:Show()
--- 		_G.WorldMapShowDigSites:SetChecked(1)
 		_G.RefreshWorldMap()
 		showDig = "0"
 	end
@@ -1138,51 +1141,67 @@ local function GetContinentSites(continent_id)
 	if showDig == "0" then -- restore initial setting
 		_G.SetCVar("digSites", showDig)
 		_G.WorldMapArchaeologyDigSites:Hide()
--- 		_G.WorldMapShowDigSites:SetChecked(nil)
 		_G.RefreshWorldMap()
 	end
 	return new_sites
 end
 
-CacheMapData = function()
+local function CacheMapData()
 	if not next(MAP_CONTINENTS) then
-		MAP_CONTINENTS = { _G.GetMapContinents() }
-	end
+		local continent_data = { _G.GetMapContinents() }
 
-	for continent_id, continent_name in pairs(MAP_CONTINENTS) do
-		_G.SetMapZoom(continent_id)
-		local map_id = _G.GetCurrentMapAreaID()
-		local map_file_name = _G.GetMapInfo()
+		for continent_data_index = 1, #continent_data do
+			-- Odd indices are IDs, even are names.
+			if continent_data_index % 2 == 0 then
+				local continent_id = continent_data_index / 2
+				local continent_name = continent_data[continent_data_index]
 
-		MAP_ID_TO_CONTINENT_ID[map_id] = continent_id
-		ZONE_DATA[map_id] = {
-			continent = continent_id,
-			map = map_id,
-			level = 0,
-			mapFile = map_file_name,
-			id = 0,
-			name = continent_name
-		}
-		MAP_FILENAME_TO_MAP_ID[map_file_name] = map_id
-		MAP_ID_TO_ZONE_NAME[map_id] = continent_name
+				_G.SetMapZoom(continent_id)
 
-		for zone_id, zone_name in pairs{ _G.GetMapZones(continent_id) } do
-			_G.SetMapZoom(continent_id, zone_id)
-			local map_id = _G.GetCurrentMapAreaID()
-			local level = _G.GetCurrentMapDungeonLevel()
-			local map_file_name = _G.GetMapInfo()
-			MAP_FILENAME_TO_MAP_ID[map_file_name] = map_id
-			MAP_ID_TO_ZONE_ID[map_id] = zone_id
-			MAP_ID_TO_ZONE_NAME[map_id] = zone_name
-			ZONE_ID_TO_NAME[zone_id] = zone_name
-			ZONE_DATA[map_id] = {
-				continent = continent_id,
-				map = map_id,
-				level = level,
-				mapFile = map_file_name,
-				id = zone_id,
-				name = zone_name
-			}
+				local map_id = _G.GetCurrentMapAreaID()
+				local map_file_name = _G.GetMapInfo()
+
+				MAP_CONTINENTS[continent_id] = continent_name
+				MAP_FILENAME_TO_MAP_ID[map_file_name] = map_id
+				MAP_ID_TO_CONTINENT_ID[map_id] = continent_id
+				MAP_ID_TO_ZONE_NAME[map_id] = continent_name
+
+				ZONE_DATA[map_id] = {
+					continent = continent_id,
+					id = 0,
+					level = 0,
+					map = map_id,
+					mapFile = map_file_name,
+					name = continent_name
+				}
+
+				local zone_data = { _G.GetMapZones(continent_id) }
+				for zone_data_index = 1, #zone_data do
+					-- Odd indices are IDs, even are names.
+					if zone_data_index % 2 == 0 then
+						_G.SetMapByID(map_id)
+
+						local map_file_name = _G.GetMapInfo()
+						local zone_id = _G.GetCurrentMapZone()
+						local zone_name = zone_data[zone_data_index]
+
+						MAP_FILENAME_TO_MAP_ID[map_file_name] = map_id
+						MAP_ID_TO_ZONE_ID[map_id] = zone_id
+						MAP_ID_TO_ZONE_NAME[map_id] = zone_name
+						ZONE_ID_TO_NAME[zone_id] = zone_name
+						ZONE_DATA[map_id] = {
+							continent = continent_id,
+							id = zone_id,
+							level = _G.GetCurrentMapDungeonLevel(),
+							map = map_id,
+							mapFile = map_file_name,
+							name = zone_name
+						}
+					else
+						map_id = zone_data[zone_data_index]
+					end
+				end
+			end
 		end
 	end
 
@@ -1264,11 +1283,13 @@ function Archy:UpdateSiteDistances()
 			site.distance = Astrolabe:ComputeDistance(player_position.map, player_position.level, player_position.x, player_position.y, site.map, site.level, site.x, site.y)
 		end
 
+		if site.x then
 		if not Archy:IsSiteBlacklisted(site.name) then
 			if not distance or site.distance < distance then
 				distance = site.distance
 				nearest = site
 			end
+		end
 		end
 	end
 
@@ -1441,10 +1462,10 @@ local function GetSitePOI(siteId, map, level, x, y, tooltip)
 	poi.type = "site"
 	poi.tooltip = tooltip
 	poi.location = {
-		map,
-		level,
-		x,
-		y
+		map = map,
+		level = level,
+		x = x,
+		y = y,
 	}
 	poi.active = true
 	poi.siteId = siteId
@@ -1503,10 +1524,10 @@ local function GetSurveyPOI(siteId, map, level, x, y, tooltip)
 	poi.type = "survey"
 	poi.tooltip = tooltip
 	poi.location = {
-		map,
-		level,
-		x,
-		y
+		map = map,
+		level = level,
+		x = x,
+		y = y,
 	}
 	poi.active = true
 	poi.siteId = siteId
@@ -1665,7 +1686,9 @@ function UpdateMinimapPOIs(force)
 		site.poi = GetSitePOI(site.id, site.map, site.level, site.x, site.y, ("%s\n(%s)"):format(site.name, site.zoneName))
 		site.poi.active = true
 
-		Astrolabe:PlaceIconOnMinimap(site.poi, site.map, site.level, site.x, site.y)
+		if site.map > 0 then
+			Astrolabe:PlaceIconOnMinimap(site.poi, site.map, site.level, site.x, site.y)
+		end
 
 		if (not private.db.minimap.nearest or (nearestSite and nearestSite.id == site.id)) and private.db.general.show and private.db.minimap.show then
 			site.poi:Show()
@@ -1750,7 +1773,8 @@ function UpdateTomTomPoint()
 
 	if not waypointExists then -- waypoint doesn't exist or we have a TomTom emulator
 		ClearTomTomPoint()
-		tomtomPoint = _G.TomTom:AddZWaypoint(MAP_ID_TO_CONTINENT_ID[tomtomSite.continent], tomtomSite.zoneId, tomtomSite.x * 100, tomtomSite.y * 100, tomtomSite.name .. "\n" .. tomtomSite.zoneName, false, false, false, false, false, true)
+		tomtomPoint = _G.TomTom:AddMFWaypoint(tomtomSite.map, nil, tomtomSite.x, tomtomSite.y, { title = tomtomSite.name .. "\n" .. tomtomSite.zoneName })
+--		tomtomPoint = _G.TomTom:AddZWaypoint(MAP_ID_TO_CONTINENT_ID[tomtomSite.continent], tomtomSite.zoneId, tomtomSite.x * 100, tomtomSite.y * 100, tomtomSite.name .. "\n" .. tomtomSite.zoneName, false, false, false, false, false, true)
 	end
 end
 
@@ -1982,7 +2006,7 @@ local function InitializeFrames()
 
 	private.distance_indicator_frame = _G.CreateFrame("Frame", "ArchyDistanceIndicatorFrame", _G.UIParent, "ArchyDistanceIndicator")
 	private.distance_indicator_frame.circle:SetScale(0.65)
-	
+
 	if private.db.general.combathide then private.regen_update_visibility = true end
 
 	private.frames_init_done = true
@@ -2150,7 +2174,7 @@ local function FindCrateable(bag, slot)
 			private.crate_item_id = item_id
 			return true
 		end
-		private.scantip:SetBagItem(bag,slot)
+		private.scantip:SetBagItem(bag, slot)
 
 		for line_num = 1, private.scantip:NumLines() do
 			local linetext = (_G["ArchyScanTipTextLeft" .. line_num]:GetText())
@@ -2187,7 +2211,7 @@ function Archy:ScanBags()
 
 	if private.crate_bag_id then
 		private.distance_indicator_frame.crateButton:SetAttribute("type1", "macro")
-		private.distance_indicator_frame.crateButton:SetAttribute("macrotext1", "/run _G.ClearCursor() if _G.MerchantFrame:IsShown() then HideUIPanel(_G.MerchantFrame) end\n/use "..private.crate_bag_id.." "..private.crate_bag_slot_id)
+		private.distance_indicator_frame.crateButton:SetAttribute("macrotext1", "/run _G.ClearCursor() if _G.MerchantFrame:IsShown() then HideUIPanel(_G.MerchantFrame) end\n/use " .. private.crate_bag_id .. " " .. private.crate_bag_slot_id)
 		private.distance_indicator_frame.crateButton:Enable()
 		private.distance_indicator_frame.crateButton.icon:SetDesaturated(0)
 		private.distance_indicator_frame.crateButton.tooltip = private.crate_item_id
@@ -2204,9 +2228,9 @@ function Archy:ScanBags()
 			private.distance_indicator_frame.crateButton.shining = nil
 		end
 	end
-	
-	local lorewalker_map_count = _G.GetItemCount(LOREWALKER_ITEMS.MAP.id,false,false)
-	local lorewalker_lode_count = _G.GetItemCount(LOREWALKER_ITEMS.LODESTONE.id,false,false)
+
+	local lorewalker_map_count = _G.GetItemCount(LOREWALKER_ITEMS.MAP.id, false, false)
+	local lorewalker_lode_count = _G.GetItemCount(LOREWALKER_ITEMS.LODESTONE.id, false, false)
 	if lorewalker_map_count > 0 then -- prioritize map since it affects Archy's lists. (randomize digsites)
 		local item_name = (_G.GetItemInfo(LOREWALKER_ITEMS.MAP.id))
 		private.distance_indicator_frame.loritemButton:SetAttribute("type1", "item")
@@ -2226,9 +2250,9 @@ function Archy:ScanBags()
 		private.distance_indicator_frame.loritemButton:Enable()
 		private.distance_indicator_frame.loritemButton.icon:SetDesaturated(0)
 		if lorewalker_map_count > 0 then
-			private.distance_indicator_frame.loritemButton.tooltip = {LOREWALKER_ITEMS.MAP.id,item_name}	
+			private.distance_indicator_frame.loritemButton.tooltip = { LOREWALKER_ITEMS.MAP.id, item_name }
 		else
-			private.distance_indicator_frame.loritemButton.tooltip = {LOREWALKER_ITEMS.LODESTONE.id,_G.USE}
+			private.distance_indicator_frame.loritemButton.tooltip = { LOREWALKER_ITEMS.LODESTONE.id, _G.USE }
 		end
 	end
 	if lorewalker_map_count == 0 and lorewalker_lode_count == 0 then
@@ -2236,7 +2260,6 @@ function Archy:ScanBags()
 		private.distance_indicator_frame.loritemButton.icon:SetDesaturated(1)
 		private.distance_indicator_frame.loritemButton.tooltip = _G.BROWSE_NO_RESULTS
 	end
-	
 end
 
 function Archy:BAG_UPDATE_DELAYED()
@@ -2286,10 +2309,10 @@ function Archy:CURRENCY_DISPLAY_UPDATE()
 			ToggleDistanceIndicator()
 
 			if type(lastSite.id) == "number" and lastSite.id > 0 then -- Drii: for now let's just avoid the error
- 				if private.has_dug then -- only increment once for each dig else fragments looted from 'ancient haunt' throw counter off (bonus fix: ticket 469)
- 					IncrementDigCounter(lastSite.id)
- 					private.has_dug = nil 
- 				end
+				if private.has_dug then -- only increment once for each dig else fragments looted from 'ancient haunt' throw counter off (bonus fix: ticket 469)
+					IncrementDigCounter(lastSite.id)
+					private.has_dug = nil
+				end
 				site_stats[lastSite.id].looted = (site_stats[lastSite.id].looted or 0) + 1
 				site_stats[lastSite.id].fragments = site_stats[lastSite.id].fragments + diff
 
@@ -2386,14 +2409,13 @@ function Archy:PLAYER_REGEN_DISABLED()
 	if self.LDB_Tooltip and self.LDB_Tooltip:IsShown() then
 		self.LDB_Tooltip:Hide()
 	end
-	
+
 	if private.db.general.combathide and private.digsite_frame:IsVisible() then
-		RegisterStateDriver(private.digsite_frame,"visibility","[combat]hide;show")
+		RegisterStateDriver(private.digsite_frame, "visibility", "[combat]hide;show")
 	end
 	if private.db.general.combathide and private.races_frame:IsVisible() then
 		private.races_frame:Hide()
 	end
-		
 end
 
 function Archy:PLAYER_REGEN_ENABLED()
@@ -2434,12 +2456,11 @@ function Archy:PLAYER_REGEN_ENABLED()
 		private.regen_scan_bags = nil
 		self:ScanBags()
 	end
-	
+
 	if private.regen_update_visibility then
-		UnregisterStateDriver(private.digsite_frame,"visibility")
+		UnregisterStateDriver(private.digsite_frame, "visibility")
 		self:ConfigUpdated()
 	end
-	
 end
 
 local function SetSurveyCooldown(time)
@@ -2460,20 +2481,20 @@ function Archy:UNIT_SPELLCAST_SUCCEEDED(event, unit, spell, rank, line_id, spell
 	if unit ~= "player" then
 		return
 	end
-	
+
 	if spell_id == LOREWALKER_ITEMS.MAP.spell and event == "UNIT_SPELLCAST_SUCCEEDED" then
 		if private.distance_indicator_frame.loritemButton and private.distance_indicator_frame.loritemButton:IsShown() then
 			self:ScheduleTimer(SetLoreItemCooldown, 0.2)
 		end
 	end
-	
+
 	if spell_id == CRATE_SPELL_ID then
 		if private.busy_crating then
 			private.busy_crating = nil
 			self:ScheduleTimer("ScanBags", 1)
 		end
 	end
-	
+
 	if spell_id == SURVEY_SPELL_ID and event == "UNIT_SPELLCAST_SUCCEEDED" then
 		private.has_dug = true
 		if not player_position or not nearestSite then
@@ -2531,7 +2552,6 @@ function Archy:UNIT_SPELLCAST_SUCCEEDED(event, unit, spell, rank, line_id, spell
 		RefreshTomTom()
 		self:RefreshDigSiteDisplay()
 	end
-	
 end
 
 function Archy:PET_BATTLE_OPENING_START()
@@ -2549,7 +2569,7 @@ function Archy:PET_BATTLE_CLOSE()
 		private.pet_battle_shown = nil
 		private.db.general.show = true
 		if _G.C_PetBattles.IsInBattle() then -- API doesn't return correct values in this event
-			self:ScheduleTimer("ConfigUpdated",1.5) -- so let's schedule our re-show in a sec
+			self:ScheduleTimer("ConfigUpdated", 1.5) -- so let's schedule our re-show in a sec
 		else
 			self:ConfigUpdated()
 		end
@@ -2756,7 +2776,6 @@ function Archy:UpdateTracking()
 		_G.WorldMapArchaeologyDigSites:Hide()
 		BattleFieldMinimap_Digsites(false)
 	end
--- 	_G.WorldMapShowDigSites:SetChecked(showDig)
 	_G.RefreshWorldMap()
 end
 

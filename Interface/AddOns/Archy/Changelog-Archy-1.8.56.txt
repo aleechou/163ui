@@ -1,0 +1,12 @@
+tag 1.8.56
+8fc806a4fb8f69d88ce4c50e4a74740ca9c5ac37
+James D. Callahan III <jcallahan@curse.com>
+2014-11-24 17:21:50 -0600
+
+Bringing in localization.
+
+
+--------------------
+
+Adavak:
+	- localization for LibBabble-AF and DS.

@@ -1252,7 +1252,7 @@ function mod:UpdateZoneData()
 	end
   
   -- Do we need to clear zoneScale if we don't have a map?
-  if not m then return end
+  if type(m) ~= "number" or m < 0 or type(l) ~= "number" then return end
 	
   local _, _, w, h = Astrolabe:GetMapInfo(m, l or 0) --return system, systemParent, mapData.width, mapData.height, mapData.xOffset, mapData.yOffset=GetMapInfo( mapID, mapFloor );
     if(w and h) then

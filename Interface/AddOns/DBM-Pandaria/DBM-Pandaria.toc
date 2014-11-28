@@ -1,22 +1,26 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Pandaria|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Pandaria
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首领-Mop
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首領-Mop
+## Notes-zhCN: |cff00ff00DBM-Pandaria|r
+## Notes-zhTW: |cff00ff00DBM-Pandaria|r
 ## Author: MysticalOS/nBlueWiz
+## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMPandaria_SavedVars, DBMPandaria_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-Single-Format: 1
-## X-DBM-Mod-Sort: 6
+## X-DBM-Mod-World-Boss: 1
+## X-DBM-Mod-Sort: 206
 ## X-DBM-Mod-MapID: 870,1064
-## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955
-## LoadOnDemand: 1
-## Dependencies: DBM-Core
+## X-DBM-Mod-LoadCID: 62346,60491,69161,69099,71952,71954,72057,71953,71955,69768,69769,69841,69842
 
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
+
 Anger.lua
 Salyis.lua
 Nalak.lua
@@ -26,4 +30,4 @@ Yulon.lua
 Niuzao.lua
 Xuen.lua
 Ordos.lua
-## X-163UI-Version: 20141112202657
+Zandalari.lua

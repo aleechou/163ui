@@ -79,7 +79,7 @@ function mod:checkmydebuff()
 		if not UnitIsDeadOrGhost("player") then
 			if GetTime() - stomptime > 10 then
 				specWarnCrystalShell:Show(shelldName)
-				DBM.Flash:Shake(1, 1, 0)
+				-- DBM.Flash:Shake(1, 1, 0)
 				sndWOP:Play("ex_tt_sjsl")--水晶碎裂
 			end
 		end
@@ -133,7 +133,7 @@ function mod:OnCombatStart(delay)
 			mod:checkmydebuff()
 		else
 			specWarnCrystalShell:Show(shelldName)
-			DBM.Flash:Shake(1, 1, 0)
+			-- DBM.Flash:Shake(1, 1, 0)
 			sndWOP:Play("ex_tt_sjsl")--水晶碎裂
 		end
 	end
@@ -164,7 +164,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnStoneBreath:Show(args.sourceName)
 		end
 		timerBreathCD:Start()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndAE:Cancel("aesoon")
 		sndAE:Cancel("countfive")
 		sndAE:Cancel("countfour")	
@@ -249,7 +249,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			mod:checkmydebuff()
 		else
 			specWarnCrystalShell:Show(shelldName)
-			DBM.Flash:Shake(1, 1, 0)
+			-- DBM.Flash:Shake(1, 1, 0)
 			sndWOP:Play("ex_tt_sjsl")--水晶碎裂
 		end
 	end

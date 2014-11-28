@@ -1,10 +1,9 @@
 ## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Ulduar|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Ульдуар|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0울두아르|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0奧杜亞|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Ulduar
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奥杜尔
+## Title-zhtw:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 奧杜亞
+## Notes-zhCN: |cff00ff00DBM-Ulduar|r
+## Notes-zhTW: |cff00ff00DBM-Ulduar|r
 ## Author: Nitram
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -15,6 +14,7 @@
 ## X-DBM-Mod-No-Heroic: 1
 ## X-DBM-Mod-MapID: 603
 ## X-DBM-Mod-Sort: 204
+
 localization.en.lua
 localization.de.lua
 localization.fr.lua
@@ -39,4 +39,4 @@ Hodir.lua
 GeneralVezax.lua
 YoggSaron.lua
 Algalon.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

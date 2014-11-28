@@ -22,7 +22,8 @@ local warnPiercingRush		= mod:NewTargetAnnounce(165731, 2)--EJ shows tank warnin
 local specWarnSpinningBlade	= mod:NewSpecialWarningSpell(153544, false, nil, nil, 2)
 local specWarnFourWinds		= mod:NewSpecialWarningSpell(156793, nil, nil, nil, 2)
 
-local timerFourWinds		= mod:NewCDTimer(30, 156793)
+local timerFourWinds		= mod:NewBuffActiveTimer(18, 156793)
+local timerFourWindsCD		= mod:NewCDTimer(30, 156793)
 
 function mod:OnCombatStart(delay)
 	timerFourWinds:Start(-delay)
@@ -37,6 +38,7 @@ function mod:SPELL_CAST_START(args)
 		warnFourWinds:Show()
 		specWarnFourWinds:Show()
 		timerFourWinds:Start()
+		timerFourWindsCD:Start()
 		sndWOP:Play("wwsoon")
 	elseif spellId == 153315 then
 		warnWindFall:Show()

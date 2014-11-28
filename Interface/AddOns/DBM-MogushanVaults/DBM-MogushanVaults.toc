@@ -1,14 +1,15 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mogu'shan Vaults|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Mogu'shan Vaults
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 魔古山宝库
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 魔古山寶庫
+## Notes-zhCN: |cff00ff00DBM-MogushanVaults|r
+## Notes-zhTW: |cff00ff00DBM-MogushanVaults|r
 ## Author: MysticalOS
-## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMMogushanVaults_SavedVars, DBMMogushanVaults_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
-## X-DBM-Mod-Name: Mogu'shan Vaults
 ## X-DBM-Mod-Sort: 5
 ## X-DBM-Mod-MapID: 1008
 ## LoadOnDemand: 1
@@ -17,10 +18,11 @@
 localization.en.lua
 localization.tw.lua
 localization.cn.lua
+
 StoneGuard.lua
 Feng.lua
 GarajalTheSpiritbinder.lua
 SpiritKings.lua
 Elegon.lua
 WillofEmperor.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

@@ -1,0 +1,15 @@
+﻿## Interface: 60000
+## LoadOnDemand: 1
+## Title: Lib: Babble-Artifacts-3.0
+## Version: r24
+## Notes: A library to help with localization of Archaeology artifacts
+## Author: Dridzt
+## X-Category: Library
+## X-License: MIT
+## X-Curse-Packaged-Version: r24
+## X-Curse-Project-Name: LibBabble-Artifacts-3.0
+## X-Curse-Project-ID: libbabble-artifacts-3-0
+## X-Curse-Repository-ID: wow/libbabble-artifacts-3-0/mainline
+
+LibStub\LibStub.lua
+lib.xml

@@ -153,7 +153,7 @@ local function warnTorrent(name)
 			specWarnTorrentofIceYou:Show()
 			timerTorrentofIce:Start()
 			yellTorrentofIce:Yell()
-			DBM.Flash:Shake(0, 0, 1)
+			-- DBM.Flash:Shake(0, 0, 1)
 			sndWOP:Play("justrun") --快跑
 		end
 	else
@@ -273,7 +273,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 		specWarnTorrentofIceYou:Show()
 		timerTorrentofIce:Start()
 		yellTorrentofIce:Yell()
-		DBM.Flash:Shake(0, 0, 1)
+		-- DBM.Flash:Shake(0, 0, 1)
 		sndWOP:Play("justrun") --快跑
 	end
 end
@@ -353,7 +353,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCinders:Show()
 			yellCinders:Yell()
 --			soundCinders:Play()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("firerun")  --快跑 火焰點你
 		end
 		if self.Options.HudMAP then

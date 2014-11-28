@@ -79,7 +79,7 @@ end
 local function warningResidue()
 	if mod.Options.InfoFrame and residueNum >= 0 then
 		DBM.InfoFrame:SetHeader(L.BloodCount)
-		DBM.InfoFrame:Show(1, "texts", residueNum, nil, nil, L.BloodCount)
+		-- DBM.InfoFrame:Show(1, "texts", residueNum, nil, nil, L.BloodCount)
 	end
 end
 

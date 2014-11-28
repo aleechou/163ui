@@ -308,7 +308,7 @@ function mod:SPELL_CAST_START(args)
 		warnTwistedFate:Show()
 		specWarnTwistedFate:Show()
 		timerTwistedFateCD:Start()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("killspirit")
 		sndSpirit:Cancel("countthree")
 		sndSpirit:Cancel("counttwo")
@@ -515,7 +515,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnMarkedSoul:Show()
 --BH DELETE		soundMarkedSoul:Play()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("shadowrun") --快跑 暗影點你
 		end
 	elseif args.spellId == 137166 then

@@ -228,7 +228,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnWildSpark:Show()
 			yellWildSpark:Yell()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("firerun") --火焰點你
 			sndWOP:Schedule(1.5, "countfour")
 			sndWOP:Schedule(2.5, "countthree")

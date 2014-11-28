@@ -342,7 +342,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCryOfTerrorCD:Start()
 		if args:IsPlayer() then
 			specwarnCryOfTerror:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_mop_kjyy") --快進音域
 		end
 	elseif args:IsSpellID(124748) then
@@ -354,7 +354,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFixate:Show(args.destName)
 		if args:IsPlayer() then
 			specwarnFixate:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("justrun") --快跑
 		end
 	elseif args:IsSpellID(124862) then
@@ -362,7 +362,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specwarnVisions:Show()
 			yellVisions:Yell()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("runout") --離開人群
 			sndWOP:Schedule(1.5, "countthree")
 			sndWOP:Schedule(2.5, "counttwo")
@@ -404,7 +404,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(124097) then
 		if args:IsPlayer() and self:AntiSpam(5, 2) then --prevent spam in heroic
 			specwarnStickyResin:Show()
-			DBM.Flash:Shake(1, 1, 0)
+			-- DBM.Flash:Shake(1, 1, 0)
 			yellStickyResin:Yell()
 			sndWOP:Play("ex_mop_szkp") --樹脂
 		end
@@ -550,7 +550,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnConsumingTerror:Show()
 		timerConsumingTerrorCD:Start()
 		if mod:IsTank() then
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		end
 		sndWOP:Play("ex_mop_kjts")--恐懼吞噬
 	end

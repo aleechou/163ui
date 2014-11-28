@@ -420,7 +420,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 		if destGUID == UnitGUID("player") and self:AntiSpam(3, 4) then
 			specWarnWindBomb:Show()
 			yellWindBomb:Yell()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("runaway")--快躲開
 		end
 	elseif spellId == 122125 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
@@ -498,7 +498,7 @@ function mod:UNIT_AURA_UNFILTERED(uId)
 	if UnitDebuff("player", strikeTarget) and not strikeWarned then--Warn you that you have a meteor
 		sndWOP:Play("holdit")--自保技能
 		specWarnKorthikStrike:Show()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		yellKorthikStrike:Yell()
 		strikeWarned = true
 		self:SendSync("KorthikStrikeTarget", UnitGUID("player"))--Screw target scanning, this way is much better, never wrong.

@@ -239,7 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnVolatilePathogen:Show()
 			sndWOP:Play("holdit")--自保
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 		elseif mod:IsHealer() then
 			sndWOP:Play("ex_tt_byt")--病原體出現
 		end
@@ -260,7 +260,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		showspellinfo()
 	elseif args.spellId == 140546 and args:IsPlayer() then
 		specWarnFullyMutated:Show()
-		DBM.Flash:Shake(0, 1, 0)
+		-- DBM.Flash:Shake(0, 1, 0)
 		timerFullyMutated:Start()
 		sndWOP:Play("ex_tt_tbwc")--完美突變
 	end

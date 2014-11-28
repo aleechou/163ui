@@ -43,6 +43,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSoulShred:Show()
 		specWarnSoulShred:Show()
 		timerSoulShredCD:Start()
+		sndWOP:Play("killspirit")
 	elseif spellId == 153067 then--SPELL_CAST_SUCCESS is usually missing so have to scan for debuffs
 		warnVoidDevastation:Show()
 		specWarnVoidDevastation:Show()

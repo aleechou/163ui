@@ -31,6 +31,8 @@ local timerZaelaReturns			= mod:NewTimer(26.5, "timerZaelaReturns", 166041)
 
 local countdownDestructiveSmite	= mod:NewCountdown(15.5, 155673)
 
+local soundCyclone				= mod:NewSound(155721)
+
 function mod:OnCombatStart(delay)
 	timerReboundingBladeCD:Start(-delay)
 	timerDestructiveSmiteCD:Start(10-delay)
@@ -50,7 +52,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 155721 then
 		warnBlackIronCyclone:Show(args.destName)
 		timerBlackIronCycloneCD:Start()
-		sndWOP:Play("runaway")
+		if args:IsPlayer() then
+			specWarnBlackIronCyclone:Show()
+			--soundCyclone:Play()
+			sndWOP:Play("runaway")
+		end
 	end
 end
 
@@ -65,6 +71,7 @@ function mod:UNIT_TARGETABLE_CHANGED()
 	if UnitExists("boss1") then--Returning from air phase
 		warnZaela:Show()
 		specWarnZaela:Show()
+		timerBlackIronCycloneCD:Start(10)
 		sndWOP:Play("phasechange")
 	else--Leaving for air phase, may need to delay by a sec or so if boss1 still exists.
 		timerZaelaReturns:Start()

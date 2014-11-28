@@ -14,7 +14,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 163550 160680",
 	"SPELL_PERIODIC_DAMAGE 166570",
 	"SPELL_PERIODIC_MISSED 166570",
-	"UNIT_TARGETABLE_CHANGED"
+	"UNIT_TARGETABLE_CHANGED",
+	"UNIT_DIED"
 )
 
 local warnMortar				= mod:NewSpellAnnounce(163550, 3)
@@ -29,6 +30,7 @@ local yellSupressiveFire		= mod:NewYell(160681)
 local specWarnSlagBlast			= mod:NewSpecialWarningMove(166570)
 
 local timerSupressiveFire		= mod:NewTargetTimer(10, 160681)
+local boomer			= mod:NewSpecialWarning("上炮台，快打炮!")
 
 local grenade = EJ_GetSectionInfo(9711)
 local mortar = EJ_GetSectionInfo(9712)
@@ -51,6 +53,10 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 160681 and args:IsDestTypePlayer() then
 		timerSupressiveFire:Start(args.destName)
+	end
+	if args.spellId == 146703 and args:IsPlayer() and self:AntiSpam(10) and self.vb.phase == 2 then
+		sndWOP:Play("160702")
+		boomer:Show()
 	end
 end
 

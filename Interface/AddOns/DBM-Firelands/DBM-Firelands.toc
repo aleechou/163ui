@@ -1,8 +1,9 @@
-## Interface: 60000
-## X-Min-Interface: 50001
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Firelands|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0火源之界|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0火焰之地|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Firelands
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 火焰之地
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 火源之界
+## Notes-zhCN: |cff00ff00DBM-Firelands|r
+## Notes-zhTW: |cff00ff00DBM-Firelands|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -15,9 +16,11 @@
 ## X-DBM-Mod-Name-zhCN: 火焰之地
 ## X-DBM-Mod-Sort: 101
 ## X-DBM-Mod-MapID: 720,951
+
 localization.en.lua
-localization.tw.lua
 localization.cn.lua
+localization.tw.lua
+
 Bethtilac.lua
 Rhyolith.lua
 Alysrazor.lua
@@ -28,4 +31,4 @@ Ragnaros.lua
 FirelandsTrash.lua
 Volcanus.lua
 Nexus.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

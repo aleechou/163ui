@@ -212,17 +212,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		inoizame = true
 		sndWOP:Play("ex_tt_dlzh") --電離子化
 		if self.Options.SoundWOPIonM then
-			self:Schedule(7, function() DBM.Flash:Shake(1, 0, 0) end)
-			self:Schedule(7.5, function() DBM.Flash:Shake(0, 0, 1) end)
-			self:Schedule(8, function() DBM.Flash:Shake(1, 0, 0) end)
+			-- self:Schedule(7, function() DBM.Flash:Shake(1, 0, 0) end)
+			-- self:Schedule(7.5, function() DBM.Flash:Shake(0, 0, 1) end)
+			-- self:Schedule(8, function() DBM.Flash:Shake(1, 0, 0) end)
 			sndIon:Schedule(7, "runout")
 			sndIon:Schedule(8, "runout")
 		else			
 			self:Schedule(16, function()
 				if UnitDebuff("player", GetSpellInfo(138732)) then
-					DBM.Flash:Shake(1, 0, 0)
-					self:Schedule(0.5, function() DBM.Flash:Shake(0, 0, 1) end)
-					self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
+					-- DBM.Flash:Shake(1, 0, 0)
+					-- self:Schedule(0.5, function() DBM.Flash:Shake(0, 0, 1) end)
+					-- self:Schedule(1, function() DBM.Flash:Shake(1, 0, 0) end)
 				end
 			 end)
 			sndIon:Schedule(16, "runout")	--離開人群
@@ -322,7 +322,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 			DBM.RangeCheck:Show(8)
 		end
 		focusme = true
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("ex_tt_sddn") --閃電點你
 	end
 end

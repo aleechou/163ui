@@ -24,8 +24,8 @@ local warnCorpseBreath			= mod:NewSpellAnnounce(165578, 2)
 local specWarnBodySlam			= mod:NewSpecialWarningSpell(154175, nil, nil, nil, 2)
 local specWarnInhale			= mod:NewSpecialWarningRun(153804)
 
-local timerBodySlamCD			= mod:NewCDSourceTimer(32, 154175)--32-35 Variation
-local timerCorpseBreathCD		= mod:NewCDTimer(32, 165578, nil, false)--32-37 Variation, also not that important so off by default since there will already be up to 3 smash timers
+local timerBodySlamCD			= mod:NewCDSourceTimer(30, 154175)--32-35 Variation
+local timerCorpseBreathCD		= mod:NewCDTimer(28, 165578, nil, false)--32-37 Variation, also not that important so off by default since there will already be up to 3 smash timers
 
 local soundInhale				= mod:NewSound(153804)
 
@@ -41,14 +41,13 @@ function mod:SPELL_CAST_START(args)
 			specWarnBodySlam:Show()
 		end
 		if args:GetSrcCreatureID() == 75452 then--Source is Bonemaw, not one of his adds
-			timerBodySlamCD:Start(32, args.sourceName, args.sourceGUID)
+			timerBodySlamCD:Start(30, args.sourceName, args.sourceGUID)
 		else
 			timerBodySlamCD:Start(14, args.sourceName, args.sourceGUID)--little guys use it more often.
 		end
 	elseif spellId == 165578 then
 		warnCorpseBreath:Show()
 		timerCorpseBreathCD:Start()
-		sndWOP:Play("breathsoon")
 	end
 end
 
@@ -61,9 +60,9 @@ end
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:153804") then--Slightly faster than combat log
-		sndWOP:Play("runaway")
 		warnInhale:Show()
 		specWarnInhale:Show()
-		soundInhale:Play()
+		--soundInhale:Play()
+		sndWOP:Play("153804")
 	end
 end

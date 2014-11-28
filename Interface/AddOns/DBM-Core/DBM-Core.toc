@@ -10,18 +10,20 @@
 ## Title-frFR:|cffffd200Deadly Boss Mods|r |cff69ccf0Noyau|r
 ## Notes: Deadly Boss Mods
 ## Dependencies: DBM-StatusBarTimers
-## OptionalDependencies: LibSharedMedia-3.0, LibChatAnims
+## OptionalDependencies: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims
 ## SavedVariablesPerCharacter: DBM_SavedOptions, DBT_SavedOptions
 ## LoadOnDemand: 0
 ## DefaultState: enabled
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
 
+#@no-lib-strip@
 embeds.xml
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\LibChatAnims\LibChatAnims.xml
 Libs\LibSharedMedia-3.0\lib.xml
+#@end-no-lib-strip@
 localization.en.lua
 localization.de.lua
 localization.cn.lua
@@ -40,4 +42,4 @@ DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
 DBM-HudMap.lua
-## X-163UI-Version: 20141119181132
+## X-163UI-Version: 2014112801

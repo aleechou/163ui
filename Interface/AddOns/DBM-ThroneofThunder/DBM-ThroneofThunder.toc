@@ -1,8 +1,10 @@
-## Interface: 60000
-## X-Min-Interface: 50200
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of Thunder|r
+﻿## Interface: 60000
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Throne of Thunder
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 雷电王座
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 雷霆王座
+## Notes-zhCN: |cff00ff00DBM-ThroneofThunder|r
+## Notes-zhTW: |cff00ff00DBM-ThroneofThunder|r
 ## Author: MysticalOS
-## RequiredDeps: DBM-Core
 ## SavedVariablesPerCharacter: DBMThroneofThunder_SavedVars, DBMThroneofThunder_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
@@ -11,12 +13,13 @@
 ## X-DBM-Mod-Name: Throne of Thunder
 ## X-DBM-Mod-Sort: 2
 ## X-DBM-Mod-MapID: 1098
-## LoadOnDemand: 1
 ## Dependencies: DBM-Core
+## LoadOnDemand: 1
 
 localization.en.lua
 localization.cn.lua
 localization.tw.lua
+
 Jinrokh.lua
 Horridon.lua
 CouncilofElders.lua
@@ -31,4 +34,4 @@ TwinConsorts.lua
 LeiShen.lua
 Raden.lua
 ToTTrash.lua
-## X-163UI-Version: 20141112202657
+## X-163UI-Version: 2014112801

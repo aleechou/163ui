@@ -35,14 +35,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 153240 then
 		warnDaggerFall:Show()
 	elseif spellId == 153153 then
-		sndWOP:Play("mobsoon")
 		warnDarkCommunion:Show()
 		specWarnDarkCommunion:Show()
 		timerDarkCommunionCD:Start()
 		countdownDarkCommunion:Start()
+		sndWOP:Play("mobsoon")
 	elseif spellId == 164974 then
 		specWarnDarkEclipse:Show()
 		specWarnDarkEclipse:Show()
 		timerDarkEclipseCD:Start()
+		sndWOP:Play("164974")
 	end
 end

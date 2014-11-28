@@ -28,7 +28,7 @@ mod.vb.burstCount = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.burstCount = 0
-	timerBurstCD:Start(20-delay)
+	timerBurstCD:Start(20-delay, 1)
 end
 
 function mod:SPELL_CAST_START(args)
@@ -45,7 +45,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 154159 then
+	if args.spellId == 154159 and self:AntiSpam(2, 1) then
 		warnEnergize:Show()
 		timerEnergozeCD:Start()
 	end

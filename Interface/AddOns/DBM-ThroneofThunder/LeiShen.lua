@@ -279,7 +279,7 @@ function mod:SPELL_CAST_START(args)
 		warnThunderstruck:Show()
 		specWarnThunderstruck:Show()
 		timerThunderstruck:Start()
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("ex_tt_yllj") --遠離雷擊
 		if phase < 3 then
 			timerThunderstruckCD:Start()
@@ -306,14 +306,14 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerLightningWhipCD:Start(30)
 		end
-		DBM.Flash:Shake(1, 0, 0)
+		-- DBM.Flash:Shake(1, 0, 0)
 		sndWOP:Play("ex_tt_sdb") --閃電鞭
 	elseif args.spellId == 136478 then
 		warnFusionSlash:Show()
 		specWarnFusionSlash:Show()
 		timerFussionSlashCD:Start()
 		if UnitName("boss1target") == UnitName("player") then
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("carefly") --小心擊飛
 		elseif mod:IsTank() or mod:IsHealer() then
 			sndWOP:Play("ex_tt_jlz") --巨雷斬
@@ -327,7 +327,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDecapitateCD:Start()
 		if args:IsPlayer() then
 			specWarnDecapitate:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_zs")--斬首快跑
 		else
 			specWarnDecapitateOther:Show(args.destName)
@@ -476,7 +476,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCommandTarget:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnHelmOfCommand:Show()
-			DBM.Flash:Shake(1, 0, 0)
+			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_jtzy") --注意擊退
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
