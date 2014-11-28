@@ -20,4 +20,4 @@ Patch-by163UI.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 简约背包整合
 ## Notes-zhCN: 简约背包整合
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014112601
+## X-163UI-Version: 20141128135419

@@ -15,4 +15,4 @@ BetterPowerBarAlt.lua
 ## Title-zhCN: |cff880303[网易有爱]|r 特殊能量条设置
 ## Notes-zhCN: 在boss战中方便快捷的移动特殊能量条.
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014112701
+## X-163UI-Version: 20141128135419

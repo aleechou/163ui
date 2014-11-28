@@ -9,7 +9,7 @@
 ## Title-zhCN: |cff880303[网易有爱]|r 技能冷却计时-配置界面
 ## Notes-zhCN: 技能冷却计时-配置界面模块
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014112701
+## X-163UI-Version: 20141128135419
 
 libs\libs.xml
 localization\localization.xml
