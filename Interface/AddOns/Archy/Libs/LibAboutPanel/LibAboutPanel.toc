@@ -12,7 +12,7 @@
 ## X-Author-Server: Hyjal US
 ## X-Donate: http://www.curseforge.com/projects/libaboutpanel/#w_donations
 
-## Interface: 50400
+## Interface: 60000
 ## Version: 1.6.2
 ## X-Revision: @project-revision@
 ## X-Date: 2014-02-24T20:41:20Z
