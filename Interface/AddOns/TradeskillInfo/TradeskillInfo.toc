@@ -67,4 +67,4 @@ PatchBy163UI.lua
 ## Notes-zhTW: 完整的商業技能百科
 ## Notes-zhCN: 完整的商业技能百科
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141125094136
+## X-163UI-Version: 20141128135419

@@ -46,4 +46,4 @@ Data\CombatStatus.lua
 ## Notes-zhCN: 绝妙的浮动战斗记录指示器。
 ## Notes-zhTW: 絕妙的浮動戰鬥記錄指示器。
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014112801
+## X-163UI-Version: 20141128135419

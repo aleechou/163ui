@@ -51,4 +51,4 @@ Scaling.lua
 ## Notes-zhCN: 简单实用的地图显示、未探索区域显示、副本地图、NPC位置插件.
 ## Notes-zhTW: 簡單實用的地圖顯示、未探索區域顯示、副本地圖、NPC位置插件.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141125094136
+## X-163UI-Version: 20141128135419
