@@ -14,6 +14,9 @@ ItemSlot.unused = {}
 function ItemSlot:Create()
 	local item = Bagnon.ItemSlot.Create(self)
 	item:SetScript('OnReceiveDrag', self.OnDragStart)
+	item:SetScript('OnDragStart', self.OnDragStart)
+	item:SetScript('OnClick', self.OnClick)
+
 	return item
 end
 

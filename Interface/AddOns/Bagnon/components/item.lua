@@ -53,9 +53,9 @@ function ItemSlot:Create()
 	item.newitemglowAnim:SetLooping('NONE')
 	item.QuestBorder = _G[name .. 'IconQuestTexture']
 	item.Cooldown = _G[name .. 'Cooldown']
-	item:HookScript('OnClick', item.OnClick)
 	item:SetScript('PreClick', item.OnPreClick)
 	item:HookScript('OnDragStart', item.OnDragStart)
+	item:HookScript('OnClick', item.OnClick)
 	item:SetScript('OnEnter', item.OnEnter)
 	item:SetScript('OnLeave', item.OnLeave)
 	item:SetScript('OnShow', item.OnShow)

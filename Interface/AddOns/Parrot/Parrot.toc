@@ -1,6 +1,8 @@
 ## Interface: 60000
 ## Title: Parrot
 ## Notes: Floating Combat Text of awesomeness. Caw. It'll eat your crackers.
+## Notes-zhCN: 绝妙的浮动战斗记录指示器。
+## Notes-zhTW: 絕妙的浮動戰鬥記錄指示器。
 ## Author: ckknight, profalbert
 ## X-eMail: ckknight AT gmail DOT com, cedwani AT quantentunnel DOT de
 ## X-Website: http://www.wowace.com/
@@ -9,8 +11,8 @@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDeformat-3.0, AceGUI-3.0-SharedMediaWidgets
 ## X-WoWIPortal: ckknight
 ## X-License: GPL v2 or later
-## Version: v1.11.4-2-g0588fe7
-## X-Curse-Packaged-Version: v1.11.4-2-g0588fe7
+## Version: v1.12.0
+## X-Curse-Packaged-Version: v1.12.0
 ## X-Curse-Project-Name: Parrot
 ## X-Curse-Project-ID: parrot
 ## X-Curse-Repository-ID: wow/parrot/mainline
@@ -44,4 +46,4 @@ Data\CombatStatus.lua
 ## Notes-zhCN: 绝妙的浮动战斗记录指示器。
 ## Notes-zhTW: 絕妙的浮動戰鬥記錄指示器。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 2014112801

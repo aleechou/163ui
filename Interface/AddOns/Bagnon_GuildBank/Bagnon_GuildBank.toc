@@ -4,12 +4,12 @@
 ## Notes: Single window display for your guild bank
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
+## Version: 6.0.16
 
 localization\localization.xml
 components\components.xml
 main.lua
-
 ## Title-zhCN: |cff880303[网易有爱]|r 公会银行整合
 ## Notes-zhCN: 在一个窗口中显示所有公会银行内的物品
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 2014112601

@@ -1,3 +1,7 @@
+v1.12.0:
+* fix bug with sticky crits in 6.0
+* mark compatible with 6.0
+
 v1.11.4:
 * mark compatible with wow 5.4
 
