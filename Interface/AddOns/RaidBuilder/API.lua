@@ -567,7 +567,7 @@ function FormatInstanceColor(value, index)
 end
 
 local _GetClassInfo = _G.GetClassInfo
-local function GetClassInfo(id)
+function GetClassInfo(id)
     if type(id) == 'number' then
         return _GetClassInfo(id)
     else

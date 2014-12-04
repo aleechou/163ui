@@ -114,12 +114,12 @@ EVENT_CREATE_MENUTABLE  = {
                     },
                     [10] = {
                         ['disabled'] = menuDisable,
-                        ['text'] = '熊猫人之迷世界Boss',
+                        ['text'] = '熊猫人之谜世界Boss',
                         ['value'] = 0x1BFFF00,
                     },
                 },
                 ['notClickable'] = true,
-                ['text'] = '熊猫人之迷',
+                ['text'] = '熊猫人之谜',
                 ['value'] = 0x1B00000,
             },
             [3] = {
@@ -304,16 +304,145 @@ EVENT_CREATE_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '奥金顿-英雄',
+                        ['value'] = 0x2001001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '影月墓地-英雄',
+                        ['value'] = 0x2001002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '恐轨车站-英雄',
+                        ['value'] = 0x2001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '永茂林地-英雄',
+                        ['value'] = 0x2001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '血槌炉渣矿井-英雄',
+                        ['value'] = 0x2001005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '通天峰-英雄',
+                        ['value'] = 0x2001006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '钢铁码头-英雄',
+                        ['value'] = 0x2001007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '黑石塔上层-英雄',
+                        ['value'] = 0x2001008,
+                    },
+                },
                 ['text'] = '英雄地下城',
                 ['value'] = 0x2001000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '奥金顿-普通',
+                        ['value'] = 0x2002001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '影月墓地-普通',
+                        ['value'] = 0x2002002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '恐轨车站-普通',
+                        ['value'] = 0x2002003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '永茂林地-普通',
+                        ['value'] = 0x2002004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '血槌炉渣矿井-普通',
+                        ['value'] = 0x2002005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '通天峰-普通',
+                        ['value'] = 0x2002006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '钢铁码头-普通',
+                        ['value'] = 0x2002007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '黑石塔上层-普通',
+                        ['value'] = 0x2002008,
+                    },
+                },
                 ['text'] = '普通地下城',
                 ['value'] = 0x2002000,
             },
             [3] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '奥金顿-挑战',
+                        ['value'] = 0x2003001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '影月墓地-挑战',
+                        ['value'] = 0x2003002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '恐轨车站-挑战',
+                        ['value'] = 0x2003003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '永茂林地-挑战',
+                        ['value'] = 0x2003004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '血槌炉渣矿井-挑战',
+                        ['value'] = 0x2003005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '通天峰-挑战',
+                        ['value'] = 0x2003006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '钢铁码头-挑战',
+                        ['value'] = 0x2003007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['text'] = '黑石塔上层-挑战',
+                        ['value'] = 0x2003008,
+                    },
+                },
                 ['text'] = '挑战地下城',
                 ['value'] = 0x2003000,
             },
@@ -328,17 +457,17 @@ EVENT_CREATE_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
-                ['text'] = '英雄场景战役',
+                ['text'] = '要塞日常任务',
                 ['value'] = 0x3001000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
-                ['text'] = '普通场景战役',
+                ['text'] = '其它任务',
                 ['value'] = 0x3002000,
             },
         },
         ['notClickable'] = true,
-        ['text'] = '场景战役',
+        ['text'] = '任务',
         ['value'] = 0x3000000,
     },
     [4] = {
@@ -578,13 +707,13 @@ EVENT_CREATE_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
-                ['text'] = '少昊皇帝声望',
-                ['value'] = 0xF001000,
+                ['text'] = '埃匹希斯水晶',
+                ['value'] = 0xF003000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
-                ['text'] = '黑王子声望',
-                ['value'] = 0xF002000,
+                ['text'] = '诺卡罗什',
+                ['value'] = 0xF07F000,
             },
         },
         ['text'] = '其它',
@@ -725,12 +854,12 @@ EVENT_FILTER_MENUTABLE  = {
                     [10] = {
                         ['disabled'] = menuDisable,
                         ['notClickable'] = false,
-                        ['text'] = '熊猫人之迷世界Boss',
+                        ['text'] = '熊猫人之谜世界Boss',
                         ['value'] = 0x1BFFF00,
                     },
                 },
                 ['notClickable'] = false,
-                ['text'] = '熊猫人之迷',
+                ['text'] = '熊猫人之谜',
                 ['value'] = 0x1B00000,
             },
             [3] = {
@@ -942,18 +1071,171 @@ EVENT_FILTER_MENUTABLE  = {
         ['menuTable'] = {
             [1] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '奥金顿-英雄',
+                        ['value'] = 0x2001001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '影月墓地-英雄',
+                        ['value'] = 0x2001002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '恐轨车站-英雄',
+                        ['value'] = 0x2001003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '永茂林地-英雄',
+                        ['value'] = 0x2001004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '血槌炉渣矿井-英雄',
+                        ['value'] = 0x2001005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '通天峰-英雄',
+                        ['value'] = 0x2001006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '钢铁码头-英雄',
+                        ['value'] = 0x2001007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '黑石塔上层-英雄',
+                        ['value'] = 0x2001008,
+                    },
+                },
                 ['notClickable'] = false,
                 ['text'] = '英雄地下城',
                 ['value'] = 0x2001000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '奥金顿-普通',
+                        ['value'] = 0x2002001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '影月墓地-普通',
+                        ['value'] = 0x2002002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '恐轨车站-普通',
+                        ['value'] = 0x2002003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '永茂林地-普通',
+                        ['value'] = 0x2002004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '血槌炉渣矿井-普通',
+                        ['value'] = 0x2002005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '通天峰-普通',
+                        ['value'] = 0x2002006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '钢铁码头-普通',
+                        ['value'] = 0x2002007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '黑石塔上层-普通',
+                        ['value'] = 0x2002008,
+                    },
+                },
                 ['notClickable'] = false,
                 ['text'] = '普通地下城',
                 ['value'] = 0x2002000,
             },
             [3] = {
                 ['disabled'] = menuDisable,
+                ['hasArrow'] = true,
+                ['menuTable'] = {
+                    [1] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '奥金顿-挑战',
+                        ['value'] = 0x2003001,
+                    },
+                    [2] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '影月墓地-挑战',
+                        ['value'] = 0x2003002,
+                    },
+                    [3] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '恐轨车站-挑战',
+                        ['value'] = 0x2003003,
+                    },
+                    [4] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '永茂林地-挑战',
+                        ['value'] = 0x2003004,
+                    },
+                    [5] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '血槌炉渣矿井-挑战',
+                        ['value'] = 0x2003005,
+                    },
+                    [6] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '通天峰-挑战',
+                        ['value'] = 0x2003006,
+                    },
+                    [7] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '钢铁码头-挑战',
+                        ['value'] = 0x2003007,
+                    },
+                    [8] = {
+                        ['disabled'] = menuDisable,
+                        ['notClickable'] = false,
+                        ['text'] = '黑石塔上层-挑战',
+                        ['value'] = 0x2003008,
+                    },
+                },
                 ['notClickable'] = false,
                 ['text'] = '挑战地下城',
                 ['value'] = 0x2003000,
@@ -970,18 +1252,18 @@ EVENT_FILTER_MENUTABLE  = {
             [1] = {
                 ['disabled'] = menuDisable,
                 ['notClickable'] = false,
-                ['text'] = '英雄场景战役',
+                ['text'] = '要塞日常任务',
                 ['value'] = 0x3001000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
                 ['notClickable'] = false,
-                ['text'] = '普通场景战役',
+                ['text'] = '其它任务',
                 ['value'] = 0x3002000,
             },
         },
         ['notClickable'] = false,
-        ['text'] = '场景战役',
+        ['text'] = '任务',
         ['value'] = 0x3000000,
     },
     [5] = {
@@ -1255,14 +1537,14 @@ EVENT_FILTER_MENUTABLE  = {
             [1] = {
                 ['disabled'] = menuDisable,
                 ['notClickable'] = false,
-                ['text'] = '少昊皇帝声望',
-                ['value'] = 0xF001000,
+                ['text'] = '埃匹希斯水晶',
+                ['value'] = 0xF003000,
             },
             [2] = {
                 ['disabled'] = menuDisable,
                 ['notClickable'] = false,
-                ['text'] = '黑王子声望',
-                ['value'] = 0xF002000,
+                ['text'] = '诺卡罗什',
+                ['value'] = 0xF07F000,
             },
         },
         ['notClickable'] = false,
@@ -1296,34 +1578,22 @@ EVENT_MODE_MENUTABLE = {
     },
     [0x2000000] = {
         [1] = {
-            ['text'] = '勇气',
-            ['value'] = 7,
-        },
-        [2] = {
-            ['text'] = '正义',
-            ['value'] = 8,
-        },
-        [3] = {
             ['text'] = '成就',
             ['value'] = 3,
         },
-        [4] = {
+        [2] = {
             ['text'] = '自强',
             ['value'] = 6,
         },
-        [5] = {
+        [3] = {
             ['text'] = '挑战',
             ['value'] = 11,
         },
     },
     [0x3000000] = {
         [1] = {
-            ['text'] = '勇气',
-            ['value'] = 7,
-        },
-        [2] = {
-            ['text'] = '成就',
-            ['value'] = 3,
+            ['text'] = '任务',
+            ['value'] = 16,
         },
     },
     [0x4000000] = {
@@ -1425,22 +1695,14 @@ EVENT_MODE_MENUTABLE_WITHALL = {
             ['value'] = 0,
         },
         [2] = {
-            ['text'] = '勇气',
-            ['value'] = 7,
-        },
-        [3] = {
-            ['text'] = '正义',
-            ['value'] = 8,
-        },
-        [4] = {
             ['text'] = '成就',
             ['value'] = 3,
         },
-        [5] = {
+        [3] = {
             ['text'] = '自强',
             ['value'] = 6,
         },
-        [6] = {
+        [4] = {
             ['text'] = '挑战',
             ['value'] = 11,
         },
@@ -1451,12 +1713,8 @@ EVENT_MODE_MENUTABLE_WITHALL = {
             ['value'] = 0,
         },
         [2] = {
-            ['text'] = '勇气',
-            ['value'] = 7,
-        },
-        [3] = {
-            ['text'] = '成就',
-            ['value'] = 3,
+            ['text'] = '任务',
+            ['value'] = 16,
         },
     },
     [0x4000000] = {

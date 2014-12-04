@@ -10,8 +10,7 @@ local BROAD_HEADER = {
         width = 113,
         style = 'LEFT',
         showHandler = function(data)
-            local color = RAID_CLASS_COLORS[data.class]
-            return color and format('|c%s%s|r', color.colorStr, data.name) or data.name
+            return GetColoredClass(data.class)
         end,
     },
     {
@@ -38,7 +37,7 @@ local BROAD_HEADER = {
         width = 60,
         style = 'ICON',
         showHandler = function(data)
-            return nil, nil, nil, nil, [[Interface\TargetingFrame\UI-Classes-Circles]], unpack(CLASS_ICON_TCOORDS[data.class])
+            return nil, nil, nil, nil, [[Interface\TargetingFrame\UI-Classes-Circles]], unpack(CLASS_ICON_TCOORDS[select(2, GetClassInfo(data.class))])
         end,
     },
     {

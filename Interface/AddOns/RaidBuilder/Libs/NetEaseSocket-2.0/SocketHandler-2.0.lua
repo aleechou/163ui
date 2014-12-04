@@ -4,7 +4,7 @@ local SocketMiddleware = LibStub('NetEaseSocketMiddleware-2.0')
 local AceTimer = LibStub('AceTimer-3.0')
 local AceEvent = LibStub('AceEvent-3.0')
 
-local MAJOR, MINOR = 'SocketHandler-2.0', 8
+local MAJOR, MINOR = 'SocketHandler-2.0', 9
 local SocketHandler,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not SocketHandler then return end
 
@@ -195,7 +195,9 @@ function SocketHandler:TryConnect()
         self:Send('WHISPER', self.connectTarget, 'NETEASE_CONNECT', self:GetConnectKey())
         self.retryConnectTimer = self:ScheduleTimer('TryConnect', 5)
     else
-        tinsert(self.connectQueue, self)
+        if not tContains(connectQueue, self) then
+            tinsert(connectQueue, self)
+        end
     end
 end
 
@@ -272,6 +274,9 @@ function EventHandler:CHAT_MSG_CHANNEL_NOTICE(_, event, _, _, _, _, _, _, id, ch
 end
 
 function EventHandler:PLAYER_LOGOUT()
+    self:UnregisterAllEvents()
+    self:CancelAllTimers()
+
     for channelName in pairs(channels) do
         LeaveChannelByName(channelName)
     end
@@ -279,6 +284,10 @@ end
 
 function EventHandler:PLAYER_LOGIN()
     SocketHandler.isLoggedIn = true
+
+    self:RegisterEvent('PLAYER_LOGOUT')
+    self:RegisterEvent('CHAT_MSG_SYSTEM')
+    self:RegisterEvent('CHAT_MSG_CHANNEL_NOTICE')
 
     for _, handler in ipairs(connectQueue) do
         handler:TryConnect()
@@ -304,9 +313,6 @@ end
 
 EventHandler:CancelAllTimers()
 EventHandler:UnregisterAllEvents()
-EventHandler:RegisterEvent('PLAYER_LOGOUT')
-EventHandler:RegisterEvent('CHAT_MSG_SYSTEM')
-EventHandler:RegisterEvent('CHAT_MSG_CHANNEL_NOTICE')
 
 if IsLoggedIn() then
     EventHandler:ScheduleTimer('PLAYER_LOGIN', CONNECT_DELAY)

@@ -18,6 +18,24 @@ function Profile:OnInitialize()
         }
     }
 
+    for eventCode in pairs(EVENT_NAMES) do
+        local data = {
+            MinLevel    = GetEventMinLevel(eventCode),
+            MaxLevel    = MAX_PLAYER_LEVEL,
+            ItemLevel   = 0,
+            Summary     = '',
+            PVPRating   = 0,
+            ForceVerify = false,
+            CrossRealm  = GetEventAllowCrossRealm(eventCode),
+            Rules       = '',
+        }
+
+        data.TotalTANK, data.TotalHEALER,
+        data.TotalDAMAGER, data.TotalNONE = GetEventDefaultMemberRole(eventCode)
+
+        gdb.global.eventProfiles[eventCode] = data
+    end
+
     local cdb = {
         profile = {
             eventCache = {},

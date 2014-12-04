@@ -1,0 +1,14 @@
+## Interface: 60000
+## Title: 追随者任务大师
+## Notes: 修改并简化追随者任务面板的操作
+## LoadOnDemand: 1
+## LoadWith: Blizzard_GarrisonUI
+## Version: 0.11
+## Author: foxlit
+## SavedVariables: MasterPlanConfig, MasterPlanData
+Libs/Evie.lua
+Locale.lua
+GarrisonAPI.lua
+MasterPlan.lua
+GarrisonMissions.lua
+GarrisonFollowers.lua

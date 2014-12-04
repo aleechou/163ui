@@ -10,11 +10,6 @@
         "!!!163UI.3dcodecmd!!!-src",
         "TinyTip",
 
-        "Combuctor",
-        "Combuctor_Config",
-        "Combuctor_Sets",
-        "JPack",
-        "JPack_Ex",
 
         "BossesKilled" ,
         "ButtonFacade" 
@@ -32,9 +27,8 @@
         , "Atemi"
         , "BossesKilled"
         , "EasyMount"
-        , "GladiatorlosSA"
         , "HabeebIt"
-        , "Healers-Have-To-Die"
+
 
 
 

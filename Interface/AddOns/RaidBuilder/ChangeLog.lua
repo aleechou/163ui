@@ -15,13 +15,16 @@ ADDON_SUMMARY = [[
 <h2>|cff00ff00新功能：|r 跨服单对单密语聊天</h2>
 <h2>|cff00ff00新功能：|r 整合战网在线支付积分兑换功能</h2>
 </body>
-</html>
-]]
+</html>]]
 
 ADDON_CHANGELOG = [[
 <html>
 <body>
 <h3>更新日志</h3>
+<br/>
+<h1>60000.05</h1>
+<p>　调整活动类型及形式</p>
+<p>　修复一些bug</p>
 <br/>
 <h1>60000.04</h1>
 <p>　重写通信协议</p>
