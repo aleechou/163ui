@@ -8,7 +8,7 @@ local mod = ExtraCD
 local tinsert, tremove = table.insert, table.remove
 local tonumber, tostring = tonumber, tostring
 local ECD_TEXT = "ExtraCD"
-local ECD_VERSION = "1.3.1"
+local ECD_VERSION = "1.3.2"
 local ECD_AUTHOR = "superk"
 local active = {}
 local equippedItems = {}
@@ -290,7 +290,7 @@ function mod:CreateIcon(order, bar)
 		-- size (width or height) of the square repeating background tiles (in pixels)
 		tileSize = isize + 2,
 		-- thickness of edge segments and square size of edge corners (in pixels)
-		edgeSize = 0.3 * isize,
+		edgeSize = 0.1 * isize,
 		-- distance from the edges of the frame to those of the background texture (in pixels)
 		--[[ insets = {
 			left = 12,

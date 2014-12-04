@@ -3,9 +3,11 @@ BuildEnv(...)
 
 MicroButton = RaidBuilder:NewModule(CreateFrame('Button', nil, MainMenuBarArtFrame), 'MicroButton', 'AceEvent-3.0', 'AceHook-3.0')
 
-local RaidBuilderMicroButton = MicroButton
-
 function MicroButton:OnInitialize()
+    GUI:Embed(self, 'Refresh')
+
+    self:Hide()
+    self:SetPoint('BOTTOMLEFT', LFDMicroButton, 'BOTTOMRIGHT', -2, 0)
     self:SetNormalTexture([[Interface\Buttons\UI-MicroButtonCharacter-Up]])
     self:SetPushedTexture([[Interface\Buttons\UI-MicroButtonCharacter-Down]])
     self:SetHighlightTexture([[Interface\Buttons\UI-MicroButton-Hilight]])
@@ -22,8 +24,8 @@ function MicroButton:OnInitialize()
     end)
 
     local Icon = self:CreateTexture(nil, 'OVERLAY')
-    Icon:SetSize(20, 20)
-    Icon:SetPoint('BOTTOM', 0, 8)
+    Icon:SetSize(24, 24)
+    Icon:SetPoint('BOTTOM', 0, 6)
     Icon:SetTexture([[Interface\Addons\RaidBuilder\Media\Mark\0]])
 
     local Flash = GUI:GetClass('AlphaFlash'):New(self)
@@ -32,9 +34,14 @@ function MicroButton:OnInitialize()
     Flash:SetTexture([[Interface\Buttons\Micro-Highlight]])
     Flash:Hide()
 
+    local function Update()
+        _G.UpdateMicroButtons()
+    end
+
     local Frame = CreateFrame('Frame', nil, MainPanel)
-    Frame:SetScript('OnShow', self.UpdateMicroButtons)
-    Frame:SetScript('OnHide', self.UpdateMicroButtons)
+    Frame:Hide()
+    Frame:SetScript('OnShow', Update)
+    Frame:SetScript('OnHide', Update)
 
     self.Flash = Flash
     self.Frame = Frame
@@ -43,70 +50,71 @@ function MicroButton:OnInitialize()
 end
 
 function MicroButton:OnEnable()
+    self:SecureHook('UpdateMicroButtons')
+    self:SecureHook('UpdateMicroButtonsParent', 'SetParent')
+
+    self:SetParent(CharacterMicroButton:GetParent())
+
     self.Frame:Show()
     self:Show()
-    self:SecureHook('UpdateMicroButtons')
-    self:SecureHook('UpdateMicroButtonsParent')
-    self:UpdateMicroButtons()
+    self:Refresh()
 end
 
 function MicroButton:OnDisable()
-    self.Frame:Hide()
-    self:Hide()
-    self:UnhookAll()
+    CompanionsMicroButton:ClearAllPoints()
+    CompanionsMicroButton:SetPoint('BOTTOMLEFT', LFDMicroButton, 'BOTTOMRIGHT', -2, 0)
 
     if CharacterMicroButton:GetParent() == MainMenuBarArtFrame then
+        CharacterMicroButton:ClearAllPoints()
         CharacterMicroButton:SetPoint('BOTTOMLEFT', MainMenuBarArtFrame, 'BOTTOMLEFT', 556, 2)
     end
-    CompanionsMicroButton:SetPoint('BOTTOMLEFT', LFDMicroButton, 'BOTTOMRIGHT', -3, 0)
 
-    UpdateMicroButtons()
+    self:UnhookAll()
+    self.Frame:Hide()
+    self:Hide()
 end
 
 function MicroButton:OnMouseDown()
-    self.Icon:SetPoint('BOTTOM', -1, 7)
+    self.Icon:SetPoint('BOTTOM', -1, 5)
     self.Icon:SetVertexColor(0.6, 0.6, 0.6)
 end
 
 function MicroButton:OnMouseUp()
-    self.Icon:SetPoint('BOTTOM', 0, 8)
-    self.Icon:SetVertexColor(1, 1, 1)
-end
-
-function MicroButton:UpdateMicroButtonsParent(parent)
-    self:SetParent(parent)
+    if not MainPanel:IsShown() then
+        self.Icon:SetPoint('BOTTOM', 0, 6)
+        self.Icon:SetVertexColor(1, 1, 1)
+    end
 end
 
 function MicroButton:UpdateMicroButtons()
+    self:Show()
+    self:Refresh()
+end
+
+function MicroButton:Update()
     local parent = CharacterMicroButton:GetParent()
-    RaidBuilderMicroButton:SetParent(parent)
+    if not (parent == MainMenuBarArtFrame or
+            parent == OverrideActionBar or
+            (PetBattleFrame and parent == PetBattleFrame.BottomFrame.MicroButtonFrame)) then
+        return self:Hide()
+    end
+
+    CompanionsMicroButton:ClearAllPoints()
+    CompanionsMicroButton:SetPoint('BOTTOMLEFT', self, 'BOTTOMRIGHT', -2, 0)
 
     if parent == MainMenuBarArtFrame then
         CharacterMicroButton:ClearAllPoints()
-        RaidBuilderMicroButton:ClearAllPoints()
-        CompanionsMicroButton:ClearAllPoints()
-        MainMenuMicroButton:ClearAllPoints()
-
-        CharacterMicroButton:SetPoint('BOTTOMLEFT', parent, 'BOTTOMLEFT', 545, 2)
-        RaidBuilderMicroButton:SetPoint('BOTTOMLEFT', LFDMicroButton, 'BOTTOMRIGHT', -3, 0)
-        CompanionsMicroButton:SetPoint('BOTTOMLEFT', RaidBuilderMicroButton, 'BOTTOMRIGHT', -3, 0)
-        MainMenuMicroButton:SetPoint('BOTTOMLEFT', C_StorePublic.IsEnabled() and StoreMicroButton or EJMicroButton, 'BOTTOMRIGHT', -3, 0)
-    elseif parent == OverrideActionBar or (PetBattleFrame and parent == PetBattleFrame.BottomFrame.MicroButtonFrame) then
-        RaidBuilderMicroButton:ClearAllPoints()
-        CompanionsMicroButton:ClearAllPoints()
-        MainMenuMicroButton:ClearAllPoints()
-
-        RaidBuilderMicroButton:SetPoint('BOTTOMLEFT', LFDMicroButton, 'BOTTOMRIGHT', -2, 0)
-        CompanionsMicroButton:SetPoint('BOTTOMLEFT', RaidBuilderMicroButton, 'BOTTOMRIGHT', -2, 0)
-        MainMenuMicroButton:SetPoint('BOTTOMLEFT', C_StorePublic.IsEnabled() and StoreMicroButton or EJMicroButton, 'BOTTOMRIGHT', -2, 0)
+        CharacterMicroButton:SetPoint('BOTTOMLEFT', MainMenuBarArtFrame, 'BOTTOMLEFT', 545, 2)
     end
 
+    MainMenuMicroButton:SetPoint('BOTTOMLEFT', C_StorePublic.IsEnabled() and StoreMicroButton or EJMicroButton, 'BOTTOMRIGHT', -2, 0)
+
     if MainPanel:IsShown() then
-        RaidBuilderMicroButton:SetButtonState('PUSHED', true)
-        RaidBuilderMicroButton:OnMouseDown()
+        self:SetButtonState('PUSHED', true)
+        self:OnMouseDown()
     else
-        RaidBuilderMicroButton:SetButtonState('NORMAL')
-        RaidBuilderMicroButton:OnMouseUp()
+        self:SetButtonState('NORMAL')
+        self:OnMouseUp()
     end
 end
 

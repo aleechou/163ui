@@ -1,7 +1,7 @@
 ﻿local mod = ExtraCD
 
 function mod:GetDataVersion()
-	return 63
+	return 66
 end
 
 function mod:GetSpellData() 
@@ -119,6 +119,241 @@ function mod:GetSpellData()
 	-- item
 		-- type = "item" 
 		-- item = {the item id}
+		-- WOD 6.0
+		[177063] = {
+			desc = "",
+			type = "item",
+			item = {113889},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Elementalist's Shielding Talisman
+		[177056] = {
+			desc = "",
+			type = "item",
+			item = {113893},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Blast Furnace Door
+		[177051] = {
+			desc = "",
+			type = "item",
+			item = {113931},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Darmac's Unstable Talisman
+		[177096] = {
+			desc = "",
+			type = "item",
+			item = {113983},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Forgemaster's Insignia
+		[177081] = {
+			desc = "",
+			type = "item",
+			item = {113984},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Blackiron Micro Crucible
+		[177067] = {
+			desc = "",
+			type = "item",
+			item = {113985},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Humming Blackiron Trigger
+		[177086] = {
+			desc = "",
+			type = "item",
+			item = {113986},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Auto-Repairing Autoclave
+		[177102] = {
+			desc = "",
+			type = "item",
+			item = {113987},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Battering Talisman
+		[177035] = {
+			desc = "",
+			type = "item",
+			item = {118114},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Meaty Dragonspine Trophy
+		[177060] = {
+			desc = "",
+			type = "item",
+			item = {119192},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Ironspike Chew Toy
+		[177042] = {
+			desc = "",
+			type = "item",
+			item = {119193},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Horn of Screaming Spirits
+		[177046] = {
+			desc = "",
+			type = "item",
+			item = {119194},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Goren Soul Repository
+		
+		[177053] = {
+			desc = "",
+			type = "item",
+			item = {113861},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Evergaze Arcane Eidolon
+		[177038] = {
+			desc = "",
+			type = "item",
+			item = {113612},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Scales of Doom
+		[177040] = {
+			desc = "",
+			type = "item",
+			item = {113645},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Tectus' Beating Heart
+		[165824] = {
+			desc = "",
+			type = "item",
+			item = {113663},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Petrified Flesh-Eating Spore
+		[176980] = {
+			desc = "",
+			type = "item",
+			item = {116315},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Furyheart Talisman
+		[176984] = {
+			desc = "",
+			type = "item",
+			item = {116314},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Blackheart Enforcer's Medallion
+		[176982] = {
+			desc = "",
+			type = "item",
+			item = {116318},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Stoneheart Idol
+		[176978] = {
+			desc = "",
+			type = "item",
+			item = {116291},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Immaculate Living Mushroom
+		[162915] = {
+			desc = "",
+			type = "item",
+			item = {112318},
+			cd = 115,
+			duration = 20,
+		}, -- Skull of War
+		[162913] = {
+			desc = "",
+			type = "item",
+			item = {112317},
+			cd = 115,
+			duration = 20,
+		}, -- Winged Hourglass
+		[162919] = {
+			desc = "",
+			type = "item",
+			item = {112320},
+			cd = 115,
+			duration = 20,
+		}, -- Sandman's Pouch
+		[162917] = {
+			desc = "",
+			type = "item",
+			item = {112319},
+			cd = 115,
+			duration = 20,
+		}, -- Knight's Badge
+		
+		[176974] = {
+			desc = "",
+			type = "item",
+			item = {116292},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Mote of the Mountain
+		
+		--WOD heroic
+		[165822] = {
+			desc = "",
+			type = "item",
+			item = {109999, 110014},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Witherbark's Branch, Spores of Alacrity
+		
+		[165832] = {
+			desc = "",
+			type = "item",
+			item = {110004},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Coagulated Genesaur Blood
+		[165833] = {
+			desc = "",
+			type = "item",
+			item = {110009},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Leaf of the Ancient Protectors
+		[165824] = {
+			desc = "",
+			type = "item",
+			item = {110019},
+			cd = 0,
+			ppm = 0.92,
+			duration = 10,
+		}, -- Xeri'tac's Unhatched Egg Sac
+		
 		-- MOP 5.4
 		-- Legendary cloak
 		[148010] = {
@@ -559,25 +794,26 @@ function mod:GetSpellData()
 			duration = 20,
 		}, -- H
 		
-		-- pvp 550(H/L set) 522(H/L set) 496(H/L set) 496(H/L) 483 476 458
+		
+		-- pvp 660(H/L Tournoment set) 660(H/L set) 620(H/L set) 550(H/L set) 522(H/L set) 496(H/L set) 496(H/L) 483 476 458
 		[126707] = {
 			desc = "",
 			type = "item",
-			item = {103347,102643,102840,103150,100586,100200,100026,99777,94356,91104,84935,91457,84349},
+			item = {117730, 117931, 111223, 115750, 119927, 115150, 103347,102643,102840,103150,100586,100200,100026,99777,94356,91104,84935,91457,84349},
 			cd = 50,
 			duration = 20,
 		}, -- AGI
 		[126705] = {
 			desc = "",
 			type = "item",
-			item = {103506,102766,102963,103309,100712,100491,100152,99938,94482,91401,84941,91754,84489},
+			item = {117735, 117936, 111228, 115755, 119932, 115155, 103506,102766,102963,103309,100712,100491,100152,99938,94482,91401,84941,91754,84489},
 			cd = 50,
 			duration = 20,
 		}, -- SP
 		[126700] = {
 			desc = "",
 			type = "item",
-			item = {103516,102699,102896,103319,100505,100645,100085,99948,94415,91415,84937,91768,84495},
+			item = {117740, 117941, 111233, 115760, 119937, 115160, 103516,102699,102896,103319,100505,100645,100085,99948,94415,91415,84937,91768,84495},
 			cd = 50,
 			duration = 20,
 		}, -- STR
@@ -820,6 +1056,61 @@ function mod:GetSpellData()
 			duration = 7,
 			cd = 0
 		}, -- River's Song
+		
+		-- WOD
+		
+		[159675] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5337},
+			slot = 16,
+			ppm = 1.15,
+			duration = 20,
+			cd = 0
+		}, -- Mark of Warsong
+		[159234] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5330},
+			slot = 16,
+			ppm = 2.5,
+			duration = 6,
+			cd = 0
+		}, -- Mark of the Thunderlord
+		[159676] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5334},
+			slot = 16,
+			ppm = 3,
+			duration = 6,
+			cd = 0
+		}, -- Mark of the Frostwolf
+		[159678] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5335},
+			slot = 16,
+			duration = 15,
+			cd = 40
+		}, -- Mark of Shadowmoon
+		[173322] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5384},
+			slot = 16,
+			ppm = 2.3,
+			duration = 12,
+			cd = 0
+		}, -- Mark of Bleeding Hollow
+		[159679] = {
+			desc = "",
+			type = "enchant",
+			enchant = {5336},
+			slot = 16,
+			duration = 12,
+			cd = 40
+		}, -- Mark of Blackrock
 		
 		
 		
