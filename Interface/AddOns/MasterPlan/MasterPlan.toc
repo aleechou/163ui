@@ -12,3 +12,5 @@ GarrisonAPI.lua
 MasterPlan.lua
 GarrisonMissions.lua
 GarrisonFollowers.lua
+
+## X-163UI-Version: 20141204204606
