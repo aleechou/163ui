@@ -53,4 +53,4 @@ tooltip.lua
 ## Notes-zhCN: 显示该帐号下所有角色的要塞进度
 ## Notes-zhTW: 顯示該賬號下所有角色的要塞進度
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141205123002
+## X-163UI-Version: 20141205184404
