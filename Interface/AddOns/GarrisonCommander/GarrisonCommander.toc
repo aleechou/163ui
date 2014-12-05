@@ -32,4 +32,4 @@ RelNotes.lua
 ## Notes-zhCN: 帮助你选择正确的追随者做正确的任务
 ## Notes-zhTW: 幫助你合理選擇追隨者便捷的完成要塞的任務
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014120501
+## X-163UI-Version: 20141205123002
