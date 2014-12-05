@@ -1,0 +1,13 @@
+tag 1.2.1
+a12820572897aa74b6e459ec8dd4078a1f826e32
+Steffen Buehl <sb@sbuehl.com>
+2014-12-01 16:53:02 +0100
+
+tagging as 1.2.1
+
+
+--------------------
+
+Steffen Buehl:
+	- oops - missing "end"
+	- do mine/herb reset for all characters

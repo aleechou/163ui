@@ -1,0 +1,56 @@
+## Interface: 60000
+## Title: 要塞管家
+## Notes: 显示该帐号下所有角色的要塞进度
+## Author: smb
+## Version: 1.2.1
+## X-Category: Miscellaneous
+## SavedVariables: Broker_GarrisonDB
+## X-Email: sb@sbuehl.com
+## OptionalDeps: Ace3, CallbackHandler-1.0, LibQTip-1.0, LibStub, LibSink-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibDataBroker-1.1, LibToast-1.0, AdiDebug
+## X-Embeds: Ace3, CallbackHandler-1.0, LibQTip-1.0, LibStub, LibSink-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibDataBroker-1.1, LibToast-1.0
+## X-Curse-Packaged-Version: 1.2.1
+## X-Curse-Project-Name: Broker Garrison
+## X-Curse-Project-ID: broker-garrison
+## X-Curse-Repository-ID: wow/broker-garrison/mainline
+
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceHook-3.0\AceHook-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.xml
+Libs\LibQTip-1.0\LibQTip-1.0.lua
+Libs\LibSink-2.0\lib.xml
+Libs\LibToast-1.0\lib.xml
+Libs\LibSharedMedia-3.0\lib.xml
+Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml     
+#@end-no-lib-strip@
+
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+Locales\enUS.lua
+Locales\deDE.lua
+Locales\zhTW.lua
+Locales\zhCN.lua
+Locales\frFR.lua
+
+core.lua
+helper.lua
+data.lua
+config.lua
+event.lua
+tooltip.lua
+## Title: |cff880303[网易有爱]|r 要塞管家
+## Title-zhCN: |cff880303[网易有爱]|r 要塞管家 
+## Title-zhTW: |cff880303[网易有爱]|r 要塞管家 
+## Notes-zhCN: 显示该帐号下所有角色的要塞进度
+## Notes-zhTW: 顯示該賬號下所有角色的要塞進度
+## X-Vendor: NetEase
+## X-163UI-Version: 2014120501
