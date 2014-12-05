@@ -5,3 +5,4 @@ U1RegisterAddon("GarrisonCommander", {
     tags = { TAG_TRADING },
     icon = [[Interface\Icons\INV_Letter_06]],
     desc = "帮助你选择正确的追随者做正确的任务。",
+});
