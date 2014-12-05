@@ -125,7 +125,12 @@
     <Include file="..\..\TipTac\CfgTipTac.lua"/>
     <Include file="..\..\EquippedItemLevelTooltip\CfgEquippedItemLevelTooltip.lua"/>
     <Include file="..\..\TradeSkillInfo\CfgTradeSkillInfo.lua"/>
-
+	<include file="..\..\GarrisonCommander\CfgGarrisonCommander.lua"/>
+	<include file="..\..\GarrisonMissionManager\CfgGarrisonMissionManager.lua"/>
+	<include file="..\..\Broker_Garrison\CfgBroker_Garrison.lua"/>
+	<include file="..\..\MasterPlan\CfgMasterPlan.lua"/>
+	<include file="..\..\BetterPowerBarAlt\CfgBetterPowerBarAlt.lua"/>
+	
     <Include file="..\..\JSHB\CfgJSHB.lua"/>
     <Include file="..\..\Bartender4\CfgBartender4.lua"/>
     <Include file="..\..\HPetBattleAny\CfgHPetBattleAny.lua"/>
