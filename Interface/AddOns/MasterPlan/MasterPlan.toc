@@ -12,5 +12,10 @@ GarrisonAPI.lua
 MasterPlan.lua
 GarrisonMissions.lua
 GarrisonFollowers.lua
-
-## X-163UI-Version: 20141204204606
+## Title: |cff880303[网易有爱]|r 追随者任务大师
+## Title-zhCN: |cff880303[网易有爱]|r 追随者任务大师 
+## Title-zhTW: |cff880303[网易有爱]|r 追隨者任務大師 
+## Notes-zhCN: 修改并简化追随者任务面板的操作
+## Notes-zhTW: 修改并簡化追隨者任務面板的操作
+## X-Vendor: NetEase
+## X-163UI-Version: 2014120501

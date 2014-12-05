@@ -1,0 +1,59 @@
+Garrison Mission Manager, v10
+
+http://www.curse.com/addons/wow/garrison-mission-manager
+
+This addon assists you with selecting best team for garrison missions. It adds 3 butons on mission page with top 3 suggestions. Clicking any of those button sets suggested team. Each button will show you success rate along with icons for XP bonus, GR bonus, and reduced time.
+
+It also adds a top team button to each mission on mission list page so you can see at a glance which missions you could reliably do with your current followers. Missions that require more followers that you currently have will be dimmed out to let you concentrate on missions that you can do.
+
+It takes care of each and every trait and ability your followers have, present and future, including those easily forgotten "Increases success chance when on a mission with a <race>" traits, by not actually caring about them at all - it simply tries all combinations and selects those that give best total success chance.
+
+Suggestions will try to maximize success rate first, material multiplier (garrison resources) second, then XP bonus and then reduced time.
+
+People who love macros can access mission page buttons with:
+ * /run GMM_Click("MissionPage1")
+ * /run GMM_Click("MissionPage2")
+ * /run GMM_Click("MissionPage3")
+
+Planned features:
+ * option to risk lower chance missions with XP/material multiplier party for better average yield
+ * add "total level of followers involved" to sort order below XP gain, lower - better
+ * tooltip or flash followers in the list on mousing over button
+
+
+Change log:
+
+2014-12-02 v10
+ * Fix all event handling related lags
+
+2014-11-30 v9
+ * Fix stop in mission list when you only have free maxed out followers and all missions after first XP-only reward is not calculated.
+
+2014-11-29 v8
+ * Fix dimming spilling over to active missions
+ * Add global unregistering support for AceEvent-3.0. Removes lag while working with Gear Grinder and any other Ace3 addon.
+
+2014-11-28 v7
+ * Add top team to each mission on mission list screen
+ * Dim missions that require more followers than you really have
+
+2014-11-25 v6
+ * Deprioritize maxed out followers on follower XP reward missions, less - better; full maxed teams completely disallowed
+ * Expose support for macroing button clicks
+ * Add support for unregistering events in FollowerLocationInfo addon - otherwise it'd cause GMM to lag just as Blizzard UI did
+
+2014-11-23 v5
+ * Fix performance: stop Blizzard UI from following follower move in/out party and try to re-process/re-draw entire followers list on each. Keep in mind that 3 followers mission analyze could easy produce up to thousand moves.
+
+2014-11-23 v4
+ * Fix problem with material multiplier priority/icon shown on money reward missions
+
+2014-11-23 v3
+ * Add XP/GR/time bonus icons to buttons
+ * On-demand loading with Garrison UI
+
+2014-11-22 v2
+ * Fix problem with successive setting of parties that have same follower in different position leaving an empty slot until you press button second time.
+
+2014-11-21 v1
+ * Initial implementation: suggestions at mission page.

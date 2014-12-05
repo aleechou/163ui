@@ -63,4 +63,4 @@ ScarletHalls\FlameweaverKoegler.lua
 ScarletCathedral\ThalnosSoulrender.lua
 ScarletCathedral\Korlof.lua
 ScarletCathedral\Durand.lua
-## X-163UI-Version: 20141128202850
+## X-163UI-Version: 2014120501
