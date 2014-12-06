@@ -1,0 +1,14 @@
+tag z21-release
+281856c091b888d50a4cf1036df40dabd2572dd2
+Xuerian <sky.shell@gmail.com>
+2014-12-05 00:01:45 -0500
+
+Autoloot fixes, pawn upgrade icon
+
+
+--------------------
+
+Xuerian:
+	- Group: Show pawn upgrade arrow on roll button when item is upgrade
+	- Frame: Try to loot quest items that might take up space anyway
+	- Frame: Fix autoloot sometimes thinking it has more space than it does

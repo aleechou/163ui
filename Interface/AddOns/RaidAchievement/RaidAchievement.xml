@@ -89,17 +89,13 @@
 
 
 
-<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda">
+<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenuwod">
 	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-215"/></Anchor></Anchors>
-	<Scripts><OnClick>phra_button()</OnClick></Scripts>
+	<Scripts><OnClick>wodhra_button()</OnClick></Scripts>
 	</Button>
-	<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda3">
+	<Button name="$parent_Button6" inherits="UIPanelButtonTemplate" text="psealeftmenuwod2">
 	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-240"/></Anchor></Anchors>
-	<Scripts><OnClick>pzra_button()</OnClick></Scripts>
-	</Button>
-<Button name="$parent_Button4" inherits="UIPanelButtonTemplate" text="psealeftmenupanda2">
-	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-265"/></Anchor></Anchors>
-	<Scripts><OnClick>prra_button()</OnClick></Scripts>
+	<Scripts><OnClick>wodrra_button()</OnClick></Scripts>
 	</Button>
 
 <Button name="$parent_Buttonwotlk" inherits="UIPanelButtonTemplate" text="pseaoldmodules">
@@ -168,6 +164,19 @@
 <Button name="$parent_Button8" inherits="UIPanelButtonTemplate" text="psealeftmenucata2">
 	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="180" y="-55"/></Anchor></Anchors>
 	<Scripts><OnClick>crra_button()</OnClick></Scripts>
+	</Button>
+
+<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="330" y="-30"/></Anchor></Anchors>
+	<Scripts><OnClick>phra_button()</OnClick></Scripts>
+	</Button>
+	<Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenupanda3">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="330" y="-55"/></Anchor></Anchors>
+	<Scripts><OnClick>pzra_button()</OnClick></Scripts>
+	</Button>
+<Button name="$parent_Button4" inherits="UIPanelButtonTemplate" text="psealeftmenupanda2">
+	<Size x="150" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="330" y="-80"/></Anchor></Anchors>
+	<Scripts><OnClick>prra_button()</OnClick></Scripts>
 	</Button>
 
 </frames>

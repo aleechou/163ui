@@ -1,9 +1,63 @@
 ------------------------------------------------------------------------
-r702 | ethancentaurai | 2014-11-21 20:22:11 +0000 (Fri, 21 Nov 2014) | 1 line
+r712 | ethancentaurai | 2014-12-04 16:28:17 +0000 (Thu, 04 Dec 2014) | 1 line
 Changed paths:
-   A /tags/v2.3.2 (from /trunk:701)
+   A /tags/v2.3.3 (from /trunk:711)
 
-Tagging as v2.3.2.
+Tagging as v2.3.3.
+------------------------------------------------------------------------
+r711 | ethancentaurai | 2014-12-03 23:17:22 +0000 (Wed, 03 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Safety checks are now slightly less strict.
+------------------------------------------------------------------------
+r710 | ethancentaurai | 2014-12-03 20:11:26 +0000 (Wed, 03 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+One more dataminer run.
+------------------------------------------------------------------------
+r709 | ethancentaurai | 2014-12-03 20:08:25 +0000 (Wed, 03 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Use the IsNPCCrafting() API instead of a nil check.
+------------------------------------------------------------------------
+r708 | ethancentaurai | 2014-12-03 14:41:18 +0000 (Wed, 03 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Ran the dataminer to pick up changes from recent hotfixes.
+------------------------------------------------------------------------
+r707 | ethancentaurai | 2014-11-26 17:01:21 +0000 (Wed, 26 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Data/Data.lua
+
+Ran the dataminer to pick up changes from today's hotfixes.
+------------------------------------------------------------------------
+r706 | ethancentaurai | 2014-11-26 09:26:12 +0000 (Wed, 26 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Break out of a for loop once we've found what we're looking for.
+------------------------------------------------------------------------
+r705 | ethancentaurai | 2014-11-26 09:21:56 +0000 (Wed, 26 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Fixed an error on line 1462.
+------------------------------------------------------------------------
+r704 | ethancentaurai | 2014-11-25 21:25:41 +0000 (Tue, 25 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Removed deprecated code.
+------------------------------------------------------------------------
+r703 | ethancentaurai | 2014-11-25 09:21:34 +0000 (Tue, 25 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/TradeskillInfo.lua
+
+Fixed a "string expected, got nil" error when speaking to Ahm in your garrison's enchanting study.
 ------------------------------------------------------------------------
 r701 | ethancentaurai | 2014-11-21 20:19:47 +0000 (Fri, 21 Nov 2014) | 1 line
 Changed paths:
@@ -126,57 +180,4 @@ Changed paths:
    M /trunk/TradeskillInfo.lua
 
 Use the AddOns category in the new Key Bindings UI.
-------------------------------------------------------------------------
-r681 | ethancentaurai | 2014-10-28 11:58:34 +0000 (Tue, 28 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfo.lua
-
-Use GetSpellDescription() instead of a tooltip scanner.
-------------------------------------------------------------------------
-r680 | ethancentaurai | 2014-10-27 15:45:52 +0000 (Mon, 27 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
-
-Debug Mode should no longer report false positives.
-------------------------------------------------------------------------
-r679 | ethancentaurai | 2014-10-27 12:19:18 +0000 (Mon, 27 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
-
-Tweaked debug again and disabled it for non-SVN installs.
-------------------------------------------------------------------------
-r678 | ethancentaurai | 2014-10-22 11:11:27 +0000 (Wed, 22 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
-
-Tweak debug output and pick up latest translations. Fixes ticket 94.
-------------------------------------------------------------------------
-r676 | ethancentaurai | 2014-10-21 00:38:06 +0000 (Tue, 21 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
-
-Tweaked debug output.
-------------------------------------------------------------------------
-r675 | ethancentaurai | 2014-10-21 00:31:49 +0000 (Tue, 21 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/Data/Professions/Blacksmithing.lua
-   M /trunk/Data/Professions/Enchanting.lua
-   M /trunk/Data/Professions/Engineering.lua
-   M /trunk/Data/Professions/Inscription.lua
-   M /trunk/Data/Professions/Leatherworking.lua
-   M /trunk/Data/Professions/Tailoring.lua
-
-Removed more deprecated recipes from the database.
-------------------------------------------------------------------------
-r674 | ethancentaurai | 2014-10-21 00:00:51 +0000 (Tue, 21 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/TradeskillInfoUI/TradeskillInfoUI.lua
-
-Browser UI: Print an error instead of permanently locking up the frame.
-------------------------------------------------------------------------
-r673 | ethancentaurai | 2014-10-20 23:54:46 +0000 (Mon, 20 Oct 2014) | 1 line
-Changed paths:
-   M /trunk/Data/Professions/Blacksmithing.lua
-
-Blacksmithing: Removed Socket Bracers and Socket Gloves recipes.
 ------------------------------------------------------------------------

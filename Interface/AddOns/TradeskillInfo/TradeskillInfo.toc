@@ -6,7 +6,7 @@
 ## Notes-esES: Informarcion Completa de las Habilidades de Comercio
 ## Notes-koKR: 전문기술 정보의 모든 것!
 ## Author: Ethan Centaurai
-## Version: v2.3.2
+## Version: v2.3.3
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Zone-3.0, LibBabble-Faction-3.0, Auc-Advanced
 ## SavedVariables: TradeSkillInfoDB
 ## LoadManagers: AddonLoader
@@ -14,7 +14,7 @@
 ## X-Credits: Dys, wmrojer, Evenue, Fieroivan, Viruscamp, CMTitan
 ## X-Icon: Interface\Icons\INV_Elemental_SpiritOfHarmony_2
 ## X-Category: Professions
-## X-Curse-Packaged-Version: v2.3.2
+## X-Curse-Packaged-Version: v2.3.3
 ## X-Curse-Project-Name: TradeSkillInfo
 ## X-Curse-Project-ID: tradeskill-info
 ## X-Curse-Repository-ID: wow/tradeskill-info/mainline
@@ -67,4 +67,4 @@ PatchBy163UI.lua
 ## Notes-zhTW: 完整的商業技能百科
 ## Notes-zhCN: 完整的商业技能百科
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141128135419
+## X-163UI-Version: 20141206

@@ -78,7 +78,7 @@ function psealocale()
 	pseauierror = "    錯誤！"
 	pseauierroraddonoff = "錯誤！插件被禁用 - 這個模塊無法使用！"
 	pseauinomodule1 = "    錯誤！模塊未安裝！"
-	pseauinomodule2 = "錯誤！所選模塊未安裝！"
+	pseauinomodule2 = "錯誤！所選模塊未安裝！\r\nDownload it from http://phoenixstyle.com or curse.com"
 	pseaulduarkolf1 = "怪物已被擊殺！"
 	pseaulduarkolf2 = "成就將因首領被擊殺而無法達成！"
 	pseaulduartitle = "    奧杜亞"
