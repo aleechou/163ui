@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=6.002
+	raversion=6.006
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -623,6 +623,8 @@ if IsAddOnLoaded("RaidAchievement_CataRaids") then crra_closeallpr() end
 if IsAddOnLoaded("RaidAchievement_PandaRaids") then prra_closeallpr() end
 if IsAddOnLoaded("RaidAchievement_PandaHeroics") then phra_closeallpr() end
 if IsAddOnLoaded("RaidAchievement_PandaScenarios") then pzra_closeallpr() end
+if IsAddOnLoaded("RaidAchievement_WoDHeroics") then wodhra_closeallpr() end
+if IsAddOnLoaded("RaidAchievement_WoDRaids") then wodrra_closeallpr() end
 PSFeamain3:Hide()
 PSFeamain10:Hide()
 PSFeamain11:Hide()
@@ -659,7 +661,7 @@ else
   PSFeamain2_Button13:Hide()
 end
 
-if IsAddOnLoaded("RaidAchievement_OldModules") then
+if IsAddOnLoaded("RaidAchievement_OldModules") or IsAddOnLoaded("RaidAchievement_PandaHeroics") then
   PSFeamain2_ButtonwotlkG:Hide()
 else
   PSFeamain2_Buttonwotlk:Hide()
@@ -885,6 +887,47 @@ PSFeamain10:Show()
 end
 end
 
+
+function wodhra_button()
+PSFea_closeallpr()
+if(thisaddonworkea)then
+if IsAddOnLoaded("RaidAchievement_WoDHeroics")==false then
+LoadAddOn("RaidAchievement_WoDHeroics")
+if IsAddOnLoaded("RaidAchievement_WoDHeroics") then
+print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenuwod.."!")
+end
+end
+if IsAddOnLoaded("RaidAchievement_WoDHeroics") then
+wodhra_button2()
+else
+PSFeamain12:Show()
+end
+else
+PSFeamain10:Show()
+end
+end
+
+function wodrra_button()
+PSFea_closeallpr()
+if(thisaddonworkea)then
+if IsAddOnLoaded("RaidAchievement_WoDRaids")==false then
+LoadAddOn("RaidAchievement_WoDRaids")
+if IsAddOnLoaded("RaidAchievement_WoDRaids") then
+print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenuwod2.."!")
+end
+end
+if IsAddOnLoaded("RaidAchievement_WoDRaids") then
+wodrra_button2()
+else
+PSFeamain12:Show()
+end
+else
+PSFeamain10:Show()
+end
+end
+
+
+
 function nxra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
@@ -1076,7 +1119,7 @@ end
 
 
 function chechtekzoneea()
-if GetRealZoneText() then
+if GetMapNameByID(GetCurrentMapAreaID()) then
 local a1, a2, a3, a4, a5 = GetInstanceInfo()
 if UnitInRaid("player") or (a2=="raid" or a2=="scenario" or (a2=="party" and a3==2) or a3==14) then
 SetMapToCurrentZone()
@@ -1142,7 +1185,7 @@ local loaded, reason = LoadAddOn("RaidAchievement_PandaRaids")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda2.."!")
 else
-print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda2.."!")
+print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda2.."! "..raerrormodulereq.." RaidAchievement_Pandaria")
 end
 end
 end
@@ -1241,7 +1284,7 @@ local loaded, reason = LoadAddOn("RaidAchievement_PandaHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda.."!")
 else
-print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda.."!")
+print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda.."! "..raerrormodulereq.." RaidAchievement_Pandaria")
 end
 end
 end
@@ -1275,7 +1318,42 @@ local loaded, reason = LoadAddOn("RaidAchievement_PandaScenarios")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda3.."!")
 else
-print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda3.."!")
+print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda3.."! "..raerrormodulereq.." RaidAchievement_Pandaria")
+end
+end
+end
+
+
+
+--героики WoD
+local idheroics={964,987,984,989,995,993,1008,969}
+local buul=0
+for i=1,#idheroics do
+	if idheroics[i]==GetCurrentMapAreaID() then
+		buul=1
+	end
+end
+if select(3,GetInstanceInfo())==2 and buul==1 then
+
+local chattt="party"
+if select(3,GetInstanceInfo())==17 or IsLFGModeActive(LE_LFG_CATEGORY_LFD) or IsLFGModeActive(LE_LFG_CATEGORY_SCENARIO) then
+  chattt="Instance_CHAT"
+end
+
+if GetNumGroupMembers()>1 then
+SendAddonMessage("RAother", "5"..raversion, chattt)
+end
+if thisaddonwork then
+SendAddonMessage("PSaddon", "17"..psversion, chattt)
+end
+
+if IsAddOnLoaded("RaidAchievement_WoDHeroics")==false and wasphtryloadea==nil then
+wasphtryloadea=1
+local loaded, reason = LoadAddOn("RaidAchievement_WoDHeroics")
+if loaded then
+print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda.."!")
+else
+print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupanda.."! "..raerrormodulereq.." RaidAchievement_WoD")
 end
 end
 end
@@ -2248,11 +2326,11 @@ if (guid.find(guid,"Creature") or guid.find(guid,"Pet-") or guid.find(guid,"Game
 	--Creature-0-3061-1136-29274-71979-00003EDC2C
 	local t1,_,_,_,_,id,g = guid:match("([^,]+)-([^,]+)-([^,]+)-([^,]+)-([^,]+)-([^,]+)-([^,]+)")
 	if id and tonumber(id) ~= nil then
-		return id
+		return tonumber(id)
 	else
-		return 0
+		return tonumber(id)
 	end
 else
-	return guid
+	return 0
 end
 end

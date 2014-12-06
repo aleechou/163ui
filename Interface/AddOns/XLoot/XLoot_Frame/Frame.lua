@@ -957,11 +957,16 @@ function XLootFrame:Update(in_options)
 							if cur > 0 then
 								-- local stack = select(8, GetItemInfo(name))
 								local partial = cur % itemStackCount
-								if partial + quantity <= itemStackCount then
+								if partial + quantity < itemStackCount then
 									LootSlot(slot)
 									looted = true
 								end
 							end
+						end
+
+						-- Try to loot all remaining quest items anyway
+						if not looted and isQuestItem then
+							LootSlot(slot)
 						end
 					end
 				end

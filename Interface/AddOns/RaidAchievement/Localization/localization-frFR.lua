@@ -65,7 +65,7 @@ function psealocale()
 	pseauierror = "    Erreur !"
 	pseauierroraddonoff = "Erreur ! L'addon est désactivé - Ce module n'est pas disponible !"
 	pseauinomodule1 = "    Erreur ! Le module n'est pas installé !"
-	pseauinomodule2 = "Erreur ! Le module choisi n'est pas installé !"
+	pseauinomodule2 = "Erreur ! Le module choisi n'est pas installé !\r\nDownload it from http://phoenixstyle.com or curse.com"
 	psmoduletxtoff = "le module est désactivé"
 	psmoduletxton = "le module est activé"
 	psoldvertxt = "(ancienne version)"

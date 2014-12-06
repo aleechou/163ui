@@ -79,7 +79,7 @@ function psealocale()
 	pseauierror = "    错误！"
 	pseauierroraddonoff = "错误！插件被禁用 - 这个模块无法使用！"
 	pseauinomodule1 = "    错误！模块未安装！"
-	pseauinomodule2 = "错误！所选模块未安装！"
+	pseauinomodule2 = "错误！所选模块未安装！\r\nDownload it from http://phoenixstyle.com or curse.com"
 	pseaulduarkolf1 = "怪物已被击杀！"
 	pseaulduarkolf2 = "成就将因首领被击杀而无法达成！"
 	pseaulduartitle = "    奥杜尔"

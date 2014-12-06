@@ -78,7 +78,7 @@ function psealocale()
 	pseauierror = "    Fehler!"
 	pseauierroraddonoff = "Fehler! Das Addon ist deaktiviert - dieses Modul ist nicht verfuegbar!"
 	pseauinomodule1 = "    Fehler! Modul ist nicht installiert!"
-	pseauinomodule2 = "Fehler! Ausgewaehltes Modul ist nicht installiert!"
+	pseauinomodule2 = "Fehler! Ausgewaehltes Modul ist nicht installiert!\r\nDownload it from http://phoenixstyle.com or curse.com"
 	pseaulduarkolf1 = "Add wurde getoetet!" -- Needs review
 	pseaulduarkolf2 = "ist nicht abgeschlossen wenn Du den Boss jetzt toetest!" -- Needs review
 	pseaulduartitle = "    Ulduar"

@@ -1,6 +1,6 @@
 --[[
 Name: LibBabble-Faction-3.0
-Revision: $Rev: 191 $
+Revision: $Rev: 193 $
 Maintainers: ckknight, nevcairiel, Ackis
 Website: http://www.wowace.com/projects/libbabble-faction-3-0/
 Dependencies: None
@@ -8,7 +8,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibBabble-Faction-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Rev: 191 $"):match("%d+"))
+local MINOR_VERSION = 90000 + tonumber(("$Rev: 193 $"):match("%d+"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
 local lib = LibStub("LibBabble-3.0"):New(MAJOR_VERSION, MINOR_VERSION)
@@ -1177,16 +1177,16 @@ elseif GAME_LOCALE == "ptBR" then
 elseif GAME_LOCALE == "itIT" then
 	lib:SetCurrentTranslations {
 	Acquaintance = "Conoscente",
-	-- ["Aeda Brightdawn"] = "",
+	["Aeda Brightdawn"] = "Aeda Albaluce",
 	Alliance = "Alleanza",
 	["Alliance Vanguard"] = "Avanguardia Dell'Alleanza",
-	-- ["Arakkoa Outcasts"] = "",
+	["Arakkoa Outcasts"] = "Esiliati Arakkoa",
 	["Argent Crusade"] = "Crociata d'Argento",
 	["Argent Dawn"] = "Alba D'Argento",
 	["Ashtongue Deathsworn"] = "Congiurati di Linguamorta",
 	["Avengers of Hyjal"] = "Vendicatori di Hyjal",
 	["Baradin's Wardens"] = "Custodi di Baradin",
-	-- ["Barracks Bodyguards"] = "",
+	["Barracks Bodyguards"] = "Guardie del Corpo della Caserma",
 	["Best Friend"] = "Miglior Amico",
 	["Bilgewater Cartel"] = "Cartello degli Acqualorda",
 	["Bizmo's Brawlpub"] = "Club dei Combattenti di Bizmo",
@@ -1198,12 +1198,12 @@ elseif GAME_LOCALE == "itIT" then
 	["Cenarion Circle"] = "Circolo Cenariano",
 	["Cenarion Expedition"] = "Spedizione Cenariana",
 	["Chee Chee"] = "Ghi Ghi",
-	-- ["Council of Exarchs"] = "",
+	["Council of Exarchs"] = "Concilio degli Esarchi",
 	["Darkmoon Faire"] = "Fiera di Lunacupa",
 	["Darkspear Trolls"] = "Troll Lanciascura",
 	Darnassus = "Darnassus",
-	-- ["Defender Illona"] = "",
-	-- ["Delvar Ironfist"] = "",
+	["Defender Illona"] = "Difensore Illona",
+	["Delvar Ironfist"] = "Devlar Pugnoferreo",
 	["Dominance Offensive"] = "Offensiva del Dominio",
 	["Dragonmaw Clan"] = "Clan Fauci di Drago",
 	Ella = "Ella",
@@ -1218,7 +1218,7 @@ elseif GAME_LOCALE == "itIT" then
 	Friend = "Amico",
 	Friendly = "Amichevole",
 	["Frostwolf Clan"] = "Clan Lupi Bianchi",
-	-- ["Frostwolf Orcs"] = "",
+	["Frostwolf Orcs"] = "Orchi Lupi Bianchi",
 	Gadgetzan = "Meccania",
 	["Gelkis Clan Centaur"] = "Centauri del Clan Gelkis",
 	Gilneas = "Gilneas",
@@ -1244,8 +1244,8 @@ elseif GAME_LOCALE == "itIT" then
 	["Kirin Tor Offensive"] = "Rivalsa del Kirin Tor",
 	["Knights of the Ebon Blade"] = "Cavalieri della Spada d'Ebano",
 	Kurenai = "Kurenai",
-	-- ["Laughing Skull Orcs"] = "",
-	-- Leorajh = "",
+	["Laughing Skull Orcs"] = "Orchi Teschio Ridente",
+	Leorajh = "Leorajh",
 	["Lower City"] = "Città Bassa",
 	["Magram Clan Centaur"] = "Centauri del Clan Magram",
 	["Nat Pagle"] = "Nat Pagle",
@@ -1254,7 +1254,7 @@ elseif GAME_LOCALE == "itIT" then
 	Nomi = "Nomi",
 	["Ogri'la"] = "Ogri'la",
 	["Old Hillpaw"] = "Vecchio Zampa Brulla",
-	-- ["Operation: Aardvark"] = "",
+	["Operation: Aardvark"] = "Operazione: Aardvark",
 	["Operation: Shieldwall"] = "Operazione Baluardo",
 	["Order of the Cloud Serpent"] = "Ordine della Serpe delle Nubi",
 	Orgrimmar = "Orgrimmar",
@@ -1273,9 +1273,9 @@ elseif GAME_LOCALE == "itIT" then
 	Revered = "Riverito",
 	["Shado-Pan"] = "Shandaren",
 	["Shado-Pan Assault"] = "Avanzata degli Shandaren",
-	-- ["Shadowmoon Exiles"] = "",
+	["Shadowmoon Exiles"] = "Esiliati Torvaluna",
 	["Shang Xi's Academy"] = "Accademia di Shang Xi",
-	-- ["Sha'tari Defense"] = "",
+	["Sha'tari Defense"] = "Protettori Sha'tari",
 	["Sha'tari Skyguard"] = "Guardiacieli Sha'tari",
 	["Shattered Sun Offensive"] = "Offensiva del Sole Infranto",
 	["Shen'dralar"] = "Shen'dralar",
@@ -1283,14 +1283,14 @@ elseif GAME_LOCALE == "itIT" then
 	["Silvermoon City"] = "Lunargenta",
 	["Silverwing Sentinels"] = "Sentinelle Alargentea",
 	Sporeggar = "Sporeggar",
-	-- ["Steamwheedle Draenor Expedition"] = "",
-	-- ["Steamwheedle Preservation Society"] = "",
+	["Steamwheedle Draenor Expedition"] = "Spedizione su Draenor degli Spargifumo",
+	["Steamwheedle Preservation Society"] = "Società di Preservazione degli Spargifumo",
 	["Stormpike Guard"] = "Guardia dei Piccatonante",
 	Stormwind = "Roccavento",
 	Stranger = "Estraneo",
 	["Sunreaver Onslaught"] = "Furia dei Predatori del Sole",
 	Syndicate = "Lega dei Tagliagole",
-	-- ["Talonpriest Ishaal"] = "",
+	["Talonpriest Ishaal"] = "Sacerdote dell'Artiglio Ishaal",
 	["The Aldor"] = "Veggenti",
 	["The Anglers"] = "Lancialenza",
 	["The Ashen Verdict"] = "Verdetto Cinereo",
@@ -1324,19 +1324,19 @@ elseif GAME_LOCALE == "itIT" then
 	["Thunder Bluff"] = "Picco del Tuono",
 	["Timbermaw Hold"] = "Rifugio dei Mordilegno",
 	["Tina Mudclaw"] = "Tina Palmo Florido",
-	-- Tormmok = "",
+	Tormmok = "Tormmok",
 	Tranquillien = "Tranquillien",
 	["Tushui Pandaren"] = "Pandaren Tushui",
 	Undercity = "Sepulcra",
 	["Valiance Expedition"] = "Spedizione degli Arditi",
-	-- Vivianne = "",
-	-- ["Vol'jin's Spear"] = "",
+	Vivianne = "Vivianne",
+	["Vol'jin's Spear"] = "Lancia di Vol'jin",
 	["Warsong Offensive"] = "Offensiva dei Cantaguerra",
 	["Warsong Outriders"] = "Predoni Cantaguerra",
 	["Wildhammer Clan"] = "Clan Granmartello",
 	["Winterfin Retreat"] = "Rifugio dei Pinnafredda",
 	["Wintersaber Trainers"] = "Addestratori delle Fiere Glaciali",
-	-- ["Wrynn's Vanguard"] = "",
+	["Wrynn's Vanguard"] = "Lancia di Vol'jin",
 	["Zandalar Tribe"] = "Tribù Zandalari",
 }
 elseif GAME_LOCALE == "ruRU" then

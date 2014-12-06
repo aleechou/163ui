@@ -76,7 +76,7 @@ function psealocale()
 	pseauierror = "Erro!" -- Needs review
 	pseauierroraddonoff = "Error! O Addon está desativado - este módulo está indisponivel" -- Needs review
 	pseauinomodule1 = "Erro! Módulo não instalado!" -- Needs review
-	pseauinomodule2 = "Erro! Módulo escolhido não instalado!" -- Needs review
+	pseauinomodule2 = "Erro! Módulo escolhido não instalado!\r\nDownload it from http://phoenixstyle.com or curse.com" -- Needs review
 	pseaulduarkolf1 = "Adc foi morto!" -- Needs review
 	pseaulduarkolf2 = "não irá completar se o chefe for morto agora!" -- Needs review
 	pseaulduartitle = "Ulduar" -- Needs review

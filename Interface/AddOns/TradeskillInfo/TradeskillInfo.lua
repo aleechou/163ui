@@ -178,8 +178,9 @@ function TradeskillInfo:OnAddonLoaded(_, addon)
 	end
 end
 
+local runeforging = GetSpellInfo(53428)
 function TradeskillInfo:OnTradeShow()
-	if not IsTradeSkillLinked() and not IsTradeSkillGuild() then
+	if IsTradeSkillReady() and not IsTradeSkillLinked() and not IsTradeSkillGuild() and not IsNPCCrafting() and CURRENT_TRADESKILL ~= runeforging then
 		self:ScheduleTimer("UpdateKnownRecipes", 1)
 	end
 end
@@ -196,10 +197,8 @@ function TradeskillInfo:OnSkillUpdate()
 		self.UpdateInProgress = true
 		self:UpdateSkills()
 
-		if not IsTradeSkillLinked() and not IsTradeSkillGuild() then
-			if (GetTradeSkillLine() ~= "UNKNOWN") then
-				self:ScheduleTimer(self.UpdateKnownRecipes, 1, self)
-			end
+		if IsTradeSkillReady() and not IsTradeSkillLinked() and not IsTradeSkillGuild() and not IsNPCCrafting() and CURRENT_TRADESKILL ~= runeforging and GetTradeSkillLine() ~= "UNKNOWN" then
+			self:ScheduleTimer("UpdateKnownRecipes", 1)
 		end
 
 		self.UpdateInProgress = false
@@ -237,12 +236,6 @@ function TradeskillInfo:GetExtraItemDetailText(_, _, skill_index)
 
 	local link = GetTradeSkillItemLink(skill_index)
 	local itemId = getIdFromLink(link)
-
-	if not self:CombineExists(itemId) then
-		local spellLink = GetTradeSkillRecipeLink(skill_index)
-		local spellId = getIdFromLink(spellLink)
-		itemId = self:MakeSpecialCase(itemId, spellId)
-	end
 
 	return self:GetExtraItemDataText(itemId,
 	                                 self:ShowingSkillProfit(),
@@ -308,10 +301,8 @@ end
 
 
 function TradeskillInfo:UpdateKnownRecipes()
-	if not self.processingUpdates and
-		(GetTradeSkillLine() ~= "UNKNOWN") then
+	if not self.processingUpdates and (GetTradeSkillLine() ~= "UNKNOWN") then
 		self.processingUpdates = true
-
 		self:UpdateKnownTradeRecipes()
 		self.processingUpdates = false
 	end
@@ -329,34 +320,7 @@ function TradeskillInfo:UpdateSkills()
 	end
 end
 
-function TradeskillInfo:MakeSpecialCase(id, spellId)
-	if id < 100 or not self.vars.specialcases[id] then
-		return id
-	end
-	local specialIds=self.vars.specialcases[id]
-	for i in string.gmatch(specialIds, "(%d+)") do
-		i = tonumber(i)
-		local spellId2 = self:GetCombineEnchantId(i)
-		if spellId2 == spellId or spellId2 == -spellId then
-			return i
-		end
-	end
-
-	return id
-end
-
-function TradeskillInfo:GetSpecialCase(id,itemName)
-	if id > 100 or not self.vars.specialcases[id] then
-		return id,itemName
-	end
-	id = string.match(self.vars.specialcases[id],"(%d+)")
-	itemName = GetItemInfo(id)
-	return tonumber(id),itemName
-end
-
 function TradeskillInfo:UpdateKnownTradeRecipes(startLine, endLine)
-	if CURRENT_TRADESKILL == "Runeforging" then return end
-
 	local numSkills = GetNumTradeSkills()
 
 	if not startLine then
@@ -386,7 +350,7 @@ end
 -- TradeSkillFrame Hook to display recipe skill level and cost/profit
 ----------------------------------------------------------------------
 function TradeskillInfo:TradeSkillFrame_SetSelection(id)
-	if not IsTradeSkillReady() then return end
+	if not IsTradeSkillReady() or IsNPCCrafting() then return end
 
 	local skillName, skillType = GetTradeSkillInfo(id)
 	if skillType == "header" or skillType == "subheader" then return end
@@ -446,12 +410,6 @@ function TradeskillInfo:ATSWFrame_SetSelection(id)
 
 	local link = GetTradeSkillItemLink(id)
 	local itemId = getIdFromLink(link)
-
-	if not self:CombineExists(itemId) then
-		local spellLink = GetTradeSkillRecipeLink(id)
-		local spellId = getIdFromLink(spellLink)
-		itemId = self:MakeSpecialCase(itemId, spellId)
-	end
 
 	if self:CombineExists(itemId) then
 
@@ -849,15 +807,6 @@ function TradeskillInfo:GetComponent(id, getVendorPrice, getAuctioneerPrice)
 	if not self:ComponentExists(id) then return end
 
 	local realId = id
-
-	if realId < 100 then -- special case
-		local specialCase = self.vars.specialcases[id]
-		if specialCase and specialCase ~= "" then
-			realId = string.match(specialCase, "(%d+)")
-			realId = tonumber(realId)
-		end
-	end
-
 	local cost = 0
 	local name = GetItemInfo(realId)
 
@@ -1011,16 +960,9 @@ end
 function TradeskillInfo:GetItemCrafted(item, use)
 	if not use then use = {} end
 	if not item then return end
+
 	-- If it is a straightforward item, mark it
 	if self.vars.combines[item] then use[item] = true end
-
-	-- If it is a special item, translate its item ID
-	local specialIds = self.vars.specialcases[item]
-	if specialIds then
-		for i in string.gmatch(specialIds, "(%d+)") do
-			use[tonumber(i)] = true
-		end
-	end
 
 	return use
 end
@@ -1413,7 +1355,7 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 	elseif id then -- it's a spell!
 		id = -id
 	else return end -- it's an empty bag slot!
-	
+
 	local recipeId = self:GetRecipeItem(id)
 
 	if recipeId then -- it's a recipe!
@@ -1464,7 +1406,7 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 		for spellID, combine in pairs(self.vars.combines) do
 			if self:GetCombineItem(spellID) == id then
 				kind = self:GetCombineSkill(spellID)
-				
+
 				if self:ShowingTooltipKnownBy(kind) then
 					self:GetCombineKnownBy(spellID, tooltip)
 				end
@@ -1476,6 +1418,8 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 				if self:ShowingTooltipAvailableTo(kind) then
 					self:GetCombineAvailableTo(spellID, tooltip)
 				end
+
+				break
 			end
 		end
 	end
@@ -1503,7 +1447,6 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 
 	-- market value
 	if self:ShowingTooltipMarketValue() then
-		-- TODO: what are we going to do if there are more than one recipes producing item?
 		if self:CombineExists(id) then
 			local value, cost, profit = self:GetCombineAuctioneerCost(id)
 			local yield = self:GetCombineYield(id)
@@ -1516,31 +1459,6 @@ function TradeskillInfo:AddTooltipInfo(tooltip)
 			end
 
 			tooltip:AddDoubleLine(L["Market Value"], Rtext, c.r, c.g, c.b, c.r, c.g, c.b)
-
-		elseif self.vars.specialcases[id] then
-			local Ltext, Rtext
-			local addedText = false
-			local c = self.db.profile.ColorMarketValue
-
-			for i in gmatch(self.vars.specialcases[id], "(%d+)") do
-				local value, cost, profit = self:GetCombineAuctioneerCost(tonumber(i))
-				local yield = self:GetCombineYield(tonumber(i))
-
-				Rtext = ("%s - %s = %s"):format( self:GetMoneyString(value), self:GetMoneyString(cost), self:GetMoneyString(profit) )
-
-				if not addedText then
-					Ltext = L["Market Value"]
-					addedText = true
-				else
-					Ltext = " "
-				end
-
-				if yield > 1 then
-					Ltext = Ltext .. " (x" .. yield .. ")"
-				end
-
-				tooltip:AddDoubleLine(Ltext, Rtext, c.r, c.g, c.b, c.r, c.g, c.b)
-			end
 		end
 	end
 

@@ -76,7 +76,7 @@ function psealocale()
 	pseauierror = "    ¡Error!"
 	pseauierroraddonoff = "¡Error! El addon se ha deshabilitado - ¡este módulo no está disponible!"
 	pseauinomodule1 = "    ¡Error! ¡Módulo no instalado!"
-	pseauinomodule2 = "¡Error! ¡El módulo elegido no está instalado!"
+	pseauinomodule2 = "¡Error! ¡El módulo elegido no está instalado!\r\nDownload it from http://phoenixstyle.com or curse.com"
 	pseaulduarkolf1 = "¡Se ha matado al add!"
 	pseaulduarkolf2 = "¡no se completará si matas al boss ahora!"
 	pseaulduartitle = "    Ulduar"

@@ -46,7 +46,7 @@ psealeftmenu6				= "Icecrown"
 pseareports				= "- chat channel to announce warnings"
 PSFeaserver				= "ru-Gordunni"
 pseauinomodule1				= "    Error! Module is not installed!"
-pseauinomodule2				= "Error! Module chosen is not installed!"
+pseauinomodule2				= "Error! Module chosen is not installed!\r\nDownload it from http://phoenixstyle.com or curse.com"
 pseauierror				= "    Error!"
 pseauierroraddonoff			= "Error! Addon is disabled - this module is unavailable!"
 pseapsaddonanet				= "Error! Addon PhoenixStyle is not installed"
@@ -131,6 +131,9 @@ psealeftmenupanda3  = "Panda Scenarios"
 phratitle				= "    Pandaria Heroics"
 prratitle       = "    Pandaria Raids"
 pzratitle       = "    Pandaria Scenarios"
+
+psealeftmenuwod = "WoD Heroics"
+psealeftmenuwod2  = "WoD Raids"
 
 
 
