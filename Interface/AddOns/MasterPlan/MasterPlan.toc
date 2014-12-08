@@ -1,4 +1,4 @@
-## Interface: 60000
+﻿## Interface: 60000
 ## Title: 追随者任务大师
 ## Notes: 修改要塞追随者任务界面，让其更加易用.
 ## LoadOnDemand: 1
@@ -18,4 +18,4 @@ GarrisonFollowers.lua
 ## Notes-zhCN: 修改并简化追随者任务面板的操作
 ## Notes-zhTW: 修改并簡化追隨者任務面板的操作
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141208202359
+## X-163UI-Version: 20141208202559
