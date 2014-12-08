@@ -1,7 +1,10 @@
+local addon_name, addon_env = ...
+
 -- Confused about mix of CamelCase and_underscores?
 -- Camel case comes from copypasta of how Blizzard calls returns/fields in their code and deriveates
 -- Underscore are my own variables
 
+-- Globals
 local dump = DevTools_Dump
 local tinsert = table.insert
 local tsort = table.sort
@@ -18,6 +21,13 @@ local GetPartyMissionInfo = C_Garrison.GetPartyMissionInfo
 local RemoveFollowerFromMission = C_Garrison.RemoveFollowerFromMission
 local GARRISON_FOLLOWER_IN_PARTY = GARRISON_FOLLOWER_IN_PARTY
 local GetFramesRegisteredForEvent = GetFramesRegisteredForEvent
+local CANCEL = CANCEL
+local HybridScrollFrame_GetOffset = HybridScrollFrame_GetOffset
+
+-- Config
+local ingored_followers = {}
+SVPC_GarrisonMissionManager = {}
+SVPC_GarrisonMissionManager.ingored_followers = ingored_followers
 
 local _, _, garrison_currency_texture = GetCurrencyInfo(GARRISON_CURRENCY)
 garrison_currency_texture = "|T" .. garrison_currency_texture .. ":0|t"
@@ -31,6 +41,9 @@ local filtered_followers_count
 local filtered_followers_dirty = true
 
 local event_frame = CreateFrame("Frame")
+local RegisterEvent = event_frame.RegisterEvent
+local UnregisterEvent = event_frame.UnregisterEvent
+
 local events_filtered_followers_dirty = {
    GARRISON_FOLLOWER_LIST_UPDATE = true,
    GARRISON_FOLLOWER_XP_CHANGED = true,
@@ -40,7 +53,7 @@ local events_top_for_mission_dirty = {
    GARRISON_MISSION_NPC_OPENED = true,
    GARRISON_MISSION_LIST_UPDATE = true,
 }
-event_frame:SetScript("OnEvent", function(self, event)
+event_frame:SetScript("OnEvent", function(self, event, arg1)
    -- if events_top_for_mission_dirty[event] then top_for_mission_dirty = true end
    -- if events_filtered_followers_dirty[event] then filtered_followers_dirty = true end
    -- Let's clear both for now, or else we often miss one follower state update when we start mission
@@ -48,9 +61,17 @@ event_frame:SetScript("OnEvent", function(self, event)
       top_for_mission_dirty = true
       filtered_followers_dirty = true
    end
+
+   if event == "ADDON_LOADED" and arg1 == addon_name then
+      if SVPC_GarrisonMissionManager then
+         ingored_followers = SVPC_GarrisonMissionManager.ingored_followers
+      end
+      event_frame:UnregisterEvent("ADDON_LOADED")
+   end
 end)
 for event in pairs(events_top_for_mission_dirty) do event_frame:RegisterEvent(event) end
 for event in pairs(events_filtered_followers_dirty) do event_frame:RegisterEvent(event) end
+event_frame:RegisterEvent("ADDON_LOADED")
 
 local gmm_buttons = {}
 local mission_page_pending_click
@@ -78,7 +99,7 @@ local function FindBestFollowersForMission(mission, followers)
    if slots > followers_count then return end
 
    local event_handlers = { GetFramesRegisteredForEvent("GARRISON_FOLLOWER_LIST_UPDATE") }
-   for idx = 1, #event_handlers do event_handlers[idx]:UnregisterEvent("GARRISON_FOLLOWER_LIST_UPDATE") end
+   for idx = 1, #event_handlers do UnregisterEvent(event_handlers[idx], "GARRISON_FOLLOWER_LIST_UPDATE") end
 
    local mission_id = mission.missionID
    if C_Garrison.GetNumFollowersOnMission(mission_id) > 0 then
@@ -137,6 +158,10 @@ local function FindBestFollowersForMission(mission, followers)
                local found
                repeat -- Checking if new candidate for top is better than any top 3 already sored
                   -- TODO: risk lower chance mission if material multiplier gives better average result
+
+                  -- remove xpBonus info if all followers are maxed anyway
+                  if slots == followers_maxed then xpBonus = 0 end
+
                   if not current[1] then found = true break end
 
                   local cSuccessChance = current.successChance
@@ -149,17 +174,13 @@ local function FindBestFollowersForMission(mission, followers)
                      if cMaterialMultiplier > materialMultiplier then break end
                   end
 
-                  if xp_only_rewards then
-                     local c_followers_maxed = current.followers_maxed
-                     if c_followers_maxed > followers_maxed then found = true break end
-                     if c_followers_maxed < followers_maxed then break end
-                  end
+                  local c_followers_maxed = current.followers_maxed
+                  if c_followers_maxed > followers_maxed then found = true break end
+                  if c_followers_maxed < followers_maxed then break end
 
-                  if slots ~= followers_maxed then -- only care about XP multiplier if team is not full of maxed followers
-                     local cXpBonus = current.xpBonus
-                     if cXpBonus < xpBonus then found = true break end
-                     if cXpBonus > xpBonus then break end
-                  end
+                  local cXpBonus = current.xpBonus
+                  if cXpBonus < xpBonus then found = true break end
+                  if cXpBonus > xpBonus then break end
 
                   local cTotalTimeSeconds = current.totalTimeSeconds
                   if cTotalTimeSeconds > totalTimeSeconds then found = true break end
@@ -202,7 +223,7 @@ local function FindBestFollowersForMission(mission, followers)
    end
    -- dump(top[1])
 
-   for idx = 1, #event_handlers do event_handlers[idx]:RegisterEvent("GARRISON_FOLLOWER_LIST_UPDATE") end
+   for idx = 1, #event_handlers do RegisterEvent(event_handlers[idx], "GARRISON_FOLLOWER_LIST_UPDATE") end
 
    -- dump(top)
    -- local location, xp, environment, environmentDesc, environmentTexture, locPrefix, isExhausting, enemies = C_Garrison.GetMissionInfo(missionID);
@@ -229,8 +250,11 @@ local function GetFilteredFollowers()
       local follower = followers[idx]
       repeat
          if not follower.isCollected then break end
+
          local status = follower.status
          if status and status ~= GARRISON_FOLLOWER_IN_PARTY then break end
+
+         if ingored_followers[follower.followerID] then break end
 
          filtered_followers_count = filtered_followers_count + 1
          filtered_followers[filtered_followers_count] = follower
@@ -287,17 +311,7 @@ local function BestForCurrentSelectedMission()
       button[1] = top_entry[1] and top_entry[1].followerID or nil
       button[2] = top_entry[2] and top_entry[2].followerID or nil
       button[3] = top_entry[3] and top_entry[3].followerID or nil
-      if top_entry.successChance then
-         button:SetFormattedText(
-            "%d%%\n%s%s%s",
-            top_entry.successChance,
-            top_entry.xpBonus > 0 and top_entry.xpBonus .. " |TInterface\\Icons\\XPBonus_Icon:0|t" or "",
-            (top_entry.currency_rewards and top_entry.materialMultiplier > 1) and garrison_currency_texture or "",
-            top_entry.isMissionTimeImproved and time_texture or ""
-         )
-      else
-         button:SetText("")
-      end
+      SetTeamButtonText(button, top_entry)
    end
 
    if mission_page_pending_click then
@@ -470,6 +484,75 @@ MissionList_ButtonsInit()
 hooksecurefunc("GarrisonMissionPage_ShowMission", BestForCurrentSelectedMission)
 -- local count = 0
 -- hooksecurefunc("GarrisonFollowerList_UpdateFollowers", function(self) count = count + 1 print("GarrisonFollowerList_UpdateFollowers", count, self:GetName(), self:GetParent():GetName()) end)
+
+local info_ignore_toggle = {
+   notCheckable = true,
+   func = function(self, followerID)
+      if ingored_followers[followerID] then
+         ingored_followers[followerID] = nil
+      else
+         ingored_followers[followerID] = true
+      end
+      top_for_mission_dirty = true
+      filtered_followers_dirty = true
+      if GarrisonMissionFrame:IsShown() then
+         GarrisonFollowerList_UpdateFollowers(GarrisonMissionFrame.FollowerList)
+         if MissionPage.missionInfo then
+            BestForCurrentSelectedMission()
+         end
+      end
+   end,
+}
+
+local info_cancel = {
+   text = CANCEL
+}
+
+hooksecurefunc(GarrisonFollowerOptionDropDown, "initialize", function(self)
+   local followerID = self.followerID
+   if not followerID then return end
+   local follower = C_Garrison.GetFollowerInfo(followerID)
+   if follower and follower.isCollected then
+      info_ignore_toggle.arg1 = followerID
+      info_ignore_toggle.text = ingored_followers[followerID] and "GMM: 显示" or "GMM: 忽略"
+      local old_num_buttons = DropDownList1.numButtons
+      local old_last_button = _G["DropDownList1Button" .. old_num_buttons]
+      local old_is_cancel = old_last_button.value == CANCEL
+      if old_is_cancel then
+         DropDownList1.numButtons = old_num_buttons - 1
+      end
+      UIDropDownMenu_AddButton(info_ignore_toggle)
+      if old_is_cancel then
+         UIDropDownMenu_AddButton(info_cancel)
+      end
+   end
+end)
+
+local function GarrisonFollowerList_Update_More(self)
+   local followerFrame = self
+   local followers = followerFrame.FollowerList.followers
+   local followersList = followerFrame.FollowerList.followersList
+   local numFollowers = #followersList
+   local scrollFrame = followerFrame.FollowerList.listScroll
+   local offset = HybridScrollFrame_GetOffset(scrollFrame)
+   local buttons = scrollFrame.buttons
+   local numButtons = #buttons
+
+   for i = 1, numButtons do
+      local button = buttons[i]
+      local index = offset + i
+      if ( index <= numFollowers ) then
+         local follower = followers[followersList[index]]
+         if ( follower.isCollected ) then
+            if ingored_followers[follower.followerID] then
+               button.BusyFrame:Show()
+               button.BusyFrame.Texture:SetTexture(0.5, 0, 0, 0.3)
+            end
+         end
+      end
+   end
+end
+hooksecurefunc("GarrisonFollowerList_Update", GarrisonFollowerList_Update_More)
 
 -- Globals deliberately exposed for people outside
 function GMM_Click(button_name)

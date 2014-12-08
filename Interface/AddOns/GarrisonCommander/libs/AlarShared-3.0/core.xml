@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
-<!-- $Id$ -->
-<Script file="AlarLoader-3.0.lua"/>
-<Script file="locale.lua"/>
-<Script file="AlarCrayon-3.0.lua"/>
-<Script file="AlarCore-3.0.lua"/>
-</Ui>

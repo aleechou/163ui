@@ -1,10 +1,14 @@
 local api, bgapi, addonName, T = {}, {}, ...
 
-local defaults, mdata = {
+local defaults, mdata, mcdata = {
 	availableMissionSort="threats",
 	sortFollowers=true,
 	batchMissions=true,
-	version="0.11"
+	dropLessSalvage=true,
+	riskReward=1,
+	announceLoss=false,
+	ignore={},
+	version="0.13",
 }
 local conf = setmetatable({}, {__index=defaults})
 T.Evie.RegisterEvent("ADDON_LOADED", function(ev, addon)
@@ -22,19 +26,33 @@ T.Evie.RegisterEvent("ADDON_LOADED", function(ev, addon)
 		mdata = type(MasterPlanData) == "table" and MasterPlanData or {}
 		local n, r = UnitFullName("player")
 		local ckey = (r or "?") .. "#" .. n
-		mdata[ckey] = type(mdata[ckey]) == "table" and mdata[ckey] or {}
-		T._SetMissionSeenTable(mdata[ckey])
+		mcdata = type(mdata[ckey]) == "table" and mdata[ckey] or {}
+		if type(mcdata.__ignore) == "table" then
+			for k,v in pairs(mcdata.__ignore) do
+				conf.ignore[k] = v
+			end
+			mcdata.__ignore = nil
+		end
+		T._SetMissionSeenTable(mcdata)
 		
 		return "remove"
 	end
 end)
 T.Evie.RegisterEvent("PLAYER_LOGOUT", function()
-	MasterPlanConfig, MasterPlanData = conf, mdata
+	MasterPlanConfig, MasterPlanData, mcdata.__ignore = conf, mdata, next(conf.ignore) and conf.ignore
 	T._ObserveMissions()
 end)
 
 setmetatable(api, {__index=bgapi})
-bgapi.GarrisonAPI = T.Garrison
+bgapi.GarrisonAPI, T.config = T.Garrison, conf
+
+do -- Localizer stub
+	local LL, L = type(T.L) == "table" and T.L or {}, newproxy(true)
+	getmetatable(L).__call = function(self, k)
+		return LL[k] or k
+	end
+	T.L = L
+end
 
 function api:GetSortFollowers()
 	return conf.sortFollowers
@@ -99,6 +117,14 @@ end
 function api:DissolveAllMissions()
 	wipe(parties)
 	wipe(tentativeState)
+end
+
+function api:IsFollowerIgnored(fid)
+	return not not conf.ignore[fid]
+end
+function api:SetFollowerIgnored(fid, ignore)
+	assert(type(fid) == "string", 'Syntax: MasterPlan:SetFollowerIgnored("followerID", ignore)')
+	conf.ignore[fid] = ignore and 1 or nil
 end
 
 MasterPlan = api
