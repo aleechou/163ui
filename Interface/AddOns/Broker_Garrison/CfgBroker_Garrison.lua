@@ -5,4 +5,3 @@ U1RegisterAddon("Broker_Garrison", {
     tags = { TAG_TRADING },
     icon = [[Interface\Icons\INV_Letter_06]],
     desc = "显示该帐号下所有角色的要塞进度。",
-});

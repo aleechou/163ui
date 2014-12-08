@@ -1,8 +1,0 @@
-2014-12-03  ovolkov  <ovolkov>
-
-[51a3b0330dab] [v10]
-* GarrisonMissionManager.toc, GarrisonMissionManager.txt:
-
-v10 docs + toc
-
-

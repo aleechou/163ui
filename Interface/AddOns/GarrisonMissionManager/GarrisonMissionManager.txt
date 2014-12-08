@@ -1,4 +1,4 @@
-Garrison Mission Manager, v10
+Garrison Mission Manager, v12
 
 http://www.curse.com/addons/wow/garrison-mission-manager
 
@@ -9,6 +9,8 @@ It also adds a top team button to each mission on mission list page so you can s
 It takes care of each and every trait and ability your followers have, present and future, including those easily forgotten "Increases success chance when on a mission with a <race>" traits, by not actually caring about them at all - it simply tries all combinations and selects those that give best total success chance.
 
 Suggestions will try to maximize success rate first, material multiplier (garrison resources) second, then XP bonus and then reduced time.
+
+You can add followers to ignore list if you want. Select "GMM: Ignore" in right-click follower menu. Ignored follower will be dimmed with red overlay in followers list and won't be used in any calculated party.
 
 People who love macros can access mission page buttons with:
  * /run GMM_Click("MissionPage1")
@@ -23,8 +25,15 @@ Planned features:
 
 Change log:
 
+2014-12-05 v12
+ * Fix forgotten settings save - ignored followers are now remembered.
+
+2014-12-05 v11
+ * Remove XP bonus icons from buttons with maxed out parties.
+ * Follower ignore support.
+
 2014-12-02 v10
- * Fix all event handling related lags
+ * Fix all event handling related lags.
 
 2014-11-30 v9
  * Fix stop in mission list when you only have free maxed out followers and all missions after first XP-only reward is not calculated.
