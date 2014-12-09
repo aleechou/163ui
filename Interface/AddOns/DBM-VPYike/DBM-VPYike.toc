@@ -6,6 +6,9 @@
 ## DefaultState: enabled
 ## RequiredDeps: DBM-Core
 ## Author: Yike Xia, Mini_Dragon
-## Notes: 语音DBM文件.
-## Version: 14.11.22
-## X-163UI-Version: 20141205123002
+## Notes: X-DBM-Voice-Name Should be long name you want to appear in dropdown menu; X-DBM-Voice-ShortName should be short name that matches folder name after DBM-VP. So for example, DBM-VPYike would be "Yike" for a short name.
+## Version: 14.12.02
+## X-DBM-Voice: 1
+## X-DBM-Voice-Name: Yike Xia(夏一可)
+## X-DBM-Voice-ShortName: Yike
+## X-163UI-Version: 2014120901

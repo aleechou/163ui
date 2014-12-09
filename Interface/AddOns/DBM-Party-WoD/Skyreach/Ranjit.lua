@@ -26,7 +26,7 @@ local timerFourWinds		= mod:NewBuffActiveTimer(18, 156793)
 local timerFourWindsCD		= mod:NewCDTimer(30, 156793)
 
 function mod:OnCombatStart(delay)
-	timerFourWinds:Start(-delay)
+	timerFourWindsCD:Start(-delay)
 end
 
 function mod:SPELL_CAST_START(args)

@@ -1,0 +1,43 @@
+subversion:
+	- ebmor via svn r11859: deDE update
+	- Omega via svn r11858: Arrow no longer relies on map so no reason for this restriction
+	- Omega via svn r11857: Text tweaks
+	- Omega via svn r11856: I'm confident there is no loadmod bug, and it's all user error, this last debug will pretty much prove it in all cases
+	- Omega via svn r11855: fix some screwups
+	- Omega via svn r11854: Add fire ring challenge
+	- nbluewiz via svn r11853: # koKR update.
+	- ultrashining via svn r11852: zhTW update
+	- Omega via svn r11851: More Frame names
+	- TOM_RUS via svn r11850: Add name to arrow frame
+	- tandanu via svn r11849: and now we need some empty commits as I should have done the last commit in three different commits and not in one...
+	- tandanu via svn r11848: svn server had a disk failure and crashed. that somehow corrupted the metadata for the last few commits (thanks, svn!)
+	the simplest way to fix this seemed to be to apply the diffs for these commits by hand and remove the bad revision from the server
+	
+	here are the old commit messages:
+	Log:
+	Improve note, since I actually got not one but "two" bug reports about getting "taunt" warnings when not tank spec, when disabling this filter. Um that's the point?. An on by default filter and on by default taunt warnings allows tanks that very frequently switch between dps/tank to not have to worry about if they remembered to enable/disable the taunt alerts. They "just work". don't complain if you disable the filter and keep getting told to taunt the boss. :P
+	
+	Log:
+	# clean.
+	
+	Log:
+	Fix missing icon
+	- Omega via svn r11849: Improve note, since I actually got not one but "two" bug reports about getting "taunt" warnings when not tank spec, when disabling this filter. Um that's the point?. An on by default filter and on by default taunt warnings allows tanks that very frequently switch between dps/tank to not have to worry about if they remembered to enable/disable the taunt alerts. They "just work". don't complain if you disable the filter and keep getting told to taunt the boss. :P
+	- nbluewiz via svn r11848: # clean.
+	- Omega via svn r11847: Fix missing icon
+	- nbluewiz via svn r11846: # Fix non-working debuglevel cmd
+	- nbluewiz via svn r11845: # Better code.
+	- Omega via svn r11844: Missed this. transcriptor running always override debug level
+	- Omega via svn r11843: make 3 diff levels of debug. with 1 default. 2 being extra out of combat events, 3 being extra in combat events.
+	- nbluewiz via svn r11842: # Remove unneeded code from version check. # Added debug code.
+	- nbluewiz via svn r11841: # Fix strange lua error. (should never happen)
+	- Omega via svn r11840: Fix difficulty always returning "normal" when getting syncs that don't have difficultyID
+	- ebmor via svn r11839: deDE update
+	- ultrashining via svn r11838: zhTW update
+	- Omega via svn r11837: make sure a person is never added to caustic table more than once.
+	- Omega via svn r11836: Fix quake delay code Add timer for first whirlwind
+	- Omega via svn r11835: no idea how this happened, but DontShowPT should NOT be enabled by default. force reset it
+	- Omega via svn r11834: Fix another highmaul error
+	- Omega via svn r11833: Fix error
+	- TOM_RUS via svn r11832: ruRU update
+	- tandanu via svn r11831: increment alpha version number

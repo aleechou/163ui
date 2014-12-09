@@ -6,14 +6,6 @@ local L
 ---------------
 L= DBM:GetModLocalization(1128)
 
-L:SetTimerLocalization({
-	timerCrowdCD	= "Восст. Толпы"
-})
-
-L:SetOptionLocalization({
-	timerCrowdCD	= "Отсчет времени до появления новых аддов толпы"
-})
-
 ---------------------------
 -- The Butcher --
 ---------------------------
@@ -39,8 +31,8 @@ L= DBM:GetModLocalization(1196)
 L= DBM:GetModLocalization(1148)
 
 L:SetOptionLocalization({
-	PhemosSpecial	= "Play countdown sound for Phemos' cooldowns",
-	PolSpecial		= "Play countdown sound for Pol's cooldowns"
+	PhemosSpecial	= "Звуковой обратный отсчет для кулдаунов Фем'а",
+	PolSpecial		= "Звуковой обратный отсчет для кулдаунов Пол'а"
 })
 
 --------------------

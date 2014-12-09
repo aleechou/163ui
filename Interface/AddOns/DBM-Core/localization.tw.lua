@@ -25,7 +25,9 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "你目前的專精為:%s。而你目前的拾�
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM偵測到你同時開啟BigWigs和DBM的團隊圖示。請關閉其中之一的團隊圖示功能以免與你的隊伍隊長產生衝突。"
 
-DBM_CORE_PROVINGGROUNDS_AD			= "試煉之地的DBM插件已經可供使用。你可以在deadlybossmods.com或Curse上找到。此訊息只會顯示一次。"
+DBM_CORE_PROVINGGROUNDS_AD			= "試煉之地DBM-ProvingGrounds的DBM插件已經可供使用。你可以在deadlybossmods.com或Curse上找到。此訊息只會顯示一次。"
+
+DBM_CORE_MOLTENCORE_AD				= "熔火之心DBM-MC的DBM插件已經可供使用。你可以在deadlybossmods.com或Curse上找到。此訊息只會顯示一次。."
 
 DBM_CORE_COMBAT_STARTED				= "%s開戰。祝好運與盡興! :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "與%s開戰已進行的戰鬥。祝好運與盡興! :)"
@@ -73,6 +75,7 @@ DBM_CORE_OPTION_HEALTH_FRAME		= "顯示首領血量框架"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS		= "計時器"
 DBM_CORE_OPTION_CATEGORY_WARNINGS	= "提示"
+DBM_CORE_OPTION_CATEGORY_SOUNDS		= "音效"
 
 DBM_CORE_AUTO_RESPONDED						= "已自動回覆密語。"
 DBM_CORE_STATUS_WHISPER						= "%s：%s，%d/%d存活。"
@@ -277,6 +280,7 @@ DBM_CORE_AUTO_ICONS_OPTION_TEXT2		= "為$spell:%s設置標記"
 DBM_CORE_AUTO_ARROW_OPTION_TEXT			= "為跑向中了$spell:%s的目標顯示DBM箭頭"
 DBM_CORE_AUTO_ARROW_OPTION_TEXT2		= "為離開中了$spell:%s的目標顯示DBM箭頭"
 DBM_CORE_AUTO_SOUND_OPTION_TEXT			= "當你中了$spell:%s時播放音效"
+DBM_CORE_AUTO_VOICE_OPTION_TEXT			= "為$spell:%s播放選取的語音包音效"
 DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT		= "為$spell:%s的冷卻播放倒數計時音效"
 DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT2	= "為$spell:%s的減益播放倒數計時音效"
 DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT		= "為$spell:%s的持續時間播放倒數計時音效"

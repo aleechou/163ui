@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(1153, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11837 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11952 $"):sub(12, -3))
 mod:SetCreatureID(79015)
 mod:SetEncounterID(1723)
 mod:SetZone()
@@ -12,9 +12,9 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 162185 162184 161411 163517 162186",
-	"SPELL_AURA_APPLIED 156803 162186 162185 161242 163472",
+	"SPELL_AURA_APPLIED 156803 162186 161242 163472",
 	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 162186 162185 163472",
+	"SPELL_AURA_REMOVED 162186 163472",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
@@ -41,8 +41,8 @@ local yellTrample					= mod:NewYell(163101)
 local specWarnExpelMagicFire		= mod:NewSpecialWarningMoveAway(162185)
 local specWarnExpelMagicShadow		= mod:NewSpecialWarningSpell(162184, mod:IsHealer())
 local specWarnExpelMagicFrost		= mod:NewSpecialWarningSpell(161411, false)
-local specWarnExpelMagicArcane		= mod:NewSpecialWarningTarget(162186, mod:IsTank())
 local specWarnExpelMagicArcaneYou	= mod:NewSpecialWarningMoveAway(162186, nil, nil, nil, 3)
+local specWarnExpelMagicArcane		= mod:NewSpecialWarningTaunt(162186)
 local yellExpelMagicArcane			= mod:NewYell(162186)
 local specWarnMC					= mod:NewSpecialWarningSwitch(163472, mod:IsDps())
 local specWarnForfeitPower			= mod:NewSpecialWarningInterrupt(163517)--Spammy?
@@ -69,10 +69,24 @@ function mod:OnCombatEnd()
 	end
 end
 
+local function closeRange()
+	if mod.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 162185 then
 		warnExpelMagicFire:Show()
+		specWarnExpelMagicFire:Schedule(7.5)--Give you about 4 seconds to spread out
+		--Even if you AMS or resist debuff, need to avoid others that didn't, so rangecheck now here
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(7)
+		end
+		Yike:Play("scatter")
+		self:Schedule(11.5, closeRange)
+		Yike:Schedule(11.5, "safenow")
 	elseif spellId == 162184 then
 		warnExpelMagicShadow:Show()
 		specWarnExpelMagicShadow:Show()
@@ -86,10 +100,16 @@ function mod:SPELL_CAST_START(args)
 		warnForfeitPower:Show()
 		specWarnForfeitPower:Show(args.sourceName)
 	elseif spellId == 162186 then
-		if UnitExists("boss1") and UnitGUID("boss1") == args.sourceGUID and UnitDetailedThreatSituation("player", "boss1") then--We are highest threat target
+		local targetName, uId = self:GetBossTarget(79015)
+		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
+		if tanking or (status == 3) then--Player is current target
 			specWarnExpelMagicArcaneYou:Show()--So show tank warning
-			--soundExpelMagicArcane:Play()
 			Yike:Play("runout")
+			--soundExpelMagicArcane:Play()
+		else
+			if self:AntiSpam(2, targetName) then--Set anti spam with target name
+				specWarnExpelMagicArcane:Show(targetName)--Sometimes targetname is nil, and then it warns for unknown, but with the new status == 3 check, it'll still warn correct tank, so useful anyways
+			end
 		end
 	end
 end
@@ -112,21 +132,16 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 162186 then
 		warnExpelMagicArcane:Show(args.destName)
 		timerExpelMagicArcane:Start(args.destName)
-		if mod:IsTank() then
-			Yike:Play("tauntboss")
-		end
 		if args:IsPlayer() then--Still do yell and range frame here, in case DK
 			yellExpelMagicArcane:Yell()
+			Yike:Play("runout")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
-			end
+				end
 		else
-			specWarnExpelMagicArcane:Show(args.destName)
-		end
-	elseif spellId == 162185 and args:IsPlayer() then
-		specWarnExpelMagicFire:Schedule(6)--Give you about 4 seconds to spread out
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(7)
+			if self:AntiSpam(2, args.destName) then--if antispam matches cast start warning, it won't warn again, if name is different, it'll trigger new warning
+				specWarnExpelMagicArcane:Show(args.destName)
+			end
 		end
 	elseif spellId == 161242 and self:AntiSpam(3, args.destName) then--Players may wabble in and out of it and we don't want to spam add them to table.
 		warnCausticEnergy:CombinedShow(1, args.destName)--Two targets on mythic, which is why combinedshow.
@@ -148,11 +163,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 162186 and args:IsPlayer() and self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
-	elseif spellId == 162185 and args:IsPlayer() then
-		specWarnExpelMagicFire:Cancel()
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 	elseif spellId == 163472 and self.Options.SetIconOnMC then
 		self:SetIcon(args.destName, 0)
 	end
@@ -191,6 +201,7 @@ function mod:OnSync(msg, targetname)
 			if target == UnitName("player") then
 				specWarnTrample:Show()
 				yellTrample:Yell()
+				Yike:Play("targetyou")
 			end
 		end
 	end

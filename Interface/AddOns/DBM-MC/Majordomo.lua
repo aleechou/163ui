@@ -17,7 +17,8 @@ local warnMagicReflect	= mod:NewSpellAnnounce(20619)
 local warnDamageShield	= mod:NewSpellAnnounce(21075)
 local warnTeleport		= mod:NewTargetAnnounce(20534)
 
-local specWarnMagicReflect		= mod:NewSpecialWarningSpell(20619, not mod:IsMelee())
+local specWarnMagicReflect		= mod:NewSpecialWarningReflect(20619, mod:IsSpellCaster())
+local specWarnDamageShield		= mod:NewSpecialWarningReflect(21075, not mod:IsSpellCaster())
 
 local timerMagicReflect	= mod:NewBuffActiveTimer(10, 20619)
 local timerDamageShield	= mod:NewBuffActiveTimer(10, 21075)
@@ -28,11 +29,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnMagicReflect:Show()
 		specWarnMagicReflect:Show()
 		timerMagicReflect:Start()
-		Yike:Play("20619")
-		Yike:Schedule(10, "shieldover")
+		if mod:IsSpellCaster() then
+			Yike:Play("20619")
+			Yike:Schedule(1, "stopattack")
+			Yike:Schedule(10, "shieldover")
+		end
 	elseif spellId == 21075 then
 		warnDamageShield:Show()
+		specWarnDamageShield:Show()
 		timerDamageShield:Start()
+		if not mod:IsSpellCaster() then
+			Yike:Play("20619")
+			Yike:Schedule(1, "stopattack")
+			Yike:Schedule(10, "shieldover")
+		end
 	elseif spellId == 20534 then
 		warnTeleport:Show(args.destName)
 	end

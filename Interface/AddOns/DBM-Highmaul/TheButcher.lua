@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(971, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11751 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11928 $"):sub(12, -3))
 mod:SetCreatureID(77404)
 mod:SetEncounterID(1706)
 mod:SetZone()
@@ -54,19 +54,19 @@ function mod:OnCombatStart(delay)
 	timerTenderizerCD:Start(6-delay)
 	timerCleaveCD:Start(10-delay)--Verify this wasn't caused by cleave bug.
 	timerCleaverCD:Start(12-delay)
-	timerBoundingCleaveCD:Start(-delay)
+	timerBoundingCleaveCD:Start(-delay, 1)
 	countdownBoundingCleave:Start(-delay)
-	Yike:Schedule(53.5-delay, "156160r")
+	Yike:Schedule(53.5-delay, "156160")
 	if self:IsMythic() then
 		berserkTimer:Start(240-delay)
 		self:RegisterShortTermEvents(
 			"SPELL_PERIODIC_DAMAGE 163046",
 			"SPELL_PERIODIC_MISSED 163046"
 		)
-	elseif self:IsLFR() then
-		--Find LFR berserk
+	elseif self:IsHeroic() then
+		berserkTimer:Start(-delay)
 	else
---		berserkTimer:Start(-delay)--Find new normal berserk
+		--Find LFR berserk for LFR & Normal
 	end
 end
 
@@ -92,9 +92,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount > 1 then
 			specWarnGushingWounds:Show(amount)
 		end
-		if amount > 3 then
+		if amount > 5 then
 			Yike:Play("runout")
-		end	
+		end
 	elseif spellId == 156151 then
 		local amount = args.amount or 1
 		warnTenderizer:Show(args.destName, amount)
@@ -113,6 +113,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.isFrenzied = true
 		warnFrenzy:Show(args.destName)
 		Yike:Play("frenzy")
+		local bossPower = UnitPower("boss1")
+		local bossProgress = bossPower * 3.33
+		countdownBoundingCleave:Cancel()
+		countdownBoundingCleave:Start(30-bossProgress)
+		Yike:Cancel("156160")
+		Yike:Schedule(30-bossProgress-6.5, "156160")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -134,31 +140,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		--Timer for when regular cleave resumes
 		if self.vb.isFrenzied then
 			timerCleaveCD:Start(5)
-			Yike:Play("gather")
-			Yike:Schedule(1, "countfour")
-			Yike:Schedule(2, "countthree")
-			Yike:Schedule(3, "counttwo")
-			Yike:Schedule(4, "countone")
 		else
 			timerCleaveCD:Start(11)
-			Yike:Schedule(6, "gather")
-			Yike:Schedule(7, "countfour")
-			Yike:Schedule(8, "countthree")
-			Yike:Schedule(9, "counttwo")
-			Yike:Schedule(10, "countone")
 		end
 		--Update bounding cleave timer
-		local bossPower = UnitPower("boss1")
-		local bossProgress = bossPower * 3.33--Under frenzy he gains energy twice as fast. So about 3.33 energy per seocnd, 30 seconds to full power.
-		timerBoundingCleave:Update(bossProgress, 30, self.vb.boundingCleave+1)--Will bar update work correctly on a count bar? Looking at code I don't think it will, it doesn't accept/pass on extra args in Update call.
-		countdownBoundingCleave:Cancel()
-		countdownBoundingCleave:Start(30-bossProgress)
+		timerBoundingCleave:Update(bossProgress, 30, self.vb.boundingCleave+1)
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 163046 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnPaleVitriol:Show()
+		Yike:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -176,12 +169,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			timerBoundingCleave:Start(5)
 			timerBoundingCleaveCD:Start(30, self.vb.boundingCleave+1)
 			countdownBoundingCleave:Start(30)
-			Yike:Schedule(23.5, "156160r")
+			Yike:Schedule(23.5, "156160")
 		else
 			timerBoundingCleave:Start(9)
 			timerBoundingCleaveCD:Start(nil, self.vb.boundingCleave+1)
 			countdownBoundingCleave:Start(60)
-			Yike:Schedule(53.5, "156160r")
+			Yike:Schedule(53.5, "156160")
 		end
 	end
 end

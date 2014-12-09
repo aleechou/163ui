@@ -5,14 +5,6 @@ local L
 ---------------
 L= DBM:GetModLocalization(1128)
 
-L:SetTimerLocalization({
-	timerCrowdCD	= "Crowd CD"
-})
-
-L:SetOptionLocalization({
-	timerCrowdCD	= "Show timer for when the crowd will spawn new adds"
-})
-
 ---------------------------
 -- The Butcher --
 ---------------------------
@@ -58,6 +50,10 @@ L:SetMiscLocalization({
 -- Imperator Mar'gok --
 --------------------------
 L= DBM:GetModLocalization(1197)
+
+L:SetMiscLocalization({
+	BrandedYell			= "Branded (%d) on %s"
+})
 
 -------------
 --  Trash  --
