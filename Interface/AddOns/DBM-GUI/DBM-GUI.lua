@@ -44,7 +44,7 @@
 
 
 
-local revision =("$Revision: 11835 $"):sub(12, -3)
+local revision =("$Revision: 11916 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -401,7 +401,7 @@ do
 		local spellName = GetSpellInfo(spellId)
 		if not spellName then
 			spellName = DBM_CORE_UNKNOWN
-			DBM:Debug("Spell ID not exists: "..spellId)
+			DBM:Debug("Spell ID does not exist: "..spellId)
 		end
 		return ("|cff71d5ff|Hspell:%d|h%s|h|r"):format(spellId, spellName)
 	end
@@ -409,7 +409,7 @@ do
 	local function replaceJournalLinks(id)
 		local check = EJ_GetSectionInfo(tonumber(id))
 		if not check then 
-			DBM:Debug("Journal ID not exists: "..id)
+			DBM:Debug("Journal ID does not exist: "..id)
 		end
 		local link = select(9, EJ_GetSectionInfo(tonumber(id))) or DBM_CORE_UNKNOWN
 		return link:gsub("|h%[(.*)%]|h", "|h%1|h")
@@ -1560,7 +1560,7 @@ local function CreateOptionsMenu()
 			{	text	= "Anshlun (ptBR Male)",value = "Anshlun"},
 			{	text	= "Neryssa (ptBR Female)",value = "Neryssa"},
 		}
-		local CountSoundDropDown2 = raidwarnoptions:CreateDropdown(L.CountdownVoice2, countSounds,
+		local CountSoundDropDown2 = raidwarnoptions:CreateDropdown(L.CountdownVoice2, countSounds2,
 		DBM.Options.CountdownVoice2, function(value)
 			DBM.Options.CountdownVoice2 = value
 			DBM:PlayCountSound(1, DBM.Options.CountdownVoice2)
@@ -1575,6 +1575,14 @@ local function CreateOptionsMenu()
 		end
 		)
 		CountSoundDropDown3:SetPoint("TOPLEFT", CountSoundDropDown, "TOPLEFT", 0, -40)
+		
+		local VoiceDropDown = raidwarnoptions:CreateDropdown(L.VoicePackChoice, DBM.Voices,
+		DBM.Options.ChosenVoicePack, function(value)
+			DBM.Options.ChosenVoicePack = value
+			DBM:Debug("DBM.Options.ChosenVoicePack is set to "..DBM.Options.ChosenVoicePack)
+		end
+		)
+		VoiceDropDown:SetPoint("TOPLEFT", CountSoundDropDown2, "TOPLEFT", 0, -40)
 
 		--Raid Warning Colors
 		local raidwarncolors = RaidWarningPanel:CreateArea(L.RaidWarnColors, nil, 150, true)

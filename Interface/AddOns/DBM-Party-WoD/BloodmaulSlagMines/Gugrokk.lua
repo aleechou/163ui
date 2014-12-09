@@ -21,12 +21,14 @@ local warnUnstableSlag			= mod:NewSpellAnnounce(150677, 3)
 local warnMagmaEruption			= mod:NewSpellAnnounce(150784, 3)
 
 local specWarnMoltenBlast		= mod:NewSpecialWarningInterrupt(150677)
-local specWarnUnstableSlag		= mod:NewSpecialWarningSwitch(150755, not mod:IsHealer())
+local specWarnUnstableSlag		= mod:NewSpecialWarningSwitch("OptionVersion2", 150755, mod:IsDps())
 local specWarnMagmaEruptionCast	= mod:NewSpecialWarningSpell(150784, nil, nil, nil, 2)
 local specWarnMagmaEruption		= mod:NewSpecialWarningMove(150784)
 
 local timerMagmaEruptionCD		= mod:NewCDTimer(20, 150784)
 local timerUnstableSlagCD		= mod:NewCDTimer(20, 150755)
+
+local countdownUnstableSlag		= mod:NewCountdown(20, 150755)
 
 function mod:OnCombatStart(delay)
 --	timerMagmaEruptionCD:Start(8-delay)--Poor sample size
@@ -48,13 +50,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnMagmaEruptionCast:Show()
 		timerMagmaEruptionCD:Start()
 	elseif spellId == 150755 then
-		if (not mod:IsHealer()) then
+		if mod:IsDps() then
 			sndWOP:Play("mobkill")
 			sndWOP:Schedule(2, "mobkill")
 		end
 		warnUnstableSlag:Show()
 		specWarnUnstableSlag:Show()
 		timerUnstableSlagCD:Start()
+		countdownUnstableSlag:Start()
 	end
 end
 

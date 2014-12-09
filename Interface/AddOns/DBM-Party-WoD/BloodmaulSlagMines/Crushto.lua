@@ -43,23 +43,23 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 150759 then
+		warnFerociousYell:Show()
+		specWarnFerociousYell:Show(args.sourceName)
 		if mod:IsTank() then
 			sndWOP:Play("kickcast")
 		elseif (not mod:IsHealer()) then
 			sndWOP:Play("helpkick")
 		end
-		warnFerociousYell:Show()
-		specWarnFerociousYell:Show(args.sourceName)
 	elseif spellId == 150801 then
-		sndWOP:Play("mobsoon")
 		warnRaiseMiners:Show()
 		specWarnRaiseMiners:Show()
+		sndWOP:Play("mobsoon")
 	elseif spellId == 153679 then
 		warnEarthCrush:Show()
 		specWarnEarthCrush:Show()
-		self:BossTargetScanner(74787, "EarthCrushTarget", 0.1, 16)--Adjust timing if not reliable
 	elseif spellId == 150753 then
 		warnWildSlam:Show()
 		specWarnWildSlam:Show()
+		timerWildSlamCD:Start()
 	end
 end

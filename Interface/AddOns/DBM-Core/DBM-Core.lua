@@ -45,12 +45,13 @@
 --    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+--
 
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 11888 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 11961 $"):sub(12, -3)),
 	DisplayVersion = "6.0.6 VE", -- the string that is shown as version
 	ReleaseRevision = 11873 -- the revision of the latest stable version that is available
 }
@@ -83,6 +84,7 @@ DBM.DefaultOptions = {
 	CountdownVoice = "Corsica",
 	CountdownVoice2 = "Kolt",
 	CountdownVoice3 = "Pewsey",
+	ChosenVoicePack = "Yike",
 	ShowCountdownText = false,
 	RaidWarningPosition = {
 		Point = "TOP",
@@ -207,13 +209,6 @@ DBM.DefaultOptions = {
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
 	ChatFrame = "DEFAULT_CHAT_FRAME",
-	ShowLTSpecialWarnings = true, --Add by Mini_Dragon (Brilla@金色平原)
-	LTSpecialWarningFont = STANDARD_TEXT_FONT,
-	LTSpecialWarningFontSize = 50,
-	LTSpecialWarningPoint = "CENTER",
-	LTSpecialWarningX = 0,
-	LTSpecialWarningY = -130,
-	LTSpecialWarningFontColor = {0.0, 1.0, 0.0},
 }
 
 DBM.Bars = DBT:New()
@@ -333,6 +328,15 @@ local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
 local function checkEntry(t, val)
 	for i, v in ipairs(t) do
 		if v == val then
+			return true
+		end
+	end
+	return false
+end
+
+local function findEntry(t, val)
+	for i, v in ipairs(t) do
+		if v and val and val:find(v) then
 			return true
 		end
 	end
@@ -922,6 +926,7 @@ do
 				SetCVar("Sound_NumChannels", 64)
 			end
 			self.AddOns = {}
+			self.Voices = { {text = "None",value  = "None"}, }--Create voice table, with default "None" value
 			for i = 1, GetNumAddOns() do
 				local addonName = GetAddOnInfo(i)
 				local enabled = GetAddOnEnableState(playerName, i)
@@ -971,6 +976,13 @@ do
 							end
 						end
 					end
+				end
+				--Work in progress and subject to change. Just kind of throwing code in for random ideas
+				--X-DBM-Voice: 1 should be in file
+				--X-DBM-Voice-Name Should be long name you want to appear in dropdown menu
+				--X-DBM-Voice-ShortName should be short name that matches folder name after DBM-VP. So for example, DBM-VPHarry would be "Harry" for a short name.
+				if GetAddOnMetadata(i, "X-DBM-Voice") and enabled ~= 0 then
+					tinsert(self.Voices, { text = GetAddOnMetadata(i, "X-DBM-Voice-Name"), value = GetAddOnMetadata(i, "X-DBM-Voice-ShortName") })
 				end
 			end
 			table.sort(self.AddOns, function(v1, v2) return v1.sort < v2.sort end)
@@ -2489,17 +2501,13 @@ function DBM:UPDATE_BATTLEFIELD_STATUS()
 end
 
 function DBM:CINEMATIC_START()
-	DBM:Debug("CINEMATIC_START fired")
 	if not IsInInstance() or C_Garrison:IsOnGarrisonMap() or DBM.Options.MovieFilter == "Never" then return end
-	DBM:Debug("CINEMATIC_START: in valid zone, checking settings")
 	SetMapToCurrentZone()
 	local currentFloor = GetCurrentMapDungeonLevel() or 0
 	if DBM.Options.MovieFilter == "Block" or DBM.Options.MovieFilter == "AfterFirst" and DBM.Options.MoviesSeen[LastInstanceMapID..currentFloor] then
 		CinematicFrame_CancelCinematic()
-		DBM:Debug("CINEMATIC_START should be canceling movie")
 	else
 		DBM.Options.MoviesSeen[LastInstanceMapID..currentFloor] = true
-		DBM:Debug("CINEMATIC_START should be allowing movie to play since it's first time")
 	end
 end
 
@@ -2609,7 +2617,7 @@ do
 		LastInstanceMapID = mapID
 		LastGroupSize = instanceGroupSize
 		difficultyIndex = difficulty
-		if instanceType == "none" then
+		if instanceType == "none" or C_Garrison:IsOnGarrisonMap() then
 			if not targetEventsRegistered then
 				DBM:RegisterShortTermEvents("UPDATE_MOUSEOVER_UNIT", "UNIT_TARGET_UNFILTERED")
 				targetEventsRegistered = true
@@ -2639,7 +2647,8 @@ do
 	function DBM:LOADING_SCREEN_DISABLED()
 		DBM:Debug("LOADING_SCREEN_DISABLED fired")
 		FixForShittyComputers()
-		DBM:Schedule(3, FixForShittyComputers, DBM)
+		DBM:Unschedule(FixForShittyComputers)
+		DBM:Schedule(5, FixForShittyComputers, DBM)
 	end
 
 	function DBM:LoadModsOnDemand(checkTable, checkValue)
@@ -2647,7 +2656,8 @@ do
 		for i, v in ipairs(DBM.AddOns) do
 			local modTable = v[checkTable]
 			local enabled = GetAddOnEnableState(playerName, v.modId)
-			if not IsAddOnLoaded(v.modId) and modTable and checkEntry(modTable, checkValue) then			
+			DBM:Debug(v.modId.." is "..enabled, 2)
+			if not IsAddOnLoaded(v.modId) and modTable and checkEntry(modTable, checkValue) then
 				if enabled ~= 0 then
 					self:LoadMod(v)
 				else
@@ -3089,11 +3099,11 @@ do
 			raid[sender].displayVersion = displayVersion
 			raid[sender].locale = locale
 			raid[sender].enabledIcons = iconEnabled or "false"
-			DBM:Debug("Received version info from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 2)
+			DBM:Debug("Received version info from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 3)
 			if version > tonumber(DBM.Version) then -- Update reminder
 				if not checkEntry(newerVersionPerson, sender) then
 					newerVersionPerson[#newerVersionPerson + 1] = sender
-					DBM:Debug("Newer version detected from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 2)
+					DBM:Debug("Newer version detected from "..sender.." : Rev - "..revision..", Ver - "..version..", Rev Diff - "..(revision - DBM.Revision), 3)
 				end
 				if #newerVersionPerson < 4 then
 					if #newerVersionPerson == 2 and updateNotificationDisplayed < 2 then--Only requires 2 for update notification.
@@ -3751,7 +3761,7 @@ do
 		if not combatInitialized then return end
 		if combatInfo[LastInstanceMapID] then
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if (v.type == "combat" and not v.noRegenDetection) or v.type == "combat_yell" or v.type == "combat_emote" or v.type == "combat_say" then--this will be faster than string.find
+				if v.type:find("combat") and not v.noRegenDetection then
 					if v.multiMobPullDetection then
 						for _, mob in ipairs(v.multiMobPullDetection) do
 							if checkForPull(mob, v) then
@@ -3775,21 +3785,20 @@ do
 		local i = 1
 		repeat
 			local bossUnitId = "boss"..i
-			local bossExists = UnitExists(bossUnitId)
-			local bossGUID = bossExists and not UnitIsDead(bossUnitId) and UnitGUID(bossUnitId) -- check for UnitIsVisible maybe?
+			local bossGUID = not UnitIsDead(bossUnitId) and UnitGUID(bossUnitId) -- check for UnitIsVisible maybe?
 			local bossCId = bossGUID and DBM:GetCIDFromGUID(bossGUID)
 			if bossCId and (type(cId) == "number" and cId == bossCId or type(cId) == "table" and checkEntry(cId, bossCId)) then
 				return true
 			end
 			i = i + 1
-		until not bossExists
+		until not bossGUID
 	end
 
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if combatInfo[LastInstanceMapID] then
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if v.type == "combat" and isBossEngaged(v.multiMobPullDetection or v.mob) then
+				if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
 					self:StartCombat(v.mod, 0, "IEEU")
 				end
 			end
@@ -3885,7 +3894,7 @@ do
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 				if v.type == type and checkEntry(v.msgs, msg) or v.type == type .. "_regex" and checkExpressionList(v.msgs, msg) then
 					DBM:StartCombat(v.mod, 0, "MONSTER_MESSAGE")
-				elseif v.type == "combat_" .. type and checkEntry(v.msgs, msg) then
+				elseif v.type == "combat_" .. type .. "find" and findEntry(v.msgs, msg) or v.type == "combat_" .. type and checkEntry(v.msgs, msg) then
 					if IsInInstance() then--Indoor boss that uses both combat and yell for combat, so in other words (such as hodir), don't require "target" of boss for yell like scanForCombat does for World Bosses
 						DBM:StartCombat(v.mod, 0, "MONSTER_MESSAGE")
 					else--World Boss
@@ -4041,9 +4050,9 @@ local statVarTable = {
 function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 	if not mod.inCombat then
 		if event then
-			self:Debug("StartCombat called by : "..event)
+			self:Debug("StartCombat called by : "..event..". LastInstanceMapID is "..LastInstanceMapID)
 		else
-			self:Debug("StartCombat called by individual mod or unknown reason.")
+			self:Debug("StartCombat called by individual mod or unknown reason. LastInstanceMapID is "..LastInstanceMapID)
 		end
 	end
 	cSyncSender = {}
@@ -4123,7 +4132,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		--process global options
 		self:ToggleRaidBossEmoteFrame(1)
 		self:StartLogging(0, nil)
-		if DBM.Options.HideObjectivesFrame and not (mod.type == "SCENARIO") then
+		if DBM.Options.HideObjectivesFrame and not (mod.type == "SCENARIO") and GetNumTrackedAchievements() == 0 then
 			if ObjectiveTrackerFrame:IsVisible() then
 				ObjectiveTrackerFrame:Hide()
 				watchFrameRestore = true
@@ -5215,12 +5224,9 @@ end
 -------------------
 MovieFrame:HookScript("OnEvent", function(self, event, id)
 	if event == "PLAY_MOVIE" and id then
-		DBM:Debug("PLAY_MOVIE fired")
 		if not IsInInstance() or C_Garrison:IsOnGarrisonMap() or DBM.Options.MovieFilter == "Never" then return end
-		DBM:Debug("PLAY_MOVIE: In valid zone, checking settings")
 		if DBM.Options.MovieFilter == "Block" or DBM.Options.MovieFilter == "AfterFirst" and DBM.Options.MoviesSeen[id] then
 			MovieFrame_OnMovieFinished(self)
-			DBM:Debug("PLAY_MOVIE: Canceling movie")
 		else
 			DBM.Options.MoviesSeen[id] = true
 		end
@@ -5959,12 +5965,7 @@ end
 
 function bossModPrototype:IsTanking(unit, boss)
 	if not unit then return false end
-	if GetPartyAssignment("MAINTANK", unit, 1) then
-		return true
-	end
-	if UnitGroupRolesAssigned(unit) == "TANK" then
-		return true
-	end
+	--Prefer threat target first
 	if boss and UnitExists(boss) then--Only checking one bossID as requested
 		local tanking, status = UnitDetailedThreatSituation(unit, boss)
 		if tanking or (status == 3) then
@@ -5979,6 +5980,13 @@ function bossModPrototype:IsTanking(unit, boss)
 				end
 			end
 		end
+	end
+	--Use these as fallback if threat target not found
+	if GetPartyAssignment("MAINTANK", unit, 1) then
+		return true
+	end
+	if UnitGroupRolesAssigned(unit) == "TANK" then
+		return true
 	end
 	return false
 end
@@ -6022,10 +6030,12 @@ end
 function DBM:GetBossHP(cId)
 	local uId = bossHealthuIdCache[cId] or "target"
 	if self:GetCIDFromGUID(UnitGUID(uId)) == cId and UnitHealthMax(uId) ~= 0 then
+		if bossHealth[cId] and UnitHealth(uId) == 0 then return bossHealth[cId], uId end--Return last non 0 value if value is 0, since it's last valid value we had.
 		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
 		bossHealth[cId] = hp
 		return hp, uId
 	elseif self:GetCIDFromGUID(UnitGUID("focus")) == cId and UnitHealthMax("focus") ~= 0 then
+		if bossHealth[cId] and UnitHealth("focus") == 0 then return bossHealth[cId], "focus" end--Return last non 0 value if value is 0, since it's last valid value we had.
 		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
 		bossHealth[cId] = hp
 		return hp, "focus"
@@ -6034,7 +6044,7 @@ function DBM:GetBossHP(cId)
 			local guid = UnitGUID("boss"..i)
 			if self:GetCIDFromGUID(guid) == cId and UnitHealthMax("boss"..i) ~= 0 then
 				local hp = UnitHealth("boss"..i) / UnitHealthMax("boss"..i) * 100
-				bossHealth[cId] = hp
+				bossHealth[cId] = hp > 0 and hp or 100
 				bossHealthuIdCache[cId] = "boss"..i
 				return hp, "boss"..i
 			end
@@ -6045,43 +6055,8 @@ function DBM:GetBossHP(cId)
 			local guid = UnitGUID(unitId)
 			if self:GetCIDFromGUID(guid) == cId and UnitHealthMax(unitId) ~= 0 then
 				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-				bossHealth[cId] = hp
+				bossHealth[cId] = hp > 0 and hp or 100
 				bossHealthuIdCache[cId] = unitId
-				return hp, unitId
-			end
-		end
-	end
-	return nil
-end
-
-function DBM:GetBossHPByGUID(guid)
-	local uId = bossHealthuIdCache[guid] or "target"
-	if UnitGUID(uId) == guid and UnitHealthMax(uId) ~= 0 then
-		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
-		bossHealth[guid] = hp
-		return hp, uId
-	elseif UnitGUID("focus") == guid and UnitHealthMax("focus") ~= 0 then
-		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
-		bossHealth[guid] = hp
-		return hp, "focus"
-	else
-		for i = 1, 5 do
-			local guid2 = UnitGUID("boss"..i)
-			if guid == guid2 and UnitHealthMax("boss"..i) ~= 0 then
-				local hp = UnitHealth("boss"..i) / UnitHealthMax("boss"..i) * 100
-				bossHealth[guid] = hp
-				bossHealthuIdCache[guid] = "boss"..i
-				return hp, "boss"..i
-			end
-		end
-		local idType = (IsInRaid() and "raid") or "party"
-		for i = 0, GetNumGroupMembers() do
-			local unitId = ((i == 0) and "target") or idType..i.."target"
-			local guid2 = UnitGUID(unitId)
-			if guid == guid2 and UnitHealthMax(unitId) ~= 0 then
-				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-				bossHealth[guid] = hp
-				bossHealthuIdCache[guid] = unitId
 				return hp, unitId
 			end
 		end
@@ -6214,6 +6189,7 @@ do
 					PlaySoundFile(DBM.Options.RaidWarningSound)
 				end
 			end
+			--This callback sucks, it needs useful information for external mods to listen to it better, such as mod and spellid
 			fireEvent("DBM_Announce", message)
 		else
 			self.combinedcount = 0
@@ -6406,6 +6382,7 @@ end
 --  Sound Object  --
 --------------------
 do
+	--Run Away Sound Object
 	local soundPrototype = {}
 	local mt = { __index = soundPrototype }
 	function bossModPrototype:NewSound(spellId, optionDefault, optionName, optionVersion)
@@ -6427,10 +6404,10 @@ do
 		)
 		if optionName then
 			obj.option = optionName
-			self:AddBoolOption(obj.option, optionDefault, "misc")
+			self:AddBoolOption(obj.option, optionDefault, "sound")
 		elseif not (optionName == false) then
 			obj.option = "Sound"..spellId..(optionVersion or "")
-			self:AddBoolOption(obj.option, optionDefault, "misc")
+			self:AddBoolOption(obj.option, optionDefault, "sound")
 			self.localization.options[obj.option] = DBM_CORE_AUTO_SOUND_OPTION_TEXT:format(spellId)
 		end
 		return obj
@@ -6454,52 +6431,114 @@ do
 	function soundPrototype:Cancel(...)
 		return unschedule(self.Play, self.mod, self, ...)
 	end
-end
 
-----------------------------
---  SoundMMprototype  --Add by Mini_Dragon (Brilla@金色平原)
-----------------------------	
-do
+	--Voice Object
+	--Individual options still generated in case a person likes to enable voice, but not for ALL warnings (they can pick and choose what is enabled/disabled"
 	local soundPrototype2 = {}
-	local mt2 = { __index = soundPrototype2 }
-	function bossModPrototype:SoundMM(SoundMMtag, SoundMMoption)
-		self.numSounds = self.numSounds and self.numSounds + 1 or 1
-		if (soundMMoption == nil) then
-			soundMMoption = true
+	local mt = { __index = soundPrototype2 }
+	function bossModPrototype:NewVoice(spellId, optionDefault, optionName, optionVersion)
+		if not spellId and not optionName then
+			error("NewVoice: you must provide either spellId or optionName", 2)
+			return
 		end
-		local obj2 = setmetatable(
+		if type(spellId) == "string" and spellId:match("OptionVersion") then
+			local temp = optionVersion
+			optionVersion = string.sub(spellId, 14)
+			spellId, optionDefault, optionName = optionDefault, optionName, temp
+		end
+		self.numSounds = self.numSounds and self.numSounds + 1 or 1
+		local obj = setmetatable(
 			{
 				mod = self,
 			},
-			mt2
+			mt
 		)
-		self:AddBoolOption(SoundMMtag, SoundMMoption, "misc")
-		return obj2
+		if optionName then
+			obj.option = optionName
+			self:AddBoolOption(obj.option, optionDefault, "sound")
+		elseif not (optionName == false) then
+			obj.option = "Voice"..spellId..(optionVersion or "")
+			self:AddBoolOption(obj.option, optionDefault, "sound")
+			self.localization.options[obj.option] = DBM_CORE_AUTO_VOICE_OPTION_TEXT:format(spellId)
+		end
+		return obj
 	end
 
-	function soundPrototype2:Play(file)
-		if soundMMoption then
+	--types: "now", "soon", "in5", "movein", "moveout" --Other types as needed, mainly so we can use multiple voies for same spellid if needed (to say, have both a soon and now warning)
+	--If no file at path, it should silenty fail. However, I want to try to only add NewVoice to mods for files that already exist.
+	function soundPrototype2:Play(type, globalSound)
+		if DBM.Options.ChosenVoicePack == "None" then return end
+		if not self.option or self.mod.Options[self.option] then
+			local type = type or "now"--This way omiting "type" is valid for most common "now" warning.
+			local path
+			if globalSound then--Common (global) sounds.
+				--Example "Interface\\AddOns\\DBM-VPHenry\\Global\\dispelnow.ogg"
+				--Usage: voiceBerserkerRush:Play("name", true)
+				path = "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..type..".ogg"
+			else--Instance Specific sounds
+				--Example "Interface\\AddOns\\DBM-VPHenry\\1228\\1128\\158986now.ogg" --This would be Kargath playvoice for berserker rush from highmaul
+				--Example "Interface\\AddOns\\DBM-VPHenry\\1228\\1128\\ej9394now.ogg" --This would be Kargath playvoice for pillar from highmaul
+				path = "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..self.mod.instanceId.."\\"..self.mod.id.."\\"..self.spellId..type..".ogg"
+			end
 			if DBM.Options.UseMasterVolume then
-				PlaySoundFile("Interface\\AddOns\\DBM-Yike\\"..file..".ogg", "Master") --相对语音目录。语音文件以ogg格式存放在该目录下
+				PlaySoundFile(path, "Master")
 			else
-				PlaySoundFile("Interface\\AddOns\\DBM-Yike\\"..file..".ogg") --相对语音目录。语音文件以ogg格式存放在该目录下
+				PlaySoundFile(path)
 			end
 		end
 	end
 
 	function soundPrototype2:Schedule(t, ...)
+		if DBM.Options.ChosenVoicePack == "None" then return end
+		return schedule(t, self.Play, self.mod, self, ...)
+	end
+
+	function soundPrototype2:Cancel(...)
+		return unschedule(self.Play, self.mod, self, ...)
+	end
+end
+
+	--Old Voice Object, by Mini_Dragon
+do
+	local soundPrototype3 = {}
+	local mt3 = { __index = soundPrototype3 }
+	function bossModPrototype:SoundMM(SoundMMtag, SoundMMoption)
+		self.numSounds = self.numSounds and self.numSounds + 1 or 1
+		if (soundMMoption == nil) then
+			soundMMoption = true
+		end
+		local obj3 = setmetatable(
+			{
+				mod = self,
+			},
+			mt3
+		)
+		self:AddBoolOption(SoundMMtag, SoundMMoption, "misc")
+		return obj3
+	end
+
+	function soundPrototype3:Play(file)
+		if soundMMoption then
+			if DBM.Options.UseMasterVolume then
+				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..file..".ogg", "Master")
+			else
+				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..file..".ogg")
+			end
+		end
+	end
+
+	function soundPrototype3:Schedule(t, ...)
 		if soundMMoption then
 			return schedule(t, self.Play, self.mod, self, ...)
 		end
 	end
 
-	function soundPrototype2:Cancel(...)
+	function soundPrototype3:Cancel(...)
 		if soundMMoption then
 			return unschedule(self.Play, self.mod, self, ...)
 		end
 	end
 end
-
 ----------------------------
 --  Countdown/out object  --
 ----------------------------
@@ -6621,10 +6660,10 @@ do
 		)
 		if optionName then
 			obj.option = obj.id
-			self:AddBoolOption(obj.option, optionDefault, "misc")
+			self:AddBoolOption(obj.option, optionDefault, "sound")
 		elseif not (optionName == false) then
 			obj.option = obj.id
-			self:AddBoolOption(obj.option, optionDefault, "misc")
+			self:AddBoolOption(obj.option, optionDefault, "sound")
 			if countdownType == "Countdown" then
 				self.localization.options[obj.option] = DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT:format(spellId)
 			elseif countdownType == "CountdownFades" then
@@ -6779,6 +6818,7 @@ do
 				local soundId = self.option and self.mod.Options[self.option .. "SpecialWarningSound"] or self.flash
 				DBM:PlaySpecialWarningSound(soundId or 1)
 			end
+			--This callback sucks, it needs useful information for external mods to listen to it better, such as mod and spellid
 			fireEvent("DBM_SpecWarn", msg)
 		end
 	end
@@ -7124,6 +7164,7 @@ do
 			end
 			msg = msg:gsub(">.-<", stripServerName)
 			bar:SetText(msg)
+			--This callback sucks, it needs useful information for external mods to listen to it better, such as mod and spellid
 			fireEvent("DBM_TimerStart", id, msg, timer..DBM_CORE_SEC)
 			tinsert(self.startedTimers, id)
 			self.mod:Unschedule(removeEntry, self.startedTimers, id)
@@ -7152,6 +7193,7 @@ do
 	function timerPrototype:Stop(...)
 		if select("#", ...) == 0 then
 			for i = #self.startedTimers, 1, -1 do
+				--This callback sucks, it needs useful information for external mods to listen to it better, such as mod and spellid
 				fireEvent("DBM_TimerStop", self.startedTimers[i])
 				DBM.Bars:CancelBar(self.startedTimers[i])
 				self.startedTimers[i] = nil
@@ -7160,6 +7202,7 @@ do
 			local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
 			for i = #self.startedTimers, 1, -1 do
 				if self.startedTimers[i] == id then
+					--This callback sucks, it needs useful information for external mods to listen to it better, such as mod and spellid
 					fireEvent("DBM_TimerStop", id)
 					DBM.Bars:CancelBar(id)
 					tremove(self.startedTimers, i)
@@ -7482,18 +7525,6 @@ end
 ---------------
 --  Options  --
 ---------------
-function bossModPrototype:AddEditBoxOption(name, options, default, cat, func) --Add by Mini_Dragon(Brilla@金色平原)
-	cat = cat or "misc"
-	self.Options[name] = default
-	self:SetOptionCategory(name, cat)
-	self.editboxes = self.editboxes or {}
-	self.editboxes[name] = options
-	if func then
-		self.optionFuncs = self.optionFuncs or {}
-		self.optionFuncs[name] = func
-	end
-end
-
 function bossModPrototype:AddBoolOption(name, default, cat, func)
 	cat = cat or "misc"
 	self.Options[name] = (default == nil) or default
@@ -8190,6 +8221,7 @@ do
 		__index = setmetatable({
 			timer		= DBM_CORE_OPTION_CATEGORY_TIMERS,
 			announce	= DBM_CORE_OPTION_CATEGORY_WARNINGS,
+			sound		= DBM_CORE_OPTION_CATEGORY_SOUNDS,
 			misc		= MISCELLANEOUS
 		}, returnKey)
 	}
@@ -8273,147 +8305,3 @@ do
 		return modLocalizations[name] or self:CreateModLocalization(name)
 	end
 end
-
----------------------------------
---  LT Special Warning Object  -- --Function by BH. Add by Mini_Dragon (Brilla@金色平原)
----------------------------------
-do
-	local frame, font, moving, showendnote, icon, cooldownframe
-	local function createFrame()
-		frame = CreateFrame("Frame", nil, UIParent)
-		frame:SetWidth(400)
-		frame:SetHeight(50)
-		frame:SetMovable(true)
-		frame:SetPoint(DBM.Options.LTSpecialWarningPoint, DBM.Options.LTSpecialWarningX, DBM.Options.LTSpecialWarningY)
-		font = frame:CreateFontString()	
-		font:SetDrawLayer("OVERLAY")
-		font:SetFont(DBM.Options.LTSpecialWarningFont, DBM.Options.LTSpecialWarningFontSize, "THICKOUTLINE")
-		font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
-		font:SetPoint("CENTER", 0, 0)
-		icon = frame:CreateTexture( nil, "ARTWORK" )
-		icon:SetPoint("CENTER", 0, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 or 48)
-		cooldownframe = CreateFrame("Cooldown", cooldownframe, frame)
-		cooldownframe:SetAllPoints(icon)
-		frame:Hide()
-	end
-	
-	function DBM:UpdateLTSpecialWarningOptions()
-		if not frame then
-			createFrame()
-		end
-		frame:ClearAllPoints()
-		frame:SetPoint(DBM.Options.LTSpecialWarningPoint, DBM.Options.LTSpecialWarningX, DBM.Options.LTSpecialWarningY)
-		font:SetFont(DBM.Options.LTSpecialWarningFont, DBM.Options.LTSpecialWarningFontSize, "THICKOUTLINE")
-		font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
-	end
-	
-	function DBM:ShowLTSpecialWarning(text, r, g, b, shake, iconspellid, hidetime, cdtime)
-		if (not DBM.Options.ShowLTSpecialWarnings) or (not text) then return end
-		if not frame then
-			createFrame()
-		end
-		frame:Show()
-		moving = false
-		frame:EnableMouse(false)
-		if type(text) == "number" then text = GetSpellInfo(text) end
-		font:SetText(text)
-		if r and g and b then
-			font:SetTextColor(r, g, b, 1)
-		else
-			font:SetTextColor(unpack(DBM.Options.LTSpecialWarningFontColor))
-		end
-		if iconspellid then
-			local _, _, texture = GetSpellInfo(tostring(iconspellid))
-			icon:SetTexture(texture)
-		else
-			icon:SetTexture(nil)
-		end
-		if shake then
-			local shaketime = 0.3
-			frame:SetScript("OnUpdate", function(self, e)
-				shaketime = shaketime + e
-				if shaketime <= shake then
-					local Amt = 30 / (1 + 10*(300^(-(shake))))
-					local moveX = random(-Amt, Amt)
-					local moveY = random(-Amt, Amt)
-					font:SetPoint("CENTER", moveX, moveY)
-					if iconspellid then
-						icon:SetPoint("CENTER", moveX, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 + moveY or 48 + moveY)
-					end
-				else
-					font:SetPoint("CENTER", 0, 0)
-					icon:SetPoint("CENTER", 0, DBM.Options.LTSpecialWarningFontSize <= 33 and DBM.Options.LTSpecialWarningFontSize + 15 or 48)
-				end
-			end)
-		end
-		if hidetime then
-			self:Schedule(hidetime, function() DBM:HideLTSpecialWarning() end)
-		end
-		if cdtime then
-			cooldownframe:SetCooldown(GetTime(), cdtime)
-		end
-	end
---	/run DBM:ShowLTSpecialWarning(145987, 1, 0, 0, 1, 145987, nil, 15)
-	function DBM:HideLTSpecialWarning()
-		if frame and frame:IsShown() then
-			frame:Hide()
-		end
-	end
-	
-	function DBM:MoveLTSpecialWarning()
-		if not frame then
-			createFrame()
-		end		
-		frame:RegisterForDrag("LeftButton")
-		frame:SetScript("OnDragStart", function(self)
-			frame:StartMoving()
-		end)
-		frame:SetScript("OnDragStop", function(self)
-			frame:StopMovingOrSizing()
-			local point, _, _, x, y = self:GetPoint(1)
-			DBM.Options.LTSpecialWarningPoint = point
-			DBM.Options.LTSpecialWarningX = x
-			DBM.Options.LTSpecialWarningY = y
-		end)
-		if frame:IsShown() then
-			if moving then
-				frame:EnableMouse(false)
-				frame:Hide()
-			else
-				font:SetText(DBM_GUI_Translations.BarWhileMove)
-				moving = true
-				frame:EnableMouse(true)
-				frame:SetFrameStrata("TOOLTIP")
-			end
-		else
-			font:SetText(DBM_GUI_Translations.BarWhileMove)
-			frame:Show()
-			moving = true
-			frame:EnableMouse(true)
-			frame:SetFrameStrata("TOOLTIP")
-		end
-	end
-	
-	local function testWarningEnd()
-		DBM:HideLTSpecialWarning()
-		if not showendnote then
-			DBM:AddMsg(DBM_GUI_Translations.TestWarningEnd)
-			showendnote = true
-		end
-	end
-	
-	function DBM:ShowTestLTSpecialWarning()
-		if not frame then
-			createFrame()
-		end
-		moving = false
-		frame:EnableMouse(false)
-		font:SetText(DBM_GUI_Translations.Panel_LTSpecWarnFrame)
-		frame:Show()
-		frame:SetFrameStrata("TOOLTIP")
-		self:Unschedule(testWarningEnd)
-		self:Schedule(5, testWarningEnd)
-	end
-end
-
---Sound Driver by Mini_Dragon (Brilla@金色平原)

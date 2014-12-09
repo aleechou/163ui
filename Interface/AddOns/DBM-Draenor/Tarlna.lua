@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1211, "DBM-Draenor", nil, 557)
 local L		= mod:GetLocalizedStrings()
+local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11743 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11927 $"):sub(12, -3))
 mod:SetCreatureID(81535)
 mod:SetReCombatTime(20)
 mod:SetZone()
@@ -20,19 +21,19 @@ mod:RegisterEventsInCombat(
 --TODO, add Noxious Spit warnings
 local warnColossalBlow				= mod:NewSpellAnnounce(175973, 3)
 local warnGenesis					= mod:NewSpellAnnounce(175979, 4)
-local warnSavageVines				= mod:NewTargetAnnounce(175979, 3)
+local warnSavageVines				= mod:NewTargetAnnounce(176004, 2)
 local warnGrowUntamedMandragora		= mod:NewSpellAnnounce(176013, 3)
 
 local specWarnColossalBlow			= mod:NewSpecialWarningSpell(175973, nil, nil, nil, 2)
-local specWarnGenesis				= mod:NewSpecialWarningSwitch(175979)--Everyone. "Switch" is closest generic to "run around stomping flowers". Might need custom message
+local specWarnGenesis				= mod:NewSpecialWarningSpell(175979)--Everyone. "Switch" is closest generic to "run around stomping flowers". Might need custom message
 local specWarnSavageVines			= mod:NewSpecialWarningYou(176004)
 local yellSavageVines				= mod:NewYell(176004)
 local specWarnSavageVinesNear		= mod:NewSpecialWarningClose(176004)
 local specWarnGrowUntamedMandragora	= mod:NewSpecialWarningSwitch(176013, not mod:IsHealer())
 
---local timerColossalBlow			= mod:NewNextTimer(60, 175973)
---local timerGenesis				= mod:NewNextTimer(60, 169613)
---local timerGrowUntamedMandragora	= mod:NewNextTimer(60, 176013)
+--local timerColossalBlowCD			= mod:NewNextTimer(60, 175973)
+local timerGenesisCD				= mod:NewCDTimer(45, 169613)--45-60 variation
+local timerGrowUntamedMandragoraCD	= mod:NewCDTimer(30, 176013)
 
 --mod:AddReadyCheckOption(32518, false)
 mod:AddRangeFrameOption(8, 175979)
@@ -68,10 +69,12 @@ function mod:SPELL_CAST_START(args)
 		warnColossalBlow:Show()
 		specWarnColossalBlow:Show()
 		--timerColossalBlow:Start()
+		sndWOP:Play("shockwave")
 	elseif spellId == 175979 then
 		warnGenesis:Show()
 		specWarnGenesis:Show()
-		--timerGenesis:Start()
+		timerGenesisCD:Start()
+		Yike:Play("169613") --same in Yalnu
 	end
 end
 
@@ -80,6 +83,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 176013 then
 		warnGrowUntamedMandragora:Show()
 		specWarnGrowUntamedMandragora:Show()
+		timerGrowUntamedMandragoraCD:Start()
+		if not mod:IsHealer() then
+			Yike:Play("killmob")
+		end
 	end
 end
 

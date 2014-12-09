@@ -10,6 +10,7 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
+	"SPELL_AURA_REMOVED 159382",
 	"SPELL_CAST_START 153810 153794 159382"
 )
 
@@ -23,11 +24,19 @@ local specWarnQuills			= mod:NewSpecialWarningSpell(159382, nil, nil, nil, 2)
 
 local timerSolarFlareCD			= mod:NewCDTimer(18, 153810)
 local timerQuillsCD				= mod:NewCDTimer(64, 159382)--Needs review
+local specWarnQuillsEnd			= mod:NewSpecialWarningEnd(159382)
 
 function mod:OnCombatStart(delay)
 	timerSolarFlareCD:Start(11-delay)
 	if self:IsHeroic() then
 		timerQuillsCD:Start(33-delay)--Needs review
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 159382 then
+		specWarnQuillsEnd:Show()
 	end
 end
 

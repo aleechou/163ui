@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod("UBRSTrash", "DBM-Party-WoD", 8)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11886 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11912 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -40,76 +39,44 @@ mod:RemoveOption("HealthFrame")
 mod:RemoveOption("SpeedKillTimer")
 
 function mod:SPELL_AURA_APPLIED(args)
-	if not self.Options.Enabled then return end
+	if not self.Options.Enabled or self:IsDifficulty("normal5") then return end
 	local spellId = args.spellId
 	if spellId == 155586 then
 		specWarnVeilofShadowDispel:Show(args.destName)
-		if mod:CanRemoveCurse() then
-			Yike:Play("dispelnow")
-		end
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if not self.Options.Enabled then return end
+	if not self.Options.Enabled or self:IsDifficulty("normal5") then return end
 	local spellId = args.spellId
 	if spellId == 155505 then
 		local sourceGUID = args.sourceGUID
 		warnDebilitatingRay:Show()
 		if sourceGUID == UnitGUID("target") or sourceGUID == UnitGUID("focus") then 
 			specWarnDebilitatingRay:Show(args.sourceName)
-			if mod:IsTank() then
-				Yike:Play("kickcast")
-			else
-				Yike:Play("helpkick")
-			end
 		end
 	elseif spellId == 169151 then
 		warnSummonBlackIronVet:Show()
 		specWarnSummonBlackIronVet:Show(args.sourceName)
-		if mod:IsTank() then
-			Yike:Play("kickcast")
-		else
-			Yike:Play("helpkick")
-		end
 	elseif spellId == 155586 then
 		warnVeilofShadow:Show()
 		specWarnVeilofShadow:Show(args.sourceName)
-		if mod:IsTank() then
-			Yike:Play("kickcast")
-		else
-			Yike:Play("helpkick")
-		end
 	elseif spellId == 155588 then
 		warnShadowBoltVolley:Show()
 		specWarnShadowBoltVolley:Show(args.sourceName)
-		if mod:IsTank() then
-			Yike:Play("kickcast")
-		else
-			Yike:Play("helpkick")
-		end
 	elseif spellId == 155572 then
 		if self:AntiSpam(2, 1) then
 			warnSmash:Show()
 			specWarnSmash:Show()
-			if mod:IsTank() then
-				Yike:Play("runaway")
-			end
 		end
 		timerSmashCD:Start(nil, args.sourceGUID)
 	elseif spellId == 154039 and self:AntiSpam(2, 2) then
 		warnFranticMauling:Show()
 		specWarnFranticMauling:Show()
-		if mod:IsTank() then
-			Yike:Play("runaway")
-		end
 	elseif spellId == 155037 then
 		warnEruption:Show()
 		specWarnEruption:Show()
 		timerEruptionCD:Start(nil, args.sourceGUID)
-		if mod:IsTank() then
-			Yike:Play("runaway")
-		end
 	end
 end
 

@@ -2,11 +2,12 @@ local mod	= DBM:NewMod(1195, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11811 $"):sub(12, -3))
-mod:SetCreatureID(78948, 99999)--78948 Tectus, 80557 Mote of Tectus, 80551 Shard of Tectus
+mod:SetRevision(("$Revision: 11955 $"):sub(12, -3))
+mod:SetCreatureID(78948, 80557, 80551, 99999)--78948 Tectus, 80557 Mote of Tectus, 80551 Shard of Tectus
 mod:SetEncounterID(1722)--Hopefully win will work fine off this because otherwise tracking shard deaths is crappy
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5)
+mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
 mod:SetMinSyncTime(4)--Rise Mountain can occur pretty often.
@@ -14,6 +15,8 @@ mod:SetMinSyncTime(4)--Rise Mountain can occur pretty often.
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 162475 162968 162894 163312",
 	"SPELL_AURA_APPLIED 162346 162674",
+	"SPELL_PERIODIC_DAMAGE 162370",
+	"SPELL_PERIODIC_MISSED 162370",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_DIED"
@@ -36,7 +39,8 @@ local warnRavingAssault				= mod:NewSpellAnnounce(163312, 3)--Target scanning? E
 local specWarnEarthwarper			= mod:NewSpecialWarningSwitch("ej10061")
 local specWarnTectonicUpheaval		= mod:NewSpecialWarningSpell(162475, nil, nil, nil, 2)
 local specWarnEarthenPillar			= mod:NewSpecialWarningSpell(162518, nil, nil, nil, 3)
-local specWarnCrystallineBarrage	= mod:NewSpecialWarningYou(162894)
+local specWarnCrystallineBarrageYou	= mod:NewSpecialWarningYou(162346)
+local specWarnCrystallineBarrage	= mod:NewSpecialWarningMove(162370)
 --Night-Twisted NPCs
 local specWarnEarthenFlechettes		= mod:NewSpecialWarningSpell(162968, mod:IsMelee())--Change to "move" warning if it's avoidable
 local specWarnGiftOfEarth			= mod:NewSpecialWarningCount(162894, mod:IsTank())
@@ -45,6 +49,8 @@ local timerEarthwarperCD			= mod:NewNextTimer(41, "ej10061", nil, nil, nil, 1628
 local timerBerserkerCD				= mod:NewNextTimer(41, "ej10062", nil, mod:IsTank(), nil, 163312)--Both of these get delayed by upheavel
 local timerGiftOfEarthCD			= mod:NewCDTimer(10.5, 162894, nil, mod:IsMelee())--10.5 but obviously delayed if stuns were used.
 local timerEarthenFlechettesCD		= mod:NewCDTimer(14, 162968, nil, mod:IsMelee())--14 but obviously delayed if stuns were used. Also tends to be recast immediately if stun interrupted
+
+local berserkTimer					= mod:NewBerserkTimer(600)
 
 local countdownEarthwarper			= mod:NewCountdown(41, "ej10061", mod:IsMelee())
 
@@ -62,6 +68,13 @@ function mod:OnCombatStart(delay)
 	timerEarthwarperCD:Start(11-delay)
 	countdownEarthwarper:Start(11-delay)
 	timerBerserkerCD:Start(21-delay)
+	if self:IsMythic() then
+		--Figure out berserk
+	elseif self:IsDifficulty("normal", "heroic") then
+		berserkTimer:Start(-delay)--Confirmed 10 min in both.
+	else
+		--Find LFR berserk for LFR
+	end
 end
 
 function mod:OnCombatEnd()
@@ -102,15 +115,23 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 162346 then
 		warnCrystallineBarrage:CombinedShow(1, args.destName)
-		if args:IsPlayer() then
-			specWarnCrystallineBarrage:Show()
+		if args:IsPlayer() and self:AntiSpam(2, 2) then
+			specWarnCrystallineBarrageYou:Show()
 			yellCrystallineBarrage:Yell()
 			Yike:Play("runout")
 		end
 	elseif spellId == 162674 and self.Options.SetIconOnMote and not self:IsLFR() then--Don't mark kill/pickup marks in LFR, it'll be an aoe fest.
-		self:ScanForMobs(args.destGUID, 0, 8, 4, 0.05, 15)
+		self:ScanForMobs(args.destGUID, 0, 8, 4, 0.2, 20)
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
+	if spellId == 162370 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+		specWarnCrystallineBarrage:Show()
+		Yike:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
@@ -146,7 +167,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, npc)
 		timerEarthwarperCD:Start()
 		countdownEarthwarper:Start()
 		if self.Options.SetIconOnEarthwarper and self.vb.EarthwarperAlive < 9 then--Support for marking up to 8 mobs (you're group is terrible)
-			self:ScanForMobs(80599, 2, 9-self.vb.EarthwarperAlive, 1, 0.1, 15, "SetIconOnEarthwarper")
+			self:ScanForMobs(80599, 2, 9-self.vb.EarthwarperAlive, 1, 0.2, 20, "SetIconOnEarthwarper")
 		end
 	elseif npc == Berserker then
 		warnBerserker:Show()

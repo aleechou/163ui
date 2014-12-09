@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(1208, "DBM-Party-WoD", 5, 556)
 local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11483 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 11958 $"):sub(12, -3))
 mod:SetCreatureID(82682)
 mod:SetEncounterID(1751)--TODO: Verify, Label was "Boss 3"
 
@@ -10,37 +10,72 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 168885",
-	"SPELL_AURA_APPLIED 166492 166726"
+	"SPELL_CAST_SUCCESS 166726",
+	"SPELL_AURA_APPLIED 166492 166572 166726 166475 166476 166477"
 )
 
 --Again, too lazy to work on CD timers, someone else can do it. raid mods are putting too much strain on me to give 5 man mods as much attention
 --Probalby should also add a close warning for Frozen Rain
-local warnParasiticGrowth		= mod:NewSpellAnnounce(168885, 3, nil, mod:IsTank())--This is tanks job, it's no one elses business to interrupt this before tank is ready to push next phase. Careless interruptions can cause a wipe to arcane phase because fire/ice were too short.
-local warnFireBloom				= mod:NewSpellAnnounce(113764, 4)--Shitty way of detecting, cast is hidden, only way to "detect" it is if someone is standing in it.
-local warnFrozenRain			= mod:NewTargetAnnounce(166726, 3)--Shitty way of detecting, cast is hidden, only way to "detect" it is if someone is standing in it.
+local warnParasiticGrowth		= mod:NewCountAnnounce(168885, 3, nil, mod:IsTank())--This is tanks job, it's no one elses business to interrupt this before tank is ready to push next phase. Careless interruptions can cause a wipe to arcane phase because fire/ice were too short.
+local warnFirePhase				= mod:NewSpellAnnounce(166475 ,1)
+local warnFireBloom				= mod:NewSpellAnnounce(166492, 4)
+local warnFrostPhase			= mod:NewSpellAnnounce(166476 ,1)
+local warnFrozenRain			= mod:NewSpellAnnounce(166726, 3)
+local warnArcanePhase			= mod:NewSpellAnnounce(166477 ,1)
 
-local specWarnParasiticGrowth	= mod:NewSpecialWarningSpell(168885, mod:IsTank())
+local specWarnParasiticGrowth	= mod:NewSpecialWarningCount(168885, mod:IsTank())
 local specWarnFireBloom			= mod:NewSpecialWarningSpell(166492, nil, nil, nil, 2)
-local specWarnFrozenRain		= mod:NewSpecialWarningMove(166726)
+local specWarnFrozenRainMove	= mod:NewSpecialWarningMove(166726)
+
+local timerParasiticGrowthCD	= mod:NewCDCountTimer(11.5, 168885)--Every 12 seconds unless comes off cd during fireball/frostbolt, then cast immediately after.
+
+mod.vb.ParasiteCount = 0
+
+function mod:OnCombatStart(delay)
+	self.vb.ParasiteCount = 0
+	timerParasiticGrowthCD:Start(32.5-delay, 1)
+end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 168885 then
-		warnParasiticGrowth:Show()
-		specWarnParasiticGrowth:Show()
+		self.vb.ParasiteCount = self.vb.ParasiteCount + 1
+		warnParasiticGrowth:Show(self.vb.ParasiteCount)
+		specWarnParasiticGrowth:Show(self.vb.ParasiteCount)
+		timerParasiticGrowthCD:Cancel(self.vb.ParasiteCount)
+		timerParasiticGrowthCD:Start(nil, self.vb.ParasiteCount+1)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 166726 then
+		warnFrozenRain:Show()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 166492 and self:AntiSpam(12) then--Because the dumb spell has no cast Id, we can only warn when someone gets hit by one of rings.
+	if args:IsSpellID(166492, 166572) and self:AntiSpam(12) then--Because the dumb spell has no cast Id, we can only warn when someone gets hit by one of rings.
 		warnFireBloom:Show()
 		specWarnFireBloom:Show()
-	elseif spellId == 166726 and self:AntiSpam(10, args.destName) then--Because dumb spell has no cast Id, we can only warn when people get debuff from standing in it.
-		warnFrozenRain:CombinedShow(0.5, args.destName)
-		if args:IsPlayer() then
-			sndWOP:Play("runaway")
-			specWarnFrozenRain:Show()
+		sndWOP:Play("firecircle")
+	elseif spellId == 166726 and args:IsPlayer() and self:AntiSpam(2) then--Because dumb spell has no cast Id, we can only warn when people get debuff from standing in it.
+		specWarnFrozenRainMove:Show()
+		sndWOP:Play("runaway")
+	elseif spellId == 166475 then
+		warnFirePhase:Show()
+	elseif spellId == 166476 then
+		warnFrostPhase:Show()
+		sndWOP:Play("phasechange")
+	elseif spellId == 166477 then
+		warnArcanePhase:Show()
+		sndWOP:Play("phasechange")
 		end
+end
+
+function mod:SPELL_INTERRUPT(args)
+	if type(args.extraSpellId) == "number" and args.extraSpellId == 168885 then
+		timerParasiticGrowthCD:Cancel(self.vb.ParasiteCount)
 	end
 end

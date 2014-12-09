@@ -23,6 +23,15 @@ L= DBM:GetModLocalization(1216)
 -----------------------
 L= DBM:GetModLocalization(1225)
 
+-------------
+--  Auch Trash  --
+-------------
+L = DBM:GetModLocalization("AuchTrash")
+
+L:SetGeneralLocalization({
+	name =	"Auchindoun Trash"
+})
+
 -----------------------
 -- <<<Bloodmaul Slag Mines>>> --
 -----------------------
@@ -46,6 +55,15 @@ L= DBM:GetModLocalization(887)
 -----------------------
 L= DBM:GetModLocalization(889)
 
+-------------
+--  BSM Trash  --
+-------------
+L = DBM:GetModLocalization("BSMTrash")
+
+L:SetGeneralLocalization({
+	name =	"BSM Trash"
+})
+
 -----------------------
 -- <<<Grimrail Depot>>> --
 -----------------------
@@ -68,6 +86,15 @@ L:SetWarningLocalization({
 -- Thunderlord General --
 -----------------------
 L= DBM:GetModLocalization(1133)
+
+-------------
+--  GRD Trash  --
+-------------
+L = DBM:GetModLocalization("GRDTrash")
+
+L:SetGeneralLocalization({
+	name =	"GRD Trash"
+})
 
 -----------------------
 -- <<<Iron Docks>>> --

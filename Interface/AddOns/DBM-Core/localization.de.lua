@@ -27,6 +27,8 @@ DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM hat festgestellt, dass du das Setzen von 
 
 DBM_CORE_PROVINGGROUNDS_AD			= "Das Mod \"DBM-ProvingGrounds\" ist für diesen Spielinhalt verfügbar. Du kannst es auf deadlybossmods.com oder Curse finden. Dieser Hinweis wird nur einmal angezeigt."
 
+DBM_CORE_MOLTENCORE_AD				= "Das Mod \"DBM-MC\" ist für diesen Spielinhalt verfügbar. Weitere Informationen findest du auf deadlybossmods.com. Dieser Hinweis wird nur einmal angezeigt."
+
 DBM_CORE_COMBAT_STARTED				= "Kampf gegen %s hat begonnen. Viel Glück! :)";
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Du wurdest in den laufenden Kampf gegen %s verwickelt. Viel Glück! :)"
 DBM_CORE_GUILD_COMBAT_STARTED		= "Kampf gegen %s wurde von deiner Gilde begonnen."
@@ -73,6 +75,7 @@ DBM_CORE_OPTION_HEALTH_FRAME		= "Zeige Lebensanzeige"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS		= "Timer"
 DBM_CORE_OPTION_CATEGORY_WARNINGS	= "Ansagen"
+DBM_CORE_OPTION_CATEGORY_SOUNDS		= "Sounds"
 
 DBM_CORE_AUTO_RESPONDED						= "Automatisch geantwortet."
 DBM_CORE_STATUS_WHISPER						= "%s: %s, %d/%d Spieler am Leben"
@@ -282,6 +285,7 @@ DBM_CORE_AUTO_ICONS_OPTION_TEXT2		= "Setze Zeichen auf $spell:%s"
 DBM_CORE_AUTO_ARROW_OPTION_TEXT			= "Zeige DBM-Pfeil zum Hingehen zum von $spell:%s betroffenen Ziel"
 DBM_CORE_AUTO_ARROW_OPTION_TEXT2		= "Zeige DBM-Pfeil zum Weggehen vom von $spell:%s betroffenen Ziel"
 DBM_CORE_AUTO_SOUND_OPTION_TEXT			= "Spiele \"Lauf weg!\"-Sound für $spell:%s"
+DBM_CORE_AUTO_VOICE_OPTION_TEXT			= "Spiele gesprochene Warnungen für $spell:%s mit dem ausgewählten Sprachpack"
 DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT		= "Spiele akustischen Countdown bis $spell:%s gewirkt wird"
 DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT2	= "Spiele akustischen Countdown bis $spell:%s schwindet"
 DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT		= "Zähle akustisch die Dauer von $spell:%s"

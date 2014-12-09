@@ -81,7 +81,7 @@ function mod:OnCombatStart(delay)
 	timerInfestingSporesCD:Start(45-delay)
 	countdownInfestingSpores:Start(45-delay)
 	if mod:IsHealer() then
-		Yike:Schedule(39-delay, "159996rh")
+		Yike:Schedule(39-delay, "159996h")
 	else
 		Yike:Schedule(39-delay, "gather")
 	end
@@ -92,8 +92,6 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
-	Yike:Cancel("159996rh")
-	Yike:Cancel("gather")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -104,7 +102,7 @@ function mod:SPELL_CAST_START(args)
 		timerInfestingSporesCD:Start()
 		countdownInfestingSpores:Start()
 		if mod:IsHealer() then
-			Yike:Schedule(51, "159996rh") --var
+			Yike:Schedule(51, "159996h") --var
 		else
 			Yike:Schedule(51, "gather") --var
 		end
