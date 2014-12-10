@@ -1,14 +1,4 @@
 -------------------------------------------------------------------------------
--- Broker_Currency
--- Copyright 2008+ Toadkiller of Proudmoore for the non-statistics code.
--- The statistics code is 100% ckknight
---
--- LDB display of currencies, totals and money rate for all characters on a server.
--- The statistics stuff (total money today, yesterday, last week) is 100% from FuBar_MoneyFu, credit to ckknight
--- http://www.wowace.com/projects/broker-currency/
--------------------------------------------------------------------------------
-
--------------------------------------------------------------------------------
 -- Localized globals
 -------------------------------------------------------------------------------
 local _G = getfenv(0)
@@ -29,9 +19,12 @@ local unpack = _G.unpack
 -------------------------------------------------------------------------------
 -- AddOn namespace
 -------------------------------------------------------------------------------
+local FOLDER_NAME, private = ...
+
 local LibStub = _G.LibStub
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
 local LibQTip = LibStub("LibQTip-1.0")
+local AceConfig = LibStub("AceConfig-3.0")
 
 local Broker_Currency = _G.CreateFrame("frame", "Broker_CurrencyFrame")
 _G["Broker_Currency"] = Broker_Currency
@@ -46,7 +39,7 @@ local ICON_GOLD = "\124TInterface\\MoneyFrame\\UI-GoldIcon:20:20\124t"
 local ICON_SILVER = "\124TInterface\\MoneyFrame\\UI-SilverIcon:20:20\124t"
 local ICON_COPPER = "\124TInterface\\MoneyFrame\\UI-CopperIcon:20:20\124t"
 
-local DISPLAY_ICON_STRING1 = "%d\124T"
+local DISPLAY_ICON_STRING1 = "%d \124T"
 local DISPLAY_ICON_STRING2 = ":%d:%d\124t"
 
 local fontWhite = _G.CreateFont("Broker_CurrencyFontWhite")
@@ -71,90 +64,170 @@ local HEARTHSTONE_IDNUM = 6948
 -------------------------------------------------------------------------------
 -- Currencies
 -------------------------------------------------------------------------------
-local DALARAN_JEWELCRAFTERS_TOKEN = 61
-local EPICUREANS_AWARD = 81
-local CHAMPIONS_SEAL = 241
-local ILLUSTRIOUS_JEWELCRAFTERS_TOKEN = 361
-local DWARF_ARCHAEOLOGY_FRAGMENT = 384
-local TROLL_ARCHAEOLOGY_FRAGMENT = 385
-local CONQUEST_POINTS = 390
-local TOL_BARAD_COMMENDATION = 391
-local HONOR_POINTS = 392
-local FOSSIL_ARCHAEOLOGY_FRAGMENT = 393
-local NIGHTELF_ARCHAEOLOGY_FRAGMENT = 394
-local JUSTICE_POINTS = 395
-local VALOR_POINTS = 396
-local ORC_ARCHAEOLOGY_FRAGMENT = 397
-local DRAENEI_ARCHAEOLOGY_FRAGMENT = 398
-local VRYKUL_ARCHAEOLOGY_FRAGMENT = 399
-local NERUBIAN_ARCHAEOLOGY_FRAGMENT = 400
-local TOLVIR_ARCHAEOLOGY_FRAGMENT = 401
-local IRONPAW_TOKEN = 402
-local MARK_OF_THE_WORLD_TREE = 416
-local DARKMOON_PRIZE_TICKET = 515
-local MOTE_OF_DARKNESS = 614
-local ESSENCE_DEATHWING = 615
-local PANDAREN_ARCHAEOLOGY_FRAGMENT = 676
-local MOGU_ARCHAEOLOGY_FRAGMENT = 677
-local ELDER_CHARM_OF_GOOD_FORTUNE = 697
-local ZEN_JEWELCRAFTERS_TOKEN = 698
-local LESSER_CHARM_OF_GOOD_FORTUNE = 738
-local MOGU_RUNE_OF_FATE = 752
-local MANTID_ARCHAEOLOGY_FRAGMENT = 754
-local WARFORGED_SEAL = 776
-local TIMELESS_COIN = 777
-local BLOODY_COIN = 789
-
-local COIN_OF_ANCESTRY = 21100
-local BREWFEST_PRIZE_TOKEN = 37829
-local LOVE_TOKEN = 49927
-
-local ORDERED_CURRENCIES = {
-	JUSTICE_POINTS,
-	VALOR_POINTS,
-	CONQUEST_POINTS,
-	HONOR_POINTS,
-	TOL_BARAD_COMMENDATION,
-	CHAMPIONS_SEAL,
-	MOTE_OF_DARKNESS,
-	ESSENCE_DEATHWING,
-	LESSER_CHARM_OF_GOOD_FORTUNE,
-	ELDER_CHARM_OF_GOOD_FORTUNE,
-	DALARAN_JEWELCRAFTERS_TOKEN,
-	ZEN_JEWELCRAFTERS_TOKEN,
-	ILLUSTRIOUS_JEWELCRAFTERS_TOKEN,
-	IRONPAW_TOKEN,
-	MARK_OF_THE_WORLD_TREE,
-	EPICUREANS_AWARD,
-	DARKMOON_PRIZE_TICKET,
-	MOGU_RUNE_OF_FATE,
-	WARFORGED_SEAL,
-	TIMELESS_COIN,
-	BLOODY_COIN,
-	DRAENEI_ARCHAEOLOGY_FRAGMENT,
-	DWARF_ARCHAEOLOGY_FRAGMENT,
-	FOSSIL_ARCHAEOLOGY_FRAGMENT,
-	NERUBIAN_ARCHAEOLOGY_FRAGMENT,
-	NIGHTELF_ARCHAEOLOGY_FRAGMENT,
-	ORC_ARCHAEOLOGY_FRAGMENT,
-	TOLVIR_ARCHAEOLOGY_FRAGMENT,
-	TROLL_ARCHAEOLOGY_FRAGMENT,
-	VRYKUL_ARCHAEOLOGY_FRAGMENT,
-	PANDAREN_ARCHAEOLOGY_FRAGMENT,
-	MOGU_ARCHAEOLOGY_FRAGMENT,
-	MANTID_ARCHAEOLOGY_FRAGMENT,
-	BREWFEST_PRIZE_TOKEN,
-	COIN_OF_ANCESTRY,
-	LOVE_TOKEN,
+local CURRENCY_IDS_BY_NAME = {
+	DALARAN_JEWELCRAFTERS_TOKEN = 61,
+	EPICUREANS_AWARD = 81,
+	CHAMPIONS_SEAL = 241,
+	ILLUSTRIOUS_JEWELCRAFTERS_TOKEN = 361,
+	DWARF_ARCHAEOLOGY_FRAGMENT = 384,
+	TROLL_ARCHAEOLOGY_FRAGMENT = 385,
+	CONQUEST_POINTS = 390,
+	TOL_BARAD_COMMENDATION = 391,
+	HONOR_POINTS = 392,
+	FOSSIL_ARCHAEOLOGY_FRAGMENT = 393,
+	NIGHTELF_ARCHAEOLOGY_FRAGMENT = 394,
+	ORC_ARCHAEOLOGY_FRAGMENT = 397,
+	DRAENEI_ARCHAEOLOGY_FRAGMENT = 398,
+	VRYKUL_ARCHAEOLOGY_FRAGMENT = 399,
+	NERUBIAN_ARCHAEOLOGY_FRAGMENT = 400,
+	TOLVIR_ARCHAEOLOGY_FRAGMENT = 401,
+	IRONPAW_TOKEN = 402,
+	MARK_OF_THE_WORLD_TREE = 416,
+	DARKMOON_PRIZE_TICKET = 515,
+	MOTE_OF_DARKNESS = 614,
+	ESSENCE_DEATHWING = 615,
+	PANDAREN_ARCHAEOLOGY_FRAGMENT = 676,
+	MOGU_ARCHAEOLOGY_FRAGMENT = 677,
+	ELDER_CHARM_OF_GOOD_FORTUNE = 697,
+	ZEN_JEWELCRAFTERS_TOKEN = 698,
+	LESSER_CHARM_OF_GOOD_FORTUNE = 738,
+	MOGU_RUNE_OF_FATE = 752,
+	MANTID_ARCHAEOLOGY_FRAGMENT = 754,
+	WARFORGED_SEAL = 776,
+	TIMELESS_COIN = 777,
+	BLOODY_COIN = 789,
+	BLACK_IRON_FRAGMENT = 810,
+	DRAENOR_CLANS_ARCHAEOLOGY_FRAGMENT = 821,
+	APEXIS_CRYSTAL = 823,
+	GARRISON_RESOURCES = 824,
+	OGRE_ARCHAEOOGY_FRAGMENT = 828,
+	ARAKKOA_ARCHAELOGOY_FRAGMENT = 829,
+	SECRET_OF_DRAENOR_ALCHEMY = 910,
+	ARTIFACT_FRAGMENT = 944,
+	DINGY_IRON_COINS = 980,
+	SEAL_OF_TEMPERED_FATE = 994,
+	SECRET_OF_DRAENOR_TAILORING = 999,
+	SECRET_OF_DRAENOR_JEWELCRAFTING = 1008,
+	SECRET_OF_DRAENOR_LEATHERWORKING = 1017,
+	SECRET_OF_DRAENOR_BLACKSMITHING = 1020,
 }
 
-local NUM_CURRENCIES = #ORDERED_CURRENCIES
-
-local PHYSICAL_CURRENCIES = {
-	[COIN_OF_ANCESTRY] = true,
-	[BREWFEST_PRIZE_TOKEN] = true,
-	[LOVE_TOKEN] = true,
+local ITEM_CURRENCY_IDS_BY_NAME = {
+	APEXIS_CRYSTAL = 32572,
+	APEXIS_SHARD = 32569,
+	BREWFEST_PRIZE_TOKEN = 37829,
+	COIN_OF_ANCESTRY = 21100,
+	DRAENIC_SEEDS = 116053,
+	HALAA_BATTLE_TOKEN = 26045,
+	HALAA_RESEARCH_TOKEN = 26044,
+	LOVE_TOKEN = 49927,
+	SPIRIT_SHARD = 28558,
 }
+
+local ITEM_CURRENCY_NAMES_BY_ID = {}
+for name, ID in pairs(ITEM_CURRENCY_IDS_BY_NAME) do
+	ITEM_CURRENCY_NAMES_BY_ID[ID] = name
+end
+
+local PVP_CURRENCY_IDS = {
+	CURRENCY_IDS_BY_NAME.ARTIFACT_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.BLOODY_COIN,
+	CURRENCY_IDS_BY_NAME.CONQUEST_POINTS,
+	CURRENCY_IDS_BY_NAME.HONOR_POINTS,
+	CURRENCY_IDS_BY_NAME.TOL_BARAD_COMMENDATION,
+}
+
+local BONUS_ROLL_CURRENCY_IDS = {
+	CURRENCY_IDS_BY_NAME.ELDER_CHARM_OF_GOOD_FORTUNE,
+	CURRENCY_IDS_BY_NAME.LESSER_CHARM_OF_GOOD_FORTUNE,
+	CURRENCY_IDS_BY_NAME.MOGU_RUNE_OF_FATE,
+	CURRENCY_IDS_BY_NAME.SEAL_OF_TEMPERED_FATE,
+	CURRENCY_IDS_BY_NAME.WARFORGED_SEAL,
+}
+
+local MISCELLANEOUS_CURRENCY_IDS = {
+	CURRENCY_IDS_BY_NAME.APEXIS_CRYSTAL,
+	CURRENCY_IDS_BY_NAME.BLACK_IRON_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.CHAMPIONS_SEAL,
+	CURRENCY_IDS_BY_NAME.DARKMOON_PRIZE_TICKET,
+	CURRENCY_IDS_BY_NAME.DINGY_IRON_COINS,
+	CURRENCY_IDS_BY_NAME.ESSENCE_DEATHWING,
+	CURRENCY_IDS_BY_NAME.GARRISON_RESOURCES,
+	CURRENCY_IDS_BY_NAME.MARK_OF_THE_WORLD_TREE,
+	CURRENCY_IDS_BY_NAME.MOTE_OF_DARKNESS,
+	CURRENCY_IDS_BY_NAME.TIMELESS_COIN,
+}
+
+local PROFESSION_CURRENCY_IDS = {
+	CURRENCY_IDS_BY_NAME.DALARAN_JEWELCRAFTERS_TOKEN,
+	CURRENCY_IDS_BY_NAME.EPICUREANS_AWARD,
+	CURRENCY_IDS_BY_NAME.ILLUSTRIOUS_JEWELCRAFTERS_TOKEN,
+	CURRENCY_IDS_BY_NAME.IRONPAW_TOKEN,
+	CURRENCY_IDS_BY_NAME.SECRET_OF_DRAENOR_ALCHEMY,
+	CURRENCY_IDS_BY_NAME.SECRET_OF_DRAENOR_BLACKSMITHING,
+	CURRENCY_IDS_BY_NAME.SECRET_OF_DRAENOR_JEWELCRAFTING,
+	CURRENCY_IDS_BY_NAME.SECRET_OF_DRAENOR_LEATHERWORKING,
+	CURRENCY_IDS_BY_NAME.SECRET_OF_DRAENOR_TAILORING,
+	CURRENCY_IDS_BY_NAME.ZEN_JEWELCRAFTERS_TOKEN,
+}
+
+local ARCHAEOLOGY_CURRENCY_IDS = {
+	CURRENCY_IDS_BY_NAME.ARAKKOA_ARCHAELOGOY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.DRAENEI_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.DRAENOR_CLANS_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.DWARF_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.FOSSIL_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.MANTID_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.MOGU_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.NERUBIAN_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.NIGHTELF_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.OGRE_ARCHAEOOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.ORC_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.PANDAREN_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.TOLVIR_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.TROLL_ARCHAEOLOGY_FRAGMENT,
+	CURRENCY_IDS_BY_NAME.VRYKUL_ARCHAEOLOGY_FRAGMENT,
+}
+
+local ITEM_CURRENCY_IDS = {
+	ITEM_CURRENCY_IDS_BY_NAME.APEXIS_CRYSTAL,
+	ITEM_CURRENCY_IDS_BY_NAME.APEXIS_SHARD,
+	ITEM_CURRENCY_IDS_BY_NAME.BREWFEST_PRIZE_TOKEN,
+	ITEM_CURRENCY_IDS_BY_NAME.COIN_OF_ANCESTRY,
+	ITEM_CURRENCY_IDS_BY_NAME.DRAENIC_SEEDS,
+	ITEM_CURRENCY_IDS_BY_NAME.HALAA_BATTLE_TOKEN,
+	ITEM_CURRENCY_IDS_BY_NAME.HALAA_RESEARCH_TOKEN,
+	ITEM_CURRENCY_IDS_BY_NAME.LOVE_TOKEN,
+	ITEM_CURRENCY_IDS_BY_NAME.SPIRIT_SHARD,
+}
+
+local ORDERED_CURRENCY_GROUPS = {
+	PVP_CURRENCY_IDS,
+	BONUS_ROLL_CURRENCY_IDS,
+	MISCELLANEOUS_CURRENCY_IDS,
+	PROFESSION_CURRENCY_IDS,
+	ARCHAEOLOGY_CURRENCY_IDS,
+	ITEM_CURRENCY_IDS,
+}
+
+local CURRENCY_GROUP_LABELS = {
+	_G.PVP,
+	_G.BONUS_ROLL_TOOLTIP_TITLE,
+	_G.MISCELLANEOUS,
+	_G.TRADE_SKILLS,
+	_G.PROFESSIONS_ARCHAEOLOGY,
+	_G.ITEMS,
+}
+
+local ORDERED_CURRENCY_IDS = {}
+for group_index = 1, #ORDERED_CURRENCY_GROUPS do
+	local group = ORDERED_CURRENCY_GROUPS[group_index]
+	for id_index = 1, #group do
+		ORDERED_CURRENCY_IDS[#ORDERED_CURRENCY_IDS + 1] = group[id_index]
+	end
+end
+
+local NUM_CURRENCIES = #ORDERED_CURRENCY_IDS
 
 -- Populated as needed.
 local CURRENCY_NAMES
@@ -182,7 +255,6 @@ local player_line_index
 local sName, title, sNotes, enabled, loadable, reason, security = GetAddOnInfo("Broker_Currency")
 local sName = GetAddOnMetadata("Broker_Currency", "X-BrokerName")
 
-
 local function GetKey(idnum, broker)
 	if broker then
 		return "show" .. idnum
@@ -193,25 +265,8 @@ end
 
 local function ShowOptionIcon(idnum)
 	local size = Broker_CurrencyCharDB.iconSize
-
-	if PHYSICAL_CURRENCIES[idnum] then
-		return ("\124T" .. OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
-	end
-	return ("\124T" ..  OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
+	return ("\124T" .. OPTION_ICONS[idnum] .. DISPLAY_ICON_STRING2):format(size, size)
 end
-local AceCfg = LibStub("AceConfig-3.0")
-local brokerOptions = LibStub("AceConfigRegistry-3.0"):GetOptionsTable("Broker", "dialog", "LibDataBroker-1.1")
-
-if not brokerOptions then
-	brokerOptions = {
-		type = "group",
-		name = "Broker",
-		args = {}
-	}
-	AceCfg:RegisterOptionsTable("Broker", brokerOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Broker", "Broker")
-end
-
 
 local tooltipBackdrop = {
 	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -269,7 +324,7 @@ function Broker_Currency:ShowTooltip(button)
 	tooltipHeader[1] = " "
 
 	for index = 1, NUM_CURRENCIES do
-		local idnum = ORDERED_CURRENCIES[index]
+		local idnum = ORDERED_CURRENCY_IDS[index]
 
 		if OPTION_ICONS[idnum] then
 			local key = GetKey(idnum, false)
@@ -405,7 +460,7 @@ function Broker_Currency:AddLine(label, currencyList)
 
 	-- Create Strings for the various currencies
 	for index = 1, NUM_CURRENCIES do
-		local idnum = ORDERED_CURRENCIES[index]
+		local idnum = ORDERED_CURRENCY_IDS[index]
 
 		if BROKER_ICONS[idnum] then
 			local key = GetKey(idnum, false)
@@ -496,7 +551,7 @@ do
 
 		if currencyList then
 			for index = 1, NUM_CURRENCIES do
-				local idnum = ORDERED_CURRENCIES[index]
+				local idnum = ORDERED_CURRENCY_IDS[index]
 				local broker_icon = BROKER_ICONS[idnum]
 
 				if broker_icon then
@@ -541,14 +596,14 @@ local GetCurrencyCount
 do
 	local VALID_CURRENCIES = {}
 	for index = 1, NUM_CURRENCIES do
-		VALID_CURRENCIES[ORDERED_CURRENCIES[index]] = true
+		VALID_CURRENCIES[ORDERED_CURRENCY_IDS[index]] = true
 	end
 
 	function GetCurrencyCount(idnum)
 		if not VALID_CURRENCIES[idnum] then
 			return 0
 		end
-		return PHYSICAL_CURRENCIES[idnum] and _G.GetItemCount(idnum, true) or select(2, _G.GetCurrencyInfo(idnum))
+		return ITEM_CURRENCY_NAMES_BY_ID[idnum] and _G.GetItemCount(idnum, true) or select(2, _G.GetCurrencyInfo(idnum))
 	end
 end
 
@@ -621,7 +676,7 @@ function Broker_Currency:Update(event)
 
 	-- Update Tokens
 	for index = 1, NUM_CURRENCIES do
-		local idnum = ORDERED_CURRENCIES[index]
+		local idnum = ORDERED_CURRENCY_IDS[index]
 
 		if BROKER_ICONS[idnum] then
 			local count = GetCurrencyCount(idnum)
@@ -678,7 +733,7 @@ do
 				spent_ref.money = (spent_ref.money or 0) + (spent[index] and spent[index].money or 0)
 
 				for index = 1, NUM_CURRENCIES do
-					local idnum = ORDERED_CURRENCIES[index]
+					local idnum = ORDERED_CURRENCY_IDS[index]
 					gained_ref[idnum] = (gained_ref[idnum] or 0) + (gained[index] and gained[index][idnum] or 0)
 					spent_ref[idnum] = (spent_ref[idnum] or 0) + (spent[index] and spent[index][idnum] or 0)
 				end
@@ -692,7 +747,7 @@ do
 		end
 
 		for index = 1, NUM_CURRENCIES do
-			local idnum = ORDERED_CURRENCIES[index]
+			local idnum = ORDERED_CURRENCY_IDS[index]
 			profit[idnum] = (gained_ref[idnum] or 0) - (spent_ref[idnum] or 0)
 		end
 		profit.money = (gained_ref.money or 0) - (spent_ref.money or 0)
@@ -825,20 +880,19 @@ local function OnLeave()
 end
 
 -- Set up as a LibBroker data source
-Broker_Currency.ldb = LDB:NewDataObject("Broker Currency",
-	{
-		type = "data source",
-		label = _G.CURRENCY,
-		icon = "Interface\\MoneyFrame\\UI-GoldIcon",
-		text = "Initializing...",
-		OnClick = function(clickedframe, button)
-			if button == "RightButton" then
-				_G.InterfaceOptionsFrame_OpenToCategory(Broker_Currency.menu)
-			end
-		end,
-		OnEnter = OnEnter,
-		OnLeave = OnLeave,
-	})
+Broker_Currency.ldb = LDB:NewDataObject("Broker Currency", {
+	type = "data source",
+	label = _G.CURRENCY,
+	icon = "Interface\\MoneyFrame\\UI-GoldIcon",
+	text = "Initializing...",
+	OnClick = function(clickedframe, button)
+		if button == "RightButton" then
+			_G.InterfaceOptionsFrame_OpenToCategory(Broker_Currency.menu)
+		end
+	end,
+	OnEnter = OnEnter,
+	OnLeave = OnLeave,
+})
 
 
 do
@@ -862,24 +916,22 @@ do
 		-------------------------------------------------------------------------------
 		-- Set defaults
 		-------------------------------------------------------------------------------
-		if not Broker_CurrencyCharDB then
-			Broker_CurrencyCharDB = {
-				showCopper = true,
-				showSilver = true,
-				showGold = true,
-				showToday = true,
-				showYesterday = true,
-				showLastWeek = true,
-				summaryGold = true,
-				summaryColorDark = { r = 0, g = 0, b = 0, a = 0 },
-				summaryColorLight = { r = 1, g = 1, b = 1, a = .3 },
-			}
-		end
+		Broker_CurrencyCharDB = Broker_CurrencyCharDB or {
+			showCopper = true,
+			showSilver = true,
+			showGold = true,
+			showToday = true,
+			showYesterday = true,
+			showLastWeek = true,
+			summaryGold = true,
+			summaryColorDark = { r = 0, g = 0, b = 0, a = 0 },
+			summaryColorLight = { r = 1, g = 1, b = 1, a = .3 },
+		}
 
 		-------------------------------------------------------------------------------
 		-- Initialize the configuration options.
 		-------------------------------------------------------------------------------
-		local ICON_TOKEN = DISPLAY_ICON_STRING1 .. select(3, _G.GetCurrencyInfo(CONQUEST_POINTS)) .. DISPLAY_ICON_STRING2
+		local ICON_TOKEN = DISPLAY_ICON_STRING1 .. select(3, _G.GetCurrencyInfo(CURRENCY_IDS_BY_NAME.CONQUEST_POINTS)) .. DISPLAY_ICON_STRING2
 
 		-- Provide settings options for non-money currencies
 		local function SetOptions(brokerArgs, summaryArgs, idnum, index)
@@ -892,11 +944,10 @@ do
 			local summaryName = GetKey(idnum, nil)
 
 			brokerArgs[brokerName] = {
-				type = "toggle",
+				name = ("%s %s"):format(ShowOptionIcon(idnum), currency_name),
 				order = index,
-				name = ShowOptionIcon(idnum),
-				desc = currency_name,
-				width = "half",
+				type = "toggle",
+				width = "full",
 				get = function()
 					return Broker_CurrencyCharDB[brokerName]
 				end,
@@ -906,11 +957,10 @@ do
 				end,
 			}
 			summaryArgs[summaryName] = {
-				type = "toggle",
+				name = ("%s %s"):format(ShowOptionIcon(idnum), currency_name),
 				order = index,
-				name = ShowOptionIcon(idnum),
-				desc = currency_name,
-				width = "half",
+				type = "toggle",
+				width = "full",
 				get = function()
 					return Broker_CurrencyCharDB[summaryName]
 				end,
@@ -919,22 +969,6 @@ do
 					Broker_Currency:Update()
 				end,
 			}
-		end
-
-		local function setIconSize(info, value)
-			local iconSize = Broker_CurrencyCharDB.iconSize
-
-			Broker_CurrencyCharDB[info[#info]] = true and value or nil
-			Broker_Currency.options.args.iconSize.name = ICON_TOKEN:format(8, iconSize, iconSize)
-			Broker_Currency:Update()
-		end
-
-		local function setIconSizeGold(info, value)
-			local iconSize = Broker_CurrencyCharDB.iconSizeGold
-
-			Broker_CurrencyCharDB[info[#info]] = true and value or nil
-			Broker_Currency.options.args.iconSizeGold.name = _G.GOLD_AMOUNT_TEXTURE:format(8, iconSize, iconSize)
-			Broker_Currency:Update()
 		end
 
 		local function getColorValue(info)
@@ -964,8 +998,8 @@ do
 		addon_version = debug_version and "Development Version" or (alpha_version and addon_version .. "-Alpha") or addon_version
 
 		Broker_Currency.options = {
+			name = ("%s - %s"):format(FOLDER_NAME, addon_version),
 			type = "group",
-			name = sName,
 			get = function(info)
 				return Broker_CurrencyCharDB[info[#info]]
 			end,
@@ -975,13 +1009,96 @@ do
 			end,
 			childGroups = "tab",
 			args = {
-				separator = {
-					order = 6,
-					type = "header",
-					width = "full",
-					name = addon_version,
-					cmdHidden = true
+				brokerDisplay = {
+					name = _G.DISPLAY,
+					order = 1,
+					type = "group",
+					args = {
+						money = {
+							name = _G.MONEY,
+							order = 1,
+							type = "group",
+							args = {
+								showGold = {
+									name = ("%s %s"):format(ICON_GOLD, _G.GOLD_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 1,
+									type = "toggle",
+									width = "full",
+								},
+								showSilver = {
+									name = ("%s %s"):format(ICON_SILVER, _G.SILVER_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 2,
+									type = "toggle",
+									width = "full",
+								},
+								showCopper = {
+									name = ("%s %s"):format(ICON_COPPER, _G.COPPER_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 3,
+									type = "toggle",
+									width = "full",
+								},
+							},
+						},
+					},
 				},
+				summaryDisplay = {
+					type = "group",
+					name = _G.ACHIEVEMENT_SUMMARY_CATEGORY,
+					order = 2,
+					args = {
+						money = {
+							name = _G.MONEY,
+							order = 1,
+							type = "group",
+							args = {
+								summaryGold = {
+									name = ("%s %s"):format(ICON_GOLD, _G.GOLD_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 1,
+									type = "toggle",
+									width = "full",
+								},
+								summarySilver = {
+									name = ("%s %s"):format(ICON_SILVER, _G.SILVER_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 2,
+									type = "toggle",
+									width = "full",
+								},
+								summaryCopper = {
+									name = ("%s %s"):format(ICON_COPPER, _G.COPPER_AMOUNT:gsub("%%d", ""):gsub(" ", "")),
+									order = 3,
+									type = "toggle",
+									width = "full",
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+
+		AceConfig:RegisterOptionsTable(FOLDER_NAME, Broker_Currency.options)
+		Broker_Currency.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(FOLDER_NAME)
+
+		Broker_Currency.deleteCharacter = {
+			name = _G.CHARACTER,
+			type = "group",
+			args = {},
+		}
+
+		AceConfig:RegisterOptionsTable("Broker_Currency_Character", Broker_Currency.deleteCharacter)
+		LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Broker_Currency_Character", _G.CHARACTER, FOLDER_NAME)
+
+		Broker_Currency.generalSettings = {
+			name = _G.GENERAL,
+			type = "group",
+			get = function(info)
+				return Broker_CurrencyCharDB[info[#info]]
+			end,
+			set = function(info, value)
+				Broker_CurrencyCharDB[info[#info]] = true and value or nil
+				Broker_Currency:Update()
+			end,
+			args = {
 				iconSize = {
 					type = "range",
 					order = 10,
@@ -991,7 +1108,16 @@ do
 					max = 32,
 					step = 1,
 					bigStep = 1,
-					set = setIconSize,
+					get = function()
+						return Broker_CurrencyCharDB.iconSize
+					end,
+					set = function(info, value)
+						local iconSize = Broker_CurrencyCharDB.iconSize
+
+						Broker_CurrencyCharDB[info[#info]] = true and value or nil
+						Broker_Currency.generalSettings.args.iconSize.name = ICON_TOKEN:format(8, iconSize, iconSize)
+						Broker_Currency:Update()
+					end,
 				},
 				iconSizeGold = {
 					type = "range",
@@ -1002,126 +1128,74 @@ do
 					max = 32,
 					step = 1,
 					bigStep = 1,
-					set = setIconSizeGold,
+					get = function()
+						return Broker_CurrencyCharDB.iconSizeGold
+					end,
+					set = function(info, value)
+						local iconSize = Broker_CurrencyCharDB.iconSizeGold
+
+						Broker_CurrencyCharDB[info[#info]] = true and value or nil
+						Broker_Currency.generalSettings.args.iconSizeGold.name = _G.GOLD_AMOUNT_TEXTURE:format(8, iconSize, iconSize)
+						Broker_Currency:Update()
+					end,
 				},
-				brokerDisplay = {
-					type = "group",
-					name = _G.DISPLAY,
-					order = 20,
-					args = {
-						showGold = {
-							type = "toggle",
-							name = ICON_GOLD,
-							desc = _G.MONEY,
-							order = 1,
-							width = "half",
-						},
-						showSilver = {
-							type = "toggle",
-							name = ICON_SILVER,
-							desc = _G.MONEY,
-							order = 2,
-							width = "half",
-						},
-						showCopper = {
-							type = "toggle",
-							name = ICON_COPPER,
-							desc = _G.MONEY,
-							order = 3,
-							width = "half",
-						},
-						color_header = {
-							order = 40,
-							type = "header",
-							name = _G.COLOR,
-						},
-						summaryColorDark = {
-							type = "color",
-							name = _G.BACKGROUND,
-							order = 41,
-							get = getColorValue,
-							set = setColorValue,
-							hasAlpha = true,
-						},
-						summaryColorLight = {
-							type = "color",
-							name = _G.HIGHLIGHTING,
-							order = 42,
-							get = getColorValue,
-							set = setColorValue,
-							hasAlpha = true,
-						},
-						statistics_header = {
-							order = 50,
-							type = "header",
-							name = _G.STATISTICS,
-						},
-						summaryPlayerSession = {
-							type = "toggle",
-							name = PLAYER_NAME,
-							order = 51,
-						},
-						summaryRealmToday = {
-							type = "toggle",
-							name = sToday,
-							order = 52,
-						},
-						summaryRealmYesterday = {
-							type = "toggle",
-							name = sYesterday,
-							order = 53,
-						},
-						summaryRealmThisWeek = {
-							type = "toggle",
-							name = sThisWeek,
-							order = 54,
-						},
-						summaryRealmLastWeek = {
-							type = "toggle",
-							name = sLastWeek,
-							order = 55,
-						},
-					},
+				color_header = {
+					order = 100,
+					type = "header",
+					name = _G.COLOR,
 				},
-				summaryDisplay = {
-					type = "group",
-					name = _G.ACHIEVEMENT_SUMMARY_CATEGORY,
-					order = 30,
-					args = {
-						summaryGold = {
-							type = "toggle",
-							name = ICON_GOLD,
-							desc = _G.MONEY,
-							order = 1,
-							width = "half",
-						},
-						summarySilver = {
-							type = "toggle",
-							name = ICON_SILVER,
-							desc = _G.MONEY,
-							order = 2,
-							width = "half",
-						},
-						summaryCopper = {
-							type = "toggle",
-							name = ICON_COPPER,
-							desc = _G.MONEY,
-							order = 3,
-							width = "half",
-						},
-					},
+				summaryColorDark = {
+					type = "color",
+					name = _G.BACKGROUND,
+					order = 101,
+					get = getColorValue,
+					set = setColorValue,
+					hasAlpha = true,
 				},
-				deleteCharacter = {
-					type = "group",
-					name = _G.CHARACTER,
-					order = 60,
-					args = {},
+				summaryColorLight = {
+					type = "color",
+					name = _G.HIGHLIGHTING,
+					order = 102,
+					get = getColorValue,
+					set = setColorValue,
+					hasAlpha = true,
+				},
+				statistics_header = {
+					order = 200,
+					type = "header",
+					name = _G.STATISTICS,
+				},
+				summaryPlayerSession = {
+					type = "toggle",
+					name = PLAYER_NAME,
+					order = 201,
+				},
+				summaryRealmToday = {
+					type = "toggle",
+					name = sToday,
+					order = 202,
+				},
+				summaryRealmYesterday = {
+					type = "toggle",
+					name = sYesterday,
+					order = 203,
+				},
+				summaryRealmThisWeek = {
+					type = "toggle",
+					name = sThisWeek,
+					order = 204,
+				},
+				summaryRealmLastWeek = {
+					type = "toggle",
+					name = sLastWeek,
+					order = 205,
 				},
 			}
 		}
 
-		AceCfg:RegisterOptionsTable("Broker_Currency", Broker_Currency.options)
-		Broker_Currency.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Broker_Currency", sName, "Broker")
+		AceConfig:RegisterOptionsTable("Broker_Currency_General", Broker_Currency.generalSettings)
+		LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Broker_Currency_General", _G.GENERAL, FOLDER_NAME)
+
 
 		-------------------------------------------------------------------------------
 		-- Check or initialize the character database.
@@ -1170,9 +1244,9 @@ do
 		BROKER_ICONS = db.brokerIcons
 
 		for index = 1, NUM_CURRENCIES do
-			local idnum = ORDERED_CURRENCIES[index]
+			local idnum = ORDERED_CURRENCY_IDS[index]
 
-			if PHYSICAL_CURRENCIES[idnum] then
+			if ITEM_CURRENCY_NAMES_BY_ID[idnum] then
 				local name, _, _, _, _, _, _, _, _, icon_path = _G.GetItemInfo(idnum)
 
 				if icon_path and icon_path ~= "" then
@@ -1237,7 +1311,7 @@ do
 		local last = self.last
 
 		for index = 1, NUM_CURRENCIES do
-			local idnum = ORDERED_CURRENCIES[index]
+			local idnum = ORDERED_CURRENCY_IDS[index]
 
 			if BROKER_ICONS[idnum] then
 				local count = GetCurrencyCount(idnum)
@@ -1317,15 +1391,33 @@ do
 		local brokerDisplay = self.options.args.brokerDisplay.args
 		local summaryDisplay = self.options.args.summaryDisplay.args
 
-		for index, idnum in ipairs(ORDERED_CURRENCIES) do
-			-- Offset the index by three to ensure that gold, silver, and copper come first in the list.
-			SetOptions(brokerDisplay, summaryDisplay, idnum, index + 3)
+		for group_index = 1, #ORDERED_CURRENCY_GROUPS do
+			local group = ORDERED_CURRENCY_GROUPS[group_index]
+			local option_group_name = "group" .. group_index
+
+			brokerDisplay[option_group_name] = {
+				name = CURRENCY_GROUP_LABELS[group_index],
+				order = group_index + 1, -- Money is first.
+				type = "group",
+				args = {}
+			}
+
+			summaryDisplay[option_group_name] = {
+				name = CURRENCY_GROUP_LABELS[group_index],
+				order = group_index + 1, -- Money is first.
+				type = "group",
+				args = {}
+			}
+
+			for id_index = 1, #group do
+				SetOptions(brokerDisplay[option_group_name].args, summaryDisplay[option_group_name].args, group[id_index], id_index)
+			end
 		end
 
 		-- Add delete settings so deleted characters can be removed
 		local function DeletePlayer(info)
 			local player_name = info[#info]
-			local deleteOptions = Broker_Currency.options.args.deleteCharacter.args
+			local deleteOptions = Broker_Currency.deleteCharacter.args
 
 			deleteOptions[player_name] = nil
 			deleteOptions[player_name .. "Name"] = nil
@@ -1335,7 +1427,7 @@ do
 
 		-- Provide settings options for tokenInfo
 		local function DeleteOptions(player_name, player_infoList, index)
-			local deleteOptions = Broker_Currency.options.args.deleteCharacter.args
+			local deleteOptions = Broker_Currency.deleteCharacter.args
 
 			if not deleteOptions[player_name] then
 				deleteOptions[player_name .. "Name"] = {

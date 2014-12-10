@@ -10,6 +10,7 @@
 ----3.7:稍微调整了下PetJournalPetCardModelFrame的位置
 ----3.8:调整下默认设置
 ----4.0:处理掉6.0下UIMenuButtonStretchTemplate有关的报错
+----4.1:新增HPetSaves.MiniTip,(config没有加入)
 
 --- Globals
 local _
@@ -60,6 +61,19 @@ function HPetBattleAny:LoadSomeAny()
 		PET_BATTLE_COMBAT_LOG_MISS = "%s|cffff0000未命中|r%s %s。"
 		PET_BATTLE_COMBAT_LOG_DODGE = "%s被%s %s|cffff0000躲闪|r了。";
 		PET_BATTLE_COMBAT_LOG_DAMAGE_CRIT = "|cffffff00"..PET_BATTLE_COMBAT_LOG_DAMAGE_CRIT.."|r";
+
+		if HPetSaves.MiniTip then
+			CHAT_PET_BATTLE_COMBAT_LOG_GET = "|Hchannel:PET_BATTLE_COMBAT_LOG|h[PTC]|h：\32";
+			CHAT_PET_BATTLE_INFO_GET = "|Hchannel:PET_BATTLE_INFO|h[PTI]|h：\32";
+			PET_BATTLE_COMBAT_LOG_NEW_ROUND = "Action：%d";
+			PET_BATTLE_COMBAT_LOG_PET_SWITCHED = "%2$s放出了%1$s。";
+			PET_BATTLE_COMBAT_LOG_ENEMY = "敌方";
+			PET_BATTLE_COMBAT_LOG_ENEMY_LOWER = "敌方";
+			PET_BATTLE_COMBAT_LOG_YOUR = "我方";
+			PET_BATTLE_COMBAT_LOG_YOUR_LOWER = "我方";
+			PET_BATTLE_COMBAT_LOG_YOUR_TEAM = "我方队伍";
+			PET_BATTLE_COMBAT_LOG_YOUR_TEAM_LOWER = "我方队伍";
+		end
 	end
 end
 function HPetBattleAny:Loadinginfo()
@@ -77,7 +91,7 @@ function HPetBattleAny:PlaySoundFile(t)
 		return
 	end
 	PlaySoundFile( [[Sound\Events\scourge_horn.wav]], "Master" );
-	PlaySoundFile( [[Sound\Event Sounds\Event_wardrum_ogre.wav]], "Master" );
+--~ 	PlaySoundFile( [[Sound\Event Sounds\Event_wardrum_ogre.wav]], "Master" );
 end
 --------------------		data
 HPetSaves={}
@@ -85,6 +99,7 @@ HPetBattleAny.Default={
 	ShowMsg = true,				--在聊天窗口显示信息
 	Sound=true,
 	OnlyInPetInfo=false,
+	MiniTip=false,				--简化聊天窗的信息
 
 	FastForfeit=true,
 	Tooltip=true,				--额外鼠标提示
@@ -209,8 +224,11 @@ function HPetBattleAny.CreateLinkByInfo(petID,...)		---...=usecustom,level,healt
 	local bhealth,bpower,bspeed,breedID,thealth,tpower,tspeed = HPetBattleAny.GetBreedValue(petID,select(2,...))
 	if not level then
 		speciesID, customname, level = C_PetJournal.GetPetInfoByPetID(petID)
-
-		customname = usecustom and customname or nil
+		if usecustom == "LEVEL" then
+			customname = tostring(level)
+		else
+			customname = usecustom and customname or nil
+		end
 	else
 		speciesID,petID = petID,nil
 
@@ -329,18 +347,17 @@ function HPetBattleAny:GetPetCollectedInfo(speciesID,enemypet,islink,mini)
 	if pets then
 		table.sort(pets,self.sortRarityLevelAsc)
 		if enemypet and self.sortRarityLevelAsc(pets[1],enemypet) then
-			str1 = str1.."|cffff0000"..L["Only collected"]	.."：|r"
+			str1 = str1.."|cffff0000"..(mini and "-->|r" or L["Only collected"].."：|r")
 		else
-			str1 = str1.."|cffffff00"..COLLECTED.."：|r"
+			str1 = str1.."|cffffff00"..(mini and "-->|r" or COLLECTED.."：|r")
 		end
 		for i,petInfo in pairs(pets) do
 			local petlink
 			local _,custname,_,_,_,_,_,name=C_PetJournal.GetPetInfoByPetID(petInfo.petID)
 
 			if islink then
-				petlink=HPetBattleAny.CreateLinkByInfo(petInfo.petID or 0,true)
+				petlink=HPetBattleAny.CreateLinkByInfo(petInfo.petID or 0,mini and "LEVEL" or true)
 			end
-
 			if not petlink then
 				if (custname or name) and not mini then
 					petlink=ITEM_QUALITY_COLORS[petInfo.rarity-1].hex..(custname or name).."|r"
@@ -354,7 +371,7 @@ function HPetBattleAny:GetPetCollectedInfo(speciesID,enemypet,islink,mini)
 			if petlink then
 				local breedID = select(4,HPetBattleAny.GetBreedValue(petInfo.petID))
 				petlink=petlink..HPetBattleAny.ICON_LIST[breedID]
-				if LEVEL_COLLECTED then petlink = format(LEVEL_COLLECTED.."%s",petInfo.level,petlink) end
+				if not mini and LEVEL_COLLECTED then petlink = format(LEVEL_COLLECTED.."%s",petInfo.level,petlink) end
 				if islink or str2=="" then
 					str2 = petlink..str2
 				else
@@ -397,7 +414,7 @@ function HPetBattleAny:PET_BATTLE_OPENING_START(...)
 			local name = C_PetBattles.GetName(petOwner, petIndex);
 			local level = C_PetBattles.GetLevel(petOwner, petIndex);
 			local power = C_PetBattles.GetPower(petOwner, petIndex);
-			local rarity=C_PetBattles.GetBreedQuality(petOwner,petIndex);if rarity>=4 and rarity~=6 and C_PetBattles.IsWildBattle() then self.EnemyPetInfo.FindBlue=true end;
+			local rarity=C_PetBattles.GetBreedQuality(petOwner,petIndex);if rarity>=4 and rarity~=6 and C_PetBattles.IsWildBattle() and not addon.NPCPetID[speciesID] then self.EnemyPetInfo.FindBlue=true end;
 			local health = C_PetBattles.GetMaxHealth(petOwner, petIndex)
 			local speed = C_PetBattles.GetSpeed(petOwner, petIndex);
 			local isWild
@@ -419,16 +436,19 @@ function HPetBattleAny:PET_BATTLE_OPENING_START(...)
 
 			self.EnemyPetInfo[petIndex].breedID=breedID
 
-			tmprint=format(L["this is"],petIndex)
-
-			tmprint=tmprint..HPetBattleAny.ICON_LIST[breedID]
-
-			tmprint=tmprint..HPetBattleAny.CreateLinkByInfo(speciesID,name,unpack(self.EnemyPetInfo[petIndex]))
-
-			if LEVEL_COLLECTED then tmprint=format("%s"..LEVEL_COLLECTED,tmprint,level) end
+			if HPetSaves.MiniTip then
+				tmprint=" "..petIndex..":"
+				tmprint=tmprint..HPetBattleAny.ICON_LIST[breedID]
+				tmprint=tmprint..HPetBattleAny.CreateLinkByInfo(speciesID,tostring(level),unpack(self.EnemyPetInfo[petIndex]))
+			else
+				tmprint=" "..format(L["this is"],petIndex)
+				tmprint=tmprint..HPetBattleAny.ICON_LIST[breedID]
+				tmprint=tmprint..HPetBattleAny.CreateLinkByInfo(speciesID,name,unpack(self.EnemyPetInfo[petIndex]))
+				if LEVEL_COLLECTED then tmprint=format("%s"..LEVEL_COLLECTED,tmprint,level) end
+			end
 
 			if HPetSaves.Contrast or true then
-				local str1,str2 = HPetBattleAny:GetPetCollectedInfo(speciesID,{["level"]=level,["rarity"]=rarity},true)
+				local str1,str2 = HPetBattleAny:GetPetCollectedInfo(speciesID,{["level"]=level,["rarity"]=rarity},true,HPetSaves.MiniTip)
 				tmprint = tmprint..str1..str2
 			end
 
@@ -562,12 +582,7 @@ function HPetBattleAny:ADDON_LOADED(_, name)
 	if name == "HPetBattleAny" then
 		HPetBattleAny:Init_HPET()
 	elseif name=="Blizzard_PetJournal" then
-		HPetBattleAny.fix("PetJournalParent")
 		HPetBattleAny:Init_BPET()
-	elseif name=="Blizzard_TalentUI" then
-		HPetBattleAny.fix("PlayerTalentFrame")
-	elseif name=="Blizzard_AchievementUI" then
-		HPetBattleAny.fix("AchievementFrame")
 	end
 	if self.initialized_BPET and self.initialized_HPET then
 		self:UnregisterEvent("ADDON_LOADED")
@@ -575,7 +590,6 @@ function HPetBattleAny:ADDON_LOADED(_, name)
 end
 function HPetBattleAny:PLAYER_ENTERING_WORLD()
 	self:RegisterEvent("PET_BATTLE_OPENING_START")
-	HPetBattleAny.fix("ALL")
 end
 function HPetBattleAny:VARIABLES_LOADED()
 	if HPetSaves.Ver ~= VERSION then

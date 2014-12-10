@@ -11,6 +11,8 @@ local _G = getfenv(0)
 local hooksecurefunc, tinsert, pairs, wipe = _G.hooksecurefunc, _G.table.insert, _G.pairs, _G.wipe
 local ipairs = _G.ipairs
 local C_PetJournal = _G.C_PetJournal
+local addonname,addon = ...
+local L = addon.L
 local AbilityModules={}
 HPetBattleAny.AbilityModules=AbilityModules
 

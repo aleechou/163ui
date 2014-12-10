@@ -216,17 +216,46 @@ local npcs = {
 	-------无奖励日常
 
 }
-local temp_hook = GetMapLandmarkInfo
-GetMapLandmarkInfo=function(...)
-	local name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID = temp_hook(...)
-	local message
-	if npcs[name] and npcs[name].QuestID then
-		local q=GetQuestsCompleted();
-		local com = q[tonumber(npcs[name].QuestID)]
-		message = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
-		if com then
-			textureIndex=189
+--~ local temp_hook = GetMapLandmarkInfo
+--~ GetMapLandmarkInfo=function(...)
+--~ 	local name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID = temp_hook(...)
+--~ 	local message
+--~ 	if npcs[name] and npcs[name].QuestID then
+--~ 		local q=GetQuestsCompleted();
+--~ 		local com = q[tonumber(npcs[name].QuestID)]
+--~ 		message = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
+--~ 		if com then
+--~ 			textureIndex=189
+--~ 		end
+--~ 	end
+--~ 	return name, (description or "")..(message or ""), textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID
+--~ end
+--~ local QuestDate=GetQuestsCompleted()
+--~ local NTime=GetTime()
+--~ local STime=15
+hooksecurefunc("WorldMapFrame_Update",function(...)
+	for i=1, NUM_WORLDMAP_POIS do
+		local worldMapPOIName = "WorldMapFramePOI"..i;
+		local worldMapPOI = _G[worldMapPOIName];
+		local name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID, isObjectIcon, atlasIcon = GetMapLandmarkInfo(i);
+		if npcs[name] and npcs[name].QuestID then
+			local com = IsQuestFlaggedCompleted(tonumber(npcs[name].QuestID))
+			message = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
+			worldMapPOI.description = (description or "")..(message or "")
+			if com then
+				textureIndex=189
+			end
+			local x1, x2, y1, y2
+			if (not atlasIcon) then
+				if (isObjectIcon == true) then
+					x1, x2, y1, y2 = GetObjectIconTextureCoords(textureIndex);
+				else
+					x1, x2, y1, y2 = GetPOITextureCoords(textureIndex);
+				end
+				_G[worldMapPOIName.."Texture"]:SetTexCoord(x1, x2, y1, y2);
+			else
+				_G[worldMapPOIName.."Texture"]:SetTexCoord(0, 1, 0, 1);
+			end
 		end
 	end
-	return name, (description or "")..(message or ""), textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID
-end
+end)
