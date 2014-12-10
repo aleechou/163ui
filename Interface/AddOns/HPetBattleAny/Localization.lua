@@ -1,4 +1,5 @@
 ﻿local addonname,addon = ...
+local bcolor = "|cff00ffff%s|r";
 if GetLocale() == "zhCN" then
 	addon.L = {
 			----------Options
@@ -59,7 +60,7 @@ if GetLocale() == "zhCN" then
 			["BreedIDStyleTooltip"]			= "将显示的BreedID样式在数字/BHPS之间切换",
 
 			["FastForfeit"]					= "快速放弃",
-			["FastForfeitTooltip"]			= "|cff00ffff勾选后，放弃键将直接放弃战斗，无需确认|r",
+			["FastForfeitTooltip"]			= format(bcolor,"勾选后，放弃键将直接放弃战斗，无需确认"),
 
 			["OtherTooltip"]				= "额外鼠标提示",
 			["OtherTooltipTooltip"]			= "鼠标提示中加入宠物信息(收集/来源)",
@@ -155,7 +156,7 @@ elseif GetLocale() == "zhTW" then
 		["BreedIDStyleTooltip"] = "將顯示的BreedID樣式在數字/BHPS之間切換",
 
 		["FastForfeit"] = "快速放棄",
-		["FastForfeitTooltip"] = "|cff00ffff勾選後，放棄鍵將直接放棄戰鬥，無需確認|r",
+		["FastForfeitTooltip"] = format(bcolor,"勾選後，放棄鍵將直接放棄戰鬥，無需確認"),
 
 		["OtherTooltip"] = "額外鼠標提示",
 		["OtherTooltipTooltip"] = "鼠標提示中加入寵物信息(收集/來源)",
@@ -245,7 +246,7 @@ else
 		["BreedIDStyle"]					= "Change BreedID's style",
 
 		["FastForfeit"]						= "Fast Forfeit",
-		["FastForfeitTooltip"]				= "|cff00ffffDown Forfeit's button without confirm|r",
+		["FastForfeitTooltip"]				= format(bcolor,"Down Forfeit's button without confirm"),
 
 		["OtherTooltip"]					= "OtherTooltip",
 		["OtherTooltipTooltip"]				= "Add something to GameTooltip(Collected/sourceText[/hpq cc]clear date)|nClick the PetCard's ability can achieve the effect of switching",
@@ -282,3 +283,11 @@ else
 		["search remove key"] 				= "Negative keyword:",
 	}
 end
+
+setmetatable(addon.L,{__index=function(self,index) 
+	if index:find("Tooltip") then
+		return format(bcolor,index)
+	else
+		return index
+	end
+end})

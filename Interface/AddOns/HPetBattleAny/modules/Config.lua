@@ -105,17 +105,22 @@ function HPetOption:InitButtons()
 			point="TOP",relative="Config",rpoint="BOTTOM",
 			y=-7,
 		},
-		{name="Sound",type="CheckButton",var="Sound",
+		{name="OnlyInPetInfo",type="CheckButton",var="OnlyInPetInfo",
 			point="LEFT",relative="Message",rpoint="RIGHT",
 			x=130,
 		},
-		{name="OnlyInPetInfo",type="CheckButton",var="OnlyInPetInfo",
-			point="LEFT",relative="Sound",rpoint="RIGHT",
+		{name="MiniTip",type="CheckButton",var="MiniTip",
+			point="LEFT",relative="OnlyInPetInfo",rpoint="RIGHT",
 			x=130,
 		},
 
-		{name="FastForfeit",type="CheckButton",var="FastForfeit",
+		{name="Sound",type="CheckButton",var="Sound",
 			point="TOP",relative="Message",rpoint="BOTTOM",
+			y=-7,
+		},
+
+		{name="FastForfeit",type="CheckButton",var="FastForfeit",
+			point="TOP",relative="Sound",rpoint="BOTTOM",
 			y=-7,
 		},
 		{name="OtherTooltip",type="CheckButton",var="Tooltip",
@@ -213,9 +218,13 @@ function HPetOption:InitButtons()
 		-- Sliders
 		{name="AbilitysScale",type="Slider",min=0.00,max=2.00,step=0.01,width=220,
 			var = "AbScale",
+			point="TOP",relative="EnemyAbility",rpoint="BOTTOM",
+			x=200,y=-60,
 			func = HPetOption.OnScaleChanged,
-			point="CENTER",rpoint="CENTER",y=-65,
 		},
+		{name="ScaleBox",type="EditBox",width=32,height=20,var="Scale",
+			func = HPetOption.ScaleBoxChanged,parent = "AbilitysScale",
+			point="CENTER",relative="AbilitysScale",rpoint="BOTTOM",y=-15},
 
 
 	}
@@ -238,8 +247,11 @@ function HPetOption:InitButtons()
 
 		-- create frame
 		if value.type~="Text" then
-			button = CreateFrame(value.type,self:GetName()..value.name,self,value.inherits)
+			local parent = self
+			if value.parent then parent = _G[self:GetName()..value.parent] end
+			button = CreateFrame(value.type,self:GetName()..value.name,parent,value.inherits)
 			button:SetID(key)
+			if value.parent then parent[value.type] = button end
 		else
 			button = self:CreateFontString(self:GetName()..value.name,"ARTWORK","GameFontHighlight")
 			button:SetText(L[value.name])
@@ -290,6 +302,7 @@ function HPetOption:InitButtons()
 			end
 		elseif value.type == "Slider" then
 			button.text = _G["HPetOption"..value.name.."Text"]
+			button.SetDisplayValue = button.SetValue;
 			if value.text then
 				button.title = value.text
 			else
@@ -311,8 +324,7 @@ function HPetOption:InitButtons()
 			end
 			button:SetScript("OnEscapePressed", button.ClearFocus)
 		end
-
-		if L[value.name.."Tooltip"] then
+		if value.type == "CheckButton" and L[value.name.."Tooltip"] then
 			button:SetScript("OnEnter", function(s)
 				self:CheckButton_OnEnter(s,L[value.name],L[value.name.."Tooltip"])
 			end)
@@ -371,12 +383,32 @@ function HPetOption:OnCheckButtonClicked()
 end
 
 
-function HPetOption:OnScaleChanged()
-	local scale = self:GetValue()
+function HPetOption:OnScaleChanged(value)
+	--local scale = self:GetValue()
+	--if scale == 0 then scale = 0.01 end
+	--HPetSaves.AbScale = scale
+	--HPetBattleAny.AllAbilityRef()
+	--self.text:SetText(self.title.." : "..math.floor(scale*100).."%")
+
+	local scale = math.floor(value*100)/100
+	self:SetDisplayValue(scale)
 	if scale == 0 then scale = 0.01 end
 	HPetSaves.AbScale = scale
 	HPetBattleAny.AllAbilityRef()
 	self.text:SetText(self.title.." : "..math.floor(scale*100).."%")
+	self.EditBox:SetText(format("%.2f",scale))
+end
+function HPetOption:ScaleBoxChanged()
+	local num = self:GetText()
+	local parent = self:GetParent()
+	if not num then return end
+	num = tonumber(num)
+	if not num then return end
+	parent.var = num
+	HPetBattleAny.AllAbilityRef()
+	parent.text:SetText(parent.title.." : "..math.floor(num).."%")
+	parent:SetValue(num)
+	self:ClearFocus()
 end
 
 function HPetOption:CheckButton_OnEnter(button,name,message)

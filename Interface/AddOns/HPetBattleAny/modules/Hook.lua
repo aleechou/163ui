@@ -48,6 +48,15 @@
 -------4.8:修复因为对PetJournalPetCardSpell进行setscript照成无法发送技能链接的错误
 -------4.9:鼠标提示(目标/Unit)中加入对HPetSaves.Tooltip的判断。可以通过关闭鼠标提示来关掉所有的鼠标提示信息(HPet增加的提示)
 -------5.0:修复下因为6.0 petid更改，而照成的错误.
+-------5.1:修复BreedID的设置方式不严谨,在鼠标提示的增加内容中加入|HHPET|h以用来判断
+--[[
+			for el = GameTooltip:NumLines(),1,-1 do
+				if _G["GameTooltipTextLeft"..el]:GetText():find("HPET") then
+					return
+				end
+			end
+--]]--未完成
+-------5.2:IDtoString去掉，新版ID就是string格式
 
 ----- Globals
 local _
@@ -122,7 +131,7 @@ local function TooltipAddOtherInfo(speciesID)
 				local str1,str2 = HPetBattleAny:GetPetCollectedInfo(pets)
 				GameTooltip:AddDoubleLine(string.trim(str2),nil, 1, 1, 1);
 			end
-			GameTooltip:AddLine(string.trim(sourceText), 1, 1, 1, true);
+			GameTooltip:AddLine("|HHPET|h"..string.trim(sourceText), 1, 1, 1, true);
 			GameTooltip:Show();
 		end
 	end
@@ -236,11 +245,12 @@ hookPetJournal.init = function()
 			_G["PetJournalLoadoutPet"..i].dragButton:HookScript("OnLeave",GameTooltip_Hide)
 			_G["PetJournalLoadoutPet"..i.."ModelFrameCardButton"]:HookScript("OnClick",function(self)
 				PetJournal_SelectPet(PetJournal,self:GetParent():GetParent().petID)
+
 			end)
 		end
 
 	--- "PetJournal_SelectPet"	--待删
-	--~ 	hooksecurefunc("PetJournal_SelectPet",hookPetJournal.PetJournal_SelectPet)
+--~ 	hooksecurefunc("PetJournal_SelectPet",hookPetJournal.PetJournal_SelectPet)
 
 	PetJournal.listScroll.update = PetJournal_UpdatePetList;
 	---------------手动xxxxxxxxxx
@@ -304,7 +314,9 @@ hookfunction.init = function()
 		if unit and UnitIsBattlePet and UnitIsBattlePet(unit) then
 			local speciesID = UnitBattlePetSpeciesID(select(2,GameTooltip:GetUnit()))
 			local str = C_PetJournal.GetOwnedBattlePetString(speciesID)
-			if not UnitIsWildBattlePet(unit) then GameTooltip:AddLine(str) end
+			if not UnitIsWildBattlePet(unit) then
+				GameTooltip:AddLine(str)
+			end
 			TooltipAddOtherInfo(speciesID)
 		end
 	end)
@@ -361,13 +373,13 @@ end
 --抓获宠物得到的链接，petid缺少"0x"，ItemRef:255,FloatingBattlePet_Toggle
 --PetJournal_SelectPet(PetJournal,"0x000000000124D362")
 ------	点击链接无法正确指向宠物(修复处2)
-hookPetJournal.PetJournal_SelectPet = function(self, targetPetID)
+hookPetJournal.PetJournal_SelectPet = function(self, targetPetID,...)
 	local numPets = C_PetJournal.GetNumPets(PetJournal.isWild);
 	local petIndex = nil;
-	local targetPetID = IDtoString(targetPetID)
+	local targetPetID = targetPetID
 	for i = 1,numPets do
 		local petID, speciesID, owned = C_PetJournal.GetPetInfoByIndex(i, PetJournal.isWild);
-		if (tonumber(petID) == tonumber(targetPetID)) then
+		if (petID == targetPetID) then
 			petIndex = i;
 			break;
 		end
@@ -760,11 +772,11 @@ hookfunction.BattlePetTooltipTemplate_SetBattlePet=function(frame,data)
 		frame.Health:SetText(format("%d%s",data.maxHealth,ghealth))
 		frame.Power:SetText(format("%d%s",data.power,gpower))
 		frame.Speed:SetText(format("%d%s",data.speed,gspeed))
-		if breedID then
+		if breedID and HPetSaves.ShowBreedID then
 			if HPetSaves.BreedIDStyle then
-				frame.PetType:SetText(format("%s(%s)",frame.PetType:GetText(),breedID))
+				frame.PetType:SetText(format("%s(%s)",_G["BATTLE_PET_NAME_"..data.petType],breedID))
 			else
-				frame.PetType:SetText(format("%s(%s)",frame.PetType:GetText(),HPetBattleAny.GetBreedNames[breedID]))
+				frame.PetType:SetText(format("%s(%s)",_G["BATTLE_PET_NAME_"..data.petType],HPetBattleAny.GetBreedNames[breedID]))
 			end
 		end
 		if not frame.Name:GetText() then frame.Name:SetText(data.customName) end
