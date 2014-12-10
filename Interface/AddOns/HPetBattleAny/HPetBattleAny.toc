@@ -17,7 +17,7 @@
 ## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
 ## Notes-zhTW: 提醒野生寵物品質等,輸入/hpq設置
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014121001
+## X-163UI-Version: 20141210235417
 
 ## SavedVariables: HPetSaves
 
