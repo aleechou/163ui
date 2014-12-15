@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1153, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11952 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12024 $"):sub(12, -3))
 mod:SetCreatureID(79015)
 mod:SetEncounterID(1723)
 mod:SetZone()
@@ -12,6 +11,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 162185 162184 161411 163517 162186",
+	"SPELL_CAST_SUCCESS 161612",
 	"SPELL_AURA_APPLIED 156803 162186 161242 163472",
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 162186 163472",
@@ -21,6 +21,7 @@ mod:RegisterEventsInCombat(
 
 --TODO, find number of targets of MC and add SetIconsUsed with correct icon count.
 --TODO, see if MC has consistent CD (unlike rest of bosses stuff)
+--TODO, very 55, 30 30, 55, 30 30, 55, etc pattern for balls
 local warnCausticEnergy				= mod:NewTargetAnnounce(161242, 3)
 local warnNullBarrier				= mod:NewTargetAnnounce(156803, 2)
 local warnVulnerability				= mod:NewTargetAnnounce(160734, 1)
@@ -50,11 +51,21 @@ local specWarnForfeitPower			= mod:NewSpecialWarningInterrupt(163517)--Spammy?
 local timerVulnerability			= mod:NewBuffActiveTimer(20, 160734)
 local timerTrampleCD				= mod:NewCDTimer(16, 163101)--Also all over the place, 15-25 with first one coming very randomly (5-20 after barrier goes up)
 local timerExpelMagicArcane			= mod:NewTargetTimer(10, 162186, nil, mod:IsTank() or mod:IsHealer())
+local timerBallsCD					= mod:NewNextTimer(30, 161612)
 --local timerExpelMagicFireCD		= mod:NewCDTimer(20, 162185)
 --local timerExpelMagicShadowCD		= mod:NewCDTimer(10, 162184)
 --local timerExpelMagicFrostCD		= mod:NewCDTimer(10, 161411)
 
+local countdownMagicFire			= mod:NewCountdownFades(11.5, 162185)
+
 local soundExpelMagicArcane			= mod:NewSound(162186)
+
+local voiceExpelMagicFire			= mod:NewVoice(162185)
+local voiceExpelMagicShadow			= mod:NewVoice(162184, mod:IsHealer())
+--local voiceExpelMagicFrost			= mod:NewVoice(161411)
+local voiceExpelMagicArcane			= mod:NewVoice(162186)
+local voiceMC						= mod:NewVoice(163472, mod:IsDps())
+local voiceTrample					= mod:NewVoice(163101)
 
 mod:AddRangeFrameOption("7/5")
 mod:AddSetIconOption("SetIconOnMC", 163472, false)
@@ -79,23 +90,23 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 162185 then
 		warnExpelMagicFire:Show()
-		specWarnExpelMagicFire:Schedule(7.5)--Give you about 4 seconds to spread out
+		specWarnExpelMagicFire:Schedule(5)--Give you about 4 seconds to spread out
 		--Even if you AMS or resist debuff, need to avoid others that didn't, so rangecheck now here
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(7)
 		end
-		Yike:Play("scatter")
+		countdownMagicFire:Start()
+		voiceExpelMagicFire:Play("scattersoon")
+		voiceExpelMagicFire:Schedule(5, "scatter")
 		self:Schedule(11.5, closeRange)
-		Yike:Schedule(11.5, "safenow")
 	elseif spellId == 162184 then
 		warnExpelMagicShadow:Show()
 		specWarnExpelMagicShadow:Show()
-		if mod:IsHealer() then
-			Yike:Play("healall")
-		end
+		voiceExpelMagicShadow:Play("healall")
 	elseif spellId == 161411 then
 		warnExpelMagicFrost:Show()
 		specWarnExpelMagicFrost:Show()
+--		voiceExpelMagicFrost:Play("161411") --faraway from icy orb
 	elseif spellId == 163517 then
 		warnForfeitPower:Show()
 		specWarnForfeitPower:Show(args.sourceName)
@@ -104,13 +115,21 @@ function mod:SPELL_CAST_START(args)
 		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
 		if tanking or (status == 3) then--Player is current target
 			specWarnExpelMagicArcaneYou:Show()--So show tank warning
-			Yike:Play("runout")
-			--soundExpelMagicArcane:Play()
+			voiceExpelMagicArcane:Play("runout")
+			soundExpelMagicArcane:Play()
 		else
 			if self:AntiSpam(2, targetName) then--Set anti spam with target name
 				specWarnExpelMagicArcane:Show(targetName)--Sometimes targetname is nil, and then it warns for unknown, but with the new status == 3 check, it'll still warn correct tank, so useful anyways
+				voiceExpelMagicArcane:Play("changemt")
 			end
 		end
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 161612 then
+		timerBallsCD:Start()--This won't show balls that hit, only ones caught. Balls that hit require high cpu spell_damage event
 	end
 end
 
@@ -134,13 +153,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerExpelMagicArcane:Start(args.destName)
 		if args:IsPlayer() then--Still do yell and range frame here, in case DK
 			yellExpelMagicArcane:Yell()
-			Yike:Play("runout")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
-				end
+			end
 		else
 			if self:AntiSpam(2, args.destName) then--if antispam matches cast start warning, it won't warn again, if name is different, it'll trigger new warning
 				specWarnExpelMagicArcane:Show(args.destName)
+				voiceExpelMagicArcane:Play("changemt")
 			end
 		end
 	elseif spellId == 161242 and self:AntiSpam(3, args.destName) then--Players may wabble in and out of it and we don't want to spam add them to table.
@@ -149,9 +168,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnMC:CombinedShow(0.5, args.destName)
 		if self:AntiSpam(3, 1) then
 			specWarnMC:Show()
-			if mod:IsDps() then
-				Yike:Play("killmob")
-			end
+			voiceMC:Play("killmob")
 		end
 		if self.Options.SetIconOnMC then
 			self:SetSortedIcon(1, args.destName, 1)--TODO, find out number of targets and add
@@ -185,6 +202,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnVulnerability:Show(bossName)
 		timerVulnerability:Start()
 		timerTrampleCD:Cancel()
+		timerBallsCD:Cancel()--This affects timers but how is uncertain, inconsistent.
+		--Example, http://worldoflogs.com/reports/umazvvirdsanfg8a/xe/?s=11657&e=12290&x=spell+%3D+%22Overflowing+Energy%22+or+spellid+%3D+156803&page=1
 --		timerExpelMagicFrostCD:Cancel()
 --		timerExpelMagicShadowCD:Cancel()
 --		timerExpelMagicFireCD:Cancel()
@@ -201,7 +220,7 @@ function mod:OnSync(msg, targetname)
 			if target == UnitName("player") then
 				specWarnTrample:Show()
 				yellTrample:Yell()
-				Yike:Play("targetyou")
+				voiceTrample:Play("runaway")
 			end
 		end
 	end

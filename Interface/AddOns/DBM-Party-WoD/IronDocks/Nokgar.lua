@@ -37,7 +37,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 164835 and args:GetSrcCreatureID() == 81297 then
 		warnEnrage:Show()
 		specWarnEnrage:Show(args.destName)
-		if mod:CanRemoveEnrage() then
+		if mod:CanRemoveEnrage() and self:AntiSpam() then
 			sndWOP:Play("trannow")
 		end
 	end

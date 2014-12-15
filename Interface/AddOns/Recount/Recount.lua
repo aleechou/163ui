@@ -11,7 +11,7 @@ local FilterSize	= 20
 local RampUp		= 5
 local RampDown		= 10
 
-Recount.Version = tonumber(string.sub("$Revision: 1270 $", 12, -3))
+Recount.Version = tonumber(string.sub("$Revision: 1279 $", 12, -3))
 
 local _G = _G
 local abs = abs
@@ -34,6 +34,7 @@ local tremove = table.remove
 local type = type
 local unpack = unpack
 
+local GetNumGroupMembers = GetNumGroupMembers
 local GetNumPartyMembers = GetNumPartyMembers or GetNumSubgroupMembers
 local GetNumRaidMembers = GetNumRaidMembers or GetNumGroupMembers
 local GetTime = GetTime

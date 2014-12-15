@@ -1,12 +1,11 @@
 local mod	= DBM:NewMod(1195, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11955 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12005 $"):sub(12, -3))
 mod:SetCreatureID(78948, 80557, 80551, 99999)--78948 Tectus, 80557 Mote of Tectus, 80551 Shard of Tectus
 mod:SetEncounterID(1722)--Hopefully win will work fine off this because otherwise tracking shard deaths is crappy
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 6, 5)
+mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
@@ -25,10 +24,9 @@ mod:RegisterEventsInCombat(
 --TODO, find better icons for adds, these are filler icons for spells they use.
 --TODO, figure out what's wrong with DBM-Core stripping most of EJ spellname in specWarnEarthwarper (it's saying "Night - Switch" instead of "Night-Twisted Earthshaper - Switch")
 --Tectus
---local warnEarthenPillar				= mod:NewSpellAnnounce(162518, 3)--No way to detect unless it hits a player :\
+local warnEarthenPillar				= mod:NewSpellAnnounce(162518, 3)--No way to detect unless it hits a player :\
 local warnTectonicUpheaval			= mod:NewSpellAnnounce(162475, 3)
 local warnCrystallineBarrage		= mod:NewTargetAnnounce(162346, 3)
-local yellCrystallineBarrage		= mod:NewYell(162346)
 local warnEarthwarper				= mod:NewSpellAnnounce("ej10061", 3, 162894)
 local warnBerserker					= mod:NewSpellAnnounce("ej10062", 3, 163312)
 --Night-Twisted NPCs
@@ -40,6 +38,7 @@ local specWarnEarthwarper			= mod:NewSpecialWarningSwitch("ej10061")
 local specWarnTectonicUpheaval		= mod:NewSpecialWarningSpell(162475, nil, nil, nil, 2)
 local specWarnEarthenPillar			= mod:NewSpecialWarningSpell(162518, nil, nil, nil, 3)
 local specWarnCrystallineBarrageYou	= mod:NewSpecialWarningYou(162346)
+local yellCrystalineBarrage			= mod:NewYell(162346)
 local specWarnCrystallineBarrage	= mod:NewSpecialWarningMove(162370)
 --Night-Twisted NPCs
 local specWarnEarthenFlechettes		= mod:NewSpecialWarningSpell(162968, mod:IsMelee())--Change to "move" warning if it's avoidable
@@ -53,6 +52,15 @@ local timerEarthenFlechettesCD		= mod:NewCDTimer(14, 162968, nil, mod:IsMelee())
 local berserkTimer					= mod:NewBerserkTimer(600)
 
 local countdownEarthwarper			= mod:NewCountdown(41, "ej10061", mod:IsMelee())
+
+local voiceCrystallineBarrage		= mod:NewVoice(162346)
+local voiceEarthenFlechettes		= mod:NewVoice(162968, mod:IsMelee())
+local voiceTectonicUpheaval			= mod:NewVoice(162475)
+local voiceGiftOfEarth				= mod:NewVoice(162894, mod:IsMelee())
+local voiceRavingAssault			= mod:NewVoice(163312)
+local voiceEarthwarper				= mod:NewVoice("ej10061", mod:IsDps())
+local voiceEarthenPillar			= mod:NewVoice(162518, nil )
+
 
 mod:AddSetIconOption("SetIconOnEarthwarper", "ej10061", true, true)
 mod:AddSetIconOption("SetIconOnMote", "ej10083", false, true)--This more or less assumes the 4 at a time strat. if you unleash 8 it will fail. Although any guild unleashing 8 is probably doing it wrong (minus LFR)
@@ -85,14 +93,14 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 162475 and self:AntiSpam(5, 1) then--Antispam for later fight.
 		warnTectonicUpheaval:Show()
 		specWarnTectonicUpheaval:Show()
-		Yike:Play("aesoon")
+		voiceTectonicUpheaval:Play("aesoon")
 	elseif spellId == 162968 then
 		warnEarthenFlechettes:Show()
 		specWarnEarthenFlechettes:Show()
 		timerEarthenFlechettesCD:Start(args.sourceGUID)
 		local guid = args.souceGUID
 		if guid == UnitGUID("target") or guid == UnitGUID("focus") then
-			Yike:Play("watchwave")
+			voiceEarthenFlechettes:Play("watchwave")
 		end
 	elseif spellId == 162894 then
 		local GUID = args.sourceGUID
@@ -104,10 +112,10 @@ function mod:SPELL_CAST_START(args)
 		warnGiftOfEarth:Show(earthDuders[GUID])
 		specWarnGiftOfEarth:Show(earthDuders[GUID])
 		timerGiftOfEarthCD:Start(GUID)
-		Yike:Play("162894")
+		voiceGiftOfEarth:Play("162894")
 	elseif spellId == 163312 then
 		warnRavingAssault:Show()
-		Yike:Play("dashrun")
+		voiceRavingAssault:Play("chargemove")
 	end
 end
 
@@ -115,20 +123,22 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 162346 then
 		warnCrystallineBarrage:CombinedShow(1, args.destName)
-		if args:IsPlayer() and self:AntiSpam(2, 2) then
+		if args:IsPlayer() then
 			specWarnCrystallineBarrageYou:Show()
-			yellCrystallineBarrage:Yell()
-			Yike:Play("runout")
+			if not self:IsLFR() then
+				yellCrystalineBarrage:Yell()
+				voiceCrystallineBarrage:Play("runout")
+			end
 		end
 	elseif spellId == 162674 and self.Options.SetIconOnMote and not self:IsLFR() then--Don't mark kill/pickup marks in LFR, it'll be an aoe fest.
-		self:ScanForMobs(args.destGUID, 0, 8, 4, 0.2, 20)
+		self:ScanForMobs(args.destGUID, 0, 8, 8, 0.4, 50)--Find out why this still doesn't work.
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 162370 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnCrystallineBarrage:Show()
-		Yike:Play("runaway")
+		voiceCrystallineBarrage:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -159,9 +169,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, npc)
 		self.vb.EarthwarperAlive = self.vb.EarthwarperAlive + 1
 		warnEarthwarper:Show()
 		specWarnEarthwarper:Show()
-		if mod:IsDps() then
-			Yike:Play("killmob")
-		end
+		voiceEarthwarper:Play("killmob")
 		timerGiftOfEarthCD:Start(10)
 		timerEarthenFlechettesCD:Start(15)
 		timerEarthwarperCD:Start()
@@ -179,7 +187,8 @@ end
 
 function mod:OnSync(msg)
 	if msg == "TectusPillar" and self:IsInCombat() then
+		warnEarthenPillar:Show()
 		specWarnEarthenPillar:Show()
-		Yike:Play("watchstep")
+		voiceEarthenPillar:Play("watchstep")
 	end
 end
