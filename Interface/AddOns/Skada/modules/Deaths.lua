@@ -69,7 +69,8 @@ Skada:AddLoadableModule("Deaths", function(Skada, L)
 		if player then
 			-- Add a death along with it's timestamp.
 			player.deaths = player.deaths or {}
-			table.insert(player.deaths, 1, {["ts"] = deathts, ["log"] = deathlog, ["maxhp"] = maxhp}) 
+			
+			table.insert(player.deaths, 1, {["ts"] = deathts, ["log"] = deathlog, ["maxhp"] = maxhp})
 
 			-- Also add to set deaths.
 			set.deaths = set.deaths + 1
@@ -234,9 +235,27 @@ Skada:AddLoadableModule("Deaths", function(Skada, L)
 						)
 				end
 
+				local spellname = nil
+				local spellid = nil
+				local death = player.deaths[#player.deaths]
+				if death.log and #death.log > 2 then
+					-- Find last deadly entry.
+					for j, v in ipairs(death.log) do
+						if v.amount and v.amount < 0 then
+							spellid = v.spellid
+							spellname = v.spellname
+							break
+						end
+					end
+				end
+				
 				d.id = player.id
 				d.value = #player.deaths
-				d.label = player.name
+				if spellid then
+					d.label = player.name .. ": " .. (spellname or GetSpellInfo(spellid))
+				else 
+					d.label = player.name
+				end
 				d.class = player.class
 				win.metadata.maxvalue = math.max(win.metadata.maxvalue, d.value)
 

@@ -1,0 +1,39 @@
+------------------------------------------------------------------------
+r1282 | resike | 2014-11-24 16:10:51 +0000 (Mon, 24 Nov 2014) | 1 line
+Changed paths:
+   A /tags/v6.0.3c release (from /trunk:1281)
+
+Tagging as v6.0.3c release
+------------------------------------------------------------------------
+r1281 | Resike | 2014-11-23 15:38:48 +0000 (Sun, 23 Nov 2014) | 2 lines
+Changed paths:
+   M /trunk/Tracker.lua
+
+- Reverted damage done to critters from last commit.
+- Some upvalue fixes.
+------------------------------------------------------------------------
+r1280 | Resike | 2014-11-21 12:31:17 +0000 (Fri, 21 Nov 2014) | 2 lines
+Changed paths:
+   M /trunk/Tracker.lua
+
+- Added "Clarity of Will" as an absorb.
+- Ignoring damage done to critters inside battlegrounds.
+------------------------------------------------------------------------
+r1279 | Resike | 2014-11-12 21:46:05 +0000 (Wed, 12 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Recount.lua
+
+- Version fix.
+------------------------------------------------------------------------
+r1277 | mmosimca | 2014-11-01 05:19:22 +0000 (Sat, 01 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Bindings.xml
+
+- Update Bindings.xml to use new Patch 6.0 key binding category system
+------------------------------------------------------------------------
+r1276 | Resike | 2014-10-20 22:45:59 +0000 (Mon, 20 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/Tracker.lua
+
+- Mage's Prismatic Crystal GUID fix.
+------------------------------------------------------------------------

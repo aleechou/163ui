@@ -4,36 +4,36 @@ local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale("Recount")
 local BossIDs = LibStub("LibBossIDs-1.0")
 
-local revision = tonumber(string.sub("$Revision: 1276 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1281 $", 12, -3))
 if Recount.Version < revision then
 	Recount.Version = revision
 end
 
 local bit_band = bit.band
 local bit_bor = bit.bor
+local math = math
 local math_abs = math.abs
 local math_floor = math.floor
 local math_fmod = math.fmod
 local pairs = pairs
 local string_lower = string.lower
 local string_sub = string.sub
-local math = math
-local nameGUID = nameGUID
 local string_upper = string.upper
+local string_match = string.match
 local tinsert = table.insert
 local tonumber = tonumber
 local type = type
 local unpack = unpack
 
+local ChatThrottleLib = ChatThrottleLib
+local GetFramerate = GetFramerate
+local GetNetStats = GetNetStats
+local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
 local UnitHealth = UnitHealth
-local GetSpellInfo = GetSpellInfo
-local GetNetStats = GetNetStats
-local GetFramerate = GetFramerate
 local UnitHealthMax = UnitHealthMax
 local UnitIsFeignDeath = UnitIsFeignDeath
 local UnitName = UnitName
-local ChatThrottleLib = ChatThrottleLib
 
 local dbCombatants
 
@@ -283,6 +283,7 @@ local AbsorbSpellDuration = {
 	[109964]	= 15, -- Spirit Shell (Priest) base. MOP
 	[114908]	= 15, -- Spirit Shell (Priest) proc, MOP
 	[114214]	= 20, -- Angelic Bulwark (Priest) proc, MOP
+	[152118]	= 20, -- Clarity of Will (Priest) talent, WOD
 	-- Shaman
 	--[108270]	= 30, -- Stone Bulwark Totem (confirmed to be base spell, not aura), MOP
 	[114893]	= 30, -- Stone Bulwark Totem Aura (confirmed), MOP
@@ -519,7 +520,7 @@ end
 
 function Recount:SpellDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand, multistrike)
 
-	if string.match(dstGUID, "^Creature%-0%-%d+%-%d+%-%d+%-76933%-%w+$") then
+	if string_match(dstGUID, "^Creature%-0%-%d+%-%d+%-%d+%-76933%-%w+$") then
 		return
 	end
 
@@ -1575,7 +1576,7 @@ function Recount:DetectPet(name, nGUID, nFlags)
 					--Recount:DPrint("Party guardian: "..name.." "..(nGUID or "nil").." "..(owner or "nil").." "..(ownerID or "nil"))
 			--end
 		else
-			petName = Recount:GetGuardianOwnerByGUID(nameGUID)
+			petName = Recount:GetGuardianOwnerByGUID(nGUID)
 			if petName then
 				petName, owner = petName:match("(.-) <(.*)>")
 				return name, owner, ownerID

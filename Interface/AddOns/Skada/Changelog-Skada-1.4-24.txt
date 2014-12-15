@@ -1,0 +1,56 @@
+------------------------------------------------------------------------
+r592 | zarnivoop | 2014-12-11 20:00:59 +0000 (Thu, 11 Dec 2014) | 1 line
+Changed paths:
+   A /tags/1.4-24 (from /trunk:591)
+
+Tagging as 1.4-24
+------------------------------------------------------------------------
+r591 | zarnivoop | 2014-12-09 13:17:42 +0000 (Tue, 09 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Deaths.lua
+
+show last hit on deaths summary view
+------------------------------------------------------------------------
+r590 | zarnivoop | 2014-12-06 13:24:07 +0000 (Sat, 06 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Damage.lua
+
+fix for arithmetic error on absorb
+------------------------------------------------------------------------
+r589 | zarnivoop | 2014-12-05 21:15:11 +0000 (Fri, 05 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Damage.lua
+
+capitalize that function call, dude
+------------------------------------------------------------------------
+r588 | zarnivoop | 2014-12-05 19:33:43 +0000 (Fri, 05 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Damage.lua
+
+fix for untested stuff
+------------------------------------------------------------------------
+r587 | zarnivoop | 2014-12-05 18:13:51 +0000 (Fri, 05 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Damage.lua
+
+super-untested fix for spell_absorbed events (Ko'ragh)
+------------------------------------------------------------------------
+r585 | zarnivoop | 2014-12-02 10:04:26 +0000 (Tue, 02 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/Skada.lua
+   M /trunk/modules/Damage.lua
+
+fixes for "only keep boss segments" option, MS
+------------------------------------------------------------------------
+r583 | funkydude | 2014-11-11 21:32:37 +0000 (Tue, 11 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/modules/Damage.lua
+
+Damage: fix prismatic crystal guid format.
+------------------------------------------------------------------------
+r582 | nebula169 | 2014-11-05 03:48:12 +0000 (Wed, 05 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/Bindings.xml
+
+only use one Binding header
+------------------------------------------------------------------------

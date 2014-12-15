@@ -47,13 +47,14 @@
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
 --
 
+
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 11961 $"):sub(12, -3)),
-	DisplayVersion = "6.0.6 VE", -- the string that is shown as version
-	ReleaseRevision = 11873 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 12022 $"):sub(12, -3)),
+	DisplayVersion = "6.0.9 alpha VE", -- the string that is shown as version
+	ReleaseRevision = 11978 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -130,6 +131,7 @@ DBM.DefaultOptions = {
 	WorldBossNearAlert = false,
 	AFKHealthWarning = true,
 	HideObjectivesFrame = true,
+	HideGarrisonUpdates = false,
 	HideTooltips = false,
 	EnableModels = true,
 	RangeFrameFrames = "radar",
@@ -175,6 +177,7 @@ DBM.DefaultOptions = {
 	-- global boss mod settings (overrides mod-specific settings for some options)
 	DontShowBossAnnounces = false,
 	DontShowFarWarnings = true,
+	DontPlayRunAway = false,
 	DontSendBossWhispers = false,
 	DontSetIcons = false,
 	DontShowRangeFrame = false,
@@ -223,7 +226,7 @@ DBM_OPTION_SPACER = newproxy(false)
 --------------
 --  Locals  --
 --------------
-local enabled = true
+local dbmIsEnabled = true
 local blockEnable = false
 local cachedGetTime = GetTime()
 local lastCombatStarted = cachedGetTime
@@ -496,7 +499,7 @@ do
 			event = event .. "_UNFILTERED"
 			isUnitEvent = false -- not actually a real unit id for this function...
 		end
-		if not registeredEvents[event] or not enabled then return end
+		if not registeredEvents[event] or not dbmIsEnabled then return end
 		for i, v in ipairs(registeredEvents[event]) do
 			local zones = v.zones
 			local handler = v[event]
@@ -985,6 +988,8 @@ do
 					tinsert(self.Voices, { text = GetAddOnMetadata(i, "X-DBM-Voice-Name"), value = GetAddOnMetadata(i, "X-DBM-Voice-ShortName") })
 				end
 			end
+			--Todo, make this more robust and actually check if the ACTIVE voice is removed, because checking for none being instaled still won't account for removing selected voice pack but still having other packs
+			if #self.Voices < 2 and DBM.Options.ChosenVoicePack ~= "None" then DBM.Options.ChosenVoicePack = "None" end
 			table.sort(self.AddOns, function(v1, v2) return v1.sort < v2.sort end)
 			self:RegisterEvents(
 				"COMBAT_LOG_EVENT_UNFILTERED",
@@ -2297,7 +2302,7 @@ do
 
 	function loadOptions()
 		DBM.Options = DBM_SavedOptions
-		enabled = DBM.Options.Enabled
+		dbmIsEnabled = DBM.Options.Enabled or true
 		addDefaultOptions(DBM.Options, DBM.DefaultOptions)
 		-- load special warning options
 		migrateSavedOptions()
@@ -3297,6 +3302,7 @@ do
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				local bossName = EJ_GetEncounterInfo(modId) or UNKNOWN
 				local difficultyName = UNKNOWN
+				difficulty = tonumber(difficulty)
 				if difficulty == 16 then
 					difficultyName = PLAYER_DIFFICULTY6
 				elseif difficulty == 15 then
@@ -3315,6 +3321,7 @@ do
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				local bossName = EJ_GetEncounterInfo(modId) or UNKNOWN
 				local difficultyName = UNKNOWN
+				difficulty = tonumber(difficulty)
 				if difficulty == 16 then
 					difficultyName = PLAYER_DIFFICULTY6
 				elseif difficulty == 15 then
@@ -3331,7 +3338,7 @@ do
 		end
 
 		syncHandlers["WBE"] = function(sender, modId, realm, health, ver, name)
-			if not ver or not (ver == "7") then return end--Ignore old versions
+			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[modId..realm] and (GetTime() - lastBossEngage[modId..realm] < 30) then return end--We recently got a sync about this boss on this realm, so do nothing.
 			lastBossEngage[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
@@ -3341,7 +3348,7 @@ do
 		end
 		
 		syncHandlers["WBD"] = function(sender, modId, realm, ver, name)
-			if not ver or not (ver == "7") then return end--Ignore old versions
+			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossDefeat[modId..realm] and (GetTime() - lastBossDefeat[modId..realm] < 30) then return end
 			lastBossDefeat[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
@@ -3351,7 +3358,7 @@ do
 		end
 
 		whisperSyncHandlers["WBE"] = function(sender, modId, realm, health, ver, name)
-			if not ver or not (ver == "7") then return end--Ignore old versions
+			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[modId..realm] and (GetTime() - lastBossEngage[modId..realm] < 30) then return end
 			lastBossEngage[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
@@ -3362,7 +3369,7 @@ do
 		end
 		
 		whisperSyncHandlers["WBD"] = function(sender, modId, realm, ver, name)
-			if not ver or not (ver == "7") then return end--Ignore old versions
+			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossDefeat[modId..realm] and (GetTime() - lastBossDefeat[modId..realm] < 30) then return end
 			lastBossDefeat[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
@@ -4119,8 +4126,14 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 				DBM.BossHealth:SetHeaderText(BOSS)
 			end
 			if mod.bossHealthInfo then
-				for i = 1, #mod.bossHealthInfo, 2 do
-					DBM.BossHealth:AddBoss(mod.bossHealthInfo[i], mod.bossHealthInfo[i + 1])
+				if mod.bossHealthInfo[2] and type(mod.bossHealthInfo[2]) == "number" then
+					for i = 1, #mod.bossHealthInfo do--boss name gets from UnitName
+						DBM.BossHealth:AddBoss(mod.bossHealthInfo[i])
+					end
+				else
+					for i = 1, #mod.bossHealthInfo, 2 do
+						DBM.BossHealth:AddBoss(mod.bossHealthInfo[i], mod.bossHealthInfo[i + 1])
+					end
 				end
 			else
 				DBM.BossHealth:AddBoss(mod.combatInfo.mob, mod.localization.general.name)
@@ -4131,6 +4144,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		end
 		--process global options
 		self:ToggleRaidBossEmoteFrame(1)
+		self:ToggleGarrisonAlertsFrame(1)
 		self:StartLogging(0, nil)
 		if DBM.Options.HideObjectivesFrame and not (mod.type == "SCENARIO") and GetNumTrackedAchievements() == 0 then
 			if ObjectiveTrackerFrame:IsVisible() then
@@ -4159,7 +4173,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 					speedTimer:Start()
 				end
 			end
-			if DBM.Options.CRT_Enabled and difficultyIndex >= 14 and difficultyIndex < 18 then--14-17 difficulties, all of the difficulty sizes of WoD.
+			if DBM.Options.CRT_Enabled and difficultyIndex >= 14 and difficultyIndex < 17 then--14-16 difficulties. Normal, Heroic, Mythic
 				local time = 90/LastGroupSize
 				time = time * 60
 				loopCRTimer(time, mod)
@@ -4245,7 +4259,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 			if lastBossEngage[modId..playerRealm] and (GetTime() - lastBossEngage[modId..playerRealm] < 30) then return end--Someone else synced in last 10 seconds so don't send out another sync to avoid needless sync spam.
 			lastBossEngage[modId..playerRealm] = GetTime()--Update last engage time, that way we ignore our own sync
 			if IsInGuild() then
-				SendAddonMessage("D4", "WBE\t"..modId.."\t"..playerRealm.."\t"..startHp.."\t7\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
+				SendAddonMessage("D4", "WBE\t"..modId.."\t"..playerRealm.."\t"..startHp.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
 			end
 			local _, numBNetOnline = BNGetNumFriends()
 			for i = 1, numBNetOnline do
@@ -4266,7 +4280,7 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 						end
 					end
 					if sameRealm then
-						BNSendGameData(presenceID, "D4", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t7\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
+						BNSendGameData(presenceID, "D4", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
 					end
 				end
 			end
@@ -4489,7 +4503,7 @@ function DBM:EndCombat(mod, wipe)
 				if lastBossDefeat[modId..playerRealm] and (GetTime() - lastBossDefeat[modId..playerRealm] < 30) then return end--Someone else synced in last 10 seconds so don't send out another sync to avoid needless sync spam.
 				lastBossDefeat[modId..playerRealm] = GetTime()--Update last defeat time before we send it, so we don't handle our own sync
 				if IsInGuild() then
-					SendAddonMessage("D4", "WBD\t"..modId.."\t"..playerRealm.."\t7\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
+					SendAddonMessage("D4", "WBD\t"..modId.."\t"..playerRealm.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
 				end
 				local _, numBNetOnline = BNGetNumFriends()
 				for i = 1, numBNetOnline do
@@ -4510,7 +4524,7 @@ function DBM:EndCombat(mod, wipe)
 							end
 						end
 						if sameRealm then
-							BNSendGameData(presenceID, "D4", "WBD\t"..modId.."\t"..userRealm.."\t7\t"..name)
+							BNSendGameData(presenceID, "D4", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
 						end
 					end
 				end
@@ -4520,6 +4534,7 @@ function DBM:EndCombat(mod, wipe)
 		if #inCombat == 0 then--prevent error if you pulled multiple boss. (Earth, Wind and Fire)
 			self:Schedule(10, DBM.StopLogging, DBM)--small delay to catch kill/died combatlog events
 			self:ToggleRaidBossEmoteFrame(0)
+			self:ToggleGarrisonAlertsFrame(0)
 			self:Unschedule(checkBossHealth)
 			self:Unschedule(loopCRTimer)
 			DBM.BossHealth:Hide()
@@ -4549,11 +4564,15 @@ function DBM:EndCombat(mod, wipe)
 			DBM:CreatePizzaTimer(time, "", nil, nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
 		elseif DBM.BossHealth:IsShown() then
 			if mod.bossHealthInfo then
-				for i = 1, #mod.bossHealthInfo, 2 do
+				if mod.bossHealthInfo[2] and type(mod.bossHealthInfo[2]) == "number" then
+					for i = 1, #mod.bossHealthInfo do
 					DBM.BossHealth:RemoveBoss(mod.bossHealthInfo[i])
 				end
 			else
-				DBM.BossHealth:RemoveBoss(mod.combatInfo.mob)
+					for i = 1, #mod.bossHealthInfo, 2 do
+						DBM.BossHealth:RemoveBoss(mod.bossHealthInfo[i])
+					end
+				end
 			end
 		end
 	end
@@ -4650,8 +4669,8 @@ do
 end
 
 function DBM:GetCurrentInstanceDifficulty()
-	local _, _, difficulty, difficultyName, _, _, _, _, instanceGroupSize = GetInstanceInfo()
-	if difficulty == 0 then
+	local _, instanceType, difficulty, difficultyName, _, _, _, _, instanceGroupSize = GetInstanceInfo()
+	if difficulty == 0 or (difficulty == 1 and instanceType == "none") then--draenor field returns 1, causing world boss mod bug.
 		return "worldboss", RAID_INFO_WORLD_BOSS.." - ", difficulty
 	elseif difficulty == 1 then
 		return "normal5", difficultyName.." - ", difficulty, instanceGroupSize
@@ -5039,22 +5058,35 @@ function DBM:ToggleRaidBossEmoteFrame(toggle, custom)
 	end
 end
 
+local GarrisonUnregistered = false
+function DBM:ToggleGarrisonAlertsFrame(toggle, custom)
+	if not DBM.Options.HideGarrisonUpdates and not custom then return end
+	if toggle == 1 and not GarrisonUnregistered then
+		GarrisonUnregistered = true
+		AlertFrame:UnregisterEvent("GARRISON_MISSION_FINISHED")
+		AlertFrame:UnregisterEvent("GARRISON_BUILDING_ACTIVATABLE")
+	elseif toggle == 0 and GarrisonUnregistered then
+		GarrisonUnregistered = false
+		AlertFrame:RegisterEvent("GARRISON_MISSION_FINISHED")
+		AlertFrame:RegisterEvent("GARRISON_BUILDING_ACTIVATABLE")
+	end
+end
+
 --------------------------
 --  Enable/Disable DBM  --
 --------------------------
 function DBM:Disable(forced)
 	unschedule()
-	enabled = false
-	if not forced then
-		self.Options.Enabled = false
-	else
+	dbmIsEnabled = false
+	self.Options.Enabled = false
+	if forced then
 		blockEnable = true
 	end
 end
 
 function DBM:Enable()
 	if not blockEnable then
-		enabled = true
+		dbmIsEnabled = true
 		self.Options.Enabled = true
 	end
 end
@@ -5428,6 +5460,14 @@ end
 function bossModPrototype:IsLFR()
 	local diff = DBM:GetCurrentInstanceDifficulty()
 	if diff == "lfr" or diff == "lfr25" then
+		return true
+	end
+	return false
+end
+
+function bossModPrototype:IsNormal()
+	local diff = DBM:GetCurrentInstanceDifficulty()
+	if diff == "normal" or diff == "normal5" or diff == "normal10" or diff == "normal25" then
 		return true
 	end
 	return false
@@ -6030,23 +6070,24 @@ end
 function DBM:GetBossHP(cId)
 	local uId = bossHealthuIdCache[cId] or "target"
 	if self:GetCIDFromGUID(UnitGUID(uId)) == cId and UnitHealthMax(uId) ~= 0 then
-		if bossHealth[cId] and UnitHealth(uId) == 0 then return bossHealth[cId], uId end--Return last non 0 value if value is 0, since it's last valid value we had.
+		if bossHealth[cId] and (UnitHealth(uId) == 0 and not UnitIsDead(uId)) then return bossHealth[cId], uId, UnitName(uId) end--Return last non 0 value if value is 0, since it's last valid value we had.
 		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
 		bossHealth[cId] = hp
-		return hp, uId
+		return hp, uId, UnitName(uId)
 	elseif self:GetCIDFromGUID(UnitGUID("focus")) == cId and UnitHealthMax("focus") ~= 0 then
-		if bossHealth[cId] and UnitHealth("focus") == 0 then return bossHealth[cId], "focus" end--Return last non 0 value if value is 0, since it's last valid value we had.
+		if bossHealth[cId] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[cId], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
 		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
 		bossHealth[cId] = hp
-		return hp, "focus"
+		return hp, "focus", UnitName("focus")
 	else
 		for i = 1, 5 do
 			local guid = UnitGUID("boss"..i)
 			if self:GetCIDFromGUID(guid) == cId and UnitHealthMax("boss"..i) ~= 0 then
+				if bossHealth[cId] and (UnitHealth("boss"..i) == 0 and not UnitIsDead("boss"..i)) then return bossHealth[cId], "boss"..i, UnitName("boss"..i) end--Return last non 0 value if value is 0, since it's last valid value we had.
 				local hp = UnitHealth("boss"..i) / UnitHealthMax("boss"..i) * 100
-				bossHealth[cId] = hp > 0 and hp or 100
+				bossHealth[cId] = hp
 				bossHealthuIdCache[cId] = "boss"..i
-				return hp, "boss"..i
+				return hp, "boss"..i, UnitName("boss"..i)
 			end
 		end
 		local idType = (IsInRaid() and "raid") or "party"
@@ -6054,10 +6095,50 @@ function DBM:GetBossHP(cId)
 			local unitId = ((i == 0) and "target") or idType..i.."target"
 			local guid = UnitGUID(unitId)
 			if self:GetCIDFromGUID(guid) == cId and UnitHealthMax(unitId) ~= 0 then
+				if bossHealth[cId] and (UnitHealth(unitId) == 0 and not UnitIsDead(unitId)) then return bossHealth[cId], unitId, UnitName(unitId) end--Return last non 0 value if value is 0, since it's last valid value we had.
 				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-				bossHealth[cId] = hp > 0 and hp or 100
+				bossHealth[cId] = hp
 				bossHealthuIdCache[cId] = unitId
-				return hp, unitId
+				return hp, unitId, UnitName(unitId)
+			end
+		end
+	end
+	return nil
+end
+
+function DBM:GetBossHPByGUID(guid)
+	local uId = bossHealthuIdCache[guid] or "target"
+	if UnitGUID(uId) == guid and UnitHealthMax(uId) ~= 0 then
+		if bossHealth[guid] and (UnitHealth(uId) == 0 and not UnitIsDead(uId)) then return bossHealth[guid], uId, UnitName(uId) end--Return last non 0 value if value is 0, since it's last valid value we had.
+		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		bossHealth[guid] = hp
+		return hp, uId, UnitName(uId)
+	elseif UnitGUID("focus") == guid and UnitHealthMax("focus") ~= 0 then
+		if bossHealth[guid] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[guid], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
+		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		bossHealth[guid] = hp
+		return hp, "focus", UnitName("focus")
+	else
+		for i = 1, 5 do
+			local guid2 = UnitGUID("boss"..i)
+			if guid == guid2 and UnitHealthMax("boss"..i) ~= 0 then
+				if bossHealth[guid] and (UnitHealth("boss"..i) == 0 and not UnitIsDead("boss"..i)) then return bossHealth[guid], "boss"..i, UnitName("boss"..i) end--Return last non 0 value if value is 0, since it's last valid value we had.
+				local hp = UnitHealth("boss"..i) / UnitHealthMax("boss"..i) * 100
+				bossHealth[guid] = hp
+				bossHealthuIdCache[guid] = "boss"..i
+				return hp, "boss"..i, UnitName("boss"..i)
+			end
+		end
+		local idType = (IsInRaid() and "raid") or "party"
+		for i = 0, GetNumGroupMembers() do
+			local unitId = ((i == 0) and "target") or idType..i.."target"
+			local guid2 = UnitGUID(unitId)
+			if guid == guid2 and UnitHealthMax(unitId) ~= 0 then
+				if bossHealth[guid] and (UnitHealth(unitId) == 0 and not UnitIsDead(unitId)) then return bossHealth[guid], unitId, UnitName(unitId) end--Return last non 0 value if value is 0, since it's last valid value we had.
+				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+				bossHealth[guid] = hp
+				bossHealthuIdCache[guid] = unitId
+				return hp, unitId, UnitName(unitId)
 			end
 		end
 	end
@@ -6415,6 +6496,7 @@ do
 	bossModPrototype.NewRunAwaySound = bossModPrototype.NewSound
 
 	function soundPrototype:Play(file)
+		if DBM.Options.DontPlayRunAway then return end
 		if not self.option or self.mod.Options[self.option] then
 			if DBM.Options.UseMasterVolume then
 				PlaySoundFile(file or "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
@@ -6453,6 +6535,7 @@ do
 			},
 			mt
 		)
+		if #DBM.Voices < 2 then optionName = false end--Hide options if no voice packs are installed
 		if optionName then
 			obj.option = optionName
 			self:AddBoolOption(obj.option, optionDefault, "sound")
@@ -6466,20 +6549,12 @@ do
 
 	--types: "now", "soon", "in5", "movein", "moveout" --Other types as needed, mainly so we can use multiple voies for same spellid if needed (to say, have both a soon and now warning)
 	--If no file at path, it should silenty fail. However, I want to try to only add NewVoice to mods for files that already exist.
-	function soundPrototype2:Play(type, globalSound)
+	function soundPrototype2:Play(name)
 		if DBM.Options.ChosenVoicePack == "None" then return end
 		if not self.option or self.mod.Options[self.option] then
-			local type = type or "now"--This way omiting "type" is valid for most common "now" warning.
-			local path
-			if globalSound then--Common (global) sounds.
-				--Example "Interface\\AddOns\\DBM-VPHenry\\Global\\dispelnow.ogg"
-				--Usage: voiceBerserkerRush:Play("name", true)
-				path = "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..type..".ogg"
-			else--Instance Specific sounds
-				--Example "Interface\\AddOns\\DBM-VPHenry\\1228\\1128\\158986now.ogg" --This would be Kargath playvoice for berserker rush from highmaul
-				--Example "Interface\\AddOns\\DBM-VPHenry\\1228\\1128\\ej9394now.ogg" --This would be Kargath playvoice for pillar from highmaul
-				path = "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..self.mod.instanceId.."\\"..self.mod.id.."\\"..self.spellId..type..".ogg"
-			end
+			local path = "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..name..".ogg"
+				--Example "Interface\\AddOns\\DBM-VPHenry\\dispelnow.ogg"
+				--Usage: voiceBerserkerRush:Play("dispelnow")
 			if DBM.Options.UseMasterVolume then
 				PlaySoundFile(path, "Master")
 			else
@@ -6494,6 +6569,7 @@ do
 	end
 
 	function soundPrototype2:Cancel(...)
+		if DBM.Options.ChosenVoicePack == "None" then return end
 		return unschedule(self.Play, self.mod, self, ...)
 	end
 end
@@ -6517,12 +6593,12 @@ do
 		return obj3
 	end
 
-	function soundPrototype3:Play(file)
+	function soundPrototype3:Play(name)
 		if soundMMoption then
 			if DBM.Options.UseMasterVolume then
-				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..file..".ogg", "Master")
+				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..name..".ogg", "Master")
 			else
-				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\Global\\"..file..".ogg")
+				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..name..".ogg")
 			end
 		end
 	end

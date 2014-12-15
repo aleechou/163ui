@@ -6,6 +6,15 @@ local L
 ---------------
 L= DBM:GetModLocalization(1128)
 
+L:SetTimerLocalization({
+	timerSweeperCD			= "다음 높은망치 난동꾼"
+})
+
+L:SetOptionLocalization({
+	timerSweeperCD			= "다음 높은망치 난동꾼 바 보기",
+	countdownSweeper		= "높은망치 난동꾼 이전에 초읽기 듣기"
+})
+
 ---------------------------
 -- The Butcher --
 ---------------------------
@@ -32,7 +41,9 @@ L= DBM:GetModLocalization(1148)
 
 L:SetOptionLocalization({
 	PhemosSpecial	= "페모스의 대기시간 초읽기 듣기",
-	PolSpecial		= "폴의 대기시간 초읽기 듣기"
+	PolSpecial		= "폴의 대기시간 초읽기 듣기",
+	PhemosSpecialVoice	= "펠모스의 주문을 선택한 음성안내 소리로 듣기",
+	PolSpecialVoice		= "폴의 주문을 선택한 음성안내 소리로 듣기"
 })
 
 --------------------
@@ -53,7 +64,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1197)
 
 L:SetMiscLocalization({
-	BrandedYell			= "%s 에게 낙인! (%d)"
+	BrandedYell			= "%2$s 에게 낙인! (%1$s)"
 })
 
 -------------
