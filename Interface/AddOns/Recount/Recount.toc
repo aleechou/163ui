@@ -63,4 +63,4 @@ GUI_Realtime.lua
 ## Notes-zhCN: 基于 Graph 裤开发的伤害/治疗统计插件.
 ## Notes-zhTW: 圖形化顯示的傷害/治療統計插件.
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014121501
+## X-163UI-Version: 20141215173029

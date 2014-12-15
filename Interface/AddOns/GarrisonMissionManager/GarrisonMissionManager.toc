@@ -22,4 +22,4 @@ GarrisonMissionManager.lua
 ## Notes-zhCN: 帮助你选择最优配置来进行要塞追随者任务
 ## Notes-zhTW: 幫助你合理選擇追隨者便捷的完成要塞的任務
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141208202359
+## X-163UI-Version: 20141215173029
