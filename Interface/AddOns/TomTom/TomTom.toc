@@ -1,7 +1,7 @@
 ## Interface: 60000
 ## Title: TomTom
 ## Author: jnwhiteh
-## Version: v60000-1.0.1-df361a1
+## Version: v60000-1.1.0-2dddf66
 ## License: All Rights Reserved
 ## Notes: Acts as your portable navigation assistant
 ## Notes-frFR: Agit comme un assistant de navigation portable
@@ -42,5 +42,11 @@ TomTom_POIIntegration.lua
 
 TomTom_Config.lua
 
+## Title: |cff880303[网易有爱]|r 目标点路径指示
+## Title-zhCN: |cff880303[网易有爱]|r 目标点路径指示
+## Title-zhTW: |cff880303[网易有爱]|r 目標點路徑指示
+## Notes-zhCN:指示目标路径点的方向 距离 到达时间等功能.
+## Notes-zhTW:指示目標路徑點的方向 距離 到達時間等功能.
+## X-Vendor: NetEase
+## X-163UI-Version: 2014121501
 
-## X-163UI-Version: 20141215173029

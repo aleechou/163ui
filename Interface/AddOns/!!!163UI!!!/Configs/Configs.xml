@@ -129,6 +129,7 @@
 	<include file="..\..\GarrisonMissionManager\CfgGarrisonMissionManager.lua"/>
 	<include file="..\..\Broker_Garrison\CfgBroker_Garrison.lua"/>
 	<include file="..\..\MasterPlan\CfgMasterPlan.lua"/>
+	<include file="..\..\MasterPlan\CfgTomTom.lua"/>
 	<include file="..\..\BetterPowerBarAlt\CfgBetterPowerBarAlt.lua"/>
 	
     <Include file="..\..\JSHB\CfgJSHB.lua"/>
