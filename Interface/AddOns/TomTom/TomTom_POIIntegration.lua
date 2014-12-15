@@ -1,3 +1,6 @@
+local addonName, addon = ...
+local astrolabe = addon.astrolabe
+
 local enableClicks = true       -- True if waypoint-clicking is enabled to set points
 local enableClosest = true      -- True if 'Automatic' quest waypoints are enabled
 local modifier                  -- A string representing click-modifiers "CAS", etc.
@@ -9,7 +12,6 @@ local modTbl = {
 }
 
 local L = TomTomLocals
-local astrolabe = DongleStub("Astrolabe-1.0")
 
 -- This function and the related events/hooks are used to automatically
 -- update the crazy arrow to the closest quest waypoint.

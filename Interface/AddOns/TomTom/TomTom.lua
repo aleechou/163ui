@@ -7,11 +7,13 @@
 -- Simple localization table for messages
 local L = TomTomLocals
 local ldb = LibStub("LibDataBroker-1.1")
-local astrolabe = DongleStub("Astrolabe-1.0")
 local lmd = LibStub("LibMapData-1.0")
 
 local addonName, addon = ...
 local TomTom = addon
+
+addon.astrolabe = DongleStub("Astrolabe-TomTom-1.0")
+local astrolabe = addon.astrolabe
 
 -- Local definitions
 local GetCurrentCursorPosition
@@ -1164,11 +1166,57 @@ SLASH_TOMTOM_WAY2 = "/tway"
 SLASH_TOMTOM_WAY3 = "/tomtomway"
 
 local nameToMapId = {}
-local mapIds = lmd:GetAllMapIDs()
+do
+    -- Fetch the names of the continents
+    local continentNames = {}
+    local continentData = {GetMapContinents()}
 
-for idx, mapId in ipairs(mapIds) do
-    local mapName = lmd:MapLocalize(mapId)
-    nameToMapId[mapName] = mapId
+    for c = 1, (#continentData / 2) do
+        local index = (c*2) - 1
+        local areaId, name = continentData[index], continentData[index+1]
+        local instanceId = GetAreaMapInfo(areaId)
+        continentNames[instanceId] = name
+    end
+
+    for idx, areaMapId in pairs(GetAreaMaps()) do
+        local name = GetMapNameByID(areaMapId)
+        local a,b,c = GetAreaMapInfo(areaMapId)
+        local parent = (c == -1 and a or c)
+        local parentName = continentNames[parent] or GetMapNameByID(parent)
+
+        if name and nameToMapId[name] then
+            if type(nameToMapId[name]) ~= "table" then
+                -- convert to a table
+                nameToMapId[name] = {nameToMapId[name]}
+            end
+
+            table.insert(nameToMapId[name], areaMapId)
+        else
+            nameToMapId[name] = areaMapId
+        end
+    end
+
+    -- Handle any duplicates
+    local newEntries = {}
+    for name, areaId in pairs(nameToMapId) do
+        if type(areaId) == "table" then
+            nameToMapId[name] = nil
+            for idx, areaId in pairs(areaId) do
+                local a,b,c = GetAreaMapInfo(areaId)
+                local parent = (c == -1 and a or c)
+                local parentName = continentNames[parent] or GetMapNameByID(parent)
+                if parentName then
+                    local newName = name .. ':' .. parentName
+                    newEntries[newName] = areaId
+                end
+            end
+        end
+    end
+
+    -- Add the de-duplicated entries
+    for name, areaId in pairs(newEntries) do
+        nameToMapId[name] = areaId
+    end
 end
 
 local wrongseparator = "(%d)" .. (tonumber("1.1") and "," or ".") .. "(%d)"
