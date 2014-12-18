@@ -33,4 +33,4 @@ data.lua
 ## Notes-zhCN:《巫妖王之怒》物品信息
 ## Notes-zhTW:《巫妖王之怒》副本物品掉落資料庫
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014121901
+## X-163UI-Version: 20141219001956
