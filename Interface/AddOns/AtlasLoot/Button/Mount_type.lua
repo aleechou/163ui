@@ -35,7 +35,7 @@ function Mount.OnSet(button, second)
 				GoTo = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Mount.ClickHandler, 
+		AtlasLoot.db.Button.Mount.ClickHandler, 
 		{
 			{ "GoTo",		AL["Show Mount in Journal"],			AL["Show Mount in Journal"] },
 		})

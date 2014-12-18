@@ -154,59 +154,51 @@ data["DarkmoonFaire"] = {
 		{	--DarkmoonTrinkets
 			name = AL["Trinkets"],
 			[NORMAL_DIFF] = {
-				{ 1, 112303 },	-- Iron Deck
-				{ 2, 112319, [QUEST_EXTRA_ITTYPE] = 34970 },	-- Knight's Badge
-				{ 4, 112304 },	-- Moon Deck
-				{ 5, 112320, [QUEST_EXTRA_ITTYPE] = 34973 },	-- Sandman's Pouch
-				{ 7, 112305 },	-- Visions Deck
-				{ 8, 112317, [QUEST_EXTRA_ITTYPE] = 34974 },	-- Winged Hourglass
-				{ 10, 112306 },	-- War Deck
-				{ 11, 112318, [QUEST_EXTRA_ITTYPE] = 34975 },	-- Skull of War
-				{ 16, 79325 },	-- Crane Deck
-				{ 17, 79330, [QUEST_EXTRA_ITTYPE] = 30449 },	-- Relic of Chi Ji
-				{ 19, 79324 },	-- Ox Deck
-				{ 20, 79329, [QUEST_EXTRA_ITTYPE] = 30450 },	-- Relic of Niuzao
-				{ 22, 79326 },	-- Serpent Deck
-				{ 23, 79331, [QUEST_EXTRA_ITTYPE] = 30451 },	-- Relic of Yu'lon
-				{ 25, 79323 },	-- Tiger Deck
-				{ 26, 79327, [QUEST_EXTRA_ITTYPE] = 30452 },	-- Relic of Xuen
-				{ 27, 79328, [QUEST_EXTRA_ITTYPE] = 30452 },	-- Relic of Xuen
-				{ 101, 62046 },	-- Earthquake Deck
-				{ 102, 62048, [QUEST_EXTRA_ITTYPE] = 27667 },	-- Darkmoon Card: Earthquake
-				{ 104, 62045 },	-- Hurricane Deck
-				{ 105, 62049, [QUEST_EXTRA_ITTYPE] = 27665 },	-- Darkmoon Card: Hurricane
-				{ 106, 62051, [QUEST_EXTRA_ITTYPE] = 27665 },	-- Darkmoon Card: Hurricane
-				{ 108, 62044 },	-- Tsunami Deck
-				{ 109, 62050, [QUEST_EXTRA_ITTYPE] = 27666 },	-- Darkmoon Card: Tsunami
-				{ 111, 62021 },	-- Volcanic Deck
-				{ 112, 62047, [QUEST_EXTRA_ITTYPE] = 27664 },	-- Darkmoon Card: Volcano
-				{ 116, 44276 },	-- Chaos Deck
-				{ 117, 42989, [QUEST_EXTRA_ITTYPE] = 13325 },	-- Darkmoon Card: Berserker!
-				{ 119, 44259 },	-- Prisms Deck
-				{ 120, 42988, [QUEST_EXTRA_ITTYPE] = 13324 },	-- Darkmoon Card: Illusion
-				{ 122, 44294 },	-- Undeath Deck
-				{ 123, 42990, [QUEST_EXTRA_ITTYPE] = 13327 },	-- Darkmoon Card: Death
-				{ 125, 44326 },	-- Nobles Deck
-				{ 126, 44253, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
-				{ 127, 42987, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
-				{ 128, 44254, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
-				{ 129, 44255, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
-				{ 201, 31890 },	-- Blessings Deck
-				{ 202, 31856, [QUEST_EXTRA_ITTYPE] = 10938 },	-- Darkmoon Card: Crusade
-				{ 204, 31907 },	-- Furies Deck
-				{ 205, 31858, [QUEST_EXTRA_ITTYPE] = 10940 },	-- Darkmoon Card: Vengeance
-				{ 207, 31914 },	-- Lunacy Deck
-				{ 208, 31859, [QUEST_EXTRA_ITTYPE] = 10941 },	-- Darkmoon Card: Madness
-				{ 210, 31891 },	-- Storms Deck
-				{ 211, 31857, [QUEST_EXTRA_ITTYPE] = 10939 },	-- Darkmoon Card: Wrath
-				{ 216, 19228 },	-- Beasts Deck
-				{ 217, 19288, [QUEST_EXTRA_ITTYPE] = 7907 },	-- Darkmoon Card: Blue Dragon
-				{ 219, 19267 },	-- Elementals Deck
-				{ 220, 19289, [QUEST_EXTRA_ITTYPE] = 7929 },	-- Darkmoon Card: Maelstrom
-				{ 222, 19277 },	-- Portals Deck
-				{ 223, 19290, [QUEST_EXTRA_ITTYPE] = 7927 },	-- Darkmoon Card: Twisting Nether
-				{ 225, 19257 },	-- Warlords Deck
-				{ 226, 19287, [QUEST_EXTRA_ITTYPE] = 7928 },	-- Darkmoon Card: Heroism
+				{ 1, 79325 },	-- Crane Deck
+				{ 2, 79330, [QUEST_EXTRA_ITTYPE] = 30449 },	-- Relic of Chi Ji
+				{ 4, 79324 },	-- Ox Deck
+				{ 5, 79329, [QUEST_EXTRA_ITTYPE] = 30450 },	-- Relic of Niuzao
+				{ 7, 79326 },	-- Serpent Deck
+				{ 8, 79331, [QUEST_EXTRA_ITTYPE] = 30451 },	-- Relic of Yu'lon
+				{ 10, 79323 },	-- Tiger Deck
+				{ 11, 79327, [QUEST_EXTRA_ITTYPE] = 30452 },	-- Relic of Xuen
+				{ 12, 79328, [QUEST_EXTRA_ITTYPE] = 30452 },	-- Relic of Xuen
+				{ 16, 62046 },	-- Earthquake Deck
+				{ 17, 62048, [QUEST_EXTRA_ITTYPE] = 27667 },	-- Darkmoon Card: Earthquake
+				{ 19, 62045 },	-- Hurricane Deck
+				{ 20, 62049, [QUEST_EXTRA_ITTYPE] = 27665 },	-- Darkmoon Card: Hurricane
+				{ 21, 62051, [QUEST_EXTRA_ITTYPE] = 27665 },	-- Darkmoon Card: Hurricane
+				{ 23, 62044 },	-- Tsunami Deck
+				{ 24, 62050, [QUEST_EXTRA_ITTYPE] = 27666 },	-- Darkmoon Card: Tsunami
+				{ 26, 62021 },	-- Volcanic Deck
+				{ 27, 62047, [QUEST_EXTRA_ITTYPE] = 27664 },	-- Darkmoon Card: Volcano
+				{ 101, 44276 },	-- Chaos Deck
+				{ 102, 42989, [QUEST_EXTRA_ITTYPE] = 13325 },	-- Darkmoon Card: Berserker!
+				{ 104, 44259 },	-- Prisms Deck
+				{ 105, 42988, [QUEST_EXTRA_ITTYPE] = 13324 },	-- Darkmoon Card: Illusion
+				{ 107, 44294 },	-- Undeath Deck
+				{ 108, 42990, [QUEST_EXTRA_ITTYPE] = 13327 },	-- Darkmoon Card: Death
+				{ 110, 44326 },	-- Nobles Deck
+				{ 111, 44253, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
+				{ 112, 42987, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
+				{ 113, 44254, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
+				{ 114, 44255, [QUEST_EXTRA_ITTYPE] = 13326 },	-- Darkmoon Card: Greatness
+				{ 116, 31890 },	-- Blessings Deck
+				{ 117, 31856, [QUEST_EXTRA_ITTYPE] = 10938 },	-- Darkmoon Card: Crusade
+				{ 119, 31907 },	-- Furies Deck
+				{ 120, 31858, [QUEST_EXTRA_ITTYPE] = 10940 },	-- Darkmoon Card: Vengeance
+				{ 122, 31914 },	-- Lunacy Deck
+				{ 123, 31859, [QUEST_EXTRA_ITTYPE] = 10941 },	-- Darkmoon Card: Madness
+				{ 125, 31891 },	-- Storms Deck
+				{ 126, 31857, [QUEST_EXTRA_ITTYPE] = 10939 },	-- Darkmoon Card: Wrath
+				{ 201, 19228 },	-- Beasts Deck
+				{ 202, 19288, [QUEST_EXTRA_ITTYPE] = 7907 },	-- Darkmoon Card: Blue Dragon
+				{ 204, 19267 },	-- Elementals Deck
+				{ 205, 19289, [QUEST_EXTRA_ITTYPE] = 7929 },	-- Darkmoon Card: Maelstrom
+				{ 207, 19277 },	-- Portals Deck
+				{ 208, 19290, [QUEST_EXTRA_ITTYPE] = 7927 },	-- Darkmoon Card: Twisting Nether
+				{ 210, 19257 },	-- Warlords Deck
+				{ 211, 19287, [QUEST_EXTRA_ITTYPE] = 7928 },	-- Darkmoon Card: Heroism
 				{ 301, 44158 },	-- Demons Deck
 				{ 302, 44217, [QUEST_EXTRA_ITTYPE] = 13311 },	-- Darkmoon Dirk
 				{ 303, 44218, [QUEST_EXTRA_ITTYPE] = 13311 },	-- Darkmoon Executioner
@@ -791,6 +783,10 @@ data["PilgrimsBounty"] = {
 				{ 21, 46824 },	-- Pilgrim's Robe (Daily reward)
 				{ 22, 44788 },	-- Pilgrim's Boots (Daily reward)
 				{ 23, 44812 },	-- Turkey Shooter (Daily reward)
+				{ 25, 116404 },	-- Pilgrim's Bounty
+				{ 26, 116401 },	-- Fine Pilgrim's Hat
+				{ 27, 116403, "pet1516" },	-- Frightened Bush Chicken
+				{ 28, 116400 },	-- Silver-Plated Turkey Shooter
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,

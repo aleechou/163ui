@@ -70,7 +70,7 @@ function ItemFrame:ClearItems()
 end
 
 function ItemFrame.OnClassFilterUpdate(filterTab)
-	if AtlasLoot.db.profile.GUI.classFilter and GUI.__EJData then
+	if AtlasLoot.db.GUI.classFilter and GUI.__EJData then
 		if not filterTab then
 			AtlasLoot.EncounterJournal:SetLootQuery(GUI.__EJData[1], GUI.__EJData[2], ItemFrame.CurDiff, ItemFrame.CurTier, nil, GUI.frame.contentFrame.clasFilterButton.selectedPlayerSpecID, ItemFrame.OnClassFilterUpdate )
 		else
@@ -101,10 +101,10 @@ function ItemFrame:Refresh(skipProtect)
 	LastRefresh = GetTime()
 	
 	ItemFrame:ClearItems()
-	AtlasLoot.db.profile.GUI.selected[5] = AtlasLoot.db.profile.GUI.selected[5] or 0
+	AtlasLoot.db.GUI.selected[5] = AtlasLoot.db.GUI.selected[5] or 0
 	ItemFrame.nextPage = nil
-	local page = AtlasLoot.db.profile.GUI.selected[5] * 100 -- Page number for first items on a page are <1, 101, 201, 301, 401, ...>
-	local items, tableType, diffData = ItemDB:GetItemTable(AtlasLoot.db.profile.GUI.selected[1], AtlasLoot.db.profile.GUI.selected[2], AtlasLoot.db.profile.GUI.selected[3], AtlasLoot.db.profile.GUI.selected[4])
+	local page = AtlasLoot.db.GUI.selected[5] * 100 -- Page number for first items on a page are <1, 101, 201, 301, 401, ...>
+	local items, tableType, diffData = ItemDB:GetItemTable(AtlasLoot.db.GUI.selected[1], AtlasLoot.db.GUI.selected[2], AtlasLoot.db.GUI.selected[3], AtlasLoot.db.GUI.selected[4])
 
 	if items then
 		ItemFrame.CurDiff = diffData.difficultyID or 1
@@ -112,7 +112,7 @@ function ItemFrame:Refresh(skipProtect)
 		
 		-- refresh title with diff and add pagenumber if there 
 		if #items and items[#items] and items[#items][1] > 100 then
-			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF_PAGE, GUI.frame.contentFrame.title.txt, diffData.name, AtlasLoot.db.profile.GUI.selected[5]+1, floor(items[#items][1]/100)+1))
+			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF_PAGE, GUI.frame.contentFrame.title.txt, diffData.name, AtlasLoot.db.GUI.selected[5]+1, floor(items[#items][1]/100)+1))
 		else
 			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF, GUI.frame.contentFrame.title.txt, diffData.name))
 		end
@@ -131,26 +131,26 @@ function ItemFrame:Refresh(skipProtect)
 				--ItemFrame.frame.ItemButtons[fixItemNum]:SetAlpha(1)
 				setn = true
 			elseif fixItemNum > 100 then
-				GUI.frame.contentFrame.nextPageButton.info = tostring(AtlasLoot.db.profile.GUI.selected[5] + 1)
+				GUI.frame.contentFrame.nextPageButton.info = tostring(AtlasLoot.db.GUI.selected[5] + 1)
 				--break
 			end
 		end
 		-- page not found set it to first page and reset
-		if not setn and AtlasLoot.db.profile.GUI.selected[5] ~= 0 then
-			AtlasLoot.db.profile.GUI.selected[5] = 0
+		if not setn and AtlasLoot.db.GUI.selected[5] ~= 0 then
+			AtlasLoot.db.GUI.selected[5] = 0
 			self:Refresh(true)
 			return
 		end
 	end
 	-- calc prev page
-	if AtlasLoot.db.profile.GUI.selected[5] - 1 >= 0 then
-		GUI.frame.contentFrame.prevPageButton.info = tostring(AtlasLoot.db.profile.GUI.selected[5] - 1)
+	if AtlasLoot.db.GUI.selected[5] - 1 >= 0 then
+		GUI.frame.contentFrame.prevPageButton.info = tostring(AtlasLoot.db.GUI.selected[5] - 1)
 	else
 		--[[	this must be fixed later ... Check for pages 
-		if AtlasLoot.db.profile.GUI.selected[3] - 1 > 0 then
-			items, tableType = ItemDB:GetItemTable(AtlasLoot.db.profile.GUI.selected[1], AtlasLoot.db.profile.GUI.selected[2], AtlasLoot.db.profile.GUI.selected[3]-1, AtlasLoot.db.profile.GUI.selected[4])
+		if AtlasLoot.db.GUI.selected[3] - 1 > 0 then
+			items, tableType = ItemDB:GetItemTable(AtlasLoot.db.GUI.selected[1], AtlasLoot.db.GUI.selected[2], AtlasLoot.db.GUI.selected[3]-1, AtlasLoot.db.GUI.selected[4])
 			if items and #items > 0 and floor(items[#items][1]/100) > 0 then
-				GUI.frame.contentFrame.prevPageButton.info = { AtlasLoot.db.profile.GUI.selected[3]-1, floor(items[#items][1]/100) }
+				GUI.frame.contentFrame.prevPageButton.info = { AtlasLoot.db.GUI.selected[3]-1, floor(items[#items][1]/100) }
 			end
 		end
 		]]--

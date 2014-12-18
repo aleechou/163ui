@@ -40,7 +40,7 @@ function Prof.OnSet(button, second)
 				ChatLink = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Profession.ClickHandler, 
+		AtlasLoot.db.Button.Profession.ClickHandler, 
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add profession link into chat"] },
 		})

@@ -5,7 +5,7 @@ local AL = AtlasLoot.Locales
 local db
 
 function Search.Init()
-	db = AtlasLoot.db.profile.Addons.Search
+	db = AtlasLoot.db.Addons.Search
 	AtlasLoot.SlashCommands:Add("search", Search.Open, "/al search - Search")
 end
 AtlasLoot:AddInitFunc(Search.Init)

@@ -329,7 +329,7 @@ function SoundFrame:Create()
 				CopyBox = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Sound.ClickHandler, 
+		AtlasLoot.db.Button.Sound.ClickHandler, 
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add sound into chat"] },
 			{ "CopyBox", 	AL["Copy Box"], 	AL["Shows the sound in the copy box"] },

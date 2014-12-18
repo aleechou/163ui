@@ -5,6 +5,8 @@ Item.Query = Query
 local AL = AtlasLoot.Locales
 local ClickHandler = AtlasLoot.ClickHandler
 
+local db
+
 -- lua
 local tonumber = tonumber
 local assert = assert
@@ -27,6 +29,7 @@ local itemIsOnEnter = nil
 
 function Item.OnSet(button, second)
 	if not ItemClickHandler then
+		db = AtlasLoot.db.Button.Item
 		ItemClickHandler = ClickHandler:Add(
 		"Item",
 		{
@@ -37,7 +40,7 @@ function Item.OnSet(button, second)
 				DressUp = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Item.ClickHandler, 
+		db.ClickHandler, 
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
 			{ "DressUp", 	AL["Dress up"], 	AL["Shows the item in the Dressing room"] },
@@ -107,11 +110,11 @@ function Item.OnEnter(button, owner)
 	else
 		tooltip:SetItemByID(button.ItemID)
 	end
-	if button.Droprate and AtlasLoot.db.profile.Button.Item.showDropRate then
+	if button.Droprate and db.showDropRate then
 		tooltip:AddDoubleLine(AL["Droprate:"], button.Droprate.."%")
 	end
 	tooltip:Show()
-	if IsShiftKeyDown() or AtlasLoot.db.profile.Button.Item.alwaysShowCompareTT then
+	if IsShiftKeyDown() or db.alwaysShowCompareTT then
 		GameTooltip_ShowCompareItem(tooltip)
 	end
 end
@@ -142,7 +145,7 @@ end
 
 function Item.Refresh(button)
 	if not button.ItemID then return end
-	local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemCount, itemEquipLoc, itemTexture = GetItemInfo(button.ItemString or button.ItemID)
+	local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(button.ItemString or button.ItemID)
 	if not itemName then
 		Query:Add(button)
 		return false
@@ -178,6 +181,12 @@ function Item.Refresh(button)
 		-- description
 		-- ##################
 		button.extra:SetText(GetItemDescInfo(itemEquipLoc, itemType, itemSubType))
+	end
+	if db.showCompletedHook then
+		itemCount = GetItemCount(button.ItemString, true)
+		if itemCount and itemCount > 0 then
+			button.completed:Show()
+		end
 	end
 
 	return true

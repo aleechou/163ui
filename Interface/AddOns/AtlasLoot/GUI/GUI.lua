@@ -399,10 +399,10 @@ end
 local function NextPrevButtonOnClick(self)
 	if self.info then
 		if type(self.info) == "string" then 	-- next item page
-			AtlasLoot.db.profile.GUI.selected[5] = tonumber(self.info)
+			AtlasLoot.db.GUI.selected[5] = tonumber(self.info)
 			UpdateFrames()
 		elseif type(self.info) == "table" then
-			AtlasLoot.db.profile.GUI.selected[5] = tonumber(self.info[2])
+			AtlasLoot.db.GUI.selected[5] = tonumber(self.info[2])
 			GUI.frame.boss:SetSelected(self.info[1])
 		elseif type(self.info) == "number" then
 			GUI.frame.boss:SetSelected(self.info)
@@ -599,7 +599,7 @@ end
 -- GUI functions
 -- ################################
 function GUI.Init()
-	db = AtlasLoot.db.profile.GUI
+	db = AtlasLoot.db.GUI
 	
 	GUI:Create()
 	

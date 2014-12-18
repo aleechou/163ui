@@ -740,7 +740,7 @@ function Pet.OnSet(button, second)
 				GoTo = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Pet.ClickHandler, 
+		AtlasLoot.db.Button.Pet.ClickHandler, 
 		{
 			{ "GoTo",		AL["Show Pet in Journal"],			AL["Show Pet in Journal"] },
 		})
@@ -969,14 +969,14 @@ function Pet.ShowToolTipFrame(button)
 end
 
 function AtlasLoot:DEV_Renew()
-	self.db.profile.PETINFO = {}
+	self.db.PETINFO = {}
 	local petID, speciesID, owned, customName, level, favorite, isRevoked, speciesName
 	local numPets = C_PetJournal.GetNumPets()
 	
 	for i=1,numPets do
 		petID, speciesID, owned, customName, level, favorite, isRevoked, speciesName = C_PetJournal.GetPetInfoByIndex(i)
 		if speciesName and speciesID then
-			self.db.profile.PETINFO[speciesName] = speciesID
+			self.db.PETINFO[speciesName] = speciesID
 		end
 	end
 end

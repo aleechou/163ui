@@ -4,9 +4,21 @@ local data = AtlasLoot.ItemDB:Add(addonname, 6)
 
 local AL = AtlasLoot.Locales
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], nil, nil, 17)
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
+	Item = {
+		item1bonus = nil,
+		item2bonus = "RaidWarforged",
+		autoCompleteItem2 = true,
+	},
+}, 17)
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 14)
+local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", {
+	Item = {
+		item1bonus = nil,
+		item2bonus = "RaidWarforged",
+		autoCompleteItem2 = true,
+	},
+}, 14)
 local NORMAL_AUCH_DIFF = data:AddDifficulty(AL["Normal"], "AuchWithPreset", {
 	Item = {
 		item1bonus = "Auch",
@@ -45,7 +57,7 @@ local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithP
 		autoCompleteItem2 = true,
 	},
 })
-local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "heroicWithPreset", {
+local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", {
 	Item = {
 		item1bonus = "HeroicRaid",
 		item2bonus = "HeroicRaidWarforged",
@@ -53,7 +65,7 @@ local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "heroicWithPreset", {
 	},
 }, 15)
 local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], nil, nil, 16)
-local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "myhticWithPreset", {
+local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
 	Item = {
 		item1bonus = "MythicRaid",
 		item2bonus = "MythicRaidWarforged",
@@ -1918,6 +1930,7 @@ data["UpperBlackrockSpire"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 130, "ac9058" },
 			},
 		},
 		{	--UBRSTharbek
@@ -2518,7 +2531,7 @@ data["Draenor"] = {
 	items = {
 		{	--DrovtheRuiner
 			EncounterJournalID = 1291,
-			[NORMAL_DIFF] = {
+			[NORMAL_RAID_DIFF] = {
 				{ 1, 115425 },	-- Quadripedal Grips
 				{ 2, 115429 },	-- Belt of Singing Hooves
 				{ 3, 115426 },	-- Grips of Natural Fury
@@ -2537,7 +2550,7 @@ data["Draenor"] = {
 		},
 		{	--Rukhmar
 			EncounterJournalID = 1262,
-			[NORMAL_DIFF] = {
+			[NORMAL_RAID_DIFF] = {
 				{ 1, 115433 },	-- Solarflame Legwraps
 				{ 2, 120111 },	-- Featherflame Sandals
 				{ 3, 115434 },	-- Down-Lined Leggings
@@ -2557,7 +2570,7 @@ data["Draenor"] = {
 		},
 		{	--TarlnatheAgeless
 			EncounterJournalID = 1211,
-			[NORMAL_DIFF] = {
+			[NORMAL_RAID_DIFF] = {
 				{ 1, 120091 },	-- Robes of the Ageless
 				{ 2, 115425 },	-- Quadripedal Grips
 				{ 3, 115429 },	-- Belt of Singing Hooves
@@ -2763,7 +2776,7 @@ data["Highmaul"] = {
 				{ 19, 116367 },	-- Shield-Shatter Longbow
 				{ 20, 116368 },	-- Polearm of Expulsion
 				{ 21, 116366 },	-- Magic-Breaker Greatsword
-				{ 23, 115288, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Felbreaker's Tome
+				{ 23, 115288, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Felbreaker's Tome
 			},
 			[NORMAL_RAID_DIFF] = {
 				{ 1, 113847 },	-- Cloak of Searing Shadows
@@ -2799,7 +2812,7 @@ data["Highmaul"] = {
 				{ 17, 116280 },	-- Seal of Arcane Wrath
 				{ 19, 116372 },	-- Imperator's Warstaff
 				{ 20, 116373 },	-- Mirrorshield of Arcane Fortification
-				{ 22, 115289, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Sigil of the Sorcerer King
+				{ 22, 115289, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Sigil of the Sorcerer King
 				{ 24, "ac8988" },
 			},
 			[NORMAL_RAID_DIFF] = {
@@ -2831,11 +2844,18 @@ data["Highmaul"] = {
 			name = AL["Trash Mobs"],
 			ExtraList = true,
 			[NORMAL_RAID_DIFF] = {
+				{ 1, 119343 },	-- Eye-Blinder Greatcloak
+				{ 2, 119347 },	-- Gill's Glorious Windcloak
+				{ 3, 119346 },	-- Kyu-Sy's Tarflame Doomcloak
+				{ 4, 119344 },	-- Magic-Breaker Cape
+				{ 5, 119345 },	-- Milenah's Intricate Cloak
+				{ 16, 119336 },	-- Cord of Winsome Sorrows
+				{ 17, 119335 },	-- Eyeripper Girdle
+				{ 18, 119338 },	-- Belt of Inebriated Sorrows
+				{ 19, 119337 },	-- Ripswallow Plate Belt
 			},
-			[HEROIC_DIFF] = {
-			},
-			[MYTHIC_DIFF] = {
-			},
+			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
+			[MYTHIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 		},
 		WOD_RAID1_AC_TABLE,
 	},

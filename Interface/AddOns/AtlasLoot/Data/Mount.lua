@@ -579,14 +579,14 @@ end
 
 -- AtlasLoot.Data.Mount.DEV_SaveDataIntoDB()
 function Mount.DEV_SaveDataIntoDB()
-	AtlasLoot.db.profile.MOUNTINFO = {}
+	AtlasLoot.db.MOUNTINFO = {}
 	local numMounts = C_MountJournal.GetNumMounts()
 	
 	local name, spellID
 	for i=1,numMounts do
 		name, spellID = C_MountJournal_GetMountInfo(i)
 		if name and spellID then
-			AtlasLoot.db.profile.MOUNTINFO[spellID] = name
+			AtlasLoot.db.MOUNTINFO[spellID] = name
 		end
 	end
 end

@@ -1558,6 +1558,7 @@ data["MoguShanVaults"] = {
 
 data["Pandaria"] = {
 	EncounterJournalID = 322,
+	MapID = 809,
 	ContentType = RAID_CONTENT,
 	items = {
 		{	--TheAugustCelestials
@@ -1639,13 +1640,13 @@ data["Pandaria"] = {
 				{ 320, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 321, [ATLASLOOT_IT_ALLIANCE] = 102630, [ATLASLOOT_IT_HORDE] = 103440 },	-- Prideful Gladiator's Scaled Gauntlets
 				{ 322, [ATLASLOOT_IT_ALLIANCE] = 102780, [ATLASLOOT_IT_HORDE] = 103442 },	-- Prideful Gladiator's Scaled Legguards
-				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 402, 99131 },	-- Handwraps of the Ternion Glory
 				{ 403, 99118 },	-- Legwraps of the Ternion Glory
 				{ 405, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 406, 99121 },	-- Gloves of the Ternion Glory
 				{ 407, 99123 },	-- Leggings of the Ternion Glory
-				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 417, [ATLASLOOT_IT_ALLIANCE] = 102615, [ATLASLOOT_IT_HORDE] = 103462 },	-- Prideful Gladiator's Mooncloth Gloves
 				{ 418, [ATLASLOOT_IT_ALLIANCE] = 102704, [ATLASLOOT_IT_HORDE] = 103464 },	-- Prideful Gladiator's Mooncloth Leggings
 				{ 420, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -1900,13 +1901,13 @@ data["Pandaria"] = {
 				{ 320, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 321, [ATLASLOOT_IT_ALLIANCE] = 91269, [ATLASLOOT_IT_HORDE] = 94343 },	-- Tyrannical Gladiator's Scaled Gauntlets
 				{ 322, [ATLASLOOT_IT_ALLIANCE] = 91273, [ATLASLOOT_IT_HORDE] = 94496 },	-- Tyrannical Gladiator's Scaled Legguards
-				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 402, 95295 },	-- Handwraps of the Exorcist
 				{ 403, 95297 },	-- Legwraps of the Exorcist
 				{ 405, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 406, 95300 },	-- Gloves of the Exorcist
 				{ 407, 95302 },	-- Leggings of the Exorcist
-				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 417, [ATLASLOOT_IT_ALLIANCE] = 91309, [ATLASLOOT_IT_HORDE] = 94328 },	-- Tyrannical Gladiator's Mooncloth Gloves
 				{ 418, [ATLASLOOT_IT_ALLIANCE] = 91313, [ATLASLOOT_IT_HORDE] = 94420 },	-- Tyrannical Gladiator's Mooncloth Leggings
 				{ 420, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -2133,13 +2134,13 @@ data["Pandaria"] = {
 				{ 317, 84831 },	-- Malevolent Gladiator's Ornamented Gloves
 				{ 320, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 321, 84834 },	-- Malevolent Gladiator's Scaled Gauntlets
-				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 402, 85363 },	-- Guardian Serpent Handwraps
 				{ 403, 85361 },	-- Guardian Serpent Legwraps
 				{ 405, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 406, 85364 },	-- Guardian Serpent Gloves
 				{ 407, 85366 },	-- Guardian Serpent Leggings
-				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 417, 84846 },	-- Malevolent Gladiator's Mooncloth Gloves
 				{ 420, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 421, 84838 },	-- Malevolent Gladiator's Satin Gloves

@@ -5,7 +5,7 @@ This mod is distributed under Version 2 of the GPL.  A copy of the GPL is includ
 -Hegarol
 
 Patch Notes
-v8.00.00 (Nov xx, 2014)
+v8.00.00 (Jan xx, 2015)
 Compatible with Patch 6.0.3.
 
 v7.07.03 (May xx, 2014)

@@ -36,10 +36,11 @@ local ITEM_BONUS_PRESET = {
 	["HeroicSoOWarforged"]		= { 449, 448 },
 	["MythicSoO"] 			= { 450 },
 	["MythicSoOWarforged"]		= { 450, 448 },
+	["RaidWarforged"]		= { 560 },
 	["HeroicRaid"] 			= { 566 },
-	["HeroicRaidWarforged"] 	= { 566, 571 },
+	["HeroicRaidWarforged"] 	= { 566, 561 },
 	["MythicRaid"] 			= { 567 },
-	["MythicRaidWarforged"]		= { 567, 571 },
+	["MythicRaidWarforged"]		= { 567, 562 },
 	-- Crafting
 	["Stage1"]			= { 525 },
 	["Stage2"]			= { 526 },

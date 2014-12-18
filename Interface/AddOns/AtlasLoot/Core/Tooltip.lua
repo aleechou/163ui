@@ -21,7 +21,7 @@ end
 EventFrame:SetScript("OnEvent", OnEvent)
 ]]--
 function Tooltip.GetTooltip()
-	return _G[AtlasLoot.db.profile.Tooltip.tooltip or STANDART_TOOLTIP] or _G[STANDART_TOOLTIP]
+	return _G[AtlasLoot.db.Tooltip.tooltip or STANDART_TOOLTIP] or _G[STANDART_TOOLTIP]
 end
 
 function Tooltip:AddTooltipSource(src)
