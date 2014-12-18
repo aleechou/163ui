@@ -10,6 +10,7 @@ local ITEMS_NOT_FOUND = true
 
 local STRING_SPLIT_OR = "-"
 local STRING_DELIMITER_OR = "|r; "
+local STRING_DELIMITER_TT_OR = "|cff999999"..AL["--- or ---"]
 local STRING_SPLIT_AND = ":"
 local STRING_DELIMITER_AND = "|r & "
 local STRING_DELIMITER_END = ""
@@ -99,4 +100,58 @@ function Price.OnSet(mainButton, descFrame)
 	end
 	
 	descFrame.info = info
+end
+
+-- ##########
+-- OnEnter
+-- ##########
+
+local TT_ICON_AND_NAME = "|T%s:16|t %s"
+local TT_HAVE_AND_NEED_GREEN = STRING_GREEN.."%d / %d"
+local TT_HAVE_AND_NEED_RED = STRING_RED.."%d / %d"
+
+local function SetTooltip(tooltip, typ, value)
+	value = tonumber(value) or 0
+	
+	if PRICE_INFO[typ] then
+		if PRICE_INFO[typ].func then
+			tooltip:AddLine(PRICE_INFO[typ].func(value))
+		--elseif PRICE_INFO[typ].icon then
+		--	tooltip:AddLine(TT_ICON_AND_NAME:format(PRICE_INFO[typ].icon, PRICE_INFO[typ].name or ""))
+		--	tooltip:AddLine(TT_HAVE_AND_NEED_GREEN:format(value))
+		elseif PRICE_INFO[typ].currencyID then
+			local name, currentAmount, texture = GetCurrencyInfo(PRICE_INFO[typ].currencyID) --name, currentAmount, texture, earnedThisWeek, weeklyMax, totalMax, isDiscovered, rarity
+			tooltip:AddLine(TT_ICON_AND_NAME:format(texture, name or ""))
+			tooltip:AddLine(currentAmount >= value and TT_HAVE_AND_NEED_GREEN:format(currentAmount, value) or  TT_HAVE_AND_NEED_RED:format(currentAmount, value))
+		elseif PRICE_INFO[typ].itemID then
+			local itemName = GetItemInfo(PRICE_INFO[typ].itemID)
+			tooltip:AddLine(TT_ICON_AND_NAME:format(GetItemIcon(PRICE_INFO[typ].itemID), GetItemInfo(PRICE_INFO[typ].itemID) or ""))
+			local count = GetItemCount(PRICE_INFO[typ].itemID, true)
+			tooltip:AddLine(count >= value and TT_HAVE_AND_NEED_GREEN:format(count, value) or  TT_HAVE_AND_NEED_RED:format(count, value))
+		end
+	elseif tonumber(typ) then
+		local itemName = GetItemInfo(typ)
+		tooltip:AddLine(TT_ICON_AND_NAME:format(GetItemIcon(typ), GetItemInfo(typ) or ""))
+		local count = GetItemCount(typ, true)
+		tooltip:AddLine(count >= value and TT_HAVE_AND_NEED_GREEN:format(count, value) or  TT_HAVE_AND_NEED_RED:format(count, value))
+	end
+end
+
+function Price.OnEnter(descFrame, tooltip)
+	if not descFrame.info then return end
+	local info = descFrame.info
+	if type(info[1]) == STRING_TABLE then
+		for i = 1, #info do
+			if i > 1 then
+				tooltip:AddLine(STRING_DELIMITER_TT_OR)
+			end
+			for j = 1, #info[i], 2 do
+				SetTooltip(tooltip, info[i][j], info[i][j+1])
+			end
+		end
+	else
+		for i = 1, #info, 2 do
+			SetTooltip(tooltip, info[i], info[i+1])
+		end
+	end
 end

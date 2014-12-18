@@ -21,13 +21,15 @@ AL["Bonus Loot"] = true
 AL["AtlasLoot_Loader is no longer in use.\nDelete it from your AddOns folder"] = true
 AL["Toggle AtlasLoot"] = true
 
--- Options MODULE
+-- Options module
 AL["General"] = true
 AL["General AtlasLoot options."] = true
 AL["Toggle Minimap Button"] = true
 AL["Toggles the display of the minimap icon."] = true
 
 -- Loader.lua
+AL["Module %s is deactivated."] = true
+AL["Module %s is not installed."] = true
 AL["%s will finish loading after combat."] = true
 AL["Warlords of Draenor"] = true
 AL["Mists of Pandaria"] = true
@@ -98,9 +100,12 @@ AL["Loading Data ..."] = true
 
 --GUI\SetViewFrame.lua
 AL["AtlasLoot Set View"] = true
+AL["Source"] = true
+AL["Stats"] = true
 
 -- BUTTONS
 AL["Droprate:"] = true
+AL["--- or ---"] = true
 
 -- Item_type.lua
 AL["Chat Link"] = true
@@ -133,6 +138,7 @@ AL["Sets"] = true
 AL["Shared"] = true
 AL["Shared Boss Loot"] = true
 AL["Summon"] = true
+AL["Tier Sets"] = true
 AL["Tier %d Sets"] = true
 AL["Trash Mobs"] = true
 
@@ -178,6 +184,16 @@ AL["Vendors"] = true
 AL["Apexis Crystal"] = true
 AL["Mounts"] = true
 AL["Pets"] = true
+
+-- ADD THIS INTO WOWACE!!!
+AL["Tabards"] = true
+AL["Reputation"] = true
+AL["Achievement & Quest Rewards"] = true
+AL["Argent Tournament"] = true
+AL["Guild"] = true
+AL["Unobtainable Tabards"] = true
+AL["Card Game Tabards"] = true
+AL["Arena Reward"] = true
 
 -- Crafting strings
 AL["2H Weapons"] = true

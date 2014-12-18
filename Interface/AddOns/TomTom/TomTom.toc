@@ -48,5 +48,5 @@ TomTom_Config.lua
 ## Notes-zhCN:指示目标路径点的方向 距离 到达时间等功能.
 ## Notes-zhTW:指示目標路徑點的方向 距離 到達時間等功能.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141215194501
+## X-163UI-Version: 20141215194658
 

@@ -1,0 +1,114 @@
+------------------------------------------------------------------------
+r4317 | dynaletik | 2014-12-16 19:41:32 +0000 (Tue, 16 Dec 2014) | 1 line
+Changed paths:
+   A /tags/v8.00.00beta4 (from /trunk:4316)
+
+Tagging as v8.00.00beta4
+------------------------------------------------------------------------
+r4316 | dynaletik | 2014-12-16 19:37:06 +0000 (Tue, 16 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+   M /trunk/AtlasLoot/Addons/BonusRoll.lua
+   M /trunk/AtlasLoot/Addons/Search.lua
+   M /trunk/AtlasLoot/AtlasLoot.lua
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   M /trunk/AtlasLoot/Button/Achievement_type.lua
+   M /trunk/AtlasLoot/Button/Button.lua
+   M /trunk/AtlasLoot/Button/Extra_Price_type.lua
+   M /trunk/AtlasLoot/Button/Extra_Quest_type.lua
+   M /trunk/AtlasLoot/Button/Faction_type.lua
+   M /trunk/AtlasLoot/Button/Item_type.lua
+   M /trunk/AtlasLoot/Button/Mount_type.lua
+   M /trunk/AtlasLoot/Button/Pet_type.lua
+   M /trunk/AtlasLoot/Button/Profession_type.lua
+   M /trunk/AtlasLoot/Button/Set_type.lua
+   M /trunk/AtlasLoot/Core/ClickHandler.lua
+   M /trunk/AtlasLoot/Core/ItemInfo.lua
+   M /trunk/AtlasLoot/Core/ItemString.lua
+   M /trunk/AtlasLoot/Core/SlashCommands.lua
+   M /trunk/AtlasLoot/Core/Tooltip.lua
+   M /trunk/AtlasLoot/Data/Mount.lua
+   M /trunk/AtlasLoot/Data/Sets.lua
+   M /trunk/AtlasLoot/Documentation/Release_Notes.txt
+   M /trunk/AtlasLoot/GUI/GUI.lua
+   M /trunk/AtlasLoot/GUI/ItemFrame.lua
+   M /trunk/AtlasLoot/GUI/QuickLootFrame.lua
+   M /trunk/AtlasLoot/GUI/SetViewFrame.lua
+   M /trunk/AtlasLoot/GUI/SoundFrame.lua
+   M /trunk/AtlasLoot/Init.lua
+   A /trunk/AtlasLoot/Libs/ALDB-1.0
+   A /trunk/AtlasLoot/Libs/ALDB-1.0/ALDB-1.0.lua
+   A /trunk/AtlasLoot/Libs/ALDB-1.0/ALDB-1.0.toc
+   D /trunk/AtlasLoot/Libs/AceDB-3.0
+   M /trunk/AtlasLoot/Loader.lua
+   M /trunk/AtlasLoot/Locales/LibBabble.lua
+   M /trunk/AtlasLoot/Locales/constants.lua
+   M /trunk/AtlasLoot/MiniMapButton.lua
+   M /trunk/AtlasLoot/db.lua
+   M /trunk/AtlasLoot/embeds.xml
+   M /trunk/AtlasLoot_Cataclysm/data.lua
+   M /trunk/AtlasLoot_Collections/AtlasLoot_Collections.toc
+   M /trunk/AtlasLoot_Collections/data.lua
+   A /trunk/AtlasLoot_Collections/libs
+   A /trunk/AtlasLoot_Collections/libs/LibBabble-ItemSet-3.0
+   A /trunk/AtlasLoot_Collections/libs/LibBabble-ItemSet-3.0/LibBabble-3.0.lua
+   A /trunk/AtlasLoot_Collections/libs/LibBabble-ItemSet-3.0/LibBabble-ItemSet-3.0.lua
+   A /trunk/AtlasLoot_Collections/libs/LibBabble-ItemSet-3.0/LibBabble-ItemSet-3.0.toc
+   A /trunk/AtlasLoot_Collections/libs/LibBabble-ItemSet-3.0/lib.xml
+   A /trunk/AtlasLoot_Collections/sets.lua
+   M /trunk/AtlasLoot_Crafting/data.lua
+   M /trunk/AtlasLoot_MistsofPandaria/data.lua
+   A /trunk/AtlasLoot_Options
+   A /trunk/AtlasLoot_Options/ALOptions
+   A /trunk/AtlasLoot_Options/ALOptions/ALOptions-1.0.lua
+   A /trunk/AtlasLoot_Options/ALOptions/ALOptions-1.0.xml
+   A /trunk/AtlasLoot_Options/ALOptions/GUI
+   A /trunk/AtlasLoot_Options/ALOptions/GUI/CheckBox.lua
+   A /trunk/AtlasLoot_Options/ALOptions/GUI/GUI.lua
+   A /trunk/AtlasLoot_Options/ALOptions/GUI/Text.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/Button.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/CheckBox.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/ColorPicker.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/EditBox.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/Line.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/SimpleDropDown.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/Text.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/empty.lua
+   A /trunk/AtlasLoot_Options/AtlasLoot_Options.toc
+   A /trunk/AtlasLoot_Options/Core.lua
+   A /trunk/AtlasLoot_Options/Locales
+   A /trunk/AtlasLoot_Options/Locales/Locales.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.cn.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.de.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.es.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.fr.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.kr.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.mx.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.pt.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.ru.lua
+   A /trunk/AtlasLoot_Options/Locales/constants.tw.lua
+   M /trunk/AtlasLoot_WarlordsofDraenor/data.lua
+   M /trunk/AtlasLoot_WorldEvents/data.lua
+   M /trunk/AtlasLoot_WrathoftheLichKing/data.lua
+
+- beta 4
+------------------------------------------------------------------------
+r4315 | zhTW | 2014-11-23 17:10:33 +0000 (Sun, 23 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   M /trunk/AtlasLoot_BurningCrusade/AtlasLoot_BurningCrusade.toc
+   M /trunk/AtlasLoot_Cataclysm/AtlasLoot_Cataclysm.toc
+   M /trunk/AtlasLoot_Classic/AtlasLoot_Classic.toc
+   M /trunk/AtlasLoot_Collections/AtlasLoot_Collections.toc
+   M /trunk/AtlasLoot_Crafting/AtlasLoot_Crafting.toc
+   M /trunk/AtlasLoot_Factions/AtlasLoot_Factions.toc
+   M /trunk/AtlasLoot_MistsofPandaria/AtlasLoot_MistsofPandaria.toc
+   M /trunk/AtlasLoot_PvP/AtlasLoot_PvP.toc
+   M /trunk/AtlasLoot_WarlordsofDraenor/AtlasLoot_WarlordsofDraenor.toc
+   M /trunk/AtlasLoot_WorldEvents/AtlasLoot_WorldEvents.toc
+   M /trunk/AtlasLoot_WrathoftheLichKing/AtlasLoot_WrathoftheLichKing.toc
+
+- zhTW update.
+------------------------------------------------------------------------

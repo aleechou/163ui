@@ -18,6 +18,8 @@ AtlasLoot.Button = Button
 Button.Proto = Proto
 Button.API = API
 
+local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
+
 -- lua
 local assert, type, tonumber, tostring = assert, type, tonumber, tostring
 local next, pairs = next, pairs
@@ -143,6 +145,13 @@ function Button:Create()
 	button.overlay:SetWidth(26)
 	button.overlay:Hide()
 	
+	button.completed = button:CreateTexture(buttonName.."_completed", "OVERLAY")
+	button.completed:SetPoint("BOTTOMRIGHT", button.icon)
+	button.completed:SetHeight(20)
+	button.completed:SetWidth(20)
+	button.completed:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
+	button.completed:Hide()
+	
 	-- ItemName <FontString>
 	button.name = button:CreateFontString(buttonName.."_name", "ARTWORK", "GameFontNormal")
 	button.name:SetPoint("TOPLEFT", button.icon, "TOPRIGHT", 3, 0)
@@ -200,6 +209,14 @@ function Button:Create()
 	button.secButton.overlay:SetHeight(26)
 	button.secButton.overlay:SetWidth(26)
 	button.secButton.overlay:Hide()
+	
+	
+	button.secButton.completed = button.secButton:CreateTexture(buttonName.."_secCompleted", "OVERLAY")
+	button.secButton.completed:SetPoint("BOTTOMRIGHT", button.secButton.icon)
+	button.secButton.completed:SetHeight(20)
+	button.secButton.completed:SetWidth(20)
+	button.secButton.completed:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
+	button.secButton.completed:Hide()
 	
 	-- factionIcon
 	button.factionIcon = button:CreateTexture(buttonName.."_factionIcon", button)
@@ -296,16 +313,18 @@ function Proto:Clear()
 		self.extra:Show()
 	end
 	
-	if self.IsShown then
+	if self.IsShown and self.icon then
 		self.icon:SetTexture(nil)
 		self.name:SetText(nil)
 		self.extra:SetText(nil)
 		self.overlay:SetSize(self.icon:GetWidth(), self.icon:GetHeight())
+		if self.completed and self.completed:IsShown() then self.completed:Hide() end
 		self:Hide()
 	end
 	if self.secButton then
 		self.secButton:SetNormalTexture(nil)
 		self.secButton.overlay:SetSize(self.secButton:GetWidth(), self.secButton:GetHeight())
+		if self.secButton.completed and self.secButton.completed:IsShown() then self.secButton.completed:Hide() end
 		self.secButton:Hide()
 	end
 	
@@ -359,8 +378,11 @@ function Proto:SetContentTable(tab, formatTab, setOnlySec)
 			if not tab[FACTION_INFO_IS_SET_ID] then
 				horde = ( horde and alliance ) and ( PLAYER_FACTION_ID == 0 and horde or alliance ) or horde and horde or ( alliance and alliance or nil )
 				if type(horde) == "table" then
-					tab[2] = horde[1] or tab[2] 
-					tab[3] = horde[2] or tab[3]
+					for k,v in pairs(horde) do
+						tab[k] = v
+					end
+					--tab[2] = horde[1] or tab[2] 
+					--tab[3] = horde[2] or tab[3]
 				elseif horde and horde ~= true then
 					tab[2] = horde
 				end
@@ -462,6 +484,7 @@ function Proto:SetExtraType(typ, val)
 		--else
 			self.__atlaslootinfo.extraType = { typ, val }
 		--end
+		self.enhancedDesc.ttInfo = typ
 		extra_button_types[typ].OnSet(self, self.enhancedDesc)
 	end
 end
@@ -488,6 +511,7 @@ local EnhancedDescriptionProto = {
 		self:Hide()
 		self.contentSize = 0
 		self.info = nil
+		self.ttInfo = nil
 		if self.removerInfo then
 			self.removerInfo[1](self.removerInfo[2])
 			self.removerInfo = nil
@@ -572,14 +596,26 @@ local EnhancedDescriptionProto = {
 	end
 }
 
+local function enhancedDescription_OnEnter(self)
+	if not self.ttInfo or not extra_button_types[self.ttInfo].OnEnter then return end
+	local tooltip = GetAlTooltip() 
+	tooltip:SetOwner(self, "ANCHOR_RIGHT", -(self:GetWidth() * 0.5), 24)
+	extra_button_types[self.ttInfo].OnEnter(self, tooltip)
+	tooltip:Show()
+end
+
+local function enhancedDescription_OnLeave(self)
+	if not self.ttInfo or not extra_button_types[self.ttInfo].OnEnter then return end
+	GetAlTooltip():Hide()
+end
+
 function Proto:AddEnhancedDescription()
 	if self.enhancedDesc then return end
 	local desc = getEnhancedDescription("desc")
 	if not desc then
 		desc = CreateFrame("FRAME")
-		
-		--desc:SetScript("OnEnter", function() print"OnEnter" end)
-		--desc:SetScript("OnLeave", function() print"OnLeave" end)
+		desc:SetScript("OnEnter", enhancedDescription_OnEnter)
+		desc:SetScript("OnLeave", enhancedDescription_OnLeave)
 		
 		desc.content = {}
 		

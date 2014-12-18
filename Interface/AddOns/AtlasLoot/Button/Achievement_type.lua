@@ -27,7 +27,7 @@ function AC.OnSet(button, second)
 				GoTo = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Achievement.ClickHandler, 
+		AtlasLoot.db.Button.Achievement.ClickHandler, 
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add achievement link into chat"] },
 			{ "GoTo",		"Go to ac",			"Jep thats it ;)" },

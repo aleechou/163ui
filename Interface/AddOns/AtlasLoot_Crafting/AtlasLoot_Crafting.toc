@@ -1,23 +1,28 @@
 ﻿## Interface: 60000
-## Title: AtlasLoot_Crafting
-## Title-zhCN: AtlasLoot |cFF0099FF[商业技能]|r
-## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 商業技能
 ## Author: Hegarol	
-## Version: v8.00.00beta3
+## Version: v8.00.00beta4
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta3
+## X-Curse-Packaged-Version: v8.00.00beta4
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
+
 ## Title: AtlasLoot |cFF0099FF[Crafting]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Berufe]|r
+## Title-zhCN: AtlasLoot |cFF0099FF[专业制造]|r
+## Title-zhTW: AtlasLoot |cFF0099FF[商業技能]|r
+
 ## Notes: AtlasLoot loot tables of Crafting Items
 ## Notes-deDE: AtlasLoot Verzeichnisse der Berufsgegenstände
+## Notes-zhCN: AtlasLoot 《专业制造》物品信息
+## Notes-zhTW: AtlasLoot 商業技能物品資料庫
+
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
+
 ## X-AtlasLoot-LootModule: 1
 
 data.lua
@@ -28,4 +33,4 @@ data.lua
 ## Notes-zhCN:《专业制造》物品信息
 ## Notes-zhTW:專業製造物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141119180744
+## X-163UI-Version: 2014121901

@@ -36,15 +36,17 @@ function AtlasLoot:Print(msg)
 end
 
 function AtlasLoot:OnInitialize()
-	if not AtlasLootDB.__addonrevision then --or AtlasLootDB.__addonrevision < AtlasLoot.__addonrevision then
-		wipe(AtlasLootDB)
-		AtlasLootDB.__addonrevision = AtlasLoot.__addonrevision
+	if not AtlasLootCharDB.__addonrevision then --or AtlasLootDB.__addonrevision < AtlasLoot.__addonrevision then
+		wipe(AtlasLootCharDB)
+		AtlasLootCharDB.__addonrevision = AtlasLoot.__addonrevision
 	end
+	--[[
 	self.db = LibStub("AceDB-3.0"):New("AtlasLootDB")
 	self.db:RegisterDefaults(AtlasLoot.AtlasLootDBDefaults)
 	self.chardb = LibStub("AceDB-3.0"):New("AtlasLootCharDB")
 	self.chardb:RegisterDefaults(AtlasLoot.AtlasLootDBDefaults)
-	
+	]]--
+	self.db = LibStub("ALDB-1.0"):Register(AtlasLootCharDB, AtlasLootDB, AtlasLoot.AtlasLootDBDefaults)
 	
 	
 	-- bindings
@@ -67,20 +69,20 @@ function AtlasLoot:OnInitialize()
 
 	
 	--[[ scan for pet IDs
-	self.db.profile.PETINFO = {}
+	self.db.PETINFO = {}
 	local petID, speciesID, owned, customName, level, favorite, isRevoked, speciesName
 	local numPets = C_PetJournal.GetNumPets()
 	
 	for i=1,numPets do
 		petID, speciesID, owned, customName, level, favorite, isRevoked, speciesName = C_PetJournal.GetPetInfoByIndex(i)
 		if speciesName and speciesID then
-			self.db.profile.PETINFO[speciesName] = speciesID
+			self.db.PETINFO[speciesName] = speciesID
 		end
 	end
 	]]--
 	
 
-	--self.db.profile.MOUNTINFO = {}
+	--self.db.MOUNTINFO = {}
 	--local numMounts = C_MountJournal.GetNumMounts()
 	
 	--for i=1,numMounts do
@@ -90,7 +92,7 @@ function AtlasLoot:OnInitialize()
 	
 		--petID, speciesID, owned, customName, level, favorite, isRevoked, speciesName = C_PetJournal.GetPetInfoByIndex(i)
 		--if speciesName and speciesID then
-		--	self.db.profile.PETINFO[speciesName] = speciesID
+		--	self.db.PETINFO[speciesName] = speciesID
 		--end
 	--end
 
@@ -116,10 +118,10 @@ local db
 local ORIGetItemInfo = GetItemInfo
 function GetItemInfo(xxx)
 	if not db then 
-		if not AtlasLoot.db.profile.itemInfo then
-			AtlasLoot.db.profile.itemInfo = {}
+		if not AtlasLoot.db.itemInfo then
+			AtlasLoot.db.itemInfo = {}
 		end
-		db = AtlasLoot.db.profile.itemInfo
+		db = AtlasLoot.db.itemInfo
 	end
 	local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemCount, itemEquipLoc, itemTexture, vendorPrice = ORIGetItemInfo(xxx)
 	if itemSubType and itemType then
@@ -143,6 +145,7 @@ end
 local GUIDS = {
 	["Player-1097-040A43FC"] = "author",	-- shijera@ysera-eu
 	["Player-1097-0444710C"] = "author",	-- lag@ysera-eu
+	["Player-1097-047418F7"] = "author",	-- schoko!
 	["Player-1097-00490D06"] = true,		-- meena@ysera-eu
 	["Player-1097-0212CAC6"] = true,		-- xyriana@ysera-eu
 	["Player-612-0566C578"] = "author",		-- Dynaletik@nerathor-eu

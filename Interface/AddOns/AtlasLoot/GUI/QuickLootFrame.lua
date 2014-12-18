@@ -60,7 +60,7 @@ local QLF_ITEM_FRAME_ITEM_DISTANCE = 0
 
 -- INIT
 function QLF.Init()
-	db = AtlasLoot.db.profile.QuickLootFrame
+	db = AtlasLoot.db.QuickLootFrame
 	AtlasLoot.SlashCommands:AddResetFunction(QLF.ResetFrames, "frames", "qlf")
 end
 AtlasLoot:AddInitFunc(QLF.Init)

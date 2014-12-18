@@ -11,9 +11,7 @@ local tbl_remove, unpack, pairs = table.remove, unpack, pairs
 local resetFunctions = {}
 
 local function showOptions()
-	if AtlasLoot.Options then
-		AtlasLoot.Options:Toggle()
-	end
+	AtlasLoot.Options:Show()
 end
 
 local CommandList = {

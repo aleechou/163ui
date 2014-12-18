@@ -2,7 +2,7 @@ local addonname = ...
 local _G = _G
 
 _G.AtlasLoot = {
-	__addonrevision = tonumber("4313") or 0
+	__addonrevision = tonumber("4316") or 0
 }
 
 local AddonNameVersion = string.format("%s-%d", addonname, _G.AtlasLoot.__addonrevision)
@@ -15,6 +15,7 @@ setmetatable(_G.AtlasLoot, MainMT)
 
 -- DB
 AtlasLootDB = {}
+AtlasLootCharDB = {}
 
 -- Translations
 _G.AtlasLoot.Locale = {}

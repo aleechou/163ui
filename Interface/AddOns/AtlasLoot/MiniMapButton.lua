@@ -16,7 +16,7 @@ local GetCursorPosition = GetCursorPosition
 local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 
 function MiniMapButton.Init()
-	db = AtlasLoot.db.profile.MiniMapButton
+	db = AtlasLoot.db.MiniMapButton
 	
 	MiniMapButton.Show()
 	
@@ -38,6 +38,17 @@ end
 function MiniMapButton.Toggle()
 	if not MiniMapButton.frame then MiniMapButton.Show() end
 	db.shown = not db.shown
+	if db.shown then
+		MiniMapButton.Show()
+	else
+		if MiniMapButton.frame then
+			MiniMapButton.frame:Hide()
+		end
+	end
+end
+
+function MiniMapButton.Options_Toggle()
+	if not MiniMapButton.frame then MiniMapButton.Show() end
 	if db.shown then
 		MiniMapButton.Show()
 	else

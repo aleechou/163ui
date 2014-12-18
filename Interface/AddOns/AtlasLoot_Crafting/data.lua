@@ -38,6 +38,11 @@ data["Alchemy"] = {
 				{ 7, 118711, 175869 },	-- Draenic Water Walking Elixir (Learnt by item 109558)
 				{ 8, 118704, 175868 },	-- Pure Rage Potion (Learnt by item 109558)
 				{ 9, 112090, 162403, [PRICE_EXTRA_ITTYPE] = "118700:1" },	-- Transmorphic Tincture (Sold, Ashran)
+				{ 16, 109217, 156577, [PRICE_EXTRA_ITTYPE] = "money:90000" },	-- Draenic Agility Potion (Sold, Ashran)
+				{ 17, 109220, 156580, [PRICE_EXTRA_ITTYPE] = "money:90000" },	-- Draenic Armor Potion (Sold, Ashran)
+				{ 18, 109221, 156581, [PRICE_EXTRA_ITTYPE] = "money:90000" },	-- Draenic Channeled Mana Potion (Sold, Ashran)
+				{ 19, 109218, 156578, [PRICE_EXTRA_ITTYPE] = "money:90000" },	-- Draenic Intellect Potion (Sold, Ashran)
+				{ 20, 109219, 156579, [PRICE_EXTRA_ITTYPE] = "money:90000" },	-- Draenic Strength Potion (Sold, Ashran)
 			},
 		},
 		{	--AlchemyFlask
@@ -961,16 +966,32 @@ data["Inscription"] = {
 		{	--InscriptionTrinkets
 			name = AL["Trinkets"],
 			[WOD_DIFF] = {
-				{ 1, 118603, 175392 },	-- Savage Tarot (Learnt by item 111923)
-				{ 2, 118602, 175390 },	-- Laughing Tarot (Learnt by item 111923)
-				{ 3, 118601, 175389 },	-- Ocean Tarot (Learnt by item 111923)
+				{ 1, 112270, 163294, [PRICE_EXTRA_ITTYPE] = "119297:5" },	-- Darkmoon Card of Draenor (Sold, Ashran)
+				{ 3, 112303 },	-- Iron Deck
+				{ 4, "112319:Stage3", 178249 },	-- Knight's Badge (Stage 3)
+				{ 5, "112319:Stage2", 178248 },	-- Knight's Badge (Stage 2)
+				{ 6, "112319:Stage1" },	-- Knight's Badge (Stage 1)
+				{ 8, 112304 },	-- Moon Deck
+				{ 9, "112320:Stage3", 178249 },	-- Sandman's Pouch (Stage 3)
+				{ 10, "112320:Stage2", 178248 },	-- Sandman's Pouch (Stage 2)
+				{ 11, "112320:Stage1" },	-- Sandman's Pouch (Stage 1)
+				{ 18, 112305 },	-- Visions Deck
+				{ 19, "112317:Stage3", 178249 },	-- Winged Hourglass (Stage 3)
+				{ 20, "112317:Stage2", 178248 },	-- Winged Hourglass (Stage 2)
+				{ 21, "112317:Stage1" },	-- Winged Hourglass (Stage 1)
+				{ 23, 112306 },	-- War Deck
+				{ 24, "112318:Stage3", 178249 },	-- Skull of War (Stage 3)
+				{ 25, "112318:Stage2", 178248 },	-- Skull of War (Stage 2)
+				{ 26, "112318:Stage1" },	-- Skull of War (Stage 1)
+				{ 101, 118603, 175392 },	-- Savage Tarot (Learnt by item 111923)
+				{ 102, 118602, 175390 },	-- Laughing Tarot (Learnt by item 111923)
+				{ 103, 118601, 175389 },	-- Ocean Tarot (Learnt by item 111923)
 			},
 		},
 		{	--InscriptionMisc
 			name = AL["Miscellaneous"],
 			[WOD_DIFF] = {
-				{ 1, 112270, 163294, [PRICE_EXTRA_ITTYPE] = "119297:5" },	-- Darkmoon Card of Draenor (Sold, Ashran)
-				{ 3, 113355, 166669 },	-- Card of Omens (Learnt by item 111923)
+				{ 1, 113355, 166669 },	-- Card of Omens (Learnt by item 111923)
 				{ 16, 113144, 166366, [PRICE_EXTRA_ITTYPE] = "119297:5" },	-- Mystical Crystal (Sold, Ashran)
 				{ 17, 113183, 166367, [PRICE_EXTRA_ITTYPE] = "119297:5" },	-- Glorious Crystal (Sold, Ashran)
 				{ 19, 120263, 178248, [PRICE_EXTRA_ITTYPE] = "119297:5" },	-- Inferno Tarot (Sold, Ashran)

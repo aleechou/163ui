@@ -154,7 +154,7 @@ function Faction.OnSet(button, second)
 				--ChatLink = true,
 			},
 		},
-		AtlasLoot.db.profile.Button.Faction.ClickHandler, 
+		AtlasLoot.db.Button.Faction.ClickHandler, 
 		{
 			--{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
 		})

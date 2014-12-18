@@ -1,16 +1,23 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta3
+## Version: v8.00.00beta4
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta3
+## X-Curse-Packaged-Version: v8.00.00beta4
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
+
 ## Title: AtlasLoot |cFF0099FF[Classic]|r
 ## Title-deDE: AtlasLoot |cFF0099FF[Classic]|r
+## Title-zhCN: AtlasLoot |cFF0099FF[经典旧世]|r
+## Title-zhTW: AtlasLoot |cFF0099FF[舊世界]|r
+
 ## Notes: AtlasLoot loot tables from Classic
 ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Classic
+## Notes-zhCN: AtlasLoot 《经典旧世》物品信息
+## Notes-zhTW: AtlasLoot 艾澤拉斯舊世界的物品掉落資料庫
+
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
@@ -26,4 +33,4 @@ data.lua
 ## Notes-zhCN: 《经典旧世》物品信息
 ## Notes-zhTW:艾澤拉斯舊世界的物品掉落資料庫
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141119180744
+## X-163UI-Version: 2014121901

@@ -120,6 +120,7 @@ AL["OK"] = "Vale"
 AL["One-Hand, Axe"] = "Una mano, Hacha" -- Needs review
 AL["One-Hand, Mace"] = "Una mano, Maza" -- Needs review
 AL["One-Hand, Sword"] = "Una mano, Espada" -- Needs review
+AL["--- or ---"] = "--- ó ---" -- Needs review
 AL["Orange Gems"] = "Gemas Anaranjadas" -- Needs review
 AL["Overcharged Manacell"] = "Célula de maná sobrecargada"
 AL["Patterns/Plans"] = "Patrones/Diseños" -- Needs review
@@ -167,6 +168,7 @@ AL["Slash commands:"] = "Comandos '/'" -- Needs review
 AL["Smokywood Pastures Vendor"] = "Vendedor de Pastos de Bosquehumeante"
 AL["Sounds"] = "Sonidos" -- Needs review
 AL["Staff"] = "Bastón " -- Needs review
+AL["Stats"] = "Estadísticas" -- Needs review
 AL["Staves"] = "Bastones" -- Needs review
 AL["Summon"] = "Invocar"
 AL["%s will finish loading after combat."] = "%s terminará de cargar luego del combate" -- Needs review
@@ -201,5 +203,6 @@ AL["Welcome to Atlasloot Enhanced.  Please take a moment to set your preferences
 AL["World Events"] = "Eventos mundo"
 AL["Wrath of the Lich King"] = "Wrath of the Lich King"
 AL["Yellow Gems"] = "Gemas Amarillas" -- Needs review
+AL["Options/AtlasLoot Options"] = "Opciones AtlasLoot" -- Needs review
 
 

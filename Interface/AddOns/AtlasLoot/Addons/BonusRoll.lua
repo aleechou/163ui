@@ -96,18 +96,24 @@ local BONUS_ROLL_IDS = {
 }
 
 local function LoadQuickLootFrame(self)
-	if self.spellID and BONUS_ROLL_IDS[self.spellID] then
+	if AtlasLoot.db.Addons.BonusRoll.enabled and self.spellID and BONUS_ROLL_IDS[self.spellID] then
 		local tierID, instanceID, encounterID = string.split(":", BONUS_ROLL_IDS[self.spellID])
 		QLF:SetEncounterJournalBonusRoll(tonumber(tierID), GetRaidDifficultyID() or 1, tonumber(instanceID), tonumber(encounterID))
 	end
 end
 --/run LoadQuickLootFrame({spellID = 145909})
 local function ClearQuickLootFrame(self)
-	QLF:Clear()
-	QLF:Hide()
+	if AtlasLoot.db.Addons.BonusRoll.enabled then
+		QLF:Clear()
+		QLF:Hide()
+	end
 end
 BonusRollFrame:HookScript("OnShow", LoadQuickLootFrame)
 BonusRollFrame:HookScript("OnHide", ClearQuickLootFrame)
+
+function BonusRoll:Test()
+	QLF:SetEncounterJournalBonusRoll(tonumber(tierID), GetRaidDifficultyID() or 1, tonumber(instanceID), tonumber(encounterID))
+end
 --[[
 /run BonusRollFrame_StartBonusRoll(145922, "", 180)
 function BonusRollFrame_OnEvent(self, event, ...)

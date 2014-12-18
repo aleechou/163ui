@@ -396,7 +396,7 @@ local function Init()
 				itemClassTab[ j ] = itemSubClasses[j]
 			end
 		end
-		AtlasLoot.db.profile.ItemInfoLUA = ITEM_DESC_INDEX
+		AtlasLoot.db.ItemInfoLUA = ITEM_DESC_INDEX
 	]]--
 end
 AtlasLoot:AddInitFunc(Init)

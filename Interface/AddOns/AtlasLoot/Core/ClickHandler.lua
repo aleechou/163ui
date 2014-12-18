@@ -58,9 +58,11 @@ local MODIFIER_LOC = {
 function ClickHandler:Add(name, dbDefault, db, types)
 	local handler = {}
 	
+	local dbDefaultNEW = {types = {}}
 	for i = 1, #types do
 		local typ = types[i][1]
 		if not db.types then db.types = {} end
+		dbDefaultNEW.types[typ] = dbDefault.types[typ]
 		if db.types[typ] == nil then
 			db.types[typ] = dbDefault.types[typ] or false
 			-- set default keybind if aviable and free
@@ -72,8 +74,10 @@ function ClickHandler:Add(name, dbDefault, db, types)
 				end
 			end
 		end
-		
+		if not dbDefaultNEW[dbDefault[typ][1]] then dbDefaultNEW[dbDefault[typ][1]] = {} end
+		dbDefaultNEW[dbDefault[typ][1]][dbDefault[typ][2]] = typ
 	end
+	db.__defaults = dbDefaultNEW 
 	
 	handler.db = db
 	handler.dbDefault = dbDefault

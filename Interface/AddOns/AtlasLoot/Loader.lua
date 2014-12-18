@@ -141,12 +141,13 @@ function Loader.Init()
 	local tmp
 	local playerName = UnitName("player")
 	for i=1,GetNumAddOns() do
-		tmp = {GetAddOnInfo(i)}
+		tmp = {GetAddOnInfo(i)} --5
 		if tmp[1] and str_find(tmp[1], "AtlasLoot_") then
 			ModuleList[tmp[1]] = {
 				index = i,
-				enabled = GetAddOnEnableState(playerName, i) == 0 and false or true, --tmp[4], -- 0 = Disabled on char, 1 = Enabled only on some chars (including this), 2 = enabled on all chars
+				enabled = GetAddOnEnableState(playerName, i) ~= 0, --tmp[4], -- 0 = Disabled on char, 1 = Enabled only on some chars (including this), 2 = enabled on all chars
 				loaded = IsAddOnLoaded(i),
+				loadReason = tmp[5],
 				standardModule = ATLASLOOT_MODULE_LIST_NAMES[tmp[1]],
 				
 				moduleName = GetAddOnMetadata(tmp[1], "X-AtlasLoot-ModuleName") or tmp[1],
@@ -155,30 +156,40 @@ function Loader.Init()
 		end
 	end
 end
-AtlasLoot:AddInitFunc(Loader.Init)
 
+AtlasLoot:AddInitFunc(Loader.Init)
+--/dump GetAddOnEnableState(playerName, i) == 0 and false or true
 --- Loads a module for AtlasLoot
 -- @param	moduleName		<string> name of the module
 -- @param	onLoadFunction	<function> function that is called after the module is finish loaded
--- @param	oneFunction		<bool> true if only this function should be called after load WARNING: clears all other functions from queue
+-- @param	oneFunction		<string> category of the load
 function Loader:LoadModule(moduleName, onLoadFunction, oneFunction)
 	if not moduleName or not ModuleList[moduleName] then return end
+	if ( ModuleList[moduleName].loadReason and ModuleList[moduleName].loadReason ~= "DEMAND_LOADED" ) or not ModuleList[moduleName].enabled then
+		local state = ModuleList[moduleName].loadReason == "DEMAND_LOADED" and "DISABLED" or ModuleList[moduleName].loadReason
+		if state == "DISABLED" then -- localized "ADDON_" ("BANNED", "CORRUPT", "DEMAND_LOADED", "DISABLED", "INCOMPATIBLE", "INTERFACE_VERSION", "MISSING")
+			AtlasLoot:Print(str_format(AL["Module %s is deactivated."], moduleName))
+		elseif state == "MISSING" then
+			AtlasLoot:Print(str_format(AL["Module %s is not installed."], moduleName))
+		end
+		return state
+	end
 	if self:IsModuleLoaded(moduleName) then 
 		if onLoadFunction then
 			onLoadFunction(moduleName)
 		end
 		return true
 	end
-	if not LoaderQueue[moduleName] then LoaderQueue[moduleName] = {} end
+	LoaderQueue[moduleName] = LoaderQueue[moduleName] or {}
 	if onLoadFunction and not oneFunction then
 		tbl_insert(LoaderQueue[moduleName], onLoadFunction)
 	elseif onLoadFunction and oneFunction and oneFunction ~= true then
 		if LoaderQueueSaves[oneFunction] and LoaderQueue[ LoaderQueueSaves[oneFunction] ] then
 			tbl_remove(LoaderQueue[ LoaderQueueSaves[oneFunction] ], LoaderQueue[LoaderQueueSaves[oneFunction]][oneFunction])
 			LoaderQueue[LoaderQueueSaves[oneFunction]][oneFunction] = nil
-			if #LoaderQueue[LoaderQueueSaves[oneFunction]] == 0 then
-				LoaderQueue[LoaderQueueSaves[oneFunction]] = nil
-			end
+			--if #LoaderQueue[LoaderQueueSaves[oneFunction]] == 0 then
+			--	LoaderQueue[LoaderQueueSaves[oneFunction]] = nil
+			--end
 		end
 		if LoaderQueue[moduleName][oneFunction] then
 			LoaderQueue[moduleName][ LoaderQueue[moduleName][oneFunction] ] = onLoadFunction
@@ -218,22 +229,22 @@ function Loader:GetLootModuleList()
 	for i = 1, #ATLASLOOT_MODULE_LIST do
 		moduleTable = ATLASLOOT_MODULE_LIST[i]
 		if moduleTable.addonName and ModuleList[moduleTable.addonName] and ModuleList[moduleTable.addonName].lootModule == "1" and ModuleList[moduleTable.addonName].enabled then
-			tbl_insert(data.module , {
+			data.module[#data.module+1] = {
 				addonName = moduleTable.addonName,
 				name = moduleTable.name,
 				tt_title = moduleTable.tt_title,
 				tt_text = moduleTable.tt_text,
-			})
+			}
 		end
 	end
 	-- custom modules
 	data.custom = {}
 	for addonName, addonTable in pairs(ModuleList) do
 		if not addonTable.standardModule and addonTable.enabled and addonTable.lootModule == "1" then
-			tbl_insert(data.custom , {
+			data.custom [#data.custom+1] = {
 				addonName = addonName,
 				name = addonTable.moduleName or UNKNOWN,
-			})
+			}
 		end
 	end
 	return data

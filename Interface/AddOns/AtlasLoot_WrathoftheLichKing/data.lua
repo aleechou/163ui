@@ -12,7 +12,7 @@ local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
 local M25_DIFF = data:AddDifficulty(AL["25 Man"])
 local M25H_DIFF = data:AddDifficulty(AL["25 Man Heroic"])
 
-local NORMAL_ITTYPE = data:AddItemTableType("Item", "Droprate")
+local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
 
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
@@ -4923,7 +4923,7 @@ data["VaultofArchavon"] = {
 				{ 322, 40782 },	-- Hateful Gladiator's Scaled Chestpiece
 				{ 323, 40802 },	-- Hateful Gladiator's Scaled Gauntlets
 				{ 324, 40842 },	-- Hateful Gladiator's Scaled Legguards
-				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 401, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 402, 39515 },	-- Heroes' Robe of Faith
 				{ 403, 39519 },	-- Heroes' Gloves of Faith
 				{ 404, 39517 },	-- Heroes' Leggings of Faith
@@ -4931,7 +4931,7 @@ data["VaultofArchavon"] = {
 				{ 407, 39523 },	-- Heroes' Raiments of Faith
 				{ 408, 39530 },	-- Heroes' Handwraps of Faith
 				{ 409, 39528 },	-- Heroes' Pants of Faith
-				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 416, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 417, 41857 },	-- Hateful Gladiator's Mooncloth Robe
 				{ 418, 41872 },	-- Hateful Gladiator's Mooncloth Gloves
 				{ 419, 41862 },	-- Hateful Gladiator's Mooncloth Leggings
@@ -5158,13 +5158,13 @@ data["VaultofArchavon"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 40805 },	-- Deadly Gladiator's Scaled Gauntlets
 				{ 222, 40846 },	-- Deadly Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, 45387 },	-- Valorous Gloves of Sanctification
 				{ 303, 45388 },	-- Valorous Leggings of Sanctification
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, 45392 },	-- Valorous Handwraps of Sanctification
 				{ 307, 45394 },	-- Valorous Pants of Sanctification
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 41873 },	-- Deadly Gladiator's Mooncloth Gloves
 				{ 318, 41863 },	-- Deadly Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -5439,13 +5439,13 @@ data["VaultofArchavon"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 40808 },	-- Furious Gladiator's Scaled Gauntlets
 				{ 222, 40849 },	-- Furious Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, [ATLASLOOT_IT_ALLIANCE] = 47982, [ATLASLOOT_IT_HORDE] = 48067 },	-- Velen's Gloves of Conquest / Zabra's Gloves of Conquest
 				{ 303, [ATLASLOOT_IT_ALLIANCE] = 47980, [ATLASLOOT_IT_HORDE] = 48069 },	-- Velen's Leggings of Conquest / Zabra's Leggings of Conquest
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, [ATLASLOOT_IT_ALLIANCE] = 48072, [ATLASLOOT_IT_HORDE] = 48097 },	-- Velen's Handwraps of Conquest / Zabra's Handwraps of Conquest
 				{ 307, [ATLASLOOT_IT_ALLIANCE] = 48074, [ATLASLOOT_IT_HORDE] = 48099 },	-- Velen's Pants of Conquest / Zabra's Pants of Conquest
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 41874 },	-- Furious Gladiator's Mooncloth Gloves
 				{ 318, 41864 },	-- Furious Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -5724,13 +5724,13 @@ data["VaultofArchavon"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 40812 },	-- Relentless Gladiator's Scaled Gauntlets
 				{ 222, 40852 },	-- Relentless Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, 50766 },	-- Crimson Acolyte Gloves
 				{ 303, 50769 },	-- Crimson Acolyte Leggings
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, 50391 },	-- Crimson Acolyte Handwraps
 				{ 307, 50393 },	-- Crimson Acolyte Pants
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 41875 },	-- Relentless Gladiator's Mooncloth Gloves
 				{ 318, 41865 },	-- Relentless Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },

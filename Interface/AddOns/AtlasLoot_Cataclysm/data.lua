@@ -1564,13 +1564,13 @@ data["BaradinHold"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 60414 },	-- Vicious Gladiator's Scaled Gauntlets
 				{ 222, 60416 },	-- Vicious Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, 60275 },	-- Mercurial Handwraps
 				{ 303, 60261 },	-- Mercurial Legwraps
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, 60257 },	-- Mercurial Gloves
 				{ 307, 60255 },	-- Mercurial Leggings
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 60468 },	-- Vicious Gladiator's Mooncloth Gloves
 				{ 318, 60470 },	-- Vicious Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -1753,13 +1753,13 @@ data["BaradinHold"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 70250 },	-- Ruthless Gladiator's Scaled Gauntlets
 				{ 222, 70252 },	-- Ruthless Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, 71271 },	-- Handwraps of the Cleansing Flame
 				{ 303, 71273 },	-- Legwraps of the Cleansing Flame
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, 71276 },	-- Gloves of the Cleansing Flame
 				{ 307, 71278 },	-- Leggings of the Cleansing Flame
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 70304 },	-- Ruthless Gladiator's Mooncloth Gloves
 				{ 318, 70306 },	-- Ruthless Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
@@ -1942,13 +1942,13 @@ data["BaradinHold"] = {
 				{ 220, "ICON_Spell_Holy_AuraOfLight", nil, LOCALIZED_CLASS_NAMES_MALE["PALADIN"], ALIL["Retribution"] },
 				{ 221, 73570 },	-- Cataclysmic Gladiator's Scaled Gauntlets
 				{ 222, 73568 },	-- Cataclysmic Gladiator's Scaled Legguards
-				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 301, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 302, 76357 },	-- Handwraps of Dying Light
 				{ 303, 76359 },	-- Legwraps of Dying Light
 				{ 305, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
 				{ 306, 76348 },	-- Gloves of Dying Light
 				{ 307, 76346 },	-- Leggings of Dying Light
-				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Holy"] },
+				{ 316, "ICON_spell_holy_guardianspirit", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Discipline"].." / "..ALIL["Holy"] },
 				{ 317, 73549 },	-- Cataclysmic Gladiator's Mooncloth Gloves
 				{ 318, 73547 },	-- Cataclysmic Gladiator's Mooncloth Leggings
 				{ 320, "ICON_spell_shadow_shadowwordpain", nil, LOCALIZED_CLASS_NAMES_MALE["PRIEST"], ALIL["Shadow"] },
