@@ -32,4 +32,4 @@ data.lua
 ## Notes-zhCN: 《大地的裂变》物品信息查詢模塊
 ## Notes-zhTW: 《浩劫與重生》物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014121901
+## X-163UI-Version: 20141219001956
