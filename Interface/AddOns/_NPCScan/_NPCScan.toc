@@ -29,8 +29,8 @@
 ## X-Credits-ruRU: Localization: StingerSoft, Sarymian, KVVV, The_DimoK, ichik, Ant1dotE, tick095, dartraiden
 ## X-Credits-zhCN: Localization: digmouse, tss1398383123, ananhaid, redsaru, dh0000
 ## X-Credits-zhTW: Localization: s8095324, pepper_ep, zhTW, laincat, alpha2009, machihchung
-## Version: 6.0.3.2
-## X-Date: 2014-09-21T06:47:58Z
+## Version: 6.0.3.4-1-g3d24a71
+## X-Date: 2014-11-15T14:26:16Z
 ## X-Category: Miscellaneous
 ## X-License: GPLv3
 ## X-Email: jcallahan@curse.com
@@ -39,8 +39,8 @@
 ## X-CompatibleLocales: deDE, enCN, enTW, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
 ## SavedVariables: _NPCScanOptions
 ## SavedVariablesPerCharacter: _NPCScanOptionsCharacter
-## OptionalDeps: Ace3, LibDialog-1.0, LibSharedMedia-3.0, LibTextDump-1.0, LibTextTable-1.1
-## X-Curse-Packaged-Version: 6.0.3.2
+## OptionalDeps: Ace3, LibDialog-1.0, LibSharedMedia-3.0, LibTextDump-1.0, LibTextTable-1.1, LibToast-1.0
+## X-Curse-Packaged-Version: 6.0.3.4-1-g3d24a71
 ## X-Curse-Project-Name: _NPCScan
 ## X-Curse-Project-ID: npcscan
 ## X-Curse-Repository-ID: wow/npcscan/mainline
@@ -80,4 +80,4 @@ Vignette.lua
 
 ## Title: |cff880303[网易有爱]|r 稀有怪物警报
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141114151506
+## X-163UI-Version: 2014122101

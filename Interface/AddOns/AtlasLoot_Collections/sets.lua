@@ -41,7 +41,7 @@ local SetTable = {
 			[SOURCE_INFO] = "sourceTemplate",
 			[NORMAL_DIFF] = {
 				115539,	-- Ogreskull Boneplate Greathelm
-				115536,	--{ 115536, [LOCATION_INFO] = "Ini for dis!!!!!" }, -- Ogreskull Boneplate Pauldrons
+				115536,	-- Ogreskull Boneplate Pauldrons
 				115537,	-- Ogreskull Boneplate Breastplate
 				115538,	-- Ogreskull Boneplate Gauntlets
 				115535,	-- Ogreskull Boneplate Greaves
@@ -484,7 +484,7 @@ local SetTable = {
 				99577,	-- Tunic of the Unblinking Vigil
 				99578,	-- Gloves of the Unblinking Vigil
 				99573,	-- Legguards of the Unblinking Vigil
-							},
+			},
 			[HEROIC_DIFF] = {
 				99157,	-- Headguard of the Unblinking Vigil
 				99159,	-- Spaulders of the Unblinking Vigil
@@ -1235,7 +1235,7 @@ local SetTable = {
 				95255,	-- Saurok Stalker's Tunic
 				95256,	-- Saurok Stalker's Gloves
 				95258,	-- Saurok Stalker's Legguards
-							},
+			},
 			[HEROIC_DIFF] = {
 				96628,	-- Saurok Stalker's Headguard
 				96630,	-- Saurok Stalker's Spaulders
@@ -1867,7 +1867,7 @@ local SetTable = {
 				85298,	-- Yaungol Slayer's Tunic
 				85297,	-- Yaungol Slayer's Gloves
 				85295,	-- Yaungol Slayer's Legguards
-							},
+			},
 			[HEROIC_DIFF] = {
 				87004,	-- Yaungol Slayer's Headguard
 				87006,	-- Yaungol Slayer's Spaulders
@@ -2306,6 +2306,1312 @@ local SetTable = {
 				87197,	-- Chestguard of Resounding Rings
 				87198,	-- Handguards of Resounding Rings
 				87200,	-- Legguards of Resounding Rings
+			},
+		},
+	},
+
+	["Tier13"] = {	-- T13 Sets
+		name = format(AL["Tier %d Sets"], 13),
+		sourceTemplate = {
+			EJ_GetInstanceInfo(187).." - "..EJ_GetEncounterInfo(332),	-- Head
+			EJ_GetInstanceInfo(187).." - "..EJ_GetEncounterInfo(317),	-- Shoulder
+			EJ_GetInstanceInfo(187).." - "..EJ_GetEncounterInfo(331),	-- Chest
+			EJ_GetInstanceInfo(187).." - "..EJ_GetEncounterInfo(324),	-- Hands
+			EJ_GetInstanceInfo(187).." - "..EJ_GetEncounterInfo(325),	-- Legs
+		},
+		{	-- Deathknight - Blood
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Blood"]..")",
+			subSetName = "deathknightblood",
+			icon = "dkTank",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78792,	-- Necrotic Boneplate Faceguard
+				78846,	-- Necrotic Boneplate Shoulderguards
+				78758,	-- Necrotic Boneplate Chestguard
+				78773,	-- Necrotic Boneplate Handguards
+				78811,	-- Necrotic Boneplate Legguards
+			},
+			[NORMAL_DIFF] = {
+				77010,	-- Necrotic Boneplate Faceguard
+				77012,	-- Necrotic Boneplate Shoulderguards
+				77008,	-- Necrotic Boneplate Chestguard
+				77009,	-- Necrotic Boneplate Handguards
+				77011,	-- Necrotic Boneplate Legguards
+			},
+			[HEROIC_DIFF] = {
+				78697,	-- Necrotic Boneplate Faceguard
+				78751,	-- Necrotic Boneplate Shoulderguards
+				78663,	-- Necrotic Boneplate Chestguard
+				78678,	-- Necrotic Boneplate Handguards
+				78716,	-- Necrotic Boneplate Legguards
+			},
+		},
+		{	-- Deathknight - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Frost"].." / "..ALIL["Unholy"]..")",
+			subSetName = "deathknightdps",
+			icon = "dkDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78782,	-- Necrotic Boneplate Helmet
+				78831,	-- Necrotic Boneplate Pauldrons
+				78754,	-- Necrotic Boneplate Breastplate
+				78765,	-- Necrotic Boneplate Gauntlets
+				78802,	-- Necrotic Boneplate Greaves
+			},
+			[NORMAL_DIFF] = {
+				76976,	-- Necrotic Boneplate Helmet
+				76978,	-- Necrotic Boneplate Pauldrons
+				76974,	-- Necrotic Boneplate Breastplate
+				76975,	-- Necrotic Boneplate Gauntlets
+				76977,	-- Necrotic Boneplate Greaves
+			},
+			[HEROIC_DIFF] = {
+				78687,	-- Necrotic Boneplate Helmet
+				78736,	-- Necrotic Boneplate Pauldrons
+				78659,	-- Necrotic Boneplate Breastplate
+				78670,	-- Necrotic Boneplate Gauntlets
+				78707,	-- Necrotic Boneplate Greaves
+			},
+		},
+		{	-- Druid - Balance
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Balance"]..")",
+			subSetName = "druidbalance",
+			icon = "druidBalance",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78791,	-- Deep Earth Cover
+				78839,	-- Deep Earth Shoulderwraps
+				78757,	-- Deep Earth Vestment
+				78771,	-- Deep Earth Gloves
+				78809,	-- Deep Earth Leggings
+			},
+			[NORMAL_DIFF] = {
+				77019,	-- Deep Earth Cover
+				77022,	-- Deep Earth Shoulderwraps
+				77021,	-- Deep Earth Vestment
+				77018,	-- Deep Earth Gloves
+				77020,	-- Deep Earth Leggings
+			},
+			[HEROIC_DIFF] = {
+				78696,	-- Deep Earth Cover
+				78744,	-- Deep Earth Shoulderwraps
+				78662,	-- Deep Earth Vestment
+				78676,	-- Deep Earth Gloves
+				78714,	-- Deep Earth Leggings
+			},
+		},
+		{	-- Druid - Feral
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Feral"]..")",
+			subSetName = "druidferal",
+			icon = "druidDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78789,	-- Deep Earth Headpiece
+				78838,	-- Deep Earth Spaulders
+				78760,	-- Deep Earth Raiment
+				78779,	-- Deep Earth Grips
+				78808,	-- Deep Earth Legguards
+			},
+			[NORMAL_DIFF] = {
+				77015,	-- Deep Earth Headpiece
+				77017,	-- Deep Earth Spaulders
+				77013,	-- Deep Earth Raiment
+				77014,	-- Deep Earth Grips
+				77016,	-- Deep Earth Legguards
+			},
+			[HEROIC_DIFF] = {
+				78694,	-- Deep Earth Headpiece
+				78743,	-- Deep Earth Spaulders
+				78665,	-- Deep Earth Raiment
+				78684,	-- Deep Earth Grips
+				78713,	-- Deep Earth Legguards
+			},
+		},
+		{	-- Druid - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Restoration"]..")",
+			subSetName = "druidrestoration",
+			icon = "druidResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78785,	-- Deep Earth Helm
+				78835,	-- Deep Earth Mantle
+				78755,	-- Deep Earth Robes
+				78775,	-- Deep Earth Handwraps
+				78805,	-- Deep Earth Legwraps
+			},
+			[NORMAL_DIFF] = {
+				76750,	-- Deep Earth Helm
+				76753,	-- Deep Earth Mantle
+				76752,	-- Deep Earth Robes
+				76749,	-- Deep Earth Handwraps
+				76751,	-- Deep Earth Legwraps
+			},
+			[HEROIC_DIFF] = {
+				78690,	-- Deep Earth Helm
+				78740,	-- Deep Earth Mantle
+				78660,	-- Deep Earth Robes
+				78680,	-- Deep Earth Handwraps
+				78710,	-- Deep Earth Legwraps
+			},
+		},
+		{	-- Hunter
+			name = LOCALIZED_CLASS_NAMES_MALE["HUNTER"],
+			subSetName = "hunter",
+			icon = "hunter",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78793,	-- Wyrmstalker's Headguard
+				78832,	-- Wyrmstalker's Spaulders
+				78756,	-- Wyrmstalker's Tunic
+				78769,	-- Wyrmstalker's Gloves
+				78804,	-- Wyrmstalker's Legguards
+			},
+			[NORMAL_DIFF] = {
+				77030,	-- Wyrmstalker's Headguard
+				77032,	-- Wyrmstalker's Spaulders
+				77028,	-- Wyrmstalker's Tunic
+				77029,	-- Wyrmstalker's Gloves
+				77031,	-- Wyrmstalker's Legguards
+			},
+			[HEROIC_DIFF] = {
+				78698,	-- Wyrmstalker's Headguard
+				78737,	-- Wyrmstalker's Spaulders
+				78661,	-- Wyrmstalker's Tunic
+				78674,	-- Wyrmstalker's Gloves
+				78709,	-- Wyrmstalker's Legguards
+			},
+		},
+		{	-- Mage
+			name = LOCALIZED_CLASS_NAMES_MALE["MAGE"],
+			subSetName = "mage",
+			icon = "mage",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78796,	-- Time Lord's Hood
+				78843,	-- Time Lord's Mantle
+				78824,	-- Time Lord's Robes
+				78766,	-- Time Lord's Gloves
+				78815,	-- Time Lord's Leggings
+			},
+			[NORMAL_DIFF] = {
+				76213,	-- Time Lord's Hood
+				76216,	-- Time Lord's Mantle
+				76215,	-- Time Lord's Robes
+				76212,	-- Time Lord's Gloves
+				76214,	-- Time Lord's Leggings
+			},
+			[HEROIC_DIFF] = {
+				78701,	-- Time Lord's Hood
+				78748,	-- Time Lord's Mantle
+				78729,	-- Time Lord's Robes
+				78671,	-- Time Lord's Gloves
+				78720,	-- Time Lord's Leggings
+			},
+		},
+		{	-- Paladin - Holy
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Holy"]..")",
+			subSetName = "paladinholy",
+			icon = "palaHoly",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78787,	-- Headguard of Radiant Glory
+				78841,	-- Mantle of Radiant Glory
+				78821,	-- Breastplate of Radiant Glory
+				78768,	-- Gloves of Radiant Glory
+				78812,	-- Greaves of Radiant Glory
+			},
+			[NORMAL_DIFF] = {
+				76767,	-- Headguard of Radiant Glory
+				76769,	-- Mantle of Radiant Glory
+				76765,	-- Breastplate of Radiant Glory
+				76766,	-- Gloves of Radiant Glory
+				76768,	-- Greaves of Radiant Glory
+			},
+			[HEROIC_DIFF] = {
+				78692,	-- Headguard of Radiant Glory
+				78746,	-- Mantle of Radiant Glory
+				78726,	-- Breastplate of Radiant Glory
+				78673,	-- Gloves of Radiant Glory
+				78717,	-- Greaves of Radiant Glory
+			},
+		},
+		{	-- Paladin - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Protection"]..")",
+			subSetName = "paladinprotection",
+			icon = "palaProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78790,	-- Faceguard of Radiant Glory
+				78840,	-- Shoulderguards of Radiant Glory
+				78827,	-- Chestguard of Radiant Glory
+				78772,	-- Handguards of Radiant Glory
+				78810,	-- Legguards of Radiant Glory
+			},
+			[NORMAL_DIFF] = {
+				77005,	-- Faceguard of Radiant Glory
+				77007,	-- Shoulderguards of Radiant Glory
+				77003,	-- Chestguard of Radiant Glory
+				77004,	-- Handguards of Radiant Glory
+				77006,	-- Legguards of Radiant Glory
+			},
+			[HEROIC_DIFF] = {
+				78695,	-- Faceguard of Radiant Glory
+				78745,	-- Shoulderguards of Radiant Glory
+				78732,	-- Chestguard of Radiant Glory
+				78677,	-- Handguards of Radiant Glory
+				78715,	-- Legguards of Radiant Glory
+			},
+		},
+		{	-- Paladin - Retribution
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Retribution"]..")",
+			subSetName = "paladinretribution",
+			icon = "palaRetri",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78788,	-- Helmet of Radiant Glory
+				78837,	-- Pauldrons of Radiant Glory
+				78822,	-- Battleplate of Radiant Glory
+				78770,	-- Gauntlets of Radiant Glory
+				78807,	-- Legplates of Radiant Glory
+			},
+			[NORMAL_DIFF] = {
+				76876,	-- Helmet of Radiant Glory
+				76878,	-- Pauldrons of Radiant Glory
+				76874,	-- Battleplate of Radiant Glory
+				76875,	-- Gauntlets of Radiant Glory
+				76877,	-- Legplates of Radiant Glory
+			},
+			[HEROIC_DIFF] = {
+				78693,	-- Helmet of Radiant Glory
+				78742,	-- Pauldrons of Radiant Glory
+				78727,	-- Battleplate of Radiant Glory
+				78675,	-- Gauntlets of Radiant Glory
+				78712,	-- Legplates of Radiant Glory
+			},
+		},
+		{	-- Priest - Heal
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Discipline"].." / "..ALIL["Holy"]..")",
+			subSetName = "priestheal",
+			icon = "priestHeal",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78795,	-- Cowl of Dying Light
+				78842,	-- Mantle of Dying Light
+				78823,	-- Robes of Dying Light
+				78778,	-- Handwraps of Dying Light
+				78814,	-- Legwraps of Dying Light
+			},
+			[NORMAL_DIFF] = {
+				76358,	-- Cowl of Dying Light
+				76361,	-- Mantle of Dying Light
+				76360,	-- Robes of Dying Light
+				76357,	-- Handwraps of Dying Light
+				76359,	-- Legwraps of Dying Light
+			},
+			[HEROIC_DIFF] = {
+				78700,	-- Cowl of Dying Light
+				78747,	-- Mantle of Dying Light
+				78728,	-- Robes of Dying Light
+				78683,	-- Handwraps of Dying Light
+				78719,	-- Legwraps of Dying Light
+			},
+		},
+		{	-- Priest - Shadow
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Shadow"]..")",
+			subSetName = "priestshadow",
+			icon = "priestShadow",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78798,	-- Hood of Dying Light
+				78845,	-- Mantle of Dying Light
+				78826,	-- Robes of Dying Light
+				78777,	-- Gloves of Dying Light
+				78817,	-- Leggings of Dying Light
+			},
+			[NORMAL_DIFF] = {
+				76347,	-- Hood of Dying Light
+				76344,	-- Mantle of Dying Light
+				76345,	-- Robes of Dying Light
+				76348,	-- Gloves of Dying Light
+				76346,	-- Leggings of Dying Light
+			},
+			[HEROIC_DIFF] = {
+				78703,	-- Hood of Dying Light
+				78750,	-- Mantle of Dying Light
+				78731,	-- Robes of Dying Light
+				78682,	-- Gloves of Dying Light
+				78722,	-- Leggings of Dying Light
+			},
+		},
+		{	-- Rogue
+			name = LOCALIZED_CLASS_NAMES_MALE["ROGUE"],
+			subSetName = "rogue",
+			icon = "rogue",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78794,	-- Blackfang Battleweave Helmet
+				78833,	-- Blackfang Battleweave Spaulders
+				78759,	-- Blackfang Battleweave Tunic
+				78774,	-- Blackfang Battleweave Gloves
+				78803,	-- Blackfang Battleweave Legguards
+			},
+			[NORMAL_DIFF] = {
+				77025,	-- Blackfang Battleweave Helmet
+				77027,	-- Blackfang Battleweave Spaulders
+				77023,	-- Blackfang Battleweave Tunic
+				77024,	-- Blackfang Battleweave Gloves
+				77026,	-- Blackfang Battleweave Legguards
+			},
+			[HEROIC_DIFF] = {
+				78699,	-- Blackfang Battleweave Helmet
+				78738,	-- Blackfang Battleweave Spaulders
+				78664,	-- Blackfang Battleweave Tunic
+				78679,	-- Blackfang Battleweave Gloves
+				78708,	-- Blackfang Battleweave Legguards
+			},
+		},
+		{	-- Shaman - Elemental
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Elemental"]..")",
+			subSetName = "shamanelemental",
+			icon = "shamanEle",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78780,	-- Spiritwalker's Headpiece
+				78836,	-- Spiritwalker's Shoulderwraps
+				78818,	-- Spiritwalker's Hauberk
+				78761,	-- Spiritwalker's Gloves
+				78806,	-- Spiritwalker's Kilt
+			},
+			[NORMAL_DIFF] = {
+				77037,	-- Spiritwalker's Headpiece
+				77035,	-- Spiritwalker's Shoulderwraps
+				77039,	-- Spiritwalker's Hauberk
+				77038,	-- Spiritwalker's Gloves
+				77036,	-- Spiritwalker's Kilt
+			},
+			[HEROIC_DIFF] = {
+				78685,	-- Spiritwalker's Headpiece
+				78741,	-- Spiritwalker's Shoulderwraps
+				78723,	-- Spiritwalker's Hauberk
+				78666,	-- Spiritwalker's Gloves
+				78711,	-- Spiritwalker's Kilt
+			},
+		},
+		{	-- Shaman - Enhancement
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Enhancement"]..")",
+			subSetName = "shamanenhancement",
+			icon = "shamanEnhanc",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78781,	-- Spiritwalker's Helmet
+				78828,	-- Spiritwalker's Spaulders
+				78819,	-- Spiritwalker's Cuirass
+				78762,	-- Spiritwalker's Grips
+				78799,	-- Spiritwalker's Legguards
+			},
+			[NORMAL_DIFF] = {
+				77042,	-- Spiritwalker's Helmet
+				77044,	-- Spiritwalker's Spaulders
+				77040,	-- Spiritwalker's Cuirass
+				77041,	-- Spiritwalker's Grips
+				77043,	-- Spiritwalker's Legguards
+			},
+			[HEROIC_DIFF] = {
+				78686,	-- Spiritwalker's Helmet
+				78733,	-- Spiritwalker's Spaulders
+				78724,	-- Spiritwalker's Cuirass
+				78667,	-- Spiritwalker's Grips
+				78704,	-- Spiritwalker's Legguards
+			},
+		},
+		{	-- Shaman - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Restoration"]..")",
+			subSetName = "shamanrestoration",
+			icon = "shamanResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78786,	-- Spiritwalker's Faceguard
+				78834,	-- Spiritwalker's Mantle
+				78820,	-- Spiritwalker's Tunic
+				78767,	-- Spiritwalker's Handwraps
+				78813,	-- Spiritwalker's Legwraps
+			},
+			[NORMAL_DIFF] = {
+				76758,	-- Spiritwalker's Faceguard
+				76760,	-- Spiritwalker's Mantle
+				76756,	-- Spiritwalker's Tunic
+				76757,	-- Spiritwalker's Handwraps
+				76759,	-- Spiritwalker's Legwraps
+			},
+			[HEROIC_DIFF] = {
+				78691,	-- Spiritwalker's Faceguard
+				78739,	-- Spiritwalker's Mantle
+				78725,	-- Spiritwalker's Tunic
+				78672,	-- Spiritwalker's Handwraps
+				78718,	-- Spiritwalker's Legwraps
+			},
+		},
+		{	-- Warlock
+			name = LOCALIZED_CLASS_NAMES_MALE["WARLOCK"],
+			subSetName = "warlock",
+			icon = "warlock",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78797,	-- Hood of the Faceless Shroud
+				78844,	-- Mantle of the Faceless Shroud
+				78825,	-- Robes of the Faceless Shroud
+				78776,	-- Gloves of the Faceless Shroud
+				78816,	-- Leggings of the Faceless Shroud
+			},
+			[NORMAL_DIFF] = {
+				76342,	-- Hood of the Faceless Shroud
+				76339,	-- Mantle of the Faceless Shroud
+				76340,	-- Robes of the Faceless Shroud
+				76343,	-- Gloves of the Faceless Shroud
+				76341,	-- Leggings of the Faceless Shroud
+			},
+			[HEROIC_DIFF] = {
+				78702,	-- Hood of the Faceless Shroud
+				78749,	-- Mantle of the Faceless Shroud
+				78730,	-- Robes of the Faceless Shroud
+				78681,	-- Gloves of the Faceless Shroud
+				78721,	-- Leggings of the Faceless Shroud
+			},
+		},
+		{	-- Warrior - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Arms"].." / "..ALIL["Fury"]..")",
+			subSetName = "warriordps",
+			icon = "warriDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78783,	-- Colossal Dragonplate Helmet
+				78830,	-- Colossal Dragonplate Pauldrons
+				78752,	-- Colossal Dragonplate Battleplate
+				78763,	-- Colossal Dragonplate Gauntlets
+				78801,	-- Colossal Dragonplate Legplates
+			},
+			[NORMAL_DIFF] = {
+				76983,	-- Colossal Dragonplate Helmet
+				76987,	-- Colossal Dragonplate Pauldrons
+				76984,	-- Colossal Dragonplate Battleplate
+				76985,	-- Colossal Dragonplate Gauntlets
+				76986,	-- Colossal Dragonplate Legplates
+			},
+			[HEROIC_DIFF] = {
+				78688,	-- Colossal Dragonplate Helmet
+				78735,	-- Colossal Dragonplate Pauldrons
+				78657,	-- Colossal Dragonplate Battleplate
+				78668,	-- Colossal Dragonplate Gauntlets
+				78706,	-- Colossal Dragonplate Legplates
+			},
+		},
+		{	-- Warrior - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Protection"]..")",
+			subSetName = "warriorprotection",
+			icon = "warriProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFF] = {
+				78784,	-- Colossal Dragonplate Faceguard
+				78829,	-- Colossal Dragonplate Shoulderguards
+				78753,	-- Colossal Dragonplate Chestguard
+				78764,	-- Colossal Dragonplate Handguards
+				78800,	-- Colossal Dragonplate Legguards
+			},
+			[NORMAL_DIFF] = {
+				76990,	-- Colossal Dragonplate Faceguard
+				76992,	-- Colossal Dragonplate Shoulderguards
+				76988,	-- Colossal Dragonplate Chestguard
+				76989,	-- Colossal Dragonplate Handguards
+				76991,	-- Colossal Dragonplate Legguards
+			},
+			[HEROIC_DIFF] = {
+				78689,	-- Colossal Dragonplate Faceguard
+				78734,	-- Colossal Dragonplate Shoulderguards
+				78658,	-- Colossal Dragonplate Chestguard
+				78669,	-- Colossal Dragonplate Handguards
+				78705,	-- Colossal Dragonplate Legguards
+			},
+		},
+	},
+
+	["Tier12"] = {	-- T12 Sets
+		name = format(AL["Tier %d Sets"], 12),
+		sourceTemplate = {
+			EJ_GetInstanceInfo(78).." - "..EJ_GetEncounterInfo(198),	-- Head
+			EJ_GetInstanceInfo(78).." - "..EJ_GetEncounterInfo(197),	-- Shoulder
+			EJ_GetInstanceInfo(78).." - "..EJ_GetEncounterInfo(194),	-- Chest
+			EJ_GetInstanceInfo(78).." - "..EJ_GetEncounterInfo(196),	-- Hands
+			EJ_GetInstanceInfo(78).." - "..EJ_GetEncounterInfo(195),	-- Legs
+		},
+		{	-- Deathknight - Blood
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Blood"]..")",
+			subSetName = "deathknightblood",
+			icon = "dkTank",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				70954,	-- Elementium Deathplate Faceguard
+				70951,	-- Elementium Deathplate Shoulderguards
+				{ 70955, [SOURCE_INFO] = GetCoinTextureString(3403600) },	-- Elementium Deathplate Chestguard
+				{ 70953, [SOURCE_INFO] = GetCoinTextureString(1698800) },	-- Elementium Deathplate Handguards
+				{ 70952, [SOURCE_INFO] = GetCoinTextureString(3366000) },	-- Elementium Deathplate Legguards
+			},
+			[HEROIC_DIFF] = {
+				71483,	-- Elementium Deathplate Faceguard
+				71485,	-- Elementium Deathplate Shoulderguards
+				71481,	-- Elementium Deathplate Chestguard
+				71482,	-- Elementium Deathplate Handguards
+				71484,	-- Elementium Deathplate Legguards
+			},
+		},
+		{	-- Deathknight - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Frost"].." / "..ALIL["Unholy"]..")",
+			subSetName = "deathknightdps",
+			icon = "dkDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71060,	-- Elementium Deathplate Helmet
+				71062,	-- Elementium Deathplate Pauldrons
+				{ 71058, [SOURCE_INFO] = GetCoinTextureString(3278300) },	-- Elementium Deathplate Breastplate
+				{ 71059, [SOURCE_INFO] = GetCoinTextureString(1654700) },	-- Elementium Deathplate Gauntlets
+				{ 71061, [SOURCE_INFO] = GetCoinTextureString(3315800) },	-- Elementium Deathplate Greaves
+			},
+			[HEROIC_DIFF] = {
+				71478,	-- Elementium Deathplate Helmet
+				71480,	-- Elementium Deathplate Pauldrons
+				71476,	-- Elementium Deathplate Breastplate
+				71477,	-- Elementium Deathplate Gauntlets
+				71479,	-- Elementium Deathplate Greaves
+			},
+		},
+		{	-- Druid - Balance
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Balance"]..")",
+			subSetName = "druidbalance",
+			icon = "druidBalance",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71108,	-- Obsidian Arborweave Cover
+				71111,	-- Obsidian Arborweave Shoulderwraps
+				{ 71110, [SOURCE_INFO] = GetCoinTextureString(3518300) },	-- Obsidian Arborweave Vestment
+				{ 71107, [SOURCE_INFO] = GetCoinTextureString(1750300) },	-- Obsidian Arborweave Gloves
+				{ 71109, [SOURCE_INFO] = GetCoinTextureString(3505700) },	-- Obsidian Arborweave Leggings
+			},
+			[HEROIC_DIFF] = {
+				71497,	-- Obsidian Arborweave Cover
+				71500,	-- Obsidian Arborweave Shoulderwraps
+				71499,	-- Obsidian Arborweave Vestment
+				71496,	-- Obsidian Arborweave Gloves
+				71498,	-- Obsidian Arborweave Leggings
+			},
+		},
+		{	-- Druid - Feral
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Feral"]..")",
+			subSetName = "druidferal",
+			icon = "druidDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71098,	-- Obsidian Arborweave Headpiece
+				71101,	-- Obsidian Arborweave Spaulders
+				{ 71100, [SOURCE_INFO] = GetCoinTextureString(3302200) },	-- Obsidian Arborweave Raiment
+				{ 71097, [SOURCE_INFO] = GetCoinTextureString(1641600) },	-- Obsidian Arborweave Grips
+				{ 71099, [SOURCE_INFO] = GetCoinTextureString(3289900) },	-- Obsidian Arborweave Legguards
+			},
+			[HEROIC_DIFF] = {
+				71488,	-- Obsidian Arborweave Headpiece
+				71490,	-- Obsidian Arborweave Spaulders
+				71486,	-- Obsidian Arborweave Raiment
+				71487,	-- Obsidian Arborweave Grips
+				71489,	-- Obsidian Arborweave Legguards
+			},
+		},
+		{	-- Druid - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Restoration"]..")",
+			subSetName = "druidrestoration",
+			icon = "druidResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71103,	-- Obsidian Arborweave Helm
+				71106,	-- Obsidian Arborweave Mantle
+				{ 71105, [SOURCE_INFO] = GetCoinTextureString(3365000) },	-- Obsidian Arborweave Tunic
+				{ 71102, [SOURCE_INFO] = GetCoinTextureString(1673200) },	-- Obsidian Arborweave Handwraps
+				{ 71104, [SOURCE_INFO] = GetCoinTextureString(3352400) },	-- Obsidian Arborweave Legwraps
+			},
+			[HEROIC_DIFF] = {
+				71492,	-- Obsidian Arborweave Helm
+				71495,	-- Obsidian Arborweave Mantle
+				71494,	-- Obsidian Arborweave Tunic
+				71491,	-- Obsidian Arborweave Handwraps
+				71493,	-- Obsidian Arborweave Legwraps
+			},
+		},
+		{	-- Hunter
+			name = LOCALIZED_CLASS_NAMES_MALE["HUNTER"],
+			subSetName = "hunter",
+			icon = "hunter",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71051,	-- Flamewaker's Headguard
+				71053,	-- Flamewaker's Spaulders
+				{ 71054, [SOURCE_INFO] = GetCoinTextureString(3479400) },	-- Flamewaker's Tunic
+				{ 71050, [SOURCE_INFO] = GetCoinTextureString(1724400) },	-- Flamewaker's Gloves
+				{ 71052, [SOURCE_INFO] = GetCoinTextureString(3454100) },	-- Flamewaker's Legguards
+			},
+			[HEROIC_DIFF] = {
+				71503,	-- Flamewaker's Headguard
+				71505,	-- Flamewaker's Spaulders
+				71501,	-- Flamewaker's Tunic
+				71502,	-- Flamewaker's Gloves
+				71504,	-- Flamewaker's Legguards
+			},
+		},
+		{	-- Mage
+			name = LOCALIZED_CLASS_NAMES_MALE["MAGE"],
+			subSetName = "mage",
+			icon = "mage",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71287,	-- Firehawk Hood
+				71290,	-- Firehawk Mantle
+				{ 71289, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Firehawk Robes
+				{ 71286, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Firehawk Gloves
+				{ 71288, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Firehawk Leggings
+			},
+			[HEROIC_DIFF] = {
+				71508,	-- Firehawk Hood
+				71511,	-- Firehawk Mantle
+				71510,	-- Firehawk Robes
+				71507,	-- Firehawk Gloves
+				71509,	-- Firehawk Leggings
+			},
+		},
+		{	-- Paladin - Holy
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Holy"]..")",
+			subSetName = "paladinholy",
+			icon = "palaHoly",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71093,	-- Immolation Headguard
+				71095,	-- Immolation Mantle
+				{ 71091, [SOURCE_INFO] = GetCoinTextureString(3531300) },	-- Immolation Breastplate
+				{ 71092, [SOURCE_INFO] = GetCoinTextureString(1782100) },	-- Immolation Gloves
+				{ 71094, [SOURCE_INFO] = GetCoinTextureString(3568900) },	-- Immolation Greaves
+			},
+			[HEROIC_DIFF] = {
+				71519,	-- Immolation Headguard
+				71521,	-- Immolation Mantle
+				71517,	-- Immolation Breastplate
+				71518,	-- Immolation Gloves
+				71520,	-- Immolation Greaves
+			},
+		},
+		{	-- Paladin - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Protection"]..")",
+			subSetName = "paladinprotection",
+			icon = "palaProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				70948,	-- Immolation Faceguard
+				70946,	-- Immolation Shoulderguards
+				{ 70950, [SOURCE_INFO] = GetCoinTextureString(3340800) },	-- Immolation Chestguard
+				{ 70949, [SOURCE_INFO] = GetCoinTextureString(1673700) },	-- Immolation Handguards
+				{ 70947, [SOURCE_INFO] = GetCoinTextureString(3303200) },	-- Immolation Legguards
+			},
+			[HEROIC_DIFF] = {
+				71524,	-- Immolation Faceguard
+				71526,	-- Immolation Shoulderguards
+				71522,	-- Immolation Chestguard
+				71523,	-- Immolation Handguards
+				71525,	-- Immolation Legguards
+			},
+		},
+		{	-- Paladin - Retribution
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Retribution"]..")",
+			subSetName = "paladinretribution",
+			icon = "palaRetri",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71065,	-- Immolation Helmet
+				71067,	-- Immolation Pauldrons
+				{ 71063, [SOURCE_INFO] = GetCoinTextureString(3340800) },	-- Immolation Battleplate
+				{ 71064, [SOURCE_INFO] = GetCoinTextureString(1686300) },	-- Immolation Gauntlets
+				{ 71066, [SOURCE_INFO] = GetCoinTextureString(3378300) },	-- Immolation Legplates
+			},
+			[HEROIC_DIFF] = {
+				71514,	-- Immolation Helmet
+				71516,	-- Immolation Pauldrons
+				71512,	-- Immolation Battleplate
+				71513,	-- Immolation Gauntlets
+				71515,	-- Immolation Legplates
+			},
+		},
+		{	-- Priest - Heal
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Discipline"].." / "..ALIL["Holy"]..")",
+			subSetName = "priestheal",
+			icon = "priestHeal",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71272,	-- Cowl of the Cleansing Flame
+				71275,	-- Mantle of the Cleansing Flame
+				{ 71274, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Robes of the Cleansing Flame
+				{ 71271, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Handwraps of the Cleansing Flame
+				{ 71273, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Legwraps of the Cleansing Flame
+			},
+			[HEROIC_DIFF] = {
+				71528,	-- Cowl of the Cleansing Flame
+				71531,	-- Mantle of the Cleansing Flame
+				71530,	-- Robes of the Cleansing Flame
+				71527,	-- Handwraps of the Cleansing Flame
+				71529,	-- Legwraps of the Cleansing Flame
+			},
+		},
+		{	-- Priest - Shadow
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Shadow"]..")",
+			subSetName = "priestshadow",
+			icon = "priestShadow",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71277,	-- Hood of the Cleansing Flame
+				71280,	-- Shoulderwraps of the Cleansing Flame
+				{ 71279, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Vestment of the Cleansing Flame
+				{ 71276, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Gloves of the Cleansing Flame
+				{ 71278, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Leggings of the Cleansing Flame
+			},
+			[HEROIC_DIFF] = {
+				71533,	-- Hood of the Cleansing Flame
+				71536,	-- Shoulderwraps of the Cleansing Flame
+				71535,	-- Vestment of the Cleansing Flame
+				71532,	-- Gloves of the Cleansing Flame
+				71534,	-- Leggings of the Cleansing Flame
+			},
+		},
+		{	-- Rogue
+			name = LOCALIZED_CLASS_NAMES_MALE["ROGUE"],
+			subSetName = "rogue",
+			icon = "rogue",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71047,	-- Dark Phoenix Helmet
+				71049,	-- Dark Phoenix Spaulders
+				{ 71045, [SOURCE_INFO] = GetCoinTextureString(3366400) },	-- Dark Phoenix Tunic
+				{ 71046, [SOURCE_INFO] = GetCoinTextureString(1699100) },	-- Dark Phoenix Gloves
+				{ 71048, [SOURCE_INFO] = GetCoinTextureString(3403900) },	-- Dark Phoenix Legguards
+			},
+			[HEROIC_DIFF] = {
+				71539,	-- Dark Phoenix Helmet
+				71541,	-- Dark Phoenix Spaulders
+				71537,	-- Dark Phoenix Tunic
+				71538,	-- Dark Phoenix Gloves
+				71540,	-- Dark Phoenix Legguards
+			},
+		},
+		{	-- Shaman - Elemental
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Elemental"]..")",
+			subSetName = "shamanelemental",
+			icon = "shamanEle",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71293,	-- Erupting Volcanic Headpiece
+				71295,	-- Erupting Volcanic Shoulderwraps
+				{ 71291, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Hauberk
+				{ 71292, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Erupting Volcanic Gloves
+				{ 71294, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Kilt
+			},
+			[HEROIC_DIFF] = {
+				71554,	-- Erupting Volcanic Headpiece
+				71556,	-- Erupting Volcanic Shoulderwraps
+				71552,	-- Erupting Volcanic Hauberk
+				71553,	-- Erupting Volcanic Gloves
+				71555,	-- Erupting Volcanic Kilt
+			},
+		},
+		{	-- Shaman - Enhancement
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Enhancement"]..")",
+			subSetName = "shamanenhancement",
+			icon = "shamanEnhanc",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71303,	-- Erupting Volcanic Helmet
+				71305,	-- Erupting Volcanic Spaulders
+				{ 71301, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Cuirass
+				{ 71302, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Erupting Volcanic Grips
+				{ 71304, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Legguards
+			},
+			[HEROIC_DIFF] = {
+				71549,	-- Erupting Volcanic Helmet
+				71551,	-- Erupting Volcanic Spaulders
+				71547,	-- Erupting Volcanic Cuirass
+				71548,	-- Erupting Volcanic Grips
+				71550,	-- Erupting Volcanic Legguards
+			},
+		},
+		{	-- Shaman - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Restoration"]..")",
+			subSetName = "shamanrestoration",
+			icon = "shamanResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71298,	-- Erupting Volcanic Faceguard
+				71300,	-- Erupting Volcanic Mantle
+				{ 71296, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Tunic
+				{ 71297, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Erupting Volcanic Handwraps
+				{ 71299, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Erupting Volcanic Legwraps
+			},
+			[HEROIC_DIFF] = {
+				71544,	-- Erupting Volcanic Faceguard
+				71546,	-- Erupting Volcanic Mantle
+				71542,	-- Erupting Volcanic Tunic
+				71543,	-- Erupting Volcanic Handwraps
+				71545,	-- Erupting Volcanic Legwraps
+			},
+		},
+		{	-- Warlock
+			name = LOCALIZED_CLASS_NAMES_MALE["WARLOCK"],
+			subSetName = "warlock",
+			icon = "warlock",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71282,	-- Balespider's Hood
+				71285,	-- Balespider's Mantle
+				{ 71284, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Balespider's Robes
+				{ 71281, [SOURCE_INFO] = GetCoinTextureString(1717200) },	-- Balespider's Handwraps
+				{ 71283, [SOURCE_INFO] = GetCoinTextureString(3414900) },	-- Balespider's Leggings
+			},
+			[HEROIC_DIFF] = {
+				71595,	-- Balespider's Hood
+				71598,	-- Balespider's Mantle
+				71597,	-- Balespider's Robes
+				71594,	-- Balespider's Handwraps
+				71596,	-- Balespider's Leggings
+			},
+		},
+		{	-- Warrior - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Arms"].." / "..ALIL["Fury"]..")",
+			subSetName = "warriordps",
+			icon = "warriDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				71070,	-- Helmet of the Molten Giant
+				71072,	-- Pauldrons of the Molten Giant
+				{ 71068, [SOURCE_INFO] = GetCoinTextureString(3403600) }, -- Battleplate of the Molten Giant
+				{ 71069, [SOURCE_INFO] = GetCoinTextureString(1717800) }, -- Gauntlets of the Molten Giant
+				{ 71071, [SOURCE_INFO] = GetCoinTextureString(3441200) }, -- Legplates of the Molten Giant
+			},
+			[HEROIC_DIFF] = {
+				71599,	-- Helmet of the Molten Giant
+				71603,	-- Pauldrons of the Molten Giant
+				71600,	-- Battleplate of the Molten Giant
+				71601,	-- Gauntlets of the Molten Giant
+				71602,	-- Legplates of the Molten Giant
+			},
+		},
+		{	-- Warrior - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Protection"]..")",
+			subSetName = "warriorprotection",
+			icon = "warriProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				70944,	-- Faceguard of the Molten Giant
+				70941,	-- Shoulderguards of the Molten Giant
+				{ 70945, [SOURCE_INFO] = GetCoinTextureString(3278300) }, -- Chestguard of the Molten Giant
+				{ 70943, [SOURCE_INFO] = GetCoinTextureString(1762200) }, -- Handguards of the Molten Giant
+				{ 70942, [SOURCE_INFO] = GetCoinTextureString(3491700) }, -- Legguards of the Molten Giant
+			},
+			[HEROIC_DIFF] = {
+				71606,	-- Faceguard of the Molten Giant
+				71608,	-- Shoulderguards of the Molten Giant
+				71604,	-- Chestguard of the Molten Giant
+				71605,	-- Handguards of the Molten Giant
+				71607,	-- Legguards of the Molten Giant
+			},
+		},
+	},
+
+	["Tier11"] = {	-- T11 Sets
+		name = format(AL["Tier %d Sets"], 11),
+		sourceTemplate = {
+			EJ_GetInstanceInfo(73).." - "..EJ_GetEncounterInfo(174),	-- Head
+			EJ_GetInstanceInfo(72).." - "..EJ_GetEncounterInfo(167),	-- Shoulder
+			EJ_GetInstanceInfo(72).." - "..EJ_GetEncounterInfo(156),	-- Chest
+			EJ_GetInstanceInfo(73).." - "..EJ_GetEncounterInfo(171),	-- Hands
+			EJ_GetInstanceInfo(73).." - "..EJ_GetEncounterInfo(173),	-- Legs
+		},
+		{	-- Deathknight - Blood
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Blood"]..")",
+			subSetName = "deathknightblood",
+			icon = "dkTank",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60351,	-- Magma Plated Faceguard
+				60353,	-- Magma Plated Shoulderguards
+				{ 60349, [SOURCE_INFO] = GetCoinTextureString(3270400) },	-- Magma Plated Chestguard
+				{ 60350, [SOURCE_INFO] = GetCoinTextureString(1650400) },	-- Magma Plated Handguards
+				{ 60352, [SOURCE_INFO] = GetCoinTextureString(3306300) },	-- Magma Plated Legguards
+			},
+			[HEROIC_DIFF] = {
+				65186,	-- Magma Plated Faceguard
+				65188,	-- Magma Plated Shoulderguards
+				65184,	-- Magma Plated Chestguard
+				65185,	-- Magma Plated Handguards
+				65187,	-- Magma Plated Legguards
+			},
+		},
+		{	-- Deathknight - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["DEATHKNIGHT"].." ("..ALIL["Frost"].." / "..ALIL["Unholy"]..")",
+			subSetName = "deathknightdps",
+			icon = "dkDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60341,	-- Magma Plated Helmet
+				60343,	-- Magma Plated Pauldrons
+				{ 60339, [SOURCE_INFO] = GetCoinTextureString(3150400) },	-- Magma Plated Battleplate
+				{ 60340, [SOURCE_INFO] = GetCoinTextureString(1590200) },	-- Magma Plated Gauntlets
+				{ 60342, [SOURCE_INFO] = GetCoinTextureString(3186600) },	-- Magma Plated Legplates
+			},
+			[HEROIC_DIFF] = {
+				65181,	-- Magma Plated Helmet
+				65183,	-- Magma Plated Pauldrons
+				65179,	-- Magma Plated Battleplate
+				65180,	-- Magma Plated Gauntlets
+				65182,	-- Magma Plated Legplates
+			},
+		},
+		{	-- Druid - Balance
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Balance"]..")",
+			subSetName = "druidbalance",
+			icon = "druidBalance",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60282,	-- Stormrider's Cover
+				60284,	-- Stormrider's Shoulderwraps
+				{ 60281, [SOURCE_INFO] = GetCoinTextureString(3415900) },	-- Stormrider's Vestment
+				{ 60285, [SOURCE_INFO] = GetCoinTextureString(1577600) },	-- Stormrider's Gloves
+				{ 60283, [SOURCE_INFO] = GetCoinTextureString(3113200) },	-- Stormrider's Leggings
+			},
+			[HEROIC_DIFF] = {
+				65200,	-- Stormrider's Cover
+				65203,	-- Stormrider's Shoulderwraps
+				65202,	-- Stormrider's Vestment
+				65199,	-- Stormrider's Gloves
+				65201,	-- Stormrider's Leggings
+			},
+		},
+		{	-- Druid - Feral
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Feral"]..")",
+			subSetName = "druidferal",
+			icon = "druidDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60286,	-- Stormrider's Headpiece
+				60289,	-- Stormrider's Spaulders
+				{ 60287, [SOURCE_INFO] = GetCoinTextureString(3161200) },	-- Stormrider's Raiment
+				{ 60290, [SOURCE_INFO] = GetCoinTextureString(1651100) },	-- Stormrider's Grips
+				{ 60288, [SOURCE_INFO] = GetCoinTextureString(3173200) },	-- Stormrider's Legguards
+			},
+			[HEROIC_DIFF] = {
+				65190,	-- Stormrider's Headpiece
+				65193,	-- Stormrider's Spaulders
+				65192,	-- Stormrider's Raiment
+				65189,	-- Stormrider's Grips
+				65191,	-- Stormrider's Legguards
+			},
+		},
+		{	-- Druid - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["DRUID"].." ("..ALIL["Restoration"]..")",
+			subSetName = "druidrestoration",
+			icon = "druidResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60277,	-- Stormrider's Helm
+				60279,	-- Stormrider's Mantle
+				{ 60276, [SOURCE_INFO] = GetCoinTextureString(3355900) },	-- Stormrider's Robes
+				{ 60280, [SOURCE_INFO] = GetCoinTextureString(1711600) },	-- Stormrider's Handwraps
+				{ 60278, [SOURCE_INFO] = GetCoinTextureString(3380000) },	-- Stormrider's Legwraps
+			},
+			[HEROIC_DIFF] = {
+				65195,	-- Stormrider's Helm
+				65198,	-- Stormrider's Mantle
+				65197,	-- Stormrider's Robes
+				65194,	-- Stormrider's Handwraps
+				65196,	-- Stormrider's Legwraps
+			},
+		},
+		{	-- Hunter
+			name = LOCALIZED_CLASS_NAMES_MALE["HUNTER"],
+			subSetName = "hunter",
+			icon = "hunter",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60303,	-- Lightning-Charged Headguard
+				60306,	-- Lightning-Charged Spaulders
+				{ 60304, [SOURCE_INFO] = GetCoinTextureString(3124900) },	-- Lightning-Charged Tunic
+				{ 60307, [SOURCE_INFO] = GetCoinTextureString(1632900) },	-- Lightning-Charged Gloves
+				{ 60305, [SOURCE_INFO] = GetCoinTextureString(3223100) },	-- Lightning-Charged Legguards
+			},
+			[HEROIC_DIFF] = {
+				65206,	-- Lightning-Charged Headguard
+				65208,	-- Lightning-Charged Spaulders
+				65204,	-- Lightning-Charged Tunic
+				65205,	-- Lightning-Charged Gloves
+				65207,	-- Lightning-Charged Legguards
+			},
+		},
+		{	-- Mage
+			name = LOCALIZED_CLASS_NAMES_MALE["MAGE"],
+			subSetName = "mage",
+			icon = "mage",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60243,	-- Firelord's Hood
+				60246,	-- Firelord's Mantle
+				{ 60244, [SOURCE_INFO] = GetCoinTextureString(3126300) },	-- Firelord's Robes
+				{ 60247, [SOURCE_INFO] = GetCoinTextureString(1590100) },	-- Firelord's Gloves
+				{ 60245, [SOURCE_INFO] = GetCoinTextureString(3138000) },	-- Firelord's Leggings
+			},
+			[HEROIC_DIFF] = {
+				65210,	-- Firelord's Hood
+				65213,	-- Firelord's Mantle
+				65212,	-- Firelord's Robes
+				65209,	-- Firelord's Gloves
+				65211,	-- Firelord's Leggings
+			},
+		},
+		{	-- Paladin - Holy
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Holy"]..")",
+			subSetName = "paladinholy",
+			icon = "palaHoly",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60359,	-- Reinforced Sapphirium Headguard
+				60362,	-- Reinforced Sapphirium Mantle
+				{ 60360, [SOURCE_INFO] = GetCoinTextureString(3162100) },	-- Reinforced Sapphirium Breastplate
+				{ 60363, [SOURCE_INFO] = GetCoinTextureString(1608100) },	-- Reinforced Sapphirium Gloves
+				{ 60361, [SOURCE_INFO] = GetCoinTextureString(3173900) },	-- Reinforced Sapphirium Greaves
+			},
+			[HEROIC_DIFF] = {
+				65221,	-- Reinforced Sapphirium Headguard
+				65223,	-- Reinforced Sapphirium Mantle
+				65219,	-- Reinforced Sapphirium Breastplate
+				65220,	-- Reinforced Sapphirium Gloves
+				65222,	-- Reinforced Sapphirium Greaves
+			},
+		},
+		{	-- Paladin - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Protection"]..")",
+			subSetName = "paladinprotection",
+			icon = "palaProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60356,	-- Reinforced Sapphirium Faceguard
+				60358,	-- Reinforced Sapphirium Shoulderguards
+				{ 60354, [SOURCE_INFO] = GetCoinTextureString(3416600) },	-- Reinforced Sapphirium Chestguard
+				{ 60355, [SOURCE_INFO] = GetCoinTextureString(1559900) },	-- Reinforced Sapphirium Handguards
+				{ 60357, [SOURCE_INFO] = GetCoinTextureString(3126300) },	-- Reinforced Sapphirium Legguards
+			},
+			[HEROIC_DIFF] = {
+				65226,	-- Reinforced Sapphirium Faceguard
+				65228,	-- Reinforced Sapphirium Shoulderguards
+				65224,	-- Reinforced Sapphirium Chestguard
+				65225,	-- Reinforced Sapphirium Handguards
+				65227,	-- Reinforced Sapphirium Legguards
+			},
+		},
+		{	-- Paladin - Retribution
+			name = LOCALIZED_CLASS_NAMES_MALE["PALADIN"].." ("..ALIL["Retribution"]..")",
+			subSetName = "paladinretribution",
+			icon = "palaRetri",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60346,	-- Reinforced Sapphirium Helmet
+				60348,	-- Reinforced Sapphirium Pauldrons
+				{ 60344, [SOURCE_INFO] = GetCoinTextureString(3210400) },	-- Reinforced Sapphirium Battleplate
+				{ 60345, [SOURCE_INFO] = GetCoinTextureString(1620400) },	-- Reinforced Sapphirium Gauntlets
+				{ 60347, [SOURCE_INFO] = GetCoinTextureString(3246300) },	-- Reinforced Sapphirium Legplates
+			},
+			[HEROIC_DIFF] = {
+				65216,	-- Reinforced Sapphirium Helmet
+				65218,	-- Reinforced Sapphirium Pauldrons
+				65214,	-- Reinforced Sapphirium Battleplate
+				65215,	-- Reinforced Sapphirium Gauntlets
+				65217,	-- Reinforced Sapphirium Legplates
+			},
+		},
+		{	-- Priest - Heal
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Discipline"].." / "..ALIL["Holy"]..")",
+			subSetName = "priestheal",
+			icon = "priestHeal",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60258,	-- Mercurial Cowl
+				60262,	-- Mercurial Mantle
+				{ 60259, [SOURCE_INFO] = GetCoinTextureString(3392400) },	-- Mercurial Robes
+				{ 60275, [SOURCE_INFO] = GetCoinTextureString(1681400) },	-- Mercurial Handwraps
+				{ 60261, [SOURCE_INFO] = GetCoinTextureString(3416200) },	-- Mercurial Legwraps
+			},
+			[HEROIC_DIFF] = {
+				65230,	-- Mercurial Cowl
+				65233,	-- Mercurial Mantle
+				65232,	-- Mercurial Robes
+				65229,	-- Mercurial Handwraps
+				65231,	-- Mercurial Legwraps
+			},
+		},
+		{	-- Priest - Shadow
+			name = LOCALIZED_CLASS_NAMES_MALE["PRIEST"].." ("..ALIL["Shadow"]..")",
+			subSetName = "priestshadow",
+			icon = "priestShadow",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60256,	-- Mercurial Hood
+				60253,	-- Mercurial Shoulderwraps
+				{ 60254, [SOURCE_INFO] = GetCoinTextureString(3246000) },	-- Mercurial Vestment
+				{ 60257, [SOURCE_INFO] = GetCoinTextureString(1693700) },	-- Mercurial Gloves
+				{ 60255, [SOURCE_INFO] = GetCoinTextureString(3258000) },	-- Mercurial Leggings
+			},
+			[HEROIC_DIFF] = {
+				65235,	-- Mercurial Hood
+				65238,	-- Mercurial Shoulderwraps
+				65237,	-- Mercurial Vestment
+				65234,	-- Mercurial Gloves
+				65236,	-- Mercurial Leggings
+			},
+		},
+		{	-- Rogue
+			name = LOCALIZED_CLASS_NAMES_MALE["ROGUE"],
+			subSetName = "rogue",
+			icon = "rogue",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60299,	-- Wind Dancer's Helmet
+				60302,	-- Wind Dancer's Spaulders
+				{ 60301, [SOURCE_INFO] = GetCoinTextureString(3415300) },	-- Wind Dancer's Tunic
+				{ 60298, [SOURCE_INFO] = GetCoinTextureString(1699300) },	-- Wind Dancer's Gloves
+				{ 60300, [SOURCE_INFO] = GetCoinTextureString(3403500) },	-- Wind Dancer's Legguards
+			},
+			[HEROIC_DIFF] = {
+				65241,	-- Wind Dancer's Helmet
+				65243,	-- Wind Dancer's Spaulders
+				65239,	-- Wind Dancer's Tunic
+				65240,	-- Wind Dancer's Gloves
+				65242,	-- Wind Dancer's Legguards
+			},
+		},
+		{	-- Shaman - Elemental
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Elemental"]..")",
+			subSetName = "shamanelemental",
+			icon = "shamanEle",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60315,	-- Headpiece of the Raging Elements
+				60317,	-- Shoulderwraps of the Raging Elements
+				{ 60313, [SOURCE_INFO] = GetCoinTextureString(3319000) },	-- Hauberk of the Raging Elements
+				{ 60314, [SOURCE_INFO] = GetCoinTextureString(1675000) },	-- Gloves of the Raging Elements
+				{ 60316, [SOURCE_INFO] = GetCoinTextureString(3354900) },	-- Kilt of the Raging Elements
+			},
+			[HEROIC_DIFF] = {
+				65256,	-- Headpiece of the Raging Elements
+				65258,	-- Shoulderwraps of the Raging Elements
+				65254,	-- Hauberk of the Raging Elements
+				65255,	-- Gloves of the Raging Elements
+				65257,	-- Kilt of the Raging Elements
+			},
+		},
+		{	-- Shaman - Enhancement
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Enhancement"]..")",
+			subSetName = "shamanenhancement",
+			icon = "shamanEnhanc",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60320,	-- Helmet of the Raging Elements
+				60322,	-- Spaulders of the Raging Elements
+				{ 60318, [SOURCE_INFO] = GetCoinTextureString(3379100) },	-- Cuirass of the Raging Elements
+				{ 60319, [SOURCE_INFO] = GetCoinTextureString(1705200) },	-- Grips of the Raging Elements
+				{ 60321, [SOURCE_INFO] = GetCoinTextureString(3174900) },	-- Legguards of the Raging Elements
+			},
+			[HEROIC_DIFF] = {
+				65251,	-- Helmet of the Raging Elements
+				65253,	-- Spaulders of the Raging Elements
+				65249,	-- Cuirass of the Raging Elements
+				65250,	-- Grips of the Raging Elements
+				65252,	-- Legguards of the Raging Elements
+			},
+		},
+		{	-- Shaman - Restoration
+			name = LOCALIZED_CLASS_NAMES_MALE["SHAMAN"].." ("..ALIL["Restoration"]..")",
+			subSetName = "shamanrestoration",
+			icon = "shamanResto",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60308,	-- Faceguard of the Raging Elements
+				60311,	-- Mantle of the Raging Elements
+				{ 60309, [SOURCE_INFO] = GetCoinTextureString(3271100) },	-- Tunic of the Raging Elements
+				{ 60312, [SOURCE_INFO] = GetCoinTextureString(1663100) },	-- Handwraps of the Raging Elements
+				{ 60310, [SOURCE_INFO] = GetCoinTextureString(3283200) },	-- Legwraps of the Raging Elements
+			},
+			[HEROIC_DIFF] = {
+				65246,	-- Faceguard of the Raging Elements
+				65248,	-- Mantle of the Raging Elements
+				65244,	-- Tunic of the Raging Elements
+				65245,	-- Handwraps of the Raging Elements
+				65247,	-- Legwraps of the Raging Elements
+			},
+		},
+		{	-- Warlock
+			name = LOCALIZED_CLASS_NAMES_MALE["WARLOCK"],
+			subSetName = "warlock",
+			icon = "warlock",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60249,	-- Shadowflame Hood
+				60252,	-- Shadowflame Mantle
+				{ 60251, [SOURCE_INFO] = GetCoinTextureString(3210100) },	-- Shadowflame Robes
+				{ 60248, [SOURCE_INFO] = GetCoinTextureString(1596100) },	-- Shadowflame Handwraps
+				{ 60250, [SOURCE_INFO] = GetCoinTextureString(3198000) },	-- Shadowflame Leggings
+			},
+			[HEROIC_DIFF] = {
+				65260,	-- Shadowflame Hood
+				65263,	-- Shadowflame Mantle
+				65262,	-- Shadowflame Robes
+				65259,	-- Shadowflame Handwraps
+				65261,	-- Shadowflame Leggings
+			},
+		},
+		{	-- Warrior - DPS
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Arms"].." / "..ALIL["Fury"]..")",
+			subSetName = "warriordps",
+			icon = "warriDPS",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60325,	-- Earthen Helmet
+				60327,	-- Earthen Pauldrons
+				{ 60323, [SOURCE_INFO] = GetCoinTextureString(3199000) }, -- Earthen Battleplate
+				{ 60326, [SOURCE_INFO] = GetCoinTextureString(1626700) }, -- Earthen Gauntlets
+				{ 60324, [SOURCE_INFO] = GetCoinTextureString(3210700) }, -- Earthen Legplates
+			},
+			[HEROIC_DIFF] = {
+				65266,	-- Earthen Helmet
+				65268,	-- Earthen Pauldrons
+				65264,	-- Earthen Battleplate
+				65265,	-- Earthen Gauntlets
+				65267,	-- Earthen Legplates
+			},
+		},
+		{	-- Warrior - Protection
+			name = LOCALIZED_CLASS_NAMES_MALE["WARRIOR"].." ("..ALIL["Protection"]..")",
+			subSetName = "warriorprotection",
+			icon = "warriProt",
+			[SOURCE_INFO] = "sourceTemplate",
+			[NORMAL_DIFF] = {
+				60328,	-- Earthen Faceguard
+				60331,	-- Earthen Shoulderguards
+				{ 60329, [SOURCE_INFO] = GetCoinTextureString(3270800) }, -- Earthen Chestguard
+				{ 60332, [SOURCE_INFO] = GetCoinTextureString(1662700) }, -- Earthen Handguards
+				{ 60330, [SOURCE_INFO] = GetCoinTextureString(3282800) }, -- Earthen Legguards
+			},
+			[HEROIC_DIFF] = {
+				65271,	-- Earthen Faceguard
+				65273,	-- Earthen Shoulderguards
+				65269,	-- Earthen Chestguard
+				65270,	-- Earthen Handguards
+				65272,	-- Earthen Legguards
 			},
 		},
 	},

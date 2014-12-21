@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta4
+## Version: v8.00.00beta5
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta4
+## X-Curse-Packaged-Version: v8.00.00beta5
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -29,11 +29,10 @@ libs\LibBabble-ItemSet-3.0\lib.xml
 
 data.lua
 sets.lua
-
 ## Title: |cff880303[网易有爱]|r 收藏物品信息查询模块
 ## Title-zhCN: |cff880303[网易有爱]|r 收藏物品信息查询模块
 ## Title-zhTW: |cff880303[網易有愛]|r 收藏物品信息模塊
 ## Notes-zhCN: 《收藏》物品信息查询模块
 ## Notes-zhTW: 《收藏》物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141219001956
+## X-163UI-Version: 2014122101

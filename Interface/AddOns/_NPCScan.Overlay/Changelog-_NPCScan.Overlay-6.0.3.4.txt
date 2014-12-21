@@ -1,0 +1,12 @@
+tag 6.0.3.4
+b36dfd06864d2b0cf1d9e33272be17d358ca2395
+SLOKnightfall <SLOKnightfall@gmail.com>
+2014-11-24 00:06:12 -0800
+
+New tag to fix bad merge
+
+
+--------------------
+
+SLOKnightfall:
+	- Added Draenor Rare mob locations

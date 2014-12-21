@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta4
+## Version: v8.00.00beta5
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta4
+## X-Curse-Packaged-Version: v8.00.00beta5
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -35,5 +35,4 @@ Locales\constants.ru.lua
 Locales\constants.tw.lua
 
 Core.lua
-
-## X-163UI-Version: 20141219001956
+## X-163UI-Version: 2014122101

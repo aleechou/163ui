@@ -5,7 +5,7 @@ local data = AtlasLoot.ItemDB:Add(addonname, 4)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"])
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], nil, nil, 7)
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
 local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
 local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 6)

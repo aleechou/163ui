@@ -813,7 +813,7 @@ data["Winterveil"] = {
 			name = ALIL["Stolen Present"],
 			[NORMAL_DIFF] = {
 				{ 1, "INV_Holiday_Christmas_Present_01", nil, ALIL["Stolen Present"], nil, [QUEST_EXTRA_ITTYPE] = "1:7043" },
-				{ 2, 117371 },	-- Miniature Winter Veil Tree
+				{ 2, "117371:553" },	-- Miniature Winter Veil Tree
 				{ 3, 70923 },	-- Gaudy Winter Veil Sweater
 				{ 5, 54436, "pet254" },	-- Blue Clockwork Rocket Bot
 				{ 6, 34425, "pet191" },	-- Clockwork Rocket Bot
@@ -837,6 +837,7 @@ data["Winterveil"] = {
 				{ 26, 54438 },	-- Tiny Blue Ragdoll
 				{ 27, 54437 },	-- Tiny Green Ragdoll
 				{ 28, 46725 },	-- Red Rider Air Rifle
+				{ 29, 116456 },	-- Scroll of Storytelling
 			},
 		},
 		{	--WinterveilGiftsPresents
@@ -866,9 +867,12 @@ data["Winterveil"] = {
 				{ 26, "INV_Holiday_Christmas_Present_01", nil, ALIL["Winter Veil Gift"], nil, [QUEST_EXTRA_ITTYPE] = 36617 },
 				{ 27, 116763 },	-- Crashin' Thrashin' Shredder Controller (2014)
 				{ 101, "INV_Holiday_Christmas_Present_01", nil, ALIL["Carefully Wrapped Present"], nil },
-				{ 102, 21254 },	-- Winter Veil Cookie
-				{ 104, "INV_Holiday_Christmas_Present_01", nil, ALIL["Festive Gift"], nil },
-				{ 105, 21328 },	-- Wand of Holiday Cheer
+				{ 102, 116451 },	-- Warm Blue Woolen Socks
+				{ 103, 116450 },	-- Warm Green Woolen Socks
+				{ 104, 116448 },	-- Warm Red Woolen Socks
+				{ 105, 21254 },	-- Winter Veil Cookie
+				{ 107, "INV_Holiday_Christmas_Present_01", nil, ALIL["Festive Gift"], nil },
+				{ 108, 21328 },	-- Wand of Holiday Cheer
 				{ 116, "INV_Holiday_Christmas_Present_01", nil, ALIL["Smokywood Pastures Extra-Special Gift"], nil },
 				{ 117, 21215 },	-- Graccu's Mince Meat Fruitcake
 			},

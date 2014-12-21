@@ -662,6 +662,16 @@ do
 		private.Options = _G._NPCScanOverlayOptions
 		private.OverlayKeyColors = _G._NPCScanOverlayKeyColors
 
+	--Adds additional colors if saved ammount is less than what is needed
+		if #private.OverlayKeyColors < private.KeyColorTotal then
+			local needed = private.KeyColorTotal - #private.OverlayKeyColors
+			local startingID = #private.OverlayKeyColors
+			for i=1, needed do
+				print(startingID+i)
+				private.OverlayKeyColors[startingID + i] = private.OverlayKeyColors[i]
+			end 
+		end
+
 		if not private.Options then
 			private.Options = private.OptionsDefault
 		end
