@@ -225,6 +225,10 @@ function target_button:SetNPC(ID, Name, Source)
 	end
 end
 
+--Info needed to workaround Haakun's model crashing wow
+local HaakunID = 83008
+local HaakunName = private.NPC_ID_TO_NAME[HaakunID]
+
 -- Updates the button out of combat to target a given unit.
 -- @param ID A numeric NpcID or string UnitID.
 -- @param Name Localized name of the unit.  If ID is an NpcID, Name is used in the targeting macro.
@@ -252,6 +256,12 @@ function target_button:Update(ID, Name, Source)
 		Model.UnitID, Name = ID, ID
 		Model:SetUnit(ID)
 		self:RegisterEvent("UNIT_MODEL_CHANGED")
+	end
+
+--Quick fix to not show Haakun's actual model due to it causing the game to crash
+	if ID == HaakunID or Name == HaakunName then
+		Model:SetCreature(29147)
+		self:UnregisterEvent("UNIT_MODEL_CHANGED")
 	end
 
 	if Source == "Unknown Vignette" then
@@ -325,11 +335,17 @@ do
 				_G.SetRaidTarget("target", private.OptionsCharacter.TargetIcon)
 			end
 
+			if ID == HaakunID then
+				self:UnregisterEvent("UNIT_MODEL_CHANGED")
+				return
+			end
+
 			if type(ID) == "number" then -- Update model with more accurate visual
 				self.Model.UnitID = "target"
 				self:RegisterEvent("UNIT_MODEL_CHANGED")
 				self:UNIT_MODEL_CHANGED(nil, "target")
 			end
+
 		elseif self.Model.UnitID and type(ID) == "number" then -- Quit updating model for creature ID
 			self.Model.UnitID = nil
 			self:UnregisterEvent("UNIT_MODEL_CHANGED")
@@ -339,6 +355,15 @@ end
 
 -- Updates the 3D preview display if the targeted rare changes appearance.
 function target_button:UNIT_MODEL_CHANGED(_, UnitID)
+
+	--Quick fix to not show Haakun's actual model due to it causing the game to crash
+	local MobName = UnitName(UnitID)
+	if MobName == HaakunName then
+		self.Model:SetCreature(29147)
+		self:UnregisterEvent("UNIT_MODEL_CHANGED")
+		return
+	end
+
 	if _G.UnitIsUnit(UnitID, self.Model.UnitID) then
 		self.Model:Reset(true) -- Don't reset rotation
 		self.Model:SetUnit(UnitID)

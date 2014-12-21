@@ -2,12 +2,12 @@
 ## Title: Lib: Toast-1.0
 ## Notes: Provides one or many informational windows with optional interactive widgets.
 ## Author: Torhal
-## Version: 6.0.2.1
+## Version: 6.0.3.2
 ## LoadOnDemand: 1
-## X-Date: 2014-10-15T02:52:05Z
+## X-Date: 2014-11-23T03:14:31Z
 ## X-Category: Libraries
 ## X-License: All Rights Reserved
-## X-Curse-Packaged-Version: 6.0.2.1
+## X-Curse-Packaged-Version: 6.0.3.2
 ## X-Curse-Project-Name: LibToast-1.0
 ## X-Curse-Project-ID: libtoast-1-0
 ## X-Curse-Repository-ID: wow/libtoast-1-0/mainline

@@ -362,7 +362,7 @@ end
 --The Everbloom
 if GetCurrentMapAreaID()==1008 then
 
-if arg2=="SPELL_ENERGIZE" and (arg10==164438) and arg4 and arg8 then
+if arg2=="SPELL_ENERGIZE" and (arg10==164438) and arg4 and arg8 and UnitName("boss1") then
 	if wodhraspisokon[8]==1 and wodhraachdone1 then
 		wodhrafailnoreason(8)
 	end

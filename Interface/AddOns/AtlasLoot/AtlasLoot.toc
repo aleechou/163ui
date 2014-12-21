@@ -1,10 +1,10 @@
 ﻿## Interface: 60000
 ## Author: Hegarol
-## Version: v8.00.00beta4
+## Version: v8.00.00beta5
 ## SavedVariables: AtlasLootDB
 ## SavedVariablesPerCharacter: AtlasLootCharDB
 ## OptionalDeps: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
-## X-Curse-Packaged-Version: v8.00.00beta4
+## X-Curse-Packaged-Version: v8.00.00beta5
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -50,7 +50,8 @@ db.lua
 ## Notes-zhCN: 显示副本中的首领与小怪可能掉落的物品
 ## Notes-zhTW: 顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141219001956
+## X-163UI-Version: 2014122101
+
 Locales\Locales.lua
 Locales\constants.lua
 Locales\constants.cn.lua

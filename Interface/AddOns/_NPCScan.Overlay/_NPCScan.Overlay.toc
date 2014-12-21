@@ -29,8 +29,8 @@
 ## X-Credits-ruRU: Localization: The_DimoK, Sarymian, dartraiden
 ## X-Credits-zhCN: Localization: tss1398383123, zhTW, ananhaid, dh0000
 ## X-Credits-zhTW: Localization: s8095324, pepper_ep, zhTW, alpha2009, BNSSNB, titanium0107
-## Version: 6.0.3.2
-## X-Date: 2014-11-13T09:41:00Z
+## Version: 6.0.3.4
+## X-Date: 2014-11-24T07:54:01Z
 ## X-Category: Map
 ## X-License: GPLv3
 ## X-Email: jcallahan@curse.com
@@ -39,7 +39,7 @@
 ## X-CompatibleLocales: deDE, enCN, enTW, enUS, esES, esMX, frFR, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
 ## SavedVariables: _NPCScanOverlayOptions, _NPCScanMiniMapIcon, _NPCScanOverlayKeyColors
 ## OptionalDeps: Ace3, _NPCScan, OmegaMap, Carbonite, LibQTip-1.0
-## X-Curse-Packaged-Version: 6.0.3.2
+## X-Curse-Packaged-Version: 6.0.3.4
 ## X-Curse-Project-Name: _NPCScan.Overlay
 ## X-Curse-Project-ID: npcscan-overlay
 ## X-Curse-Repository-ID: wow/npcscan-overlay/mainline
@@ -82,4 +82,4 @@ Modules\Carbonite.lua
 
 ## Title: |cff880303[网易有爱]|r 稀有怪物路径
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141114151506
+## X-163UI-Version: 2014121901

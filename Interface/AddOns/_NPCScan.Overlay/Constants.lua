@@ -36,6 +36,10 @@ private.NPCAliases = {
 	[51402] = 50154, -- Madexx (Green)
 	[51403] = 50154, -- Madexx (Black)
 	[51404] = 50154, -- Madexx (Blue)
+	[79692] = 79686, -- Silverleaf Ancient
+	[79693] = 79686, -- Silverleaf Ancient
+	[77828] = 77795, -- Echo of Murmer
+	[82676] = 82742, -- Enavra
 }
 
 private.Achievements = {
@@ -48,8 +52,35 @@ private.Achievements = {
 	[8714] = true, --Timeless Champion
 }
 
+--Number of Colors needed for the key
+private.KeyColorTotal = 55;
+
 --Colors used for the paths.  Need to revisit to replace the duplicated colors if possible
 private.OverlayKeyColors = {
+	RAID_CLASS_COLORS.SHAMAN,
+	RAID_CLASS_COLORS.DEATHKNIGHT,
+	GREEN_FONT_COLOR,
+	RAID_CLASS_COLORS.DRUID,
+	RAID_CLASS_COLORS.PALADIN,
+	UnitPopupButtons.RAID_TARGET_1.color,
+	UnitPopupButtons.RAID_TARGET_5.color,
+	UnitPopupButtons.RAID_TARGET_6.color,
+	UnitPopupButtons.RAID_TARGET_3.color,
+	RAID_CLASS_COLORS.MONK,
+	RAID_CLASS_COLORS.HUNTER,
+
+	RAID_CLASS_COLORS.SHAMAN,
+	RAID_CLASS_COLORS.DEATHKNIGHT,
+	GREEN_FONT_COLOR,
+	RAID_CLASS_COLORS.DRUID,
+	RAID_CLASS_COLORS.PALADIN,
+	UnitPopupButtons.RAID_TARGET_1.color,
+	UnitPopupButtons.RAID_TARGET_5.color,
+	UnitPopupButtons.RAID_TARGET_6.color,
+	UnitPopupButtons.RAID_TARGET_3.color,
+	RAID_CLASS_COLORS.MONK,
+	RAID_CLASS_COLORS.HUNTER,
+
 	RAID_CLASS_COLORS.SHAMAN,
 	RAID_CLASS_COLORS.DEATHKNIGHT,
 	GREEN_FONT_COLOR,
