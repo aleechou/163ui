@@ -35,5 +35,5 @@ sets.lua
 ## Notes-zhCN: 《收藏》物品信息查询模块
 ## Notes-zhTW: 《收藏》物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014122101
+## X-163UI-Version: 20141221175246
 

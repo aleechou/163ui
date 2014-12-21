@@ -35,5 +35,5 @@ Locales\constants.ru.lua
 Locales\constants.tw.lua
 
 Core.lua
-## X-163UI-Version: 2014122101
+## X-163UI-Version: 20141221175246
 

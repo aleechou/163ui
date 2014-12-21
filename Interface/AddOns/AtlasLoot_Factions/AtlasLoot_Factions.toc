@@ -33,4 +33,4 @@ data.lua
 ## Notes-zhCN: AtlasLoot 《阵营》物品信息
 ## Notes-zhTW: 陣營聲望物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014122101
+## X-163UI-Version: 20141221174058
