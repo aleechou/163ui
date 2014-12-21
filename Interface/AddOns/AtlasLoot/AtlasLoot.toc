@@ -50,7 +50,7 @@ db.lua
 ## Notes-zhCN: 显示副本中的首领与小怪可能掉落的物品
 ## Notes-zhTW: 顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014122101
+## X-163UI-Version: 20141221174058
 Locales\Locales.lua
 Locales\constants.lua
 Locales\constants.cn.lua

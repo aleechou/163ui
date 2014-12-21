@@ -33,4 +33,4 @@ data.lua
 ## Notes-zhCN: 《经典旧世》物品信息
 ## Notes-zhTW:艾澤拉斯舊世界的物品掉落資料庫
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014122101
+## X-163UI-Version: 20141221174058
