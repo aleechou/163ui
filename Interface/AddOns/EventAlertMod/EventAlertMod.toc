@@ -31,4 +31,4 @@ EventAlert_GroupAlerts.xml
 ## Notes-zhCN: 监控的法术触发时, 以大型法术图示来提示玩家, 法术设定指令:/eam opt. 指令说明:/eam help.
 ## Notes-zhTW: 監控的法術觸發時, 以大型法術圖示來提示玩家, 法術設定指令:/eam opt. 指令說明:/eam help.
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014122801
+## X-163UI-Version: 20141228205734
