@@ -141,7 +141,7 @@ local function CheckButton_OnLeave(self)
 end
 
 local function CheckButton_OnClick(self)
-	self.factory:ChangeSettingFunc(self.option.var,self:GetChecked() == 1);
+	self.factory:ChangeSettingFunc(self.option.var,self:GetChecked() == true);
 end
 
 -- New CheckButton
