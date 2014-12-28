@@ -1,8 +1,12 @@
-## Interface: 60000
+﻿## Interface: 60300
 ## Title: EventAlertMod
+## Title-zhTW: EventAlertMod 法術監控觸發提示
+## Title-zhCN: EventAlertMod 法术监控触发提示
 ## Author: Whitep@雷鱗 (Thanks for ACDACD as previous author of 4.7.02)
 ## Version: 5.1.0.14
 ## Notes: To notice or warning the specific Spells/Skills in large icon for the player. Command: /eam opt. By |cff69ccf0ACDACD@TW-REALM|r
+## Notes-zhTW: 監控的法術觸發時, 以大型法術圖示來提示玩家, 法術設定指令:/eam opt. 指令說明:/eam help.
+## Notes-zhCN: 监控的法术触发时, 以大型法术图示来提示玩家, 法术设定指令:/eam opt. 指令说明:/eam help.
 ## Notes-enTW: To notice or warning the specific Spells/Skills in large icon for the player. Command: /eam opt. By |cff69ccf0ACDACD@TW-REALM|r
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
@@ -11,6 +15,7 @@ localization.en.lua
 localization.tw.lua
 localization.cn.lua
 localization.kr.lua
+EventAlert_ActionButtonOverlayGlow.lua
 EventAlertMod.xml
 EventAlert_Options.xml
 EventAlert_IconOptions.xml
@@ -22,8 +27,8 @@ EventAlert_GroupAlerts.xml
 
 ## Title: |cff880303[网易有爱]|r EAM技能特效警报
 ## Title-zhCN: |cff880303[网易有爱]|r EAM技能特效警报
-## Title-zhTW: |cff880303[网易有爱]|r EAM技能特效警报
+## Title-zhTW: |cff880303[网易有爱]|r 法術監控觸發提示
 ## Notes-zhCN: 监控的法术触发时, 以大型法术图示来提示玩家, 法术设定指令:/eam opt. 指令说明:/eam help.
 ## Notes-zhTW: 監控的法術觸發時, 以大型法術圖示來提示玩家, 法術設定指令:/eam opt. 指令說明:/eam help.
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141119180744
+## X-163UI-Version: 2014122801

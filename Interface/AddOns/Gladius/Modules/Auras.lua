@@ -1210,7 +1210,9 @@ function Auras:GetOptions()
 		Gladius.db.aurasFrameAuras = self:GetAuraList()
 	end
 	for aura, priority in pairs(Gladius.db.aurasFrameAuras) do
-		options.auraList.args[aura] = self:SetupAura(aura, priority)
+		local isNum = tonumber(aura) ~= nil
+		local name = isNum and GetSpellInfo(aura) or aura
+		options.auraList.args[aura] = self:SetupAura(aura, priority, name)
 	end
 	return options
 end
@@ -1239,18 +1241,20 @@ local function getAura(info)
 	end
 end
 
-function Auras:SetupAura(aura, priority)
+function Auras:SetupAura(aura, priority, name)
+	local name = name or aura
+
 	return {
 		type = "group",
-		name = aura,
-		desc = aura,
+		name = name,
+		desc = name,
 		get = getAura,
 		set = setAura,
 		args = {
 			name = {
 				type = "input",
-				name = L["Name"],
-				desc = L["Name of the aura"],
+				name = L["Name or ID"],
+				desc = L["Name or ID of the aura"],
 				order = 1,
 			},
 			priority = {
@@ -1285,6 +1289,8 @@ function Auras:GetAuraList()
 	local auraTable = setmetatable({
 		-- Higher Number is More Priority
 		-- Priority List by P0rkz
+		-- Unpurgable long lasting buffs
+		[GetSpellInfo(108292)]	= 0,	-- Heart of the Wild
 		-- Mobility Auras (0)
 		[GetSpellInfo(108843)]	= 0,	-- Blazing Speed
 		[GetSpellInfo(65081)]	= 0,	-- Body and Soul
@@ -1314,7 +1320,6 @@ function Auras:GetAuraList()
 		[GetSpellInfo(11426)]	= 2,	-- Ice Barrier
 		[GetSpellInfo(53271)]	= 2,	-- Master's Call
 		[GetSpellInfo(132158)]	= 2,	-- Nature's Swiftness
-		[GetSpellInfo(69369)]	= 2,	-- Predatory Swiftness
 		[GetSpellInfo(12043)]	= 2,	-- Presence of Mind
 		[GetSpellInfo(48108)]	= 2,	-- Pyroblast!
 		-- Defensive - Damage Redution Auras (3)
@@ -1331,8 +1336,6 @@ function Auras:GetAuraList()
 		[GetSpellInfo(5277)]	= 3,	-- Evasion
 		[GetSpellInfo(47788)]	= 3,	-- Guardian Spirit
 		[GetSpellInfo(48792)]	= 3,	-- Icebound Fortitude
-		[GetSpellInfo(1463)]	= 3,	-- Incanter's Ward
-		[GetSpellInfo(116267)]	= 3,	-- Incanter's Absorption
 		[GetSpellInfo(66)]		= 3,	-- Invisibility
 		[GetSpellInfo(102342)]	= 3,	-- Ironbark
 		[GetSpellInfo(12975)]	= 3,	-- Last Stand
@@ -1348,8 +1351,11 @@ function Auras:GetAuraList()
 		[GetSpellInfo(871)]		= 3,	-- Shield Wall
 		[GetSpellInfo(112833)]	= 3,	-- Spectral Guise
 		[GetSpellInfo(23920)]	= 3,	-- Spell Reflection
+		[GetSpellInfo(122470)]	= 3,	-- Touch of Karma
+		[GetSpellInfo(61336)]	= 3,	-- Survival Instincts
 		-- Offensive - Melee Auras (4)
 		[GetSpellInfo(13750)]	= 4,	-- Adrenaline Rush
+		[GetSpellInfo(152151)]	= 4,	-- Shadow Reflection
 		[GetSpellInfo(107574)]	= 4,	-- Avatar
 		[GetSpellInfo(106952)]	= 4,	-- Berserk
 		[GetSpellInfo(12292)]	= 4,	-- Bloodbath
@@ -1358,7 +1364,7 @@ function Auras:GetAuraList()
 		[GetSpellInfo(51713)]	= 4,	-- Shadow Dance
 		-- Roots (5)
 		[GetSpellInfo(91807)]	= 5,	-- Shambling Rush (Ghoul)
-		[GetSpellInfo(96294)]	= 5,	-- Chains of Ice (Chilblains)
+		["96294"]				= 5,	-- Chains of Ice (Chilblains)
 		[GetSpellInfo(61685)]	= 5,	-- Charge (Various)
 		[GetSpellInfo(116706)]	= 5,	-- Disable
 		[GetSpellInfo(87194)]	= 5,	-- Mind Blast (Glyphed)
@@ -1450,6 +1456,8 @@ function Auras:GetAuraList()
 		[GetSpellInfo(132169)]	= 9,	-- Storm Bolt
 		[GetSpellInfo(20549)]	= 9,	-- War Stomp
 		[GetSpellInfo(16979)]	= 9,	-- Wild Charge
+		[GetSpellInfo(117526)]  = 9,    -- Binding Shot
+		["163505"]              = 9,    -- Rake
 		-- Crowd Controls Auras (10)
 		[GetSpellInfo(710)]		= 10,	-- Banish
 		[GetSpellInfo(2094)]	= 10,	-- Blind

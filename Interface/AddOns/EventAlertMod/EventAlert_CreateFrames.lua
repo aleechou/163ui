@@ -76,6 +76,8 @@ function EventAlert_CreateFrames()
 		eaexf:SetPoint("TOP", UIParent, "TOP", 0, -50);
 		eaexf:SetHeight(256);
 		eaexf:SetWidth(256);
+		
+		
 		eaexf:Hide();
 
 	EA_Class_Events_Frame_SpellScrollFrame:SetHeight(EA_OptHeight - 175);
@@ -126,10 +128,8 @@ function CreateFrames_CreateSpellFrame(index, typeIndex)
 	local eaf = _G[sFramePrefix..index];
 	if (eaf == nil) then 
 		if ((typeIndex == 3) and EA_Position.SCD_UseCooldown) then
-			eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
-			eaf.useCooldown = false;
-			--eaf = CreateFrame("Cooldown", sFramePrefix..index, EA_Main_Frame, "CooldownFrameTemplate");
-			--eaf.useCooldown = true;
+			eaf = CreateFrame("Cooldown", sFramePrefix..index, EA_Main_Frame, "CooldownFrameTemplate");
+			eaf.useCooldown = true;
 		else
 			eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
 			eaf.useCooldown = false;
