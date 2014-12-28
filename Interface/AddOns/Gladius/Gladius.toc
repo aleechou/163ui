@@ -1,8 +1,7 @@
 ﻿## Interface: 60000
-## Title: Gladius |cFF99CC01rev|r |cFFFF00004.0.2|r
-## Version: 4.0.2
+## Title: Gladius |cFF99CC01rev|r |cFFFF00004.0.3|r
+## Version: 4.0.3
 ## Notes: Arena enemy unit frames.
-## Notes: 竞技场显示对方的头像框体
 ## Author: Resike and Firebunny. Original author: Proditor
 ## SavedVariables: Gladius2DB
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
@@ -34,4 +33,4 @@ Modules\Dispel.lua
 ## Title: |cff880303[网易有爱]|r 竞技场头像
 ## Notes-zhCN: 竞技场显示对方的头像框体
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 20141228215110
