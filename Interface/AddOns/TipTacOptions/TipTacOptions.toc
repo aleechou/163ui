@@ -17,4 +17,4 @@ Options.lua
 ## Notes-zhCN: TipTac 选项对话框
 ## Notes-zhTW: TipTac 選項對話框
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
+## X-163UI-Version: 20141229000653
