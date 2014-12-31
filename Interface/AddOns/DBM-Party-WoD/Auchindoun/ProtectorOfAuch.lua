@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1185, "DBM-Party-WoD", 1, 547)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11901 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12037 $"):sub(12, -3))
 mod:SetCreatureID(75839)--Soul Construct
 mod:SetEncounterID(1686)
 mod:SetZone()
@@ -33,6 +32,9 @@ local timerFateCD				= mod:NewCDTimer(37, 157465)--Need more logs to confirm
 local countdownHolyShield		= mod:NewCountdown(47, 153002)
 local countdownConsecratedLight	= mod:NewCountdown("Alt7", 153006)
 
+local voiceHolyShield			= mod:NewVoice("153002")
+local voiceSanctifiedGround		= mod:NewVoice("161457")
+
 mod:AddArrowOption("ShieldArrow", 153002, true, true)
 
 function mod:ShieldTarget(targetname, uId)
@@ -45,7 +47,7 @@ function mod:ShieldTarget(targetname, uId)
 		if self.Options.ShieldArrow then
 			DBM.Arrow:ShowRunTo(uId, 3, 3, 9)
 		end
-		sndWOP:Schedule(3, "findshield")
+		voiceHolyShield:Schedule(3, "findshield")
 	end
 end
 
@@ -83,7 +85,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 161457 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnSanctifiedGround:Show()
-		sndWOP:Play("runaway")
+		voiceSanctifiedGround:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

@@ -33,6 +33,13 @@ L:SetMiscLocalization({
 ------------------
 L= DBM:GetModLocalization(1196)
 
+L:SetOptionLocalization({
+	InterruptCounter	= "Reset Decay counter after",
+	Two					= "After two casts",
+	Three				= "After three casts",
+	Four				= "After four casts"
+})
+
 --------------
 -- Twin Ogron --
 --------------
@@ -49,6 +56,15 @@ L:SetOptionLocalization({
 --Koragh --
 --------------------
 L= DBM:GetModLocalization(1153)
+
+
+L:SetWarningLocalization({
+	specWarnExpelMagicFelFades	= "Fel fading in 5s - move to start"
+})
+
+L:SetOptionLocalization({
+	specWarnExpelMagicFelFades	= "Show special warning to move to start position for $spell:172895 expiring"
+})
 
 L:SetMiscLocalization({
 	supressionTarget1	= "I will crush you!",
@@ -73,7 +89,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BrandedYell			= "Branded (%s) on %s"
+	BrandedYell			= "Branded (%s) on %s",
+	GazeYell			= "Gaze fading in %d",
+	PlayerDebuffs		= "Closest to Glimpse"
 })
 
 -------------

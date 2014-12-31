@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1128, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12018 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12216 $"):sub(12, -3))
 mod:SetCreatureID(78714)
 mod:SetEncounterID(1721)
 mod:SetZone()
@@ -11,14 +11,14 @@ mod:SetHotfixNoticeRev(11928)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 159113 159947",
+	"SPELL_CAST_START 159113 159947 158986",
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED 159947 158986 159178 159202 162497",
 	"SPELL_AURA_APPLIED_DOSE 159178",
 	"SPELL_PERIODIC_DAMAGE 159413",
-	"SPELL_PERIODIC_MISSED 159413",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"UNIT_SPELLCAST_CHANNEL_STOP boss1"
+	"SPELL_ABSORBED 159413",
+	"CHAT_MSG_RAID_BOSS_EMOTE"
+--	"UNIT_SPELLCAST_CHANNEL_STOP boss1"
 )
 
 --TODO add timer for sweeper in arena
@@ -29,16 +29,16 @@ local warnImpale					= mod:NewSpellAnnounce(159113, 3, nil, mod:IsTank())
 local warnPillar					= mod:NewSpellAnnounce("ej9394", 3, nil, 159202)
 local warnOnTheHunt					= mod:NewTargetAnnounce(162497, 4)
 
-local specWarnChainHurl				= mod:NewSpecialWarningSpell(159947)
-local specWarnBerserkerRushOther	= mod:NewSpecialWarningTarget(158986, nil, nil, nil, 2)
-local specWarnBerserkerRush			= mod:NewSpecialWarningMoveTo(158986, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(158986), nil, 3)--Creative use of warning. Run option text but a moveto warning to get players in LFR to actually run to the flame jet instead of being clueless.
+local specWarnChainHurl				= mod:NewSpecialWarningSpell(159947, nil, nil, nil, nil, nil, true)
+local specWarnBerserkerRushOther	= mod:NewSpecialWarningTarget(158986, nil, nil, nil, 2, nil, true)
+local specWarnBerserkerRush			= mod:NewSpecialWarningMoveTo(158986, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(158986), nil, 3, nil, true)--Creative use of warning. Run option text but a moveto warning to get players in LFR to actually run to the flame jet instead of being clueless.
 local yellBerserkerRush				= mod:NewYell(158986)
-local specWarnBerserkerRushEnded	= mod:NewSpecialWarningEnd(158986)
+--local specWarnBerserkerRushEnded	= mod:NewSpecialWarningEnd(158986)
 local specWarnImpale				= mod:NewSpecialWarningSpell(159113, mod:IsTank())
 local specWarnOpenWounds			= mod:NewSpecialWarningStack(159178, nil, 2)
 local specWarnOpenWoundsOther		= mod:NewSpecialWarningTaunt(159178)--If it is swap every impale, will move this to impale cast and remove stack stuff all together.
 local specWarnMaulingBrew			= mod:NewSpecialWarningMove(159413)
-local specWarnOnTheHunt				= mod:NewSpecialWarningMoveTo(162497, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(162497))--Does not need yell, tigers don't cleave other targets like berserker rush does.
+local specWarnOnTheHunt				= mod:NewSpecialWarningMoveTo(162497, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.run:format(162497), nil, nil, nil, true)--Does not need yell, tigers don't cleave other targets like berserker rush does.
 
 local timerPillarCD					= mod:NewNextTimer(20, "ej9394", nil, nil, nil, 159202)
 local timerChainHurlCD				= mod:NewNextTimer(106, 159947)--177776
@@ -92,7 +92,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnImpale:Show()
 		timerImpaleCD:Start()
 		countdownImpale:Start()
-		if mod:IsHealer() then
+		if self:IsHealer() then
 			voiceImpale:Play("tankheal")
 		end
 	elseif spellId == 159947 then
@@ -100,6 +100,8 @@ function mod:SPELL_CAST_START(args)
 		timerChainHurlCD:Start()
 		countdownChainHurl:Start()
 		voiceChainHurl:Schedule(99.5, "159947r") --ready for hurl
+	elseif spellId == 158986 and self:IsMelee() then
+		voiceBerserkerRush:Play("chargemove")
 	end
 end
 
@@ -112,7 +114,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			countdownSweeper:Start()--TODO,scan for punted or whatever knockdown is and cancel.
 			voiceChainHurl:Play("159947y") --you are the target
 		else
-			if self:AntiSpam() then			
+			if self:AntiSpam(2, 2) then			
 				voiceChainHurl:Play("otherout")
 			end
 		end
@@ -125,7 +127,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			voiceBerserkerRush:Play("159202f") --find the pillar
 		else
 			specWarnBerserkerRushOther:Show(args.destName)
-			voiceBerserkerRush:Play("chargemove")
+			if not self:IsMelee() then
+				voiceBerserkerRush:Play("chargemove")
+			end
 		end
 	elseif spellId == 159178 then
 		local amount = args.amount or 1
@@ -147,7 +151,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnOnTheHunt:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnOnTheHunt:Show(firePillar)
-			voiceOnTheHunt("159202f") --find the pillar
+			voiceOnTheHunt:Play("159202f") --find the pillar
 		end
 	end
 end
@@ -158,7 +162,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId
 		specWarnMaulingBrew:Show()
 	end
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+mod.SPELL_ABSORBED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	--Only fires for one thing, so no reason to localize
@@ -168,8 +172,9 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	end
 end
 
+--[[
 function mod:UNIT_SPELLCAST_CHANNEL_STOP(uId, _, _, _, spellId)
 	if spellId == 158986 then--160519 bugged. find better way
 		specWarnBerserkerRushEnded:Show()
 	end
-end
+end--]]

@@ -25,6 +25,13 @@ L:SetMiscLocalization({
 ------------------
 L= DBM:GetModLocalization(1196)
 
+L:SetOptionLocalization({
+	InterruptCounter	= "重數衰減打算計數",
+	Two					= "在兩次打斷後",
+	Three				= "在三次打斷後",
+	Four				= "在四次打斷後"
+})
+
 --------------
 -- Twin Ogron --
 --------------
@@ -32,13 +39,23 @@ L= DBM:GetModLocalization(1148)
 
 L:SetOptionLocalization({
 	PhemosSpecial	= "為菲莫斯的技能冷卻播放倒數音效",
-	PolSpecial		= "為博爾的技能冷卻播放倒數音效"
+	PolSpecial		= "為博爾的技能冷卻播放倒數音效",
+	PhemosSpecialVoice	= "為菲莫斯的技能播放語音包音效",
+	PolSpecialVoice		= "為博爾的技能播放語音包音效"
 })
 
 --------------------
 --Koragh --
 --------------------
 L= DBM:GetModLocalization(1153)
+
+L:SetWarningLocalization({
+	specWarnExpelMagicFelFades	= "魔化結束於五秒內 - 回到原位"
+})
+
+L:SetOptionLocalization({
+	specWarnExpelMagicFelFades	= "為$spell:172895消退顯示回到原位的特別警告"
+})
 
 L:SetMiscLocalization({
 	supressionTarget1	= "我要擊垮你們！",
@@ -53,7 +70,9 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1197)
 
 L:SetMiscLocalization({
-	BrandedYell			= "%2$s中了烙印(%1$s)"
+	BrandedYell			= "%2$s中了烙印(%1$s)",
+	GazeYell			= "凝視結束於%d秒內",
+	PlayerDebuffs		= "最接近的瘋狂之眼"
 })
 
 -------------

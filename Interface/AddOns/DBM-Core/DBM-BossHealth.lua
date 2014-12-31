@@ -131,7 +131,6 @@ local function createFrame(self)
 	anchor:SetPoint(DBM.Options.HPFramePoint, UIParent, DBM.Options.HPFramePoint, DBM.Options.HPFrameX, DBM.Options.HPFrameY)
 	header = anchor:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	header:SetPoint("BOTTOM", anchor, "BOTTOM")
-	anchor:SetScript("OnUpdate", updateFrame)
 	anchor:SetScript("OnMouseDown", onMouseDown)
 	anchor:SetScript("OnMouseUp", onMouseUp)
 	anchor:SetScript("OnHide", onHide)
@@ -157,9 +156,7 @@ local function createBar(self, name, ...) -- the vararg will also contain the na
 	bar.hidden = false
 	bar:ClearAllPoints()
 	bartext:SetText(name or "")
-	if not name then
-		bar.needName = true
-	end
+	bar.nameused = name and true or nil
 	if type(bar.id) == "function" then
 		local health, icon = bar.id()
 		updateBar(bar, health, icon, true)
@@ -174,89 +171,87 @@ end
 ------------------
 --  Bar Update  --
 ------------------
-function updateBar(bar, percent, icon, dontShowDead)
+function updateBar(bar, percent, icon, dontShowDead, name)
 	if not percent then return end
-	local bartimer = _G[bar:GetName() .. "BarTimer"]
-	local barbar = _G[bar:GetName() .. "Bar"]
-	local barIcon = _G[bar:GetName() .. "BarIcon"]
-	bartimer:SetText((percent > 0 or dontShowDead) and math.floor(percent).."%" or DEAD)
-	barbar:SetValue(percent)
-	barbar:SetStatusBarColor((100 - percent) / 100, percent/100, 0)
+	local barName = bar:GetName()
+	local bartimer = _G[barName .. "BarTimer"]
+	local barbar = _G[barName .. "Bar"]
+	local barIcon = _G[barName .. "BarIcon"]
+	local bartext = _G[barName .. "BarName"]
+	if percent >= 1 then
+		bartimer:SetText(math.floor(percent).."%")
+		barbar:SetValue(percent)
+		barbar:SetStatusBarColor((100 - percent) / 100, percent/100, 0)
+		bar.value = percent
+	elseif (bar.value == 0) or (percent >= 0) then
+		if percent == 0 then
+			bartimer:SetText(dontShowDead and "0%" or DEAD)
+		else
+			bartimer:SetText("0%")
+		end
+		barbar:SetValue(0)
+		barbar:SetStatusBarColor(0, 0, 0)
+		bar.value = 0
+	else--can't detect health. show unknown
+		bartimer:SetText(DBM_CORE_UNKNOWN)
+	end
 	if not icon or type(icon) ~= "number" or icon < 1 or icon > 8 then
 		barIcon:Hide()
 	else
 		barIcon:Show()
 		barIcon:SetTexCoord((icon - 1) % 4 / 4, (icon - 1) % 4 / 4 + 0.25, icon < 5 and 0 or 0.25, icon < 5 and 0.25 or 0.5)
 	end
-	bar.value = percent
-	local bossAlive = false
-	for i = 1, #bars do
-		if bars[i].value > 0 then
-			bossAlive = true
-			break
-		end
-	end
-	if not bossAlive and #bars > 0 then
-		bossHealth:Hide()
+	if name and not bar.nameused then
+		bartext:SetText(name)
 	end
 end
 
 do
-	local t = 0
-	function updateFrame(self, e)
-		t = t + e
-		if t >= 0.5 then
-			t = t - 0.5
---			if #bars > DBM.Options.HPFrameMaxEntries then
---				sortingEnabled = true
+	function updateFrame(self)
+--		if #bars > DBM.Options.HPFrameMaxEntries then
+--			sortingEnabled = true
+--		end
+--		if sortingEnabled then
+--			table.sort(bars, compareBars)
+--		end
+		for i, v in ipairs(bars) do
+--			if i > DBM.Options.HPFrameMaxEntries then
+--				v:Hide()
+--			else
+--				v:Show()
 --			end
---			if sortingEnabled then
---				table.sort(bars, compareBars)
---			end
-			for i, v in ipairs(bars) do
---				if i > DBM.Options.HPFrameMaxEntries then
---					v:Hide()
---				else
---					v:Show()
---				end
-				if type(v.id) == "number" then -- creature ID
-					local health, id, name = DBM:GetBossHP(v.id)
-					if health then
-						if name and v.needName then
-							v.needName = nil
-							local bartext = _G[v:GetName().."BarName"]
-							bartext:SetText(name)
-						end
-						updateBar(v, health, GetRaidTargetIndex(id))
-					else
-						updateBar(v, 0)
-					end
-				elseif type(v.id) == "string" then -- GUID
-					local health, id, name = DBM:GetBossHPByGUID(v.id)
-					if health then
-						if name and v.needName then
-							v.needName = nil
-							local bartext = _G[v:GetName().."BarName"]
-							bartext:SetText(name)
-						end
-						updateBar(v, health, GetRaidTargetIndex(id))
-					else
-						updateBar(v, 0)
-					end
-				elseif type(v.id) == "table" then -- multi boss
-					-- TODO: it would be more efficient to scan all party/raid members for all IDs instead of going over all raid members n times
-					-- this is especially important for the cache
-					for j, id in ipairs(v.id) do
-						local health = DBM:GetBossHP(id)
-						if health then
-							updateBar(v, health)
-							break
-						end
-					end
-				elseif type(v.id) == "function" then -- generic bars
-					local health, icon = v.id()
-					updateBar(v, health, icon, true)
+			if type(v.id) == "number" then -- creature ID
+				local health, id, name = DBM:GetBossHP(v.id)
+				if health then
+					updateBar(v, health, GetRaidTargetIndex(id), nil, name)
+				else
+					updateBar(v, -1)
 				end
+			elseif type(v.id) == "string" then -- UnitID or GUID
+				local health, id, name
+				if v.id:match("boss") then
+					health, id, name = DBM:GetBossHPByUnitID(v.id)
+				else
+					health, id, name = DBM:GetBossHPByGUID(v.id)
+				end
+				if health then
+					updateBar(v, health, GetRaidTargetIndex(id), nil, name)
+				else
+					updateBar(v, -1)
+				end
+			elseif type(v.id) == "table" then -- multi boss
+				-- TODO: it would be more efficient to scan all party/raid members for all IDs instead of going over all raid members n times
+				-- this is especially important for the cache
+				for j, id in ipairs(v.id) do
+					local health = DBM:GetBossHP(id)
+					if health then
+						updateBar(v, health)
+						break
+					end
+				end
+			elseif type(v.id) == "function" then -- generic bars
+				local health, icon = v.id()
+				updateBar(v, health, icon, true)
 			end
 		end
 	end
@@ -271,6 +266,10 @@ function bossHealth:Show(name)
 	header:SetText(name)
 	anchor:Show()
 	bossHealth:Clear()
+	updateFrame(bossHealth)
+	if not bossHealth.ticker then
+		bossHealth.ticker = C_Timer.NewTicker(0.5, function() updateFrame(bossHealth) end)
+	end
 end
 
 function bossHealth:SetHeaderText(name)
@@ -291,7 +290,13 @@ function bossHealth:Clear()
 end
 
 function bossHealth:Hide()
-	if anchor then anchor:Hide() end
+	if anchor then
+		if bossHealth.ticker then
+			bossHealth.ticker:Cancel()
+			bossHealth.ticker = nil
+		end
+		anchor:Hide()
+	end
 end
 
 function bossHealth:IsShown()
@@ -314,7 +319,11 @@ end
 function bossHealth:AddBoss(...)
 	-- copy the name to the front of the arg list
 	-- note: name is now twice in the arg list but we can't really fix that in an efficient way (this is handled in createBar()
-	return addBoss(self, select(select("#", ...), ...), ...)
+	if select("#", ...) == 1 then
+		return addBoss(self, nil, ...)
+	else
+		return addBoss(self, select(select("#", ...), ...), ...)
+	end
 end
 
 -- just pass any of the creature IDs for shared health bosses
@@ -374,5 +383,5 @@ end
 
 function bossHealth:Update()
 	if not anchor or not anchor:IsShown() then return end
-	updateFrame(self, 0.5)
+	updateFrame(self)
 end

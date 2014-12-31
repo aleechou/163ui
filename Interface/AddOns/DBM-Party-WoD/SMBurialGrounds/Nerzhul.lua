@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1160, "DBM-Party-WoD", 6, 537)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11958 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12225 $"):sub(12, -3))
 mod:SetCreatureID(76407)
 mod:SetEncounterID(1682)
 
@@ -14,18 +13,22 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---All data confirmed and accurate for normal mode scarlet halls. heroic data should be quite similar but with diff spellids, will wait for logs to assume anything there.
 local warnRitualOfBones			= mod:NewSpellAnnounce(154671, 4)
 local warnOmenOfDeath			= mod:NewTargetAnnounce(154350, 3)
 local warnMalevolence			= mod:NewSpellAnnounce("OptionVersion2", 154442, 3)--Some tank has terrible move. May need everyone
 
 local specWarnRitualOfBones		= mod:NewSpecialWarningSpell(154671, nil, nil, nil, true)
 local specWarnOmenOfDeath		= mod:NewSpecialWarningMove(154350)
+local specWarnOmenOfDeathNear	= mod:NewSpecialWarningClose(154350)
 local yellOmenOfDeath			= mod:NewYell(154350)
-local specWarnMalevolence		= mod:NewSpecialWarningSpell(154442)--Assume tank is in front
+local specWarnMalevolence		= mod:NewSpecialWarningSpell(154442, nil, nil, nil, true)
 
-local timerRitualOfBonesCD		= mod:NewNextTimer(50.5, 154671)
+local timerRitualOfBonesCD		= mod:NewCDTimer(50.5, 154671)
 local timerOmenOfDeathCD		= mod:NewCDTimer(10.5, 154350)
+
+local voiceRitualOfBones		= mod:NewVoice(154671)
+local voiceOmenOfDeath			= mod:NewVoice(154350)
+local voiceMalevolence			= mod:NewVoice(154442)
 
 function mod:OmenOfDeathTarget(targetname, uId)
 	if not targetname then return end
@@ -33,24 +36,23 @@ function mod:OmenOfDeathTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnOmenOfDeath:Show()
 		yellOmenOfDeath:Yell()
-		sndWOP:Play("runaway")
+		voiceOmenOfDeath:Play("runaway")
+	elseif self:CheckNearby(5, targetname) then
+		specWarnOmenOfDeathNear:Show()
 	end
 end
 
 function mod:OnCombatStart(delay)
-	timerOmenOfDeathCD:Start(12-delay)
+	--timerOmenOfDeathCD:Start(8.5-delay)
 	timerRitualOfBonesCD:Start(20-delay)
-	sndWOP:Schedule(15, "specialsoon")
-	sndWOP:Schedule(17, "countthree")
-	sndWOP:Schedule(18, "counttwo")
-	sndWOP:Schedule(19, "countone")
+	voiceRitualOfBones:Schedule(18-delay, "specialsoon")
 end
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 154442 then
 		warnMalevolence:Show()
 		specWarnMalevolence:Show()
-		sndWOP:Play("shockwave")
+		voiceMalevolence:Play("shockwave")
 	end
 end
 
@@ -66,9 +68,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnRitualOfBones:Show()
 		specWarnRitualOfBones:Show()
 		timerRitualOfBonesCD:Start()
-		sndWOP:Schedule(45.5, "specialsoon")
-		sndWOP:Schedule(47.5, "countthree")
-		sndWOP:Schedule(48.5, "counttwo")
-		sndWOP:Schedule(49.5, "countone")
+		voiceRitualOfBones:Schedule(48.5, "specialsoon")
 	end
 end
