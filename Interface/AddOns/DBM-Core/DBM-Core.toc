@@ -47,4 +47,4 @@ DBM-BossHealth.lua
 DBM-BossHealth.xml
 DBM-InfoFrame.lua
 DBM-HudMap.lua
-## X-163UI-Version: 2014123101
+## X-163UI-Version: 20141231160530
