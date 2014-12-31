@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1234, "DBM-Party-WoD", 8, 559)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11542 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12037 $"):sub(12, -3))
 mod:SetCreatureID(77120)
 mod:SetEncounterID(1762)
 mod:SetZone()
@@ -32,6 +31,8 @@ local timerZaelaReturns			= mod:NewTimer(26.5, "timerZaelaReturns", 166041)
 local countdownDestructiveSmite	= mod:NewCountdown("OptionVersion2", 15.5, 155673, mod:IsTank())
 
 local soundCyclone				= mod:NewSound(155721)
+local voiceCyclone				= mod:NewVoice(155721)
+local voicePhaseChange			= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
 function mod:OnCombatStart(delay)
 	timerReboundingBladeCD:Start(-delay)
@@ -54,8 +55,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBlackIronCycloneCD:Start()
 		if args:IsPlayer() then
 			specWarnBlackIronCyclone:Show()
-			--soundCyclone:Play()
-			sndWOP:Play("runaway")
+			soundCyclone:Play()
+			voiceCyclone:Play("runaway") 
 		end
 	end
 end
@@ -72,10 +73,10 @@ function mod:UNIT_TARGETABLE_CHANGED()
 		warnZaela:Show()
 		specWarnZaela:Show()
 		timerBlackIronCycloneCD:Start(10)
-		sndWOP:Play("phasechange")
+		voicePhaseChange:Play("phasechange")
 	else--Leaving for air phase, may need to delay by a sec or so if boss1 still exists.
 		timerZaelaReturns:Start()
 		timerBlackIronCycloneCD:Cancel()
-		sndWOP:Play("phasechange")
+		voicePhaseChange:Play("phasechange")
 	end
-end
+end	

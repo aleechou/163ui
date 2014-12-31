@@ -27,26 +27,30 @@
 ## X-DBM-Mod-Name-zhCN: 队伍首领(德拉诺之王)
 ## X-DBM-Mod-Sort: 125
 ## X-DBM-Mod-MapID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
+## X-Curse-Packaged-Version: 6.0.10
+## X-Curse-Project-Name: Deadly Boss Mods
+## X-Curse-Project-ID: deadly-boss-mods
+## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 localization.en.lua
 localization.kr.lua
 localization.de.lua
 localization.ru.lua
 localization.tw.lua
 localization.cn.lua
+Auchindoun\AuchTrash.lua
 Auchindoun\ProtectorOfAuch.lua
 Auchindoun\Nyami.lua
 Auchindoun\Azzakel.lua
 Auchindoun\Terongor.lua
-Auchindoun\AuchTrash.lua
+BloodmaulSlagMines\BSMTrash.lua
 BloodmaulSlagMines\Magmolatus.lua
 BloodmaulSlagMines\Crushto.lua
 BloodmaulSlagMines\Roltall.lua
 BloodmaulSlagMines\Gugrokk.lua
-BloodmaulSlagMines\BSMTrash.lua
+GrimRailDepot\GRDTrash.lua
 GrimRailDepot\RocketAndBorka.lua
 GrimRailDepot\BlackrockAssaultCommander.lua
 GrimRailDepot\ThunderlordGeneral.lua
-GrimRailDepot\GRDTrash.lua
 IronDocks\Nokgar.lua
 IronDocks\GrimrailEnforcers.lua
 IronDocks\Oshir.lua
@@ -60,14 +64,14 @@ SMBurialGrounds\SadanaBloodfury.lua
 SMBurialGrounds\Nhallish.lua
 SMBurialGrounds\Bonemaw.lua
 SMBurialGrounds\Nerzhul.lua
+Skyreach\SkyreachTrash.lua
 Skyreach\Ranjit.lua
 Skyreach\Araknath.lua
 Skyreach\Rukhran.lua
 Skyreach\Viryx.lua
+UBRS\UBRSTrash.lua
 UBRS\Gorashan.lua
 UBRS\Kyrak.lua
 UBRS\Tharbek.lua
 UBRS\Ragewing.lua
 UBRS\Zaela.lua
-UBRS\UBRSTrash.lua
-## X-163UI-Version: 20141215173029

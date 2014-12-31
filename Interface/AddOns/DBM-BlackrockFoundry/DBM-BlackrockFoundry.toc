@@ -16,6 +16,10 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 101
 ## X-DBM-Mod-MapID: 1205
+## X-Curse-Packaged-Version: 6.0.10
+## X-Curse-Project-Name: Deadly Boss Mods
+## X-Curse-Project-ID: deadly-boss-mods
+## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
 localization.en.lua
 localization.kr.lua
 localization.ru.lua
@@ -33,4 +37,4 @@ Thogar.lua
 IronMaidens.lua
 Blackhand.lua
 BlackrockFoundryTrash.lua
-## X-163UI-Version: 20141215173029
+## X-163UI-Version: 2014123101
