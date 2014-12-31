@@ -8,12 +8,13 @@ ALDB.frame = ALDB.frame or CreateFrame("FRAME")
 
 local EMPTY_TABLE = {}
 
-local DbTableFunctions = {
+local DbDefaultsFunctions = {
 	-- true is default
-	UseBase = function(self, val)
+	UseBase = function(defaults, val)
 	
 	end,
 }
+local DbDefaults_mt = { __index = DbDefaultsFunctions }
 
 local function mergeBaseAndSec(db, savedBase, savedSec)
 	savedBase = savedBase or EMPTY_TABLE
@@ -36,6 +37,7 @@ local function copyDefaultsWithSec(db, savedBase, savedSec, defaults)
 	savedBase = savedBase or EMPTY_TABLE
 	savedSec = savedSec or EMPTY_TABLE
 	db.__useSec = savedBase.__useSec
+	db.__defaults = setmetatable(defaults, DbDefaults_mt)
 	for k,v in pairs(defaults) do
 		if k == "*" then
 			if type(v) == "table" then

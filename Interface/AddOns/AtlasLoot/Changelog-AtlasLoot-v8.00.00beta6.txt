@@ -1,9 +1,55 @@
 ------------------------------------------------------------------------
-r4319 | dynaletik | 2014-12-20 19:59:46 +0000 (Sat, 20 Dec 2014) | 1 line
+r4321 | dynaletik | 2014-12-28 18:56:43 +0000 (Sun, 28 Dec 2014) | 1 line
 Changed paths:
-   A /tags/v8.00.00beta5 (from /trunk:4318)
+   A /tags/v8.00.00beta6 (from /trunk:4320)
 
-Tagging as v8.00.00beta5
+Tagging as v8.00.00beta6
+------------------------------------------------------------------------
+r4320 | dynaletik | 2014-12-28 18:54:57 +0000 (Sun, 28 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/AtlasLoot/AtlasLoot.lua
+   M /trunk/AtlasLoot/AtlasLoot.toc
+   M /trunk/AtlasLoot/Button/Extra_Price_type.lua
+   M /trunk/AtlasLoot/Button/Set_type.lua
+   M /trunk/AtlasLoot/Constants.lua
+   M /trunk/AtlasLoot/Core/ItemString.lua
+   M /trunk/AtlasLoot/Data/Sets.lua
+   M /trunk/AtlasLoot/GUI/GUI.lua
+   M /trunk/AtlasLoot/GUI/ItemFrame.lua
+   M /trunk/AtlasLoot/GUI/QuickLootFrame.lua
+   M /trunk/AtlasLoot/GUI/SetViewFrame.lua
+   M /trunk/AtlasLoot/GUI/Template_TextWithBg.lua
+   M /trunk/AtlasLoot/ItemDB/ItemDB.lua
+   M /trunk/AtlasLoot/Libs/ALDB-1.0/ALDB-1.0.lua
+   A /trunk/AtlasLoot/Libs/LibSharedMedia-3.0
+   A /trunk/AtlasLoot/Libs/LibSharedMedia-3.0/LibSharedMedia-3.0.lua
+   A /trunk/AtlasLoot/Libs/LibSharedMedia-3.0/lib.xml
+   M /trunk/AtlasLoot/Locales/IngameLocales.lua
+   M /trunk/AtlasLoot/Locales/Locales.lua
+   M /trunk/AtlasLoot/Locales/constants.lua
+   M /trunk/AtlasLoot/MiniMapButton.lua
+   M /trunk/AtlasLoot/db.lua
+   M /trunk/AtlasLoot/embeds.xml
+   M /trunk/AtlasLoot_BurningCrusade/data.lua
+   M /trunk/AtlasLoot_Cataclysm/data.lua
+   M /trunk/AtlasLoot_Classic/data.lua
+   M /trunk/AtlasLoot_Collections/data.lua
+   M /trunk/AtlasLoot_Collections/sets.lua
+   M /trunk/AtlasLoot_Factions/data.lua
+   M /trunk/AtlasLoot_MistsofPandaria/data.lua
+   M /trunk/AtlasLoot_Options/ALOptions/ALOptions-1.0.lua
+   M /trunk/AtlasLoot_Options/ALOptions/ALOptions-1.0.xml
+   M /trunk/AtlasLoot_Options/ALOptions/widgets/Button.lua
+   M /trunk/AtlasLoot_Options/ALOptions/widgets/ColorPicker.lua
+   A /trunk/AtlasLoot_Options/ALOptions/widgets/Slider.lua
+   M /trunk/AtlasLoot_Options/Core.lua
+   D /trunk/AtlasLoot_Options/Locales/Locales.lua
+   M /trunk/AtlasLoot_Options/Locales/constants.lua
+   M /trunk/AtlasLoot_WarlordsofDraenor/data.lua
+   M /trunk/AtlasLoot_WorldEvents/data.lua
+   M /trunk/AtlasLoot_WrathoftheLichKing/data.lua
+
+- beta 6
 ------------------------------------------------------------------------
 r4318 | dynaletik | 2014-12-20 19:53:17 +0000 (Sat, 20 Dec 2014) | 1 line
 Changed paths:

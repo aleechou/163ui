@@ -11,7 +11,7 @@ local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
 		autoCompleteItem2 = true,
 	},
 }, 17)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
 local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", {
 	Item = {
 		item1bonus = nil,
@@ -49,7 +49,7 @@ local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset"
 		item2bonus = "Dungeon",
 	},
 })
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"])
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
 local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", {
 	Item = {
 		item1bonus = "HCDungeon",
@@ -64,7 +64,7 @@ local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", {
 		autoCompleteItem2 = true,
 	},
 }, 15)
-local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], nil, nil, 16)
+local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", nil, 16)
 local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
 	Item = {
 		item1bonus = "MythicRaid",
@@ -373,6 +373,11 @@ data["Auchindoun"] = {
 				{ 218, "ac9552" },
 			},
 		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
+		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
 	}
@@ -613,6 +618,11 @@ data["BloodmaulSlagMines"] = {
 				{ 223, "ac9008" },
 			},
 		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
+		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
 	}
@@ -802,6 +812,11 @@ data["GrimrailDepot"] = {
 				{ 206, "114107:0", false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Core of Iron
 				{ 217, "ac9052" },
 			},
+		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
 		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
@@ -1044,6 +1059,11 @@ data["IronDocks"] = {
 				{ 218, "ac9082" },
 			},
 		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
+		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
 	}
@@ -1282,6 +1302,11 @@ data["ShadowmoonBurialGrounds"] = {
 				{ 220, "ac9054" },
 				{ 221, "ac9026" },
 			},
+		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
 		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
@@ -1523,6 +1548,11 @@ data["Skyreach"] = {
 				{ 224, "ac8844" },
 				{ 225, "ac9036" },
 			},
+		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
 		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
@@ -1815,6 +1845,11 @@ data["TheEverbloom"] = {
 				{ 223, "ac9053" },
 				{ 224, "ac9223" },
 			},
+		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
 		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
@@ -2109,6 +2144,11 @@ data["UpperBlackrockSpire"] = {
 				{ 217, "ac9055" },
 				{ 218, "ac9057" },
 			},
+		},
+		{	--Challenge Mode Gear
+			name = AL["Challenge Mode Gear"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CMGEAR:1",
 		},
 		WOD_DUNGEON_HERO_AC_TABLE,
 		WOD_GLORY_OF_THE_HERO_AC_TABLE,
@@ -2514,11 +2554,25 @@ data["BlackrockFoundry"] = {
 			name = AL["Trash Mobs"],
 			ExtraList = true,
 			[NORMAL_RAID_DIFF] = {
+				{ 1, 119332 },	-- Bracers of Darkened Skies
+				{ 2, 119342 },	-- Furnace Stoker's Footwraps
+				{ 3, 119333 },	-- Bracers of Shattered Limbs
+				{ 4, 119340 },	-- Iron-Flecked Sandals
+				{ 5, 119334 },	-- Bracers of Callous Disregard
+				{ 6, 119339 },	-- Treads of the Veteran Smith
+				{ 7, 119331 },	-- Bracers of Visceral Force
+				{ 8, 119341 },	-- Doomslag Greatboots
 			},
-			[HEROIC_DIFF] = {
-			},
-			[MYTHIC_DIFF] = {
-			},
+			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
+			[MYTHIC_PRE_DIFF] = NORMAL_RAID_DIFF,
+		},
+		{	--Tier 17 Sets
+			name = format(AL["Tier %d Sets"], 17),
+			ExtraList = true,
+			[RF_DIFF] = "AtlasLoot_Collections:TIERSETS:1:rf",
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:1:n",
+			[HEROIC_PRE_DIFF] = "AtlasLoot_Collections:TIERSETS:1:h",
+			[MYTHIC_PRE_DIFF] = "AtlasLoot_Collections:TIERSETS:1:m",
 		},
 		WOD_RAID1_AC_TABLE,
 	},

@@ -6,14 +6,13 @@ local EJ_GetEncounterInfo = EJ_GetEncounterInfo
 
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
-
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], nil, nil, 17)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
-local M25_DIFF = data:AddDifficulty(AL["25 Man"])
-local REMOVED_DIFF = data:AddDifficulty(AL["Removed"])
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", nil, 17)
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
+local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", nil, 4)
+local REMOVED_DIFF = data:AddDifficulty(AL["Removed"], "removed")
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
@@ -431,6 +430,16 @@ data["BlackrockDepths"] = {
 				{ 27, 64304 },	-- Elemental Module
 				{ 28, 64313 },	-- Elemental-Imbued Weapon
 			},
+		},
+		{	--Miscellaneous Sets
+			name = AL["Miscellaneous"].." "..AL["Sets"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CLASSICSETS:4",
+		},
+		{	--BrewfestCorenDirebrew
+			name = BB["Coren Direbrew"].." ("..AL["Brewfest"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:Brewfest:1",
 		},
 		CLASSIC_INSTANCE_AC_TABLE,
 	}
@@ -1448,6 +1457,11 @@ data["ScarletMonastery"] = {
 			},
 			[HEROIC_DIFF] = "AtlasLoot_MistsofPandaria",
 		},
+		{	--HallowsEndHeadlessHorseman
+			name = BB["Headless Horseman"].." ("..AL["Hallow's End"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:HallowsEnd:1",
+		},
 		CLASSIC_INSTANCE_AC_TABLE,
 	}
 }
@@ -1631,6 +1645,17 @@ data["Stratholme"] = {
 				{ 4, 13379 },	-- Piccolo of the Flaming Fire
 			},
 		},
+		{	--STRATPostmasterMalown
+			name = BB["Postmaster Malown"],
+			[NORMAL_DIFF] = {
+				{ 1, 13390 },	-- The Postmaster's Band
+				{ 2, 13388 },	-- The Postmaster's Tunic
+				{ 3, 13389 },	-- The Postmaster's Trousers
+				{ 4, 13391 },	-- The Postmaster's Treads
+				{ 16, 13392 },	-- The Postmaster's Seal
+				{ 18, 13393 },	-- Malown's Slam
+			},
+		},			
 		{	--STRATTimmytheCruel
 			EncounterJournalID = 445,
 			[NORMAL_DIFF] = {
@@ -1802,6 +1827,11 @@ data["Stratholme"] = {
 				{ 24, "INV_Box_01", nil, BB["Fras Siabi"], nil },
 				{ 25, 13172 },	-- Siabi's Premium Tobacco
 			},
+		},
+		{	--Miscellaneous Sets
+			name = AL["Miscellaneous"].." "..AL["Sets"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CLASSICSETS:4",
 		},
 		CLASSIC_INSTANCE_AC_TABLE,
 	}
@@ -2132,6 +2162,11 @@ data["WailingCaverns"] = {
 			name = AL["Trash Mobs"],
 			ExtraList = true,
 			[NORMAL_DIFF] = WAILING_CAVERNS_LOOT2,
+		},
+		{	--Miscellaneous Sets
+			name = AL["Miscellaneous"].." "..AL["Sets"],
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CLASSICSETS:4",
 		},
 		CLASSIC_INSTANCE_AC_TABLE,
 	}
@@ -2511,64 +2546,9 @@ data["AhnQiraj"] = {
 			},
 		},
 		{	--AQ40Sets
-			name = GetMapNameByID(766).." "..AL["Set"],
+			name = ALIL["Ahn'Qiraj"].." "..AL["Sets"],
 			ExtraList = true,
-			[NORMAL_DIFF] = {
-				{ 1, 0 },	-- #aq40s1#
-				{ 2, 21357 },	-- Genesis Vest
-				{ 3, 21353 },	-- Genesis Helm
-				{ 4, 21356 },	-- Genesis Trousers
-				{ 5, 21354 },	-- Genesis Shoulderpads
-				{ 6, 21355 },	-- Genesis Boots
-				{ 8, 0 },	-- #aq40s2#
-				{ 9, 21370 },	-- Striker's Hauberk
-				{ 10, 21366 },	-- Striker's Diadem
-				{ 11, 21368 },	-- Striker's Leggings
-				{ 12, 21367 },	-- Striker's Pauldrons
-				{ 13, 21365 },	-- Striker's Footguards
-				{ 16, 0 },	-- #aq40s3#
-				{ 17, 21343 },	-- Enigma Robes
-				{ 18, 21347 },	-- Enigma Circlet
-				{ 19, 21346 },	-- Enigma Leggings
-				{ 20, 21345 },	-- Enigma Shoulderpads
-				{ 21, 21344 },	-- Enigma Boots
-				{ 23, 0 },	-- #aq40s4#
-				{ 24, 21389 },	-- Avenger's Breastplate
-				{ 25, 21387 },	-- Avenger's Crown
-				{ 26, 21390 },	-- Avenger's Legguards
-				{ 27, 21391 },	-- Avenger's Pauldrons
-				{ 28, 21388 },	-- Avenger's Greaves
-				{ 101, 0 },	-- #aq40s5#
-				{ 102, 21351 },	-- Vestments of the Oracle
-				{ 103, 21348 },	-- Tiara of the Oracle
-				{ 104, 21352 },	-- Trousers of the Oracle
-				{ 105, 21350 },	-- Mantle of the Oracle
-				{ 106, 21349 },	-- Footwraps of the Oracle
-				{ 108, 0 },	-- #aq40s6#
-				{ 109, 21364 },	-- Deathdealer's Vest
-				{ 110, 21360 },	-- Deathdealer's Helm
-				{ 111, 21362 },	-- Deathdealer's Leggings
-				{ 112, 21361 },	-- Deathdealer's Spaulders
-				{ 113, 21359 },	-- Deathdealer's Boots
-				{ 116, 0 },	-- #aq40s7#
-				{ 117, 21374 },	-- Stormcaller's Hauberk
-				{ 118, 21372 },	-- Stormcaller's Diadem
-				{ 119, 21375 },	-- Stormcaller's Leggings
-				{ 120, 21376 },	-- Stormcaller's Pauldrons
-				{ 121, 21373 },	-- Stormcaller's Footguards
-				{ 123, 0 },	-- #aq40s8#
-				{ 124, 21334 },	-- Doomcaller's Robes
-				{ 125, 21337 },	-- Doomcaller's Circlet
-				{ 126, 21336 },	-- Doomcaller's Trousers
-				{ 127, 21335 },	-- Doomcaller's Mantle
-				{ 128, 21338 },	-- Doomcaller's Footwraps
-				{ 201, 0 },	-- #aq40s9#
-				{ 202, 21331 },	-- Conqueror's Breastplate
-				{ 203, 21329 },	-- Conqueror's Crown
-				{ 204, 21332 },	-- Conqueror's Legguards
-				{ 205, 21330 },	-- Conqueror's Spaulders
-				{ 206, 21333 },	-- Conqueror's Greaves
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CLASSICSETS:1",
 		},
 		{	--AQEnchants
 			name = AL["AQ Enchants"],
@@ -2579,23 +2559,7 @@ data["AhnQiraj"] = {
 			FactionID = 910,
 			CoinTexture = "Reputation",
 			ExtraList = true,
-			[NORMAL_DIFF] = {
-				{ 1, 21201, [QUEST_EXTRA_ITTYPE] = 8752 },	-- Signet Ring of the Bronze Dragonflight
-				{ 2, 21202, [QUEST_EXTRA_ITTYPE] = 8753 },	-- Signet Ring of the Bronze Dragonflight
-				{ 3, 21203, [QUEST_EXTRA_ITTYPE] = 8754 },	-- Signet Ring of the Bronze Dragonflight
-				{ 4, 21204, [QUEST_EXTRA_ITTYPE] = 8755 },	-- Signet Ring of the Bronze Dragonflight
-				{ 5, 21205, [QUEST_EXTRA_ITTYPE] = 8756 },	-- Signet Ring of the Bronze Dragonflight
-				{ 7, 21206, [QUEST_EXTRA_ITTYPE] = 8757 },	-- Signet Ring of the Bronze Dragonflight
-				{ 8, 21207, [QUEST_EXTRA_ITTYPE] = 8758 },	-- Signet Ring of the Bronze Dragonflight
-				{ 9, 21208, [QUEST_EXTRA_ITTYPE] = 8759 },	-- Signet Ring of the Bronze Dragonflight
-				{ 10, 21209, [QUEST_EXTRA_ITTYPE] = 8760 },	-- Signet Ring of the Bronze Dragonflight
-				{ 11, 21210, [QUEST_EXTRA_ITTYPE] = 8761 },	-- Signet Ring of the Bronze Dragonflight
-				{ 16, 21196, [QUEST_EXTRA_ITTYPE] = 8747 },	-- Signet Ring of the Bronze Dragonflight
-				{ 17, 21197, [QUEST_EXTRA_ITTYPE] = 8748 },	-- Signet Ring of the Bronze Dragonflight
-				{ 18, 21198, [QUEST_EXTRA_ITTYPE] = 8749 },	-- Signet Ring of the Bronze Dragonflight
-				{ 19, 21199, [QUEST_EXTRA_ITTYPE] = 8750 },	-- Signet Ring of the Bronze Dragonflight
-				{ 20, 21200, [QUEST_EXTRA_ITTYPE] = 8751 },	-- Signet Ring of the Bronze Dragonflight
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:CLASSICFACTIONS:3",
 		},
 		CLASSIC_RAID_AC_TABLE,
 	}
@@ -2833,6 +2797,11 @@ data["BlackwingLair"] = {
 				{ 16, "INV_Box_01", nil, AL["Master Elemental Shaper Krixix"], nil },
 				{ 17, 44956 },	-- Goblin's Guide to Elementium
 			},
+		},
+		{	--Tier 2 Sets
+			name = format(AL["Tier %d Sets"], 2),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:16",
 		},
 		CLASSIC_RAID_AC_TABLE,
 	}
@@ -3183,6 +3152,11 @@ data["MoltenCore"] = {
 				{ 24, 16857 },	-- Lawbringer Bracers
 			},
 		},
+		{	--Tier 1 Sets
+			name = format(AL["Tier %d Sets"], 1),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:17",
+		},
 		CLASSIC_RAID_AC_TABLE,
 	}
 }
@@ -3344,46 +3318,9 @@ data["TheRuinsofAhnQiraj"] = {
 			},
 		},
 		{	--AQ20Sets
-			name = GetMapNameByID(717).." "..AL["Set"],
+			name = ALIL["Ruins of Ahn'Qiraj"].." "..AL["Sets"],
 			ExtraList = true,
-			[NORMAL_DIFF] = {
-				{ 1, 0 },	-- #aq20s1#
-				{ 2, 21407 },	-- Mace of Unending Life
-				{ 3, 21409 },	-- Cloak of Unending Life
-				{ 4, 21408 },	-- Band of Unending Life
-				{ 6, 0 },	-- #aq20s2#
-				{ 7, 21401 },	-- Scythe of the Unseen Path
-				{ 8, 21403 },	-- Cloak of the Unseen Path
-				{ 9, 21402 },	-- Signet of the Unseen Path
-				{ 11, 0 },	-- #aq20s3#
-				{ 12, 21413 },	-- Blade of Vaulted Secrets
-				{ 13, 21415 },	-- Drape of Vaulted Secrets
-				{ 14, 21414 },	-- Band of Vaulted Secrets
-				{ 16, 0 },	-- #aq20s4#
-				{ 17, 21395 },	-- Blade of Eternal Justice
-				{ 18, 21397 },	-- Cape of Eternal Justice
-				{ 19, 21396 },	-- Ring of Eternal Justice
-				{ 21, 0 },	-- #aq20s5#
-				{ 22, 21410 },	-- Gavel of Infinite Wisdom
-				{ 23, 21412 },	-- Shroud of Infinite Wisdom
-				{ 24, 21411 },	-- Ring of Infinite Wisdom
-				{ 26, 0 },	-- #aq20s6#
-				{ 27, 21404 },	-- Dagger of Veiled Shadows
-				{ 28, 21406 },	-- Cloak of Veiled Shadows
-				{ 29, 21405 },	-- Band of Veiled Shadows
-				{ 101, 0 },	-- #aq20s7#
-				{ 102, 21398 },	-- Hammer of the Gathering Storm
-				{ 103, 21400 },	-- Cloak of the Gathering Storm
-				{ 104, 21399 },	-- Ring of the Gathering Storm
-				{ 106, 0 },	-- #aq20s8#
-				{ 107, 21416 },	-- Kris of Unspoken Names
-				{ 108, 21418 },	-- Shroud of Unspoken Names
-				{ 109, 21417 },	-- Ring of Unspoken Names
-				{ 116, 0 },	-- #aq20s9#
-				{ 117, 21392 },	-- Sickle of Unyielding Strength
-				{ 118, 21394 },	-- Drape of Unyielding Strength
-				{ 119, 21393 },	-- Signet of Unyielding Strength
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Collections:CLASSICSETS:2",
 		},
 		{	--AQEnchants
 			name = AL["AQ Enchants"],
@@ -3394,41 +3331,11 @@ data["TheRuinsofAhnQiraj"] = {
 			FactionID = 609,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, "f609rep5" },
-				{ 2, 22209 },	-- Plans: Heavy Obsidian Belt
-				{ 3, 22768 },	-- Plans: Ironvine Belt
-				{ 4, 21952 },	-- Design: Emerald Crown of Destruction
-				{ 5, 22769 },	-- Pattern: Bramblewood Belt
-				{ 6, 20509 },	-- Pattern: Sandstalker Bracers
-				{ 7, 20506 },	-- Pattern: Spitfire Bracers
-				{ 8, 22772 },	-- Pattern: Sylvan Shoulders
-				{ 9, 22310 },	-- Pattern: Cenarion Herb Bag
-				{ 16, "f609rep6" },
-				{ 17, 22767 },	-- Plans: Ironvine Gloves
-				{ 18, 22214 },	-- Plans: Light Obsidian Belt
-				{ 19, 22770 },	-- Pattern: Bramblewood Boots
-				{ 20, 20510 },	-- Pattern: Sandstalker Gauntlets
-				{ 21, 20507 },	-- Pattern: Spitfire Gauntlets
-				{ 22, 22773 },	-- Pattern: Sylvan Crown
-				{ 101, "f609rep7" },
-				{ 102, 22766 },	-- Plans: Ironvine Breastplate
-				{ 103, 22219 },	-- Plans: Jagged Obsidian Shield
-				{ 104, 22771 },	-- Pattern: Bramblewood Helm
-				{ 105, 20511 },	-- Pattern: Sandstalker Breastplate
-				{ 106, 20508 },	-- Pattern: Spitfire Breastplate
-				{ 107, 22683 },	-- Pattern: Gaea's Embrace
-				{ 108, 22312 },	-- Pattern: Satchel of Cenarius
-				{ 109, 22774 },	-- Pattern: Sylvan Vest
-				{ 116, "f609rep8" },
-				{ 117, 22221 },	-- Plans: Obsidian Mail Tunic
-				{ 118, 20382 },	-- Pattern: Dreamscale Breastplate
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:CLASSICFACTIONS:4",
 		},
 		CLASSIC_RAID_AC_TABLE,
 	}
 }
-
 
 data["Naxxramas"] = {
 	name = ALIL["Naxxramas"],
@@ -3440,7 +3347,7 @@ data["Naxxramas"] = {
 		{	--Naxx80AnubRekhan
 			name = BB["Anub'Rekhan"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 27.61 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3457,7 +3364,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Faerlina
 			name = BB["Grand Widow Faerlina"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 19.01 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3474,7 +3381,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Maexxna
 			name = BB["Maexxna"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 11.13 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3491,7 +3398,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Noth
 			name = BB["Noth the Plaguebringer"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 13.07 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3510,7 +3417,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Heigan
 			name = BB["Heigan the Unclean"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3527,7 +3434,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Loatheb
 			name = BB["Loatheb"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3544,7 +3451,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Razuvious
 			name = BB["Instructor Razuvious"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 24.39 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3562,7 +3469,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Gothik
 			name = BB["Gothik the Harvester"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3579,7 +3486,7 @@ data["Naxxramas"] = {
 		{	--Naxx80FourHorsemen
 			name = BB["The Four Horsemen"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3597,7 +3504,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Patchwerk
 			name = BB["Patchwerk"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726, 11.39 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3614,7 +3521,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Grobbulus
 			name = BB["Grobbulus"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3631,7 +3538,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Gluth
 			name = BB["Gluth"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3657,7 +3564,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Thaddius
 			name = BB["Thaddius"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22726 }, -- Splinter of Atiesh
 				{ 2, 22727 }, -- Frame of Atiesh
@@ -3674,7 +3581,7 @@ data["Naxxramas"] = {
 		{	--Naxx80Sapphiron
 			name = BB["Sapphiron"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 23050 }, -- Cloak of the Necropolis
 				{ 2, 23045 }, -- Shroud of Dominion
@@ -3696,7 +3603,7 @@ data["Naxxramas"] = {
 		{	--Naxx80KelThuzad
 			name = BB["Kel'Thuzad"],
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 22802 }, -- Kingsfall
 				{ 2, 23054 }, -- Gressil, Dawn of Ruin
@@ -3732,7 +3639,7 @@ data["Naxxramas"] = {
 			name = AL["Trash Mobs"],
 			ExtraList = true,
 			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing",
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 			[REMOVED_DIFF] = {
 				{ 1, 23069 }, -- Necro-Knight's Garb
 				{ 2, 23226 }, -- Ghoul Skin Tunic
@@ -3754,19 +3661,26 @@ data["Naxxramas"] = {
 				{ 22, 23055 }, -- Word of Thawing
 			},
 		},
+		{	--Tier 3 Sets
+			name = format(AL["Tier %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[REMOVED_DIFF] = "AtlasLoot_Collections:TIERSETS:15:n",
+		},
 		{	-- WOTLK_RAID1_10_AC_TABLE
 			name = select(2, GetAchievementInfo(2137)),
 			ExtraList = true,
 			TableType = AC_ITTYPE,
 			CoinTexture = "Achievement",
-			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing"
+			[NORMAL_DIFF] = "AtlasLoot_WrathoftheLichKing",
 		},
 		{	-- WOTLK_RAID1_25_AC_TABLE
 			name = select(2, GetAchievementInfo(2138)),
 			ExtraList = true,
 			TableType = AC_ITTYPE,
 			CoinTexture = "Achievement",
-			[M25_DIFF] = "AtlasLoot_WrathoftheLichKing"
+			[P25_DIFF] = "AtlasLoot_WrathoftheLichKing",
 		},
 	}
 }

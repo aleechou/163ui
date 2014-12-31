@@ -5,10 +5,13 @@ local data = AtlasLoot.ItemDB:Add(addonname, 4)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], nil, nil, 7)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
-local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 6)
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", nil, 7)
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
+local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], "rh", nil, 6)
+
+local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
+local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
@@ -2071,85 +2074,32 @@ data["BaradinHold"] = {
 				{ 924, "ac6108" },
 			},
 		},
+		{	--Tier 11 Sets
+			name = format(AL["Tier %d Sets"], 11),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:7",
+		},
+		{	--Tier 12 Sets
+			name = format(AL["Tier %d Sets"], 12),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:6",
+		},
+		{	--Tier 13 Sets
+			name = format(AL["Tier %d Sets"], 13),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:5",
+		},
 		{	--BaradinsWardens
 			FactionID = 1177,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, "f1177rep4" },
-				{ 2, 68774 },	-- Greater Inscription of Vicious Agility
-				{ 3, 68772 },	-- Greater Inscription of Vicious Intellect
-				{ 4, 68773 },	-- Greater Inscription of Vicious Strength
-				{ 6, "f1177rep5" },
-				{ 7, 63517 },	-- Baradin's Wardens Commendation
-				{ 8, 63391 },	-- Baradin's Wardens Bandage
-				{ 9, 63144 },	-- Baradin's Wardens Healing Potion
-				{ 10, 63145 },	-- Baradin's Wardens Mana Potion
-				{ 16, "f1177rep6" },
-				{ 17, 63379 },	-- Baradin's Wardens Tabard
-				{ 18, 65175 },	-- Baradin Footman's Tags
-				{ 19, 63355, "pet271" },	-- Rustberg Gull
-				{ 20, 63141 },	-- Tol Barad Searchlight
-				{ 101, "f1177rep7" },
-				{ 102, 62475 },	-- Dagger of Restless Nights
-				{ 103, 62473 },	-- Blade of the Fearless
-				{ 104, 62476 },	-- Ravening Slicer
-				{ 105, 68739 },	-- Darkheart Hacker
-				{ 106, 62478 },	-- Shimmering Morningstar
-				{ 107, 62474 },	-- Spear of Trailing Shadows
-				{ 108, 62477 },	-- Insidious Staff
-				{ 109, 62479 },	-- Sky Piercer
-				{ 110, 63377 },	-- Baradin's Wardens Battle Standard
-				{ 116, "f1177rep8" },
-				{ 117, 62469 },	-- Impatience of Youth
-				{ 118, 62472 },	-- Mandala of Stirring Patterns
-				{ 119, 62471 },	-- Mirror of Broken Images
-				{ 120, 62470 },	-- Stump of Time
-				{ 121, 62468 },	-- Unsolvable Riddle
-				{ 122, 64998, "mount" },	-- Reins of the Spectral Steed
-				{ 123, 63039, "mount" },	-- Reins of the Drake of the West Wind
-				{ 124, 90897, "pet278" },	-- Fox Kit
-			},
+			[ALLIANCE_DIFF] = "AtlasLoot_Factions:CATAFACTIONS:2",
 		},
 		{	--HellscreamsReach
 			FactionID = 1178,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, "f1178rep4" },
-				{ 2, 68774 },	-- Greater Inscription of Vicious Agility
-				{ 3, 68772 },	-- Greater Inscription of Vicious Intellect
-				{ 4, 68773 },	-- Greater Inscription of Vicious Strength
-				{ 6, "f1178rep5" },
-				{ 7, 63518 },	-- Hellscream's Reach Commendation
-				{ 8, 64995 },	-- Hellscream's Reach Bandage
-				{ 9, 64994 },	-- Hellscream's Reach Healing Potion
-				{ 10, 64993 },	-- Hellscream's Reach Mana Potion
-				{ 16, "f1178rep6" },
-				{ 17, 63378 },	-- Hellscream's Reach Tabard
-				{ 18, 65176 },	-- Baradin Grunt's Talisman
-				{ 19, 64996, "pet271" },	-- Rustberg Gull
-				{ 20, 64997 },	-- Tol Barad Searchlight
-				{ 101, "f1178rep7" },
-				{ 102, 62456 },	-- Dagger of Restless Nights
-				{ 103, 62454 },	-- Blade of the Fearless
-				{ 104, 62457 },	-- Ravening Slicer
-				{ 105, 68740 },	-- Darkheart Hacker
-				{ 106, 62459 },	-- Shimmering Morningstar
-				{ 107, 62455 },	-- Spear of Trailing Shadows
-				{ 108, 62458 },	-- Insidious Staff
-				{ 109, 62460 },	-- Sky Piercer
-				{ 110, 63376 },	-- Hellscream's Reach Battle Standard
-				{ 116, "f1178rep8" },
-				{ 117, 62464 },	-- Impatience of Youth
-				{ 118, 62467 },	-- Mandala of Stirring Patterns
-				{ 119, 62466 },	-- Mirror of Broken Images
-				{ 120, 62465 },	-- Stump of Time
-				{ 121, 62463 },	-- Unsolvable Riddle
-				{ 122, 64999, "mount" },	-- Reins of the Spectral Wolf
-				{ 123, 65356, "mount" },	-- Reins of the Drake of the West Wind
-				{ 124, 90898, "pet278" },	-- Fox Kit
-			},
+			[HORDE_DIFF] = "AtlasLoot_Factions:CATAFACTIONS:7",
 		},
 	}
 }
@@ -2394,6 +2344,12 @@ data["BlackwingDescent"] = {
 				{ 20, 68601 },	-- Scaleslicer
 				{ 21, 59460 },	-- Theresa's Booklight
 			},
+		},
+		{	--Tier 11 Sets
+			name = format(AL["Tier %d Sets"], 11),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:7",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:7:h",
 		},
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,
@@ -2845,6 +2801,13 @@ data["CoTDragonSoul"] = {
 				{ 21, 72012 },	-- Plans: Unstoppable Destroyer's Legplates
 			},
 		},
+		{	--Tier 13 Sets
+			name = format(AL["Tier %d Sets"], 13),
+			ExtraList = true,
+			[RF_DIFF] = "AtlasLoot_Collections:TIERSETS:5",
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:5",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:5:h",
+		},
 		CATA_RAID3_AC_TABLE,
 	}
 }
@@ -3216,39 +3179,17 @@ data["Firelands"] = {
 				{ 19, 71617 },	-- Crystallized Firestone
 			},
 		},
+		{	--Tier 12 Sets
+			name = format(AL["Tier %d Sets"], 12),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:6",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:6:h",
+		},
 		{	--AvengersHyjal
 			FactionID = 1204,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, "f1204rep5" },
-				{ 2, 70930 },	-- Durable Flamewrath Greatcloak
-				{ 3, 71229 },	-- Flowing Flamewrath Cape
-				{ 4, 71228 },	-- Nimble Flamewrath Cloak
-				{ 5, 71230 },	-- Rippling Flamewrath Drape
-				{ 6, 71227 },	-- Spiked Flamewrath Cloak
-				{ 16, "f1204rep6" },
-				{ 17, 71258 },	-- Embereye Belt
-				{ 18, 71249 },	-- Firescar Sash
-				{ 19, 71131 },	-- Flamebinding Girdle
-				{ 20, 71255 },	-- Firearrow Belt
-				{ 21, 71254 },	-- Firemend Cinch
-				{ 22, 71250 },	-- Cinch of the Flaming Ember
-				{ 23, 70933 },	-- Girdle of the Indomitable Flame
-				{ 24, 71253 },	-- Belt of the Seven Seals
-				{ 101, "f1204rep7" },
-				{ 102, 69001 },	-- Ancient Petrified Seed
-				{ 103, 69002 },	-- Essence of the Eternal Flame
-				{ 104, 69000 },	-- Fiery Quintessence
-				{ 105, 68998 },	-- Rune of Zeth
-				{ 106, 68996 },	-- Stay of Execution
-				{ 116, "f1204rep8" },
-				{ 117, 70934 },	-- Adamantine Signet of the Avengers
-				{ 118, 71217 },	-- Infernal Signet of the Avengers
-				{ 119, 71215 },	-- Obsidian Signet of the Avengers
-				{ 120, 71237 },	-- Quicksilver Signet of the Avengers
-				{ 121, 71216 },	-- Viridian Signet of the Avengers
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:CATAFACTIONS:1",
 		},
 		CATA_RAID2_AC_TABLE,
 	}
@@ -3439,6 +3380,12 @@ data["TheBastionOfTwilight"] = {
 				{ 18, 60210 },	-- Crossfire Carbine
 			},
 		},
+		{	--Tier 11 Sets
+			name = format(AL["Tier %d Sets"], 11),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:7",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:7:h",
+		},
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,
 	}
@@ -3545,6 +3492,12 @@ data["ThroneOfTheFourWinds"] = {
 				{ 101, "ac5123" },
 				{ 102, "ac5305" },
 			},
+		},
+		{	--Tier 11 Sets
+			name = format(AL["Tier %d Sets"], 11),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:7",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:7:h",
 		},
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,

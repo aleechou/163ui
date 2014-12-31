@@ -4,19 +4,20 @@ local data = AtlasLoot.ItemDB:Add(addonname, 5)
 
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
+local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], nil, nil, 7)
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", nil, 7)
 local RF_SOO_DIFF = data:AddDifficulty(AL["Raid Finder"], "lfrWithPreset", {
 	Item = {
 		item1bonus = "LFR",
 		item2bonus = "LFR",
 	},
 }, 17)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 4)
-local NORMAL_SOO_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 14)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
-local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 6)
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "rn", nil, 4)
+local NORMAL_SOO_DIFF = data:AddDifficulty(AL["Normal"], "nsoo", nil, 14)
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
+local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], "rh", nil, 6)
 local HEROIC_SOO_DIFF = data:AddDifficulty(AL["Heroic"], "heroicSoOWithPreset", {
 	Item = {
 		item1bonus = "HeroicSoO",
@@ -464,6 +465,11 @@ data["ScarletMonastery"] = {
 				{ 16, "ac6761" },
 				{ 17, "ac6929" },
 			},
+		},
+		{	--HallowsEndHeadlessHorseman
+			name = BB["Headless Horseman"].." ("..AL["Hallow's End"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:HallowsEnd:1",
 		},
 		MOP_DUNGEON_HERO_AC_TABLE,
 		MOP_GLORY_OF_THE_HERO_AC_TABLE,
@@ -1197,6 +1203,13 @@ data["HeartofFear"] = {
 			},
 		},
 		PATTERNS_ILVL_496,
+		{	--Tier 14 Sets
+			name = format(AL["Tier %d Sets"], 14),
+			ExtraList = true,
+			[RF_DIFF] = "AtlasLoot_Collections:TIERSETS:4",
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:4:n",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:4:h",
+		},
 		MOP_RAID1_AC_TABLE,
 	}
 }
@@ -2310,6 +2323,21 @@ data["Pandaria"] = {
 				{ 129, 90840 },	-- Marauder's Gleaming Sack of Gold
 			},
 		},
+		{	--Tier 16 Sets
+			name = format(AL["Tier %d Sets"], 16),
+			ExtraList = true,
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:2:h",
+		},
+		{	--Tier 15 Sets
+			name = format(AL["Tier %d Sets"], 15),
+			ExtraList = true,
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:3:n",
+		},
+		{	--Tier 14 Sets
+			name = format(AL["Tier %d Sets"], 14),
+			ExtraList = true,
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:4:n",
+		},
 	}
 }
 
@@ -3002,6 +3030,14 @@ data["SiegeofOrgrimmar"] = {
 			[HEROIC_SOO_DIFF] = NORMAL_SOO_DIFF,
 			[MYTHIC_SOO_DIFF] = NORMAL_SOO_DIFF,
 		},
+		{	--Tier 16 Sets
+			name = format(AL["Tier %d Sets"], 16),
+			ExtraList = true,
+			[RF_SOO_DIFF] = "AtlasLoot_Collections:TIERSETS:2:rf",
+			[NORMAL_SOO_DIFF] = "AtlasLoot_Collections:TIERSETS:2:n",
+			[HEROIC_SOO_DIFF] = "AtlasLoot_Collections:TIERSETS:2:h",
+			[MYTHIC_SOO_DIFF] = "AtlasLoot_Collections:TIERSETS:2:m",
+		},
 		{	--ACPage
 			name = AL["Achievements"],
 			TableType = AC_ITTYPE,
@@ -3316,6 +3352,13 @@ data["TerraceofEndlessSpring"] = {
 			},
 		},
 		PATTERNS_ILVL_496,
+		{	--Tier 14 Sets
+			name = format(AL["Tier %d Sets"], 14),
+			ExtraList = true,
+			[RF_DIFF] = "AtlasLoot_Collections:TIERSETS:4",
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:4:n",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:4:h",
+		},
 		MOP_RAID1_AC_TABLE,
 	}
 }
@@ -4325,95 +4368,18 @@ data["ThroneofThunder"] = {
 				{ 26, 94125, "pet1177" },	-- Living Sandling
 			},
 		},
+		{	--Tier 15 Sets
+			name = format(AL["Tier %d Sets"], 15),
+			ExtraList = true,
+			[RF_DIFF] = "AtlasLoot_Collections:TIERSETS:3",
+			[NORMAL_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:3:n",
+			[HEROIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:3:h",
+		},
 		{	--ShadoPanAssault
 			FactionID = 1435,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_RAID_DIFF] = {
-				{ 1, "f1435rep4" },
-				{ 2, 95146 },	-- Destroyer's Battletags
-				{ 3, 95143 },	-- Flanker's Battletags
-				{ 4, 95145 },	-- Mender's Battletags
-				{ 5, 95142 },	-- Striker's Battletags
-				{ 6, 95144 },	-- Vanguard's Battletags
-				{ 8, "f1435rep5" },
-				{ 9, 95118 },	-- Dreamweaver Drape
-				{ 10, 95116 },	-- Longshot Forestcloak
-				{ 11, 95115 },	-- Many-Layered Scalecloak
-				{ 12, 95117 },	-- Shadowspike Cloak
-				{ 13, 95114 },	-- Spikeshard Greatcloak
-				{ 16, "f1435rep5" },
-				{ 17, 95081 },	-- Fire Support Robes
-				{ 18, 95082 },	-- Robes of Misty Bindings
-				{ 19, 95078 },	-- Raiment of Silent Stars
-				{ 20, 95077 },	-- Roofstalker Shadowwrap
-				{ 21, 95079 },	-- Carapace of Segmented Scale
-				{ 22, 95080 },	-- Skinsealer Tunic
-				{ 23, 95076 },	-- Breastplate of Brutal Strikes
-				{ 24, 95075 },	-- Gianttooth Chestplate
-				{ 25, 95074 },	-- Hauberk of Gleaming Fire
-				{ 101, "f1435rep5" },
-				{ 102, 95135 },	-- Bracers of Shielding Thought
-				{ 103, 95136 },	-- Troll-Burner Bracers
-				{ 104, 95134 },	-- Hearthfire Armwraps
-				{ 105, 95133 },	-- Willow-Weave Armbands
-				{ 106, 95131 },	-- Powderburn Bracers
-				{ 107, 95132 },	-- Spiritcaller Cuffs
-				{ 108, 95129 },	-- Axebinder Wristguards
-				{ 109, 95128 },	-- Bonecrusher Bracers
-				{ 110, 95130 },	-- Softscar Armplates
-				{ 117, 95106 },	-- Flameweaver Handwraps
-				{ 118, 95105 },	-- Ghostbinder Grips
-				{ 119, 95108 },	-- Daggerfinger Clutches
-				{ 120, 95107 },	-- Gloves of Enduring Renewal
-				{ 121, 95109 },	-- Gauntlets of the Longbow
-				{ 122, 95112 },	-- Totemshaper Gloves
-				{ 123, 95111 },	-- Bloodstained Skullsqueezers
-				{ 124, 95110 },	-- Stoneward Handguards
-				{ 125, 95113 },	-- Touch of Soothing Mists
-				{ 201, "f1435rep5" },
-				{ 202, 95090 },	-- Firestrike Cord
-				{ 203, 95091 },	-- Girdle of Glowing Light
-				{ 204, 95088 },	-- Darkfang Belt
-				{ 205, 95089 },	-- Martiean's Splitleaf Girdle
-				{ 206, 95087 },	-- Cracklebite Links
-				{ 207, 95086 },	-- Nightflight Chain
-				{ 208, 95084 },	-- Reinforced Spiritplate Girdle
-				{ 209, 95083 },	-- Swordhook Slingbelt
-				{ 210, 95085 },	-- Waistplate of Channeled Mending
-				{ 217, 95123 },	-- Charfire Leggings
-				{ 218, 95122 },	-- Wisp-Weave Pantaloons
-				{ 219, 95125 },	-- Legguards of Hidden Knives
-				{ 220, 95124 },	-- Trousers of Waning Shadow
-				{ 221, 95127 },	-- Homeguard Leggings
-				{ 222, 95126 },	-- Kilt of Rising Thunder
-				{ 223, 95120 },	-- Legguards of Renewal
-				{ 224, 95119 },	-- Thunderbreaker Legplates
-				{ 225, 95121 },	-- Vaultbreaker Greaves
-				{ 301, "f1435rep5" },
-				{ 302, 95140 },	-- Band of the Shado-Pan Assault
-				{ 303, 95141 },	-- Loop of the Shado-Pan Assault
-				{ 304, 95139 },	-- Ring of the Shado-Pan Assault
-				{ 305, 95137 },	-- Seal of the Shado-Pan Assault
-				{ 306, 95138 },	-- Signet of the Shado-Pan Assault
-				{ 307, 94508 },	-- Brutal Talisman of the Shado-Pan Assault
-				{ 308, 94509 },	-- Soothing Talisman of the Shado-Pan Assault
-				{ 309, 94507 },	-- Steadfast Talisman of the Shado-Pan Assault
-				{ 310, 94511 },	-- Vicious Talisman of the Shado-Pan Assault
-				{ 311, 94510 },	-- Volatile Talisman of the Shado-Pan Assault
-				{ 316, "f1435rep8" },
-				{ 317, 95102 },	-- Frost-Kissed Shoulderwraps
-				{ 318, 95101 },	-- Halo-Graced Mantle
-				{ 319, 95096 },	-- Shoulders of Demonic Dreams
-				{ 320, 95097 },	-- Heartroot Shoulderguards
-				{ 321, 95100 },	-- Wallwalker Spaulders
-				{ 322, 95099 },	-- Lightning Strike Mantle
-				{ 323, 95095 },	-- Targetblinder Spaulders
-				{ 324, 95104 },	-- Shoulderguards of Potentiation
-				{ 325, 95098 },	-- Sightblinder Shoulderguards
-				{ 326, 95103 },	-- Sparksmasher Pauldrons
-				{ 327, 97131 },	-- Shado-Pan Assault Tabard
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:MOPFACTIONS:9",
 		},
 		MOP_RAID2_AC_TABLE,
 	}
