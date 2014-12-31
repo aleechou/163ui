@@ -7,9 +7,12 @@ local ALIL = AtlasLoot.IngameLocales
 
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
-local M25_DIFF = data:AddDifficulty(AL["25 Man"])
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
+local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", nil, 4)
+
+local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
+local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
@@ -71,27 +74,6 @@ local BC_RAID_AC_TABLE = {	--[Outland Raider]
 	},
 }
 
-local LOWER_CITY = {
-	{ 1, "f1011rep5" },
-	{ 2, 23138 },	-- Design: Potent Flame Spessarite
-	{ 5, "f1011rep7" },
-	{ 6, 30836 },	-- Leggings of the Skettis Exile
-	{ 7, 30835 },	-- Salvager's Hauberk
-	{ 8, 30841 },	-- Lower City Prayerbook
-	{ 9, 24179 },	-- Design: Felsteel Boar
-	{ 10, 24175 },	-- Design: Pendant of Thawing
-	{ 11, 22910 },	-- Recipe: Elixir of Major Shadow Power
-	{ 12, 33157 },	-- Design: Falling Star
-	{ 16, "f1011rep6" },
-	{ 17, 22538 },	-- Formula: Enchant Ring - Stats
-	{ 18, 30833 },	-- Pattern: Cloak of Arcane Evasion
-	{ 20, "f1011rep8" },
-	{ 21, 30834 },	-- Shapeshifter's Signet
-	{ 22, 30832 },	-- Gavel of Unearthed Secrets
-	{ 23, 30830 },	-- Trident of the Outcast Tribe
-	{ 24, 33148 },	-- Formula: Enchant Cloak - Dodge
-	{ 25, 31778 },	-- Lower City Tabard
-}
 data["AuchAuchenaiCrypts"] = {
 	EncounterJournalID = 247,
 	MapID = 722,
@@ -165,75 +147,22 @@ data["AuchAuchenaiCrypts"] = {
 				{ 2, 22544 },	-- Formula: Enchant Boots - Dexterity
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--LowerCity
 			FactionID = 1011,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = LOWER_CITY,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:7",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
 	}
 }
 
-local HONOR_HOLD = {
-	{ 1, "f946rep5" },
-	{ 2, 29213 },	-- Pattern: Felstalker Belt
-	{ 3, 23142 },	-- Design: Regal Deep Peridot
-	{ 4, 22531 },	-- Formula: Enchant Bracer - Superior Healing
-	{ 5, 24007 },	-- Footman's Waterskin
-	{ 6, 24008 },	-- Dried Mushroom Rations
-	{ 8, "f946rep6" },
-	{ 9, 25826 },	-- Sage's Band
-	{ 10, 25825 },	-- Footman's Longsword
-	{ 11, 29214 },	-- Pattern: Felstalker Bracers
-	{ 12, 29215 },	-- Pattern: Felstalker Breastplate
-	{ 13, 25870 },	-- Recipe: Transmute Skyfire Diamond
-	{ 14, 22905 },	-- Recipe: Elixir of Major Agility
-	{ 15, 29719 },	-- Pattern: Cobrahide Leg Armor
-	{ 16, "f946rep7" },
-	{ 17, 29169 },	-- Ring of Convalescence
-	{ 18, 29166 },	-- Hellforged Halberd
-	{ 19, 24180 },	-- Design: Dawnstone Crab
-	{ 20, 22547 },	-- Formula: Enchant Chest - Exceptional Stats
-	{ 23, "f946rep8" },
-	{ 24, 29153 },	-- Blade of the Archmage
-	{ 25, 29156 },	-- Honor's Call
-	{ 26, 29151 },	-- Veteran's Musket
-	{ 27, 33150 },	-- Formula: Enchant Cloak - Subtlety
-	{ 28, 23619 },	-- Plans: Felsteel Shield Spike
-	{ 29, 29722 },	-- Pattern: Nethercobra Leg Armor
-	{ 30, 23999 },	-- Honor Hold Tabard
-}
-local THRALLMAR = {
-	{ 1, "f947rep5" },
-	{ 2, 25738 },	-- Pattern: Felstalker Belt
-	{ 3, 31359 },	-- Design: Regal Deep Peridot
-	{ 4, 24000 },	-- Formula: Enchant Bracer - Superior Healing
-	{ 5, 24006 },	-- Grunt's Waterskin
-	{ 6, 24009 },	-- Dried Fruit Rations
-	{ 8, "f947rep6" },
-	{ 9, 25824 },	-- Farseer's Band
-	{ 10, 25823 },	-- Grunt's Waraxe
-	{ 11, 25739 },	-- Pattern: Felstalker Bracers
-	{ 12, 25740 },	-- Pattern: Felstalker Breastplate
-	{ 13, 29232 },	-- Recipe: Transmute Skyfire Diamond
-	{ 14, 24001 },	-- Recipe: Elixir of Major Agility
-	{ 15, 31361 },	-- Pattern: Cobrahide Leg Armor
-	{ 16, "f947rep7" },
-	{ 17, 29168 },	-- Ancestral Band
-	{ 18, 29167 },	-- Blackened Spear
-	{ 19, 31358 },	-- Design: Dawnstone Crab
-	{ 20, 24003 },	-- Formula: Enchant Chest - Exceptional Stats
-	{ 23, "f947rep8" },
-	{ 24, 29155 },	-- Stormcaller
-	{ 25, 29165 },	-- Warbringer
-	{ 26, 29152 },	-- Marksman's Bow
-	{ 27, 33151 },	-- Formula: Enchant Cloak - Subtlety
-	{ 28, 24002 },	-- Plans: Felsteel Shield Spike
-	{ 29, 31362 },	-- Pattern: Nethercobra Leg Armor
-	{ 30, 24004 },	-- Thrallmar Tabard
-}
 data["HCHellfireRamparts"] = {
 	EncounterJournalID = 248,
 	MapID = 797,
@@ -335,17 +264,22 @@ data["HCHellfireRamparts"] = {
 				{ 29, "ac667" },
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--HonorHold
 			FactionID = 946,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = HONOR_HOLD,
+			[ALLIANCE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:4",
 		},
 		{	--Thrallmar
 			FactionID = 947,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = THRALLMAR,
+			[HORDE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:21",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -460,119 +394,13 @@ data["MagistersTerrace"] = {
 			FactionID = 1077,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, "f1077rep5" },
-				{ 2, 35244 },	-- Design: Bold Crimson Spinel
-				{ 3, 35255 },	-- Design: Brilliant Crimson Spinel
-				{ 4, 35246 },	-- Design: Delicate Crimson Spinel
-				{ 5, 35260 },	-- Design: Smooth Lionseye
-				{ 6, 35263 },	-- Design: Solid Empyrean Sapphire
-				{ 7, 35264 },	-- Design: Sparkling Empyrean Sapphire
-				{ 8, 35261 },	-- Design: Subtle Lionseye
-				{ 9, 34780 },	-- Naaru Ration
-				{ 16, "f1077rep6" },
-				{ 17, 35238 },	-- Design: Shifting Shadowsong Amethyst
-				{ 18, 35251 },	-- Design: Purified Shadowsong Amethyst
-				{ 19, 35266 },	-- Design: Glinting Shadowsong Amethyst
-				{ 20, 35239 },	-- Design: Timeless Shadowsong Amethyst
-				{ 21, 35253 },	-- Design: Jagged Seaspray Emerald
-				{ 22, 35268 },	-- Design: Reckless Pyrestone
-				{ 23, 35269 },	-- Design: Potent Pyrestone
-				{ 24, 35254 },	-- Design: Radiant Seaspray Emerald
-				{ 25, 34872 },	-- Formula: Void Shatter
-				{ 26, 35500 },	-- Formula: Enchant Chest - Defense
-				{ 101, "f1077rep7" },
-				{ 102, 35769 },	-- Design: Forceful Seaspray Emerald
-				{ 103, 35768 },	-- Design: Quick Lionseye
-				{ 104, 35767 },	-- Design: Reckless Pyrestone
-				{ 105, 35766 },	-- Design: Steady Seaspray Emerald
-				{ 106, 34665 },	-- Bombardier's Blade
-				{ 107, 34667 },	-- Archmage's Guile
-				{ 108, 34672 },	-- Inuuro's Blade
-				{ 109, 34666 },	-- The Sunbreaker
-				{ 110, 34671 },	-- K'iru's Presage
-				{ 111, 34670 },	-- Seeker's Gavel
-				{ 112, 34673 },	-- Legionfoe
-				{ 113, 34674 },	-- Truestrike Crossbow
-				{ 117, 35252 },	-- Design: Regal Seaspray Emerald
-				{ 118, 35697 },	-- Design: Figurine - Crimson Serpent
-				{ 119, 35695 },	-- Design: Figurine - Empyrean Tortoise
-				{ 120, 35696 },	-- Design: Figurine - Khorium Boar
-				{ 121, 35699 },	-- Design: Figurine - Seaspray Albatross
-				{ 122, 35698 },	-- Design: Figurine - Shadowsong Panther
-				{ 123, 35259 },	-- Design: Rigid Empyrean Sapphire
-				{ 124, 35241 },	-- Design: Purified Shadowsong Amethyst
-				{ 125, 35271 },	-- Design: Deadly Pyrestone
-				{ 126, 35505 },	-- Design: Ember Skyfire Diamond
-				{ 127, 35502 },	-- Design: Eternal Earthstorm Diamond
-				{ 128, 35708 },	-- Design: Regal Talasite
-				{ 201, "f1077rep8" },
-				{ 202, 34678 },	-- Shattered Sun Pendant of Acumen
-				{ 203, 34679 },	-- Shattered Sun Pendant of Might
-				{ 204, 34680 },	-- Shattered Sun Pendant of Resolve
-				{ 205, 34677 },	-- Shattered Sun Pendant of Restoration
-				{ 206, 34676 },	-- Dawnforged Defender
-				{ 207, 34675 },	-- Sunward Crest
-				{ 208, 35325 },	-- Design: Forceful Talasite
-				{ 209, 35322 },	-- Design: Quick Dawnstone
-				{ 210, 35323 },	-- Design: Reckless Noble Topaz
-				{ 211, 35221 },	-- Tabard of the Shattered Sun
-				{ 217, 35247 },	-- Design: Flashing Crimson Spinel
-				{ 218, 35257 },	-- Design: Rigid Empyrean Sapphire
-				{ 219, 35267 },	-- Design: Inscribed Pyrestone
-				{ 220, 35258 },	-- Design: Mystic Lionseye
-				{ 221, 37504 },	-- Design: Purified Shadowsong Amethyst
-				{ 222, 35242 },	-- Design: Shifting Shadowsong Amethyst
-				{ 223, 35243 },	-- Design: Sovereign Shadowsong Amethyst
-				{ 224, 35270 },	-- Design: Veiled Shadowsong Amethyst
-				{ 225, 35265 },	-- Design: Stormy Empyrean Sapphire
-				{ 226, 35755 },	-- Recipe: Assassin's Alchemist Stone
-				{ 227, 35752 },	-- Recipe: Guardian's Alchemist Stone
-				{ 228, 35754 },	-- Recipe: Redeemer's Alchemist Stone
-				{ 229, 35753 },	-- Recipe: Sorcerer's Alchemist Stone
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:11",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
 	}
 }
 
-local CONSORTIUM = {
-	{ 1, "f933rep5" },
-	{ 2, 25732 },	-- Pattern: Fel Leather Gloves
-	{ 3, 28274 },	-- Formula: Enchant Cloak - PvP Power
-	{ 4, 23146 },	-- Design: Shifting Shadow Draenite
-	{ 5, 23136 },	-- Design: Reckless Flame Spessarite
-	{ 16, "f933rep6" },
-	{ 17, 29457 },	-- Nethershard
-	{ 18, 29456 },	-- Gift of the Ethereal
-	{ 19, 29118 },	-- Smuggler's Ammo Pouch
-	{ 20, 25733 },	-- Pattern: Fel Leather Boots
-	{ 21, 23134 },	-- Design: Delicate Blood Garnet
-	{ 22, 23155 },	-- Design: Sparkling Azure Moonstone
-	{ 23, 23150 },	-- Design: Subtle Golden Draenite
-	{ 24, 22552 },	-- Formula: Enchant Weapon - Major Striking
-	{ 25, 25908 },	-- Design: Swift Skyfire Diamond
-	{ 26, 25902 },	-- Design: Powerful Earthstorm Diamond
-	{ 27, 24314 },	-- Pattern: Bag of Jewels
-	{ 101, "f933rep7" },
-	{ 102, 29117 },	-- Stormspire Vest
-	{ 103, 29116 },	-- Nomad's Leggings
-	{ 104, 29115 },	-- Consortium Blaster
-	{ 105, 24178 },	-- Design: Pendant of the Null Rune
-	{ 106, 25734 },	-- Pattern: Fel Leather Leggings
-	{ 107, 22535 },	-- Formula: Enchant Ring - Striking
-	{ 108, 23874 },	-- Schematic: Elemental Seaforium Charge
-	{ 109, 25903 },	-- Design: Bracing Earthstorm Diamond
-	{ 110, 33156 },	-- Design: Crimson Sun
-	{ 111, 33305 },	-- Design: Don Julio's Heart
-	{ 116, "f933rep8" },
-	{ 117, 29122 },	-- Nether Runner's Cowl
-	{ 118, 29119 },	-- Haramad's Bargain
-	{ 119, 29121 },	-- Guile of Khoraazi
-	{ 120, 33622 },	-- Design: Relentless Earthstorm Diamond
-	{ 121, 31776 },	-- Consortium Tabard
-}
 data["AuchManaTombs"] = {
 	EncounterJournalID = 250,
 	MapID = 732,
@@ -689,38 +517,22 @@ data["AuchManaTombs"] = {
 				{ 2, 22543 },	-- Formula: Enchant Boots - Fortitude
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--Consortium
 			FactionID = 933,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = CONSORTIUM,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:15",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
 	}
 }
 
-local KEEPERS_OF_TIME = {
-	{ 1, "f989rep6" },
-	{ 2, 28272 },	-- Formula: Enchant Gloves - Major Spellpower
-	{ 3, 22536 },	-- Formula: Enchant Ring - Spellpower
-	{ 4, 25910 },	-- Design: Enigmatic Skyfire Diamond
-	{ 5, 33160 },	-- Design: Facet of Eternity
-	{ 6, 29713 },	-- Pattern: Drums of Panic
-	{ 8, "f989rep7" },
-	{ 9, 29184 },	-- Timewarden's Leggings
-	{ 10, 29185 },	-- Continuum Blade
-	{ 11, 24181 },	-- Design: Living Ruby Serpent
-	{ 12, 24174 },	-- Design: Pendant of Frozen Flame
-	{ 13, 33158 },	-- Design: Stone of Blades
-	{ 16, "f989rep8" },
-	{ 17, 29183 },	-- Bindings of the Timewalker
-	{ 18, 29181 },	-- Timelapse Shard
-	{ 19, 29182 },	-- Riftmaker
-	{ 20, 33152 },	-- Formula: Enchant Gloves - Superior Agility
-	{ 21, 31355 },	-- Recipe: Flask of Supreme Power
-	{ 22, 31777 },	-- Keepers of Time Tabard
-}
 data["CoTOldHillsbrad"] = {
 	EncounterJournalID = 251,
 	MapID = 734,
@@ -821,11 +633,16 @@ data["CoTOldHillsbrad"] = {
 				{ 20, 22539 },	-- Formula: Enchant Shield - Intellect
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--KeepersofTime
 			FactionID = 989,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = KEEPERS_OF_TIME,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:5",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -923,11 +740,16 @@ data["AuchSethekkHalls"] = {
 				{ 3, 27634 },	-- The Saga of Terokk
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--LowerCity
 			FactionID = 1011,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = LOWER_CITY,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:7",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1064,41 +886,22 @@ data["AuchShadowLabyrinth"] = {
 				{ 4, 24514 },	-- First Key Fragment
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--LowerCity
 			FactionID = 1011,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = LOWER_CITY,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:7",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
 	}
 }
 
-local SHATAR = {
-	{ 1, "f935rep5" },
-	{ 2, 25904 },	-- Design: Insightful Earthstorm Diamond
-	{ 4, "f935rep7" },
-	{ 5, 29180 },	-- Blessed Scale Girdle
-	{ 6, 29179 },	-- Xi'ri's Gift
-	{ 7, 24182 },	-- Design: Talasite Owl
-	{ 8, 22915 },	-- Recipe: Transmute Primal Air to Fire
-	{ 9, 28281 },	-- Formula: Enchant Weapon - Major Healing
-	{ 10, 13517 },	-- Recipe: Alchemist Stone
-	{ 11, 33159 },	-- Design: Blood of Amber
-	{ 16, "f935rep6" },
-	{ 17, 30826 },	-- Design: Ring of Arcane Shielding
-	{ 18, 28273 },	-- Formula: Enchant Gloves - Major Healing
-	{ 19, 33155 },	-- Design: Kailee's Rose
-	{ 20, 29717 },	-- Pattern: Drums of Battle
-	{ 22, "f935rep8" },
-	{ 23, 29177 },	-- A'dal's Command
-	{ 24, 29175 },	-- Gavel of Pure Light
-	{ 25, 29176 },	-- Crest of the Sha'tar
-	{ 26, 33153 },	-- Formula: Enchant Gloves - Threat
-	{ 27, 31354 },	-- Recipe: Flask of the Titans
-	{ 28, 31781 },	-- Sha'tar Tabard
-}
 data["TempestKeepArcatraz"] = {
 	EncounterJournalID = 254,
 	MapID = 731,
@@ -1216,11 +1019,16 @@ data["TempestKeepArcatraz"] = {
 				{ 17, 24488 },	-- Third Key Fragment
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--Shatar
 			FactionID = 935,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = SHATAR,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:19",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1324,11 +1132,16 @@ data["CoTBlackMorass"] = {
 				{ 1, 25730 },	-- Pattern: Stylin' Jungle Hat
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--KeepersofTime
 			FactionID = 989,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = KEEPERS_OF_TIME,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:5",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1414,17 +1227,22 @@ data["HCBloodFurnace"] = {
 				{ 27, "ac668" },
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--HonorHold
 			FactionID = 946,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = HONOR_HOLD,
+			[ALLIANCE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:4",
 		},
 		{	--Thrallmar
 			FactionID = 947,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = THRALLMAR,
+			[HORDE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:21",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1578,11 +1396,16 @@ data["TempestKeepBotanica"] = {
 				{ 1, 24172 },	-- Design: Coronet of Verdant Flame
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--Shatar
 			FactionID = 935,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = SHATAR,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:19",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1702,11 +1525,16 @@ data["TempestKeepMechanar"] = {
 				{ 5, 30824 },	-- Overcharged Manacell
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--Shatar
 			FactionID = 935,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = SHATAR,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:19",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -1830,61 +1658,28 @@ data["HCTheShatteredHalls"] = {
 				{ 4, 31716 },	-- Unused Axe of the Executioner
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--HonorHold
 			FactionID = 946,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = HONOR_HOLD,
+			[ALLIANCE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:4",
 		},
 		{	--Thrallmar
 			FactionID = 947,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = THRALLMAR,
+			[HORDE_DIFF] = "AtlasLoot_Factions:BCFACTIONS:21",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
 	}
 }
 
-local CENARION_EXPEDITION = {
-	{ 1, "f942rep5" },
-	{ 2, 25737 },	-- Pattern: Heavy Clefthoof Boots
-	{ 3, 23814 },	-- Schematic: Green Smoke Flare
-	{ 4, 24429 },	-- Expedition Flare
-	{ 16, "f942rep6" },
-	{ 17, 25838 },	-- Warden's Hauberk
-	{ 18, 25836 },	-- Preserver's Cudgel
-	{ 19, 25835 },	-- Explorer's Walking Stick
-	{ 20, 25735 },	-- Pattern: Heavy Clefthoof Vest
-	{ 21, 25736 },	-- Pattern: Heavy Clefthoof Leggings
-	{ 22, 25869 },	-- Recipe: Transmute Earthstorm Diamond
-	{ 23, 32070 },	-- Recipe: Earthen Elixir
-	{ 24, 23618 },	-- Plans: Adamantite Sharpening Stone
-	{ 25, 28632 },	-- Plans: Adamantite Weightstone
-	{ 26, 25526 },	-- Plans: Greater Rune of Warding
-	{ 27, 29720 },	-- Pattern: Clefthide Leg Armor
-	{ 101, "f942rep7" },
-	{ 102, 31392 },	-- Plans: Wildguard Helm
-	{ 103, 31391 },	-- Plans: Wildguard Leggings
-	{ 104, 29174 },	-- Watcher's Cowl
-	{ 105, 29173 },	-- Strength of the Untamed
-	{ 106, 24183 },	-- Design: Nightseye Panther
-	{ 107, 22918 },	-- Recipe: Transmute Primal Water to Air
-	{ 108, 28271 },	-- Formula: Enchant Gloves - Spell Strike
-	{ 116, "f942rep8" },
-	{ 117, 29170 },	-- Windcaller's Orb
-	{ 118, 29172 },	-- Ashyen's Gift
-	{ 119, 29171 },	-- Earthwarden
-	{ 120, 33999 },	-- Cenarion War Hippogryph
-	{ 121, 31390 },	-- Plans: Wildguard Breastplate
-	{ 122, 31402 },	-- Design: The Natural Ward
-	{ 123, 33149 },	-- Formula: Enchant Cloak - Stealth
-	{ 124, 31356 },	-- Recipe: Flask of Distilled Wisdom
-	{ 125, 22922 },	-- Recipe: Major Nature Protection Potion
-	{ 126, 29721 },	-- Pattern: Nethercleft Leg Armor
-	{ 127, 31804 },	-- Cenarion Expedition Tabard
-}
 data["CFRTheSlavePens"] = {
 	EncounterJournalID = 260,
 	MapID = 728,
@@ -1969,11 +1764,16 @@ data["CFRTheSlavePens"] = {
 				{ 29, "ac669" },
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--CExpedition
 			FactionID = 942,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = CENARION_EXPEDITION,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:2",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -2086,11 +1886,16 @@ data["CFRTheSteamvault"] = {
 				{ 17, 24487 },	-- Second Key Fragment
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--CExpedition
 			FactionID = 942,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = CENARION_EXPEDITION,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:2",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -2199,11 +2004,16 @@ data["CFRTheUnderbog"] = {
 				{ 29, "ac670" },
 			},
 		},
+		{	--Dungeon Sets 3
+			name = format(AL["Dungeon %d Sets"], 3),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:DUNGEONSETS:1"
+		},
 		{	--CExpedition
 			FactionID = 942,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = CENARION_EXPEDITION,
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:2",
 		},
 		BC_DUNGEONMASTER_AC_TABLE,
 		BC_DUNGEON_HERO_AC_TABLE,
@@ -2218,7 +2028,7 @@ data["BlackTemple"] = {
 		{	--BTNajentus
 			name = BB["High Warlord Naj'entus"],
 			npcId = 22887,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32239 },	-- Slippers of the Seacaller
 				{ 2, 32240 },	-- Guise of the Tidal Lurker
 				{ 3, 32377 },	-- Mantle of Darkness
@@ -2238,7 +2048,7 @@ data["BlackTemple"] = {
 		{	--BTSupremus
 			name = BB["Supremus"],
 			npcId = 22898,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32256 },	-- Waistwrap of Infinity
 				{ 2, 32252 },	-- Nether Shadow Tunic
 				{ 3, 32259 },	-- Bands of the Coming Storm
@@ -2256,7 +2066,7 @@ data["BlackTemple"] = {
 		{	--BTAkama
 			name = BB["Shade of Akama"],
 			npcId = 22841,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32273 },	-- Amice of Brilliant Light
 				{ 2, 32270 },	-- Focused Mana Bindings
 				{ 3, 32513 },	-- Wristbands of Divine Influence
@@ -2276,7 +2086,7 @@ data["BlackTemple"] = {
 		{	--BTBloodboil
 			name = BB["Gurtogg Bloodboil"],
 			npcId = 22948,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32337 },	-- Shroud of Forgiveness
 				{ 2, 32338 },	-- Blood-Cursed Shoulderpads
 				{ 3, 32340 },	-- Garments of Temperance
@@ -2295,7 +2105,7 @@ data["BlackTemple"] = {
 		{	--BTReliquaryofSouls
 			name = BB["Reliquary of Souls"],
 			npcId = 22856,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32353 },	-- Gloves of Unfailing Faith
 				{ 2, 32351 },	-- Elunite Empowered Bracers
 				{ 3, 32347 },	-- Grips of Damnation
@@ -2314,7 +2124,7 @@ data["BlackTemple"] = {
 		{	--BTGorefiend
 			name = BB["Teron Gorefiend"],
 			npcId = 22871,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32323 },	-- Shadowmoon Destroyer's Drape
 				{ 2, 32329 },	-- Cowl of Benevolence
 				{ 3, 32327 },	-- Robe of the Shadow Council
@@ -2330,7 +2140,7 @@ data["BlackTemple"] = {
 		{	--BTShahraz
 			name = BB["Mother Shahraz"],
 			npcId = 22947,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32367 },	-- Leggings of Devastation
 				{ 2, 32366 },	-- Shadowmaster's Boots
 				{ 3, 32365 },	-- Heartshatter Breastplate
@@ -2344,7 +2154,7 @@ data["BlackTemple"] = {
 		{	--BTCouncil
 			name = BB["The Illidari Council"],
 			npcId = 23426,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32331 },	-- Cloak of the Illidari Council
 				{ 2, 32519 },	-- Belt of Divine Guidance
 				{ 3, 32518 },	-- Veil of Turning Leaves
@@ -2359,7 +2169,7 @@ data["BlackTemple"] = {
 		{	--BTIllidanStormrage
 			name = BB["Illidan Stormrage"],
 			npcId = 22917,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32524 },	-- Shroud of the Highborne
 				{ 2, 32525 },	-- Cowl of the Illidari High Lord
 				{ 3, 32235 },	-- Cursed Vision of Sargeras
@@ -2383,7 +2193,7 @@ data["BlackTemple"] = {
 		{	--BTTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32590 },	-- Nethervoid Cloak
 				{ 2, 34012 },	-- Shroud of the Final Stand
 				{ 3, 32609 },	-- Boots of the Divine Light
@@ -2412,7 +2222,7 @@ data["BlackTemple"] = {
 		{	--BTPatterns
 			name = AL["Patterns/Plans"].." ("..string.format(AL["ilvl %d"], 141)..")",
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32738 },	-- Plans: Dawnsteel Bracers
 				{ 2, 32739 },	-- Plans: Dawnsteel Shoulders
 				{ 3, 32736 },	-- Plans: Swiftsteel Bracers
@@ -2431,41 +2241,16 @@ data["BlackTemple"] = {
 				{ 19, 32752 },	-- Pattern: Swiftheal Wraps
 			},
 		},
+		{	--Tier 6 Sets
+			name = format(AL["Tier %d Sets"], 6),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:12",
+		},
 		{	--Ashtongue
 			FactionID = 1012,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[M25_DIFF] = {
-				{ 1, "f1012rep5" },
-				{ 2, 32444 },	-- Plans: Shadesteel Girdle
-				{ 3, 32442 },	-- Plans: Shadesteel Bracers
-				{ 4, 32436 },	-- Pattern: Redeemed Soul Cinch
-				{ 5, 32435 },	-- Pattern: Redeemed Soul Legguards
-				{ 6, 32430 },	-- Pattern: Bracers of Shackled Souls
-				{ 7, 32429 },	-- Pattern: Boots of Shackled Souls
-				{ 8, 32440 },	-- Pattern: Soulguard Girdle
-				{ 9, 32438 },	-- Pattern: Soulguard Bracers
-				{ 16, "f1012rep6" },
-				{ 17, 32443 },	-- Plans: Shadesteel Greaves
-				{ 18, 32441 },	-- Plans: Shadesteel Sabots
-				{ 19, 32433 },	-- Pattern: Redeemed Soul Mocassins
-				{ 20, 32434 },	-- Pattern: Redeemed Soul Wristguards
-				{ 21, 32431 },	-- Pattern: Greaves of Shackled Souls
-				{ 22, 32432 },	-- Pattern: Waistguard of Shackled Souls
-				{ 23, 32447 },	-- Pattern: Night's End
-				{ 24, 32439 },	-- Pattern: Soulguard Leggings
-				{ 25, 32437 },	-- Pattern: Soulguard Slippers
-				{ 101, "f1012rep8" },
-				{ 102, 32486 },	-- Ashtongue Talisman of Equilibrium
-				{ 103, 32487 },	-- Ashtongue Talisman of Swiftness
-				{ 104, 32488 },	-- Ashtongue Talisman of Insight
-				{ 105, 32489 },	-- Ashtongue Talisman of Zeal
-				{ 106, 32490 },	-- Ashtongue Talisman of Acumen
-				{ 107, 32492 },	-- Ashtongue Talisman of Lethality
-				{ 108, 32491 },	-- Ashtongue Talisman of Vision
-				{ 109, 32493 },	-- Ashtongue Talisman of Shadows
-				{ 110, 32485 },	-- Ashtongue Talisman of Valor
-			},
+			[P25_DIFF] = "AtlasLoot_Factions:BCFACTIONS:1:n",
 		},
 		BC_RAID_AC_TABLE,
 	}
@@ -2478,7 +2263,7 @@ data["GruulsLair"] = {
 	items = {
 		{	--GruulsLairHighKingMaulgar
 			name = BB["High King Maulgar"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 28797 },	-- Brute Cloak of the Ogre-Magi
 				{ 2, 28799 },	-- Belt of Divine Inspiration
 				{ 3, 28796 },	-- Malefic Mask of the Shadows
@@ -2492,7 +2277,7 @@ data["GruulsLair"] = {
 		},
 		{	--GruulGruul
 			name = BB["Gruul the Dragonkiller"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 28804 },	-- Collar of Cho'gall
 				{ 2, 28803 },	-- Cowl of Nature's Breath
 				{ 3, 28828 },	-- Gronn-Stitched Girdle
@@ -2511,6 +2296,11 @@ data["GruulsLair"] = {
 				{ 24, "ac692" },
 			},
 		},
+		{	--Tier 4 Sets
+			name = format(AL["Tier %d Sets"], 4),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:14:n",
+		},
 		BC_RAID_AC_TABLE,
 	}
 }
@@ -2522,7 +2312,7 @@ data["CoTHyjal"] = {
 	items = {
 		{	--MountHyjalWinterchill
 			name = BB["Rage Winterchill"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30871 },	-- Bracers of Martyrdom
 				{ 2, 30870 },	-- Cuffs of Devastation
 				{ 3, 30863 },	-- Deadly Cuffs
@@ -2540,7 +2330,7 @@ data["CoTHyjal"] = {
 		},
 		{	--MountHyjalAnetheron
 			name = BB["Anetheron"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30884 },	-- Hatefury Mantle
 				{ 2, 30888 },	-- Anetheron's Noose
 				{ 3, 30885 },	-- Archbishop's Slippers
@@ -2557,7 +2347,7 @@ data["CoTHyjal"] = {
 		},
 		{	--MountHyjalKazrogal
 			name = BB["Kaz'rogal"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30895 },	-- Angelista's Sash
 				{ 2, 30916 },	-- Leggings of Channeled Elements
 				{ 3, 30894 },	-- Blue Suede Shoes
@@ -2574,7 +2364,7 @@ data["CoTHyjal"] = {
 		},
 		{	--MountHyjalAzgalor
 			name = BB["Azgalor"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30899 },	-- Don Rodrigo's Poncho
 				{ 2, 30898 },	-- Shady Dealer's Pantaloons
 				{ 3, 30900 },	-- Bow-Stitched Leggings
@@ -2588,7 +2378,7 @@ data["CoTHyjal"] = {
 		},
 		{	--MountHyjalArchimonde
 			name = BB["Archimonde"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30913 },	-- Robes of Rhonin
 				{ 2, 30912 },	-- Leggings of Eternity
 				{ 3, 30905 },	-- Midnight Chestguard
@@ -2610,7 +2400,7 @@ data["CoTHyjal"] = {
 		{	--MountHyjalTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 32590 },	-- Nethervoid Cloak
 				{ 2, 34010 },	-- Pepe's Shroud of Pacification
 				{ 3, 32609 },	-- Boots of the Divine Light
@@ -2631,52 +2421,16 @@ data["CoTHyjal"] = {
 				{ 22, 32307 },	-- Design: Veiled Shadowsong Amethyst
 			},
 		},
+		{	--Tier 6 Sets
+			name = format(AL["Tier %d Sets"], 6),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:12",
+		},
 		{	--ScaleSands
 			FactionID = 990,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[M25_DIFF] = {
-				{ 1, 29298 },	-- Band of Eternity
-				{ 2, 29299 },	-- Band of Eternity
-				{ 3, 29300 },	-- Band of Eternity
-				{ 4, 29301 },	-- Band of the Eternal Champion
-				{ 6, 29294 },	-- Band of Eternity
-				{ 7, 29295 },	-- Band of Eternity
-				{ 8, 29296 },	-- Band of Eternity
-				{ 9, 29297 },	-- Band of the Eternal Defender
-				{ 16, 29302 },	-- Band of Eternity
-				{ 17, 29303 },	-- Band of Eternity
-				{ 18, 29304 },	-- Band of Eternity
-				{ 19, 29305 },	-- Band of the Eternal Sage
-				{ 21, 29307 },	-- Band of Eternity
-				{ 22, 29306 },	-- Band of Eternity
-				{ 23, 29308 },	-- Band of Eternity
-				{ 24, 29309 },	-- Band of the Eternal Restorer
-				{ 101, "f990rep5" },
-				{ 102, 32274 },	-- Design: Bold Crimson Spinel
-				{ 103, 32282 },	-- Design: Brilliant Crimson Spinel
-				{ 104, 32277 },	-- Design: Delicate Crimson Spinel
-				{ 105, 32286 },	-- Design: Solid Empyrean Sapphire
-				{ 106, 32287 },	-- Design: Sparkling Empyrean Sapphire
-				{ 107, 32291 },	-- Design: Smooth Lionseye
-				{ 108, 32284 },	-- Design: Subtle Lionseye
-				{ 110, "f990rep7" },
-				{ 111, 32292 },	-- Design: Rigid Empyrean Sapphire
-				{ 112, 32308 },	-- Design: Deadly Pyrestone
-				{ 113, 32309 },	-- Design: Regal Seaspray Emerald
-				{ 116, "f990rep6" },
-				{ 117, 35763 },	-- Design: Quick Lionseye
-				{ 118, 32304 },	-- Design: Potent Pyrestone
-				{ 119, 35762 },	-- Design: Reckless Pyrestone
-				{ 120, 32306 },	-- Design: Glinting Shadowsong Amethyst
-				{ 121, 32311 },	-- Design: Purified Shadowsong Amethyst
-				{ 122, 32299 },	-- Design: Shifting Shadowsong Amethyst
-				{ 123, 32301 },	-- Design: Timeless Shadowsong Amethyst
-				{ 124, 35765 },	-- Design: Forceful Seaspray Emerald
-				{ 125, 32312 },	-- Design: Jagged Seaspray Emerald
-				{ 126, 32310 },	-- Design: Radiant Seaspray Emerald
-				{ 127, 35764 },	-- Design: Steady Seaspray Emerald
-			},
+			[P25_DIFF] = "AtlasLoot_Factions:BCFACTIONS:17:n",
 		},
 		BC_RAID_AC_TABLE,
 	}
@@ -2936,40 +2690,16 @@ data["Karazhan"] = {
 				{ 23, 24492 },	-- Keanna's Log
 			},
 		},
+		{	--Tier 4 Sets
+			name = format(AL["Tier %d Sets"], 4),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:14",
+		},
 		{	--TheVioletEye
 			FactionID = 967,
 			CoinTexture = "Reputation",
 			ExtraList = true,
-			[NORMAL_DIFF] = {
-				{ 1, 29280, [QUEST_EXTRA_ITTYPE] = 10731 },	-- Violet Signet
-				{ 2, 29281, [QUEST_EXTRA_ITTYPE] = 10735 },	-- Violet Signet
-				{ 3, 29282, [QUEST_EXTRA_ITTYPE] = 10740 },	-- Violet Signet
-				{ 4, 29283, [QUEST_EXTRA_ITTYPE] = 10727 },	-- Violet Signet of the Master Assassin
-				{ 6, 29284, [QUEST_EXTRA_ITTYPE] = 10729 },	-- Violet Signet
-				{ 7, 29285, [QUEST_EXTRA_ITTYPE] = 10733 },	-- Violet Signet
-				{ 8, 29286, [QUEST_EXTRA_ITTYPE] = 10738 },	-- Violet Signet
-				{ 9, 29287, [QUEST_EXTRA_ITTYPE] = 10725 },	-- Violet Signet of the Archmage
-				{ 16, 29288, [QUEST_EXTRA_ITTYPE] = 10730 },	-- Violet Signet
-				{ 17, 29289, [QUEST_EXTRA_ITTYPE] = 10734 },	-- Violet Signet
-				{ 18, 29291, [QUEST_EXTRA_ITTYPE] = 10739 },	-- Violet Signet
-				{ 19, 29290, [QUEST_EXTRA_ITTYPE] = 10726 },	-- Violet Signet of the Grand Restorer
-				{ 21, 29276, [QUEST_EXTRA_ITTYPE] = 10732 },	-- Violet Signet
-				{ 22, 29277, [QUEST_EXTRA_ITTYPE] = 10736 },	-- Violet Signet
-				{ 23, 29278, [QUEST_EXTRA_ITTYPE] = 10741 },	-- Violet Signet
-				{ 24, 29279, [QUEST_EXTRA_ITTYPE] = 10728 },	-- Violet Signet of the Great Protector
-				{ 101, "f967rep6" },
-				{ 102, 31113, [QUEST_EXTRA_ITTYPE] = 9860 },	-- Violet Badge
-				{ 103, 31395, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Helm (p2 375)
-				{ 104, 31393, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Breastplate (p2 375)
-				{ 105, 31401, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Design: The Frozen Eye (p12 375)
-				{ 106, 29187, [PRICE_EXTRA_ITTYPE] = "money:300000" },	-- Inscription of Endurance
-				{ 116, "f967rep7" },
-				{ 117, 31394, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Plans: Iceguard Leggings (p2 375)
-				{ 118, 33205, [PRICE_EXTRA_ITTYPE] = "money:240000" },	-- Pattern: Shadowprowler's Chestguard (p7 365)
-				{ 120, "f967rep8" },
-				{ 121, 33124, [PRICE_EXTRA_ITTYPE] = "money:50000" },	-- Pattern: Cloak of Darkness (p7 360)
-				{ 122, 33165, [PRICE_EXTRA_ITTYPE] = "money:30000" },	-- Formula: Enchant Weapon - Greater Agility (p4 350)
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:BCFACTIONS:20",
 		},
 		BC_RAID_AC_TABLE,
 	}
@@ -2982,7 +2712,7 @@ data["HCMagtheridonsLair"] = {
 	items = {
 		{	--HCMagtheridon
 			name = BB["Magtheridon"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 28777 },	-- Cloak of the Pit Stalker
 				{ 2, 28780 },	-- Soul-Eater's Handwraps
 				{ 3, 28776 },	-- Liar's Tongue Gloves
@@ -3008,6 +2738,11 @@ data["HCMagtheridonsLair"] = {
 				{ 28, "ac693" },
 			},
 		},
+		{	--Tier 4 Sets
+			name = format(AL["Tier %d Sets"], 4),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:14:n",
+		},
 		BC_RAID_AC_TABLE,
 	}
 }
@@ -3019,7 +2754,7 @@ data["CFRSerpentshrineCavern"] = {
 	items = {
 		{	--CFRSerpentHydross
 			name = BB["Hydross the Unstable"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30056 },	-- Robe of Hateful Echoes
 				{ 2, 32516 },	-- Wraps of Purification
 				{ 3, 30050 },	-- Boots of the Shifting Nightmare
@@ -3038,7 +2773,7 @@ data["CFRSerpentshrineCavern"] = {
 		},
 		{	--CFRSerpentLurker
 			name = BB["The Lurker Below"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30064 },	-- Cord of Screaming Terrors
 				{ 2, 30067 },	-- Velvet Boots of the Guardian
 				{ 3, 30062 },	-- Grove-Bands of Remulos
@@ -3055,7 +2790,7 @@ data["CFRSerpentshrineCavern"] = {
 		},
 		{	--CFRSerpentLeotheras
 			name = BB["Leotheras the Blind"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30092 },	-- Orca-Hide Boots
 				{ 2, 30097 },	-- Coral-Barbed Shoulderpads
 				{ 3, 30091 },	-- True-Aim Stalker Bands
@@ -3069,7 +2804,7 @@ data["CFRSerpentshrineCavern"] = {
 		},
 		{	--CFRSerpentKarathress
 			name = BB["Fathom-Lord Karathress"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30100 },	-- Soul-Strider Boots
 				{ 2, 30101 },	-- Bloodsea Brigand's Vest
 				{ 3, 30099 },	-- Frayed Tether of the Drowned
@@ -3083,7 +2818,7 @@ data["CFRSerpentshrineCavern"] = {
 		},
 		{	--CFRSerpentMorogrim
 			name = BB["Morogrim Tidewalker"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30098 },	-- Razor-Scale Battlecloak
 				{ 2, 30079 },	-- Illidari Shoulderpads
 				{ 3, 30075 },	-- Gnarled Chestpiece of the Ancients
@@ -3102,7 +2837,7 @@ data["CFRSerpentshrineCavern"] = {
 		},
 		{	--CFRSerpentVashj
 			name = BB["Lady Vashj"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30107 },	-- Vestments of the Sea-Witch
 				{ 2, 30111 },	-- Runetotem's Mantle
 				{ 3, 30106 },	-- Belt of One-Hundred Deaths
@@ -3126,7 +2861,7 @@ data["CFRSerpentshrineCavern"] = {
 		{	--CFRSerpentTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30027 },	-- Boots of Courage Unending
 				{ 2, 30022 },	-- Pendant of the Perilous
 				{ 3, 30620 },	-- Spyglass of the Hidden Fleet
@@ -3151,11 +2886,16 @@ data["CFRSerpentshrineCavern"] = {
 				{ 27, 32897 },	-- Mark of the Illidari
 			},
 		},
+		{	--Tier 5 Sets
+			name = format(AL["Tier %d Sets"], 5),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:13",
+		},
 		{	--CExpedition
 			FactionID = 942,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = CENARION_EXPEDITION,
+			[P25_DIFF] = "AtlasLoot_Factions:BCFACTIONS:2:n",
 		},
 		BC_RAID_AC_TABLE,
 	}
@@ -3168,7 +2908,7 @@ data["SunwellPlateau"] = {
 	items = {
 		{	--SPKalecgos
 			name = BB["Kalecgos"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34170 },	-- Pantaloons of Calming Strife
 				{ 2, 34386 },	-- Pantaloons of Growing Strife
 				{ 3, 34169 },	-- Breeches of Natural Aggression
@@ -3186,7 +2926,7 @@ data["SunwellPlateau"] = {
 		},
 		{	--SPBrutallus
 			name = BB["Brutallus"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34181 },	-- Leggings of Calamity
 				{ 2, 34180 },	-- Felfury Legplates
 				{ 3, 34381 },	-- Felstrength Legplates
@@ -3201,7 +2941,7 @@ data["SunwellPlateau"] = {
 		},
 		{	--SPFelmyst
 			name = BB["Felmyst"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34352 },	-- Borderland Fortress Grips
 				{ 2, 34188 },	-- Leggings of the Immortal Night
 				{ 3, 34385 },	-- Leggings of the Immortal Beast
@@ -3217,7 +2957,7 @@ data["SunwellPlateau"] = {
 		},
 		{	--SPEredarTwins
 			name = BB["The Eredar Twins"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34205 },	-- Shroud of Redeemed Souls
 				{ 2, 34190 },	-- Crimson Paragon's Cover
 				{ 3, 34210 },	-- Amice of the Convoker
@@ -3249,7 +2989,7 @@ data["SunwellPlateau"] = {
 		},
 		{	--SPMuru
 			name = BB["M'uru"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34232 },	-- Fel Conquerer Raiments
 				{ 2, 34233 },	-- Robes of Faltered Light
 				{ 3, 34399 },	-- Robes of Ghostly Hatred
@@ -3282,7 +3022,7 @@ data["SunwellPlateau"] = {
 		},
 		{	--SPKiljaeden
 			name = BB["Kil'jaeden"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34241 },	-- Cloak of Unforgivable Sin
 				{ 2, 34242 },	-- Tattered Cape of Antonidas
 				{ 3, 34339 },	-- Cowl of Light's Purity
@@ -3317,7 +3057,7 @@ data["SunwellPlateau"] = {
 		{	--SPTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 34351 },	-- Tranquil Majesty Wraps
 				{ 2, 34407 },	-- Tranquil Moonlight Wraps
 				{ 3, 34350 },	-- Gauntlets of the Ancient Shadowmoon
@@ -3344,7 +3084,7 @@ data["SunwellPlateau"] = {
 		{	--SPPatterns
 			name = AL["Patterns/Plans"].." ("..string.format(AL["ilvl %d"], 159)..")",
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 35212 },	-- Pattern: Leather Gauntlets of the Sun
 				{ 2, 35216 },	-- Pattern: Leather Chestguard of the Sun
 				{ 3, 35213 },	-- Pattern: Fletcher's Gloves of the Phoenix
@@ -3376,6 +3116,11 @@ data["SunwellPlateau"] = {
 				{ 29, 35197 },	-- Schematic: Quad Deathblow X44 Goggles
 			},
 		},
+		{	--Tier 6 Sets
+			name = format(AL["Tier %d Sets"], 6),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:12",
+		},
 		BC_RAID_AC_TABLE,
 	}
 }
@@ -3387,7 +3132,7 @@ data["TempestKeepTheEye"] = {
 	items = {
 		{	--TKEyeAlar
 			name = BB["Al'ar"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 29925 },	-- Phoenix-Wing Cloak
 				{ 2, 29918 },	-- Mindstorm Wristbands
 				{ 3, 29947 },	-- Gloves of the Searing Grip
@@ -3406,7 +3151,7 @@ data["TempestKeepTheEye"] = {
 		},
 		{	--TKEyeVoidReaver
 			name = BB["Void Reaver"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 29986 },	-- Cowl of the Grand Engineer
 				{ 2, 29984 },	-- Girdle of Zaetar
 				{ 3, 29985 },	-- Void Reaver Greaves
@@ -3422,7 +3167,7 @@ data["TempestKeepTheEye"] = {
 		},
 		{	--TKEyeSolarian
 			name = BB["High Astromancer Solarian"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 29977 },	-- Star-Soul Breeches
 				{ 2, 29972 },	-- Trousers of the Astromancer
 				{ 3, 29966 },	-- Vambraces of Ending
@@ -3441,7 +3186,7 @@ data["TempestKeepTheEye"] = {
 		},
 		{	--TKEyeKaelthas
 			name = BB["Kael'thas Sunstrider"],
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 29992 },	-- Royal Cloak of the Sunstriders
 				{ 2, 29989 },	-- Sunshower Light Cloak
 				{ 3, 29994 },	-- Thalassian Wildercloak
@@ -3470,7 +3215,7 @@ data["TempestKeepTheEye"] = {
 		{	--TKEyeTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 30024 },	-- Mantle of the Elven Kings
 				{ 2, 30020 },	-- Fire-Cord of the Magus
 				{ 3, 30029 },	-- Bark-Gloves of Ancient Wisdom
@@ -3497,12 +3242,54 @@ data["TempestKeepTheEye"] = {
 				{ 27, 32897 },	-- Mark of the Illidari
 			},
 		},
+		{	--Tier 5 Sets
+			name = format(AL["Tier %d Sets"], 5),
+			ExtraList = true,
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:13",
+		},
 		{	--Shatar
 			FactionID = 935,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = SHATAR,
+			[P25_DIFF] = "AtlasLoot_Factions:BCFACTIONS:19:n",
 		},
 		BC_RAID_AC_TABLE,
+	}
+}
+
+data["WorldBossesBC"] = {
+	name = AL["World Bosses"],
+	ContentType = RAID_CONTENT,
+	items = {
+		{	--DoomLordKazzak
+			name = BB["Doom Lord Kazzak"],
+			[NORMAL_DIFF] = {
+				{ 1, 30735 },	-- Ancient Spellcloak of the Highborne
+				{ 2, 30734 },	-- Leggings of the Seventh Circle
+				{ 3, 30737 },	-- Gold-Leaf Wildboots
+				{ 4, 30739 },	-- Scaled Greaves of the Marksman
+				{ 5, 30740 },	-- Ripfiend Shoulderplates
+				{ 6, 30741 },	-- Topaz-Studded Battlegrips
+				{ 16, 30736 },	-- Ring of Flowing Light
+				{ 17, 30738 },	-- Ring of Reciprocity
+				{ 19, 30733 },	-- Hope Ender
+				{ 20, 30732 },	-- Exodar Life-Staff
+			},
+		},
+		{	--Doomwalker
+			name = BB["Doomwalker"],
+			[NORMAL_DIFF] = {
+				{ 1, 30729 },	-- Black-Iron Battlecloak
+				{ 2, 30725 },	-- Anger-Spark Gloves
+				{ 3, 30727 },	-- Gilded Trousers of Benediction
+				{ 4, 30730 },	-- Terrorweave Tunic
+				{ 5, 30728 },	-- Fathom-Helm of the Deeps
+				{ 6, 30731 },	-- Faceguard of the Endless Watch
+				{ 16, 30726 },	-- Archaic Charm of Presence
+				{ 18, 30723 },	-- Talon of the Tempest
+				{ 19, 30722 },	-- Ethereum Nexus-Reaver
+				{ 20, 30724 },	-- Barrel-Blade Longrifle
+			},
+		},
 	}
 }

@@ -6,6 +6,7 @@
 
 <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
 <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+<Script file="Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua"/>
 
 <Include file="Libs\LibBabble-Boss-3.0\lib.xml"/>
 

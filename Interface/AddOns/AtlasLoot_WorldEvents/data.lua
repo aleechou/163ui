@@ -7,7 +7,7 @@ local ALIL = AtlasLoot.IngameLocales
 
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"])
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
 
 -- change sortorder for factions
 local ALLIANCE_DIFF, HORDE_DIFF
@@ -532,16 +532,16 @@ data["Brewfest"] = {
 		{	--BrewfestCorenDirebrew
 			name = BB["Coren Direbrew"].." ("..ALIL["Blackrock Depths"]..")",
 			[NORMAL_DIFF] = {
-				{ 1, 117361 },	-- Bitterest Balebrew Charm
-				{ 2, 117357 },	-- Brawler's Statue
-				{ 3, 117391 },	-- Bubbliest Brightbrew Charm
-				{ 4, 117360 },	-- Coren's Cold Chromium Coaster
-				{ 5, 117358 },	-- Mithril Wristwatch
-				{ 6, 117359 },	-- Thousand-Year Pickled Egg
+				{ 1, "117361:553" },	-- Bitterest Balebrew Charm
+				{ 2, "117357:553" },	-- Brawler's Statue
+				{ 3, "117391:553" },	-- Bubbliest Brightbrew Charm
+				{ 4, "117360:553" },	-- Coren's Cold Chromium Coaster
+				{ 5, "117358:553" },	-- Mithril Wristwatch
+				{ 6, "117359:553" },	-- Thousand-Year Pickled Egg
 				{ 8, [ATLASLOOT_IT_ALLIANCE] = 38281, [ATLASLOOT_IT_HORDE] = 38280 },	-- Direbrew's Dire Brew
 				{ 16, 54535 },	-- Keg-Shaped Treasure Chest (Daily reward)
-				{ 17, 117378 },	-- Direbrew's Bloodied Shanker
-				{ 18, 117379 },	-- Tremendous Tankard O' Terror
+				{ 17, "117378:553" },	-- Direbrew's Bloodied Shanker
+				{ 18, "117379:553" },	-- Tremendous Tankard O' Terror
 				{ 19, 37828, "mount" },	-- Great Brewfest Kodo
 				{ 20, 33977, "mount" },	-- Swift Brewfest Ram
 				{ 21, 37863 },	-- Direbrew's Remote

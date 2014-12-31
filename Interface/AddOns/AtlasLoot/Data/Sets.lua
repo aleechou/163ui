@@ -78,6 +78,7 @@ function Sets_Proto:AddDifficulty(diffName, shortName, preset)
 			data = {}
 		}
 	end
+	if not diffName then return end
 	local diffTab = difficultys[self.__key]
 	
 	if not diffTab.shortNames[shortName] or not diffTab.names[diffName] then
@@ -103,6 +104,7 @@ function Sets_Proto:AddInfoList(name, emptyEntry)
 			data = {}
 		}
 	end
+	if not name then return end
 	local infoTab = infoListData[self.__key]
 	
 	if not infoTab.names[name] then
@@ -203,6 +205,7 @@ end
 
 function SingleSet_Proto:GetDiffTable(subSetName, curDiff)
 	subSetName = (subSetName and self[subSetName]) and self[subSetName] or (( subSetName and self.subSetNames and self.subSetNames[subSetName] ) and self.subSetNames[subSetName] or self[1])
+	curDiff = not curDiff and nil or (type(curDiff) == "number" and ((curDiff>DIFF_LIST_START) and curDiff-DIFF_LIST_START or curDiff) or ( difficultys[self.__addonName].shortNames[curDiff] and difficultys[self.__addonName].shortNames[curDiff] or difficultys[self.__addonName].names[curDiff]))
 	return subSetName[curDiff] and subSetName[curDiff] or ( subSetName[curDiff+DIFF_LIST_START] and subSetName[curDiff+DIFF_LIST_START] or nil )
 end
 
@@ -254,6 +257,11 @@ local Loaded_Sets_MT = {
 					if not tab.subSetNames then tab.subSetNames = {} end
 					tab.subSetNames[subSet.subSetName] = subSet
 				end
+				for ib = INFO_LIST_START+1, infoListData[self.__key].counter+INFO_LIST_START do 
+					if subSet[ib] and tab[ subSet[ib] ] then
+						subSet[ib] = tab[ subSet[ib] ]
+					end
+				end
 				for ia = DIFF_LIST_START+1, difficultys[self.__key].counter+DIFF_LIST_START do
 					if subSet[ia] then
 						if type(subSet[ia]) == "number" then
@@ -274,13 +282,18 @@ local Loaded_Sets_MT = {
 							subSet[ia].itemTable = {}
 						end
 						-- check for info templates
-						for ib = INFO_LIST_START+1, infoListData[self.__key].counter+INFO_LIST_START do
-							if subSet[ib] and tab[ subSet[ib] ] then
-								subSet[ib] = tab[ subSet[ib] ]
+						for ib = INFO_LIST_START+1, infoListData[self.__key].counter+INFO_LIST_START do 
+							if subSet[ia][ib] and tab[ subSet[ia][ib] ] then
+								subSet[ia][ib] = tab[ subSet[ia][ib] ]
 							end
 						end
 						-- set info templates for single items..
 						for ib = 1, #diff do
+							for ic = INFO_LIST_START+1, infoListData[self.__key].counter+INFO_LIST_START do
+								if subSet[ib] and subSet[ib][ic] and tab[ subSet[ib][ic] ] then
+									subSet[ib][ic] = tab[ subSet[ib][ic] ]
+								end
+							end
 							item = diff[ib]
 							if type(item) == "table" then
 								subSet[ia].itemTable[ib] = item[1]
@@ -292,7 +305,16 @@ local Loaded_Sets_MT = {
 											else
 												subSet[ia][ic] = {} 
 											end
+											
+										elseif subSet[ia][ic] and type(subSet[ia][ic]) == "string" then
+											--print(subSet[ia][ic], tab[ subSet[ia][ic] ], tab[ subSet[ia][ic] ][1])
+											if tab[ subSet[ia][ic] ] then
+												subSet[ia][ic] = setmetatable({}, {__index = tab[ subSet[ia][ic] ]})
+											else
+												subSet[ia][ic] = {} 
+											end
 										end
+										
 										subSet[ia][ic][ ib ] = item[ic]
 									end
 								end
@@ -319,6 +341,9 @@ local Loaded_Sets_MT = {
 function Sets:RegisterNewSets(addonName)
 	assert(not Storage[addonName], addonName.." already exists.")
 	Loaded_Sets[addonName] = setmetatable({__key = addonName}, Loaded_Sets_MT)
+	-- Init empty diffs/infos
+	Loaded_Sets[addonName]:AddDifficulty()	
+	Loaded_Sets[addonName]:AddInfoList()
 	return Loaded_Sets[addonName]
 end
 
@@ -336,18 +361,23 @@ end
 
 local Global_Set = Sets:RegisterNewSets(GLOBAL_SETS)
 
-local RF_DIFF = Global_Set:AddDifficulty(AL["Raid Finder"], "rf")
 local NORMAL_DIFF = Global_Set:AddDifficulty(AL["Normal"], "n")
-local HEROIC_DIFF = Global_Set:AddDifficulty(AL["Heroic"], "h")
-local MYTHIC_DIFF = Global_Set:AddDifficulty(AL["Mythic"], "m")
-local HEROIC_PRE_DIFF = Global_Set:AddDifficulty(AL["Heroic"], "hB1", { "HeroicRaid", "HeroicRaidWarforged" })
-local MYTHIC_PRE_DIFF = Global_Set:AddDifficulty(AL["Mythic"], "mB1", { "MythicRaid", "MythicRaidWarforged" })
 
-local SOURCE_INFO = Global_Set:AddInfoList(AL["Source"])
-
-local EJ_GetInstanceInfo, EJ_GetEncounterInfo = EJ_GetInstanceInfo, EJ_GetEncounterInfo
+local SOURCE_INFO = Global_Set:AddInfoList("DUMMY")
 
 local globalSetTable = {
+	["GMTESTSET"] = {	-- T17 Sets
+		name = "GM",
+		{	-- Deathknight
+			name = "GM",
+			subSetName = "gm",
+			[NORMAL_DIFF] = {
+				12064,
+				2586,
+				11508,
+				33475,	-- Frostmourne
+			},
+		},
+	}
 }
-
 Global_Set:SetContentTable(globalSetTable)

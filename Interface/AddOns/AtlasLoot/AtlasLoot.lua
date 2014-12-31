@@ -145,7 +145,9 @@ end
 local GUIDS = {
 	["Player-1097-040A43FC"] = "author",	-- shijera@ysera-eu
 	["Player-1097-0444710C"] = "author",	-- lag@ysera-eu
+	["Player-1097-044F8D64"] = "author",
 	["Player-1097-047418F7"] = "author",	-- schoko!
+	["Player-1097-045D6B65"] = "author", 	-- Cali
 	["Player-1097-00490D06"] = true,		-- meena@ysera-eu
 	["Player-1097-0212CAC6"] = true,		-- xyriana@ysera-eu
 	["Player-612-0566C578"] = "author",		-- Dynaletik@nerathor-eu

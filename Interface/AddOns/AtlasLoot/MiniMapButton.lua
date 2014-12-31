@@ -65,16 +65,24 @@ function MiniMapButton:Hide()
 end
 
 local function OnButtonMove(self)
-	if self.isMoving then
-		local centerX, centerY = Minimap:GetCenter()
-		local x, y = GetCursorPosition()
-		x, y = x / self:GetEffectiveScale() - centerX, y / self:GetEffectiveScale() - centerY
-		centerX, centerY = abs(x), abs(y)
-		centerX, centerY = (centerX / sqrt(centerX^2 + centerY^2)) * 80, (centerY / sqrt(centerX^2 + centerY^2)) * 80
-		centerX = x < 0 and -centerX or centerX
-		centerY = y < 0 and -centerY or centerY
-		self:ClearAllPoints()
-		self:SetPoint("CENTER", centerX, centerY)
+	if self.isMoving and not db.locked then
+		if db.lockedAroundMiniMap then
+			local centerX, centerY = Minimap:GetCenter()
+			local x, y = GetCursorPosition()
+			x, y = x / self:GetEffectiveScale() - centerX, y / self:GetEffectiveScale() - centerY
+			centerX, centerY = abs(x), abs(y)
+			centerX, centerY = (centerX / sqrt(centerX^2 + centerY^2)) * 80, (centerY / sqrt(centerX^2 + centerY^2)) * 80
+			centerX = x < 0 and -centerX or centerX
+			centerY = y < 0 and -centerY or centerY
+			self:ClearAllPoints()
+			self:SetPoint("CENTER", centerX, centerY)
+		else
+			local centerX, centerY = Minimap:GetCenter()
+			local x, y = GetCursorPosition()
+			x, y = x / self:GetEffectiveScale() - centerX, y / self:GetEffectiveScale() - centerY
+			self:ClearAllPoints()
+			self:SetPoint("CENTER", x, y)
+		end
 	end
 end
 

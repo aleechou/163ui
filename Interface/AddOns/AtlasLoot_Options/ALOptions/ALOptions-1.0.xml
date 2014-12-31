@@ -9,4 +9,5 @@
 	<Script file="widgets\SimpleDropDown.lua"/>
 	<Script file="widgets\Text.lua"/>
 	<Script file="widgets\Line.lua"/>
+	<Script file="widgets\Slider.lua"/>
 </Ui>

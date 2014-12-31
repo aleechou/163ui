@@ -5,9 +5,9 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"])
-local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE)
-local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE)
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
+local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 

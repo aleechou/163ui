@@ -5,6 +5,8 @@ local SVF = {}
 AtlasLoot.GUI.SetViewFrame = SVF
 local AL = AtlasLoot.Locales
 
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
+
 --lua
 local type = type
 local next, pairs = next, pairs
@@ -96,6 +98,8 @@ local function CreateTextColumn(content, parFrame, width, height, pointInParFram
 		local text
 		for i = 1, #content do
 			text = GetTextFrameWithBackground(parFrame,  textWidth, textHeight, bgColor, textColor)
+			text.set_bgColor = bgColor
+			text.set_textColor = textColor
 			if i == 1 then
 				if pointInParFrame then
 					text:SetPoint(pointInParFrame[1], pointInParFrame[2], pointInParFrame[3], pointInParFrame[4], pointInParFrame[5])
@@ -119,6 +123,8 @@ local function CreateTextColumn(content, parFrame, width, height, pointInParFram
 		end
 		SetTextForFrame(text, content)
 		text:Show()
+		text.set_bgColor = bgColor
+		text.set_textColor = textColor
 		parFrame.content[1] = text
 	end
 end
@@ -216,6 +222,8 @@ local function ClearItemFrames()
 		frame.itemLink = nil
 		frame:Clear()
 		for j = 1, #frame.content do
+			frame.content[j].set_bgColor = nil
+			frame.content[j].set_textColor = nil
 			frame.content[j]:Clear()
 			frame.content[j] = nil
 		end
@@ -227,10 +235,14 @@ end
 
 local function ClearExtraList()
 	for i = 1, #SVF.frame.containerFrame.subTopFrame.content do
+		SVF.frame.containerFrame.subTopFrame.content[i].set_bgColor = nil
+		SVF.frame.containerFrame.subTopFrame.content[i].set_textColor = nil
 		SVF.frame.containerFrame.subTopFrame.content[i]:Clear()
 		SVF.frame.containerFrame.subTopFrame.content[i] = nil
 	end
 	for i = 1, #SVF.frame.containerFrame.bottomFrame.content do
+		SVF.frame.containerFrame.bottomFrame.content[i].set_bgColor = nil
+		SVF.frame.containerFrame.bottomFrame.content[i].set_textColor = nil
 		SVF.frame.containerFrame.bottomFrame.content[i]:Clear()
 		SVF.frame.containerFrame.bottomFrame.content[i] = nil
 	end
@@ -270,7 +282,7 @@ function LoadExtraList(typ)
 				end
 				for k,v in pairs(itemStats[i]) do
 					globalTmp = _G[k]
-					if STATS_FILTER[k] ~= "hide" then
+					if STATS_FILTER[k] ~= "hide" and globalTmp then
 						if not statSummary[globalTmp] then
 							globalNames[globalTmp] = k
 							list[ #list+1 ] = globalTmp
@@ -566,7 +578,7 @@ function SVF:Create()
 	frame:SetParent(UIParent)
 	frame:SetSize(SVF_FRAME_WIDTH, SVF_FRAME_HEIGHT)
 	frame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
-	frame:SetBackdropColor(0,0,0,1)
+	--frame:SetBackdropColor(0,0,0,1)
 	frame:SetPoint(db.point[1], db.point[2], db.point[3], db.point[4], db.point[5])
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
@@ -597,7 +609,7 @@ function SVF:Create()
 	frame.modelFrame:SetSize(MODEL_FRAME_WIDTH, MODEL_FRAME_HEIGHT)
 	frame.modelFrame:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 	frame.modelFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
-	frame.modelFrame:SetBackdropColor(1,1,1,1)
+	--frame.modelFrame:SetBackdropColor(1,1,1,1)
 	frame.modelFrame:SetUnit("player")
 	frame.modelFrame.minZoom = 0
 	frame.modelFrame.maxZoom = 1.0
@@ -661,6 +673,7 @@ function SVF:Create()
 	
 	CONTAINER_ITEM_PLACE_HEIGHT = frame.containerFrame:GetHeight() - 4 - frame.containerFrame.topFrame:GetHeight() - frame.containerFrame.topFrameSec:GetHeight() - frame.containerFrame.subTopFrame:GetHeight() - frame.containerFrame.bottomFrame:GetHeight()
 	
+	SVF.RefreshStyle()
 	--frame:Hide()
 end
 
@@ -672,16 +685,58 @@ function SVF.ResetFrames()
 	end
 end
 
-local ATLASLOOT_TESTSET_DEV
+function SVF.RefreshStyle()
+	if not SVF.frame then return end
+	
+	local frame = SVF.frame
+	frame:SetBackdropColor(db.mainFrame.bgColor[1], db.mainFrame.bgColor[2], db.mainFrame.bgColor[3], db.mainFrame.bgColor[4])
+	frame.title:SetBackdropColor(db.mainFrame.title.bgColor[1], db.mainFrame.title.bgColor[2], db.mainFrame.title.bgColor[3], db.mainFrame.title.bgColor[4])
+	frame.title.text:SetTextColor(db.mainFrame.title.textColor[1], db.mainFrame.title.textColor[2], db.mainFrame.title.textColor[3], db.mainFrame.title.textColor[4])
+	frame.title.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.title.font), db.mainFrame.title.size)
+	frame.modelFrame:SetBackdropColor(db.mainFrame.bgColorModel[1], db.mainFrame.bgColorModel[2], db.mainFrame.bgColorModel[3], db.mainFrame.bgColorModel[4])
+	frame:SetScale(db.mainFrame.scale)
 
-local function TEST_SET(addonName)
-	SVF:SetAtlasLootItemSet(ATLASLOOT_TESTSET_DEV, addonName)
+	CONTAINER_ITEM_TEXT_BG_COLOR.r = db.content.bgColor[1]
+	CONTAINER_ITEM_TEXT_BG_COLOR.g = db.content.bgColor[2]
+	CONTAINER_ITEM_TEXT_BG_COLOR.b = db.content.bgColor[3]
+	CONTAINER_ITEM_TEXT_BG_COLOR.a = db.content.bgColor[4]
+
+	CONTAINER_ITEM_TEXT_COLOR.r = db.content.textColor[1]
+	CONTAINER_ITEM_TEXT_COLOR.g = db.content.textColor[2]
+	CONTAINER_ITEM_TEXT_COLOR.b = db.content.textColor[3]
+	CONTAINER_ITEM_TEXT_COLOR.a = db.content.textColor[4]
+	CONTAINER_ITEM_TEXT_COLOR.font = db.content.textFont
+	CONTAINER_ITEM_TEXT_COLOR.fontSize = db.content.textSize
+	
+	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.r = db.contentTopBottom.bgColor[1]
+	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.g = db.contentTopBottom.bgColor[2]
+	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.b = db.contentTopBottom.bgColor[3]
+	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.a = db.contentTopBottom.bgColor[4]
+
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.r = db.contentTopBottom.textColor[1]
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.g = db.contentTopBottom.textColor[2]
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.b = db.contentTopBottom.textColor[3]
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.a = db.contentTopBottom.textColor[4]
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.font = db.contentTopBottom.textFont
+	CONTAINER_TOP_BOTTOM_TEXT_COLOR.fontSize = db.contentTopBottom.textSize
+	
+	-- update existing
+	for i = 1, #SVF.frame.containerFrame.content do
+		local frame = SVF.frame.containerFrame.content[i]
+		for j = 1, #frame.content do
+			frame.content[j]:SetColors(frame.content[j].set_bgColor, frame.content[j].set_textColor)
+		end
+	end
+	for i = 1, #SVF.frame.containerFrame.subTopFrame.content do
+		SVF.frame.containerFrame.subTopFrame.content[i]:SetColors(SVF.frame.containerFrame.subTopFrame.content[i].set_bgColor, SVF.frame.containerFrame.subTopFrame.content[i].set_textColor)
+	end
+	for i = 1, #SVF.frame.containerFrame.bottomFrame.content do
+		SVF.frame.containerFrame.bottomFrame.content[i]:SetColors(SVF.frame.containerFrame.bottomFrame.content[i].set_bgColor, SVF.frame.containerFrame.bottomFrame.content[i].set_textColor)
+	end
+
+	
 end
 
-function AtlasLoot:Teest(set)
-	if not set then return end
-	ATLASLOOT_TESTSET_DEV = set
-	AtlasLoot.Loader:LoadModule("AtlasLoot_Collections", TEST_SET, "set")
+function SVF:ShowPreviewSet()
+	SVF:SetAtlasLootItemSet("GMTESTSET", "global")
 end
-
---/run print('Shift click to link:', '\124cffb048f8\124Hitem:99416:0:0:0:0:0:0:0:0:0:491:1:351\124h[Blackhand\'s Faceguard]\124h\124r')
