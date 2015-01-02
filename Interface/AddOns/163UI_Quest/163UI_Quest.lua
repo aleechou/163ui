@@ -116,7 +116,7 @@ local function CreatePriceFrame(name)
 end
 
 for i = 1, 10 do
-    CreatePriceFrame("QuestInfoItem"..i) -- 3.35/CTM
+    CreatePriceFrame("QuestInfoRewardsFrameQuestInfoItem"..i) -- 3.35/CTM
 end
 
 
