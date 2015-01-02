@@ -127,6 +127,16 @@ function CreateFrames_CreateSpellFrame(index, typeIndex)
 
 	local eaf = _G[sFramePrefix..index];
 	if (eaf == nil) then 
+		
+		eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
+		CooldownFramePrefix = "Cooldown_"
+		eaf.cooldown = CreateFrame("Cooldown", sFramePrefix..CooldownFramePrefix..index, eaf, "CooldownFrameTemplate");
+		if ((typeIndex == 3) and EA_Position.SCD_UseCooldown) then			
+			eaf.useCooldown = true
+		else			
+			eaf.useCooldown = false
+		end
+		--[[
 		if ((typeIndex == 3) and EA_Position.SCD_UseCooldown) then
 			eaf = CreateFrame("Cooldown", sFramePrefix..index, EA_Main_Frame, "CooldownFrameTemplate");
 			eaf.useCooldown = true;
@@ -134,6 +144,7 @@ function CreateFrames_CreateSpellFrame(index, typeIndex)
 			eaf = CreateFrame("FRAME", sFramePrefix..index, EA_Main_Frame);
 			eaf.useCooldown = false;
 		end
+		]]--
 		eaf.spellName = eaf:CreateFontString(sFramePrefix..index.."_Name","OVERLAY");
 		eaf.spellTimer = eaf:CreateFontString(sFramePrefix..index.."_Timer","OVERLAY");
 		eaf.spellStack = eaf:CreateFontString(sFramePrefix..index.."_Stack","OVERLAY");

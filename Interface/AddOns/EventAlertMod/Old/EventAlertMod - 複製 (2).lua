@@ -1221,7 +1221,7 @@ function EventAlert_OnSCDUpdate(spellId)
 			end
 		end
 		
-		eaf:SetAlpha(1);		
+		-- eaf:SetAlpha(1);		
 		EventAlert_ScdPositionFrames();				
 	end
 end

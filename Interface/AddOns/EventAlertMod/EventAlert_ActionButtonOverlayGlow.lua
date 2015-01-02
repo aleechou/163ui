@@ -39,8 +39,8 @@ function EA_ActionButton_ShowOverlayGlow(self)
 		self.overlay:ClearAllPoints();
 		--Make the height/width available before the next frame:
 		self.overlay:SetSize(frameWidth * 1.4, frameHeight * 1.4);
-		self.overlay:SetPoint("TOPLEFT", self, "TOPLEFT", -frameWidth * 0.3, frameHeight * 0.3);
-		self.overlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", frameWidth * 0.3, -frameHeight * 0.3);
+		self.overlay:SetPoint("TOPLEFT", self, "TOPLEFT", -frameWidth * 0.4, frameHeight * 0.4);
+		self.overlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", frameWidth * 0.4, -frameHeight * 0.4);
 		self.overlay.animIn:Play();
 	end
 end
