@@ -128,6 +128,7 @@ local function Select_Button_Set(self, contentTable, title, description, lvl, li
 	local nextButtonIndex = self.index + 1
 	self.obj.buttonCount = self.obj.buttonCount + 1
 	self.contentTable = contentTable
+	self.contentID = contentTable.contentID
 	
 	if contentTable.openOnRun then
 		if self.obj.selectedButton then
@@ -139,8 +140,8 @@ local function Select_Button_Set(self, contentTable, title, description, lvl, li
 	end
 	
 	if self.obj.buttonCount >= firstSetValue then
-		if contentTable.selected then
-			self:SetChecked(contentTable.selected)
+		if contentTable.selected or self.contentID == self.obj.curContentID then
+			self:SetChecked(true)
 			self.obj.selectedButton = self
 		end
 		self:Show()
@@ -191,6 +192,11 @@ end
 local function Select_Button_Extend_OnClick(self)
 	self.obj.contentTable.extended = not self.obj.contentTable.extended
 	
+	if self.obj.obj.selectedButton then
+		self.obj.obj.selectedButton.contentTable.selected = nil
+		self.obj.obj.selectedButton = nil
+	end
+	
 	ALOptions:ClearContentTable()
 	self.obj.obj:Update()
 	self.obj.obj:UpdateBar(self.curPos)
@@ -204,6 +210,7 @@ local function Select_Button_OnClick(self)
 	end
 	self:SetChecked(true)
 	self.obj.selectedButton = self
+	self.obj.curContentID = self.contentID
 	Select_SetPage(self.contentTable)
 	
 end
@@ -391,18 +398,25 @@ end
 
 function ALOptions:ClearContentTable()
 	for i = 1, #mainFrame.selection.content do
+		mainFrame.selection.content[i]:SetChecked(false)
 		mainFrame.selection.content[i]:Hide()
 	end
 end
 
-local function ValidateContentTable(content)
+local function ValidateContentTable(content, counter)
+	counter = counter or 0
 	for i = 1, #content do
+		counter = counter + 1
 		content[i].obj = content.obj or content
+		content[i].contentID = counter
 		if content[i].content then
+			counter = counter + 1
+			content[i].content.contentID = counter
 			content[i].content.obj = content[i]
-			ValidateContentTable(content[i].content)
+			counter = ValidateContentTable(content[i].content, counter)
 		end
 	end
+	return counter
 end
 
 function ALOptions:SetContentTable(contentTable)
@@ -432,7 +446,7 @@ end
 
 function ALOptions:SetSelected(quickSelect)
 	if not quickSelect or not mainFrame.selection.contentTable then return end
-	SetSelectedLoop(quickSelect, mainFrame.selection.contentTable, 0)
+	SetSelectedLoop(quickSelect, mainFrame.selection.contentTable)
 	self:ClearContentTable()
 	mainFrame.selection:Update()
 	mainFrame.selection:UpdateBar()
@@ -500,7 +514,7 @@ local WidgetBase = {
 	Point = function(self, point, relativeFrame, relativePoint, ofsx, ofsy)
 		self.frame:ClearAllPoints()
 		self.frame:SetParent(mainFrame.content)
-		self.frame:SetPoint(point, relativeFrame and (relativeFrame.frame and relativeFrame.frame or relativeFrame ) or mainFrame.content, relativePoint, ofsx, ofsy)
+		self.frame:SetPoint(point, (relativeFrame and type(relativeFrame) ~= "number") and (relativeFrame.frame and relativeFrame.frame or relativeFrame ) or (type(relativeFrame) == "number" and relativeFrame or mainFrame.content), relativePoint, ofsx, ofsy)
 		return self
 	end,
 	ClearAllPoints = function(self)

@@ -11,7 +11,6 @@ local ITEM_FORMAT_STRING = "item:%d:0:0:0:0:0:0:0:0:0:0:0"
 local ITEM_FORMAT_ALL_STRING = "item:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%s"
 local ITEM_FORMAT_BONUS_STRING = "item:%d:0:0:0:0:0:0:0:0:0:0:%d:%s"
 
-
 ATLASLOOT_ITEM_BONUSIDS = {
 	-- Raid
 	["LFR"] = 451,

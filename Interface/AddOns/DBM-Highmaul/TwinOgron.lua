@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(1148, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12022 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12125 $"):sub(12, -3))
 mod:SetCreatureID(78238, 78237)--Pol 78238, Phemos 78237
 mod:SetEncounterID(1719)
 mod:SetZone()
-mod:SetBossHPInfoToHighest()
 mod:SetHotfixNoticeRev(11939)
 
 mod:RegisterCombat("combat")
@@ -14,6 +13,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 158057 157943 158134 158093 158200 157952 158415 158419 163336",
 	"SPELL_AURA_APPLIED 163372 167200 158241 163297",
 	"SPELL_AURA_APPLIED_DOSE 167200 158241",
+	"SPELL_AURA_REFRESH 163372",
 	"SPELL_AURA_REMOVED 163372",
 	"SPELL_CAST_SUCCESS 158385"
 )
@@ -32,17 +32,17 @@ local warnPulverize					= mod:NewCountAnnounce(158385, 3)--158385 is primary act
 local warnArcaneCharge				= mod:NewCastAnnounce(163336, 4)--Mythic. Seems not reliable timer, has a chance to happen immediately after a charge (but not always)
 
 --Phemos
-local specWarnEnfeeblingRoar		= mod:NewSpecialWarningCount(158057)
-local specWarnWhirlWind				= mod:NewSpecialWarningCount(157943, nil, nil, nil, 2)
-local specWarnQuake					= mod:NewSpecialWarningCount(158200, nil, nil, nil, 2)
-local specWarnBlaze					= mod:NewSpecialWarningMove(158241, false)
-local specWarnArcaneVolatility		= mod:NewSpecialWarningMoveAway(163372)--Mythic
+local specWarnEnfeeblingRoar		= mod:NewSpecialWarningCount(158057, nil, nil, nil, nil, nil, true)
+local specWarnWhirlWind				= mod:NewSpecialWarningCount(157943, nil, nil, nil, 2, nil, true)
+local specWarnQuake					= mod:NewSpecialWarningCount(158200, nil, nil, nil, 2, nil, true)
+local specWarnBlaze					= mod:NewSpecialWarningMove(158241, nil, nil, nil, nil, nil, true)
+local specWarnArcaneVolatility		= mod:NewSpecialWarningMoveAway(163372, nil, nil, nil, nil, nil, true)--Mythic
 local yellArcaneVolatility			= mod:NewYell(163372)--Mythic
 --Pol
-local specWarnShieldCharge			= mod:NewSpecialWarningSpell(158134, nil, nil, nil, 2)
+local specWarnShieldCharge			= mod:NewSpecialWarningSpell(158134, nil, nil, nil, 2, nil, true)
 local specWarnInterruptingShout		= mod:NewSpecialWarningCast("OptionVersion2", 158093, mod:IsSpellCaster())
-local specWarnPulverize				= mod:NewSpecialWarningSpell(158385, nil, nil, nil, 2)
-local specWarnArcaneCharge			= mod:NewSpecialWarningSpell(163336, nil, nil, nil, 2)--Mythic. Seems not reliable timer, has a chance to happen immediately after a charge (but not always)
+local specWarnPulverize				= mod:NewSpecialWarningSpell(158385, nil, nil, nil, 2, nil, true)
+local specWarnArcaneCharge			= mod:NewSpecialWarningSpell(163336, nil, nil, nil, 2)
 
 --Phemos (100-106 second full rotation, 33-34 in between)
 local timerEnfeeblingRoarCD			= mod:NewNextCountTimer(33, 158057)
@@ -51,6 +51,7 @@ local timerQuakeCD					= mod:NewNextCountTimer(34, 158200)
 --Pol (84 seconds full rotation, 28-29 seconds in between)
 local timerShieldChargeCD			= mod:NewNextTimer(28, 158134)
 local timerInterruptingShoutCD		= mod:NewNextTimer(28, 158093)
+local timerInterruptingShout		= mod:NewCastTimer(3, 158093, nil, mod:IsSpellCaster())
 local timerPulverizeCD				= mod:NewNextTimer(29, 158385)
 --^^Even though 6 cd timers, coded smart to only need 2 up at a time, by using the predictability of "next ability" timing.
 local timerArcaneTwistedCD			= mod:NewNextTimer(55, 163297)
@@ -64,10 +65,11 @@ local countdownArcaneVolatility		= mod:NewCountdown("AltTwo60", 163372, not mod:
 
 local voicePhemos					= mod:NewVoice(nil, nil, "PhemosSpecialVoice")
 local voicePol						= mod:NewVoice(nil, nil, "PolSpecialVoice")
-local voiceBlaze					= mod:NewVoice(158241, false)
+local voiceBlaze					= mod:NewVoice(158241)
 local voiceArcaneVolatility			= mod:NewVoice(163372)
 
-mod:AddRangeFrameOption(8, 163372)
+mod:AddRangeFrameOption("8/3", 163372)
+mod:AddInfoFrameOption("ej9586")
 
 --Non resetting counts because strategy drastically changes based on number of people. Mechanics like debuff duration change with different player counts.
 mod.vb.EnfeebleCount = 0
@@ -76,12 +78,16 @@ mod.vb.WWCount = 0
 mod.vb.PulverizeCount = 0
 mod.vb.PulverizeRadar = false
 mod.vb.LastQuake = 0
+mod.vb.arcaneCast = 0
 mod.vb.arcaneDebuff = 0
 local GetTime = GetTime
 local PhemosEnergyRate = 33
 local polEnergyRate = 28
+local GetSpellInfo = GetSpellInfo
 local arcaneDebuff = GetSpellInfo(163372)
-local UnitDebuff = UnitDebuff
+local arcaneTwisted = GetSpellInfo(163297)
+local UnitDebuff, UnitBuff = UnitDebuff, UnitBuff
+local arcaneVTimers = {8.5, 6, 45, 8, 16.5, 8.5, 5.5, 39, 130, 10, 56.5, 8, 6}
 local debuffFilter
 do
 	debuffFilter = function(uId)
@@ -91,12 +97,96 @@ do
 	end
 end
 
+local lines = {}
+
+local function sortInfoFrame(a, b)--is this even needed? no idea. 
+	local a = lines[a]
+	local b = lines[b]
+	if not tonumber(a) then a = -1 end
+	if not tonumber(b) then b = -1 end
+	if a > b then return true else return false end
+end
+
+--Layout
+--Boss 1 name - Power
+--Boss 1 next ability
+--Boss 2 name - Power
+--Boss 2 next ability
+--if mythic, ability will show if ability empowered or not to right with empowerment name and purple coloring
+local function updateInfoFrame()
+	table.wipe(lines)
+	local bossPower = 0
+	local bossPower2 = 0
+	if UnitExists("boss1") and UnitExists("boss2") then
+		bossPower = UnitPower("boss1")
+		bossPower2 = UnitPower("boss2")
+	end
+	--First, Phem
+	if DBM:GetUnitCreatureId("boss1") == 78237 then
+		lines[UnitName("boss1")] = bossPower
+		if bossPower < 33 then--Whirlwind
+			if UnitBuff("boss1", arcaneTwisted) then--Empowered attack
+				lines["|cFF9932CD"..GetSpellInfo(157943).."|r"] = GetSpellInfo(163321)
+			else
+				lines[GetSpellInfo(157943)] = ""
+			end
+		elseif bossPower < 66 then--Enfeabling Roar
+			lines[GetSpellInfo(158057)] = ""
+		elseif bossPower < 100 then--Quake
+			lines[GetSpellInfo(158200)] = ""
+		end
+	elseif DBM:GetUnitCreatureId("boss2") == 78237 then
+		lines[UnitName("boss2")] = bossPower2
+		if bossPower2 < 33 then--Whirlwind
+			if UnitBuff("boss2", arcaneTwisted) then--Empowered attack
+				lines["|cFF9932CD"..GetSpellInfo(157943).."|r"] = GetSpellInfo(163321)
+			else
+				lines[GetSpellInfo(157943)] = ""
+			end
+		elseif bossPower2 < 66 then--Enfeabling Roar
+			lines[GetSpellInfo(158057)] = ""
+		elseif bossPower2 < 100 then--Quake
+			lines[GetSpellInfo(158200)] = ""
+		end
+	end
+	--Second, Pol
+	if DBM:GetUnitCreatureId("boss1") == 78238 then
+		if bossPower < 33 then--Shield Charge
+			lines[UnitName("boss1")] = bossPower
+			if UnitBuff("boss1", arcaneTwisted) then--Empowered attack
+				lines["|cFFFF0000"..GetSpellInfo(158134).."|r"] = GetSpellInfo(163336)
+			else
+				lines[GetSpellInfo(158134)] = ""
+			end
+		elseif bossPower < 66 then--Disruptiong Shout
+			lines[GetSpellInfo(158093)] = ""
+		elseif bossPower < 100 then--Pulverize
+			lines[GetSpellInfo(158385)] = ""
+		end
+	elseif DBM:GetUnitCreatureId("boss2") == 78238 then
+		lines[UnitName("boss2")] = bossPower2
+		if bossPower2 < 33 then--Shield Charge
+			if UnitBuff("boss2", arcaneTwisted) then--Empowered attack
+				lines["|cFFFF0000"..GetSpellInfo(158134).."|r"] = GetSpellInfo(163336)
+			else
+				lines[GetSpellInfo(158134)] = ""
+			end
+		elseif bossPower2 < 66 then--Disruptiong Shout
+			lines[GetSpellInfo(158093)] = ""
+		elseif bossPower2 < 100 then--Pulverize
+			lines[GetSpellInfo(158385)] = ""
+		end
+	end
+	return lines
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.EnfeebleCount = 0
 	self.vb.QuakeCount = 0
 	self.vb.WWCount = 0
 	self.vb.PulverizeCount = 0
 	self.vb.LastQuake = 0
+	self.vb.arcaneCast = 0
 	self.vb.arcaneDebuff = 0
 	self.vb.PulverizeRadar = false
 	timerQuakeCD:Start(11.5-delay, 1)
@@ -120,13 +210,18 @@ function mod:OnCombatStart(delay)
 	end
 	timerShieldChargeCD:Start(polEnergyRate+10-delay)
 	countdownPol:Start(polEnergyRate+10-delay)
-	voicePol:Schedule(polEnergyRate+10-delay, "158134") --shield
+	voicePol:Schedule(polEnergyRate+3.5-delay, "158134") --shield
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Show(4, "function", updateInfoFrame, sortInfoFrame)
+	end
 end
 
 function mod:OnCombatEnd()
-	self:UnregisterShortTermEvents()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Hide()
 	end
 end
 
@@ -164,6 +259,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 158093 then
 		warnInterruptingShout:Show()
 		specWarnInterruptingShout:Show()
+		timerInterruptingShout:Start()
 		if not self:IsMythic() then
 			timerPulverizeCD:Start(polEnergyRate+1)--Next Special
 			countdownPol:Start(polEnergyRate+1)
@@ -213,10 +309,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 163372 then
 		self.vb.arcaneDebuff = self.vb.arcaneDebuff + 1
-		warnArcaneVolatility:CombinedShow(1, args.destName)--Applies slowly to all targets
-		if self:AntiSpam(15, 2) then
---			timerArcaneVolatilityCD:Start()
---			countdownArcaneVolatility:Start()
+		warnArcaneVolatility:CombinedShow(1.5, args.destName)--Applies slowly to all targets
+		if self:AntiSpam(4, 2) then
+			self.vb.arcaneCast = self.vb.arcaneCast + 1
+			local cooldown = arcaneVTimers[self.vb.arcaneCast]
+			timerArcaneVolatilityCD:Start(cooldown)
+			countdownArcaneVolatility:Start(cooldown)
 		end
 		if args:IsPlayer() then
 			specWarnArcaneVolatility:Show()
@@ -233,7 +331,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 167200 then
 		local amount = args.amount or 1
 		warnArcaneWound:Show(args.destName, amount)
-	elseif spellId == 158241 and args:IsPlayer() and self:AntiSpam(2, 3) then
+	elseif spellId == 158241 and args:IsPlayer() and self:AntiSpam(3, 3) then
 		specWarnBlaze:Show()
 		voiceBlaze:Play("runaway")
 	elseif spellId == 163297 then
@@ -242,6 +340,33 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+--refresh event verified, https://www.warcraftlogs.com/reports/Ya31FTj9bGMyQk8C#view=events&pins=2%24Off%24%23244F4B%24expression%24ability.id+%3D+163372
+function mod:SPELL_AURA_REFRESH(args)
+	local spellId = args.spellId
+	if spellId == 163372 then
+		--self.vb.arcaneDebuff missing on purpose. refresh is not +1 since REMOVED not fired yet.
+		warnArcaneVolatility:CombinedShow(1.5, args.destName)--Applies slowly to all targets
+		if self:AntiSpam(4, 2) then
+			self.vb.arcaneCast = self.vb.arcaneCast + 1
+			local cooldown = arcaneVTimers[self.vb.arcaneCast]
+			timerArcaneVolatilityCD:Start(cooldown)
+			countdownArcaneVolatility:Start(cooldown)
+		end
+		if args:IsPlayer() then
+			specWarnArcaneVolatility:Show()
+			yellArcaneVolatility:Yell()
+			voiceArcaneVolatility:Play("runout")
+		end
+		if self.Options.RangeFrame then
+			if UnitDebuff("player", arcaneDebuff) then
+				DBM.RangeCheck:Show(8, nil)
+			else
+				DBM.RangeCheck:Show(8, debuffFilter)
+			end
+		end
+	end
+end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId

@@ -7,10 +7,11 @@ local ALIL = AtlasLoot.IngameLocales
 
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], nil, nil, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], nil, nil, 2)
-local M25_DIFF = data:AddDifficulty(AL["25 Man"])
-local M25H_DIFF = data:AddDifficulty(AL["25 Man Heroic"])
+local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
+local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", nil, 4)
+local P25H_DIFF = data:AddDifficulty(AL["25 Player Heroic"], "p25h", nil, 6)
+local REMOVED_DIFF = data:AddDifficulty(AL["Removed"], "removed")
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement")
@@ -103,7 +104,7 @@ local WOTLK_RAID1_25_AC_TABLE = {	--[Glory of the Raider (25 player)]
 	TableType = AC_ITTYPE,
 	ExtraList = true,
 	CoinTexture = "Achievement",
-	[M25_DIFF] = {
+	[P25_DIFF] = {
 		{ 1, 2138 },
 		{ 2, 579 },			{ 17, 1859 },
 		{ 3, 1857 },			{ 18, 2139 },
@@ -138,7 +139,7 @@ local WOTLK_RAID2_25_AC_TABLE = {	--[Glory of the Ulduar Raider (25 player)]
 	TableType = AC_ITTYPE,
 	ExtraList = true,
 	CoinTexture = "Achievement",
-	[M25_DIFF] = {
+	[P25_DIFF] = {
 		{ 1, 2958, "mount63956" },
 		{ 2, 3057 },			{ 17, 2929 },
 		{ 3, 2924 },			{ 18, 3059 },
@@ -176,7 +177,7 @@ local WOTLK_RAID3_25_AC_TABLE = {	--[Glory of the Icecrown Raider (25 player)]
 	TableType = AC_ITTYPE,
 	ExtraList = true,
 	CoinTexture = "Achievement",
-	[M25_DIFF] = {
+	[P25_DIFF] = {
 		{ 1, 4603, "mount72807" },
 		{ 2, 4610 },			{ 17, 4611 },
 		{ 3, 4612 },			{ 18, 4613 },
@@ -186,7 +187,7 @@ local WOTLK_RAID3_25_AC_TABLE = {	--[Glory of the Icecrown Raider (25 player)]
 		{ 7, 4620 },			{ 22, 4621 },
 		{ 8, 4622 }
 	},
-	[M25H_DIFF] = {
+	[P25H_DIFF] = {
 		{ 1, 4603, "mount72807" },
 		{ 2, 4632 },			{ 17, 4633 },
 		{ 3, 4634 },			{ 18, 4635 },
@@ -1762,7 +1763,7 @@ data["IcecrownCitadel"] = {
 				{ 21, 49908 },	-- Primordial Saronite
 				{ 23, "ac4534" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 49978 },	-- Crushing Coldwraith Belt
 				{ 2, 49979 },	-- Handguards of Winter's Respite
 				{ 3, 49950 },	-- Frostbitten Fur Boots
@@ -1782,7 +1783,7 @@ data["IcecrownCitadel"] = {
 				{ 21, 49908 },	-- Primordial Saronite
 				{ 23, "ac4610" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50613 },	-- Crushing Coldwraith Belt
 				{ 2, 50615 },	-- Handguards of Winter's Respite
 				{ 3, 50607 },	-- Frostbitten Fur Boots
@@ -1836,7 +1837,7 @@ data["IcecrownCitadel"] = {
 				{ 21, 49908 },	-- Primordial Saronite
 				{ 23, "ac4535" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 49991 },	-- Shoulders of Mercy Killing
 				{ 2, 49994 },	-- The Lady's Brittle Bracers
 				{ 3, 49987 },	-- Cultist's Bloodsoaked Spaulders
@@ -1856,7 +1857,7 @@ data["IcecrownCitadel"] = {
 				{ 21, 49908 },	-- Primordial Saronite
 				{ 23, "ac4611" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50643 },	-- Shoulders of Mercy Killing
 				{ 2, 50651 },	-- The Lady's Brittle Bracers
 				{ 3, 50646 },	-- Cultist's Bloodsoaked Spaulders
@@ -1910,7 +1911,7 @@ data["IcecrownCitadel"] = {
 				{ 20, 49908 },	-- Primordial Saronite
 				{ 22, "ac4536" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 49998 },	-- Shadowvault Slayer's Cloak
 				{ 2, 50006 },	-- Corp'rethar Ceremonial Crown
 				{ 3, 50011 },	-- Gunship Captain's Mittens
@@ -1930,7 +1931,7 @@ data["IcecrownCitadel"] = {
 				{ 22, 50411 },	-- Scourgeborne Waraxe
 				{ 24, "ac4612" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50653 },	-- Shadowvault Slayer's Cloak
 				{ 2, 50661 },	-- Corp'rethar Ceremonial Crown
 				{ 3, 50663 },	-- Gunship Captain's Mittens
@@ -1987,7 +1988,7 @@ data["IcecrownCitadel"] = {
 				{ 23, 49908 },	-- Primordial Saronite
 				{ 25, "ac4537" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50014 },	-- Greatcloak of the Turned Champion
 				{ 2, 50333 },	-- Toskk's Maximized Wristguards
 				{ 3, 50015 },	-- Belt of the Blood Nova
@@ -2000,7 +2001,7 @@ data["IcecrownCitadel"] = {
 				{ 18, 52025 },	-- Vanquisher's Mark of Sanctification
 				{ 20, "ac4613" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50668 },	-- Greatcloak of the Turned Champion
 				{ 2, 50670 },	-- Toskk's Maximized Wristguards
 				{ 3, 50671 },	-- Belt of the Blood Nova
@@ -2050,7 +2051,7 @@ data["IcecrownCitadel"] = {
 				{ 22, 49908 },	-- Primordial Saronite
 				{ 24, "ac4577" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50063 },	-- Lingering Illness
 				{ 2, 50056 },	-- Plaguebringer's Stained Pants
 				{ 3, 50062 },	-- Plague Scientist's Boots
@@ -2072,7 +2073,7 @@ data["IcecrownCitadel"] = {
 				{ 25, 49908 },	-- Primordial Saronite
 				{ 27, "ac4615" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50702 },	-- Lingering Illness
 				{ 2, 50694 },	-- Plaguebringer's Stained Pants
 				{ 3, 50699 },	-- Plague Scientist's Boots
@@ -2126,7 +2127,7 @@ data["IcecrownCitadel"] = {
 				{ 20, 49908 },	-- Primordial Saronite
 				{ 22, "ac4538" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50019 },	-- Winding Sheet
 				{ 2, 50032 },	-- Death Surgeon's Sleeves
 				{ 3, 50026 },	-- Helm of the Elder Moon
@@ -2147,7 +2148,7 @@ data["IcecrownCitadel"] = {
 				{ 23, 49908 },	-- Primordial Saronite
 				{ 25, "ac4614" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50677 },	-- Winding Sheet
 				{ 2, 50686 },	-- Death Surgeon's Sleeves
 				{ 3, 50679 },	-- Helm of the Elder Moon
@@ -2205,7 +2206,7 @@ data["IcecrownCitadel"] = {
 				{ 23, 49908 },	-- Primordial Saronite
 				{ 25, "ac4578" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50067 },	-- Astrylian's Sutured Cinch
 				{ 2, 50069 },	-- Professor's Bloodied Smock
 				{ 3, 50351 },	-- Tiny Abomination in a Jar
@@ -2218,7 +2219,7 @@ data["IcecrownCitadel"] = {
 				{ 18, 52025 },	-- Vanquisher's Mark of Sanctification
 				{ 20, "ac4616" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50707 },	-- Astrylian's Sutured Cinch
 				{ 2, 50705 },	-- Professor's Bloodied Smock
 				{ 3, 50706 },	-- Tiny Abomination in a Jar
@@ -2268,7 +2269,7 @@ data["IcecrownCitadel"] = {
 				{ 20, 49908 },	-- Primordial Saronite
 				{ 22, "ac4582" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50074 },	-- Royal Crimson Cloak
 				{ 2, 50172 },	-- Sanguine Silk Robes
 				{ 3, 50176 },	-- San'layn Ritualist Gloves
@@ -2288,7 +2289,7 @@ data["IcecrownCitadel"] = {
 				{ 24, 49908 },	-- Primordial Saronite
 				{ 26, "ac4617" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50718 },	-- Royal Crimson Cloak
 				{ 2, 50717 },	-- Sanguine Silk Robes
 				{ 3, 50722 },	-- San'layn Ritualist Gloves
@@ -2345,7 +2346,7 @@ data["IcecrownCitadel"] = {
 				{ 24, 49908 },	-- Primordial Saronite
 				{ 26, "ac4539" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50182 },	-- Blood Queen's Crimson Choker
 				{ 2, 50180 },	-- Lana'thel's Chain of Flagellation
 				{ 3, 50354 },	-- Bauble of True Blood
@@ -2359,7 +2360,7 @@ data["IcecrownCitadel"] = {
 				{ 18, 52025 },	-- Vanquisher's Mark of Sanctification
 				{ 20, "ac4618" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50724 },	-- Blood Queen's Crimson Choker
 				{ 2, 50728 },	-- Lana'thel's Chain of Flagellation
 				{ 3, 50726 },	-- Bauble of True Blood
@@ -2410,7 +2411,7 @@ data["IcecrownCitadel"] = {
 				{ 20, 49908 },	-- Primordial Saronite
 				{ 22, "ac4579" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50205 },	-- Frostbinder's Shredded Cape
 				{ 2, 50418 },	-- Robe of the Waking Nightmare
 				{ 3, 50417 },	-- Bracers of Eternal Dreaming
@@ -2430,7 +2431,7 @@ data["IcecrownCitadel"] = {
 				{ 24, 49908 },	-- Primordial Saronite
 				{ 26, "ac4619" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50628 },	-- Frostbinder's Shredded Cape
 				{ 2, 50629 },	-- Robe of the Waking Nightmare
 				{ 3, 50630 },	-- Bracers of Eternal Dreaming
@@ -2487,7 +2488,7 @@ data["IcecrownCitadel"] = {
 				{ 24, 49908 },	-- Primordial Saronite
 				{ 26, "ac4580" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50421 },	-- Sindragosa's Cruel Claw
 				{ 2, 50424 },	-- Memory of Malygos
 				{ 3, 50360 },	-- Phylactery of the Nameless Lich
@@ -2500,7 +2501,7 @@ data["IcecrownCitadel"] = {
 				{ 18, 52025 },	-- Vanquisher's Mark of Sanctification
 				{ 20, "ac4620" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50633 },	-- Sindragosa's Cruel Claw
 				{ 2, 50636 },	-- Memory of Malygos
 				{ 3, 50365 },	-- Phylactery of the Nameless Lich
@@ -2551,7 +2552,7 @@ data["IcecrownCitadel"] = {
 				{ 23, "ac4601" },
 				{ 24, "ac4581" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50426 },	-- Heaven's Fall, Kryss of a Thousand Lies
 				{ 2, 50427 },	-- Bloodsurge, Kel'Thuzad's Blade of Agony
 				{ 3, 50070 },	-- Glorenzelg, High-Blade of the Silver Hand
@@ -2570,7 +2571,7 @@ data["IcecrownCitadel"] = {
 				{ 24, "ac4621" },
 				{ 25, "ac4622" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 50736 },	-- Heaven's Fall, Kryss of a Thousand Lies
 				{ 2, 50732 },	-- Bloodsurge, Kel'Thuzad's Blade of Agony
 				{ 3, 50730 },	-- Glorenzelg, High-Blade of the Silver Hand
@@ -2597,7 +2598,7 @@ data["IcecrownCitadel"] = {
 		{	--ICCTrash
 			name = AL["Trash Mobs"],
 			ExtraList = true,
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 50449 },	-- Stiffened Corpse Shoulderpads
 				{ 2, 50450 },	-- Leggings of Dubious Charms
 				{ 3, 50451 },	-- Belt of the Lonely Noble
@@ -2607,52 +2608,18 @@ data["IcecrownCitadel"] = {
 				{ 7, 50444 },	-- Rowan's Rifle of Silver Bullets
 			},
 		},
+		{	--Tier 10 Sets
+			name = format(AL["Tier %d Sets"], 10),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:8",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:8",
+			[P25H_DIFF] = "AtlasLoot_Collections:TIERSETS:8",
+		},
 		{	--TheAshenVerdict
 			FactionID = 1156,
 			ExtraList = true,
 			CoinTexture = "Reputation",
-			[NORMAL_DIFF] = {
-				{ 1, 50375 },	-- Ashen Band of Courage
-				{ 2, 50388 },	-- Ashen Band of Greater Courage
-				{ 3, 50403 },	-- Ashen Band of Unmatched Courage
-				{ 4, 50404 },	-- Ashen Band of Endless Courage
-				{ 6, 50377 },	-- Ashen Band of Destruction
-				{ 7, 50384 },	-- Ashen Band of Greater Destruction
-				{ 8, 50397 },	-- Ashen Band of Unmatched Destruction
-				{ 9, 50398 },	-- Ashen Band of Endless Destruction
-				{ 11, 52569 },	-- Ashen Band of Might
-				{ 12, 52570 },	-- Ashen Band of Greater Might
-				{ 13, 52571 },	-- Ashen Band of Unmatched Might
-				{ 14, 52572 },	-- Ashen Band of Endless Might
-				{ 16, 50376 },	-- Ashen Band of Vengeance
-				{ 17, 50387 },	-- Ashen Band of Greater Vengeance
-				{ 18, 50401 },	-- Ashen Band of Unmatched Vengeance
-				{ 19, 50402 },	-- Ashen Band of Endless Vengeance
-				{ 21, 50378 },	-- Ashen Band of Wisdom
-				{ 22, 50386 },	-- Ashen Band of Greater Wisdom
-				{ 23, 50399 },	-- Ashen Band of Unmatched Wisdom
-				{ 24, 50400 },	-- Ashen Band of Endless Wisdom
-				{ 101, "f1156rep6" },
-				{ 102, 49974 },	-- Plans: Boots of Kingly Upheaval
-				{ 103, 49972 },	-- Plans: Hellfrozen Bonegrinders
-				{ 104, 49970 },	-- Plans: Protectors of Life
-				{ 105, 49958 },	-- Pattern: Blessed Cenarion Boots
-				{ 106, 49963 },	-- Pattern: Earthsoul Boots
-				{ 107, 49961 },	-- Pattern: Footpads of Impending Death
-				{ 108, 49966 },	-- Pattern: Rock-Steady Treads
-				{ 109, 49954 },	-- Pattern: Deathfrost Boots
-				{ 110, 49956 },	-- Pattern: Sandals of Consecration
-				{ 116, "f1156rep7" },
-				{ 117, 49971 },	-- Plans: Legplates of Painful Death
-				{ 118, 49973 },	-- Plans: Pillars of Might
-				{ 119, 49969 },	-- Plans: Puresteel Legplates
-				{ 120, 49959 },	-- Pattern: Bladeborn Leggings
-				{ 121, 49965 },	-- Pattern: Draconic Bonesplinter Legguards
-				{ 122, 49957 },	-- Pattern: Legwraps of Unleashed Nature
-				{ 123, 49962 },	-- Pattern: Lightning-Infused Leggings
-				{ 124, 49953 },	-- Pattern: Leggings of Woven Death
-				{ 125, 49955 },	-- Pattern: Lightweave Leggings
-			},
+			[NORMAL_DIFF] = "AtlasLoot_Factions:WOTLKFACTIONS:7",
 		},
 		WOTLK_RAID3_10_AC_TABLE,
 		WOTLK_RAID3_25_AC_TABLE,
@@ -2678,7 +2645,7 @@ data["Naxxramas"] = {
 				{ 18, 39141 },	-- Deflection Band
 				{ 20, 39140 },	-- Knife of Incision
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 39719 },	-- Mantle of the Locusts
 				{ 2, 39721 },	-- Sash of the Parlor
 				{ 3, 39720 },	-- Leggings of Atrophy
@@ -2703,6 +2670,7 @@ data["Naxxramas"] = {
 				{ 23, 39716 },	-- Shield of Assimilation
 				{ 24, 39712 },	-- Gemmed Wand of the Nerubians
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Faerlina
 			name = BB["Grand Widow Faerlina"],
@@ -2719,7 +2687,7 @@ data["Naxxramas"] = {
 				{ 17, 39199 },	-- Watchful Eye
 				{ 19, "ac1997" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 39732 },	-- Faerlina's Madness
 				{ 2, 39731 },	-- Punctilious Bindings
 				{ 3, 39733 },	-- Gloves of Token Respect
@@ -2744,6 +2712,7 @@ data["Naxxramas"] = {
 				{ 24, 40074 },	-- Strong-Handed Ring
 				{ 26, "ac2140" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Maexxna
 			name = BB["Maexxna"],
@@ -2761,7 +2730,7 @@ data["Naxxramas"] = {
 				{ 18, 39233 },	-- Aegis of Damnation
 				{ 20, "ac1858" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40250 },	-- Aged Winter Cloak
 				{ 2, 40254 },	-- Cloak of Averted Crisis
 				{ 3, 40252 },	-- Cloak of the Shadowed Sun
@@ -2789,6 +2758,7 @@ data["Naxxramas"] = {
 				{ 28, 93030, "pet1143" },	-- Dusty Clutch of Eggs
 				{ 30, "ac1859" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Noth
 			name = BB["Noth the Plaguebringer"],
@@ -2804,7 +2774,7 @@ data["Naxxramas"] = {
 				{ 9, 39234 },	-- Plague-Impervious Boots
 				{ 16, 39244 },	-- Ring of the Fated
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40602 },	-- Robes of Mutation
 				{ 2, 40198 },	-- Bands of Impurity
 				{ 3, 40197 },	-- Gloves of the Fallen Wizard
@@ -2828,6 +2798,7 @@ data["Naxxramas"] = {
 				{ 23, 40108 },	-- Seized Beauty
 				{ 24, 40074 },	-- Strong-Handed Ring
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Heigan
 			name = BB["Heigan the Unclean"],
@@ -2844,7 +2815,7 @@ data["Naxxramas"] = {
 				{ 20, 39255 },	-- Staff of the Plague Beast
 				{ 22, "ac1996" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40250 },	-- Aged Winter Cloak
 				{ 2, 40254 },	-- Cloak of Averted Crisis
 				{ 3, 40252 },	-- Cloak of the Shadowed Sun
@@ -2870,6 +2841,7 @@ data["Naxxramas"] = {
 				{ 25, 40233 },	-- The Undeath Carrier
 				{ 27, "ac2139" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Loatheb
 			name = BB["Loatheb"],
@@ -2885,7 +2857,7 @@ data["Naxxramas"] = {
 				{ 18, 40624 },	-- Spaulders of the Lost Vanquisher
 				{ 20, "ac2182" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40247 },	-- Cowl of Innocent Delight
 				{ 2, 40246 },	-- Boots of Impetuous Ideals
 				{ 3, 40249 },	-- Vest of Vitality
@@ -2902,6 +2874,7 @@ data["Naxxramas"] = {
 				{ 22, 40639 },	-- Mantle of the Lost Vanquisher
 				{ 24, "ac2183" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Razuvious
 			name = BB["Instructor Razuvious"],
@@ -2917,7 +2890,7 @@ data["Naxxramas"] = {
 				{ 16, 39296 },	-- Accursed Bow of the Elite
 				{ 17, 39311 },	-- Scepter of Murmuring Spirits
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40325 },	-- Bindings of the Expansive Mind
 				{ 2, 40326 },	-- Boots of Forlorn Wishes
 				{ 3, 40305 },	-- Spaulders of Egotism
@@ -2941,6 +2914,7 @@ data["Naxxramas"] = {
 				{ 23, 40108 },	-- Seized Beauty
 				{ 24, 40074 },	-- Strong-Handed Ring
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Gothik
 			name = BB["Gothik the Harvester"],
@@ -2956,7 +2930,7 @@ data["Naxxramas"] = {
 				{ 18, 39388 },	-- Spirit-World Glass
 				{ 20, 39344 },	-- Slayer of the Lifeless
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40250 },	-- Aged Winter Cloak
 				{ 2, 40254 },	-- Cloak of Averted Crisis
 				{ 3, 40252 },	-- Cloak of the Shadowed Sun
@@ -2980,6 +2954,7 @@ data["Naxxramas"] = {
 				{ 23, 40336 },	-- Life and Death
 				{ 24, 40335 },	-- Touch of Horror
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80FourHorsemen
 			name = BB["The Four Horsemen"],
@@ -2994,7 +2969,7 @@ data["Naxxramas"] = {
 				{ 18, 40612 },	-- Chestguard of the Lost Vanquisher
 				{ 20, "ac2176" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40286 },	-- Mantle of the Corrupted
 				{ 2, 40349 },	-- Gloves of Peaceful Death
 				{ 3, 40344 },	-- Helm of the Grave
@@ -3010,6 +2985,7 @@ data["Naxxramas"] = {
 				{ 18, 40627 },	-- Breastplate of the Lost Vanquisher
 				{ 20, "ac2177" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Patchwerk
 			name = BB["Patchwerk"],
@@ -3025,7 +3001,7 @@ data["Naxxramas"] = {
 				{ 17, 39270 },	-- Hatestrike
 				{ 19, "ac1856" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40271 },	-- Sash of Solitude
 				{ 2, 40269 },	-- Boots of Persuasion
 				{ 3, 40260 },	-- Belt of the Tortured
@@ -3050,6 +3026,7 @@ data["Naxxramas"] = {
 				{ 24, 40074 },	-- Strong-Handed Ring
 				{ 26, "ac1857" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Grobbulus
 			name = BB["Grobbulus"],
@@ -3065,7 +3042,7 @@ data["Naxxramas"] = {
 				{ 16, 39281 },	-- Infection Repulser
 				{ 17, 39276 },	-- The Skull of Ruin
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40250 },	-- Aged Winter Cloak
 				{ 2, 40254 },	-- Cloak of Averted Crisis
 				{ 3, 40252 },	-- Cloak of the Shadowed Sun
@@ -3091,6 +3068,7 @@ data["Naxxramas"] = {
 				{ 25, 40280 },	-- Origin of Nightmares
 				{ 26, 40284 },	-- Plague Igniter
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Gluth
 			name = BB["Gluth"],
@@ -3129,7 +3107,7 @@ data["Naxxramas"] = {
 				{ 117, 40620 },	-- Leggings of the Lost Protector
 				{ 118, 40621 },	-- Leggings of the Lost Vanquisher
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40247 },	-- Cowl of Innocent Delight
 				{ 2, 40289 },	-- Sympathetic Amice
 				{ 3, 40602 },	-- Robes of Mutation
@@ -3178,6 +3156,7 @@ data["Naxxramas"] = {
 				{ 125, 40635 },	-- Legplates of the Lost Protector
 				{ 126, 40636 },	-- Legplates of the Lost Vanquisher
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Thaddius
 			name = BB["Thaddius"],
@@ -3193,7 +3172,7 @@ data["Naxxramas"] = {
 				{ 20, "ac2178" },
 				{ 21, "ac2180" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40303 },	-- Wraps of the Persecuted
 				{ 2, 40301 },	-- Cincture of Polarity
 				{ 3, 40296 },	-- Cover of Silence
@@ -3210,6 +3189,7 @@ data["Naxxramas"] = {
 				{ 22, "ac2179" },
 				{ 23, "ac2181" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Sapphiron
 			name = BB["Sapphiron"],
@@ -3227,7 +3207,7 @@ data["Naxxramas"] = {
 				{ 19, "ac572" },
 				{ 20, "ac2146" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40381 },	-- Sympathy
 				{ 2, 40380 },	-- Gloves of Grandeur
 				{ 3, 40376 },	-- Legwraps of the Defeated Dragon
@@ -3251,6 +3231,7 @@ data["Naxxramas"] = {
 				{ 26, "ac573" },
 				{ 27, "ac2147" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80KelThuzad
 			name = BB["Kel'Thuzad"],
@@ -3272,7 +3253,7 @@ data["Naxxramas"] = {
 				{ 21, "ac1658" },
 				{ 22, "ac2184" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40405 },	-- Cape of the Unworthy Wizard
 				{ 2, 40403 },	-- Drape of the Deadly Foe
 				{ 3, 40398 },	-- Leggings of Mortal Arrogance
@@ -3295,6 +3276,7 @@ data["Naxxramas"] = {
 				{ 24, "ac1658" },
 				{ 25, "ac2185" },
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
 		},
 		{	--Naxx80Trash
 			name = AL["Trash Mobs"],
@@ -3307,7 +3289,7 @@ data["Naxxramas"] = {
 				{ 5, 39468 },	-- The Stray
 				{ 6, 39473 },	-- Contortion
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40410 },	-- Shadow of the Ghoul
 				{ 2, 40409 },	-- Boots of the Escaped Captive
 				{ 3, 40414 },	-- Shoulderguards of the Undaunted
@@ -3316,6 +3298,14 @@ data["Naxxramas"] = {
 				{ 6, 40407 },	-- Silent Crusader
 				{ 7, 40406 },	-- Inevitable Defeat
 			},
+			[REMOVED_DIFF] = "AtlasLoot_Classic",
+		},
+		{	--Tier 7 Sets
+			name = format(AL["Tier %d Sets"], 7),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[REMOVED_DIFF] = "AtlasLoot_Collections:TIERSETS:15:n",
 		},
 		WOTLK_RAID1_10_AC_TABLE,
 		WOTLK_RAID1_25_AC_TABLE,
@@ -3377,7 +3367,7 @@ data["OnyxiasLair"] = {
 				{ 128, "ac4402" },
 				{ 129, "ac4404" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 49491 },	-- Flowing Sapphiron Drape
 				{ 2, 49482 },	-- Aurora of Transcendence
 				{ 3, 49483 },	-- Halo of Transcendence
@@ -3460,7 +3450,7 @@ data["TheEyeOfEternity"] = {
 				{ 28, "ac2148" },
 				{ 29, "ac1874" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40562 },	-- Hood of Rationality
 				{ 2, 40555 },	-- Mantle of Dissemination
 				{ 3, 40194 },	-- Blanketing Robes of Snow
@@ -3537,7 +3527,7 @@ data["ObsidianSanctum"] = {
 				{ 103, "ac2047" },
 				{ 104, "ac624" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 40437 },	-- Concealment Shoulderpads
 				{ 2, 40439 },	-- Mantle of the Eternal Sentinel
 				{ 3, 40451 },	-- Hyaline Helm of the Sniper
@@ -3571,6 +3561,12 @@ data["ObsidianSanctum"] = {
 				{ 103, "ac2048" },
 				{ 104, "ac1877" },
 			},
+		},
+		{	--Tier 7 Sets
+			name = format(AL["Tier %d Sets"], 7),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
 		},
 		WOTLK_RAID1_10_AC_TABLE,
 		WOTLK_RAID1_25_AC_TABLE,
@@ -3614,7 +3610,7 @@ data["RubySanctum"] = {
 				{ 18, 54567 },	-- Zarithrian's Offering
 				{ 20, "ac4818" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 53489 },	-- Cloak of Burning Dusk
 				{ 2, 53486 },	-- Bracers of Fiery Night
 				{ 3, 53134 },	-- Phaseshifter's Bracers
@@ -3633,7 +3629,7 @@ data["RubySanctum"] = {
 				{ 22, 54569 },	-- Sharpened Twilight Scale
 				{ 24, "ac4815" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, 54583 },	-- Cloak of Burning Dusk
 				{ 2, 54582 },	-- Bracers of Fiery Night
 				{ 3, 54584 },	-- Phaseshifter's Bracers
@@ -3695,7 +3691,7 @@ data["TrialoftheCrusader"] = {
 				{ 21, "ac3936" },
 				{ 22, "ac3797" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 46970, [ATLASLOOT_IT_HORDE] = 47257 },	-- Drape of the Untamed Predator / Cloak of the Untamed Predator
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 46976, [ATLASLOOT_IT_HORDE] = 47256 },	-- Shawl of the Refreshing Winds / Drape of the Refreshing Winds
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 46992, [ATLASLOOT_IT_HORDE] = 47264 },	-- Flowing Vestments of Ascent / Flowing Robes of Ascent
@@ -3715,7 +3711,7 @@ data["TrialoftheCrusader"] = {
 				{ 24, "ac3937" },
 				{ 25, "ac3813" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 46971, [ATLASLOOT_IT_HORDE] = 47418 },	-- Drape of the Untamed Predator / Cloak of the Untamed Predator
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 46977, [ATLASLOOT_IT_HORDE] = 47417 },	-- Shawl of the Refreshing Winds / Drape of the Refreshing Winds
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 46993, [ATLASLOOT_IT_HORDE] = 47425 },	-- Flowing Vestments of Ascent / Flowing Robes of Ascent
@@ -3770,7 +3766,7 @@ data["TrialoftheCrusader"] = {
 				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47938, [ATLASLOOT_IT_HORDE] = 48010 },	-- Dirk of the Night Watch / Orcish Deathblade
 				{ 23, "ac3996" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47042, [ATLASLOOT_IT_HORDE] = 47275 },	-- Pride of the Eredar / Pride of the Demon Lord
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47051, [ATLASLOOT_IT_HORDE] = 47274 },	-- Leggings of the Soothing Touch / Pants of the Soothing Touch
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47000, [ATLASLOOT_IT_HORDE] = 47270 },	-- Cuirass of Calamitous Fate / Vest of Calamitous Fate
@@ -3789,7 +3785,7 @@ data["TrialoftheCrusader"] = {
 				{ 24, [ATLASLOOT_IT_ALLIANCE] = 46994, [ATLASLOOT_IT_HORDE] = 47267 },	-- Talonstrike / Death's Head Crossbow
 				{ 26, "ac3997" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47063, [ATLASLOOT_IT_HORDE] = 47436 },	-- Pride of the Eredar / Pride of the Demon Lord
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47062, [ATLASLOOT_IT_HORDE] = 47435 },	-- Leggings of the Soothing Touch / Pants of the Soothing Touch
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47004, [ATLASLOOT_IT_HORDE] = 47431 },	-- Cuirass of Calamitous Fate / Vest of Calamitous Fate
@@ -3837,7 +3833,7 @@ data["TrialoftheCrusader"] = {
 				{ 16, [ATLASLOOT_IT_ALLIANCE] = 47941, [ATLASLOOT_IT_HORDE] = 48013 },	-- Blade of the Silver Disciple / Sunreaver Disciple's Blade
 				{ 18, "ac3798" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47089, [ATLASLOOT_IT_HORDE] = 47291 },	-- Cloak of Displacement / Shroud of Displacement
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47081, [ATLASLOOT_IT_HORDE] = 47286 },	-- Cord of Biting Cold / Belt of Biting Cold
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47092, [ATLASLOOT_IT_HORDE] = 47293 },	-- Boots of the Mourning Widow / Sandals of the Mourning Widow
@@ -3855,7 +3851,7 @@ data["TrialoftheCrusader"] = {
 				{ 21, [ATLASLOOT_IT_ALLIANCE] = 47069, [ATLASLOOT_IT_HORDE] = 47285 },	-- Justicebringer / Dual-blade Butcher
 				{ 22, [ATLASLOOT_IT_ALLIANCE] = 47079, [ATLASLOOT_IT_HORDE] = 47287 },	-- Bastion of Purity / Bastion of Resolve
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47095, [ATLASLOOT_IT_HORDE] = 47452 },	-- Cloak of Displacement / Shroud of Displacement
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47084, [ATLASLOOT_IT_HORDE] = 47447 },	-- Cord of Biting Cold / Belt of Biting Cold
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47097, [ATLASLOOT_IT_HORDE] = 47454 },	-- Boots of the Mourning Widow / Sandals of the Mourning Widow
@@ -3908,7 +3904,7 @@ data["TrialoftheCrusader"] = {
 				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47950, [ATLASLOOT_IT_HORDE] = 48022 },	-- The Diplomat / Widebarrel Flintlock
 				{ 21, "ac3799" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47126, [ATLASLOOT_IT_HORDE] = 47301 },	-- Skyweaver Robes / Skyweaver Vestments
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47141, [ATLASLOOT_IT_HORDE] = 47306 },	-- Bindings of Dark Essence / Dark Essence Bindings
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47107, [ATLASLOOT_IT_HORDE] = 47308 },	-- Belt of the Merciless Killer / Belt of Pale Thorns
@@ -3927,7 +3923,7 @@ data["TrialoftheCrusader"] = {
 				{ 19, [ATLASLOOT_IT_ALLIANCE] = 47114, [ATLASLOOT_IT_HORDE] = 47302 },	-- Lupine Longstaff / Twin's Pact
 				{ 21, "ac3815" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47129, [ATLASLOOT_IT_HORDE] = 47462 },	-- Skyweaver Robes / Skyweaver Vestments
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47143, [ATLASLOOT_IT_HORDE] = 47467 },	-- Bindings of Dark Essence / Dark Essence Bindings
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47112, [ATLASLOOT_IT_HORDE] = 47469 },	-- Belt of the Merciless Killer / Belt of Pale Thorns
@@ -3994,7 +3990,7 @@ data["TrialoftheCrusader"] = {
 				{ 23, "ac3918" },
 				{ 24, "ac3800" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47225, [ATLASLOOT_IT_HORDE] = 47328 },	-- Maiden's Favor / Maiden's Adoration
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47183, [ATLASLOOT_IT_HORDE] = 47320 },	-- Strength of the Nerub / Might of the Nerub
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47203, [ATLASLOOT_IT_HORDE] = 47324 },	-- Armbands of the Ashen Saint / Bindings of the Ashen Saint
@@ -4019,7 +4015,7 @@ data["TrialoftheCrusader"] = {
 				{ 26, "ac3916" },
 				{ 27, "ac3816" },
 			},
-			[M25H_DIFF] = {
+			[P25H_DIFF] = {
 				{ 1, [ATLASLOOT_IT_ALLIANCE] = 47238, [ATLASLOOT_IT_HORDE] = 47490 },	-- Maiden's Favor / Maiden's Adoration
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 47192, [ATLASLOOT_IT_HORDE] = 47481 },	-- Strength of the Nerub / Might of the Nerub
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 47208, [ATLASLOOT_IT_HORDE] = 47485 },	-- Armbands of the Ashen Saint / Bindings of the Ashen Saint
@@ -4071,6 +4067,13 @@ data["TrialoftheCrusader"] = {
 				{ 21, 47556 },	-- Crusader Orb
 			},
 		},
+		{	--Tier 9 Sets
+			name = format(AL["Tier %d Sets"], 9),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:9",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:9",
+			[P25H_DIFF] = "AtlasLoot_Collections:TIERSETS:9",
+		},
 	}
 }
 
@@ -4106,7 +4109,7 @@ data["Ulduar"] = {
 				{ 29, "ac2907" },
 				{ 30, "ac2905" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45117 },	-- Constructor's Handwraps
 				{ 2, 45119 },	-- Embrace of the Leviathan
 				{ 3, 45108 },	-- Mechanist's Bindings
@@ -4155,7 +4158,7 @@ data["Ulduar"] = {
 				{ 23, "ac2925" },
 				{ 24, "ac2930" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45186 },	-- Soot-Covered Mantle
 				{ 2, 45185 },	-- Flamewrought Cinch
 				{ 3, 45162 },	-- Flamestalker Boots
@@ -4193,7 +4196,7 @@ data["Ulduar"] = {
 				{ 21, "ac2919" },
 				{ 22, "ac2923" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45138 },	-- Drape of the Drakerider
 				{ 2, 45150 },	-- Collar of the Wyrmhunter
 				{ 3, 45146 },	-- Shackles of the Odalisque
@@ -4238,7 +4241,7 @@ data["Ulduar"] = {
 				{ 29, "ac2934" },
 				{ 30, "ac2933" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45253 },	-- Mantle of Wavering Calm
 				{ 2, 45258 },	-- Sandals of Rash Temperament
 				{ 3, 45260 },	-- Boots of Hasty Revival
@@ -4293,7 +4296,7 @@ data["Ulduar"] = {
 				{ 24, 45448 },	-- Perilous Bite
 				{ 25, 45506 },	-- Archivum Data Disc
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45224 },	-- Drape of the Lithe
 				{ 2, 45240 },	-- Raiments of the Iron Council
 				{ 3, 45238 },	-- Overload Legwraps
@@ -4344,7 +4347,7 @@ data["Ulduar"] = {
 				{ 21, "ac2959" },
 				{ 22, "ac2951" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45272 },	-- Robes of the Umbral Brute
 				{ 2, 45275 },	-- Bracers of Unleashed Magic
 				{ 3, 45273 },	-- Handwraps of Plentiful Recovery
@@ -4383,7 +4386,7 @@ data["Ulduar"] = {
 				{ 19, "ac3006" },
 				{ 20, "ac3076" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45319 },	-- Cloak of the Makers
 				{ 2, 45435 },	-- Cowl of the Absolute
 				{ 3, 45441 },	-- Sandals of the Ancient Keeper
@@ -4428,7 +4431,7 @@ data["Ulduar"] = {
 				{ 28, "ac2963" },
 				{ 29, "ac2969" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45453 },	-- Winter's Icy Embrace
@@ -4478,7 +4481,7 @@ data["Ulduar"] = {
 				{ 28, "ac2977" },
 				{ 29, "ac2975" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45468 },	-- Leggings of Lost Love
@@ -4531,7 +4534,7 @@ data["Ulduar"] = {
 				{ 29, "ac3179" },
 				{ 30, "ac2979" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45483 },	-- Boots of the Servant
@@ -4582,7 +4585,7 @@ data["Ulduar"] = {
 				{ 26, "ac3138" },
 				{ 27, "ac2989" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45493 },	-- Asimov's Drape
@@ -4628,7 +4631,7 @@ data["Ulduar"] = {
 				{ 23, "ac3181" },
 				{ 24, "ac2996" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45514 },	-- Mantle of the Unknowing
 				{ 2, 45508 },	-- Belt of the Darkspeaker
 				{ 3, 45512 },	-- Grips of the Unbroken
@@ -4688,7 +4691,7 @@ data["Ulduar"] = {
 				{ 119, "ac3009" },
 				{ 120, "ac3014" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45529 },	-- Shawl of Haunted Memories
@@ -4747,7 +4750,7 @@ data["Ulduar"] = {
 				{ 22, 46322 },	-- Brann's Sealing Ring
 				{ 23, 46323 },	-- Starshine Signet
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45038 },	-- Fragment of Val'anyr
 				{ 2, 46017 },	-- Val'anyr, Hammer of Ancient Kings
 				{ 4, 45665 },	-- Pharos Gloves
@@ -4789,7 +4792,7 @@ data["Ulduar"] = {
 				{ 18, 46350 },	-- Pillar of Fortitude
 				{ 19, 46342 },	-- Golemheart Longbow
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				{ 1, 45541 },	-- Shroud of Alteration
 				{ 2, 45549 },	-- Grips of Chaos
 				{ 3, 45547 },	-- Relic Hunter's Cord
@@ -4829,6 +4832,12 @@ data["Ulduar"] = {
 				{ 22, 46348 },	-- Formula: Enchant Weapon - Blood Draining
 				{ 24, 45087 },	-- Runed Orb
 			},
+		},
+		{	--Tier 8 Sets
+			name = format(AL["Tier %d Sets"], 8),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:10",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:10",
 		},
 		WOTLK_RAID2_10_AC_TABLE,
 		WOTLK_RAID2_25_AC_TABLE,
@@ -4987,7 +4996,7 @@ data["VaultofArchavon"] = {
 				{ 628, "ac1722" },
 				{ 629, "ac4016" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				GetItemsFromDiff = NORMAL_DIFF,
 				{ 2, 40550 },	-- Valorous Scourgeborne Battleplate
 				{ 3, 40552 },	-- Valorous Scourgeborne Gauntlets
@@ -5256,7 +5265,7 @@ data["VaultofArchavon"] = {
 				{ 821, "ac3136" },
 				{ 822, "ac4016" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				GetItemsFromDiff = NORMAL_DIFF,
 				{ 2, 46189 },	-- Conqueror's Nightsong Gloves
 				{ 3, 46192 },	-- Conqueror's Nightsong Trousers
@@ -5538,7 +5547,7 @@ data["VaultofArchavon"] = {
 				{ 821, "ac3836" },
 				{ 822, "ac4016" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				GetItemsFromDiff = NORMAL_DIFF,
 				{ 2, [ATLASLOOT_IT_ALLIANCE] = 48163, [ATLASLOOT_IT_HORDE] = 48182 },	-- Stormrage's Gloves of Triumph / Runetotem's Gloves of Triumph
 				{ 3, [ATLASLOOT_IT_ALLIANCE] = 48165, [ATLASLOOT_IT_HORDE] = 48180 },	-- Stormrage's Trousers of Triumph / Runetotem's Trousers of Triumph
@@ -5825,7 +5834,7 @@ data["VaultofArchavon"] = {
 				{ 819, [ATLASLOOT_IT_ALLIANCE] = 43959, [ATLASLOOT_IT_HORDE] = 44083 },	-- Reins of the Grand Black War Mammoth
 				{ 821, "ac4585" },
 			},
-			[M25_DIFF] = {
+			[P25_DIFF] = {
 				GetItemsFromDiff = NORMAL_DIFF,
 				{ 2, 51148 },	-- Sanctified Lasherweave's Gloves
 				{ 3, 51146 },	-- Sanctified Lasherweave's Trousers
@@ -5949,6 +5958,30 @@ data["VaultofArchavon"] = {
 				{ 817, 51358 },	-- Wrathful Gladiator's Band of Triumph
 				{ 821, "ac4586" },
 			},
+		},
+		{	--Tier 7 Sets
+			name = format(AL["Tier %d Sets"], 7),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:11",
+		},
+		{	--Tier 8 Sets
+			name = format(AL["Tier %d Sets"], 8),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:10",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:10",
+		},
+		{	--Tier 9 Sets
+			name = format(AL["Tier %d Sets"], 9),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:9",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:9",
+		},
+		{	--Tier 10 Sets
+			name = format(AL["Tier %d Sets"], 10),
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_Collections:TIERSETS:8",
+			[P25_DIFF] = "AtlasLoot_Collections:TIERSETS:8",
 		},
 	}
 }

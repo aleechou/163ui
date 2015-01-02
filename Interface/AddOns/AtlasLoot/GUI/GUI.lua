@@ -3,6 +3,8 @@ local AtlasLoot = _G.AtlasLoot
 local GUI = {}
 local AL = AtlasLoot.Locales
 
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
+
 AtlasLoot.GUI = GUI
 
 -- lua
@@ -46,24 +48,14 @@ local function UpdateFrames(noPageUpdate)
 	GUI.frame.contentFrame.title.txt = moduleData[dataID]:GetNameForItemTable(bossID)
 	GUI.frame.contentFrame.title:SetText(GUI.frame.contentFrame.title.txt)
 	
-	-- Set Boss name background
-	GUI.frame.contentFrame.topBG:SetTexture(contentColor[1], contentColor[2], contentColor[3], 0.7)
-	
-	-- Background color/image
-	if db.hideBGImage then
-		GUI.frame.contentFrame.itemBG:SetTexture(0, 0, 0, ATLASLOOT_ITEM_BACKGROUND_ALPHA)
-	else
-		if moduleData[dataID].items[bossID].BgImage then
-			GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].items[bossID].BgImage)
-		elseif moduleData[dataID].BgImage then
-			GUI.frame.contentFrame.itemBG:SetTexture(moduleData[dataID].BgImage)
-		elseif bgImage then
-			GUI.frame.contentFrame.itemBG:SetTexture(bgImage)
-			GUI.frame.contentFrame.itemBG:SetTexCoord(0.1, 0.7, 0.1, 0.7)
-		else
-			GUI.frame.contentFrame.itemBG:SetTexture(0, 0, 0, ATLASLOOT_ITEM_BACKGROUND_ALPHA)
-		end
-	end
+	-- refresh background info
+	GUI.lastBgInfo = GUI.curBGInfo
+	GUI.curBgInfo = {
+		contentColor, 	-- color of topBg
+		moduleData[dataID].items[bossID].BgImage and moduleData[dataID].items[bossID].BgImage or (moduleData[dataID].BgImage and moduleData[dataID].BgImage or bgImage),	-- background image
+	}
+
+	GUI.RefreshContentBackGround()
 	
 	-- set MapID
 	if not moduleData[dataID].MapID and dungeonAreaMapID and dungeonAreaMapID > 0 then
@@ -469,22 +461,19 @@ local function loadModule(addonName)
 	end
 end
 
-local function ModuleSelectFunction(self, id, arg)
-	db.selected[1] = id
-	db.selected[4] = 1
-	local combat = AtlasLoot.Loader:LoadModule(id, loadModule, LOADER_STRING)
-	if combat == "InCombat" then
-		if not GUI.frame.contentFrame.loadingDataText then
-			local text = GUI.frame.contentFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightLarge")
-			text:SetAllPoints(GUI.frame.contentFrame)
-			text:SetJustifyH("CENTER")
-			text:SetJustifyV("MIDDLE")
-			text:SetTextColor(1,1,1)
-			GUI.frame.contentFrame.loadingDataText = text
-		end
-		if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.Clear then
-			GUI.frame.contentFrame.shownFrame.Clear()
-		end
+function GUI:ShowLoadingInfo(addonName, noWipe)
+	if not GUI.frame.contentFrame.loadingDataText then
+		local text = GUI.frame.contentFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightLarge")
+		text:SetAllPoints(GUI.frame.contentFrame)
+		text:SetJustifyH("CENTER")
+		text:SetJustifyV("MIDDLE")
+		text:SetTextColor(1,1,1)
+		GUI.frame.contentFrame.loadingDataText = text
+	end
+	if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.Clear then
+		GUI.frame.contentFrame.shownFrame.Clear()
+	end
+	if not noWipe then
 		GUI.frame.subCatSelect:SetData(nil)
 		GUI.frame.difficulty:SetData(nil)
 		GUI.frame.boss:SetData(nil)
@@ -496,9 +485,18 @@ local function ModuleSelectFunction(self, id, arg)
 		GUI.frame.contentFrame.prevPageButton.info = nil
 		GUI:RefreshNextPrevButtons()
 		GUI.frame.contentFrame.clasFilterButton:Hide()
-		
-		GUI.frame.contentFrame.loadingDataText:SetText(string.format(AL["%s will finish loading after combat."], id))
-		GUI.frame.contentFrame.loadingDataText:Show()
+	end
+	
+	GUI.frame.contentFrame.loadingDataText:SetText(string.format(AL["%s will finish loading after combat."], addonName))
+	GUI.frame.contentFrame.loadingDataText:Show()
+end
+
+local function ModuleSelectFunction(self, id, arg)
+	db.selected[1] = id
+	db.selected[4] = 1
+	local combat = AtlasLoot.Loader:LoadModule(id, loadModule, LOADER_STRING)
+	if combat == "InCombat" then
+		GUI:ShowLoadingInfo(id)
 	end
 end
 
@@ -715,7 +713,7 @@ function GUI:Create()
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
 	frame:SetBackdrop(ATLASLOOT_STYLE_BOX_BACKDROP)
-	frame:SetBackdropColor(0.45,0.45,0.45,1)
+	--frame:SetBackdropColor(0.45,0.45,0.45,1)
 	frame:Hide()
 	tinsert(UISpecialFrames, frameName)	-- allow ESC close
 	
@@ -783,22 +781,19 @@ function GUI:Create()
 	
 	frame.contentFrame.topBG = frame.contentFrame:CreateTexture(frameName.."-topBG","BACKGROUND")
 	frame.contentFrame.topBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT")
-	frame.contentFrame.topBG:SetTexture(0,0,1,0.7)
 	frame.contentFrame.topBG:SetWidth(560)
 	frame.contentFrame.topBG:SetHeight(30)
 	
 	frame.contentFrame.downBG = frame.contentFrame:CreateTexture(frameName.."-downBG","BACKGROUND")
 	frame.contentFrame.downBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT", 0, -480)
-	frame.contentFrame.downBG:SetTexture(0.05, 0.05, 0.05, 0.5)
 	frame.contentFrame.downBG:SetWidth(560)
 	frame.contentFrame.downBG:SetHeight(30)
 	
 	frame.contentFrame.itemBG = frame.contentFrame:CreateTexture(frameName.."-itemBG","BACKGROUND")
 	frame.contentFrame.itemBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT", 0, -30)
-	frame.contentFrame.itemBG:SetAlpha(ATLASLOOT_ITEM_BACKGROUND_ALPHA)	
 	frame.contentFrame.itemBG:SetWidth(560)
 	frame.contentFrame.itemBG:SetHeight(450)
-	frame.contentFrame.itemBG:SetTexture(0, 0, 0, ATLASLOOT_ITEM_BACKGROUND_ALPHA)
+	frame.contentFrame.itemBG:SetTexCoord(0.1, 0.7, 0.1, 0.7)
 	
 	-- #####
 	-- Right -> Left
@@ -894,6 +889,8 @@ function GUI:Create()
 	
 	self.frame = frame
 	
+	GUI.RefreshMainFrame()
+	
 	self.ItemFrame:Create()
 	--self.SoundFrame:Create()
 end
@@ -910,7 +907,6 @@ function GUI.ResetFrames()
 		GUI.frame:SetPoint(db.point[1])
 	end
 end
-
 
 -- Function to set Parent and Point of a frame
 function GUI.Temp_SetParPoint(self, ...)
@@ -943,4 +939,62 @@ function GUI.Temp_SetParPoint(self, ...)
 	else
 		frame:SetPoint(...)
 	end
+end
+
+-- ################################
+-- Option functions
+-- ################################
+function GUI.RefreshContentBackGround()
+	if not GUI.frame or not GUI.curBgInfo then return end
+	local frame = GUI.frame.contentFrame
+
+	-- top Bg
+	if db.contentTopBar.useContentColor and ( frame.topBG.curAlpha ~= db.contentTopBar.bgColor[4] or frame.topBG.curColor ~= GUI.curBgInfo[1]) then
+		frame.topBG:SetTexture(GUI.curBgInfo[1][1], GUI.curBgInfo[1][2], GUI.curBgInfo[1][3], db.contentTopBar.bgColor[4])
+		frame.topBG.curColor = GUI.curBgInfo[1]
+		frame.topBG.curAlpha = db.contentTopBar.bgColor[4]
+	elseif not db.contentTopBar.useContentColor and frame.topBG.curColor ~= db.contentTopBar.bgColor then
+		frame.topBG:SetTexture(db.contentTopBar.bgColor[1], db.contentTopBar.bgColor[2], db.contentTopBar.bgColor[3], db.contentTopBar.bgColor[4])
+		frame.topBG.curColor = db.contentTopBar.bgColor
+	end
+	
+	-- content Bg
+	if db.content.showBgImage and GUI.curBgInfo and GUI.curBgInfo[2] ~= ( GUI.lastBgInfo and GUI.lastBgInfo[2] or nil) then
+		GUI.frame.contentFrame.itemBG:SetTexture(GUI.curBgInfo[2])
+		GUI.frame.contentFrame.itemBG:SetAlpha(db.content.bgColor[4])
+	elseif not db.content.showBgImage or not GUI.curBgInfo[2] then
+		GUI.frame.contentFrame.itemBG:SetAlpha(1)
+		GUI.frame.contentFrame.itemBG:SetTexture(db.content.bgColor[1], db.content.bgColor[2], db.content.bgColor[3], db.content.bgColor[4])
+	end
+	
+	-- bottom Bg
+	if db.contentBottomBar.useContentColor and ( frame.downBG.curAlpha ~= db.contentBottomBar.bgColor[4] or frame.downBG.curColor ~= GUI.curBgInfo[1]) then
+		frame.downBG:SetTexture(GUI.curBgInfo[1][1], GUI.curBgInfo[1][2], GUI.curBgInfo[1][3], db.contentBottomBar.bgColor[4])
+		frame.downBG.curColor = GUI.curBgInfo[1]
+		frame.downBG.curAlpha = db.contentBottomBar.bgColor[4]
+	elseif not db.contentBottomBar.useContentColor and frame.downBG.curColor ~= db.contentBottomBar.bgColor then
+		frame.downBG:SetTexture(db.contentBottomBar.bgColor[1], db.contentBottomBar.bgColor[2], db.contentBottomBar.bgColor[3], db.contentBottomBar.bgColor[4])
+		frame.downBG.curColor = db.contentBottomBar.bgColor
+	end
+end
+
+function GUI.RefreshMainFrame()
+	if not GUI.frame then return end
+	
+	local frame = GUI.frame
+	frame:SetBackdropColor(db.mainFrame.bgColor[1], db.mainFrame.bgColor[2], db.mainFrame.bgColor[3], db.mainFrame.bgColor[4])
+	frame.titleFrame:SetBackdropColor(db.mainFrame.title.bgColor[1], db.mainFrame.title.bgColor[2], db.mainFrame.title.bgColor[3], db.mainFrame.title.bgColor[4])
+	frame.titleFrame.text:SetTextColor(db.mainFrame.title.textColor[1], db.mainFrame.title.textColor[2], db.mainFrame.title.textColor[3], db.mainFrame.title.textColor[4])
+	frame.titleFrame.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.title.font), db.mainFrame.title.size)
+	
+	frame:SetScale(db.mainFrame.scale)
+end
+
+function GUI.RefreshFonts()
+	if not GUI.frame then return end
+	local frame = GUI.frame.contentFrame
+	
+	
+	frame.title:SetFont(LibSharedMedia:Fetch("font", db.contentTopBar.font.font), db.contentTopBar.font.size)
+	frame.title:SetTextColor(db.contentTopBar.font.color[1], db.contentTopBar.font.color[2], db.contentTopBar.font.color[3], db.contentTopBar.font.color[4])
 end

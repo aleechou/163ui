@@ -4,8 +4,8 @@ AL["AtlasLoot"] = true
 
 AL["Normal"] = true
 AL["Heroic"] = true
-AL["25 Man"] = true
-AL["25 Man Heroic"] = true
+AL["25 Player"] = true
+AL["25 Player Heroic"] = true
 AL["Raid Finder"] = true
 AL["Mythic"] = true
 
@@ -128,18 +128,19 @@ AL["Show Mount in Journal"] = true
 AL["AtlasLoot Search"] = true
 
 -- Common strings
+AL["Black Market Auction House"] = true
 AL["Entrance"] = true
 AL["ilvl %d"] = true
 AL["Miscellaneous"] = true
+AL["No longer available"] = true
 AL["Patterns/Plans"] = true
 AL["Rare"] = true
+AL["Rewards"] = true
 AL["Set"] = true
 AL["Sets"] = true
 AL["Shared"] = true
 AL["Shared Boss Loot"] = true
 AL["Summon"] = true
-AL["Tier Sets"] = true
-AL["Tier %d Sets"] = true
 AL["Trash Mobs"] = true
 
 -- Classic strings
@@ -172,6 +173,7 @@ AL["Servant's Quarter Animal Bosses"] = true
 AL["Shattered Hand Executioner"] = true
 AL["Third Fragment Guardian"] = true
 AL["Thomas Yance"] = true
+AL["World Bosses"] = true
 
 -- Cataclysm strings
 AL["Firestone Vendor"] = true
@@ -181,19 +183,32 @@ AL["Timed Reward Chest"] = true
 AL["Vendors"] = true
 
 -- Collections strings
+AL["Achievement & Quest Rewards"] = true
 AL["Apexis Crystal"] = true
+AL["Arena Reward"] = true
+AL["Ayla Shadowstorm"] = true
+AL["BoE World Epics"] = true
+AL["Card Game Tabards"] = true
+AL["Challenge Mode Armor Sets"] = true
+AL["Challenge Mode Gear"] = true
+AL["Classic Sets"] = true
+AL["Damek Bloombeard"] = true
+AL["Defias Overseer"] = true
+AL["Druid of the Fang"] = true
+AL["Dungeon Sets"] = true
+AL["Dungeon %d Sets"] = true
+AL["Guild"] = true
+AL["Legendary Items"] = true
 AL["Mounts"] = true
 AL["Pets"] = true
-
--- ADD THIS INTO WOWACE!!!
+AL["Replica available at Darkmoon Faire"] = true
+AL["Salvage Yard"] = true
 AL["Tabards"] = true
-AL["Reputation"] = true
-AL["Achievement & Quest Rewards"] = true
-AL["Argent Tournament"] = true
-AL["Guild"] = true
+AL["Tier Sets"] = true
+AL["Tier %d Sets"] = true
 AL["Unobtainable Tabards"] = true
-AL["Card Game Tabards"] = true
-AL["Arena Reward"] = true
+AL["Varlan Highbough"] = true
+AL["Zen'Vorka"] = true
 
 -- Crafting strings
 AL["2H Weapons"] = true
@@ -253,6 +268,7 @@ AL["Season %d"] = true
 AL["Warlords Season %d"] = true
 
 -- World Events strings
+AL["Argent Tournament"] = true
 AL["Brew of the Month Club"] = true
 AL["Brewfest"] = true
 AL["Candy"] = true

@@ -1,6 +1,8 @@
 local AtlasLoot = _G.AtlasLoot
 local GUI = AtlasLoot.GUI
 
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
+
 -- lua
 local type = type
 local pairs = pairs
@@ -59,6 +61,23 @@ local templateFunctions = {
 	["SetFontObject"] = function(self, font)
 		self.text:SetFontObject(font or "GameFontNormal")
 	end,
+	["SetColors"] = function(self, bgColor, textColor)
+		if bgColor then
+			self:SetBackdropColor(bgColor.r or 1,bgColor.g or 1,bgColor.b or 1,bgColor.a or 1)
+		else
+			self:SetBackdropColor(1,1,1,1)
+		end
+		if textColor then
+			self.text:SetTextColor(textColor.r or 0,textColor.g or 0,textColor.b or 0,textColor.a or 1)
+			if textColor.font then
+				self.text:SetFont(LibSharedMedia:Fetch("font", textColor.font), textColor.fontSize or 12)
+			else
+				self.text:SetFontObject("GameFontNormal")
+			end
+		else
+			self.text:SetTextColor(0,0,0,1)
+		end
+	end
 }
 
 
@@ -80,16 +99,8 @@ function GUI.CreateTextWithBg(parent, width, height, bgColor, textColor)
 		end
 	end
 	frame:SetSize(width or 10, height or 10)
-	if bgColor then
-		frame:SetBackdropColor(bgColor.r or 1,bgColor.g or 1,bgColor.b or 1,bgColor.a or 1)
-	else
-		frame:SetBackdropColor(1,1,1,1)
-	end
-	if textColor then
-		frame.text:SetTextColor(textColor.r or 0,textColor.g or 0,textColor.b or 0,textColor.a or 1)
-	else
-		frame.text:SetTextColor(0,0,0,1)
-	end
+	frame:SetColors(bgColor, textColor)
+	
 	frame:ClearAllPoints()
 	frame:SetParent(parent)
 	return frame

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1291, "DBM-Draenor", nil, 557)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12015 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12134 $"):sub(12, -3))
 mod:SetCreatureID(81252)
 mod:SetReCombatTime(20)
 mod:SetZone()
@@ -18,7 +18,7 @@ mod:RegisterEventsInCombat(
 local warnColossalSlam			= mod:NewSpellAnnounce(175791, 4)--No target scanning. target is either nil or tank.
 local warnCallofEarth			= mod:NewSpellAnnounce(175827, 2)
 
-local specWarnColossalSlam		= mod:NewSpecialWarningSpell(175791, nil, nil, nil, 2)
+local specWarnColossalSlam		= mod:NewSpecialWarningSpell(175791, nil, nil, nil, 2, nil, true)
 local specWarnCallofEarth		= mod:NewSpecialWarningSpell(175827)
 
 local timerColossalSlamCD		= mod:NewCDTimer(16, 175791)--16-35 second variation? Then again was a bad pull with no tank, boss running loose so may have affected timer

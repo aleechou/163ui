@@ -2,7 +2,7 @@
 -- yleaf(yaroot@gmail.com)
 -- sunlcy@NGA
 -- Mini_Dragon(projecteurs@gmail.com)
--- Last update: Dec 4, 2014@11926
+-- Last update: Dec 27, 2014@12186
 
 if GetLocale() ~= "zhCN" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
@@ -12,8 +12,8 @@ local L = DBM_GUI_Translations
 L.MainFrame 				= "Deadly Boss Mods"
 
 L.TranslationByPrefix		= "本地化："
-L.TranslationBy 			= "Diablohu & yleaf & sunlcy & Mini_Dragon"
-L.Website					= "拜访我们的论坛（英文） |cFF73C2FBwww.deadlybossmods.com|r (hosted by Elitist Jerks!)"
+L.TranslationBy 			= "Mini_Dragon(Brilla@金色平原) 原翻译：Diablohu & yleaf & sunlcy"
+L.Website					= "拜访我们的论坛（英文） |cFF73C2FBwww.deadlybossmods.com|r (托管于 Elitist Jerks!)，或在Twitter上关注首席程序员 @MysticalOS"
 L.WebsiteButton				= "论坛"
 
 L.OTabBosses				= "模块"
@@ -157,7 +157,7 @@ L.AreaTitle_BarSetupHuge 		= "大型计时条设置"
 L.EnableHugeBar 			= "开启大型计时条（2号计时条）"
 L.BarIconLeft 				= "左侧图标"
 L.BarIconRight 				= "右侧图标"
-L.ExpandUpwards				= "折叠"
+L.ExpandUpwards				= "计时条向上伸展" --感谢飘去的梦， 木沐的小胖狼@NGA
 L.FillUpBars				= "填充计时条"
 L.ClickThrough				= "禁用鼠标点击事件（允许你点击计时条后面的目标）"
 L.Bar_DBMOnly				= "以下设置只对 \"DBM\" 计时条有效."
@@ -173,6 +173,7 @@ L.SpecWarn_Enabled			= "显示首领技能特殊警报"
 L.SpecWarn_FlashFrame			= "特殊警报时屏幕边缘泛光"
 L.SpecWarn_ShakeFrame			= "为毁灭性的技能闪烁屏幕"
 L.SpecWarn_AdSound			= "启用特别警告高级声音选项（需要UI重载）"
+L.SpecWarn_NoSoundsWVoice	= "当技能存在语音包语音时，屏蔽播放特殊警报声（当心，毁灭）"
 L.SpecWarn_Font				= "特殊警报字体"
 L.SpecWarn_DemoButton			= "测试警报"
 L.SpecWarn_MoveMe			= "设置位置"
@@ -211,16 +212,19 @@ L.SpamBlockSayYell			= "隐藏聊天窗口中的使用聊天泡泡的警报信�
 
 L.Area_SpecFilter			= "专精过滤选项"
 L.FilterTankSpec			= "当非坦克专精时，过滤掉给予坦克的专用信息"
---
+
+-- Tab: Global Filter
 L.Area_SpamFilter_Outgoing		= "全局过滤设置"
 L.SpamBlockNoShowAnnounce		= "不显示警报或播放警报音效"
 L.DontShowFarWarnings			= "不显示过远事件的通告和计时器"
+L.SpamBlockNoRunAway			= "不要播放'快跑啊，小姑娘'"
 L.SpamBlockNoSendWhisper		= "不发送悄悄话提示给其他玩家"
 L.SpamBlockNoSetIcon			= "不设定标记在目标上"
 L.SpamBlockNoRangeFrame			= "不显示距离监视器"
 L.SpamBlockNoInfoFrame			= "不显示信息监视器"
 L.SpamBlockNoHealthFrame		= "不显示生命值监视器"
 
+-- Tab: Spam Filter
 L.Area_PullTimer			= "开怪倒计时过滤设置"
 L.DontShowPT				= "不显示开怪倒计时条"
 L.DontShowPTCountdownText		= "不显示开怪倒计时动画"
@@ -233,7 +237,11 @@ L.Panel_HideBlizzard			= "隐藏暴雪框架"
 L.Area_HideBlizzard			= "隐藏暴雪框架选项"
 L.HideBossEmoteFrame			= "首领战中隐藏团队首领表情框体"
 L.HideWatchFrame			= "首领战中隐藏任务追踪框体"
+L.HideGarrisonUpdates		= "首领战中隐藏要塞队列完成提示"
 L.HideTooltips				= "首领战中隐藏鼠标提示窗体 （tooltips）"
+L.HideApplicantAlerts		= "屏蔽预创建队伍邀请信息"
+L.HideApplicantAlertsFull	= "当团队已满时"
+L.HideApplicantAlertsNotL	= "当我不是团长时 （团长别选）"
 L.SpamBlockSayYell			= "隐藏聊天窗口中的使用聊天泡泡的警报信息"
 L.DisableCinematics			= "自动跳过游戏内过场动画"
 L.AfterFirst				= "仅第一次播放"

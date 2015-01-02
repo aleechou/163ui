@@ -105,8 +105,10 @@ function ItemFrame:Refresh(skipProtect)
 	ItemFrame.nextPage = nil
 	local page = AtlasLoot.db.GUI.selected[5] * 100 -- Page number for first items on a page are <1, 101, 201, 301, 401, ...>
 	local items, tableType, diffData = ItemDB:GetItemTable(AtlasLoot.db.GUI.selected[1], AtlasLoot.db.GUI.selected[2], AtlasLoot.db.GUI.selected[3], AtlasLoot.db.GUI.selected[4])
-
+	
 	if items then
+	
+		ItemFrame.LinkedInfo = items.__linkedInfo
 		ItemFrame.CurDiff = diffData.difficultyID or 1
 		ItemFrame.CurTier = diffData.tierID or 1
 		
@@ -114,12 +116,14 @@ function ItemFrame:Refresh(skipProtect)
 		if #items and items[#items] and items[#items][1] > 100 then
 			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF_PAGE, GUI.frame.contentFrame.title.txt, diffData.name, AtlasLoot.db.GUI.selected[5]+1, floor(items[#items][1]/100)+1))
 		else
-			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF, GUI.frame.contentFrame.title.txt, diffData.name))
+			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF, GUI.frame.contentFrame.title.txt or "", diffData.name or ""))
 		end
 		if type(items) == "string" then
-			AtlasLoot.Loader:LoadModule(items, function() ItemFrame:Refresh(true) end, true)
+			GUI:ShowLoadingInfo(items, true)
+			AtlasLoot.Loader:LoadModule(items, function() ItemFrame:Refresh(true) GUI.frame.contentFrame.loadingDataText:Hide() end, true)
 			return
 		end
+
 		local fixItemNum = 0
 		local setn,item = nil
 		for i = 1,#items do
@@ -138,7 +142,7 @@ function ItemFrame:Refresh(skipProtect)
 		-- page not found set it to first page and reset
 		if not setn and AtlasLoot.db.GUI.selected[5] ~= 0 then
 			AtlasLoot.db.GUI.selected[5] = 0
-			self:Refresh(true)
+			ItemFrame:Refresh(true)
 			return
 		end
 	end

@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1163, "DBM-Party-WoD", 3, 536)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11966 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12037 $"):sub(12, -3))
 mod:SetCreatureID(79545)
 mod:SetEncounterID(1732)
 mod:SetZone()
@@ -10,9 +9,9 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 160681 166570 146702",
-	"SPELL_AURA_APPLIED_DOSE 160681 166570 146702",
-	"SPELL_CAST_START 163550 160680",
+	"SPELL_AURA_APPLIED 160681 166570",
+	"SPELL_AURA_APPLIED_DOSE 160681 166570",
+	"SPELL_CAST_START 163550 160680 160943",
 	"UNIT_TARGETABLE_CHANGED"
 )
 
@@ -30,7 +29,11 @@ local specWarnShrapnelblast		= mod:NewSpecialWarningMove(160943, mod:IsTank(), n
 local specWarnSlagBlast			= mod:NewSpecialWarningMove(166570)
 
 local timerSupressiveFire		= mod:NewTargetTimer(10, 160681)
-local boomer			= mod:NewSpecialWarning("上炮台，快打炮!")
+
+local voiceSupressiveFire		= mod:NewVoice(160681)
+local voiceSlagBlast			= mod:NewVoice(166570)
+local voiceShrapnelblast		= mod:NewVoice(160943, mod:IsTank())
+local voicePhaseChange			= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
 local grenade = EJ_GetSectionInfo(9711)
 local mortar = EJ_GetSectionInfo(9712)
@@ -42,7 +45,7 @@ function mod:SupressiveFireTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnSupressiveFire:Show()
 		yellSupressiveFire:Yell()
-		sndWOP:Play("findshelter")
+		voiceSupressiveFire:Play("findshelter")
 	end
 end
 
@@ -56,10 +59,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSupressiveFire:Start(args.destName)
 	elseif spellId == 166570 and args.destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnSlagBlast:Show()
-		sndWOP:Play("runaway")
-	elseif spellId == 146702 and args.destGUID == UnitGUID("player") and self:AntiSpam(10) and self.vb.phase == 2 then
-		sndWOP:Play("160702")
-		boomer:Show()
+		voiceSlagBlast:Play("runaway")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -73,16 +73,23 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 160943 and self:AntiSpam(2, 1) then
 		warnShrapnelBlast:Show()
 		specWarnShrapnelblast:Show()
+		voiceShrapnelblast:Play("runaway")
 	end
 end
 
 function mod:UNIT_TARGETABLE_CHANGED()
 	self.vb.phase = self.vb.phase + 1
 	if self.vb.phase == 2 then
-		sndWOP:Play("ptwo")
 		warnPhase2:Show()
+		voicePhaseChange:Play("ptwo")
+		if DBM.BossHealth:IsShown() then
+			DBM.BossHealth:AddBoss(79548)
+		end
 	elseif self.vb.phase == 3 then
-		sndWOP:Play("pthree")
 		warnPhase3:Show()
+		voicePhaseChange:Play("pthree")
+		if DBM.BossHealth:IsShown() then
+			DBM.BossHealth:RemoveBoss(79548)
+		end
 	end
 end

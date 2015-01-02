@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(966, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11371 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12173 $"):sub(12, -3))
 mod:SetCreatureID(76141)
 mod:SetEncounterID(1699)--Verify, name doesn't match
 mod:SetZone()
@@ -25,10 +24,15 @@ local timerEnergozeCD	= mod:NewNextTimer(20, 154159)
 local timerBurstCD		= mod:NewCDCountTimer(23, 154135)
 
 mod.vb.burstCount = 0
+local skyTrashMod = DBM:GetModByName("SkyreachTrash")
 
 function mod:OnCombatStart(delay)
 	self.vb.burstCount = 0
 	timerBurstCD:Start(20-delay, 1)
+	if skyTrashMod.Options.RangeFrame and skyTrashMod.vb.debuffCount ~= 0 then--In case of bug where range frame gets stuck open from trash pulls before this boss.
+		skyTrashMod.vb.debuffCount = 0--Fix variable
+		DBM.RangeCheck:Hide()--Close range frame.
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -37,10 +41,6 @@ function mod:SPELL_CAST_START(args)
 		warnBurst:Show(self.vb.burstCount)
 		specWarnBurst:Show(self.vb.burstCount)
 		timerBurstCD:Start(nil, self.vb.burstCount+1)
-		sndWOP:Play("aesoon")
-		if self.vb.burstCount < 11 then
-			sndWOP:Schedule(1.2, "Interface\\AddOns\\DBM-Core\\sounds\\"..DBM.Options.CountdownVoice2.."\\"..self.vb.burstCount.."")
-		end
 	end
 end
 

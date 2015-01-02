@@ -34,6 +34,10 @@ local IngameLocales = {
 	-- ######################################################################
 	--- Items
 	-- ######################################################################
+	---- Related to BoE World Epics
+	["Flame-Scarred Junkbox"] = GetItemInfo(63349),
+	["Reinforced Junkbox"] = GetItemInfo(43575),
+	["Vine-Cracked Junkbox"] = GetItemInfo(88165),
 	-- Feast of Winter Veil
 	["Carefully Wrapped Present"] = GetItemInfo(21191),
 	["Gaily Wrapped Present"] = GetItemInfo(21310),
@@ -116,8 +120,12 @@ local IngameLocales = {
 	["Ulduar"] = GetMapNameByID(529),
 	["Vault of Archavon"] = GetMapNameByID(532),
 
+	-- Cataclysm
+	["Molten Front"] = GetMapNameByID(795),
+
 	-- Mists of Pandaria
 	["Scarlet Monastery"] = GetMapNameByID(874),
+	["Timeless Isle"] = GetMapNameByID(951),
 	
 	-- data from Core/ItemInfo.lua is generated after loading
 }

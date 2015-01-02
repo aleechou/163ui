@@ -21,6 +21,7 @@ local STRING_GREEN = "|cff1eff00"
 local PRICE_INFO = {
 	["apexis"] = { currencyID = 823 },
 	["artifactfragment"] = { currencyID = 944 },
+	["bloodycoin"] = { currencyID = 789 },
 	["brewfest"] = { itemID = 37829 },
 	["champseal"] = { currencyID = 241 },
 	["conquest"] = { currencyID = 390 },
@@ -31,6 +32,7 @@ local PRICE_INFO = {
 	["timelesscoin"] = { currencyID = 777 },
 	["tolbarad"] = { currencyID = 391 },
 	["trickytreat"] = { itemID = 33226 },
+	["worldtree"] = { currencyID = 416 },
 }
 
 local Cache = {}

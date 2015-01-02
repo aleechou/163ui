@@ -11,7 +11,7 @@
 ## X-eMail: ckknight@gmail.com
 ## X-Category: Library
 ## X-License: MIT
-## X-Curse-Packaged-Version: v8.00.00beta5
+## X-Curse-Packaged-Version: v8.00.00beta6
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline

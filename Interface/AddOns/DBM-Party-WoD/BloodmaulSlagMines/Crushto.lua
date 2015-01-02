@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(888, "DBM-Party-WoD", 2, 385)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11520 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12198 $"):sub(12, -3))
 mod:SetCreatureID(74787)
 mod:SetEncounterID(1653)
 mod:SetZone()
@@ -23,7 +22,7 @@ local warnWildSlam				= mod:NewSpellAnnounce(150753, 3)
 local specWarnFerociousYell		= mod:NewSpecialWarningInterrupt(150759, not mod:IsHealer())
 local specWarnRaiseMiners		= mod:NewSpecialWarningSwitch(150801, mod:IsTank())
 local specWarnCrushingLeap		= mod:NewSpecialWarningTarget(150751, false)--seems useless.
-local specWarnEarthCrush		= mod:NewSpecialWarningSpell(153679, nil, nil, nil, 2)--avoidable.
+local specWarnEarthCrush		= mod:NewSpecialWarningSpell(153679, nil, nil, nil, 3)--avoidable.
 local specWarnWildSlam			= mod:NewSpecialWarningSpell(150753, nil, nil, nil, 2)--not avoidable. large aoe damage and knockback
 
 --local timerFerociousYellCD--12~18. large variable?
@@ -32,11 +31,19 @@ local timerCrushingLeapCD		= mod:NewCDTimer(23, 150751)--23~25 variable.
 --local timerEarthCrushCD--13~21. large variable. useless.
 local timerWildSlamCD			= mod:NewCDTimer(23, 150753)--23~24 variable.
 
+local voiceFerociousYell		= mod:NewVoice(150759, not mod:IsHealer())
+local voiceRaiseMiners			= mod:NewVoice(150801)
+
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 150751 then
 		warnCrushingLeap:Show(args.destName)
 		specWarnCrushingLeap:Show(args.destName)
 		timerCrushingLeapCD:Start()
+		if self:IsTank() then
+			voiceFerociousYell:Play("kickcast")
+		else
+			voiceFerociousYell:Play("helpkick")
+		end
 	end
 end
 
@@ -45,15 +52,10 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 150759 then
 		warnFerociousYell:Show()
 		specWarnFerociousYell:Show(args.sourceName)
-		if mod:IsTank() then
-			sndWOP:Play("kickcast")
-		elseif (not mod:IsHealer()) then
-			sndWOP:Play("helpkick")
-		end
 	elseif spellId == 150801 then
 		warnRaiseMiners:Show()
 		specWarnRaiseMiners:Show()
-		sndWOP:Play("mobsoon")
+		voiceRaiseMiners:Play("mobsoon")
 	elseif spellId == 153679 then
 		warnEarthCrush:Show()
 		specWarnEarthCrush:Show()

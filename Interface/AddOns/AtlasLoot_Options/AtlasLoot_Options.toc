@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta5
+## Version: v8.00.00beta6
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta5
+## X-Curse-Packaged-Version: v8.00.00beta6
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -35,4 +35,10 @@ Locales\constants.ru.lua
 Locales\constants.tw.lua
 
 Core.lua
-## X-163UI-Version: 20141221174058
+## Title: |cff880303[网易有爱]|r 副本掉落物品查询 模块设置
+## Title-zhCN: |cff880303[网易有爱]|r 副本掉落物品查询 模块设置
+## Title-zhTW: |cff880303[網易有愛]|r 副本掉落物品查詢 模塊設置
+## Notes-zhCN: 副本掉落物品查询 模块设置
+## Notes-zhTW: 副本掉落物品查詢 模塊設置
+## X-Vendor: NetEase
+## X-163UI-Version: 20141231115659

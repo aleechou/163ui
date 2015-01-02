@@ -198,6 +198,25 @@ L= DBM:GetModLocalization(967)
 -----------------------
 L= DBM:GetModLocalization(968)
 
+L:SetWarningLocalization({
+	warnAdd			= DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell:format("擎天護盾傀儡"),
+	specWarnAdd		= DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch:format("擎天護盾傀儡")
+})
+
+L:SetOptionLocalization({
+	warnAdd			= "為擎天護盾傀儡顯示警告",
+	specWarnAdd		= "為轉換攻擊目標至擎天護盾傀儡顯示特別警告"
+})
+
+-------------
+--  Skyreach Trash  --
+-------------
+L = DBM:GetModLocalization("SkyreachTrash")
+
+L:SetGeneralLocalization({
+	name =	"擎天峰小怪"
+})
+
 -----------------------
 -- <<<Upper Blackrock Spire>>> --
 -----------------------

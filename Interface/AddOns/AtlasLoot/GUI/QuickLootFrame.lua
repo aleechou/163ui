@@ -34,23 +34,23 @@ local PAGE_NAME_DIFF = "%s (%s)"
 
 local DIF_INFO = {
 	--[0] = "none",	
-	[1] = AL["Normal"],		-- 5-player dungeon
-	[2] = AL["Heroic"],		-- 5-player heroic dungeon
-	[3] = AL["Normal"], 	-- 10Man
-	[4] = AL["Normal"], 	-- 25Man
-	[5] = AL["Heroic"],		-- 10ManH
-	[6] = AL["Heroic"], 	-- 25ManH
+	[1] = AL["Normal"],		-- 5 Player Dungeon
+	[2] = AL["Heroic"],		-- 5 Player Heroic Dungeon
+	[3] = AL["Normal"],		-- 10 Player
+	[4] = AL["25 Player"],		-- 25 Player
+	[5] = AL["Heroic"],		-- 10 Player Heroic
+	[6] = AL["25 Player Heroic"],	-- 25 Player Heroic
 	[7] = AL["Raid Finder"],
-	--[8] = "CM", --challenge mode
-	--[9] = "40 player", 	-- 40-player raid
+	--[8] = "CM",			-- Challenge Mode
+	--[9] = "40 player",		-- 40 Player Raid
 	--[10] = "unused",
-	--[11] = "HC SC", 		-- heroic scenario
-	--[12] = "SC",			-- scenario
+	--[11] = "HC SC",		-- Heroic Scenario
+	--[12] = "SC",			-- Scenario
 	--[13] = "unused",
-	[14] = AL["Normal"], 	-- 10-30-player flexible raid
-	[15] = AL["Heroic"], 	-- 10-30-player flexible heroic raid
-	[16] = AL["Mythic"], 	-- 20-player mythic raid
-	[17] = AL["Raid Finder"], 	-- 10-30-player flexible LFR
+	[14] = AL["Normal"],		-- 10-30 Player Flexible Raid
+	[15] = AL["Heroic"],		-- 10-30 Player Flexible Heroic Raid
+	[16] = AL["Mythic"],		-- 20 Player mythic Raid
+	[17] = AL["Raid Finder"],	-- 10-30 Player Flexible LFR
 }
 
 -- set on run

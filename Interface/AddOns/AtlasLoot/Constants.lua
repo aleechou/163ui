@@ -5,8 +5,8 @@ ATLASLOOT_DEBUGMODE = false
 ATLASLOOT_DIFFICULTYS = {
 	[1] = "Normal",
 	[2] = "Heroic",
-	[3] = "25 Man",
-	[4] = "25 Man Heroic",
+	[3] = "25 Player",
+	[4] = "25 Player Heroic",
 	[5] = "Raid Finder",
 	[6] = "Flexible"
 }

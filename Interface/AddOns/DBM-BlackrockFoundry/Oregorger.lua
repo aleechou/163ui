@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod(1202, "DBM-BlackrockFoundry", nil, 457)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 11645 $"):sub(12, -3))
 mod:SetCreatureID(77182)

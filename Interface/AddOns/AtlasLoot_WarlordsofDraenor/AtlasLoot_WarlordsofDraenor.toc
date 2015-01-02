@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta5
+## Version: v8.00.00beta6
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta5
+## X-Curse-Packaged-Version: v8.00.00beta6
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -33,4 +33,4 @@ data.lua
 ## Notes-zhCN:《德拉诺之王》副本物品信息
 ## Notes-zhTW:《德拉諾之霸》副本物品信息查詢模塊
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141221174058
+## X-163UI-Version: 20141231115659

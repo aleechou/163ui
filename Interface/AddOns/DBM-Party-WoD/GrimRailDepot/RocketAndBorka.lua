@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(1138, "DBM-Party-WoD", 3, 536)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11534 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12159 $"):sub(12, -3))
 mod:SetCreatureID(77803, 77816)
 mod:SetEncounterID(1715)
 mod:SetZone()
@@ -12,8 +11,11 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 162500 162407 161090 162617",
+	"SPELL_AURA_APPLIED 163947",
 	"UNIT_DIED"
 )
+
+mod:SetBossHealthInfo(77803, 77816)
 
 local warnVX18B					= mod:NewCountAnnounce(162500, 2)--Cast twice, 3rd cast is X2101, then repeats
 local warnX2101AMissile			= mod:NewSpellAnnounce(162407, 4)
@@ -23,12 +25,16 @@ local warnSlam					= mod:NewCastAnnounce(162617, 3, 1.5, nil, mod:IsSpellCaster(
 local specWarnX2101AMissile		= mod:NewSpecialWarningSpell(162407, nil, nil, nil, 2)--Large AOE damage
 local specWarnMadDash			= mod:NewSpecialWarningSpell(161090, nil, nil, nil, 2)--DPS version of this warning
 local specWarnMadDashInterrupt	= mod:NewSpecialWarningInterrupt(161090, true, false)--It's actually an interrupt warning for OTHER boss, not caster of this spell
-local specWarnSlam				= mod:NewSpecialWarningCast(162617, mod:IsSpellCaster())
+local specWarnSlam				= mod:NewSpecialWarningCast(162617, mod:IsSpellCaster(), nil, nil, nil, nil, true)
 
 local timerVX18BCD				= mod:NewCDTimer(33, 162500)
-local timerX2101AMissileCD		= mod:NewCDTimer(42, 162407)
-local timerMadDashCD			= mod:NewCDTimer(42, 161090)
+local timerX2101AMissileCD		= mod:NewCDTimer(40, 162407)
+local timerMadDashCD			= mod:NewCDTimer(40, 161090)
 local timerSlamCD				= mod:NewCDTimer(15, 162617, nil, mod:IsSpellCaster())
+local timerSlam					= mod:NewCastTimer(1.5, 162617, nil, mod:IsSpellCaster())
+local timerRecovering			= mod:NewBuffActiveTimer(6, 163947)
+
+local voiceSlam					= mod:NewVoice(162617, mod:IsSpellCaster())
 
 local rocketsName = EJ_GetSectionInfo(9430)
 local borkaID = nil
@@ -83,10 +89,30 @@ function mod:SPELL_CAST_START(args)
 		self.vb.SlamCast = self.vb.SlamCast + 1
 		warnSlam:Show()
 		specWarnSlam:Show()
+		timerSlam:Start()
+		voiceSlam:Play("stopcast")
 		if self.vb.SlamCast == 2 then
 			timerSlamCD:Start(30)
 		else
 			timerSlamCD:Start()
+		end
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	local spellId = args.spellId
+	if spellId == 163947 then
+		local unitid
+		for i = 1, 2 do
+			if UnitGUID("boss"..i) == args.destGUID then
+				unitid = "boss"..i
+			end
+		end
+		if unitid then
+			local _, _, _, _, _, duration, expires, _, _ = UnitBuff(unitid, args.spellName)
+			if expires then
+				timerRecovering:Start(expires-GetTime())
+			end
 		end
 	end
 end
