@@ -196,7 +196,7 @@ function EventAlert_ADDON_LOADED(self, event, ...)
 			if EA_Position.Execution == nil then EA_Position.Execution = 0 end;
 			if EA_Position.PlayerLv2BOSS == nil then EA_Position.PlayerLv2BOSS = true end;
 			if EA_Position.SCD_UseCooldown == nil then EA_Position.SCD_UseCooldown = false end;
-			
+
 			if EA_Pos == nil then EA_Pos = { } end;
 			if EA_Pos[EA_CLASS_DK] == nil then EA_Pos[EA_CLASS_DK] = EA_Position end;
 			if EA_Pos[EA_CLASS_DRUID] == nil then EA_Pos[EA_CLASS_DRUID] = EA_Position end;
@@ -249,10 +249,10 @@ function EventAlert_ADDON_LOADED(self, event, ...)
 	end
 end
 
-function EventAlert_PLAYER_ENTER_COMBAT(self, event, ...)	
+function EventAlert_PLAYER_ENTER_COMBAT(self, event, ...)
 	ShowAllScdCurrentBuff()
 end
-function EventAlert_PLAYER_LEAVE_COMBAT(self, event, ...)	
+function EventAlert_PLAYER_LEAVE_COMBAT(self, event, ...)
 	HideAllScdCurrentBuff()
 end
 
@@ -322,7 +322,7 @@ function EventAlert_TARGET_CHANGED(self, event, ...)
 	if UnitName("player") ~= UnitName("target") then
 		EventAlert_TarBuffs_Update();
 		if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then 
-			EventAlert_UpdateComboPoint();
+			--EventAlert_UpdateComboPoint();
 		end;
 		EventAlert_CheckExecution();
 	end
@@ -382,7 +382,7 @@ function EventAlert_COMBAT_TEXT_UPDATE(self, event, ...)
 end
 function EventAlert_UNIT_COMBO_POINTS(self, event, ...)
 	if (EA_SpecCheckPower.CheckComboPoint and EA_SpecHasPower.HasComboPoint) then 
-		EventAlert_UpdateComboPoint();
+		--EventAlert_UpdateComboPoint();
 	end
 end
 
@@ -950,9 +950,8 @@ function EventAlert_Buff_Dropped(spellId)
 	-- DEFAULT_CHAT_FRAME:AddMessage("buff-dropping: id: "..spellId);
 	local eaf = _G["EAFrame_"..spellId];
 	if eaf~= nil then
-		FrameGlowShowOrHide(eaf,false)
-		--EA_ActionButton_HideOverlayGlow(eaf);
-		--eaf.overgrow = false;
+		EA_ActionButton_HideOverlayGlow(eaf);
+		eaf.overgrow = false;
 		eaf:Hide();
 		eaf:SetScript("OnUpdate", nil);
 	end
@@ -973,9 +972,8 @@ function EventAlert_TarBuff_Dropped(spellId)
 	-- DEFAULT_CHAT_FRAME:AddMessage("buff-dropping: id: "..spellId);
 	local eaf = _G["EATarFrame_"..spellId];
 	if eaf~= nil then
-		FrameGlowShowOrHide(eaf,false)
-		--EA_ActionButton_HideOverlayGlow(eaf);
-		--eaf.overgrow = false;
+		EA_ActionButton_HideOverlayGlow(eaf);
+		eaf.overgrow = false;
 		eaf:Hide();
 		eaf:SetScript("OnUpdate", nil);
 	end
@@ -1087,7 +1085,17 @@ function EventAlert_OnUpdate(spellId)
 			if (not isOverGrow) then
 				isOverGrow = EAFun_CheckSpellConditionOverGrow(EA_count, EA_Items[EA_CLASS_OTHER][spellId]);
 			end
-			FrameGlowShowOrHide(eaf,isOverGrow)			
+			if (isOverGrow) then
+				if (not eaf.overgrow) then
+					EA_ActionButton_ShowOverlayGlow(eaf);
+					eaf.overgrow = true;
+				end
+			else
+				if (eaf.overgrow) then
+					EA_ActionButton_HideOverlayGlow(eaf);
+					eaf.overgrow = false;
+				end
+			end
 		else
 			eaf.spellTimer:SetText("");
 			eaf.spellStack:SetText("");
@@ -1131,9 +1139,17 @@ function EventAlert_OnTarUpdate(spellId)
 			EAFun_SetCountdownStackText(eaf, EA_timeLeft, EA_count, SC_RedSecText);
 
 			isOverGrow = EAFun_CheckSpellConditionOverGrow(EA_count, EA_TarItems[EA_playerClass][spellId]);
-			
-			FrameGlowShowOrHide(eaf,isOverGrow)
-			
+			if (isOverGrow) then
+				if (not eaf.overgrow) then
+					EA_ActionButton_ShowOverlayGlow(eaf);
+					eaf.overgrow = true;
+				end
+			else
+				if (eaf.overgrow) then
+					EA_ActionButton_HideOverlayGlow(eaf);
+					eaf.overgrow = false;
+				end
+			end
 		else
 			eaf.spellTimer:SetText("");
 			eaf.spellStack:SetText("");
@@ -1157,63 +1173,30 @@ function EventAlert_OnSCDUpdate(spellId)
 		local gsiIcon = EA_SPELLINFO_SCD[spellId].icon;
 		eaf:SetBackdrop({bgFile = gsiIcon});
 		eaf:SetWidth(EA_Config.IconSize);
-		eaf:SetHeight(EA_Config.IconSize);	
-
-		if (EA_Position.SCD_UseCooldown) then			
-			eaf.useCooldown = true			
-		else			
-			eaf.useCooldown = false			
-		end		
-
-		if EA_ChargeCurrent then
-			local EA_timeLeft = EA_ChargeStart + EA_ChargeDuration - GetTime();
-			if EA_ChargeCurrent > 0 then 	
-				
-				if (EA_ChargeCurrent == EA_ChargeMax) then
-					
-					if eaf.useCooldown then	
-						--eaf.cooldown:SetCooldown(EA_ChargeStart, EA_ChargeDuration,EA_ChargeCurrent,EA_ChargeMax)						
-						eaf.cooldown:SetCooldown(0, 0,EA_ChargeCurrent,EA_ChargeMax)						
-						eaf.cooldown:SetHideCountdownNumbers(true)
-						eaf.cooldown:SetDrawSwipe(false)
-						EAFun_SetCountdownStackText(eaf, 0, EA_ChargeCurrent, 0, 1);	
-					else
-						EAFun_SetCountdownStackText(eaf, 0, EA_ChargeCurrent, 0, 1);	
-					end				
-					
-				else		
-					if eaf.useCooldown then 						
-						eaf.cooldown:SetCooldown(EA_ChargeStart, EA_ChargeDuration,EA_ChargeCurrent,EA_ChargeMax)						
-						eaf.cooldown:SetHideCountdownNumbers(true)
-						eaf.cooldown:SetDrawSwipe(false)
-						EAFun_SetCountdownStackText(eaf, 0, EA_ChargeCurrent, 1);
-					else
-						EAFun_SetCountdownStackText(eaf,  EA_timeLeft,EA_ChargeCurrent,0, 1);
-					end	
-					
-					
-				end
-				
-				FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)
-				
-			else
+		eaf:SetHeight(EA_Config.IconSize);		
 			
-				if eaf.useCooldown then 
-					eaf.cooldown:SetCooldown(EA_ChargeStart, EA_ChargeDuration,EA_ChargeCurrent,EA_ChargeMax)					
-					eaf.cooldown:SetHideCountdownNumbers(true)
-					eaf.cooldown:SetDrawSwipe(true)
-					EAFun_SetCountdownStackText(eaf, 0 , EA_ChargeCurrent, -1);
+		if EA_ChargeCurrent then
+			local EA_timeLeft=EA_ChargeStart + EA_ChargeDuration - GetTime();
+			if EA_ChargeCurrent > 0 then 			
+				FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)				
+				if EA_ChargeCurrent == EA_ChargeMax then
+					EAFun_SetCountdownStackText(eaf,  0,EA_ChargeCurrent,0, 1);	
+					
 				else
-					EAFun_SetCountdownStackText(eaf, EA_timeLeft , EA_ChargeCurrent, -1);
-				end	
-				
-				FrameGlowShowOrHide(eaf, false)	
+					EAFun_SetCountdownStackText(eaf,  EA_timeLeft,EA_ChargeCurrent,0, 1);
+				end
+			else
+				if (eaf.overgrow) then			
+					EA_ActionButton_HideOverlayGlow(eaf)
+					eaf.overgrow = false
+				end 
+				EAFun_SetCountdownStackText(eaf, EA_timeLeft , EA_ChargeCurrent, -1);								
 			end
 		else
 
 			if (EA_Enable == 1) then
 								
-				local EA_timeLeft = EA_start + EA_duration - GetTime();			
+				local EA_timeLeft = EA_start + EA_duration - GetTime();				
 				local EA_GCD=1.5/((100+UnitSpellHaste("player"))/100)
 				
 				if EA_GCD < 1 then EA_GCD = 1 end
@@ -1221,28 +1204,25 @@ function EventAlert_OnSCDUpdate(spellId)
 				--local EA_GCD=1.5
 				
 				if (EA_start > 0 and EA_duration > EA_GCD )  then					
-					 --DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");	
-					FrameGlowShowOrHide(eaf,false)					
-					
-					if eaf.useCooldown then 
-						eaf.cooldown:SetCooldown(EA_start, EA_duration)
-						eaf.cooldown:SetHideCountdownNumbers(true)
-						eaf.cooldown:SetDrawSwipe(true)
-					else
-						if (EA_Config.ShowTimer) then 
-							EAFun_SetCountdownStackText(eaf, EA_timeLeft ,0, -1);						
-						end						
-					end	
-					
-				else
-				
+					 --DEFAULT_CHAT_FRAME:AddMessage("[spellId="..spellId.." / EA_timeLeft="..EA_timeLeft.."]");
+					if  not(eaf.overgrow) then					 
+						EA_ActionButton_HideOverlayGlow(eaf)
+						eaf.overgrow = true
+					end
+					if (EA_Config.ShowTimer) then 
+						SC_RedSecText = EAFun_GetSpellConditionRedSecText(EA_ScdItems[EA_playerClass][spellId]);
+						EAFun_SetCountdownStackText(eaf, EA_timeLeft ,0, SC_RedSecText);
+					end
+				else	
+						
 					eaf.spellTimer:SetText("")						
-					FrameGlowShowOrHide(eaf,flag_usable and EA_Config.IsKeepGlowSCD)
+					FrameGlowShowOrHide(eaf,eaf.overgrow and flag_usable and EA_Config.IsKeepGlowSCD)
 					
 				end			
 			end
 		end
 		
+		eaf:SetAlpha(1);		
 		EventAlert_ScdPositionFrames();				
 	end
 end
@@ -1427,12 +1407,8 @@ end
 function EventAlert_ScdPositionFrames()
 	
 	--If Player is Combating, don't show Spell Cooldown Frame.
-	if UnitAffectingCombat("player") == false then 			
-		HideAllScdCurrentBuff()
-		return
-	end
-		
-	
+	if UnitAffectingCombat("player") == false then return end
+			
 	if (EA_Config.ShowFrame == true) then
 		EA_Main_Frame:ClearAllPoints();
 		EA_Main_Frame:SetPoint(EA_Position.Anchor, UIParent, EA_Position.relativePoint, EA_Position.xLoc, EA_Position.yLoc);
@@ -1440,7 +1416,9 @@ function EventAlert_ScdPositionFrames()
 		local xOffset = 100 + EA_Position.xOffset;
 		local yOffset = 0 + EA_Position.yOffset;
 		local SfontName, SfontSize = "", 0;
-
+		
+		EA_ScdCurrentBuffs = EAFun_SortCurrBuffs(5, EA_ScdCurrentBuffs);
+		
 		for k,v in ipairs(EA_ScdCurrentBuffs) do
 			local eaf = _G["EAScdFrame_"..v];
 			local spellId = tonumber(v);
@@ -1885,10 +1863,8 @@ function EAFun_GetFormattedTime(timeLeft)
 			--formattedTime = tostring(floor(timeLeft));
 			formattedTime = tostring(format("%d",timeLeft));
 		end 
-	elseif timeLeft <= 3600 then
-		formattedTime = format("%d:%02d", floor(timeLeft/60), timeLeft % 60);
 	else
-		formattedTime = format("%2d:%2d:%02d", floor(timeLeft/3600),floor((timeLeft % 3600)/60), timeLeft % 3600);		
+		formattedTime = format("%d:%02d", floor(timeLeft/60), timeLeft % 60);
 	end
 	return formattedTime;
 end
@@ -1939,10 +1915,9 @@ end
 
 -- Speciall Frame: UpdateComboPoint, for watching the combopoint of player
 function EventAlert_UpdateComboPoint()
-	local result,target = SecureCmdOptionParse("[@mouseover,harm][@focus,harm][@target,harm]harm")
-	if  result == "harm" then
-		
-		EA_COMBO_POINTS = GetComboPoints("player", target);	
+	
+	if UnitIsEnemy("player","target") then
+		EA_COMBO_POINTS = GetComboPoints("player", "target");		 
 	else
 		if EA_COMBO_POINTS > 0 then
 			EA_COMBO_POINTS = EA_COMBO_POINTS - 1
@@ -1950,9 +1925,7 @@ function EventAlert_UpdateComboPoint()
 			EA_COMBO_POINTS = 0
 		end		
 	end
-	
 	local iComboPoint=EA_COMBO_POINTS
-	
 	if (EA_Config.ShowFrame == true) then
 		EA_Main_Frame:ClearAllPoints();
 		EA_Main_Frame:SetPoint(EA_Position.Anchor, UIParent, EA_Position.relativePoint, EA_Position.xLoc, EA_Position.yLoc);
@@ -1978,12 +1951,13 @@ function EventAlert_UpdateComboPoint()
 
 				EAFun_SetCountdownStackText(eaf, iComboPoint, 0, -1);
 				eaf:Show();
-				
-				FrameGlowShowOrHide(eaf,(iComboPoint >= 5))
-				
+				if (iComboPoint >= 5) then 
+					EA_ActionButton_ShowOverlayGlow(eaf)
+				else
+					EA_ActionButton_HideOverlayGlow(eaf)
+				end;
 			else
-				FrameGlowShowOrHide(eaf, false)
-				
+				EA_ActionButton_HideOverlayGlow(eaf);
 				EA_SpecFrame_Target = false;
 				eaf:Hide();
 			end
@@ -2007,8 +1981,7 @@ function EventAlert_UpdateEclipse()
 
 		if ((eaf1 ~= nil) and (eaf2 ~= nil)) then
 			if (iUnitPower > 0) then
-				FrameGlowShowOrHide(eaf1, false)
-				--EA_ActionButton_HideOverlayGlow(eaf1);
+				EA_ActionButton_HideOverlayGlow(eaf1);
 				EA_SpecFrame_Self = true;
 				eaf1:ClearAllPoints();
 				eaf2:ClearAllPoints();
@@ -2032,11 +2005,9 @@ function EventAlert_UpdateEclipse()
 				eaf2.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
 				eaf2.spellTimer:SetText(iUnitPower);
 				eaf2:Show();
-				FrameGlowShowOrHide(eaf2, (iUnitPower >= 100))
-				-- if (iUnitPower >= 100) then EA_ActionButton_ShowOverlayGlow(eaf2) end;
+				if (iUnitPower >= 100) then EA_ActionButton_ShowOverlayGlow(eaf2) end;
 			elseif (iUnitPower < 0) then
-				FrameGlowShowOrHide(eaf2, false)
-				--EA_ActionButton_HideOverlayGlow(eaf2);
+				EA_ActionButton_HideOverlayGlow(eaf2);
 				EA_SpecFrame_Self = true;
 				eaf1:ClearAllPoints();
 				eaf2:ClearAllPoints();
@@ -2060,13 +2031,10 @@ function EventAlert_UpdateEclipse()
 				eaf1.spellTimer:SetFont("Fonts\\FRIZQT__.TTF", EA_Config.TimerFontSize, "OUTLINE");
 				eaf1.spellTimer:SetText(-1 * iUnitPower);
 				eaf1:Show();
-				FrameGlowShowOrHide(eaf1, (iUnitPower <= -100))
-				--if (iUnitPower <= -100) then EA_ActionButton_ShowOverlayGlow(eaf1) end;
+				if (iUnitPower <= -100) then EA_ActionButton_ShowOverlayGlow(eaf1) end;
 			else
-				FrameGlowShowOrHide(eaf1, false)
-				FrameGlowShowOrHide(eaf2, false)
-				--EA_ActionButton_HideOverlayGlow(eaf1);
-				--EA_ActionButton_HideOverlayGlow(eaf2);
+				EA_ActionButton_HideOverlayGlow(eaf1);
+				EA_ActionButton_HideOverlayGlow(eaf2);
 				EA_SpecFrame_Self = false;
 				eaf1:Hide();
 				eaf2:Hide();
@@ -2140,47 +2108,32 @@ function EventAlert_UpdateSinglePower(iPowerType)
 
 				-- ?t??3?h????G??A????3?h???????G??
 				if (iPowerType == EA_SPELL_POWER_HOLY_POWER) then
-					FrameGlowShowOrHide(eaf, (iUnitPower >=UnitPowerMax("player",EA_SPELL_POWER_HOLY_POWER)))
-					--[[
 					if (iUnitPower >=UnitPowerMax("player",EA_SPELL_POWER_HOLY_POWER)) then 
 						EA_ActionButton_ShowOverlayGlow(eaf);
 					else
 						EA_ActionButton_HideOverlayGlow(eaf);
 					end
-					]]--
 				end
 				
 				-- ?t?v?_?]3?h????G??A????3?h???????G??
-				
 				if (iPowerType == EA_SPELL_POWER_SHADOW_ORBS) then
-					FrameGlowShowOrHide(eaf,(iUnitPower >= UnitPowerMax("player",EA_SPELL_POWER_SHADOW_ORBS)))
-				--[[
-				
 					if (iUnitPower >= UnitPowerMax("player",EA_SPELL_POWER_SHADOW_ORBS)) then 
 						EA_ActionButton_ShowOverlayGlow(eaf);
 					else
 						EA_ActionButton_HideOverlayGlow(eaf);
 					end
-				]]--
 				end
-				
 
 				-- ?u??4?h????G??A????4?h???????G??
 				if (iPowerType == EA_SPELL_POWER_LIGHT_FORCE) then
-					FrameGlowShowOrHide(eaf,(iUnitPower >=UnitPowerMax("player",EA_SPELL_POWER_LIGHT_FORCE)))
-				--[[
-				
 					if (iUnitPower >=UnitPowerMax("player",EA_SPELL_POWER_LIGHT_FORCE)) then 
 						EA_ActionButton_ShowOverlayGlow(eaf);
 					else
 						EA_ActionButton_HideOverlayGlow(eaf);
 					end
-				]]--
 				end
-				
 			else
-				FrameGlowShowOrHide(eaf, false)
-				--EA_ActionButton_HideOverlayGlow(eaf);
+				EA_ActionButton_HideOverlayGlow(eaf);
 				EA_SpecFrame_Self = false;
 				eaf:Hide();
 			end
@@ -2573,6 +2526,8 @@ function EAFun_SortCurrBuffs(TypeIndex, EACurrBuffs)
 			OrderWtd = EA_SPELLINFO_SELF[EACurrBuffs[Loopi]].orderWtd;
 		elseif (TypeIndex == 2) then
 			OrderWtd = EA_SPELLINFO_TARGET[EACurrBuffs[Loopi]].orderWtd;
+		elseif (TypeIndex == 5) then
+			OrderWtd = EA_SPELLINFO_SCD[EACurrBuffs[Loopi]].orderWtd;
 		end
 		if (OrderWtd == nil) then OrderWtd = 1 end;
 		
@@ -3284,17 +3239,20 @@ function RemoveAllScdCurrentBuff()
 	end
 end
 function ShowAllScdCurrentBuff()
-	
+
 	for k,v in ipairs(EA_ScdCurrentBuffs) do
 		local SpellName,SpellIcon=GetSpellInfo(v)
 		local HasSpell=GetSpellInfo(SpellName)
 		
 		local eaf = _G["EAScdFrame_"..v];
-		local spellId = tonumber(v);	
-		eaf:Show()
+		local spellId = tonumber(v);
+		eaf:Show();						
+		eaf:SetScript("OnUpdate", function() EventAlert_OnSCDUpdate(spellId); end);
+		
+					
 	end
 	
-	
+	EventAlert_ScdPositionFrames();
 end
 
 function HideAllScdCurrentBuff()
@@ -3304,12 +3262,11 @@ function HideAllScdCurrentBuff()
 		local HasSpell=GetSpellInfo(SpellName)
 		local eaf = _G["EAScdFrame_"..v];
 		local spellId = tonumber(v);
-		
-		--eaf:SetScript("OnUpdate", nil);	
-		eaf:Hide();
+		eaf:Hide();			
+		eaf:SetScript("OnUpdate", nil);	
 	end
 	
-	
+	--EventAlert_ScdPositionFrames();
 end
 function FrameShowOrHide(f,boolShow)
 	if boolShow then
@@ -3318,20 +3275,13 @@ function FrameShowOrHide(f,boolShow)
 		f:Hide()
 	end 
 end 
-function FrameGlowShowOrHide(eaf,boolShow)
+function FrameGlowShowOrHide(f,boolShow)
 	if boolShow then
-		if not(eaf.overgrow) then
-			EA_ActionButton_ShowOverlayGlow(eaf)
-			eaf.overgrow = true
-		end 
+		EA_ActionButton_ShowOverlayGlow(f)
 	else
-		if (eaf.overgrow) then
-			EA_ActionButton_HideOverlayGlow(eaf)
-			eaf.overgrow = false
-		end
+		EA_ActionButton_HideOverlayGlow(f)
 	end 
 end 
-
 
 EA_EventList=	{
 		--["PLAYER_LOGIN"]				=nil					,
@@ -3340,8 +3290,6 @@ EA_EventList=	{
 		["PLAYER_DEAD"]					=EventAlert_PLAYER_ENTERING_WORLD	,
 		["PLAYER_ENTER_COMBAT"]			=EventAlert_PLAYER_ENTER_COMBAT,
 		["PLAYER_LEAVE_COMBAT"]			=EventAlert_PLAYER_LEAVE_COMBAT,
-		["PLAYER_REGEN_DISABLED"]		=EventAlert_PLAYER_ENTER_COMBAT,
-		["PLAYER_REGEN_ENABLED"]		=EventAlert_PLAYER_LEAVE_COMBAT,
 
 		["PLAYER_TALENT_UPDATE"]		=EventAlert_PLAYER_TALENT_UPDATE		,
 		["PLAYER_TALENT_WIPE"]			=EventAlert_PLAYER_TALENT_WIPE		,
