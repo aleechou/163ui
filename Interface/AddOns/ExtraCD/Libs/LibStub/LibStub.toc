@@ -1,4 +1,4 @@
-## Interface: 60000
+## Interface: 20400
 ## Title: Lib: LibStub
 ## Notes: Universal Library Stub
 ## Credits: Kaelten, Cladhaire, ckknight, Mikk, Ammo, Nevcairiel
@@ -9,7 +9,7 @@
 ## X-Curse-Project-Name: LibStub
 ## X-Curse-Project-ID: libstub
 ## X-Curse-Repository-ID: wow/libstub/mainline
-## X-Curse-Packaged-Version: 1.3.2
+## X-Curse-Packaged-Version: 1.3.4
 ## X-Curse-Project-Name: ExtraCD
 ## X-Curse-Project-ID: extracd
 ## X-Curse-Repository-ID: wow/extracd/mainline

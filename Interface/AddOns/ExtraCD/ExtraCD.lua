@@ -8,7 +8,7 @@ local mod = ExtraCD
 local tinsert, tremove = table.insert, table.remove
 local tonumber, tostring = tonumber, tostring
 local ECD_TEXT = "ExtraCD"
-local ECD_VERSION = "1.3.2"
+local ECD_VERSION = "1.3.4"
 local ECD_AUTHOR = "superk"
 local active = {}
 local equippedItems = {}
@@ -119,7 +119,8 @@ function mod:ChangeProfile()
 end
 
 function mod:ShowConfig()
-	InterfaceOptionsFrame_OpenToCategory(GetAddOnMetadata("ExtraCD", "Title"))
+	InterfaceOptionsFrame_OpenToCategory(self.optionFrames.profiles)
+	InterfaceOptionsFrame_OpenToCategory(self.optionFrames.general)
 end
 
 function mod:OnInitialize()
@@ -130,27 +131,7 @@ function mod:OnInitialize()
 	self.db1.RegisterCallback(self, "OnProfileChanged", "ChangeProfile")
 	self.db1.RegisterCallback(self, "OnProfileCopied", "ChangeProfile")
 	self.db1.RegisterCallback(self, "OnProfileReset", "ChangeProfile")
-	self.db = self.db1.profile
-	local bliz_options = {
-		name = "ExtraCD",
-		type = 'group',
-	}
-	bliz_options.args = {
-		load = {
-		name = L["Load Config"],
-		type = 'execute',
-		func = function()
-			self:OnOptionCreate() 
-			bliz_options.args.load.disabled = true 
-			GameTooltip:Hide()
-			--fix for in 5.3 BLZOptionsFrame can't refresh on load
-			InterfaceOptionsFrame:Hide()
-			InterfaceOptionsFrame:Show()
-		end,
-		}
-	}
-	AceConfig:RegisterOptionsTable("ExtraCD_bliz", bliz_options)
-	AceConfigDialog:AddToBlizOptions("ExtraCD_bliz", "ExtraCD")
+	self.db = self.db1.profile	
 end
 
 function mod:OnEnable()
@@ -176,6 +157,7 @@ function mod:OnEnable()
 			self:StartTimer(k, GetTime(), true, math.max(v.cd, v.duration))
 		end
 	end
+	self:OnOptionCreate()
 end
 
 function mod:OnDisable()
@@ -307,6 +289,7 @@ function mod:CreateIcon(order, bar)
 	-- btn.border = border
 	btn.cooldown = active[order].cd
 	btn.ppm = active[order].ppm
+	btn.refreshable = active[order].refreshable
 	if UnitAffectingCombat("player") == 1 then
 		btn.maxMultiplesFlag = 0
 	else
@@ -350,24 +333,12 @@ function mod:ScanPlayerICDs()
 	local _, class = UnitClass("player")
 	local spec = GetSpecialization()
 	local talentGroup = GetActiveSpecGroup()
-	local link1 = GetInventoryItemLink("player", 13)
-	local link2 = GetInventoryItemLink("player", 14)
-	local link3 = GetInventoryItemLink("player", 16)
-	local link4 = GetInventoryItemLink("player", 15)
-	local trinket1
-	local trinket2
-	local waepon1
-	local cloak
-	if link1 then trinket1 = link1:match("item:(%d+)") end
-	if link2 then trinket2 = link2:match("item:(%d+)") end
-	if link3 then weapon1 = link3:match("item:(%d+)") end
-	if link4 then cloak = link4:match("item:(%d+)") end
-		
+
 	local items = {}
 	for i = 1, 19 do
 		local link = GetInventoryItemLink("player", i)
 		if link then
-			items[tonumber(link:match("item:(%d+)"))] = true
+			items[tonumber(link:match("item:(%d+)"))] = i
 		end
 	end
 
@@ -377,7 +348,7 @@ function mod:ScanPlayerICDs()
 				if v.class == class then
 					local _, _, icon, learnt = GetTalentInfo(v.tier, v.column, talentGroup)
 					if learnt then
-						tinsert (active, {cd = v.cd , icon = icon, id = tonumber(k), type = "talent", duration = v.duration or 0})
+						tinsert (active, {cd = v.cd or 0, icon = icon, id = tonumber(k), type = "talent", duration = v.duration or 0})
 					end
 				end
 			elseif v.type == "enchant" and self.db.enchant then
@@ -389,7 +360,7 @@ function mod:ScanPlayerICDs()
 							--local icon = GetItemIcon(tonumber(itemID))
 							local _, _, icon = GetSpellInfo(tonumber(k))
 							if v.ppm and not self.db.showRPPM then break end
-							tinsert (active, {cd = v.cd, ppm = v.ppm, icon = icon, id = tonumber(k), type = "enchant", slot = v.slot, duration = v.duration or 0})
+							tinsert (active, {cd = v.cd or 0, ppm = v.ppm, icon = icon, id = tonumber(k), type = "enchant", slot = v.slot, duration = v.duration or 0})
 							break
 						end
 					end
@@ -399,7 +370,7 @@ function mod:ScanPlayerICDs()
 				for _, spec in ipairs(v.spec) do
 					if spec == playerSpec then 
 						local _, _, icon = GetSpellInfo(tonumber(k))
-						tinsert (active, {cd = v.cd , icon = icon, id = tonumber(k), type = "spec", duration = v.duration or 0})
+						tinsert (active, {cd = v.cd or 0, icon = icon, id = tonumber(k), type = "spec", duration = v.duration or 0})
 						break
 					end		
 				end
@@ -412,7 +383,7 @@ function mod:ScanPlayerICDs()
 				end
 				if p >= v.piece then
 					local _, _, icon = GetSpellInfo(tonumber(k))
-					tinsert (active, {cd = v.cd, icon = icon, id = tonumber(k), type = "itemset", duration = v.duration or 0})
+					tinsert (active, {cd = v.cd or 0, icon = icon, id = tonumber(k), type = "itemset", duration = v.duration or 0})
 				end
 			elseif v.type == "item" and self.db.item then
 				for _, item in ipairs(v.item) do
@@ -428,17 +399,8 @@ function mod:ScanPlayerICDs()
 					else 
 						specppm = v.ppm
 					end
-					if tonumber(trinket1 or -1) == item then
-						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 13, duration = v.duration or 0})
-						break
-					elseif tonumber(trinket2 or -1) == item  then
-						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 14, duration = v.duration or 0})
-						break
-					elseif tonumber(weapon1 or -1) == item  then
-						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 16, duration = v.duration or 0})
-						break
-					elseif tonumber(cloak or -1) == item  then
-						tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = 15, duration = v.duration or 0})
+					if items[item] then
+						tinsert (active, {cd = v.cd or 0, ppm = specppm, icon = icon, id = tonumber(k), type = "item", slot = items[item], duration = v.duration or 0})
 						break
 					end
 				end
@@ -462,7 +424,7 @@ function mod:ScanPlayerICDs()
 								else 
 									specppm = v.ppm
 								end
-								tinsert (active, {cd = v.cd, ppm = specppm, icon = icon, id = tonumber(k), type = "enchant", slot = v.slot, duration = v.duration or 0})
+								tinsert (active, {cd = v.cd or 0, ppm = specppm, icon = icon, id = tonumber(k), type = "enchant", slot = v.slot, duration = v.duration or 0})
 								break
 							end
 						end
@@ -470,7 +432,7 @@ function mod:ScanPlayerICDs()
 				end
 			elseif v.type == "custom" then
 				local _, _, icon = GetSpellInfo(tostring(k))
-				tinsert (active, {cd = v.cd or 0, icon = icon, id = tonumber(k), type = "custom", duration = v.duration or 0})
+				tinsert (active, {cd = v.cd or 0, icon = icon, id = tonumber(k), type = "custom", duration = v.duration or 0, ppm = v.ppm, refreshable = v.refreshable})
 			end
 		end
 	end
@@ -676,9 +638,24 @@ function mod:StartTimer(order, nowTime, isPre, past)
 		btn.isPre = true
 	else
 		btn.duration = active[order].duration
-		btn.isPre = flase
+		btn.isPre = false
 	end
+	
 	btn.start = nowTime - (past or 0)
+	if self.db.showcd then
+		btn.cd:Show()
+		btn.cd:SetCooldown(btn.start, active[order].cd)
+	end
+	btn:SetScript("OnUpdate", UpdateIcon)
+end
+
+function mod:RefreshTimer(order, nowTime)
+	local btn = self.bar[order]
+	if UnitAffectingCombat("player") == 1 then
+		btn.maxMultiplesFlag = 0
+	end
+	btn.duration = math.min(active[order].duration + math.max(btn.duration + btn.start - GetTime(), 0), active[order].duration * 1.3)
+	btn.start = nowTime
 	if self.db.showcd then
 		btn.cd:Show()
 		btn.cd:SetCooldown(btn.start, active[order].cd)
@@ -734,9 +711,14 @@ function mod:EndProcTest()
 end
 
 local atApplied
+local function getUnitTypeByGUID(guid)
+	--local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid)
+	local type = strsplit("-",guid)
+	return type 
+end
 function mod:COMBAT_LOG_EVENT_UNFILTERED(event, ...)
 	local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceFlags2, destGUID, destName, destFlags, destFlags2, spellId, spellName = select (1, ...)
-	if sourceGUID == UnitGUID("player") or (destGUID == UnitGUID("player") and hideCaster) then
+	if sourceGUID == UnitGUID("player") or (destGUID == UnitGUID("player") and (hideCaster or getUnitTypeByGUID(sourceGUID) == "Item")) then
 		--print(sourceFlags, sourceFlags2, sourceGUID, sourceName,destName,destFlags,event,spellName,spellId)
 		--self:log(spellName .. spellId)
 		--for mages' spell Alter Time
@@ -770,7 +752,13 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(event, ...)
 						--[[if v.id == 116 and event ~= "SPELL_CAST_START" then
 							return
 						else]]
-						self:StartTimer(k, GetTime())
+						if v.refreshable and self.bar[k].duration + self.bar[k].start > GetTime() then
+							if GetTime() - self.bar[k].start > 0.5 then 
+								self:RefreshTimer(k, GetTime())	
+							end							
+						else
+							self:StartTimer(k, GetTime())
+						end
 					end
 				end
 			end
