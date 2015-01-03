@@ -38,7 +38,7 @@ local function newProcTable()
 	return t
 end
 
-function mod:AddOption(name, keyName)
+function mod:AddSubOption(name, keyName)
 	return AceConfigDialog:AddToBlizOptions("ExtraCD", name, "ExtraCD", keyName)
 end
 
@@ -130,6 +130,13 @@ function mod:AddDataOption(spellId)
 				end,
 				set = function(info, value) db.ppm = tonumber(value) self:ResetAllIcons() end,
 				pattern = "^%d+$",
+			},
+			refreshable = {
+				type = "toggle",
+				name = L["Refreshable"],
+				desc = L["Check this if the buff is refreshable up to 130% normal duration."],
+				get = function() return db.refreshable end,
+				set = function(info, value) db.refreshable = value self:ResetAllIcons() end,
 			},
 			spellId = {
 				name = L["Spell ID"],
@@ -818,11 +825,10 @@ function mod:OnOptionCreate()
 	
 	self:AddDataToOptions()
 	
-	self:AddOption(L["General"], "general")
-	
-	self:AddOption(L["Advance"], "advance")
-	
-	self:AddOption(L["Profiles"], "profiles")
+	self.optionFrames = {}
+	self.optionFrames.general = AceConfigDialog:AddToBlizOptions("ExtraCD", "ExtraCD" , nil, "general")	
+	self.optionFrames.advance = self:AddSubOption(L["Advance"], "advance")
+	self.optionFrames.profiles = self:AddSubOption(L["Profiles"], "profiles")
 end
 
 function mod:AddDataToOptions()

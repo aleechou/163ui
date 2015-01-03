@@ -321,6 +321,7 @@ U1RegisterAddon("!!!163UI!!!", {
     },
     {
         text = L["小地图相关"], type = "text",
+        --[[
         {
             var = "changeClip",
             default = false,
@@ -330,6 +331,7 @@ U1RegisterAddon("!!!163UI!!!", {
                 CoreCall("ToggleMinimapBlips", v)
             end
         },
+        ]]
         {
             lower = true,
             text = L["收集全部小地图图标"],

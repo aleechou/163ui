@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+r172 | superk521 | 2015-01-01 13:20:25 +0000 (Thu, 01 Jan 2015) | 1 line
+Changed paths:
+   A /tags/1.3.4 (from /trunk:171)
+
+tag as v1.3.4
+------------------------------------------------------------------------
+r171 | superk521 | 2015-01-01 13:19:49 +0000 (Thu, 01 Jan 2015) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+1.fix a bug when input "/ecd", cannot show the option table
+2.add proc for 690&710 rings of the legendary quests
+------------------------------------------------------------------------
+r169 | superk521 | 2014-12-23 16:35:04 +0000 (Tue, 23 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+bug fix for scopes again
+------------------------------------------------------------------------
+r167 | superk521 | 2014-12-22 11:31:41 +0000 (Mon, 22 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ExtraCD.lua
+
+bug fix for scopes
+------------------------------------------------------------------------
+r165 | superk521 | 2014-12-21 15:40:41 +0000 (Sun, 21 Dec 2014) | 2 lines
+Changed paths:
+   M /trunk/ExtraCD.lua
+   M /trunk/Locales/enUS.lua
+   M /trunk/Locales/zhCN.lua
+   M /trunk/Locales/zhTW.lua
+   M /trunk/data.lua
+   M /trunk/options.lua
+
+1 update for range weapon enchant
+2 add "refreshable" option for custom cd's, it's used for buffs those can be refreshed up to 130% normal duration.  
+------------------------------------------------------------------------

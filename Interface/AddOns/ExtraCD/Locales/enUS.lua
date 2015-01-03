@@ -107,3 +107,7 @@ L["Modified rppm"] = true
 L["Show rppm modified by player stat and time since last proc(the number is capped by 6 out of combat)"] = true
 L["gem"] = true
 L["Scan and show player's special(legendary) gems"] = true
+
+-- WOD new
+L["Refreshable"] = true
+L["Check this if the buff is refreshable up to 130% normal duration."] = true

@@ -6,7 +6,7 @@
 ## Author: superk
 ## SavedVariables: ExtraCDDB
 ## Version: 1.3
-## X-Curse-Packaged-Version: 1.3.2
+## X-Curse-Packaged-Version: 1.3.4
 ## X-Curse-Project-Name: ExtraCD
 ## X-Curse-Project-ID: extracd
 ## X-Curse-Repository-ID: wow/extracd/mainline
@@ -22,4 +22,4 @@ options.lua
 ## Notes-zhCN: 天赋,物品和附魔内置冷却监视
 ## Notes-zhTW: 天賦,物品和附魔內置冷卻監視
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141204204606
+## X-163UI-Version: 2015010301

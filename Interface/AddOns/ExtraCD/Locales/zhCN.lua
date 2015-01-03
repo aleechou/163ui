@@ -114,3 +114,7 @@ L["Modified rppm"] = "修正后的RPPM"
 L["Show rppm modified by player stat and time since last proc(the number is capped by 6 out of combat)"] = "显示一个被玩家属性状态和距上次触发时间修正后的RPPM数值(在战斗外的该数值最大为6)"
 L["gem"] = "宝石"
 L["Scan and show player's special(legendary) gems"] = "检测并显示玩家的特殊(传说)宝石"
+
+-- WOD new
+L["Refreshable"] = "可刷新的"
+L["Check this if the buff is refreshable up to 130% normal duration."] = "如果这个buff可以被刷新到通常持续时间的130%,请勾选此项."
