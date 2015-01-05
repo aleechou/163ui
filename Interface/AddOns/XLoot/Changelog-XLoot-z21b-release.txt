@@ -1,0 +1,14 @@
+tag z21b-release
+fb8f0f12746791c454c3f856b3367561de13936d
+Xuerian <sky.shell@gmail.com>
+2015-01-01 11:58:17 -0500
+
+Autolooting and skinning fixes
+
+
+--------------------
+
+Xuerian:
+	- Frame: Fix partial stack autoloot logic
+	- Cleanup
+	- Skins: Remove ADD blend mode from skin gradients for now

@@ -1,0 +1,13 @@
+## Interface: 60000
+## Title: Meeting Stone
+## Title-zhCN: |cffff565e[网易]|r 集合石
+## Notes-zhCN: 帮助您更好的组建队伍
+## Version: 60000.07
+## SavedVariables: MEETINGSTONE_UI_DB
+## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+## X-WoWBox-Ver: 1
+Load.xml
+## X-Vendor: NetEase
+## X-163UI-Version: 20150105

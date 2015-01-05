@@ -183,7 +183,7 @@ do
 		g:SetTexture[[Interface\ChatFrame\ChatFrameBackground]]
 		g:SetPoint('TOPLEFT', 3, -3)
 		g:SetPoint('BOTTOMRIGHT', -3, 3)
-		g:SetBlendMode'ADD'
+		-- g:SetBlendMode'ADD'
 		frame.SetGradientColor = SetGradientColor
 		frame:SetGradientColor(unpack(g_color))		
 	end

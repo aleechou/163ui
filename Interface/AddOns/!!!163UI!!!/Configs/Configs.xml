@@ -131,6 +131,7 @@
 	<include file="..\..\MasterPlan\CfgMasterPlan.lua"/>
 	<include file="..\..\MasterPlan\CfgTomTom.lua"/>
 	<include file="..\..\BetterPowerBarAlt\CfgBetterPowerBarAlt.lua"/>
+	<Include file="..\..\MeetingStone\CfgMeetingStone.lua"/>
 	
     <Include file="..\..\JSHB\CfgJSHB.lua"/>
     <Include file="..\..\Bartender4\CfgBartender4.lua"/>

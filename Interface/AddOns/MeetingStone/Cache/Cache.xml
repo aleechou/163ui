@@ -1,0 +1,8 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="Activity.lua" />
+  <Script file="CurrentActivity.lua" />
+  <Script file="Applicant.lua" />
+  <Script file="DataCache.lua" />
+  <Script file="ServerDataCache.lua" />
+</Ui>

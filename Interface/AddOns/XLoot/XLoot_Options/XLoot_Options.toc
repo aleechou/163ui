@@ -1,10 +1,10 @@
 ﻿## Interface: 60000
 ## Title: XLoot Options
 ## Notes: Configuration interface for XLoot
-## Version: z21-release
+## Version: z21b-release
 ## Author: Xuerian
 ## X-Category: Inventory
-## X-Curse-Packaged-Version: z21-release
+## X-Curse-Packaged-Version: z21b-release
 ## X-Curse-Project-Name: XLoot
 ## X-Curse-Project-ID: xloot
 ## X-Curse-Repository-ID: wow/xloot/mainline

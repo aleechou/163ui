@@ -11,7 +11,7 @@
 			handled = true
 			dostuff()
 		end
-		XLootButtonOnClick(row, button, handled)
+		XLootButtonOnClick_Orig(row, button, handled)
 	end
 --]]---------------------------------------
 
@@ -953,10 +953,9 @@ function XLootFrame:Update(in_options)
 
 						-- Fits with existing items?
 						else
-							local cur = GetItemCount(link)
-							if cur > 0 then
+							local partial = GetItemCount(link) % itemStackCount
+							if partial > 0 then
 								-- local stack = select(8, GetItemInfo(name))
-								local partial = cur % itemStackCount
 								if partial + quantity < itemStackCount then
 									LootSlot(slot)
 									looted = true
