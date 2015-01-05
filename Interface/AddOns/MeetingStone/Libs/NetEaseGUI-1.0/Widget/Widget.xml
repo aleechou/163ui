@@ -1,0 +1,29 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="ScrollBar.lua" />
+  <Script file="ScrollFrame.lua" />
+  <Script file="ItemButton.lua" />
+  <Script file="EditBox.lua" />
+  <Script file="ClearButton.lua" />
+  <Script file="InputBox.lua" />
+  <Script file="SearchBox.lua" />
+  <Script file="InTabButton.lua" />
+  <Script file="BottomTabButton.lua" />
+  <Script file="CheckBox.lua" />
+  <Script file="Panel.lua" />
+  <Script file="TitleWidget.lua" />
+  <Script file="DropMenuItem.lua" />
+  <Script file="DropMenu.lua" />
+  <Script file="Dropdown.lua" />
+  <Script file="TitlePanel.lua" />
+  <Script file="QRCodeWidget.lua" />
+  <Script file="SortButton.lua" />
+  <Script file="DataGridViewGridItem.lua" />
+  <Script file="SummaryHtml.lua" />
+  <Script file="InTabPanel.lua" />
+  <Script file="TitleButton.lua" />
+  <Script file="Feedback.lua" />
+  <Script file="AlphaFlash.lua" />
+  <Script file="VerticalLine.lua" />
+  <Script file="PanelBlocker.lua" />
+</Ui>

@@ -1,0 +1,12 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Script file="MainPanel.lua" />
+  <Script file="BrowsePanel.lua" />
+  <Script file="ManagerPanel.lua" />
+  <Script file="CreatePanel.lua" />
+  <Script file="ApplicantPanel.lua" />
+  <Script file="DataBroker.lua" />
+  <Script file="ExchangePanel.lua" />
+  <Script file="MallPanel.lua" />
+  <Script file="RewardPanel.lua" />
+</Ui>

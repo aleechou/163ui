@@ -1,0 +1,15 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Include file="Template.xml" />
+  <Script file="BrowseItem.lua" />
+  <Script file="MemberDisplay.lua" />
+  <Script file="SummaryGrid.lua" />
+  <Script file="OperationGrid.lua" />
+  <Script file="RoleItem.lua" />
+  <Script file="RefreshButton.lua" />
+  <Script file="ApplicantItem.lua" />
+  <Script file="Button.lua" />
+  <Script file="MallCategoryItem.lua" />
+  <Script file="MallItem.lua" />
+  <Script file="Cover.lua" />
+</Ui>

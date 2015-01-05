@@ -10,9 +10,7 @@
         "!!!163UI.3dcodecmd!!!-src",
         "TinyTip",
 		
-		"GarrisonCommander",
-
-
+		
         "BossesKilled" ,
         "ButtonFacade" 
 
@@ -23,6 +21,7 @@
         , "---- 6.0 以后不再需要的插件 ----"
         , "NewbieAssistant"
         , "ReforgeLite"
+		, "RaidBuilder"
 
 
         , "---- 以下是在 6.0 中暂不支持的插件（有些可以精简掉了） ----"
