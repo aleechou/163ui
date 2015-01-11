@@ -48,4 +48,4 @@ DBM-InfoFrame.lua
 ## Title-zhCN:|cffffd200Deadly Boss Mods|r |cff69ccf0核心|r
 ## Title-zhTW:|cffffd200Deadly Boss Mods|r |cff69ccf0核心|r
 ## X-Vendor: NetEase
-## X-163UI-Version: 2015011101
+## X-163UI-Version: 20150111115128

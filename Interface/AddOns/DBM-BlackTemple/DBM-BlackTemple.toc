@@ -29,3 +29,6 @@ EssenceOfSouls.lua
 Shahraz.lua
 IllidariCouncil.lua
 Illidan.lua
+
+
+## X-163UI-Version: 20150111115128

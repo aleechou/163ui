@@ -32,3 +32,6 @@ GarajalTheSpiritbinder.lua
 SpiritKings.lua
 Elegon.lua
 WillofEmperor.lua
+
+
+## X-163UI-Version: 20150111115128

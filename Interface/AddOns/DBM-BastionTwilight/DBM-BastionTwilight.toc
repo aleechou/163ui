@@ -32,3 +32,6 @@ AscendantCouncil.lua
 Chogall.lua
 Sinestra.lua
 BoTTrash.lua
+
+
+## X-163UI-Version: 20150111115128

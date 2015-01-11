@@ -17,4 +17,4 @@ RaidAchievement_CataRaidsbosses.lua
 ## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
 ## Title: |cff880303[网易有爱]|r 成就助手 [大灾变团队]
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141025105004
+## X-163UI-Version: 20150111115128

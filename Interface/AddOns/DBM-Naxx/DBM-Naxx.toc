@@ -49,3 +49,6 @@ MilitaryQuarter\Gothik.lua
 MilitaryQuarter\Horsemen.lua
 FrostwyrmLair\Sapphiron.lua
 FrostwyrmLair\Kel'Thuzad.lua
+
+
+## X-163UI-Version: 20150111115128

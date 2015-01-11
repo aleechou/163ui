@@ -26,3 +26,6 @@ localization.kr.lua
 localization.es.lua
 localization.cn.lua
 Malygos.lua
+
+
+## X-163UI-Version: 20150111115128

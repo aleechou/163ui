@@ -94,3 +94,6 @@ MagistersTerrace\Selin.lua
 MagistersTerrace\Vexallus.lua
 MagistersTerrace\Delrissa.lua
 MagistersTerrace\Kael'thas.lua
+
+
+## X-163UI-Version: 20150111115128

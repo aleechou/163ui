@@ -68,4 +68,4 @@ Arenas\Arenas.lua
 ## Notes-zhCN: 
 ## Notes-zhTW: 
 ## X-Vendor: NetEase
-## X-163UI-Version: 2014123101
+## X-163UI-Version: 20150111115128
