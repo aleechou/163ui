@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Gehennas", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 549 $"):sub(12, -3))
 mod:SetCreatureID(12259)--, 11661
@@ -55,7 +54,6 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 19717 and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnRoF:Show()
-		Yike:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

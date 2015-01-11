@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1185, "DBM-Party-WoD", 1, 547)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12037 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12307 $"):sub(12, -3))
 mod:SetCreatureID(75839)--Soul Construct
 mod:SetEncounterID(1686)
 mod:SetZone()
@@ -45,7 +45,7 @@ function mod:ShieldTarget(targetname, uId)
 		yellHolyShield:Yell()
 	else
 		if self.Options.ShieldArrow then
-			DBM.Arrow:ShowRunTo(uId, 3, 3, 9)
+			DBM.Arrow:ShowRunTo(uId, 3, 9)
 		end
 		voiceHolyShield:Schedule(3, "findshield")
 	end

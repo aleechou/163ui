@@ -1,25 +1,19 @@
-﻿local mod	= DBM:NewMod(691, "DBM-Pandaria", nil, 322)	-- 322 = Pandaria/Outdoor I assume
+local mod	= DBM:NewMod(691, "DBM-Pandaria", nil, 322)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11120 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 3 $"):sub(12, -3))
 mod:SetCreatureID(60491)
 mod:SetReCombatTime(20)
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetMinSyncRevision(10466)
 mod:SetZone()
 
-mod:RegisterCombat("combat")
+mod:RegisterCombat("combat_yell", L.Pull)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
+	"SPELL_CAST_START 119488 119622",
+	"SPELL_AURA_APPLIED 119622 119626",
+	"SPELL_AURA_REMOVED 119626 119488",
 	"UNIT_AURA player"
-)
-
-mod:RegisterEvents(
-	"CHAT_MSG_MONSTER_YELL"
 )
 
 local warnUnleashedWrath		= mod:NewSpellAnnounce(119488, 3)--Big aoe damage aura when at 100 rage
@@ -36,49 +30,13 @@ local timerUnleashedWrath		= mod:NewBuffActiveTimer(24, 119488, nil, mod:IsTank(
 
 mod:AddBoolOption("RangeFrame", true)--For Mind control spreading.
 mod:AddBoolOption("SetIconOnMC", true)
+mod:AddReadyCheckOption(32099, false)
 
-local yellTriggered = false
-
-local warnpreMCTargets = {}
-local warnMCTargets = {}
-local mcTargetIcons = {}
-local mcIcon = 8
 local bitterThought = GetSpellInfo(119601)
 local playerMCed = false
 
-mod:AddBoolOption("HudMAP", true, "sound")
-local DBMHudMap = DBMHudMap
-local free = DBMHudMap.free
-local function register(e)	
-	DBMHudMap:RegisterEncounterMarker(e)
-	return e
-end
-local MCMarkers = {}
-
 local function debuffFilter(uId)
 	return UnitDebuff(uId, GetSpellInfo(119622))
-end
-
-local function removeIcon(target)
-	for i,j in ipairs(mcTargetIcons) do
-		if j == target then
-			table.remove(mcTargetIcons, i)
-			mod:SetIcon(target, 0)
-		end
-	end
-end
-
-do
-	local function sortByGroup(v1, v2)
-		return DBM:GetRaidSubgroup(DBM:GetUnitFullName(v1)) < DBM:GetRaidSubgroup(DBM:GetUnitFullName(v2))
-	end
-	function mod:SetMCIcons()
-		table.sort(mcTargetIcons, sortByGroup)
-		for i, v in ipairs(mcTargetIcons) do
-			self:SetIcon(v, mcIcon)
-			mcIcon = mcIcon - 1
-		end
-	end
 end
 
 function mod:updateRangeFrame()
@@ -90,27 +48,8 @@ function mod:updateRangeFrame()
 	end
 end
 
-local function showpreMC()
-	mod:updateRangeFrame()
-	warnGrowingAnger:Show(table.concat(warnpreMCTargets, "<, >"))
-	table.wipe(warnpreMCTargets)
-	mcIcon = 8
-end
-
-local function showMC()
-	warnAggressiveBehavior:Show(table.concat(warnMCTargets, "<, >"))
-	table.wipe(warnMCTargets)
-	if mod.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
-
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart(delay, yellTriggered)
 	playerMCed = false
-	table.wipe(warnpreMCTargets)
-	table.wipe(warnMCTargets)
-	table.wipe(MCMarkers)
-	mcIcon = 8
 	if yellTriggered then
 		timerUnleashedWrathCD:Start(-delay)
 		timerGrowingAngerCD:Start(-delay)
@@ -122,83 +61,50 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	playerMCed = false
-	table.wipe(warnpreMCTargets)
-	table.wipe(warnMCTargets)
-	yellTriggered = false
-	if self.Options.HudMAP then
-		DBMHudMap:FreeEncounterMarkers()
-	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 119488 then
+	local spellId = args.spellId
+	if spellId == 119488 then
 		warnUnleashedWrath:Show()
 		specWarnUnleashedWrath:Show()
-		sndWOP:Schedule(2, "aesoon") --AE
 		timerUnleashedWrath:Start()
-	elseif args.spellId == 119622 then
+	elseif spellId == 119622 then
 		timerGrowingAngerCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 119622 then
-		warnpreMCTargets[#warnpreMCTargets + 1] = args.destName
+	local spellId = args.spellId
+	if spellId == 119622 then
+		warnGrowingAnger:CombinedShow(1.2, args.destName)
+		self:updateRangeFrame()
 		if self.Options.SetIconOnMC then--Set icons on first debuff to get an earlier spread out.
-			local targetUnitID = DBM:GetRaidUnitId(args.destName)
-			--Added to fix a bug with duplicate entries of same person in icon table more than once
-			local foundDuplicate = false
-			for i = #mcTargetIcons, 1, -1 do
-				if mcTargetIcons[i].targetUnitID then--make sure they aren't in table before inserting into table again. (not sure why this happens in LFR but it does, probably someone really high ping that cranked latency check way up)
-					foundDuplicate = true
-				end
-			end
-			if not foundDuplicate then
-				table.insert(mcTargetIcons, targetUnitID)
-			end
-			self:UnscheduleMethod("SetMCIcons")
-			if self:LatencyCheck() then
-				self:ScheduleMethod(1.2, "SetMCIcons")
-			end
+			self:SetSortedIcon(1.2, args.destName, 8, 3, true)
 		end
 		if args:IsPlayer() then
 			specWarnGrowingAnger:Show()
-			sndWOP:Play("findmc") --心控
-			sndWOP:Schedule(1.5, "runout")
-			sndWOP:Schedule(3.5, "countthree")
-			sndWOP:Schedule(4.5, "counttwo")
-			sndWOP:Schedule(5.5, "countone")
 		end
-		self:Unschedule(showpreMC)
-		if #warnpreMCTargets >= 3 then
-			showpreMC()
-		else
-			self:Schedule(1.2, showpreMC)
-		end
-		if self.Options.HudMAP then
-			MCMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 5, nil, 0, 1, 0, 1):Appear():RegisterForAlerts():Rotate(360, 6))
-		end
-	elseif args.spellId == 119626 then
+	elseif spellId == 119626 then
 		--Maybe add in function to update icons here in case of a spread that results in more then the original 3 getting the final MC debuff.
-		warnMCTargets[#warnMCTargets + 1] = args.destName
-		self:Unschedule(showMC)
-		self:Schedule(2.5, showMC)--These can be vastly spread out, not even need to use 3, depends on what more data says. As well as spread failures.
-		if MCMarkers[args.destName] then
-			MCMarkers[args.destName] = free(MCMarkers[args.destName])
-		end
+		warnAggressiveBehavior:CombinedShow(2.5, args.destName)
 		if args:IsPlayer() then
 			playerMCed = true
+		end
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Hide()
 		end
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 119626 and self.Options.SetIconOnMC then--Remove them after the MCs break.
-		removeIcon(DBM:GetRaidUnitId(args.destName))
+	local spellId = args.spellId
+	if spellId == 119626 and self.Options.SetIconOnMC then--Remove them after the MCs break.
+		self:SetIcon(args.destName, 0)
 		if args:IsPlayer() then
 			playerMCed = false
 		end
-	elseif args.spellId == 119488 then
+	elseif spellId == 119488 then
 		timerUnleashedWrathCD:Start()
 	end
 end
@@ -206,15 +112,5 @@ end
 function mod:UNIT_AURA(uId)
 	if UnitDebuff("player", bitterThought) and self:AntiSpam(2) and not playerMCed then
 		specWarnBitterThoughts:Show()
-		sndWOP:Play("runaway")--快躲開
-	end
-end
-
-function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Pull and not self:IsInCombat() then
-		if self:GetCIDFromGUID(UnitGUID("target")) == 60491 or self:GetCIDFromGUID(UnitGUID("targettarget")) == 60491 then--Whole zone gets yell, so lets not engage combat off yell unless he is our target (or the target of our target for healers)
-			yellTriggered = true
-			DBM:StartCombat(self, 0)
-		end
 	end
 end

@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod("DSTrash", "DBM-DragonSoul")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 72 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 131 $"):sub(12, -3))
 mod:SetModelID(39378)
 mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START",
+	"SPELL_CAST_START 107597",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED_UNFILTERED"
 )
@@ -21,6 +21,7 @@ local yellBoulder			= mod:NewYell(107597)
 local specWarnFlames		= mod:NewSpecialWarningMove(105579)
 
 local timerDrakes			= mod:NewTimer(253, "TimerDrakes", 61248)
+local timerRoleplay			= mod:NewTimer(45.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime")
 --Leave this timer for now, I think this is the same.
 --it still seems timed, just ends earlier if you kill 15 drakes.
 --No one knew it ended at 24 drakes before hotfix because timer always expired before any raid hit 24, so we often just saw the hard capped event limit.
@@ -66,12 +67,7 @@ function mod:BoulderTarget(sGUID)
 		else
 			local uId = DBM:GetRaidUnitId(targetname)
 			if uId then
-				local x, y = GetPlayerMapPosition(uId)
-				if x == 0 and y == 0 then
-					SetMapToCurrentZone()
-					x, y = GetPlayerMapPosition(uId)
-				end
-				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				local inRange = DBM.RangeCheck:GetDistance("player", uId)
 				if inRange and inRange < 6 then--Guessed, unknown, spelltip isn't informative.
 					specWarnBoulderNear:Show(targetname)
 				end
@@ -122,37 +118,28 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---	"<18.7> CHAT_MSG_MONSTER_YELL#It is good to see you again, Alexstrasza. I have been busy in my absence.#Deathwing###Notarget##0#0##0#3731##0#false", -- [1]
---	"<271.9> [UNIT_SPELLCAST_SUCCEEDED] Twilight Assaulter:Possible Target<nil>:target:Twilight Escape::0:109904", -- [11926]
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.UltraxionTrash or msg:find(L.UltraxionTrash) then
-		if not drakeRunning then
-			self:RegisterShortTermEvents(
-				"SPELL_DAMAGE",
-				"SPELL_MISSED",
-				"SWING_DAMAGE",
-				"SPELL_PERIODIC_DAMAGE",
-				"RANGE_DAMAGE",
-				"UNIT_DIED"
-			)
-			drakeRunning = true
-		end
-		table.wipe(drakeguid)
-		drakesCount = 15--Reset drakes here still in case no one running current dbm is targeting thrall
-		timerDrakes:Start(253, GetSpellInfo(109904))--^^
-	-- timer still remains even combat starts. so, cancels manually. (Probably for someone who wasn't present for first drake dying.
+	if msg == L.firstRP or msg:find(L.firstRP) then
+		self:SendSync("FirstRP")
+		--"<72.3 19:45:35> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#It is good to see you again, Alexstrasza. I have been busy in my absence.#Deathwing###Omegal##0#0##0#175#nil#0#false#false", -- [18]
+		--"<104.6 19:46:08> [UNIT_SPELLCAST_SUCCEEDED] Thrall [[target:Ward of Earth::0:108161]]", -- [26]
+	elseif msg == L.UltraxionTrash or msg:find(L.UltraxionTrash) then
+		self:SendSync("SecondRP")
 	elseif msg == L.UltraxionTrashEnded or msg:find(L.UltraxionTrashEnded) then
 		self:SendSync("SkyrimEnded")
 	end
 end
 
---	"<101.5> CHAT_MSG_MONSTER_YELL#It is good to see you again, Alexstrasza. I have been busy in my absence.#Deathwing###Vounelli##0#0##0#3093##0#false", -- [1]
---	"<133.3> [UNIT_SPELLCAST_SUCCEEDED] Thrall:Possible Target<nil>:target:Ward of Earth::0:108161", -- [875]
 function mod:UNIT_SPELLCAST_SUCCEEDED_UNFILTERED(uId, _, _, _, spellId)
 	if spellId == 108161 then--Thrall starting drake event, comes later then yell but is only event that triggers after a wipe to this trash.
 		self:SendSync("Skyrim")
 	elseif spellId == 109904 then
 		self:SendSync("SkyrimEnded")
+	--"<1.5 19:44:24> [UNIT_SPELLCAST_SUCCEEDED] Kalecgos [[target:Dialogue::0:109644]]", -- [1]
+	--"<1.7 19:44:25> [CHAT_MSG_MONSTER_SAY] CHAT_MSG_MONSTER_SAY#Praise the Titans, they have returned!#Ysera the Awakened###Ysera the Awakened##0#0##0#165#nil#0#false#false", -- [2]
+	--"<42.4 19:45:05> [CHAT_MSG_MONSTER_SAY] CHAT_MSG_MONSTER_SAY#Speak to me when you are ready to begin.#Thrall###Thrall##0#0##0#171#nil#0#false#false", -- [15]
+	elseif spellId == 109644 then--First RP after Eye of Eternity
+		self:SendSync("FirstRP")
 	end
 end
 
@@ -176,5 +163,24 @@ function mod:OnSync(msg, GUID)
 		drakeRunning = false
 		self:UnregisterShortTermEvents()
 		timerDrakes:Cancel()
+	elseif msg == "FirstRP" then
+		timerRoleplay:Start()
+	elseif msg == "SecondRP" then
+		timerRoleplay:Start(32)
+		if not drakeRunning then
+			self:RegisterShortTermEvents(
+				"SPELL_DAMAGE",
+				"SPELL_MISSED",
+				"SWING_DAMAGE",
+				"SPELL_PERIODIC_DAMAGE",
+				"RANGE_DAMAGE",
+				"UNIT_DIED"
+			)
+			drakeRunning = true
+		end
+		table.wipe(drakeguid)
+		drakesCount = 15--Reset drakes here still in case no one running current dbm is targeting thrall
+		timerDrakes:Start(253, GetSpellInfo(109904))--^^
+		--timer still remains even combat starts. so, cancels manually. (Probably for someone who wasn't present for first drake dying.
 	end
 end

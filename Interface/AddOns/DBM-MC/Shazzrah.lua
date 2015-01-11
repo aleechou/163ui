@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Shazzrah", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 549 $"):sub(12, -3))
 mod:SetCreatureID(12264)
@@ -37,9 +36,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnGrounding:Show(args.destName)
 		specWarnGrounding:Show(args.destName)
 		timerGrounding:Start()
-		if mod:IsMagicDispeller() then
-			Yike:Play("dispelboss")
-		end
 	end
 end
 
@@ -59,8 +55,5 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnGate:Show()
 		specWarnGate:Show()
 		timerGateCD:Start()
-		if mod:IsTank() then
-			Yike:Play("tauntboss")
-		end
 	end
 end

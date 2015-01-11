@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1210, "DBM-Party-WoD", 5, 556)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12207 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12314 $"):sub(12, -3))
 mod:SetCreatureID(83846)
 mod:SetEncounterID(1756)
 mod:SetZone()
@@ -32,8 +32,8 @@ local voiceColossalBlow			= mod:NewVoice(169179)
 local voiceGenesis				= mod:NewVoice(169613)
 
 function mod:OnCombatStart(delay)
-	timerFontOfLife:Start(-delay)
-	timerGenesisCD:Start(25-delay)
+	--timerFontOfLife:Start(-delay)
+	--timerGenesisCD:Start(25-delay)
 end
 
 function mod:SPELL_CAST_START(args)

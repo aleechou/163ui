@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod("Lanathel", "DBM-Icecrown", 3)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 58 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetCreatureID(37955)
 mod:SetEncounterID(1103)
 mod:SetModelID(31165)
@@ -39,19 +38,15 @@ local specWarnSwarmingShadows		= mod:NewSpecialWarningMove(71266)
 local specWarnMindConrolled			= mod:NewSpecialWarningTarget(70923, mod:IsTank())
 
 local timerNextInciteTerror			= mod:NewNextTimer(100, 73070)
-local timerFirstBite				= mod:NewCastTimer(15, 70946)
+local timerFirstBite				= mod:NewNextTimer(15, 70946)
 local timerNextPactDarkfallen		= mod:NewNextTimer(30.5, 71340)
 local timerNextSwarmingShadows		= mod:NewNextTimer(30.5, 71266)
 local timerInciteTerror				= mod:NewBuffActiveTimer(4, 73070)
 local timerBloodBolt				= mod:NewBuffActiveTimer(6, 71772)
-local timerBloodThirst				= mod:NewBuffActiveTimer(10, 70877)
-local timerEssenceoftheBloodQueen	= mod:NewBuffActiveTimer(60, 70867)
+local timerBloodThirst				= mod:NewBuffFadesTimer(10, 70877)
+local timerEssenceoftheBloodQueen	= mod:NewBuffFadesTimer(60, 70867)
 
 local berserkTimer					= mod:NewBerserkTimer(320)
-
-
-
---local soundSwarmingShadows = mod:NewSound(71266)
 
 mod:AddBoolOption("BloodMirrorIcon", false)
 mod:AddBoolOption("SwarmingShadowsIcon", true)
@@ -81,10 +76,8 @@ function mod:OnCombatStart(delay)
 	end
 	if self:IsDifficulty("normal10", "heroic10") then
 		timerNextInciteTerror:Start(124-delay)
-		sndWOP:Schedule(115, "ptwo")
 	else
 		timerNextInciteTerror:Start(127-delay)
-		sndWOP:Schedule(120, "ptwo")
 	end
 end
 
@@ -99,7 +92,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		pactTargets[#pactTargets + 1] = args.destName
 		if args:IsPlayer() then
 			specWarnPactDarkfallen:Show()
-			sndWOP:Play("followline")
 		end
 		if self.Options.SetIconOnDarkFallen then--Debuff doesn't actually last 30 seconds
 			self:SetIcon(args.destName, pactIcons, 28)--it lasts forever, but if you still have it after 28 seconds
@@ -121,7 +113,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnBloodthirst:Show()
 			yellBloodthirst:Yell()
-			sndWOP:Play("bitethem")
 			if self:IsDifficulty("normal10", "heroic10") then
 				timerBloodThirst:Start(15)--15 seconds on 10 man
 			else
@@ -135,11 +126,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self:IsDifficulty("normal10", "heroic10") then
 				timerEssenceoftheBloodQueen:Start(75)--75 seconds on 10 man
 				warnBloodthirstSoon:Schedule(70)
-				sndWOP:Schedule(70, "bitesoon")
 			else
 				timerEssenceoftheBloodQueen:Start()--60 seconds on 25 man
 				warnBloodthirstSoon:Schedule(55)
-				sndWOP:Schedule(55, "bitesoon")
 			end
 		end
 	elseif args.spellId == 70923 then
@@ -175,10 +164,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerNextPactDarkfallen:Start(25)--and the Pact timer also reset -5 seconds
 		if self:IsDifficulty("normal10", "heroic10") then
 			timerNextInciteTerror:Start(120)--120 seconds in between first and second on 10 man
-			sndWOP:Schedule(112, "ptwo")
 		else
 			timerNextInciteTerror:Start()--100 seconds in between first and second on 25 man
-			sndWOP:Schedule(92, "ptwo")
 		end
 	end
 end
@@ -192,20 +179,17 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 71277 and destGUID == UnitGUID("player") and self:AntiSpam() then		--Swarn of Shadows (spell damage, you're standing in it.)
 		specWarnSwarmingShadows:Show()
-		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg:match(L.SwarmingShadows) then
-		local target = DBM:GetFullNameByShortName(target)
+		local target = DBM:GetUnitFullName(target)
 		warnSwarmingShadows:Show(target)
 		timerNextSwarmingShadows:Start()
 		if target == UnitName("player") then
 			specWarnSwarmingShadows:Show()
---			soundSwarmingShadows:Play()
-			sndWOP:Play("keepmove")
 		end
 		if self.Options.SwarmingShadowsIcon then
 			self:SetIcon(target, 8, 6)

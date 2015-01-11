@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(655, "DBM-Party-MoP", 4, 303)
+local mod	= DBM:NewMod(655, "DBM-Party-MoP", 4, 303)
 local L		= mod:GetLocalizedStrings()
-local sndWOP = mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
 mod:SetCreatureID(56906)
+mod:SetEncounterID(1397)
 mod:SetZone()
 mod:SetUsedIcons(8)
 
@@ -36,19 +36,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 107268 then
 		warnSabotage:Show(args.destName)
 		timerSabotage:Start(args.destName)
-		sndWOP:Schedule(1.5, "countfour")
-		sndWOP:Schedule(2.5, "countthree")
-		sndWOP:Schedule(3.5, "counttwo")
-		sndWOP:Schedule(4.5, "countone")
 		timerSabotageCD:Start()
 		if self.Options.IconOnSabotage then
 			self:SetIcon(args.destName, 8)
 		end
 		if args:IsPlayer() then
 			specWarnSabotage:Show()
-			sndWOP:Play("runout")--跑開人群
 		else
-			sndWOP:Play("bombsoon")--準備炸彈
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if uId then
 				local inRange = DBM.RangeCheck:GetDistance("player", uId)

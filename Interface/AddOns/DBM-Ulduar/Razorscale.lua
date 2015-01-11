@@ -1,19 +1,21 @@
 local mod	= DBM:NewMod("Razorscale", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 7 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(33186)
+mod:SetEncounterID(1139)
 mod:SetModelID(28787)
-mod:SetUsedIcons(8)
 
 mod:RegisterCombat("yell", L.YellAir)
 
 mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
+)
+
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
-	"CHAT_MSG_MONSTER_YELL",
 	"RAID_BOSS_EMOTE"
 )
 
@@ -30,8 +32,6 @@ local timerTurret2					= mod:NewTimer(73, "timerTurret2", 48642)
 local timerTurret3					= mod:NewTimer(93, "timerTurret3", 48642)
 local timerTurret4					= mod:NewTimer(113, "timerTurret4", 48642)
 local timerGrounded                 = mod:NewTimer(45, "timerGrounded")
-
-
 
 local combattime = 0
 
@@ -53,10 +53,9 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 64733 or spellId == 64704) and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnDevouringFlame:Show()
-		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

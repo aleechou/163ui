@@ -1,10 +1,7 @@
-﻿local mod	= DBM:NewMod(831, "DBM-ThroneofThunder", nil, 362)
+local mod	= DBM:NewMod(831, "DBM-ThroneofThunder", nil, 362)
 local L		= mod:GetLocalizedStrings()
--- BH ADD
-local sndWOP	= mod:SoundMM("SoundWOP")
-local sndStrike	= mod:SoundMM("SoundStrike")
 
-mod:SetRevision(("$Revision: 11506 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
 mod:SetCreatureID(69473)--69888
 mod:SetEncounterID(1580, 1581)
 mod:SetZone()
@@ -13,286 +10,151 @@ mod:SetUsedIcons(2, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
+	"SPELL_CAST_START 138338 138339 138321",
+	"SPELL_CAST_SUCCESS 138333 138334",
+	"SPELL_AURA_APPLIED 138331 138332 139318 138372 138288 138297 138308",
+	"SPELL_AURA_REMOVED 138297 138308",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
+	"UNIT_POWER_FREQUENT boss1",
 	"CHAT_MSG_MONSTER_YELL"
 )
+mod.onlyHeroic = true
 
-local warnMurderousStrike						= mod:NewSpellAnnounce(138333, 4, nil, mod:IsTank() or mod:IsHealer())--Tank (think thrash, like sha. Gains buff, uses on next melee attack)
-local specWarnMurderousStrike					= mod:NewSpecialWarningSpell(138333, mod:IsTank() or mod:IsHealer(), nil, nil, 3)
-local timerMurderousStrikeCD					= mod:NewCDTimer(33, 138333, nil, mod:IsTank())
+--Anima
+local warnAnima					= mod:NewSpellAnnounce(138331, 2)--Switched to anima phase
+local warnMurderousStrike		= mod:NewSpellAnnounce(138333, 4, nil, mod:IsTank() or mod:IsHealer())--Tank (think thrash, like sha. Gains buff, uses on next melee attack)
+local warnUnstableAnima			= mod:NewTargetAnnounce(138288)--May range frame needed. 138295 is damage id according to wowhead, 138288 is debuff cast.
+local warnSanguineHorror		= mod:NewCountAnnounce(138338, 3, nil, not mod:IsHealer())--Adds
+--Vita
+local warnVita					= mod:NewSpellAnnounce(138332, 2)--Switched to vita phase
+local warnFatalStrike			= mod:NewSpellAnnounce(138334, 4, nil, mod:IsTank() or mod:IsHealer())--Tank (think thrash, like sha. Gains buff, uses on next melee attack)
+local warnUnstableVita			= mod:NewTargetAnnounce(138297, 4)
+local warnCracklingStalker		= mod:NewCountAnnounce(138339, 3, nil, not mod:IsHealer())--Adds
+--General
+local warnCreation				= mod:NewCountAnnounce(138321, 3)--aka Orbs/Balls
+local warnPhase2				= mod:NewPhaseAnnounce(2, 2)
+local warnCallEssence			= mod:NewSpellAnnounce(139040, 4, 139071)
 
-local warnFatalStrike							= mod:NewSpellAnnounce(138334, 4, nil, mod:IsTank() or mod:IsHealer())--Tank (think thrash, like sha. Gains buff, uses on next melee attack)
-local specWarnFatalStrike						= mod:NewSpecialWarningSpell(138334, mod:IsTank() or mod:IsHealer(), nil, nil, 3)--Do all need to switch? how dangerous adds? more info needed
-local timerFatalStrikeCD						= mod:NewCDTimer(10, 138334, nil, mod:IsTank())
+--Anima
+local specWarnMurderousStrike	= mod:NewSpecialWarningSpell(138333, mod:IsTank(), nil, nil, 3)
+local specWarnSanguineHorror	= mod:NewSpecialWarningSwitch(138338, mod:IsRangedDps() or mod:IsTank())
+local specWarnAninaSensitive	= mod:NewSpecialWarningYou(139318)
+local specWarnUnstableAnima		= mod:NewSpecialWarningYou(138288, nil, nil, nil, 3)
+local yellUnstableAnima			= mod:NewYell(138288, nil, false)
+--Vita
+local specWarnFatalStrike		= mod:NewSpecialWarningSpell(138334, mod:IsTank(), nil, nil, 3)
+local specWarnCracklingStalker	= mod:NewSpecialWarningSwitch(138339, mod:IsRangedDps() or mod:IsTank())
+local specWarnVitaSensitive		= mod:NewSpecialWarningYou(138372)
+local specWarnUnstablVita		= mod:NewSpecialWarningYou(138297, nil, nil, nil, 3)
+local specWarnUnstablVitaJump	= mod:NewSpecialWarning("specWarnUnstablVitaJump", nil, nil, nil, 1)
+local yellUnstableVita			= mod:NewYell(138297, nil, false)
+--General
+local specWarnCreation			= mod:NewSpecialWarningSpell(138321, mod:IsDps())
+local specWarnCallEssence		= mod:NewSpecialWarningSpell(139040, mod:IsDps())
 
-local warnMaterialsofCreation					= mod:NewCountAnnounce(138321, 3)
-local specWarnMaterialsofCreation				= mod:NewSpecialWarningCount(138321)
-local timerMaterialsofCreationCD				= mod:NewCDCountTimer(31, 138321)
-local specWarnCreationSwitch					= mod:NewSpecialWarningSwitch(138321, not mod:IsHealer())
+--Anima
+local timerMurderousStrikeCD	= mod:NewCDTimer(33, 138333, nil, mod:IsTank())--Gains 3 power per second roughly and uses special at 100 Poewr
+--local timerSanguineHorrorCD	= mod:NewCDCountTimer(41, 138338)--CD not known. No one fights him in anima phase for more than like 1-2 seconds.
+--Vita
+local timerFatalStrikeCD		= mod:NewCDTimer(10, 138334, nil, mod:IsTank())--Gains 10 power per second roughly and uses special at 100 Poewr
+local timerUnstableVita			= mod:NewTargetTimer(12, 138297)
+local timerCracklingStalkerCD	= mod:NewCDCountTimer(41, 138339)
+--General
+local timerCreationCD			= mod:NewCDCountTimer(32.5, 138321)--32.5-35second variation
+local timerCallEssenceCD		= mod:NewNextTimer(15.5, 139040)
 
-local warnUnstableVita							= mod:NewTargetAnnounce(138297, 4)
-local timerUnstableVita							= mod:NewTargetTimer(12, 138297)
-local yellUnstableVita							= mod:NewYell(138297)
-local specWarnUnstableVita						= mod:NewSpecialWarningYou(138297)
-local specWarnUnstableVitaOther					= mod:NewSpecialWarningTarget(138297, false)
-local specWarnVitarun							= mod:NewSpecialWarning("specWarnVitarun")
+local countdownUnstableVita		= mod:NewCountdownFades(11, 138297)
+local countdownCreation			= mod:NewCountdown(32.5, 138321, nil, nil, nil, nil, true)
 
-local warnUnstableAnima							= mod:NewTargetAnnounce(138288, 4)
-local timerUnstableAnima						= mod:NewTimer(15, "timerAnima", 138295)
-local specWarnUnstableAnima						= mod:NewSpecialWarningYou(138288)
-local specWarnUnstableAnimaOther				= mod:NewSpecialWarningTarget(138288)
-
-local warnPhase2								= mod:NewPhaseAnnounce(2, 2)
-
-local warnCallEssence							= mod:NewSpellAnnounce(139040, 4, 139071)
-local specWarnCallEssence						= mod:NewSpecialWarningSpell(139040, mod:IsDps())
-local timerCallEssenceCD						= mod:NewNextTimer(15.5, 139040)
-
-local warnRuinBolt								= mod:NewSpellAnnounce(139087)
-
-local warnSummonSanguineHorror					= mod:NewCountAnnounce(138338, 3)
-local specWarnSummonSanguineHorror				= mod:NewSpecialWarningSpell(138338)
-local timerSummonSanguineHorror					= mod:NewCDCountTimer(40, 138338)
-
-local warnSummonCracklingStalker				= mod:NewCountAnnounce(138339, 3)
-local specWarnSummonCracklingStalker			= mod:NewSpecialWarningSpell(138339)
-local timerSummonCracklingStalker				= mod:NewCDCountTimer(40, 138339)
-
-local warnImbuedwithAnima						= mod:NewSpellAnnounce(138331, 3)
-local warnImbuedwithVita						= mod:NewSpellAnnounce(138332, 3)
-
-local warnUnleashedVita							= mod:NewSpellAnnounce(138330, 3)
-local specWarnUnleashedVita						= mod:NewSpecialWarningSpell(138330)
-
-local UnstableAnimatarget = nil
-local UnstableAnimaMarkers = {}
-local mylightnum = 0
-local lightcount = 0
-local lastlightnum = 0
-local combat = false
+mod:AddBoolOption("SetIconsOnVita", false)--Both the vita target and furthest from vita target
+local ShowedBigWigsmessage		= mod:NewSpellAnnounce("ShowedBigWigsmessage", 1, nil, false, false)--Dummy option
 
 local creationCount = 0
 local stalkerCount = 0
 local horrorCount = 0
 local lastStalker = 0
+local playerWithVita = nil
+local furthestDistancePlayer = nil
+local lastfurthestDistancePlayer = nil
+local playerName = UnitName("player")
+local vitaName = GetSpellInfo(138332)
+local animaName = GetSpellInfo(138331)
 
-mod:AddBoolOption("SetIconOnUnstableVita", true)
-mod:AddBoolOption("SetIconOnUnstableAnima", true)
-
-mod:AddBoolOption("HudMAPAnima", false, "sound")
-mod:AddBoolOption("HudMAP", true, "sound")
-
-mod:AddDropdownOption("optDD", {"nodd", "DD1", "DD2", "DD3", "DD4", "DD5"}, "nodd", "sound")
-mod:AddEditBoxOption("lightnumber", 50, "0", "sound")
-mod:AddEditBoxOption("lastnumber", 50, "0", "sound")
-
-local DBMHudMap = DBMHudMap
-local free = DBMHudMap.free
-local function register(e)	
-	DBMHudMap:RegisterEncounterMarker(e)
-	return e
-end
-local FireMarkers = {}
-
-local function LoopUnstableAnima()
-	mod:Unschedule(LoopUnstableAnima)
-	timerUnstableAnima:Start()
-	mod:Schedule(15, LoopUnstableAnima)
-	if mod.Options.HudMAPAnima and UnstableAnimatarget then
-		UnstableAnimaMarkers[UnstableAnimatarget] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", UnstableAnimatarget, 8, 5, 1, 1, 0, 0.8):Appear():RegisterForAlerts():Rotate(360, 5.5):SetAlertColor(0, 0, 1, 0.5))
+function mod:checkVitaDistance()
+	if not playerWithVita then--Failsafe more or less. This shouldn't happen unless combat log lag fires events out of order
+		self:UnscheduleMethod("checkVitaDistance")--So terminate loop (anima phase or phase 2 probably)
+		return
 	end
+	local furthestDistance = 0
+	for uId in DBM:GetGroupMembers() do
+		if not UnitIsUnit(uId, playerWithVita) then
+			local distance = DBM.RangeCheck:GetDistance(uId, playerWithVita)
+			if distance > furthestDistance then
+				furthestDistance = distance
+				furthestDistancePlayer = uId
+			end
+		end
+	end
+	if furthestDistancePlayer ~= lastfurthestDistancePlayer then--Set icon throttling to avoid hitting blizzard throttle
+		SetRaidTarget(furthestDistancePlayer, 2)
+		lastfurthestDistancePlayer = furthestDistancePlayer
+	end
+	self:ScheduleMethod(1, "checkVitaDistance")
 end
 
 function mod:OnCombatStart(delay)
-	table.wipe(UnstableAnimaMarkers)
-	lightcount = 0
-	combat = true
 	creationCount = 0
 	stalkerCount = 0
 	horrorCount = 0
-	table.wipe(FireMarkers)
-	mylightnum = tonumber(mod.Options.lightnumber)
-	lastlightnum = tonumber(mod.Options.lastnumber)
-	timerMaterialsofCreationCD:Start(10-delay, 1)
-end
-
-function mod:OnCombatEnd()
-	combat = false
-	if self.Options.HudMAP or self.Options.HudMAPAnima then
-		DBMHudMap:FreeEncounterMarkers()
-	end
+	timerCreationCD:Start(11-delay, 1)
+	countdownCreation:Start(11-delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 138321 then --造物材料
-		creationCount = creationCount + 1
-		warnMaterialsofCreation:Show(creationCount)
-		specWarnMaterialsofCreation:Show(creationCount)
-		timerMaterialsofCreationCD:Start(nil, creationCount+1)
-		specWarnCreationSwitch:Schedule(2)
-		sndWOP:Play("ex_tt_zbdq") --準備打球
-		self:Schedule(1, function()
-			DBM:PlayCountSound(creationCount)
-		end)
-	elseif args.spellId == 138338 then --召喚恐魔
+	local spellId = args.spellId
+	if spellId == 138338 then
 		horrorCount = horrorCount + 1
-		warnSummonSanguineHorror:Show(horrorCount)
-		specWarnSummonSanguineHorror:Show()
-		timerSummonSanguineHorror:Start(nil, horrorCount+1)
-		if self:AntiSpam(2, 1) then
-			if not mod:IsHealer() then
-				sndWOP:Play("ex_tt_xgkd") --小怪快打
-			end
-		end
-	elseif args.spellId == 138339 then --召唤龟裂追踪者
+		warnSanguineHorror:Show(horrorCount)
+		specWarnSanguineHorror:Show()
+--		timerSanguineHorrorCD:Start(nil, horrorCount+1)
+	elseif spellId == 138339 then
 		lastStalker = GetTime()
 		stalkerCount = stalkerCount + 1
-		warnSummonCracklingStalker:Show(stalkerCount)
-		specWarnSummonCracklingStalker:Show()
-		timerSummonCracklingStalker:Start(nil, stalkerCount+1)
-		if self:AntiSpam(2, 1) then
-			if not mod:IsHealer() then
-				sndWOP:Play("ex_tt_xgkd")
-			end
-		end
-	elseif args.spellId == 139087 then --毀滅箭
-		warnRuinBolt:Show()
+		warnCracklingStalker:Show(stalkerCount)
+		specWarnCracklingStalker:Show()
+		timerCracklingStalkerCD:Start(nil, stalkerCount+1)
+	elseif spellId == 138321 then
+		creationCount = creationCount + 1
+		warnCreation:Show(creationCount)
+		specWarnCreation:Show()
+		timerCreationCD:Start(nil, creationCount+1)
+		countdownCreation:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 138330 then
-		warnUnleashedVita:Show()
-		specWarnUnleashedVita:Show()
-	elseif args.spellId == 138333 then
+	local spellId = args.spellId
+	if spellId == 138333 then
 		warnMurderousStrike:Show()
-		specWarnMurderousStrike:Show()
-	elseif args.spellId == 138334 then
+		timerMurderousStrikeCD:Start()
+	elseif spellId == 138334 then
 		warnFatalStrike:Show()
-		specWarnFatalStrike:Show()
 		timerFatalStrikeCD:Start()
-		if mod:IsTank() or mod:IsHealer() then
-			sndStrike:Schedule(7, "countthree")
-			sndStrike:Schedule(8, "counttwo")
-			sndStrike:Schedule(9, "countone")
-		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 138297 then --不穩定的生命
-		lightcount = lightcount + 1
-		warnUnstableVita:Show(args.destName)
-		if self:IsDifficulty("heroic25") then
-			timerUnstableVita:Start(5, args.destName)
-		else
-			timerUnstableVita:Start(args.destName)
-		end
-		if args:IsPlayer() then
-			yellUnstableVita:Yell()
-			specWarnUnstableVita:Show()
-			sndWOP:Play("ex_tt_smdn") --生命點你
-			sndWOP:Schedule(0.5, "movesoon")  --快跑位
-			if self:IsDifficulty("heroic25") then
-				sndWOP:Schedule(1, "countfour")
-				sndWOP:Schedule(2, "countthree")
-				sndWOP:Schedule(3, "counttwo")
-				sndWOP:Schedule(4, "countone")
-			else
-				sndWOP:Schedule(7, "countfive")
-				sndWOP:Schedule(8, "countfour")
-				sndWOP:Schedule(9, "countthree")
-				sndWOP:Schedule(10, "counttwo")
-				sndWOP:Schedule(11, "countone")
-			end
-		else
-			specWarnUnstableVitaOther:Show(args.destName)
-		end
-		if self.Options.HudMAP then
-			local spelltext = GetSpellInfo(138297)
-			FireMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", args.destName, 3, 10, 1, 0 ,0 ,0.8):SetLabel(spelltext))
-		end
-		if self.Options.SetIconOnUnstableVita then
-			self:SetIcon(args.destName, 5)
-		end
-		if (lightcount == mylightnum) and (mod.Options.optDD == "nodd") then
-			if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-				mod:SendSync("Bench1")
-			else
-				specWarnVitarun:Show()
-				sndWOP:Play("movesoon")
-			end
-		end
-		if lightcount == lastlightnum then lightcount = 0 end
-	elseif args.spellId == 138308 then --生命轉移
-		lightcount = lightcount + 1
-		warnUnstableVita:Show(args.destName)
-		if self:IsDifficulty("heroic25") then
-			timerUnstableVita:Start(5, args.destName)
-		else
-			timerUnstableVita:Start(args.destName)
-		end
-		if args:IsPlayer() then
-			yellUnstableVita:Yell()
-			specWarnUnstableVita:Show()
-			if self:IsDifficulty("heroic25") then
-				sndWOP:Schedule(1, "countfour")
-				sndWOP:Schedule(2, "countthree")
-				sndWOP:Schedule(3, "counttwo")
-				sndWOP:Schedule(4, "countone")
-			else
-				sndWOP:Schedule(7, "countfive")
-				sndWOP:Schedule(8, "countfour")
-				sndWOP:Schedule(9, "countthree")
-				sndWOP:Schedule(10, "counttwo")
-				sndWOP:Schedule(11, "countone")
-			end
-		else
-			specWarnUnstableVitaOther:Show(args.destName)
-		end
-		if self.Options.HudMAP then
-			local spelltext = GetSpellInfo(138308)
-			FireMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", args.destName, 3, 10, 1, 0 ,0 ,0.8):SetLabel(spelltext))
-		end
-		if self.Options.SetIconOnUnstableVita then
-			self:SetIcon(args.destName, 5)
-		end
-		if (lightcount == mylightnum) and (mod.Options.optDD == "nodd") then
-			if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-				mod:SendSync("Bench1")
-			else
-				specWarnVitarun:Show()
-				sndWOP:Play("movesoon")
-			end
-		end
-		if lightcount == lastlightnum then lightcount = 0 end
-	elseif args.spellId == 138288 then --不稳定的心能
-		warnUnstableAnima:Show(args.destName)
-		UnstableAnimatarget = args.destName
-		if args:IsPlayer() then
-			specWarnUnstableAnima:Show()
-			sndWOP:Play("ex_tt_xndn") --心能點你
-		else
-			specWarnUnstableAnimaOther:Show(args.destName)
-		end
-		if self.Options.SetIconOnUnstableAnima then
-			self:SetIcon(args.destName, 2)
-		end
-		LoopUnstableAnima()
-	elseif args.spellId == 138331 then --灌输心能
+	local spellId = args.spellId
+	if spellId == 138331 then--Anima Phase
 		local radenPower = UnitPower("boss1")
 		radenPower = radenPower / 3
 		horrorCount = 0
 		timerFatalStrikeCD:Cancel()
-		timerSummonCracklingStalker:Cancel()
+		timerCracklingStalkerCD:Cancel()
 		timerMurderousStrikeCD:Start(33-radenPower)
-		warnImbuedwithAnima:Show()
-		timerSummonSanguineHorror:Start(10, 1)
-	elseif args.spellId == 138332 then --灌输生命
+		--timerSanguineHorrorCD:Start(nil, 1)
+		warnAnima:Show()
+	elseif spellId == 138332 then--Vita Phase
 		local radenPower = UnitPower("boss1")
 		radenPower = radenPower / 10
 		local stalkerupdate = nil
@@ -302,38 +164,69 @@ function mod:SPELL_AURA_APPLIED(args)
 			stalkerupdate = 8
 		end
 		stalkerCount = 0
-		warnImbuedwithVita:Show()
+		warnVita:Show()
 		timerMurderousStrikeCD:Cancel()
-		timerSummonSanguineHorror:Cancel()
-		timerSummonCracklingStalker:Start(stalkerupdate, 1)
+		--timerSanguineHorrorCD:Cancel()
+		timerCracklingStalkerCD:Start(stalkerupdate, 1)
 		timerFatalStrikeCD:Start(10-radenPower)
-		if mod:IsTank() or mod:IsHealer() then
-			sndStrike:Schedule(10-radenPower-3, "countthree")
-			sndStrike:Schedule(10-radenPower-2, "counttwo")
-			sndStrike:Schedule(10-radenPower-1, "countone")
+	elseif spellId == 139318 then--Anima Sensitivity
+		if args:IsPlayer() then
+			specWarnAninaSensitive:Show()
+		end
+	elseif spellId == 138372 then--Vita Sensitivity
+		if args:IsPlayer() then
+			specWarnVitaSensitive:Show()
+		end
+	elseif spellId == 138288 then--Unstable Anima
+		warnUnstableAnima:Show(args.destName)
+		if args:IsPlayer() then
+			specWarnUnstableAnima:Show()
+			yellUnstableAnima:Yell()
+		end
+	elseif args:IsSpellID(138297, 138308) then--Unstable Vita (138297 cast, 138308 jump)
+		if self.Options.SetIconsOnVita then
+			playerWithVita = DBM:GetRaidUnitId(args.destName)
+			self:SetIcon(args.destName, 1)
+		end
+		warnUnstableVita:Show(args.destName)
+		if self:IsDifficulty("heroic25") then
+			timerUnstableVita:Start(5, args.destName)
+			self:ScheduleMethod(1, "checkVitaDistance")--4 seconds before
+		else
+			timerUnstableVita:Start(args.destName)
+			self:ScheduleMethod(8, "checkVitaDistance")--4 seconds before
+		end
+		if args:IsPlayer() then
+			if spellId == 138297 then
+				specWarnUnstablVita:Show()
+			else
+				specWarnUnstablVitaJump:Show()
+			end
+			yellUnstableVita:Yell()
+			if self:IsDifficulty("heroic25") then
+				countdownUnstableVita:Start(5)
+			else
+				countdownUnstableVita:Start()
+			end
 		end
 	end
 end
 
+--[[
+"<19.8 01:50:11> [CLEU] SPELL_AURA_APPLIED#false#0xF1310F61000091B6#Ra-den#2632#0#0x0300000007B5931A#Takeaseat#1297#0#138297#Unstable Vita#8#DEBUFF", -- [2245]
+"<31.8 01:50:23> [CLEU] SPELL_AURA_REMOVED#false#0xF1310F61000091B6#Ra-den#68168#0#0x0300000007B5931A#Takeaseat#1297#0#138297#Unstable Vita#8#DEBUFF", -- [3753]--SPELL_AURA_REMOVED should fire before jump
+"<31.9 01:50:23> [CLEU] SPELL_AURA_APPLIED#false#0x0300000007B5931A#Takeaseat#1297#0#0x0300000007764949#Ryukou#1300#0#138308#Unstable Vita#8#DEBUFF", -- [3769]--Code may break if it doesn't but i've seen no indicatino this should happen
+--]]
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(138297, 138308) then
-		if self.Options.SetIconOnUnstableVita then
-			self:SetIcon(args.destName, 0)
-		end
-		if args:IsPlayer() then
-			sndWOP:Play("runin") --快回人群
-		end
-		if FireMarkers[args.destName] then
-			FireMarkers[args.destName] = free(FireMarkers[args.destName])
-		end
-	elseif args.spellId == 138288 then
-		self:Unschedule(LoopUnstableAnima)
-		timerUnstableAnima:Cancel()
-		if self.Options.SetIconOnUnstableAnima then
-			self:SetIcon(args.destName, 0)
-		end
+	local spellId = args.spellId
+	if args:IsSpellID(138297, 138308) and self.Options.SetIconsOnVita then--Unstable Vita
+		self:UnscheduleMethod("checkVitaDistance")
+		playerWithVita = nil
+		self:SetIcon(args.destName, 0)
+		SetRaidTarget(furthestDistancePlayer, 0)--Use SetRaidTarget because seticon expects targetname, no point in changing it twice for no reason
 	end
 end
+
 --"<299.6 01:54:51> CHAT_MSG_MONSTER_YELL#You still think victory possible? Fools!#Ra-den#####0#0##0#298#nil#0#false#false",
 --"<299.9 01:54:51> [UNIT_SPELLCAST_SUCCEEDED] Ra-den [boss1:Ruin::0:139073]
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
@@ -341,55 +234,25 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnCallEssence:Show()
 		specWarnCallEssence:Show()
 		timerCallEssenceCD:Start()
+		countdownCreation:Start(15)
 	elseif spellId == 139073 then--Phase 2 (the Ruin Trigger)
-		self:SendSync("Phase2")
+		warnPhase2:Show()
+		timerCracklingStalkerCD:Cancel()
+--		timerSanguineHorrorCD:Cancel()
+		timerMurderousStrikeCD:Cancel()
+		timerFatalStrikeCD:Cancel()
+		timerCreationCD:Cancel()
+		countdownCreation:Cancel()
+		timerCallEssenceCD:Start()
 	end
 end
 
-function mod:OnSync(msg, msg2)
-	if not combat then return end
-	if msg == "Bench1" and mod.Options.optDD == "DD1" then
-		if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-			mod:SendSync("Bench2")
-		else
-			specWarnVitarun:Show()
-			sndWOP:Play("movesoon")
-		end
-	elseif msg == "Bench2" and mod.Options.optDD == "DD2" then
-		if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-			mod:SendSync("Bench3")
-		else
-			specWarnVitarun:Show()
-			sndWOP:Play("movesoon")
-		end
-	elseif msg == "Bench3" and mod.Options.optDD == "DD3" then
-		if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-			mod:SendSync("Bench4")
-		else
-			specWarnVitarun:Show()
-			sndWOP:Play("movesoon")
-		end
-	elseif msg == "Bench4" and mod.Options.optDD == "DD4" then
-		if UnitDebuff("player", GetSpellInfo(138372)) or UnitIsDeadOrGhost("player") then
-			mod:SendSync("Bench5")
-		else
-			specWarnVitarun:Show()
-			sndWOP:Play("movesoon")
-		end
-	elseif msg == "Bench5" and mod.Options.optDD == "DD5" then
-		if (not UnitDebuff("player", GetSpellInfo(138372))) and (not UnitIsDeadOrGhost("player")) then
-			specWarnVitarun:Show()
-			sndWOP:Play("movesoon")
-		end
-	elseif msg == "Phase2" then
-		warnPhase2:Show()
-		sndWOP:Play("ptwo")
-		timerSummonCracklingStalker:Cancel()
-		timerSummonSanguineHorror:Cancel()
-		timerMurderousStrikeCD:Cancel()
-		timerFatalStrikeCD:Cancel()
-		timerMaterialsofCreationCD:Cancel()
-		timerCallEssenceCD:Start()
+function mod:UNIT_POWER_FREQUENT(uId)
+	local power = UnitPower(uId)
+	if power == 80 and UnitBuff(uId, vitaName) and self:AntiSpam(3, 1) then
+		specWarnFatalStrike:Show()
+	elseif power == 95 and UnitBuff(uId, animaName) and self:AntiSpam(3, 2) then
+		specWarnMurderousStrike:Show()
 	end
 end
 
@@ -398,4 +261,3 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		DBM:EndCombat(self)
 	end
 end
-

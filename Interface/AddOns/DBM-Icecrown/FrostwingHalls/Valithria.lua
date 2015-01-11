@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod("Valithria", "DBM-Icecrown", 4)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 58 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 122 $"):sub(12, -3))
 mod:SetCreatureID(36789)
 mod:SetEncounterID(1098)
 mod:SetModelID(30318)
@@ -13,11 +12,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED",
+	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
 	"SPELL_DAMAGE",
 	"SPELL_MISSED",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_TARGET_UNFILTERED"
+	"UNIT_TARGET_UNFILTERED",
+	"UNIT_SPELLCAST_START boss1"
 )
 
 local warnCorrosion			= mod:NewStackAnnounce(70751, 2, nil, false)
@@ -33,14 +34,13 @@ local specWarnManaVoid		= mod:NewSpecialWarningMove(71179)
 
 local timerLayWaste			= mod:NewBuffActiveTimer(12, 69325)
 local timerNextPortal		= mod:NewCDTimer(46.5, 72483, nil)
-local timerPortalsOpen		= mod:NewTimer(10, "TimerPortalsOpen", 72483)
-local timerHealerBuff		= mod:NewBuffActiveTimer(40, 70873)
+local timerPortalsOpen		= mod:NewTimer(15, "TimerPortalsOpen", 72483)
+local timerPortalsClose		= mod:NewTimer(10, "TimerPortalsClose", 72483)
+local timerHealerBuff		= mod:NewBuffFadesTimer(40, 70873)
 local timerGutSpray			= mod:NewTargetTimer(12, 70633, nil, mod:IsTank() or mod:IsHealer())
 local timerCorrosion		= mod:NewTargetTimer(6, 70751, nil, false)
 local timerBlazingSkeleton	= mod:NewTimer(50, "TimerBlazingSkeleton", 17204)
 local timerAbom				= mod:NewTimer(50, "TimerAbom", 43392)--Experimental
-
-
 
 local berserkTimer		= mod:NewBerserkTimer(420)
 
@@ -58,10 +58,8 @@ local function warnGutSprayTargets()
 end
 
 function mod:StartBlazingSkeletonTimer()
-	sndWOP:Cancel("bonesoon")
 	timerBlazingSkeleton:Start(BlazingSkeletonTimer)
 	self:ScheduleMethod(BlazingSkeletonTimer, "StartBlazingSkeletonTimer")
-	sndWOP:Schedule(BlazingSkeletonTimer-4, "bonesoon")
 	if BlazingSkeletonTimer >= 10 then--Keep it from dropping below 5
 		BlazingSkeletonTimer = BlazingSkeletonTimer - 5
 	end
@@ -100,19 +98,18 @@ function mod:OnCombatStart(delay)
 	self:ScheduleMethod(23-delay, "StartAbomTimer")--First abom is 23-25 seconds after combat start, cause of variation, it may cause slightly off timer rest of fight
 	timerBlazingSkeleton:Start(-delay)
 	timerAbom:Start(23-delay)
-	sndWOP:Schedule(46-delay, "bonesoon")
 	table.wipe(GutSprayTargets)
 	blazingSkeleton = nil
 end
 
 function mod:Portals()
 	warnPortal:Show()
-	sndWOP:Schedule(10, "indoorsoon")
 	warnPortalOpen:Cancel()
 	timerPortalsOpen:Cancel()
 	warnPortalSoon:Cancel()
 	warnPortalOpen:Schedule(15)
-	timerPortalsOpen:Schedule(15)
+	timerPortalsOpen:Start()
+	timerPortalsClose:Schedule(15)
 	warnPortalSoon:Schedule(41)
 	timerNextPortal:Start()
 	self:UnscheduleMethod("Portals")
@@ -134,7 +131,7 @@ function mod:TrySetTarget()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(70754, 71748, 72023, 72024) then--Fireball (its the first spell Blazing SKeleton's cast upon spawning)
+	if args.spellId == 70754 then--Fireball (its the first spell Blazing SKeleton's cast upon spawning)
 		if self.Options.SetIconOnBlazingSkeleton then
 			blazingSkeleton = args.sourceGUID
 			self:TrySetTarget()
@@ -143,7 +140,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(71179, 71741) then--Mana Void
+	if args.spellId == 71179 then--Mana Void
 		warnManaVoid:Show()
 	elseif args.spellId == 70588 and self:AntiSpam(5, 1) then--Supression
 		warnSupression:Show(args.destName)
@@ -151,44 +148,34 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(70633, 71283, 72025, 72026) and args:IsDestTypePlayer() then--Gut Spray
+	if args.spellId == 70633 and args:IsDestTypePlayer() then--Gut Spray
 		GutSprayTargets[#GutSprayTargets + 1] = args.destName
 		timerGutSpray:Start(args.destName)
 		self:Unschedule(warnGutSprayTargets)
 		self:Schedule(0.3, warnGutSprayTargets)
-	elseif args:IsSpellID(70751, 71738, 72022, 72023) and args:IsDestTypePlayer() then--Corrosion
+	elseif args.spellId == 70751 and args:IsDestTypePlayer() then--Corrosion
 		warnCorrosion:Show(args.destName, args.amount or 1)
 		timerCorrosion:Start(args.destName)
-	elseif args:IsSpellID(69325, 71730) then--Lay Waste
+	elseif args.spellId == 69325 then--Lay Waste
 		specWarnLayWaste:Show()
 		timerLayWaste:Start()
-		sndWOP:Play("firebone")
-	elseif args:IsSpellID(70873, 71941) then	--Emerald Vigor/Twisted Nightmares (portal healers)
-		if args:IsPlayer() then
-			timerHealerBuff:Start()
-			sndWOP:Schedule(37, "countthree")
-			sndWOP:Schedule(38, "counttwo")
-			sndWOP:Schedule(39, "countone")
-		end
+	elseif args:IsSpellID(70873, 71941) and args:IsPlayer() then	--Emerald Vigor/Twisted Nightmares (portal healers)
+		timerHealerBuff:Start()
 	end
 end
-
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(70633, 71283, 72025, 72026) then--Gut Spray
+	if args.spellId == 70633 then--Gut Spray
 		timerGutSpray:Cancel(args.destName)
-	elseif args:IsSpellID(69325, 71730) then--Lay Waste
+	elseif args.spellId == 69325 then--Lay Waste
 		timerLayWaste:Cancel()
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
-	if (spellId == 71806 or spellId == 71743 or spellId == 72029 or spellId == 72030) and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then		-- Mana Void
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 71086 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then		-- Mana Void
 		specWarnManaVoid:Show()
-		if mod:IsManaUser() then
-			sndWOP:Play("runaway")
-		end
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -196,6 +183,12 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:UNIT_TARGET_UNFILTERED()
 	if blazingSkeleton then
 		self:TrySetTarget()
+	end
+end
+
+function mod:UNIT_SPELLCAST_START(uId, _, _, _, spellId)
+	if spellId == 71189 then
+		DBM:EndCombat(self)
 	end
 end
 
@@ -207,6 +200,7 @@ end
 
 function mod:OnSync(msg, arg)
 	if msg == "NightmarePortal" and self:IsInCombat() then
+		self:UnscheduleMethod("Portals")
 		self:Portals()
 	end
 end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Deathbringer", "DBM-Icecrown", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 131 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 167 $"):sub(12, -3))
 mod:SetCreatureID(37813)
 mod:SetEncounterID(1096)
 mod:SetModelID(30790)
@@ -83,7 +83,7 @@ function mod:OnCombatStart(delay)
 	warned_preFrenzy = false
 	boilingBloodIcon = 8
 	Mark = 0
-	last = 0
+	lastPower = 0
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(12)
 	end

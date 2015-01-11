@@ -480,7 +480,6 @@ L:SetWarningLocalization{
 	WarnBrainPortalSoon		= "3秒后 脑部传送门",
 	SpecWarnFervor			= "你中了萨拉的热情",
 	SpecWarnFervorCast		= "萨拉的热情正在对你施放",
-	SpecWarnMaladyNear		= "你附近的%s中了心灵疾病",
 	specWarnBrainPortalSoon		= "脑部传送门 即将出现"
 }
 
@@ -504,7 +503,6 @@ L:SetOptionLocalization{
 	NextPortal			= "为下一次传送门显示计时条",
 	SetIconOnFervorTarget		= "为萨拉的热情的目标设置标记",
 	ShowSaraHealth			= "显示萨拉在第1阶段的血量 (必须至少有一名团队成员设置首领为焦点目标)",
-	SpecWarnMaladyNear		= "当你附近的人中了心灵疾病时显示特别警报",
 	SetIconOnBrainLinkTarget		= "为$spell:63802的目标设置标记",
 	MaladyArrow			= "当你附近的人中了$spell:63881时显示DBM箭头"
 }

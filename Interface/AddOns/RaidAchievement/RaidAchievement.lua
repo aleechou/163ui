@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=6.009
+	raversion=6.011
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -1189,6 +1189,8 @@ print("|cff99ffffRaidAchievement|r - "..pseamodulenotload.." "..psealeftmenupand
 end
 end
 end
+
+--тут добавить рейды WoD
 
 --героики вотлк
 local idheroics={522,534,530,525,526,603,602,601,520,524,536,542,533}

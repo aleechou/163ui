@@ -1,89 +1,5 @@
 local L
 
----------------------------
---  Trash - Lower Spire  --
----------------------------
-L = DBM:GetModLocalization("LowerSpireTrash")
-
-L:SetGeneralLocalization{
-	name = "Lower Spire trash"
-}
-
-L:SetWarningLocalization{
-	SpecWarnTrap		= "Trap Activated! - Deathbound Ward released"--creatureid 37007
-}
-
-L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	SpecWarnTrap		= "Show special warning for trap activation",
-	SetIconOnDarkReckoning	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(69483),
-	SetIconOnDeathPlague	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(72865)
-}
-
-L:SetMiscLocalization{
-	WarderTrap1		= "Who... goes there...?",
-	WarderTrap2		= "I... awaken!",
-	WarderTrap3		= "The master's sanctum has been disturbed!"
-}
-
----------------------------
---  Trash - Plagueworks  --
----------------------------
-L = DBM:GetModLocalization("PlagueworksTrash")
-
-L:SetGeneralLocalization{
-	name = "Plagueworks Trash"
-}
-
-L:SetWarningLocalization{
-	SpecWarnTrap	= "Trap Activated! - Vengeful Fleshreapers incoming"--creatureid 37038
-}
-
-L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	SpecWarnTrap	= "Show special warning for trap activation"
-}
-
-L:SetMiscLocalization{
-	FleshreaperTrap1		= "Quickly! We'll ambush them from behind!",
-	FleshreaperTrap2		= "You... cannot escape us!",
-	FleshreaperTrap3		= "The living... here?!"
-}
-
----------------------------
---  Trash - Crimson Hall  --
----------------------------
-L = DBM:GetModLocalization("CrimsonHallTrash")
-
-L:SetGeneralLocalization{
-	name = "Crimson Hall Trash"
-}
-
-L:SetOptionLocalization{
-	BloodMirrorIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(70451)
-}
-
----------------------------
---  Trash - Frostwing Hall  --
----------------------------
-L = DBM:GetModLocalization("FrostwingHallTrash")
-
-L:SetGeneralLocalization{
-	name = "Frostwing Hall Trash"
-}
-
-L:SetWarningLocalization{
-	SpecWarnGosaEvent	= "Sindragosa gauntlet started!"
-}
-
-L:SetOptionLocalization{
-	SpecWarnGosaEvent	= "Show special warning for Sindragosa gauntlet event"
-}
-
-L:SetMiscLocalization{
-	SindragosaEvent		= "You must not approach the Frost Queen. Quickly, stop them!"
-}
-
 ----------------------
 --  Lord Marrowgar  --
 ----------------------
@@ -94,7 +10,6 @@ L:SetGeneralLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	SetIconOnImpale		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(69062)
 }
 
@@ -117,7 +32,6 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarnAddsSoon				= "Show pre-warning for adds spawning",
 	WarnReanimating				= "Show warning when an add is being revived",	-- Reanimated Adherent/Fanatic spawning
 	TimerAdds					= "Show timer for new adds",
@@ -148,26 +62,23 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	TimerCombatStart	= "Show time for start of combat",
 	WarnAddsSoon		= "Show pre-warning for adds spawning",
 	TimerAdds			= "Show timer for new adds"
 }
 
 L:SetTimerLocalization{
-	TimerCombatStart	= "Combat starts",
 	TimerAdds			= "New adds"
 }
 
 L:SetMiscLocalization{
 	PullAlliance	= "Fire up the engines! We got a meetin' with destiny, lads!",
-	KillAlliance	= "Don't say I didn't warn ya, scoundrels! Onward, brothers and sisters!",
 	PullHorde		= "Rise up, sons and daughters of the Horde! Today we battle a hated enemy of the Horde! LOK'TAR OGAR!",
-	KillHorde		= "The Alliance falter. Onward to the Lich King!",
 	AddsAlliance	= "Reavers, Sergeants, attack",
 	AddsHorde		= "Marines, Sergeants, attack",
 	MageAlliance	= "We're taking hull damage, get a battle-mage out here to shut down those cannons!",
-	MageHorde		= "We're taking hull damage, get a sorcerer out here to shut down those cannons!"
+	MageHorde		= "We're taking hull damage, get a sorcerer out here to shut down those cannons!",
+	Hammer 			= "Orgrim's Hammer",
+	Skybreaker		= "Skybreaker"
 }
 
 -----------------------------
@@ -179,13 +90,7 @@ L:SetGeneralLocalization{
 	name = "Deathbringer Saurfang"
 }
 
-L:SetTimerLocalization{
-	TimerCombatStart		= "Combat starts"
-}
-
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	TimerCombatStart		= "Show time for start of combat",
 	BoilingBloodIcons		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(72385),
 	RangeFrame				= "Show range frame (12 yards)",
 	RunePowerFrame			= "Show Boss Health + $spell:72371 bar",
@@ -193,7 +98,6 @@ L:SetOptionLocalization{
 }
 
 L:SetMiscLocalization{
-	RunePower			= "Blood Power",
 	PullAlliance		= "For every Horde soldier that you killed -- for every Alliance dog that fell, the Lich King's armies grew. Even now the val'kyr work to raise your fallen as Scourge.",
 	PullHorde			= "Kor'kron, move out! Champions, watch your backs. The Scourge have been..."
 }
@@ -208,7 +112,6 @@ L:SetGeneralLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	RangeFrame			= "Show range frame (8 yards)",
 	SetIconOnGasSpore	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(69279),
 	AnnounceSporeIcons	= "Announce icons for $spell:69279 targets to raid chat<br/>(requires raid leader)",
@@ -235,7 +138,6 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarnOozeSpawn				= "Show warning for Little Ooze spawning",
 	SpecWarnLittleOoze			= "Show special warning when you are attacked by Little Ooze",--creatureid 36897
 	RangeFrame					= "Show range frame (8 yards)",
@@ -258,7 +160,6 @@ L:SetGeneralLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	OozeAdhesiveIcon			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(70447),
 	GaseousBloatIcon			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(70672),
 	UnboundPlagueIcon			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(70911),
@@ -285,7 +186,6 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarnTargetSwitch		= "Show warning to switch targets",-- Warn when another Prince needs to be damaged
 	WarnTargetSwitchSoon	= "Show pre-warning to switch targets",-- Every ~47 secs, you have to dps a different Prince
 	TimerTargetSwitch		= "Show timer for target switch cooldown",
@@ -312,7 +212,6 @@ L:SetGeneralLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	SetIconOnDarkFallen		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(71340),
 	SwarmingShadowsIcon		= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(71266),
 	BloodMirrorIcon			= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(70838),
@@ -339,22 +238,21 @@ L:SetWarningLocalization{
 
 L:SetTimerLocalization{
 	TimerPortalsOpen		= "Portals open",
+	TimerPortalsClose		= "Portals close",
 	TimerBlazingSkeleton	= "Next Blazing Skeleton",
 	TimerAbom				= "Next Abomination"
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	SetIconOnBlazingSkeleton	= "Set icon on Blazing Skeleton (skull)",
 	WarnPortalOpen				= "Show warning when Nightmare Portals are opened up",
 	TimerPortalsOpen			= "Show timer when Nightmare Portals are opened up",
+	TimerPortalsClose			= "Show timer when Nightmare Portals are closed",
 	TimerBlazingSkeleton		= "Show timer for next Blazing Skeleton spawn",
 	TimerAbom					= "Show timer for next Gluttonous Abomination spawn (Experimental)"
 }
 
 L:SetMiscLocalization{
-	YellPull		= "Intruders have breached the inner sanctum. Hasten the destruction of the green dragon! Leave only bones and sinew for the reanimation!",
-	YellKill		= "I AM RENEWED! Ysera grant me the favor to lay these foul creatures to rest!",
 	YellPortals		= "I have opened a portal into the Dream. Your salvation lies within, heroes..."
 }
 
@@ -379,7 +277,6 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
 	WarnAirphase			= "Announce air phase",
 	WarnGroundphaseSoon		= "Show pre-warning for ground phase",
 	TimerNextAirphase		= "Show timer for next air phase",
@@ -419,15 +316,12 @@ L:SetWarningLocalization{
 }
 
 L:SetTimerLocalization{
-	TimerCombatStart	= "Combat starts",
 	TimerRoleplay		= "Roleplay",
 	PhaseTransition		= "Phase transition",
 	TimerNecroticPlagueCleanse = "Cleanse Necrotic Plague"
 }
 
 L:SetOptionLocalization{
-	SoundWOP = "Play Extra Warning Sound",
-	TimerCombatStart		= "Show timer for start of combat",
 	TimerRoleplay			= "Show timer for roleplay event",
 	WarnNecroticPlagueJump	= "Announce $spell:70337 jump targets",
 	TimerNecroticPlagueCleanse	= "Show timer to cleanse Necrotic Plague before<br/>the first tick",
@@ -452,4 +346,35 @@ L:SetMiscLocalization{
 	ValkGrabbed				= "Valkyr Shadowguard grabbed %s",
 	PlagueStackWarning		= "Warning: %s has %d stacks of Necrotic Plague",
 	AchievementCompleted	= ">> ACHIEVEMENT COMPLETE: %s has %d stacks of Necrotic Plague <<"
+}
+
+-------------
+--  Trash  --
+-------------
+L = DBM:GetModLocalization("ICCTrash")
+
+L:SetGeneralLocalization{
+	name = "Icecrown Trash"
+}
+
+L:SetWarningLocalization{
+	SpecWarnTrapL		= "Trap Activated! - Deathbound Ward released",
+	SpecWarnTrapP		= "Trap Activated! - Vengeful Fleshreapers incoming",
+	SpecWarnGosaEvent	= "Sindragosa gauntlet started!"
+}
+
+L:SetOptionLocalization{
+	SpecWarnTrapL		= "Show special warning for Deathbound Ward trap activation",
+	SpecWarnTrapP		= "Show special warning for engeful Fleshreapers trap activation",
+	SpecWarnGosaEvent	= "Show special warning for Sindragosa gauntlet event"
+}
+
+L:SetMiscLocalization{
+	WarderTrap1			= "Who... goes there...?",
+	WarderTrap2			= "I... awaken!",
+	WarderTrap3			= "The master's sanctum has been disturbed!",
+	FleshreaperTrap1	= "Quickly! We'll ambush them from behind!",
+	FleshreaperTrap2	= "You... cannot escape us!",
+	FleshreaperTrap3	= "The living... here?!",
+	SindragosaEvent		= "You must not approach the Frost Queen. Quickly, stop them!"
 }

@@ -1,15 +1,15 @@
 local mod	= DBM:NewMod("Auriaya", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 73 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 112 $"):sub(12, -3))
 
 mod:SetCreatureID(33515)--34014--Add this (kitties) to pull detection when it can be ignored in kill
+mod:SetEncounterID(1131)
 mod:SetModelID(28651)
 mod:RegisterCombat("combat")
 --mod:RegisterKill("kill", 33515)
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
@@ -61,7 +61,6 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(64678, 64389) then -- Sentinel Blast
 		specWarnBlast:Show()
-		sndWOP:Play("kickcast")
 	elseif args.spellId == 64386 then -- Terrifying Screech
 		warnFear:Show()
 		timerFear:Start()
@@ -118,7 +117,6 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 64459 or spellId == 64675) and destGUID == UnitGUID("player") and self:AntiSpam(3) then -- Feral Defender Void Zone
 		specWarnVoid:Show()
-		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

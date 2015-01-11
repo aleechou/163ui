@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod("Mimiron", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 73 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 181 $"):sub(12, -3))
 mod:SetCreatureID(33432)
+mod:SetEncounterID(1138)
+mod:DisableESCombatDetection()
 mod:SetModelID(28578)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 
@@ -11,10 +12,13 @@ mod:RegisterCombat("yell", L.YellPull)
 mod:RegisterCombat("yell", L.YellHardPull)
 
 mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
+)
+
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED",
-	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_AURA_REMOVED",
 	"UNIT_SPELLCAST_CHANNEL_STOP target focus",
 	"CHAT_MSG_LOOT",
@@ -27,16 +31,16 @@ local lootannounce				= mod:NewAnnounce("MagneticCore", 1, 64444)
 local warnBombSpawn				= mod:NewAnnounce("WarnBombSpawn", 3, 63811)
 local warnFrostBomb				= mod:NewSpellAnnounce(64623, 3)
 
-local warnShockBlast			= mod:NewSpecialWarning("WarningShockBlast", nil, false)
+local warnShockBlast			= mod:NewSpecialWarning("WarningShockBlast", nil, false, nil, 4)
 mod:AddBoolOption("ShockBlastWarningInP1", mod:IsMelee(), "announce")
 mod:AddBoolOption("ShockBlastWarningInP4", mod:IsMelee(), "announce")
-local warnDarkGlare				= mod:NewSpecialWarningSpell(63293)
+local warnDarkGlare				= mod:NewSpecialWarningSpell(63293, nil, nil, nil, 3)
 
 local enrage 					= mod:NewBerserkTimer(900)
 local timerHardmode				= mod:NewTimer(610, "TimerHardmode", 64582)
-local timerP1toP2				= mod:NewTimer(43, "TimeToPhase2", "Interface\\Icons\\Spell_Nature_WispSplode")
-local timerP2toP3				= mod:NewTimer(32, "TimeToPhase3", "Interface\\Icons\\Spell_Nature_WispSplode")
-local timerP3toP4				= mod:NewTimer(25, "TimeToPhase4", "Interface\\Icons\\Spell_Nature_WispSplode")
+local timerP1toP2				= mod:NewTimer(41.5, "TimeToPhase2", "Interface\\Icons\\Spell_Nature_WispSplode")
+local timerP2toP3				= mod:NewTimer(25, "TimeToPhase3", "Interface\\Icons\\Spell_Nature_WispSplode")
+local timerP3toP4				= mod:NewTimer(26.5, "TimeToPhase4", "Interface\\Icons\\Spell_Nature_WispSplode")
 local timerProximityMines		= mod:NewNextTimer(35, 63027)
 local timerShockBlast			= mod:NewCastTimer(63631)
 local timerSpinUp				= mod:NewCastTimer(4, 63414)
@@ -47,16 +51,13 @@ local timerPlasmaBlastCD		= mod:NewCDTimer(30, 64529)
 local timerShell				= mod:NewBuffActiveTimer(6, 63666)
 local timerFlameSuppressant		= mod:NewCastTimer(60, 64570)
 local timerNextFlameSuppressant	= mod:NewNextTimer(10, 65192)
-local timerNextFlames			= mod:NewNextTimer(27.5, 64566)
 local timerNextFrostBomb        = mod:NewNextTimer(30, 64623)
 local timerBombExplosion		= mod:NewCastTimer(15, 65333)
 
-
-
 mod:AddBoolOption("HealthFramePhase4", true)
 mod:AddBoolOption("AutoChangeLootToFFA", true)
-mod:AddBoolOption("SetIconOnNapalm", true)
-mod:AddBoolOption("SetIconOnPlasmaBlast", true)
+mod:AddBoolOption("SetIconOnNapalm", false)
+mod:AddBoolOption("SetIconOnPlasmaBlast", false)
 mod:AddBoolOption("RangeFrame")
 
 local hardmode = false
@@ -105,20 +106,9 @@ function mod:OnCombatEnd()
 	end
 end
 
-function mod:Flames()
-	if phase == 4 then
-		timerNextFlames:Start(18)
-		self:ScheduleMethod(18, "Flames")
-	else
-		timerNextFlames:Start()
-		self:ScheduleMethod(27.5, "Flames")
-	end
-end
-
 function mod:SPELL_SUMMON(args)
 	if args.spellId == 63811 then -- Bomb Bot
 		warnBombSpawn:Show()
-		sndWOP:Play("bombbot")
 	end
 end
 
@@ -133,8 +123,9 @@ end
 function mod:CHAT_MSG_LOOT(msg)
 	-- DBM:AddMsg(msg) --> Meridium receives loot: [Magnetic Core]
 	local player, itemID = msg:match(L.LootMsg)
+	player = DBM:GetUnitFullName(player)
 	if player and itemID and tonumber(itemID) == 46029 and self:IsInCombat() then
-		lootannounce:Show(player)
+		self:SendSync("LootMsg", player)
 	end
 end
 
@@ -145,18 +136,15 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerShockBlast:Start()
 		timerNextShockblast:Start()
-		sndWOP:Play("boomrun")
 	end
 	if args:IsSpellID(64529, 62997) then -- plasma blast
 		timerPlasmaBlastCD:Start()
-		sndWOP:Play("plasma")
 	end
 	if args.spellId == 64570 then
 		timerFlameSuppressant:Start()
 	end
 	if args.spellId == 64623 then
 		warnFrostBomb:Show()
-		sndWOP:Play("icebomb")
 		timerBombExplosion:Start()
 		timerNextFrostBomb:Start()
 	end
@@ -183,7 +171,6 @@ end
 local function show_warning_for_spinup()
 	if is_spinningUp then
 		warnDarkGlare:Show()
-		sndWOP:Play("spinrun")
 	end
 end
 
@@ -257,8 +244,6 @@ function mod:NextPhase()
 			DBM.BossHealth:AddBoss(33432, L.MobPhase1)
 		end
 		if hardmode then
-			self:UnscheduleMethod("Flames")
-			self:Flames()
             timerNextFrostBomb:Start(73)
         end
 	end
@@ -307,8 +292,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerFlameSuppressant:Start()
 		enrage:Stop()
 		hardmode = true
-		timerNextFlames:Start(6.5)
-		self:ScheduleMethod(6.5, "Flames")
 	end
 end
 
@@ -326,5 +309,7 @@ function mod:OnSync(event, args)
 		self:NextPhase()
 	elseif event == "Phase4" and phase == 3 then
 		self:NextPhase()
+	elseif event == "LootMsg" and args then
+		lootannounce:Show(args)
 	end
 end

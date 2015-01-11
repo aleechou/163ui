@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(968, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12216 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12231 $"):sub(12, -3))
 mod:SetCreatureID(76266)
 mod:SetEncounterID(1701)
 mod:SetZone()
@@ -48,7 +48,7 @@ function mod:CastDownTarget(targetname, uId)
 	self.vb.lastGrab = targetname
 	warnCastDown:Show(self.vb.lastGrab)
 	if self.Options.SetIconOnCastDown then
-		self:SetIcon(1, self.vb.lastGrab)
+		self:SetIcon(self.vb.lastGrab, 1)
 	end
 end
 
@@ -87,7 +87,7 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 76267 then--Solar Zealot
 		if self.Options.SetIconOnCastDown and self.vb.lastGrab then
-			self:SetIcon(0, self.vb.lastGrab)
+			self:SetIcon(self.vb.lastGrab, 0)
 			self.vb.lastGrab = nil
 		end
 	end

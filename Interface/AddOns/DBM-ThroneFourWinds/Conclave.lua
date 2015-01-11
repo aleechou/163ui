@@ -3,13 +3,13 @@ local L		= mod:GetLocalizedStrings()
 local Anshal	= EJ_GetSectionInfo(3166)
 local Nezir	= EJ_GetSectionInfo(3178)
 local Rohash	= EJ_GetSectionInfo(3172)
-local sndWOP	= mod:SoundMM("SoundWOP")
-local sndWest	= mod:SoundMM("SoundWest")
-local sndEast	= mod:SoundMM("SoundEast")
 
-mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 135 $"):sub(12, -3))
 mod:SetCreatureID(45870, 45871, 45872)
+mod:SetEncounterID(1035)
+mod:DisableEEKillDetection()
 mod:SetZone()
+mod:SetBossHPInfoToHighest()
 
 mod:SetBossHealthInfo(
 	45870, Anshal,
@@ -49,7 +49,7 @@ local specWarnWindBlast		= mod:NewSpecialWarningSpell(86193, false)
 local timerNurture			= mod:NewNextTimer(35, 85422)--This this is typically 35 seconds after a special has ended.
 local timerWindChill		= mod:NewNextTimer(10.5, 84645, nil, false)
 local timerSlicingGale		= mod:NewBuffFadesTimer(45, 86182, nil, false)
-local timerWindBlast		= mod:NewBuffActiveTimer(6, 86193)
+local timerWindBlast		= mod:NewBuffActiveTimer(11.5, 86193)
 local timerWindBlastCD		= mod:NewCDTimer(60, 86193)-- Cooldown: 1st->2nd = 22sec || 2nd->3rd = 60sec || 3rd->4th = 60sec ?
 local timerStormShieldCD	= mod:NewCDTimer(35, 93059)--Heroic ability, seems to have a 35-40second cd and no longer syncs up to nurture since the windblast change. No longer consistent.
 local timerGatherStrength	= mod:NewTargetTimer(60, 86307)
@@ -69,16 +69,16 @@ local windBlastCounter = 0
 local poisonCounter = 0
 local breezeCounter = 0
 local scansDone = 0
-local GatherStrengthwarned = false
+local deadBoss = {}
 
 function mod:OnCombatStart(delay)
 	windBlastCounter = 0
 	breezeCounter = 0
+	poisonCounter = 0
 	scansDone = 0
-	GatherStrengthwarned = false
+	table.wipe(deadBoss)
 	warnSpecialSoon:Schedule(80-delay)
 	timerSpecial:Start(90-delay)
-	sndWOP:Schedule(80-delay, "specialsoon")
 	enrageTimer:Start(-delay)
 	if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then--Anshal and his flowers
 		timerSoothingBreezeCD:Start(16-delay)
@@ -86,10 +86,8 @@ function mod:OnCombatStart(delay)
 	end
 	if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then--Rohash
 		timerWindBlastCD:Start(30-delay)
-		sndEast:Schedule(26-delay, "windblastsoon")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerStormShieldCD:Start(30-delay)
-			sndEast:Schedule(25-delay, "shieldsoon")
 		end
 	end
 	if self:GetUnitCreatureId("target") == 45871 or self:GetUnitCreatureId("focus") == 45871 or not self.Options.OnlyWarnforMyTarget then--Nezir
@@ -100,7 +98,6 @@ end
 function mod:BreezeTarget()
 	scansDone = scansDone + 1
 	local targetname, uId = self:GetBossTarget(45870)
---	print(targetname, uId)
 	if targetname and uId then
 		if UnitIsFriend("player", uId) then--He's targeting a friendly unit, he doesn't cast this on players, so it's wrong target.
 			if scansDone < 15 then--Make sure no infinite loop.
@@ -117,57 +114,51 @@ function mod:BreezeTarget()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(86182, 93057, 93058) then -- not confirmed. temp mop changes.
+	if args.spellId == 86182 then
 		if args:IsPlayer() then
 			timerSlicingGale:Start()
 		end
-	elseif args:IsSpellID(84651, 93117, 93118, 93119) and args:GetDestCreatureID() == 45870 and self:AntiSpam(3, 1) then--Zephyr stacks on Anshal
+	elseif args.spellId == 84651 and args:GetDestCreatureID() == 45870 and self:AntiSpam(3, 1) then--Zephyr stacks on Anshal
 		if (args.amount or 1) >= 15 then--Special has ended when he's at 15 stacks.
 			warnSpecialSoon:Cancel()
 			warnSpecialSoon:Schedule(85)
 			timerSpecial:Start()
-			sndWOP:Schedule(85, "specialsoon")
-			if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then--Anshal and his flowers
+			if (self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget) and not deadBoss[Anshal] then--Anshal and his flowers
 				timerSoothingBreezeCD:Start(16)
 				timerNurture:Start()
 			end
-			if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then--Rohash
+			if (self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget) and self:IsDifficulty("heroic10", "heroic25") and not deadBoss[Rohash] then--Rohash
 				timerStormShieldCD:Start()
-				sndEast:Schedule(30, "shieldsoon")
 			end
 		end
 	end
 end
-
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(84644, 84643) and self:AntiSpam(3, 1) then--Sleet Storm, Hurricane.
+	if args:IsSpellID(84638, 84643, 84644) and self:AntiSpam(3, 1) then--Sleet Storm, Hurricane.
 		warnSpecialSoon:Cancel()
 		warnSpecialSoon:Schedule(85)
 		timerSpecial:Start()
-		sndWOP:Schedule(85, "specialsoon")
-		if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then--Anshal and his flowers
+		if (self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget) and not deadBoss[Anshal] then--Anshal and his flowers
 			timerSoothingBreezeCD:Start(16)
 			timerNurture:Start()
 		end
-		if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then--Rohash
+		if (self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget) and self:IsDifficulty("heroic10", "heroic25") and not deadBoss[Rohash] then--Rohash
 			timerStormShieldCD:Start()
-			sndEast:Schedule(30, "shieldsoon")
 		end
 	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if (spellId == 86111 or spellId == 93129 or spellId == 93130 or spellId == 93131) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+	if spellId == 86111 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 		specWarnIcePatch:Show()
-		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(86205) then
+	if args.spellId == 86205 then
 		breezeCounter = breezeCounter + 1
 		scansDone = 0
 		if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then--Anshal and his flowers
@@ -177,7 +168,7 @@ function mod:SPELL_CAST_START(args)
 				timerSoothingBreezeCD:Start()
 			end
 		end
-	elseif args:IsSpellID(86192) then
+	elseif args.spellId == 86192 then
 		if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then
 			warnSummonTornados:Show()
 		end
@@ -185,15 +176,14 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(85422) then
+	if args.spellId == 85422 then
 		if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then--Anshal and his flowers
 			warnNurture:Show()
 			if self:IsDifficulty("heroic10", "heroic25") then
 				timerPoisonToxicCD:Start()
-				sndWest:Schedule(18, "aesoon")
 			end
 		end
-	elseif args:IsSpellID(86082, 93233) then -- 93233 removed in mop, it seems that replaced with 86082
+	elseif args.spellId == 86082 then -- 93233 removed in mop, it seems that replaced with 86082
 		if self:GetUnitCreatureId("target") == 45871 or self:GetUnitCreatureId("focus") == 45871 or not self.Options.OnlyWarnforMyTarget then--Nezir
 			timerPermaFrostCD:Start()
 		end
@@ -203,45 +193,37 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerSpecialActive:Start()
 		poisonCounter = 0
 		breezeCounter = 0
-		if self:GetUnitCreatureId("target") == 45871 or self:GetUnitCreatureId("focus") == 45871 or not self.Options.OnlyWarnforMyTarget then--Nezir
+		if (self:GetUnitCreatureId("target") == 45871 or self:GetUnitCreatureId("focus") == 45871 or not self.Options.OnlyWarnforMyTarget) and not deadBoss[Nezir] then--Nezir
 			timerPermaFrostCD:Start(15)--This is gonna slap you in face the instance special ends.
 		end
-	elseif args:IsSpellID(93059, 95865) then-- Storm Shield Warning (Heroic mode skill)
+	elseif args.spellId == 93059 then-- Storm Shield Warning (Heroic mode skill)
 		if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then--Rohash
 			warnStormShield:Show()
 			specWarnShield:Show()
-			sndEast:Play("killshield")
 		end
-	elseif args:IsSpellID(86281) and self:AntiSpam(3, 3) then-- Poison Toxic Warning (at Heroic, Poison Toxic damage is too high, so warning needed)
+	elseif args.spellId == 86281 and self:AntiSpam(3, 3) then-- Poison Toxic Warning (at Heroic, Poison Toxic damage is too high, so warning needed)
 		if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then
 			warnPoisonToxic:Show()
 			timerPoisonToxic:Show()
 			timerPoisonToxicCD:Start()
-			sndWest:Play("awayflower")
-			sndWest:Schedule(18, "aesoon")
 		end
 		if poisonCounter < 1 then
 			poisonCounter = 1
 		end
-	elseif args:IsSpellID(84645, 93123, 93124, 93125) then
+	elseif args.spellId == 84645 then
 		if self:GetUnitCreatureId("target") == 45871 or self:GetUnitCreatureId("focus") == 45871 or not self.Options.OnlyWarnforMyTarget then--Nezir
 			timerWindChill:Start()
 		end
-	elseif args:IsSpellID(86193) then
+	elseif args.spellId == 86193 then
 		windBlastCounter = windBlastCounter + 1
 		if self:GetUnitCreatureId("target") == 45872 or self:GetUnitCreatureId("focus") == 45872 or not self.Options.OnlyWarnforMyTarget then--Rohash
 			warnWindBlast:Show()
 			specWarnWindBlast:Show()
-			sndEast:Schedule(2, "countthree")
-			sndEast:Schedule(3, "counttwo")
-			sndEast:Schedule(4, "countone")
-			timerWindBlast:Schedule(5)
+			timerWindBlast:Start()
 			if windBlastCounter == 1 then
 				timerWindBlastCD:Start(82)
-				sndEast:Schedule(78, "windblastsoon")
 			else
 				timerWindBlastCD:Start()
-				sndEast:Schedule(56, "windblastsoon")
 			end
 		end
 	end
@@ -252,11 +234,9 @@ function mod:UNIT_POWER_FREQUENT(uId)
 	if self:GetUnitCreatureId(uId) == 45870 and UnitPower(uId) == 62 and poisonCounter == 0 and self:IsDifficulty("heroic10", "heroic25") then
 		if self:GetUnitCreatureId("target") == 45870 or self:GetUnitCreatureId("focus") == 45870 or self:GetUnitCreatureId("target") == 45812 or not self.Options.OnlyWarnforMyTarget then
 			timerPoisonToxicCD:Start(10)
-			sndWest:Schedule(8, "aesoon")
 		end
 	elseif self:GetUnitCreatureId(uId) == 45870 and UnitPower(uId) == 79 and self:IsDifficulty("heroic10", "heroic25") then
 		timerPoisonToxicCD:Cancel()
-		sndWest:Cancel("aesoon")
 	end
 end
 
@@ -266,16 +246,21 @@ function mod:RAID_BOSS_EMOTE(msg, boss)
 	end
 end
 
+local function bossRevive(boss)
+	if not boss then return end
+	deadBoss[boss] = false
+end
+
 function mod:OnSync(msg, boss)
 	if msg == "GatherStrength" and self:IsInCombat() then
+		deadBoss[boss or ""] = true
 		warnGatherStrength:Show(boss)
-		if not GatherStrengthwarned then
-			if self:IsDifficulty("heroic10", "heroic25") then
-				timerGatherStrength:Start(boss)
-			else
-				timerGatherStrength:Start(120, boss)--2 minutes on normal as of 4.2
-			end
-			GatherStrengthwarned = true
+		if self:IsDifficulty("heroic10", "heroic25") then
+			timerGatherStrength:Start(nil, boss)
+			self:Schedule(60, bossRevive, boss)
+		else
+			timerGatherStrength:Start(120, boss)--2 minutes on normal as of 4.2
+			self:Schedule(120, bossRevive, boss)
 		end
 	end
 end

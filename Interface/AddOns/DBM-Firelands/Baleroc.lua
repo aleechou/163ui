@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(196, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 118 $"):sub(12, -3))
 mod:SetCreatureID(53494)
 mod:SetEncounterID(1200)
 mod:DisableEEKillDetection()
@@ -15,39 +14,35 @@ mod:SetModelSound("Sound\\Creature\\BALEROC\\VO_FL_BALEROC_AGGRO.wav", "Sound\\C
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REFRESH",
-	"SPELL_AURA_REMOVED",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
-	"SPELL_CAST_START"
+	"SPELL_AURA_APPLIED 99516 99256 99263 99352 99350 99257",
+	"SPELL_AURA_REFRESH 99257",
+	"SPELL_AURA_REMOVED 99352 99352 99256 99257",
+	"SPELL_DAMAGE 99353 99351",
+	"SPELL_MISSED 99353 99351",
+	"SPELL_CAST_START 99352 99350 99259"
 )
 
 local warnDecimationBlade	= mod:NewSpellAnnounce(99352, 4, nil, mod:IsTank() or mod:IsHealer())
-local warnStrike			= mod:NewAnnounce("warnStrike", 4, 99353, false)
-local warnInfernoBlade		= mod:NewSpellAnnounce(99350, 3, nil, mod:IsTank() or mod:IsHealer())
+local warnStrike			= mod:NewAnnounce("warnStrike", 4, 99353, mod:IsTank() or mod:IsHealer())
+local warnInfernoBlade		= mod:NewSpellAnnounce(99350, 3, nil, mod:IsTank())
 local warnShardsTorment		= mod:NewCountAnnounce(99259, 3)
-local warnTormented			= mod:NewSpellAnnounce(99257, 3, nil, false)--Self only warning.
+local warnTormented			= mod:NewSpellAnnounce(99257, 3)--Self only warning.
 local warnCountdown			= mod:NewTargetAnnounce(99516, 4)
 local yellCountdown			= mod:NewYell(99516)
---local warnTorment    = mod:NewStackAnnounce(99256, 3)
 
 local specWarnShardsTorment	= mod:NewSpecialWarningSpell(99259, nil, nil, nil, true)
 local specWarnCountdown		= mod:NewSpecialWarningYou(99516)
-local specWarnTorment	= mod:NewSpecialWarningStack(99256, true, 8)
-local specWarnTormented		= mod:NewSpecialWarningYou(99257, false)
-local specWarnDecimation	= mod:NewSpecialWarningSpell(99352, false)
-local specWarnHealerTouched	= mod:NewSpecialWarning("SpecWarnHealerTouched", mod:IsTank() or mod:IsHealer())
+local specWarnTormented		= mod:NewSpecialWarningYou(99257, mod:IsHealer())
+local specWarnDecimation	= mod:NewSpecialWarningSpell(99352, mod:IsTank())
 
-local timerBladeActive		= mod:NewTimer(16.5, "TimerBladeActive", 99352)
+local timerBladeActive		= mod:NewTimer(15, "TimerBladeActive", 99352)
 local timerBladeNext		= mod:NewTimer(30, "TimerBladeNext", 99350, mod:IsTank() or mod:IsHealer())	-- either Decimation Blade or Inferno Blade
 local timerStrikeCD			= mod:NewTimer(5, "timerStrike", 99353, mod:IsTank() or mod:IsHealer())--5 or 2.5 sec. Variations are noted but can be auto corrected after first timer since game follows correction.
 local timerShardsTorment	= mod:NewNextCountTimer(34, 99259)
 local timerCountdown		= mod:NewBuffFadesTimer(8, 99516)
 local timerCountdownCD		= mod:NewNextTimer(45, 99516)
 local timerVitalFlame		= mod:NewBuffFadesTimer(15, 99263)
-local timerTormented		= mod:NewBuffFadesTimer(40, 99257, nil, false)
+local timerTormented		= mod:NewBuffFadesTimer(40, 99257)
 
 local countdownShards		= mod:NewCountdown(34, 99259, false)
 
@@ -55,21 +50,20 @@ local berserkTimer			= mod:NewBerserkTimer(360)
 
 mod:AddBoolOption("ResetShardsinThrees", true, "announce")
 mod:AddBoolOption("RangeFrame")
-mod:AddBoolOption("InfoFrame")
+mod:AddBoolOption("InfoFrame", mod:IsHealer())
 mod:AddBoolOption("SetIconOnCountdown")
 mod:AddBoolOption("SetIconOnTorment")
 mod:AddBoolOption("ArrowOnCountdown")
 
 local bladesName = nil
-local lastStrike = 0
-local currentStrike = 0
-local lastStrikeDiff = 0
+local lastStrike = 0--Custom, no prototype
+local currentStrike = 0--^^
+local lastStrikeDiff = 0--^^
 local strikeCount = 0
 local shardCount = 0
 local tormentIcon = 8
 local countdownIcon = 2
 local countdownTargets = {}
-local tormented = GetSpellInfo(100231)
 local tormentDebuff = GetSpellInfo(99257)
 
 local function showCountdownWarning()
@@ -102,13 +96,8 @@ function mod:OnCombatStart(delay)
 		end
 	end
 	if self.Options.InfoFrame then
-		if self:IsHealer() then
-			DBM.InfoFrame:SetHeader(L.VitalSpark)
-			DBM.InfoFrame:Show(5, "playerbuffstacks", 99262, 99263, 1)
-		else
-			DBM.InfoFrame:SetHeader(tormented)
-			-- DBM.InfoFrame:Show(5, "playerdebuffstacks", 100231)
-		end
+		DBM.InfoFrame:SetHeader(L.VitalSpark)
+		DBM.InfoFrame:Show(5, "playerbuffstacks", 99262, 99263, 1)
 	end
 end
 
@@ -122,8 +111,10 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(99516) then
+	local spellId = args.spellId
+	if spellId == 99516 then
 		countdownTargets[#countdownTargets + 1] = args.destName
+		timerCountdown:Start()
 		timerCountdownCD:Start()
 		if self.Options.SetIconOnCountdown then
 			self:SetIcon(args.destName, countdownIcon, 8)
@@ -131,11 +122,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnCountdown:Show()
-			timerCountdown:Start()
-			sndWOP:Play("followline")
-			sndWOP:Schedule(5, "countthree")
-			sndWOP:Schedule(6, "counttwo")
-			sndWOP:Schedule(7, "countone")
 			yellCountdown:Yell()
 		end
 		if self.Options.ArrowOnCountdown and #countdownTargets == 2 then
@@ -147,17 +133,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self:Unschedule(showCountdownWarning)
 		self:Schedule(0.5, showCountdownWarning)
-	elseif args:IsSpellID(99256, 100230, 100231, 100232) then--Torment
+	elseif spellId == 99256 then--Torment
 		if self.Options.SetIconOnTorment then
 			self:SetIcon(args.destName, tormentIcon)
 			tormentIcon = tormentIcon - 1
 		end
---		if not self:IsTank() and not self:IsHealer() then
---			warnTorment:Show(args.destName, args.amount or 1)
---		end
-	elseif args:IsSpellID(99263) and args:IsPlayer() then
+	elseif spellId == 99263 and args:IsPlayer() then
 		timerVitalFlame:Start()
-	elseif args:IsSpellID(99352, 99405) then--Decimation Blades
+	elseif spellId == 99352 then--Decimation Blades
 		bladesName = GetSpellInfo(99353)
 		lastStrike = GetTime()--Set last strike here too
 		strikeCount = 0--Reset count.
@@ -165,24 +148,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerStrikeCD:Start(3, bladesName)
 		else
 			timerStrikeCD:Start(6, bladesName)--6 seconds on 10 man
-			if self:IsTank() or self:IsHealer() then
-				sndWOP:Schedule(3.5, "countthree")
-				sndWOP:Schedule(4.5, "counttwo")
-				sndWOP:Schedule(5.5, "countone")
-			end
 		end
-	elseif args:IsSpellID(99350) then--Inferno Blades
-		bladesName = GetSpellInfo(101002)
+	elseif spellId == 99350 then--Inferno Blades
+		bladesName = GetSpellInfo(99351)
 		lastStrike = GetTime()--Set last strike here too
 		strikeCount = 0--Reset count.
 		timerStrikeCD:Start(2.5, bladesName)
-	elseif args:IsSpellID(99257, 99402, 99403, 99404) then--Tormented
+	elseif spellId == 99257 then--Tormented
 		if args:IsPlayer() then
 			warnTormented:Show()
 			specWarnTormented:Show()
-			if self:IsHealer() then
-				self:SendSync("healertouched", UnitName("player"))
-			end
 			if self:IsDifficulty("normal10") then--The very first timer is subject to inaccuracis do to variation. But they are minor, usually within 0.5sec
 				timerTormented:Start(20)
 			elseif self:IsDifficulty("heroic10") then
@@ -199,34 +174,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-
-function mod:SPELL_AURA_APPLIED_DOSE(args)
-	if args:IsSpellID(99256, 100230, 100231, 100232) then--Torment
---		if not self:IsTank() and not self:IsHealer() then
---			warnTorment:Show(args.destName, args.amount or 1)
---		end
-		if args:IsPlayer() then
-			if mod:IsDifficulty("heroic10", "heroic25") then
-				if args.amount == 7 or args.amount == 9 or args.amount == 12 or args.amount == 18 then
-					specWarnTorment:Show(args.amount)
-					if args.amount == 8 then
-						sndWOP:Play("awayshard")
-					end
-				end
-			else
-				if args.amount == 11 or args.amount == 13 or args.amount == 18 then
-					specWarnTorment:Show(args.amount)
-					if args.amount == 12 then
-						sndWOP:Play("awayshard")
-					end
-				end
-			end
-		end
-	end
-end
-
 function mod:SPELL_AURA_REFRESH(args)
-	if args:IsSpellID(99257, 99402, 99403, 99404) then--Tormented
+	local spellId = args.spellId
+	if spellId == 99257 then--Tormented
 		if args:IsPlayer() then
 			if self:IsDifficulty("normal10") then--The very first timer is subject to inaccuracis do to variation. But they are minor, usually within 0.5sec
 				timerTormented:Start(20)
@@ -242,34 +192,20 @@ function mod:SPELL_AURA_REFRESH(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(99352, 99405) or args:IsSpellID(99350) then--Decimation Blade/Inferno blade
+	local spellId = args.spellId
+	if args:IsSpellID(99352, 99352) then--Decimation Blade/Inferno blade
 		timerBladeNext:Start()--30 seconds after last blades FADED
 		timerStrikeCD:Cancel()
-		if self:IsTank() or self:IsHealer() then
-			sndWOP:Cancel("countthree")
-			sndWOP:Cancel("counttwo")
-			sndWOP:Cancel("countone")
-		end
-	elseif args:IsSpellID(99256, 100230, 100231, 100232) then--Torment
+	elseif spellId == 99256 then--Torment
 		if self.Options.SetIconOnTorment then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif args:IsSpellID(99257, 99402, 99403, 99404) then--Tormented
+	elseif spellId == 99257 then--Tormented
 		if args:IsPlayer() then
 			timerTormented:Cancel()
 			if self.Options.RangeFrame and self:IsDifficulty("heroic10", "heroic25") and self:IsInCombat() then
 				DBM.RangeCheck:Show(5, tormentDebuffFilter)--Show only debuffed poeple again.
 			end
-		end
-	elseif args:IsSpellID(99516) then
-		if self.Options.SetIconOnCountdown then
-			self:SetIcon(args.destName, 0)
-		end
-		if args:IsPlayer() then
-			timerCountdown:Cancel()
-			sndWOP:Cancel("countthree")
-			sndWOP:Cancel("counttwo")
-			sndWOP:Cancel("countone")
 		end
 	end
 end
@@ -290,11 +226,6 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId, spellName)
 				timerStrikeCD:Start(3+lastStrikeDiff, spellName)--Next strike is gonna come late since previous one was early.
 			end
 		else--Do same thing as above only with 10 man timing.
-			if self:IsTank() or self:IsHealer() then
-				sndWOP:Schedule(3.5, "countthree")
-				sndWOP:Schedule(4.5, "counttwo")
-				sndWOP:Schedule(5.5, "countone")
-			end
 			if lastStrikeDiff > 6 then
 				lastStrikeDiff = lastStrikeDiff - 6
 				timerStrikeCD:Start(6-lastStrikeDiff, spellName)
@@ -304,7 +235,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId, spellName)
 			end
 		end
 		lastStrike = GetTime()--Update last strike timing to this one after function fires.
-	elseif spellId == 99351 or spellId == 101000 or spellId == 101001 or spellId == 101002 then--Inferno Strike
+	elseif spellId == 99351 then--Inferno Strike
 		strikeCount = strikeCount + 1
 		warnStrike:Show(spellName, strikeCount)
 		if strikeCount == 7 then return end--Don't do anything if it's 6th/3rd strike
@@ -322,27 +253,20 @@ function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId, spellName)
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE--Dodge/parried decimation strikes show as SPELL_MISSED
 
-
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(99352, 99405) then	--99352 confirmed
+	local spellId = args.spellId
+	if spellId == 99352 then
 		warnDecimationBlade:Show()
 		specWarnDecimation:Show()
-		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play("deciblade")
-		end
 		timerBladeActive:Start(args.spellName)
-	elseif args:IsSpellID(99350) then
+	elseif spellId == 99350 then
 		warnInfernoBlade:Show()
-		if self:IsTank() or self:IsHealer() then
-			sndWOP:Play("inferblade")
-		end
 		timerBladeActive:Start(args.spellName)
-	elseif args:IsSpellID(99259) then
+	elseif spellId == 99259 then
 		shardCount = shardCount + 1
 		tormentIcon = 8
 		warnShardsTorment:Show(shardCount)
 		specWarnShardsTorment:Schedule(1.5)
-		sndWOP:Play("shard")
 		countdownShards:Start(34)
 		if self.Options.ResetShardsinThrees and (self:IsDifficulty("normal25", "heroic25") and shardCount == 3 or self:IsDifficulty("normal10", "heroic10") and shardCount == 2) then
 			shardCount = 0
@@ -350,11 +274,5 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerShardsTorment:Start(34, shardCount+1)
 		end
-	end
-end
-
-function mod:OnSync(msg, pname)
-	if msg == "healertouched" and pname then
-		specWarnHealerTouched:Show(pname)
 	end
 end

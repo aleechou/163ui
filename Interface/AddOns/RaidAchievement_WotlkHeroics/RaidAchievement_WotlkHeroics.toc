@@ -1,17 +1,19 @@
 ﻿## Interface: 60000
 ## Title: Raid|cff7fff7fAchievement|r - Wotlk Dungeons
-## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
-## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
-## Notes: RaidAchievement Wotlk Dungeons Module
-## Notes-zhTW: 自動檢測你所在的副本類型加載相應的模塊，檢測通報副本成就的失敗與否，顯示失敗的原因和失敗者的名字。如演示圖，顯示成就失敗，並顯示導致成就失敗的隊友名字.
-## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
+## Title-ruRU: Raid|cff7fff7fAchievement|r - Wotlk Подземелья
 ## Author: Shurshik
+## Notes: RaidAchievement Wotlk Dungeons Module
+## Notes-ruRU: Модуль RaidAchievement - Wotlk Подземелья
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: whraspisokon
 RaidAchievement_WotlkHeroics.lua
 RaidAchievement_WotlkHeroicsbosses.lua
 RaidAchievement_WotlkHeroics.xml
+## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
+## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
+## Notes-zhTW: 自動檢測你所在的副本類型加載相應的模塊，檢測通報副本成就的失敗與否，顯示失敗的原因和失敗者的名字。如演示圖，顯示成就失敗，並顯示導致成就失敗的隊友名字.
+## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
 ## Title: |cff880303[网易有爱]|r 成就助手 [巫妖王之怒]
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141025105004
+## X-163UI-Version: 2015011101

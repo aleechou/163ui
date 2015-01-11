@@ -1,17 +1,18 @@
-﻿local mod	= DBM:NewMod(664, "DBM-Party-MoP", 1, 313)
+local mod	= DBM:NewMod(664, "DBM-Party-MoP", 1, 313)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 9469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
 mod:SetCreatureID(59051, 59726, 58826)--59051 (Strife), 59726 (Anger), 58826 (Zao Sunseeker). This event has a random chance to be Zao (solo) or Anger and Strife (together)
+mod:SetEncounterID(1417)
 mod:SetZone()
 
-mod:RegisterCombat("combat")--Might work? if not might have to change to a yell. Without transcriptor cannot see combat regen or engage unit events
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_CAST_START",
+	"SPELL_CAST_SUCCESS",
 	"UNIT_DIED"
 )
 
@@ -39,9 +40,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnUltimatePower:Show(args.destName)
 		specWarnUltimatePower:Show(args.destName)
 		timerUltimatePower:Start(args.destName)
-		if args.sourceGUID == UnitGUID("target") then
-			sndWOP:Play("changetarget")--目標轉換
-		end
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 122714 then
+		DBM:EndCombat(self)--Alternte win detection, UNIT_DIED not fire for 59051 (Strife), 59726 (Anger)
 	end
 end
 

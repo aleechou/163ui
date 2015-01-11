@@ -1,9 +1,9 @@
-﻿local mod	= DBM:NewMod(693, "DBM-Party-MoP", 6, 324)
+local mod	= DBM:NewMod(693, "DBM-Party-MoP", 6, 324)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
 mod:SetCreatureID(61567)
+mod:SetEncounterID(1465)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
@@ -36,7 +36,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSapResidue:Start()
 		if (args.amount or 1) >= 6 and self:AntiSpam(1, 2) then
 			specWarnSapResidue:Show(args.amount)
-			sndWOP:Play("runaway")--快躲開
 		end
 	end
 end
@@ -46,11 +45,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 120001 then
 		warnDetonate:Show()
 		specWarnDetonate:Show()
-		sndWOP:Play("aesoon")--準備AE
-		sndWOP:Schedule(1.5, "countfour")
-		sndWOP:Schedule(2.5, "countthree")
-		sndWOP:Schedule(3.5, "counttwo")
-		sndWOP:Schedule(4.5, "countone")
 		timerDetonate:Start()
 		timerDetonateCD:Start()
 	end

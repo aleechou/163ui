@@ -18,7 +18,7 @@
 ## X-DBM-Mod-Has-Single-Format: 1
 ## X-DBM-Mod-MapID: 974
 ## X-DBM-Mod-Sort: 155
-## X-Curse-Packaged-Version: 6.0.10
+## X-Curse-Packaged-Version: 6.0.11
 ## X-Curse-Project-Name: Deadly Boss Mods
 ## X-Curse-Project-ID: deadly-boss-mods
 ## X-Curse-Repository-ID: wow/deadly-boss-mods/mainline
@@ -38,6 +38,3 @@ Tonks.lua
 Rings.lua
 Rabbit.lua
 Moonfang.lua
-
-
-## X-163UI-Version: 20141231160530

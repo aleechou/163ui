@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Sulfuron", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 549 $"):sub(12, -3))
 mod:SetCreatureID(12098)--, 11662
@@ -50,6 +49,5 @@ function mod:SPELL_CAST_START(args)
 		if args.sourceGUID == UnitGUID("target") or args.sourceGUID == UnitGUID("focus") then--Only show warning/timer for your own target.
 			specWarnHeal:Show(args.sourceName)
 		end
-		Yike:Play("kickcast")
 	end
 end

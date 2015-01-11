@@ -1,16 +1,16 @@
 local mod	= DBM:NewMod("Thorim", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 144 $"):sub(12, -3))
 mod:SetCreatureID(32865)
+mod:SetEncounterID(1141)
 mod:SetModelID(28977)
-mod:SetUsedIcons(8)
+mod:SetUsedIcons(7)
 
 mod:RegisterCombat("yell", L.YellPhase1)
 mod:RegisterKill("yell", L.YellKill)
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_CAST_SUCCESS",
@@ -20,7 +20,7 @@ mod:RegisterEvents(
 local warnPhase2				= mod:NewPhaseAnnounce(2, 1)
 local warnStormhammer			= mod:NewTargetAnnounce(62470, 2)
 local warnLightningCharge		= mod:NewSpellAnnounce(62466, 2)
-local warnUnbalancingStrike		= mod:NewTargetAnnounce(62130, 4)	-- nice blizzard, very new stuff, hmm or not? ^^ aq40 4tw :)
+local warnUnbalancingStrike		= mod:NewTargetAnnounce(62130, 4)
 local warningBomb				= mod:NewTargetAnnounce(62526, 4)
 
 local specWarnOrb				= mod:NewSpecialWarningMove(62017)
@@ -33,9 +33,8 @@ local timerLightningCharge	 	= mod:NewCDTimer(16, 62466)
 local timerUnbalancingStrike	= mod:NewCastTimer(26, 62130)
 local timerHardmode				= mod:NewTimer(175, "TimerHardmode", 62042)
 
-
-
 mod:AddBoolOption("RangeFrame")
+mod:AddSetIconOption("SetIconOnRunic", 62527, false)
 
 local lastcharge				= {}
 local phase2 = false
@@ -77,15 +76,13 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 62042 then 					-- Storm Hammer
 		warnStormhammer:Show(args.destName)
-
 	elseif args.spellId == 62130 then				-- Unbalancing Strike
 		warnUnbalancingStrike:Show(args.destName)
-		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("changemt")
-		end
 	elseif args:IsSpellID(62526, 62527) then	-- Runic Detonation
-		self:SetIcon(args.destName, 8, 5)
 		warningBomb:Show(args.destName)
+		if self.Options.SetIconOnRunic then
+			self:SetIcon(args.destName, 7, 5)
+		end
 	end
 end
 
@@ -107,13 +104,12 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, _, destName, destFlags, _, spellId)
 	if spellId == 62017 then -- Lightning Shock
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) ~= 0
 		and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
 		and self:AntiSpam(5) then
 			specWarnOrb:Show()
-			sndWOP:Play("runaway")
 		end
 	elseif self.Options.AnnounceFails and spellId == 62466 and DBM:GetRaidRank() >= 1 and DBM:GetRaidUnitId(destName) ~= "none" and destName then
 		lastcharge[destName] = (lastcharge[destName] or 0) + 1

@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Magmadar", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 549 $"):sub(12, -3))
 mod:SetCreatureID(11982)
@@ -28,9 +27,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEnrage:Show(args.destName)
 		specWarnEnrage:Show(args.destName)
 		timerEnrage:Start()
-		if mod:CanRemoveEnrage() then
-			Yike:Play("trannow")
-		end
 	end
 end
 

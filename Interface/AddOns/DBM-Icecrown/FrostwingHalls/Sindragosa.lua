@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod("Sindragosa", "DBM-Icecrown", 4)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 86 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetCreatureID(36853)
 mod:SetEncounterID(1105)
 mod:SetModelID(30362)
@@ -17,7 +16,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS",
-	"UNIT_HEALTH boss1",
+	"UNIT_HEALTH target focus mouseover",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
@@ -31,14 +30,14 @@ local warnMysticBuffet			= mod:NewCountAnnounce(70128, 2, nil, false)
 local warnFrostBeacon			= mod:NewTargetAnnounce(70126, 4)
 local warnBlisteringCold		= mod:NewSpellAnnounce(70123, 3)
 local warnFrostBreath			= mod:NewSpellAnnounce(69649, 2, nil, mod:IsTank() or mod:IsHealer())
-local warnUnchainedMagic		= mod:NewTargetAnnounce(69762, 2, nil, not mod:IsMelee())
+local warnUnchainedMagic		= mod:NewTargetAnnounce("OptionVersion2", 69762, 2, nil, not mod:IsMelee() or mod:IsHealer())
 
 local specWarnUnchainedMagic	= mod:NewSpecialWarningYou(69762)
-local specWarnFrostBeacon		= mod:NewSpecialWarningYou(70126)
+local specWarnFrostBeacon		= mod:NewSpecialWarningMoveAway(70126, nil, nil, nil, 3)
 local specWarnInstability		= mod:NewSpecialWarningStack(69766, nil, 4)
 local specWarnChilledtotheBone	= mod:NewSpecialWarningStack(70106, nil, 4)
 local specWarnMysticBuffet		= mod:NewSpecialWarningStack(70128, false, 5)
-local specWarnBlisteringCold	= mod:NewSpecialWarningRun(70123)
+local specWarnBlisteringCold	= mod:NewSpecialWarningRun(70123, nil, nil, nil, 4)
 
 local timerNextAirphase			= mod:NewTimer(110, "TimerNextAirphase", 43810)
 local timerNextGroundphase		= mod:NewTimer(45, "TimerNextGroundphase", 43810)
@@ -47,18 +46,13 @@ local timerNextBlisteringCold	= mod:NewCDTimer(67, 70123)
 local timerNextBeacon			= mod:NewNextTimer(16, 70126)
 local timerBlisteringCold		= mod:NewCastTimer(6, 70123)
 local timerUnchainedMagic		= mod:NewCDTimer(30, 69762)
-local timerInstability			= mod:NewBuffActiveTimer(5, 69766)
-local timerChilledtotheBone		= mod:NewBuffActiveTimer(8, 70106)
-local timerMysticBuffet			= mod:NewBuffActiveTimer(10, 70128)
+local timerInstability			= mod:NewBuffFadesTimer(5, 69766)
+local timerChilledtotheBone		= mod:NewBuffFadesTimer(8, 70106)
+local timerMysticBuffet			= mod:NewBuffFadesTimer(10, 70128)
 local timerNextMysticBuffet		= mod:NewNextTimer(6, 70128)
 local timerMysticAchieve		= mod:NewAchievementTimer(30, 4620, "AchievementMystic")
 
-
-
 local berserkTimer				= mod:NewBerserkTimer(600)
-
---local soundBlisteringCold	= mod:NewSound(70123)
---local soundFrostBeacon		= mod:NewSound(70126)
 
 mod:AddBoolOption("SetIconOnFrostBeacon", true)
 mod:AddBoolOption("SetIconOnUnchainedMagic", true)
@@ -153,7 +147,6 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerNextAirphase:Start(50-delay)
 	timerNextBlisteringCold:Start(33-delay)
-	sndWOP:Schedule(29, "gripsoon")
 	warned_P2 = false
 	warnedfailed = false
 	table.wipe(beaconTargets)
@@ -173,7 +166,7 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(69649, 71056, 71057, 71058) or args:IsSpellID(73061, 73062, 73063, 73064) then--Frost Breath
+	if args:IsSpellID(69649, 73061) then--Frost Breath
 		warnFrostBreath:Show()
 		timerNextFrostBreath:Start()
 	end
@@ -185,10 +178,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			playerBeaconed = true
 			specWarnFrostBeacon:Show()
-			sndWOP:Play("markgo")
-			sndWOP:Schedule(4, "countthree")
-			sndWOP:Schedule(5, "counttwo")
-			sndWOP:Schedule(6, "countone")
 		end
 		if phase == 1 and self.Options.SetIconOnFrostBeacon then
 			table.insert(beaconIconTargets, DBM:GetRaidUnitId(args.destName))
@@ -221,9 +210,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			playerUnchained = true
 			specWarnUnchainedMagic:Show()
-			if mod:IsDifficulty("heroic10") or mod:IsDifficulty("heroic25") then
-				sndWOP:Play("runout")
-			end		
 		end
 		if self.Options.SetIconOnUnchainedMagic then
 			self:SetIcon(args.destName, unchainedIcons)
@@ -241,9 +227,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerChilledtotheBone:Start()
 			if (args.amount or 1) >= 4 then
 				specWarnChilledtotheBone:Show(args.amount)
-				if args.amount == 4 or args.amount == 6 or args.amount == 8 or args.amount == 10 then
-					sndWOP:Play("stopatk")
-				end
 			end
 		end
 	elseif args.spellId == 69766 then	--Instability (casters)
@@ -252,21 +235,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerInstability:Start()
 			if (args.amount or 1) >= 4 then
 				specWarnInstability:Show(args.amount)
-				if args.amount == 4 or args.amount == 6 or args.amount == 8 or args.amount == 10 then
-					sndWOP:Play("stopatk")
-				end
 			end
 		end
-	elseif args:IsSpellID(70127, 72528, 72529, 72530) then	--Mystic Buffet (phase 3 - everyone)
+	elseif args.spellId == 70127 then	--Mystic Buffet (phase 3 - everyone)
 		if args:IsPlayer() then
 			warnMysticBuffet:Show(args.amount or 1)
 			timerMysticBuffet:Start()
 			timerNextMysticBuffet:Start()
 			if (args.amount or 1) >= 5 then
 				specWarnMysticBuffet:Show(args.amount)
-				if args.amount == 5 or args.amount == 7 or args.amount == 9 or args.amount == 11 or args.amount == 13 then
-					sndWOP:Play("debuffstack")
-				end
 			end
 			if (args.amount or 1) < 2 then
 				timerMysticAchieve:Start()
@@ -291,10 +268,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 70117 then--Icy Grip Cast, not blistering cold, but adds an extra 1sec to the warning
 		warnBlisteringCold:Show()
 		specWarnBlisteringCold:Show()
-		sndWOP:Play("boomrun")
 		timerBlisteringCold:Start()
 		timerNextBlisteringCold:Start()
-		sndWOP:Schedule(63, "gripsoon")
 	end
 end	
 
@@ -329,7 +304,6 @@ function mod:UNIT_HEALTH(uId)
 	if not warned_P2 and self:GetUnitCreatureId(uId) == 36853 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then
 		warned_P2 = true
 		warnPhase2soon:Show()	
-		sndWOP:Play("ptwo")
 	end
 end
 
@@ -340,10 +314,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		end
 		warnAirphase:Show()
 		timerNextFrostBreath:Cancel()
-		sndWOP:Cancel("gripsoon")
 		timerUnchainedMagic:Start(55)
 		timerNextBlisteringCold:Start(80)--Not exact anywhere from 80-110seconds after airphase begin
-		sndWOP:Schedule(76, "gripsoon")
 		timerNextAirphase:Start()
 		timerNextGroundphase:Start()
 		warnGroundphaseSoon:Schedule(40)
@@ -355,8 +327,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerNextAirphase:Cancel()
 		timerNextGroundphase:Cancel()
 		warnGroundphaseSoon:Cancel()
-		sndWOP:Cancel("gripsoon")
 		timerNextBlisteringCold:Start(35)
-		sndWOP:Schedule(31, "gripsoon")
 	end
 end

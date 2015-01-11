@@ -17,6 +17,10 @@
 ## X-DBM-Mod-MapID: 409
 ## X-DBM-Mod-Sort: 600
 localization.en.lua
+localization.es.lua
+localization.ru.lua
+localization.de.lua
+localization.kr.lua
 localization.tw.lua
 localization.cn.lua
 Lucifron.lua
@@ -29,4 +33,3 @@ Sulfuron.lua
 Golemagg.lua
 Majordomo.lua
 Ragnaros.lua
-## X-163UI-Version: 20141215173029

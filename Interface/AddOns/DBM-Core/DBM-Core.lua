@@ -15,8 +15,7 @@
 --    * ruRU: TOM_RUS					http://www.curseforge.com/profiles/TOM_RUS/
 --    * zhTW: Whyv						ultrashining@gmail.com
 --    * koKR: nBlueWiz					everfinale@gmail.com
---    * frFR: leiyla					http://forums.elitistjerks.com/user/616557-leiyla/
---    * zhCN: oliver1452				http://forums.elitistjerks.com/user/623698-oliver1452/
+--    * zhCN: Mini Hè					https://twitter.com/Mini_Dragon_CN/
 --
 -- The former/inactive-translators:
 --    * deDE: Tandanu					http://www.deadlybossmods.com
@@ -26,7 +25,9 @@
 --    * zhTW: Azael/kc10577				paul.poon.kw@gmail.com
 --    * esES: Snamor/1nn7erpLaY      	romanscat@hotmail.com
 --    * zhCN: Diablohu					http://www.dreamgen.cn | diablohudream@gmail.com
+--    * zhCN: oliver1452				http://forums.elitistjerks.com/user/623698-oliver1452/
 --    * esES/esMX: Sueñalobos			alcortesm@gmail.com
+--    * frFR: leiyla					http://forums.elitistjerks.com/user/616557-leiyla/
 --
 -- Special thanks to:
 --    * Arta
@@ -52,9 +53,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 12226 $"):sub(12, -3)),
-	DisplayVersion = "6.0.10", -- the string that is shown as version
-	ReleaseRevision = 12226 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 12328 $"):sub(12, -3)),
+	DisplayVersion = "6.0.11", -- the string that is shown as version
+	ReleaseRevision = 12328 -- the revision of the latest stable version that is available
 }
 
 -- Legacy crap; that stupid "Version" field was never a good idea.
@@ -80,6 +81,7 @@ DBM.DefaultOptions = {
 	SpecialWarningSound = "Sound\\Spells\\PVPFlagTaken.ogg",
 	SpecialWarningSound2 = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg",
 	SpecialWarningSound3 = "Sound\\Creature\\KilJaeden\\KILJAEDEN02.ogg",
+	SpecialWarningSound4 = "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
 	ModelSoundValue = "Short",
 	ChallengeBest = "Realm",
 	CountdownVoice = "Corsica",
@@ -103,6 +105,7 @@ DBM.DefaultOptions = {
 	StripServerName = true,
 	ShowCombatLogMessage = true,
 	ShowTranscriptorMessage = true,
+	ShowAllVersions = true,
 	ShowLoadMessage = true,
 	ShowPizzaMessage = true,
 	ShowEngageMessage = true,
@@ -164,12 +167,15 @@ DBM.DefaultOptions = {
 	SpecialWarningFlashCol1 = {1.0, 1.0, 0.0},--Yellow
 	SpecialWarningFlashCol2 = {1.0, 0.5, 0.0},--Orange
 	SpecialWarningFlashCol3 = {1.0, 0.0, 0.0},--Red
+	SpecialWarningFlashCol4 = {1.0, 0.0, 1.0},--Purple
 	SpecialWarningFlashDura1 = 0.4,
 	SpecialWarningFlashDura2 = 0.4,
 	SpecialWarningFlashDura3 = 1,
+	SpecialWarningFlashDura4 = 0.7,
 	SpecialWarningFlashAlph1 = 0.3,
 	SpecialWarningFlashAlph2 = 0.3,
 	SpecialWarningFlashAlph3 = 0.4,
+	SpecialWarningFlashAlph4 = 0.4,
 	HealthFrameGrowUp = false,
 	HealthFrameLocked = false,
 	HealthFrameWidth = 200,
@@ -179,12 +185,12 @@ DBM.DefaultOptions = {
 	-- global boss mod settings (overrides mod-specific settings for some options)
 	DontShowBossAnnounces = false,
 	DontShowFarWarnings = true,
-	DontPlayRunAway = false,
 	DontSendBossWhispers = false,
 	DontSetIcons = false,
 	DontShowRangeFrame = false,
 	DontShowInfoFrame = false,
 	DontShowHealthFrame = false,
+	DontPlayCountdowns = false,
 	DontShowPT2 = false,
 	DontShowPTCountdownText = false,
 	DontPlayPTCountdown = false,
@@ -210,14 +216,25 @@ DBM.DefaultOptions = {
 	DebugMode = false,
 	DebugLevel = 1,
 	RoleSpecAlert = true,
+	CheckGear = true,
 	WorldBossAlert = false,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
+	FakeBWVersion = false,
 	ChatFrame = "DEFAULT_CHAT_FRAME",
 }
 
 DBM.Bars = DBT:New()
 DBM.Mods = {}
+DBM.Counts = {
+	{	text	= "Moshne (Male)",	value 	= "Mosh"},
+	{	text	= "Corsica (Female)",value 	= "Corsica"},
+	{	text	= "Koltrane (Male)",value 	= "Kolt"},
+	{	text	= "Pewsey (Male)",value 	= "Pewsey"},
+	{	text	= "Bear (Male Child)",value = "Bear"},
+	{	text	= "Anshlun (ptBR Male)",value = "Anshlun"},
+	{	text	= "Neryssa (ptBR Female)",value = "Neryssa"},
+}
 
 ------------------------
 -- Global Identifiers --
@@ -241,9 +258,7 @@ local raid = {}
 local modSyncSpam = {}
 local autoRespondSpam = {}
 local chatPrefix = "<Deadly Boss Mods> "
-local chatPrefixVEM = "<Voice Encounter Mods> "
 local chatPrefixShort = "<DBM> "
-local chatPrefixShortVEM = "<VEM> "
 local ver = ("%s (r%d)"):format(DBM.DisplayVersion, DBM.Revision)
 local mainFrame = CreateFrame("Frame", "DBMMainFrame")
 local newerVersionPerson = {}
@@ -282,6 +297,7 @@ local timerRequestInProgress = false
 local updateNotificationDisplayed = 0
 local tooltipsHidden = false
 local SWFilterDisabed = false
+local fakeBWRevision = 12489
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
 local guiRequested = false
@@ -319,7 +335,7 @@ local GetInstanceInfo = GetInstanceInfo
 local UnitPosition, GetCurrentMapDungeonLevel, GetMapInfo, GetCurrentMapZone, SetMapToCurrentZone = UnitPosition, GetCurrentMapDungeonLevel, GetMapInfo, GetCurrentMapZone, SetMapToCurrentZone
 local GetSpecialization = GetSpecialization
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
-local GetPartyAssignment, UnitGroupRolesAssigned, UnitIsGroupLeader, UnitIsGroupAssistant = GetPartyAssignment, UnitGroupRolesAssigned, UnitIsGroupLeader, UnitIsGroupAssistant
+local GetPartyAssignment, UnitGroupRolesAssigned, UnitIsGroupLeader, UnitIsGroupAssistant, UnitRealmRelationship = GetPartyAssignment, UnitGroupRolesAssigned, UnitIsGroupLeader, UnitIsGroupAssistant, UnitRealmRelationship
 local LoadAddOn, GetAddOnInfo, GetAddOnEnableState, GetAddOnMetadata, GetNumAddOns = LoadAddOn, GetAddOnInfo, GetAddOnEnableState, GetAddOnMetadata, GetNumAddOns
 local PlaySoundFile, PlaySound = PlaySoundFile, PlaySound
 local Ambiguate = Ambiguate
@@ -986,24 +1002,16 @@ do
 						end
 					end
 				end
-				--Work in progress and subject to change. Just kind of throwing code in for random ideas
-				--X-DBM-Voice: 1 should be in file
-				--X-DBM-Voice-Name Should be long name you want to appear in dropdown menu
-				--X-DBM-Voice-ShortName should be short name that matches folder name after DBM-VP. So for example, DBM-VPHarry would be "Harry" for a short name.
-				--X-DBM-Voice-Version should be a single number identifying whether or not the voice pack is new enough to enable special warning sound filter.
-				--Version 1: Contains All files in highmaul currently present in DBM 6.0.10
-				--Version 2: TBD
 				if GetAddOnMetadata(i, "X-DBM-Voice") and enabled ~= 0 then
 					local voiceValue = GetAddOnMetadata(i, "X-DBM-Voice-ShortName")
 					local voiceVersion = tonumber(GetAddOnMetadata(i, "X-DBM-Voice-Version") or 0)
 					tinsert(self.Voices, { text = GetAddOnMetadata(i, "X-DBM-Voice-Name"), value = voiceValue })
 					self.VoiceVersions[voiceValue] = voiceVersion
-					self:CheckVoicePackVersion(voiceValue)
+					self:Schedule(10, self.CheckVoicePackVersion, self, voiceValue)--Still at 1 since the count sounds won't break any mods or affect filter. V2 if support countsound path
+					if voiceVersion >= 2 then--Supports adding countdown options, insert new countdown into table
+						tinsert(self.Counts, { text = GetAddOnMetadata(i, "X-DBM-Voice-Name"), value = "VP:"..voiceValue })
+					end
 				end
-			end
-			if self.Options.ChosenVoicePack ~= "None"  and not self.VoiceVersions[DBM.Options.ChosenVoicePack] then--A voice pack is selected but has nil version (not possible unless voice pack disabled
-				self.Options.ChosenVoicePack = "None"--Set ChosenVoicePack back to None
-				self:AddMsg(DBM_CORE_VOICE_MISSING)
 			end
 			tsort(self.AddOns, function(v1, v2) return v1.sort < v2.sort end)
 			self:RegisterEvents(
@@ -1029,6 +1037,7 @@ do
 				"CHAT_MSG_MONSTER_SAY",
 				"CHAT_MSG_RAID_BOSS_EMOTE",
 				"RAID_BOSS_EMOTE",
+				"RAID_BOSS_WHISPER",
 				"PLAYER_ENTERING_WORLD",
 				"LFG_ROLE_CHECK_SHOW",
 				"LFG_PROPOSAL_SHOW",
@@ -1554,6 +1563,7 @@ end
 
 do
 	local sortMe = {}
+	local OutdatedUsers = {}
 
 	local function sort(v1, v2)
 		if v1.revision and not v2.revision then
@@ -1572,24 +1582,30 @@ do
 			tinsert(sortMe, v)
 		end
 		tsort(sortMe, sort)
+		twipe(OutdatedUsers)
 		self:AddMsg(DBM_CORE_VERSIONCHECK_HEADER)
 		for i, v in ipairs(sortMe) do
 			if v.displayVersion and not (v.bwrevision or v.bwarevision) then--DBM, no BigWigs
-				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(v.name, "DBM "..v.displayVersion, v.revision, v.VPVersion or ""))--Only display VP version if not running two mods
-				if notify and v.revision < DBM.ReleaseRevision then
+				if self.Options.ShowAllVersions then
+					self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(v.name, "DBM "..v.displayVersion, v.revision, v.VPVersion or ""))--Only display VP version if not running two mods
+				end
+				if notify and v.revision < self.ReleaseRevision then
 					SendChatMessage(chatPrefixShort..DBM_CORE_YOUR_VERSION_OUTDATED, "WHISPER", nil, v.name)
 				end
-			elseif v.displayVersion and (v.bwrevision or v.bwarevision) then--DBM & BigWigs
+			elseif self.Options.ShowAllVersions and (v.displayVersion and (v.bwrevision or v.bwarevision)) then--DBM & BigWigs
 				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY_TWO:format(v.name, "DBM "..v.displayVersion, v.revision, v.bwarevision and DBM_BIG_WIGS_ALPHA or DBM_BIG_WIGS, v.bwarevision or v.bwrevision))
-			elseif not v.displayVersion and (v.bwrevision or v.bwarevision) then--BigWigs, No DBM
+			elseif self.Options.ShowAllVersions and (not v.displayVersion and (v.bwrevision or v.bwarevision)) then--BigWigs, No DBM
 				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(v.name, v.bwarevision and DBM_BIG_WIGS_ALPHA or DBM_BIG_WIGS, v.bwarevision or v.bwrevision, ""))
 			else
-				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM:format(v.name))
+				if self.Options.ShowAllVersions then
+					self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM:format(v.name))
+				end
 			end
 		end
 		local TotalUsers = #sortMe
 		local NoDBM = 0
 		local NoBigwigs = 0
+		local OldMod = 0
 		for i = #sortMe, 1, -1 do
 			if not sortMe[i].revision then
 				NoDBM = NoDBM + 1
@@ -1597,10 +1613,19 @@ do
 			if not (sortMe[i].bwarevision or sortMe[i].bwrevision) then
 				NoBigwigs = NoBigwigs + 1
 			end
+			--Table sorting sorts dbm to top, bigwigs underneath. Highest version dbm always at top. so sortMe[1]
+			--This check compares all dbm version to highest RELEASE version in raid.
+			if sortMe[i].revision and (sortMe[i].revision < sortMe[1].version) or sortMe[i].bwrevision and (sortMe[i].bwrevision < fakeBWRevision) then
+				OldMod = OldMod + 1
+				tinsert(OutdatedUsers, sortMe[i].name)
+			end
 		end
 		local TotalDBM = TotalUsers - NoDBM
 		local TotalBW = TotalUsers - NoBigwigs
 		self:AddMsg(DBM_CORE_VERSIONCHECK_FOOTER:format(TotalDBM, TotalBW))
+		self:AddMsg(DBM_CORE_VERSIONCHECK_OUTDATED:format(OldMod, #OutdatedUsers > 0 and table.concat(OutdatedUsers, ", ") or NONE))
+		twipe(OutdatedUsers)
+		twipe(sortMe)
 		for i = #sortMe, 1, -1 do
 			sortMe[i] = nil
 		end
@@ -2710,6 +2735,7 @@ function DBM:LoadMod(mod, force)
 		end
 		return
 	end
+	EJ_SetDifficulty(difficultyIndex)--Work around blizzard crash bug where other mods (like Boss) screw with Ej difficulty value, which makes EJ_GetSectionInfo crash the game when called with invalid difficulty index set.
 	self:Debug("LoadAddOn should have fired for "..mod.name)
 	local loaded, reason = LoadAddOn(mod.modId)
 	self:Debug("LoadAddOn should have succeeded for "..mod.name, 2)
@@ -2957,6 +2983,7 @@ do
 			DBM:GetModLocalization("PullTimerCountdownDummy"):SetGeneralLocalization{ name = DBM_CORE_MINIMAP_TOOLTIP_HEADER }
 			dummyMod.countdown = dummyMod:NewCountdown(0, 0, nil, nil, nil, true)
 			dummyMod.text = dummyMod:NewAnnounce("%s", 1, 2457)
+			dummyMod.geartext = dummyMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3)
 		end
 		--Cancel any existing pull timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
 		if not DBM.Options.DontShowPT2 and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL) then
@@ -2990,6 +3017,13 @@ do
 			dummyMod.text:Schedule(timer, DBM_CORE_ANNOUNCE_PULL_NOW)
 		end
 		DBM:StartLogging(timer, checkForActualPull)
+		if DBM.Options.CheckGear then
+			local bagilvl, equippedilvl = GetAverageItemLevel()
+			local difference = bagilvl - equippedilvl
+			if IsInRaid() and difference >= 40 then
+				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING:format(floor(difference)))
+			end
+		end
 	end
 	
 	syncHandlers["BT"] = function(sender, timer)
@@ -3074,6 +3108,11 @@ do
 	end
 
 	local function SendVersion()
+		if DBM.Options.FakeBWVersion then
+			SendAddonMessage("BigWigs", ("VR:%d"):format(fakeBWRevision), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")--Pretending to be bigwigs, don't send dbm version information
+			return
+		end
+		--(Note, faker isn't to screw with bigwigs nor is theirs to screw with dbm, but rathor raid leaders who don't let people run WTF they want to run)
 		local VPVersion
 		local VoicePack = DBM.Options.ChosenVoicePack
 		if VoicePack ~= "None" then
@@ -3191,6 +3230,12 @@ do
 		text = tostring(text)
 		if time and text then
 			DBM:CreatePizzaTimer(time, text, nil, sender, true)
+		end
+	end
+	
+	syncHandlers["RBW2"] = function(sender, spellId, spellName)
+		if DBM.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
+			DBM:Debug("RAID_BOSS_WHISPER on "..sender.." with spell of "..spellName.." ("..spellId..")")
 		end
 	end
 
@@ -3530,7 +3575,7 @@ do
 		local function getNumDBMUsers() -- without ourselves
 			local r = 0
 			for i, v in pairs(raid) do
-				if v.revision and v.name ~= playerName and UnitIsConnected(DBM:GetRaidUnitId(v.name)) then
+				if v.revision and v.name ~= playerName and UnitIsConnected(v.id) then
 					r = r + 1
 				end
 			end
@@ -3640,11 +3685,20 @@ do
 		if prefix == "D4" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" or channel == "GUILD") then
 			sender = Ambiguate(sender, "none")
 			handleSync(channel, sender, strsplit("\t", msg))
-		elseif prefix == "BigWigs" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" and self:GetRaidUnitId(sender)) then
+		elseif prefix == "BigWigs" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT") then
 			local bwPrefix, bwMsg = msg:match("^(%u-):(.+)")
-			if bwPrefix and (bwPrefix == "VR" or bwPrefix == "VRA") then--We only care about version prefixes so only pass those prefixes on
-				sender = Ambiguate(sender, "none")
-				handleSync(channel, sender, bwPrefix, bwMsg)
+			if bwPrefix then
+				if bwPrefix == "VR" or bwPrefix == "VRA" then--Version information prefixes
+					sender = Ambiguate(sender, "none")
+					handleSync(channel, sender, bwPrefix, bwMsg)
+					bwMsg = tonumber(bwMsg) or 0
+					if bwPrefix == "VR" then--Only upgrade to latest release version found
+						if bwMsg > fakeBWRevision then fakeBWRevision = bwMsg end--Newer revision found, upgrade!
+					end
+				elseif prefix == "VQ" then--Version request prefix
+					self:Unschedule(SendVersion)
+					self:Schedule(3, SendVersion)
+				end
 			end
 		end
 	end
@@ -3850,14 +3904,12 @@ do
 		end
 	end
 
-	--TODO, waste less cpu and register Unit event somehow. DBMs register events code is so conviluted though that it's difficult to add without tons of work.
-	--This may be spammy but only for debug mode. It's very important for raid testing though. i've had too many bosses where even though I tested boss
-	--And I have transcriptor log, i still don't know which event is right one sometimes. It's important to SEE which event is firing during an exact moment of a fight.
+	--TODO, waste less cpu and register Unit only events for boss1-5
 	function DBM:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		if not (uId == "boss1" or uId == "boss2" or uId == "boss3" or uId == "boss4" or uId == "boss5") then return end
-		if self.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
-			self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")")
-		end
+		--Changed, only fire for debug level 3 period. transcriptor running now only forces RBW2 and UTC.
+		--This event is way too spammy to see every time transcriptor running. Only want from time to time
+		self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")", 3)
 	end
 
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
@@ -3972,6 +4024,16 @@ do
 	function DBM:RAID_BOSS_EMOTE(msg, ...)--This is a mirror of above prototype only it has less args, both still exist for some reason.
 		onMonsterMessage("emote", msg)
 		return self:FilterRaidBossEmote(msg, ...)
+	end
+	
+	function DBM:RAID_BOSS_WHISPER(msg)
+		--Make it easier for devs to detect whispers they are unable to see
+		--TINTERFACE\\ICONS\\ability_socererking_arcanewrath.blp:20|t You have been branded by |cFFF00000|Hspell:156238|h[Arcane Wrath]|h|r!"
+		if msg:find("spell:") and IsInGroup() then
+			local spellId = string.match(msg, "spell:(%d+)") or UNKNOWN
+			local spellName = string.match(msg, "h%[(.-)%]|h") or UNKNOWN
+			sendSync("RBW2", spellId, spellName)
+		end
 	end
 
 	function DBM:CHAT_MSG_MONSTER_SAY(msg)
@@ -4189,10 +4251,26 @@ function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		self:ToggleRaidBossEmoteFrame(1)
 		self:ToggleGarrisonAlertsFrame(1)
 		self:StartLogging(0, nil)
-		if self.Options.HideObjectivesFrame and not (mod.type == "SCENARIO") and GetNumTrackedAchievements() == 0 then
+		if self.Options.HideObjectivesFrame and mod.type ~= "SCENARIO" and GetNumTrackedAchievements() == 0 then
 			if ObjectiveTrackerFrame:IsVisible() then
 				ObjectiveTrackerFrame:Hide()
 				watchFrameRestore = true
+			end
+			--When hiding objectives frame in challenge modes, start our own timer to show medal time remaining
+			local _, elapsedTime, worldTimerType = GetWorldElapsedTime(1)--Should always be 1, with only one world state timer active. if it's not, use GetWorldElapsedTimers() to find correct one
+			if worldTimerType == 2 then--Challenge mode
+				local bronze, silver, gold = GetChallengeModeMapTimes(LastInstanceMapID)
+				local remaining
+				if elapsedTime < gold then
+					remaining = gold - elapsedTime
+					self.Bars:CreateBar(remaining, CHALLENGE_MODE_MEDAL3, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+				elseif elapsedTime < silver then
+					remaining = silver - elapsedTime
+					self.Bars:CreateBar(remaining, CHALLENGE_MODE_MEDAL2, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+				elseif elapsedTime < bronze then
+					remaining = bronze - elapsedTime
+					self.Bars:CreateBar(remaining, CHALLENGE_MODE_MEDAL1, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+				end
 			end
 		end
 		if self.Options.HideTooltips and not mod.inScenario then
@@ -4587,6 +4665,12 @@ function DBM:EndCombat(mod, wipe)
 			if self.Options.HideObjectivesFrame and watchFrameRestore and not scenario then
 				ObjectiveTrackerFrame:Show()
 				watchFrameRestore = false
+				if difficultyIndex == 8 then
+					--Cancel any and all CM medal when unhiding objectives frame
+					self.Bars:CancelBar(CHALLENGE_MODE_MEDAL1)
+					self.Bars:CancelBar(CHALLENGE_MODE_MEDAL2)
+					self.Bars:CancelBar(CHALLENGE_MODE_MEDAL3)
+				end
 			end
 			if tooltipsHidden then
 				--Better or cleaner way?
@@ -4639,7 +4723,7 @@ function DBM:OnMobKill(cId, synced)
 			self.BossHealth:RemoveBoss(cId)
 			if v.numBoss then
 				v.vb.bossLeft = (v.vb.bossLeft or v.numBoss) - 1
-				self:Debug("Boss left - "..v.vb.bossLeft.."/"..v.numBoss)
+				self:Debug("Boss left - "..v.vb.bossLeft.."/"..v.numBoss, 2)
 			end
 			local allMobsDown = true
 			for i, v in pairs(v.combatInfo.killMobs) do
@@ -4786,7 +4870,7 @@ do
 		for i, v in pairs(raid) do
 			-- If bestClient player's realm is not same with your's, timer recovery by bestClient not works at all.
 			-- SendAddonMessage target channel is "WHISPER" and target player is other realm, no msg sends at all. At same realm, message sending works fine. (Maybe bliz bug or SendAddonMessage function restriction?)
-			if v.name ~= playerName and UnitIsConnected(v.id) and (not UnitIsGhost(v.id)) and not select(2, GetUnitName(v.id, true)) and v.revision and v.revision >= ((bestClient and bestClient.revision) or 0) and (GetTime() - (clientUsed[v.name] or 0)) > 10 then
+			if v.name ~= playerName and UnitIsConnected(v.id) and (not UnitIsGhost(v.id)) and UnitRealmRelationship(v.id) ~= 2 and v.revision and v.revision >= ((bestClient and bestClient.revision) or 0) and (GetTime() - (clientUsed[v.name] or 0)) > 10 then
 				bestClient = v
 				clientUsed[v.name] = GetTime()
 			end
@@ -6527,18 +6611,15 @@ end
 --  Sound Object  --
 --------------------
 do
-	--Run Away Sound Object
+	--Sound Object (basically only used by countdown now)
 	local soundPrototype = {}
 	local mt = { __index = soundPrototype }
-	function bossModPrototype:NewSound(spellId, optionDefault, optionName, optionVersion)
-		if not spellId and not optionName then
-			error("NewSound: you must provide either spellId or optionName", 2)
+	function bossModPrototype:NewSound(spellId, optionDefault, optionName)
+		if not (optionName == false) then--Basically, all mods still using NewSound.
+			-- Because there are going to be users who update core and not old mods, we need to check and alert
+			--I'll try to avoid this as much as possible by removing NewSound from all old mods in advance of dbm core update
+			print("Error, NewSound depricated. Update your old DBM mods to remove this error")
 			return
-		end
-		if type(spellId) == "string" and spellId:match("OptionVersion") then
-			local temp = optionVersion
-			optionVersion = string.sub(spellId, 14)
-			spellId, optionDefault, optionName = optionDefault, optionName, temp
 		end
 		self.numSounds = self.numSounds and self.numSounds + 1 or 1
 		local obj = setmetatable(
@@ -6547,26 +6628,14 @@ do
 			},
 			mt
 		)
-		if optionName then
-			obj.option = optionName
-			self:AddBoolOption(obj.option, optionDefault, "sound")
-		elseif not (optionName == false) then
-			obj.option = "Sound"..spellId..(optionVersion or "")
-			self:AddBoolOption(obj.option, optionDefault, "sound")
-			self.localization.options[obj.option] = DBM_CORE_AUTO_SOUND_OPTION_TEXT:format(spellId)
-		end
 		return obj
 	end
-	bossModPrototype.NewRunAwaySound = bossModPrototype.NewSound
 
 	function soundPrototype:Play(file)
-		if DBM.Options.DontPlayRunAway then return end
-		if not self.option or self.mod.Options[self.option] then
-			if DBM.Options.UseMasterVolume then
-				PlaySoundFile(file or "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
-			else
-				PlaySoundFile(file or "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg")
-			end
+		if DBM.Options.UseMasterVolume then
+			PlaySoundFile(file, "Master")
+		else
+			PlaySoundFile(file)
 		end
 	end
 
@@ -6611,7 +6680,6 @@ do
 		return obj
 	end
 
-	--types: "now", "soon", "in5", "movein", "moveout" --Other types as needed, mainly so we can use multiple voies for same spellid if needed (to say, have both a soon and now warning)
 	--If no file at path, it should silenty fail. However, I want to try to only add NewVoice to mods for files that already exist.
 	function soundPrototype2:Play(name)
 		if DBM.Options.ChosenVoicePack == "None" then return end
@@ -6638,47 +6706,6 @@ do
 	end
 end
 
-	--Old Voice Object, by Mini_Dragon
-do
-	local soundPrototype3 = {}
-	local mt3 = { __index = soundPrototype3 }
-	function bossModPrototype:SoundMM(SoundMMtag, SoundMMoption)
-		self.numSounds = self.numSounds and self.numSounds + 1 or 1
-		if (soundMMoption == nil) then
-			soundMMoption = true
-		end
-		local obj3 = setmetatable(
-			{
-				mod = self,
-			},
-			mt3
-		)
-		self:AddBoolOption(SoundMMtag, SoundMMoption, "misc")
-		return obj3
-	end
-
-	function soundPrototype3:Play(name)
-		if soundMMoption then
-			if DBM.Options.UseMasterVolume then
-				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..name..".ogg", "Master")
-			else
-				PlaySoundFile("Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\"..name..".ogg")
-			end
-		end
-	end
-
-	function soundPrototype3:Schedule(t, ...)
-		if soundMMoption then
-			return schedule(t, self.Play, self.mod, self, ...)
-		end
-	end
-
-	function soundPrototype3:Cancel(...)
-		if soundMMoption then
-			return unschedule(self.Play, self.mod, self, ...)
-		end
-	end
-end
 ----------------------------
 --  Countdown/out object  --
 ----------------------------
@@ -6708,10 +6735,10 @@ do
 					DBM:Schedule(timer%1, showCountdown, floor(timer))
 				end
 			end
+			if DBM.Options.DontPlayCountdowns then return end
 			local voice = DBM.Options.CountdownVoice
 			local voice2 = DBM.Options.CountdownVoice2
 			local voice3 = DBM.Options.CountdownVoice3
-			if voice == "None" then return end
 			if self.alternateVoice == 2 then
 				voice = voice2
 			end
@@ -6730,6 +6757,19 @@ do
 						if i <= 5 then
 							self.sound5:Schedule(timer-i, "Interface\\AddOns\\DBM-Core\\Sounds\\Mosh\\"..i..".ogg")
 						end
+					end
+				end
+			elseif voice:find("VP:") then--voice pack voice
+				local _, voiceValue = string.split(":", voice)
+				if self.type == "Countout" then
+					for i = 1, timer do
+						if i < 11 then
+							self.sound5:Schedule(i, "Interface\\AddOns\\DBM-VP"..voiceValue.."\\count\\"..i..".ogg")
+						end
+					end
+				else
+					for i = count, 1, -1 do
+						self.sound5:Schedule(timer-i, "Interface\\AddOns\\DBM-VP"..voiceValue.."\\count\\"..i..".ogg")
 					end
 				end
 			else--Voice that goes to 10
@@ -6949,6 +6989,8 @@ do
 					DBM.Flash:Show(DBM.Options.SpecialWarningFlashCol2[1],DBM.Options.SpecialWarningFlashCol2[2], DBM.Options.SpecialWarningFlashCol2[3], DBM.Options.SpecialWarningFlashDura2, DBM.Options.SpecialWarningFlashAlph2)
 				elseif self.flash == 3 then
 					DBM.Flash:Show(DBM.Options.SpecialWarningFlashCol3[1],DBM.Options.SpecialWarningFlashCol3[2], DBM.Options.SpecialWarningFlashCol3[3], DBM.Options.SpecialWarningFlashDura3, DBM.Options.SpecialWarningFlashAlph3)
+				elseif self.flash == 4 then
+					DBM.Flash:Show(DBM.Options.SpecialWarningFlashCol4[1],DBM.Options.SpecialWarningFlashCol4[2], DBM.Options.SpecialWarningFlashCol4[3], DBM.Options.SpecialWarningFlashDura4, DBM.Options.SpecialWarningFlashAlph4)
 				end
 			end
 			frame:Show()
@@ -6979,17 +7021,21 @@ do
 		return unschedule(self.Show, self.mod, self, ...)
 	end
 
-	function bossModPrototype:NewSpecialWarning(text, optionDefault, optionName, noSound, runSound, hasVoice)
+	function bossModPrototype:NewSpecialWarning(text, optionDefault, optionName, noSound, runSound, optionVersion, hasVoice)
 		if not text then
 			error("NewSpecialWarning: you must provide special warning text", 2)
 			return
+		end
+		if type(text) == "string" and text:match("OptionVersion") then
+			local temp = optionVersion
+			optionVersion = string.sub(text, 14)
+			text, optionDefault, optionName, noSound, runSound = optionDefault, optionName, noSound, runSound, temp
 		end
         if runSound == true then
 			runSound = 2
 		elseif not runSound then
 			runSound = 1
 		end
-		local flash
 		local obj = setmetatable(
 			{
 				text = self.localization.warnings[text],
@@ -7003,7 +7049,7 @@ do
 		local optionId = optionName or optionName ~= false and text
 		if optionId then
 			obj.voiceOptionId = hasVoice and "Voice"..optionId or nil
-			obj.option = optionId
+			obj.option = optionId..(optionVersion or "")
 			self:AddSpecialWarningOption(optionId, optionDefault, runSound, "announce")
 		end
 		tinsert(self.specwarns, obj)
@@ -7032,7 +7078,6 @@ do
 			spellName = GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
 		end
 		local text
-		local flash
 		if announceType == "prewarn" then
 			if type(stacks) == "string" then
 				text = DBM_CORE_AUTO_SPEC_WARN_TEXTS[announceType]:format(spellName, stacks)
@@ -7179,20 +7224,67 @@ do
 				voice = "Corsica"
 			end
 		end--If number is higher than 5 and users primary voice setting ismosh, fallback to secondary voice setting
-		if DBM.Options.UseMasterVolume then
-			PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\"..voice.."\\"..number..".ogg", "Master")
+		local path
+		if voice:find("VP:") then
+			local _, voiceValue = string.split(":", voice)
+			path = "Interface\\AddOns\\DBM-VP"..voiceValue.."\\count\\"..number..".ogg"
 		else
-			PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\"..voice.."\\"..number..".ogg")
+			path = "Interface\\AddOns\\DBM-Core\\Sounds\\"..voice.."\\"..number..".ogg"
+		end
+		if DBM.Options.UseMasterVolume then
+			PlaySoundFile(path, "Master")
+		else
+			PlaySoundFile(path)
 		end
 	end
 
 	function DBM:CheckVoicePackVersion(value)
+		--Check if voice pack missing
+		if self.Options.ChosenVoicePack ~= "None"  and not self.VoiceVersions[value] then--A voice pack is selected but has nil version (not possible unless voice pack disabled
+			self.Options.ChosenVoicePack = "None"--Set ChosenVoicePack back to None
+			self:AddMsg(DBM_CORE_VOICE_MISSING)
+		end
+		--Check if voice pack out of date
 		if self.Options.ChosenVoicePack == value then
 			if self.VoiceVersions[value] < 1 then--Version will be bumped when new voice packs released that contain new voices.
 				self:AddMsg(DBM_CORE_VOICE_PACK_OUTDATED)
 				SWFilterDisabed = true
 			else
 				SWFilterDisabed = false
+			end
+		end
+		--Check if any of countdown sounds are using missing voice pack
+		local voice1 = self.Options.CountdownVoice
+		local voice2 = self.Options.CountdownVoice2
+		local voice3 = self.Options.CountdownVoice3
+		if voice1 == "None" then--Migrate to new setting
+			self.Options.CountdownVoice = self.DefaultOptions.CountdownVoice
+			self.Options.DontPlayCountdowns = true
+		end
+		if voice1 == "Yike" then--Migration for CN Users
+			if self.VoiceVersions["Yike"] then
+				self.Options.CountdownVoice = "VP:Yike"
+			else
+				self.Options.CountdownVoice = self.DefaultOptions.CountdownVoice--Defaults
+			end
+		end
+		if voice1:find("VP:") then
+			local _, voiceValue = string.split(":", voice1)
+			if not self.VoiceVersions[voiceValue] then
+				self:AddMsg(DBM_CORE_VOICE_COUNT_MISSING:format(1))
+				self.Options.CountdownVoice1 = self.DefaultOptions.CountdownVoice
+			end
+		elseif voice2:find("VP:") then
+			local _, voiceValue = string.split(":", voice2)
+			if not self.VoiceVersions[voiceValue] then
+				self:AddMsg(DBM_CORE_VOICE_COUNT_MISSING:format(2))
+				self.Options.CountdownVoice2 = self.DefaultOptions.CountdownVoice2
+			end
+		elseif voice3:find("VP:") then
+			local _, voiceValue = string.split(":", voice3)
+			if not self.VoiceVersions[voiceValue] then
+				self:AddMsg(DBM_CORE_VOICE_COUNT_MISSING:format(3))
+				self.Options.CountdownVoice3 = self.DefaultOptions.CountdownVoice3
 			end
 		end
 	end
@@ -7286,6 +7378,8 @@ do
 				self.Flash:Show(self.Options.SpecialWarningFlashCol2[1],self.Options.SpecialWarningFlashCol2[2], self.Options.SpecialWarningFlashCol2[3], self.Options.SpecialWarningFlashDura2, self.Options.SpecialWarningFlashAlph2)
 			elseif number == 3 then
 				self.Flash:Show(self.Options.SpecialWarningFlashCol3[1],self.Options.SpecialWarningFlashCol3[2], self.Options.SpecialWarningFlashCol3[3], self.Options.SpecialWarningFlashDura3, self.Options.SpecialWarningFlashAlph3)
+			elseif number == 4 then
+				self.Flash:Show(self.Options.SpecialWarningFlashCol4[1],self.Options.SpecialWarningFlashCol4[2], self.Options.SpecialWarningFlashCol4[3], self.Options.SpecialWarningFlashDura4, self.Options.SpecialWarningFlashAlph4)
 			end
 		end
 	end
@@ -8103,6 +8197,10 @@ function bossModPrototype:SetIcon(target, icon, timer)
 		return
 	end
 	self:UnscheduleMethod("SetIcon", target)
+	if type(icon) ~= "number" or type(target) ~= "string" then--icon/target probably backwards.
+		DBM:Debug("SetIcon is being used impropperly. Check icon/target order")
+		return--Fail silently instead of spamming icon lua errors if we screw up
+	end
 	icon = icon and icon >= 0 and icon <= 8 and icon or 8
 	local uId = DBM:GetRaidUnitId(target)
 	if uId and UnitIsUnit(uId, "player") and DBM:GetNumRealGroupMembers() < 2 then return end--Solo raid, no reason to put icon on yourself.

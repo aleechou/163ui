@@ -1,0 +1,27 @@
+﻿## Interface: 60000
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Serpentshrine Cavern|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0불뱀 제단|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Höhle des Schlangenschreins|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0毒蛇神殿洞穴|r
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMSerpentshrine_SavedVars, DBMSerpentshrine_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: BC
+## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-Mod-MapID: 548
+## X-DBM-Mod-Sort: 504
+localization.en.lua
+localization.cn.lua
+localization.de.lua
+localization.kr.lua
+localization.ru.lua
+localization.tw.lua
+Hydross.lua
+TheLurkerBelow.lua
+Leotheras.lua
+Fathomlord.lua
+Tidewalker.lua
+Vashj.lua

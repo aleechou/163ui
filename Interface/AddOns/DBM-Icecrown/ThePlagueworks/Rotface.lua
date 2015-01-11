@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("Rotface", "DBM-Icecrown", 2)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 58 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetCreatureID(36627)
+mod:SetEncounterID(1104)
 mod:SetModelID(31005)
 mod:SetUsedIcons(7, 8)
 mod:RegisterCombat("combat")
@@ -43,8 +43,6 @@ local timerSlimeSpray			= mod:NewNextTimer(21, 69508)
 local timerMutatedInfection		= mod:NewTargetTimer(12, 69674)
 local timerOozeExplosion		= mod:NewCastTimer(4, 69839)
 local timerVileGasCD			= mod:NewNextTimer(30, 72272)
-
-
 
 mod:AddBoolOption("RangeFrame", mod:IsRanged())
 mod:AddBoolOption("InfectionIcon", true)
@@ -95,31 +93,23 @@ function mod:SPELL_CAST_START(args)
 		timerSlimeSpray:Start()
 		warnSlimeSpray:Show()
 		specWarnSlimeSpray:Show()
-		sndWOP:Play("gasrain")
 	elseif args.spellId == 69774 then
 		timerStickyOoze:Start()
 		warnStickyOoze:Show()
 	elseif args.spellId == 69839 then --Unstable Ooze Explosion (Big Ooze)
 		if GetTime() - spamOoze < 4 then --This will prevent spam but breaks if there are 2 oozes. GUID work is required
 			specWarnOozeExplosion:Cancel()
-			sndWOP:Cancel("countthree")
-			sndWOP:Cancel("counttwo")
-			sndWOP:Cancel("countone")
 		end
 		if GetTime() - spamOoze < 4 or GetTime() - spamOoze > 5 then --Attempt to ignore a cast that may fire as an ooze is already exploding.
 			timerOozeExplosion:Start()
 			specWarnOozeExplosion:Schedule(4)
-			sndWOP:Play("boom")
-			sndWOP:Schedule(1.5, "countthree")
-			sndWOP:Schedule(2.5, "counttwo")
-			sndWOP:Schedule(3.5, "countone")
 		end
 		spamOoze = GetTime()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsPlayer() and args.spellId == 71208 then
+	if args:IsPlayer() and args.spellId == 69774 then
 		specWarnStickyOoze:Show()
 	elseif args.spellId == 69760 then
 		warnRadiatingOoze:Show()
@@ -130,7 +120,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerMutatedInfection:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnMutatedInfection:Show()
-			sndWOP:Play("infect")
 		end
 		if self.Options.InfectionIcon then
 			self:SetIcon(args.destName, InfectionIcon, 12)
@@ -171,7 +160,6 @@ end
 function mod:SPELL_DAMAGE(sourceGUID, sourceName, sourceFlags, _, destGUID, _, _, _, spellId)
 	if spellId == 69761 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnRadiatingOoze:Show()
-		sndWOP:Play("runaway")
 	elseif spellId ~= 50288 and self:GetCIDFromGUID(destGUID) == 36899 and bit.band(sourceFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and self:IsInCombat() then--Any spell damage except for starfall
 		if sourceGUID ~= UnitGUID("player") then
 			if self.Options.TankArrow then

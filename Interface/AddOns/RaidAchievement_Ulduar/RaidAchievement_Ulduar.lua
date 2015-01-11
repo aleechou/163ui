@@ -219,13 +219,13 @@ end
 ratimedefenderlastkill=GetTime()
 
 if (wherereportraidach=="sebe") then
-DEFAULT_CHAT_FRAME:AddMessage("- "..achlinnk.." "..pseatrebulda2)
+	DEFAULT_CHAT_FRAME:AddMessage("- "..achlinnk.." "..pseatrebulda2)
 else
-if (UnitIsGroupAssistant("player")==nil and UnitIsGroupLeader("player")==nil) and wherereportraidach=="raid_warning" then
-razapuskanonsa("raid", "{rt1} "..achlinnk.." "..pseatrebulda2)
-else
-razapuskanonsa(wherereportraidach, "{rt1} "..achlinnk.." "..pseatrebulda2)
-end
+	if (UnitIsGroupAssistant("player")==nil and UnitIsGroupLeader("player")==nil) and wherereportraidach=="raid_warning" then
+	razapuskanonsa("raid", "{rt1} "..achlinnk.." "..pseatrebulda2)
+	else
+	razapuskanonsa(wherereportraidach, "{rt1} "..achlinnk.." "..pseatrebulda2)
+	end
 end
 
 end

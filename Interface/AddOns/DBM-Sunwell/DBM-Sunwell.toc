@@ -1,0 +1,29 @@
+﻿## Interface: 60000
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sunwell|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0태양샘 고원|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Der Sonnenbrunnen|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0太陽之井|r
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMSunwell_SavedVars, DBMSunwell_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: BC
+## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-Mod-MapID: 580
+## X-DBM-Mod-Sort: 500
+localization.en.lua
+localization.cn.lua
+localization.de.lua
+localization.kr.lua
+localization.ru.lua
+localization.tw.lua
+Kalecgos.lua
+KalecgosFrame.lua
+KalecgosFrame.xml
+Brutallus.lua
+Felmyst.lua
+EredarTwins.lua
+M'uru.lua
+Kil'jaeden.lua

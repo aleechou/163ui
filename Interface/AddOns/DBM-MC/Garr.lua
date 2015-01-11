@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Garr-Classic", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 549 $"):sub(12, -3))
 mod:SetCreatureID(12057)--, 12099
@@ -25,9 +24,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 15732 and self:IsInCombat() then
 		warnImmolate:CombinedShow(1, args.destName)
-		if mod:IsHealer() then
-			Yike:Play("dispelnow")
-		end
 	end
 end
 

@@ -489,7 +489,7 @@ end
 if arg2=="SPELL_PERIODIC_DAMAGE" and (arg9==70338 or arg9==73785 or arg9==73786 or arg9==73787) and arg12 then
 	if icraspisokon[9]=="yes" and raachdone2 then
 	local stack=0
-	if select(3,GetInstanceInfo())==6 then
+	if select(3,GetInstanceInfo())==6 or GetRaidDifficultyID()==2 or GetRaidDifficultyID()==4 then
 		local risult=arg12/162000
 		if math.ceil(risult)==risult then
 			stack=risult
@@ -502,7 +502,7 @@ if arg2=="SPELL_PERIODIC_DAMAGE" and (arg9==70338 or arg9==73785 or arg9==73786 
 			end
 		end
 	end
-	if select(3,GetInstanceInfo())==5 then
+	if select(3,GetInstanceInfo())==5 or GetRaidDifficultyID()==2 or GetRaidDifficultyID()==4 then
 		local risult=arg12/108000
 		if math.ceil(risult)==risult then
 			stack=risult

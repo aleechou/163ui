@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(966, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12173 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12254 $"):sub(12, -3))
 mod:SetCreatureID(76141)
 mod:SetEncounterID(1699)--Verify, name doesn't match
 mod:SetZone()
@@ -9,7 +9,7 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 154135",
+	"SPELL_CAST_START 154110 154113 154135",
 	"SPELL_AURA_APPLIED 154159"
 )
 
@@ -19,6 +19,7 @@ local warnEnergize		= mod:NewSpellAnnounce(154159, 3)
 local warnBurst			= mod:NewCountAnnounce(154135, 3)
 
 local specWarnBurst		= mod:NewSpecialWarningCount(154135, nil, nil, nil, 2)
+local specWarnSmash		= mod:NewSpecialWarningMove("OptionVersion2", 154110, mod:IsTank())
 
 local timerEnergozeCD	= mod:NewNextTimer(20, 154159)
 local timerBurstCD		= mod:NewCDCountTimer(23, 154135)
@@ -41,6 +42,8 @@ function mod:SPELL_CAST_START(args)
 		warnBurst:Show(self.vb.burstCount)
 		specWarnBurst:Show(self.vb.burstCount)
 		timerBurstCD:Start(nil, self.vb.burstCount+1)
+	elseif args:IsSpellID(154110, 154113) then
+		specWarnSmash:Show()
 	end
 end
 

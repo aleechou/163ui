@@ -1,11 +1,10 @@
-﻿local mod	= DBM:NewMod(657, "DBM-Party-MoP", 3, 312)
+local mod	= DBM:NewMod(657, "DBM-Party-MoP", 3, 312)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 3 $"):sub(12, -3))
 mod:SetCreatureID(56541)
+mod:SetEncounterID(1304)
 mod:SetZone()
-mod:SetMinSyncRevision(7888)
 mod:SetReCombatTime(60)
 
 -- pre-bosswave. Novice -> Black Sash (Fragrant Lotus, Flying Snow). this runs automaticially.
@@ -65,9 +64,6 @@ function mod:SPELL_CAST_START(args)
 		warnFistsOfFury:Show()
 		specWarnFists:Show()
 		timerFistsOfFuryCD:Start()
-		if mod:IsTank() then
-			sndWOP:Play("runaway")--快躲開
-		end
 	elseif args.spellId == 106434 then
 		warnTornadoKick:Show()
 		timerTornadoKickCD:Start()
@@ -79,10 +75,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		phase = phase + 1
 		if phase == 2 then
 			warnPhase2:Show()
-			sndWOP:Play("phasechange")
 		elseif phase == 3 then
 			warnPhase3:Show()
-			sndWOP:Play("phasechange")
 		end
 		timerFistsOfFuryCD:Cancel()
 		timerTornadoKickCD:Cancel()

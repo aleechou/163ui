@@ -1,27 +1,24 @@
 local mod	= DBM:NewMod(331, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 115 $"):sub(12, -3))
 mod:SetCreatureID(55294)
-mod:SetModelSound("sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_INTRO_01.OGG", "sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_AGGRO_01")
+mod:SetEncounterID(1297)
 mod:SetZone()
-mod:SetUsedIcons()
+mod:SetModelSound("sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_INTRO_01.OGG", "sound\\CREATURE\\ULTRAXION\\VO_DS_ULTRAXION_AGGRO_01.OGG")
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
-	"CHAT_MSG_RAID_BOSS_EMOTE"
+	"SPELL_CAST_START 106371 106388",
+	"SPELL_AURA_APPLIED 105925 109075 106498"
 )
 
 mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY"
 )
 
-local warnHourofTwilightSoon		= mod:NewPreWarnAnnounce(106371, 15, 4)
+local warnHourofTwilightSoon		= mod:NewPreWarnAnnounce(106371, 15, 4)--Why 15? because this warning signals the best time to pop 1min CDs a second time. (ie lets say you a tank in HoT1 group, you SW, your SW will be usuable one more time before next HoT1, but when do you use it? 15 seconds before the 3rd HoT exactly, then it's stil up for 3rd HoT and still back off cd for HoT1)
 local warnHourofTwilight			= mod:NewCountAnnounce(106371, 4)
 local warnFadingLight				= mod:NewTargetCountAnnounce(109075, 3)
 
@@ -32,6 +29,8 @@ local specWarnFadingLightOther		= mod:NewSpecialWarningTarget(109075, mod:IsTank
 local specWarnTwilightEruption		= mod:NewSpecialWarningSpell(106388, nil, nil, nil, true)
 
 local timerCombatStart				= mod:NewTimer(35, "TimerCombatStart", 2457)
+local timerUnstableMonstrosity		= mod:NewNextTimer(60, 106372, nil, mod:IsHealer())
+local timerHourofTwilight			= mod:NewCastTimer(5, 106371)
 local timerHourofTwilightCD			= mod:NewNextCountTimer(45.5, 106371)
 local timerTwilightEruption			= mod:NewCastTimer(5, 106388)
 local timerFadingLight				= mod:NewBuffFadesTimer(10, 109075)
@@ -39,33 +38,29 @@ local timerFadingLightCD			= mod:NewNextTimer(10, 109075)
 local timerGiftofLight				= mod:NewNextTimer(80, 105896, nil, mod:IsHealer())
 local timerEssenceofDreams			= mod:NewNextTimer(155, 105900, nil, mod:IsHealer())
 local timerSourceofMagic			= mod:NewNextTimer(215, 105903, nil, mod:IsHealer())
+local timerLoomingDarkness			= mod:NewBuffFadesTimer(120, 106498)
+local timerRaidCDs					= mod:NewTimer(60, "timerRaidCDs", 2565, nil, false)
 
 local berserkTimer					= mod:NewBerserkTimer(360)
 
-mod:AddBoolOption("holditHoT1", false)
-mod:AddBoolOption("holditHoT2", false)
-mod:AddBoolOption("holditHoT3", false)
-mod:AddBoolOption("holditHoT4", false)
-mod:AddBoolOption("holditHoT5", false)
-mod:AddBoolOption("holditHoT6", false)
-mod:AddBoolOption("holditHoT7", false)
+local countdownFadingLight			= mod:NewCountdownFades(10, 109075)
+local countdownHourofTwilight		= mod:NewCountdown("Alt45", 106371)
+
+--Raid CDs will have following options: Don't show Raid CDs, Show only My Raid CDs, Show all raid CDs
+
+mod:AddDropdownOption("ResetHoTCounter", {"Never", "ResetDynamic", "Reset3Always"}, "Reset3Always", "announce")
+--ResetDynamic = 3s on heroic and 2s on normal.
+--Reset3Always = 3s on both heroic and normal.
 mod:AddDropdownOption("SpecWarnHoTN", {"Never", "One", "Two", "Three"}, "Never", "announce")
+--If ResetDynamic, SpecWarnHoTN will work for 1-2, if set to 3 on normal it'll just be ignored.
+--If ResetHoTCounter is Never, SpecWarnHoTN will work in 3 counts still ie 1 4 7, 2 5, 3 6
 
 local hourOfTwilightCount = 0
 local fadingLightCount = 0
 local fadingLightTargets = {}
-local lightme = false
-local redbuff = GetSpellInfo(105896)
-local greenbuff = GetSpellInfo(105900)
-local bluebuff = GetSpellInfo(105903)
 
 local function warnFadingLightTargets()
 	warnFadingLight:Show(fadingLightCount, table.concat(fadingLightTargets, "<, >"))
-	if not lightme then
-		if mod:IsTank() or mod:IsHealer() then
-			sndWOP:Play("changemt")
-		end
-	end
 	table.wipe(fadingLightTargets)
 end
 
@@ -74,14 +69,14 @@ function mod:OnCombatStart(delay)
 	hourOfTwilightCount = 0
 	fadingLightCount = 0
 	warnHourofTwilightSoon:Schedule(30.5)
-	if self.Options.SpecWarnHoTN == "One" then
+	if self.Options.SpecWarnHoTN == "One" then--Don't filter here, this is supposed to work for everyone. IF they don't want special warning they set SpecWarnHoTN to Never (it's default)
 		specWarnHourofTwilightN:Schedule(40.5, GetSpellInfo(106371), hourOfTwilightCount+1)
 	end
-	lightme = false
+	timerHourofTwilightCD:Start(45.5-delay, 1)
+	countdownHourofTwilight:Start(45.5)
 	timerGiftofLight:Start(-delay)
 	timerEssenceofDreams:Start(-delay)
 	timerSourceofMagic:Start(-delay)
-	timerHourofTwilightCD:Start(-delay, 1)
 	berserkTimer:Start(-delay)
 end
 
@@ -89,54 +84,42 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(106371) then
+	local spellId = args.spellId
+	if spellId == 106371 then
 		fadingLightCount = 0
 		hourOfTwilightCount = hourOfTwilightCount + 1
 		warnHourofTwilight:Show(hourOfTwilightCount)
 		specWarnHourofTwilight:Show()
-		if self.Options.SpecWarnHoTN == "One" and hourOfTwilightCount == 0
-		or self.Options.SpecWarnHoTN == "Two" and hourOfTwilightCount == 1
-		or self.Options.SpecWarnHoTN == "Three" and hourOfTwilightCount == 2 then
+		--Reset Mechanic begin
+		if self:IsDifficulty("heroic10", "heroic25") and (self.Options.ResetHoTCounter == "ResetDynamic" or self.Options.ResetHoTCounter == "Reset3Always") and hourOfTwilightCount == 3
+		or self.Options.ResetHoTCounter == "ResetDynamic" and self:IsDifficulty("normal10", "normal25", "lfr25") and hourOfTwilightCount == 2 then
+			hourOfTwilightCount = 0
+		end
+		-- If reset is set to never, then we still schedule special warnings for 4-7 on a 3 set rule
+		if self.Options.SpecWarnHoTN == "One" and (hourOfTwilightCount == 0 or hourOfTwilightCount == 3 or hourOfTwilightCount == 6)--All use this..
+		or self.Options.SpecWarnHoTN == "Two" and (hourOfTwilightCount == 1 or hourOfTwilightCount == 4)--All use this
+		or self.Options.SpecWarnHoTN == "Three" and (hourOfTwilightCount == 2 or hourOfTwilightCount == 5) then--ResetDynamic doesn't use this on normal, however, no reason to filter it here as hourOfTwilightCount was already reset before this ran. Never also uses this safely.
 			specWarnHourofTwilightN:Schedule(40.5, args.spellName, hourOfTwilightCount+1)
 		end
 		warnHourofTwilightSoon:Schedule(30.5)
-		if hourOfTwilightCount == 1 and self.Options.holditHoT1 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 2 and self.Options.holditHoT2 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 3 and self.Options.holditHoT3 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 4 and self.Options.holditHoT4 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 5 and self.Options.holditHoT5 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 6 and self.Options.holditHoT6 then
-			sndWOP:Play("holdit")
-		elseif hourOfTwilightCount == 7 and self.Options.holditHoT7 then
-			sndWOP:Play("holdit")
-		else		
-			sndWOP:Play("twilighttime")
-		end
 		timerHourofTwilightCD:Start(45.5, hourOfTwilightCount+1)
+		countdownHourofTwilight:Start(45.5)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerFadingLightCD:Start(13)
-			sndWOP:Schedule(1, "countthree")
-			sndWOP:Schedule(2, "counttwo")
-			sndWOP:Schedule(3, "countone")
+			timerHourofTwilight:Start(3)
 		else
 			timerFadingLightCD:Start(20)
-			sndWOP:Schedule(2.5, "countthree")
-			sndWOP:Schedule(3.5, "counttwo")
-			sndWOP:Schedule(4.5, "countone")
+			timerHourofTwilight:Start()
 		end
-	elseif args:IsSpellID(106388) then
+	elseif spellId == 106388 then
 		specWarnTwilightEruption:Show()
 		timerTwilightEruption:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(105925) then
+	local spellId = args.spellId
+	if spellId == 105925 then--Tank Only SpellID
 		fadingLightCount = fadingLightCount + 1
 		fadingLightTargets[#fadingLightTargets + 1] = args.destName
 		if self:IsDifficulty("heroic10", "heroic25") and fadingLightCount < 3 then
@@ -144,54 +127,36 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:IsDifficulty("normal10", "normal25", "lfr25") and fadingLightCount < 2 then
 			timerFadingLightCD:Start(15)
 		end
-		if (args:IsPlayer() or UnitDebuff("player", GetSpellInfo(105925))) and self:AntiSpam(2) then
-			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
+		if (args:IsPlayer() or UnitDebuff("player", GetSpellInfo(105925))) and self:AntiSpam(2) then--Sometimes the combatlog doesn't report all fading lights, so we perform an additional aura check 
+			local _, _, _, _, _, duration, expires = UnitDebuff("player", args.spellName)--Find out what our specific fading light is
 			specWarnFadingLight:Show()
-			sndWOP:Schedule(duration - 5, "clickbravo")
-			sndWOP:Schedule(duration - 3, "countthree")
-			sndWOP:Schedule(duration - 2, "counttwo")
-			sndWOP:Schedule(duration - 1, "countone")
-			timerFadingLight:Start(duration)
-			lightme = true
+			countdownFadingLight:Start(duration-1)--For some reason need to offset it by 1 second to make it accurate but otherwise it's perfect
+			timerFadingLight:Start(duration-1)
 		else
-			lightme = false
+			specWarnFadingLightOther:Show(args.destName)
 		end
 		self:Unschedule(warnFadingLightTargets)
 		if self:IsDifficulty("lfr25") or self:IsDifficulty("heroic25") and #fadingLightTargets >= 7 or self:IsDifficulty("normal25") and #fadingLightTargets >= 4 or self:IsDifficulty("heroic10") and #fadingLightTargets >= 3 or self:IsDifficulty("normal10") and #fadingLightTargets >= 2 then
 			warnFadingLightTargets()
 		else
 			self:Schedule(0.5, warnFadingLightTargets)
-		end		
-	elseif args:IsSpellID(109075) then
+		end
+	elseif spellId == 109075 then--Non Tank ID
 		fadingLightTargets[#fadingLightTargets + 1] = args.destName
 		if (args:IsPlayer() or UnitDebuff("player", GetSpellInfo(109075))) and self:AntiSpam(2) then
-			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
+			local _, _, _, _, _, duration, expires = UnitDebuff("player", args.spellName)
 			specWarnFadingLight:Show()
-			sndWOP:Schedule(duration - 5, "clickbravo")
-			sndWOP:Schedule(duration - 3, "countthree")
-			sndWOP:Schedule(duration - 2, "counttwo")
-			sndWOP:Schedule(duration - 1, "countone")
-			timerFadingLight:Start(duration)
-			lightme = true
-		else
-			lightme = false
+			countdownFadingLight:Start(duration-1)
+			timerFadingLight:Start(duration-1)
 		end
 		self:Unschedule(warnFadingLightTargets)
 		if self:IsDifficulty("heroic25") and #fadingLightTargets >= 7 or self:IsDifficulty("normal25") and #fadingLightTargets >= 4 or self:IsDifficulty("heroic10") and #fadingLightTargets >= 3 or self:IsDifficulty("normal10") and #fadingLightTargets >= 2 then
 			warnFadingLightTargets()
 		else
 			self:Schedule(0.5, warnFadingLightTargets)
-		end	
-	end
-end
-
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find(redbuff) then
-		sndWOP:Play("redessence")
-	elseif msg:find(greenbuff) then
-		sndWOP:Play("greenessence")
-	elseif msg:find(bluebuff) then
-		sndWOP:Play("blueessence")
+		end
+	elseif spellId == 106498 and args:IsPlayer() then
+		timerLoomingDarkness:Start()
 	end
 end
 

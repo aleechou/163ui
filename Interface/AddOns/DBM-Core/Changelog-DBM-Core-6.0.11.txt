@@ -1,0 +1,118 @@
+tag 6.0.11
+8bbbb41c89163124da84bf7659ba761542e0c629
+subversion <svn@deadlybossmods.com>
+2015-01-07 00:17:46 +0100
+
+Tagging as 6.0.11
+
+
+--------------------
+
+subversion:
+	- increment version number to 6.0.11
+	- Omega via svn r12329: FIrst shadow timer
+	- Omega via svn r12327: Another option default tweak. tanks never get fel. So give them less CDs to focus on to better see arcane
+	- Omega via svn r12326: change RBW sync to RBW2 because the args were refactored and don't want it breaking when getting old syncs.
+	- Omega via svn r12325: Fix bug in tandanu's commit :P
+	- Omega via svn r12324: Final touches before making a tag
+	- Omega via svn r12323: I don't like that barrier can last 22 or 23 seconds, because it makes timers extend either 22 or 23 seconds.
+	- Omega via svn r12322: Make Yike appear better in US client drop down menus
+	- Omega via svn r12321: Translator list update
+	- tandanu via svn r12320: some work on pausing timers
+	problems:
+	 * the smooth move animations
+	 * handle flash properly
+	
+	turns out that this feature isn't needed after all at the moment
+	- Omega via svn r12319: Debug cleanup and fixes.
+	- Omega via svn r12318: Add voice for moving out of moss
+	- ultrashining via svn r12317: zhTW update
+	- Omega via svn r12316: Add some margok notes and template
+	- Omega via svn r12315: More fixes to koragh. It's coming along.
+	- nbluewiz via svn r12314: # Fix wired sound for Zaela # If boss engaged by npc, first timer is wired. so disable first timer for Yalnu.
+	- Omega via svn r12313: jesus christ, more bugs, hard to test shit when the coding is so fucked up
+	- Omega via svn r12312: Fix more fail
+	- Omega via svn r12311: tweaks
+	- Omega via svn r12310: it's almost a shame no one reports these bugs. you'd think SOMOENE would have noticed lava burst was spamming ever 1 second
+	- Omega via svn r12309: improve spacing in GUI
+	- Omega via svn r12308: Fix error
+	- Omega via svn r12307: Fix some arrow misusages Fixed bug where /dbm arrow move was basically useless.
+	- ultrashining via svn r12306: zhTW update
+	- Omega via svn r12305: More koragh timers that aren't picture perfect by any means but decent enough to be useful now
+	- Omega via svn r12304: Yell when fel is about to expire, not when applied Added a Trample near warning Apply small fix to balls timer
+	- nbluewiz via svn r12303: # tank warning.
+	- Omega via svn r12302: ALso update PlayCountSound to support VP path
+	- nbluewiz via svn r12301: # koKR update.
+	- nbluewiz via svn r12300: # koKR update.
+	- Omega via svn r12299: More settings migration
+	- Omega via svn r12298: Fix error
+	- Omega via svn r12297: Pull comments from core, create a readme instead.
+	- Omega via svn r12296: ##Add support for voice packs to inject their own audio countdowns *This smart check will automatically populate the countdown voice selections with new options with supporting voice packs. *it will also auto check settings on login and if a voice pack has been uninstalled or disabled reset count option to defaults to prevent missing counts.# ##Remove Yike voice from hard embed since now it can be injected by Yike voice pack. ##Created new option to disable countdown sounds since the "None" value is no longer in the generated table.
+	- Omega via svn r12295: uncomment spammy trash warnings and make them off by default instead. Add chat yells to non LFR difficulties (stuff doesn't matter in LFR)
+	- Omega via svn r12294: Fix it for real this time
+	- Omega via svn r12293: Fix non generic special warnings not supporting optionversion
+	- Omega via svn r12292: bump bigwigs faker
+	- TOM_RUS via svn r12291: Added Spinning Spear special warning
+	- Omega via svn r12290: BRF voice work. Made some adjusts, fixed some bugs.
+	- ultrashining via svn r12289: zhTW update
+	- nbluewiz via svn r12288: # koKR update.
+	- Omega via svn r12287: Fail better way
+	- Omega via svn r12286: Fix another mistake with audio channel
+	- Omega via svn r12285: Missed a localisation
+	- Omega via svn r12284: Forgot these
+	- Omega via svn r12283: incoming disaster #NewSound, removed! Run Away sound now merged into a special warning type (sw4) because this makes far more sense than redundant sound options on top of special warnings that already have sounds/custom sounds. Same warnings that had run away sounds before should still have them now (converting to SW4 type by default). But no longer redundant. Filter for run away sounds, GONE. No longer needed, the special warning filter will handle it.
+	- Omega via svn r12282: Prevent a very rare wow crash caused by when addons call EJ_GetSectionInfo() while encounter journal is set to invalid difficulties by other mods that screw with difficulty setting (such as Boss)
+	- Omega via svn r12281: Fix nasty bug where run away sound disable was also disabling countdown sounds.
+	- Omega via svn r12280: Fix bug with combining wrong one, more spam reduction.
+	- Omega via svn r12279: Spam reduction on Koragh Sync spellid of all RAID_BOSS_WHISPER events for debug purposes. transcriptor isn't enough for the constant refusal to put spells in combat log, and being unable to see whispers is a constant burden to mod development.
+	- ultrashining via svn r12278: zhTW update
+	- Omega via svn r12277: Code changes, change DBM to just always respond to bigwigs VQ sync, funky won't even need to send "H" sync anymore. This also reduces spam on our end as well to avoid sending double replies needlessly. Since same function sends everything and unschedules/reschedules off H or VQ
+	- nbluewiz via svn r12276: # koKR update.
+	- Omega via svn r12275: While at it, detect out of date bw versions too in version check tally
+	- Omega via svn r12274: Fixes
+	- Omega via svn r12273: Add BW version faking
+	- Omega via svn r12272: Adjust threshold Shorten text Fix typo Add IsInRaid() check so we don't spam people exploiting LFG tool to get into heroic dungeons with unequiped gear in bags. This check really is meant as a raid check not to yell at people in heroics.
+	- Omega via svn r12271: This is better
+	- Omega via svn r12270: Floor that value though because 10 decimal places is ugly
+	- Omega via svn r12269: Add new option to check if you forgot to put your gear back on when pull timer is started (happens a lot after getting food buff)
+	- Omega via svn r12268: Update option text
+	- Omega via svn r12267: Support setting run away sound on any special warning by registering the sound to LSM
+	- Omega via svn r12266: Set phase to phase 4 only after margok dies for more accurate status reporting so the low margok percentages aren't reported as low phase 4 percentages and make people think that's chogal %
+	- Omega via svn r12265: Fix option text
+	- nbluewiz via svn r12264: # mote icon fix.
+	- ebmor via svn r12263: deDE update
+	- nbluewiz via svn r12262: # add Noxious Spit for tarlna.
+	- nbluewiz via svn r12261: # ragewing cd.
+	- nbluewiz via svn r12260: # koKR update.
+	- Omega via svn r12259: Absorb too
+	- nbluewiz via svn r12258: # gtfo warn.
+	- Omega via svn r12257: even though it's 51 to 51.5 MOST of time, it can still be 50, so use 50.5 as a middle ground.
+	- nbluewiz via svn r12256: # add null barrier health bar for koragh.
+	- nbluewiz via svn r12255: # ubrs fix.
+	- nbluewiz via svn r12254: # smash default changes
+	- nbluewiz via svn r12253: # fix tarlna
+	- nbluewiz via svn r12252: # timer recovery fix.
+	- Omega via svn r12251: More debug for good measure
+	- nbluewiz via svn r12250: # sorry. correct fix.
+	- nbluewiz via svn r12249: # better fix.
+	- Omega via svn r12248: Get time always returns 0 0 on count timers, so revert making it a count timer should fix balls
+	- Omega via svn r12247: I didn't think that was intended :)
+	- Omega via svn r12246: CN update (was removing DBM_CORE_AUTO_ARROW_OPTION_TEXT3 intended?)
+	- Omega via svn r12245: Create a temp medal timer during boss fights when hiding ojbectives frame in challenge modes
+	- Omega via svn r12244: Fix bad
+	- Omega via svn r12243: revert last. checkbox can be disabled easily if feature is undesired, but feature shouldn't be broken for everyone else who still appreciates seeing boss timers instead of a huge wall of wasted space during boss fights
+	- nbluewiz via svn r12242: # do not hide objective track frame on challenge mode.
+	- nbluewiz via svn r12241: # DarkCommunionCD fix.
+	- ultrashining via svn r12240: zhTW update
+	- Omega via svn r12239: adjust timer to 51
+	- Omega via svn r12238: fix mark of chaos target timer not showing up for 3/4. pull duration from debuff itself. Start it on applied, not cast start.
+	- nbluewiz via svn r12237: # fix bad tectus health report on wipe.
+	- Omega via svn r12236: Another tweak
+	- Omega via svn r12235: Some tweaks. timers are really fucked. trying to see why
+	- Omega via svn r12234: New general message option for versions
+	- Omega via svn r12233: Now, can get list of out of date in one line at bottom, not have to scroll entire list. Next feature up. an option in spam options to not print list at all, just show counts and out of date names.
+	- Omega via svn r12232: Add protection for invalid args, to at least prevent this mistake causing lua errors in future.
+	- Omega via svn r12231: Fix lua errors on viryx. Unfortunately it's on by default, so this means this mod is busted in release and spamming lua errors for all in group, twice over.
+	- TOM_RUS via svn r12230: Added Smash spec warning for Araknath
+	- nbluewiz via svn r12229: # delay voice pack version check.
+	- tandanu via svn r12228: increment alpha version number

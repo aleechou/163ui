@@ -1,15 +1,15 @@
 local mod	= DBM:NewMod("XT002", "DBM-Ulduar")
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 34 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 112 $"):sub(12, -3))
 mod:SetCreatureID(33293)
+mod:SetEncounterID(1142)
 mod:SetModelID(28611)
 mod:SetUsedIcons(7, 8)
 
 mod:RegisterCombat("combat")
 
-mod:RegisterEvents(
+mod:RegisterEventsInCombat(
 	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED",
@@ -33,8 +33,6 @@ local timerLightBomb				= mod:NewTargetTimer(9, 65121)
 local timerGravityBomb				= mod:NewTargetTimer(9, 64234)
 local timerAchieve					= mod:NewAchievementTimer(205, 2937, "TimerSpeedKill")
 
-
-
 mod:AddBoolOption("SetIconOnLightBombTarget", true)
 mod:AddBoolOption("SetIconOnGravityBombTarget", true)
 
@@ -51,7 +49,6 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 62776 then					-- Tympanic Tantrum (aoe damge + daze)
 		timerTympanicTantrumCast:Start()
-		sndWOP:Play("healall")
 		timerTympanicTantrumCD:Stop()
 	end
 end
@@ -64,7 +61,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(63018, 65121) then 	-- Light Bomb
 		if args:IsPlayer() then
 			specWarnLightBomb:Show()
-			sndWOP:Play("runout")
 		end
 		if self.Options.SetIconOnLightBombTarget then
 			self:SetIcon(args.destName, 7, 9)
@@ -74,7 +70,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(63024, 64234) then		-- Gravity Bomb
 		if args:IsPlayer() then
 			specWarnGravityBomb:Show()
-			sndWOP:Play("runout")
 		end
 		if self.Options.SetIconOnGravityBombTarget then
 			self:SetIcon(args.destName, 8, 9)
@@ -101,7 +96,6 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if (spellId == 64208 or spellId == 64206) and destGUID == UnitGUID("player") and self:AntiSpam() then
 		specWarnConsumption:Show()
-		sndWOP:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

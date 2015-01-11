@@ -388,12 +388,12 @@ if arg2=="SPELL_CAST_START" and arg10==154899 and arg4 then
 end
 
 
-if arg2=="SPELL_CAST_START" and arg10==154899 and arg4 then
+if arg2=="UNIT_DIED" and arg7 then
 	if rawodonecounter1==nil then
 		rawodonecounter1=0
 	end
 	local id=raGetUnitID(arg7)
-	if id==82428 then
+	if id==77180 then
 		rawodonecounter1=rawodonecounter1+1
 		if rawodonecounter1==5 then
 			if wodhraspisokon[10]==1 and wodhraachdone1 then

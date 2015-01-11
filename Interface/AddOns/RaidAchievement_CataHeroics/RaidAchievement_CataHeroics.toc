@@ -1,17 +1,19 @@
 ﻿## Interface: 60000
 ## Title: Raid|cff7fff7fAchievement|r - Cataclysm Dungeons
-## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [大灾变]
-## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [大灾变]
-## Notes: RaidAchievement Cataclysm Dungeons Module
-## Notes-zhTW: 自動檢測你所在的副本類型加載相應的模塊，檢測通報副本成就的失敗與否，顯示失敗的原因和失敗者的名字。如演示圖，顯示成就失敗，並顯示導致成就失敗的隊友名字.
-## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
+## Title-ruRU: Raid|cff7fff7fAchievement|r - Подземелья Катаклизма
 ## Author: Shurshik
+## Notes: RaidAchievement Cataclysm Dungeons Module
+## Notes-ruRU: Модуль RaidAchievement - Подземелья Катаклизма
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: chraspisokon
 RaidAchievement_CataHeroics.lua
 RaidAchievement_CataHeroicsbosses.lua
 RaidAchievement_CataHeroics.xml
+## Title-zhTW: |cff880303[网易有爱]|r 成就助手 [大灾变]
+## Title-zhCN: |cff880303[网易有爱]|r 成就助手 [大灾变]
+## Notes-zhTW: 自動檢測你所在的副本類型加載相應的模塊，檢測通報副本成就的失敗與否，顯示失敗的原因和失敗者的名字。如演示圖，顯示成就失敗，並顯示導致成就失敗的隊友名字.
+## Notes-zhCN: 自动检测你所在的副本类型加载相应的模块，检测通报副本成就的失败与否，显示失败的原因和失败者的名字。如演示图，显示成就失败，并显示导致成就失败的队友名字.
 ## Title: |cff880303[网易有爱]|r 成就助手 [大灾变]
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141025105004
+## X-163UI-Version: 2015011101

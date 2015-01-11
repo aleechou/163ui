@@ -1,32 +1,19 @@
-﻿local mod	= DBM:NewMod(677, "DBM-MogushanVaults", nil, 317)
+local mod	= DBM:NewMod(677, "DBM-MogushanVaults", nil, 317)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
-local sndADD1A	= mod:SoundMM("SoundADD1A")
-local sndADD1	= mod:SoundMM("SoundADD1")
-local sndADD2A	= mod:SoundMM("SoundADD2A")
-local sndADD2	= mod:SoundMM("SoundADD2")
-local sndADD3A	= mod:SoundMM("SoundADD3A")
-local sndADD3	= mod:SoundMM("SoundADD3")
 
-mod:SetRevision(("$Revision: 9709 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 21 $"):sub(12, -3))
 mod:SetCreatureID(60399, 60400)--60396 (Rage), 60397 (Strength), 60398 (Courage), 60480 (Titan Spark), 60399 (Qin-xi), 60400 (Jan-xi)
+mod:SetEncounterID(1407)
 mod:SetZone()
---mod:SetMinSyncRevision(7708)
 
 mod:RegisterCombat("emote", L.Pull)
 mod:SetMinCombatTime(25)
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 target focus",--For this boss we want target/focus and boss1-2
+	"SPELL_AURA_APPLIED 116525 116778 116829",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_DIED",
-	"SWING_DAMAGE",
-	"SWING_MISSED",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
-	"UNIT_POWER"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 target focus",--For this boss we want target/focus and boss1-2
+	"UNIT_POWER_FREQUENT boss1 boss2"
 )
 
 mod:RegisterEvents(
@@ -42,8 +29,6 @@ local warnEnergizingSmash		= mod:NewSpellAnnounce(116550, 3, nil, mod:IsMelee())
 --Courage
 local warnCourageActivated		= mod:NewCountAnnounce("ej5676", 3, 116778)
 local warnFocusedDefense		= mod:NewTargetAnnounce(116778, 4)
---Sparks (Heroic Only)
---local warnFocusedEnergy			= mod:NewTargetAnnounce(116829, 4)
 --Jan-xi and Qin-xi
 local warnBossesActivatedSoon	= mod:NewPreWarnAnnounce("ej5726", 10, 3, 116815)
 local warnBossesActivated		= mod:NewSpellAnnounce("ej5726", 3, 116815)
@@ -65,9 +50,7 @@ local specWarnFocusedEnergy		= mod:NewSpecialWarningYou(116829)
 --Jan-xi and Qin-xi
 local specWarnBossesActivated	= mod:NewSpecialWarningSwitch("ej5726", mod:IsTank())
 local specWarnCombo				= mod:NewSpecialWarningSpell("ej5672", mod:IsMelee())
-local specWarnTitanGas			= mod:NewSpecialWarningSpell(116779, nil, nil, nil, true)
-
-local specWarnFocused			= mod:NewSpecialWarningMove(116525)
+local specWarnTitanGas			= mod:NewSpecialWarningSpell(116779, nil, nil, nil, 2)
 
 --Rage
 local timerRageActivates		= mod:NewNextCountTimer(30, "ej5678", nil, nil, nil, 116525)
@@ -81,71 +64,86 @@ local timerTitanGas				= mod:NewBuffActiveTimer(30, 116779)
 local timerTitanGasCD			= mod:NewNextCountTimer(150, 116779)
 
 local berserkTimer				= mod:NewBerserkTimer(780)
-local dao = 0
 
-for i = 1, 5 do
-	mod:AddBoolOption("ragebomb"..i, false, "sound")
-end
-local specWarnBomb				= mod:NewSpecialWarning("specWarnBomb")
-local specWarnKZ				= mod:NewSpecialWarning("specWarnKZ")
-
+mod:AddBoolOption("CountOutCombo")
 mod:AddBoolOption("InfoFrame", false)
 mod:AddBoolOption("ArrowOnCombo", mod:IsTank())--Very accurate for tank, everyone else not so much (tanks always in front, and boss always faces tank, so if he spins around on you, you expect it, melee on other hand have backwards arrows if you spun him around.
-mod:AddDropdownOption("optKZ", {"kza", "kzb", "kzc", "nokz"}, "nokz", "sound")
-mod:AddDropdownOption("optBY", {"tarfoc", "Janxi", "Qinxi", "none"}, "tarfoc", "sound")
 
-local comboWarned = false
-local sparkCount = 0
-local comboCount = 0
-local titanGasCast = 0
-local courageCount = 0
-local strengthCount = 0
-local rageCount = 1
+--Upvales, don't need variables
 local focusedAssault = GetSpellInfo(116525)
-local Isstomp = 0
-local ragetime = 0
+local UnitIsUnit, UnitPower, UnitGUID = UnitIsUnit, UnitPower, UnitGUID
+--Important, needs recover
+mod.vb.comboMob = nil
+mod.vb.comboCount = 0
+mod.vb.titanGasCast = 0
+mod.vb.courageCount = 0
+mod.vb.strengthCount = 0
+mod.vb.rageCount = 0
+mod.vb.prevPower = 0
 
 local rageTimers = {
-	[1] = 15,
+	[0] = 15.6,--Varies from heroic vs normal, number here doesn't matter though, we don't start this on pull we start it off first yell (which does always happen).
+	[1] = 33,
 	[2] = 33,
 	[3] = 33,
-	[4] = 33,
+	[4] = 33,--no idea, maybe this one is just random 33-40, rest are dead on though.
 	[5] = 33,
-	[6] = 33,
-	[7] = 83,
+	[6] = 83,
+	[7] = 33,
 	[8] = 33,
-	[9] = 33,
-	[10]= 83,
+	[9] = 83,
+	[10]= 33,
 	[11]= 33,
-	[12]= 33,
-	[13]= 83,
+	[12]= 83,
 --Rest are all 33
+--timers variate slightly so never will be perfect but trying to get as close as possible. seem same in all modes.
 }
 
-local function MyBomb()
-	if (mod.Options.ragebomb1 and rageCount == 3) or (mod.Options.ragebomb2 and rageCount == 6) or (mod.Options.ragebomb3 and rageCount == 9) or (mod.Options.ragebomb4 and rageCount == 12) or (mod.Options.ragebomb5 and rageCount == 15) then
-		return true
+local function addsDelay(add)
+	if add == "Courage" then
+		mod.vb.courageCount = mod.vb.courageCount + 1
+		warnCourageActivated:Show(mod.vb.courageCount)
+		specWarnCourageActivated:Show()
+		--Titan gases delay spawns by 50 seconds, even on heroic (even though there is no actual gas phase, the timing stays same on heroic)
+		if mod.vb.courageCount >= 2 then
+			timerCourageActivates:Start(150, mod.vb.courageCount+1)
+		else
+			timerCourageActivates:Start(100, mod.vb.courageCount+1)
+		end
+	elseif add == "Strength" then
+		mod.vb.strengthCount = mod.vb.strengthCount + 1
+		warnStrengthActivated:Show(mod.vb.strengthCount)
+		specWarnStrengthActivated:Show()
+		--Titan gases delay spawns by 50 seconds, even on heroic (even though there is no actual gas phase, the timing stays same on heroic)
+		if mod.vb.strengthCount == 4 or mod.vb.strengthCount == 6 or mod.vb.strengthCount == 8 then--Unverified
+			timerStrengthActivates:Start(100, mod.vb.strengthCount+1)
+		else
+			timerStrengthActivates:Start(50, mod.vb.strengthCount+1)
+		end
+	elseif add == "Rage" then
+		mod.vb.rageCount = mod.vb.rageCount + 1
+		warnRageActivated:Show(mod.vb.rageCount)
+		--Titan gas delay has funny interaction with these and causes 30 or 60 second delays. Pretty much have to use a table.
+		timerRageActivates:Start(rageTimers[mod.vb.rageCount] or 33, mod.vb.rageCount+1)
+		mod:Schedule(rageTimers[mod.vb.rageCount] or 33, addsDelay, "Rage")--Because he doesn't always yell, schedule next one here as a failsafe
+	elseif add == "Boss" then
+		warnBossesActivated:Show()
+		specWarnBossesActivated:Show(10)
+		if not mod:IsHeroic() then
+			timerTitanGasCD:Start(113, 1)
+		end
 	end
-	return false
 end
 
-local function MyKZ()
-	if (mod.Options.optKZ == "kza" and rageCount % 3 == 1) or (mod.Options.optKZ == "kzb" and rageCount % 3 == 2) or (mod.Options.optKZ == "kzc" and rageCount % 3 == 0) then
-		return true
-	end
-	return false
-end
 
 function mod:OnCombatStart(delay)
-	comboWarned = false
-	sparkCount = 0
-	comboCount = 0
-	titanGasCast = 0
-	rageCount = 1
-	Isstomp = 0
-	strengthCount = 0
-	courageCount = 0
-	if self:IsDifficulty("heroic10", "heroic25") then--Heroic trigger is shorter, everything comes about 6 seconds earlier
+	self.vb.comboMob = nil
+	self.vb.comboCount = 0
+	self.vb.titanGasCast = 0
+	self.vb.rageCount = 0
+	self.vb.strengthCount = 0
+	self.vb.courageCount = 0
+	if self:IsHeroic() then--Heroic trigger is shorter, everything comes about 6 seconds earlier
 		timerStrengthActivates:Start(35-delay, 1)
 		timerCourageActivates:Start(69-delay, 1)
 		timerBossesActivates:Start(101-delay)
@@ -154,7 +152,6 @@ function mod:OnCombatStart(delay)
 		timerCourageActivates:Start(75-delay, 1)
 		timerBossesActivates:Start(-delay)
 	end
-	timerRageActivates:Start(15, rageCount)
 	berserkTimer:Start(-delay)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(focusedAssault)
@@ -172,80 +169,21 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(116525) then
+	local spellId = args.spellId
+	if spellId == 116525 then
 		warnFocusedAssault:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFocusedAssault:Show()
 		end
-	elseif args:IsSpellID(116778) then
+	elseif spellId == 116778 then
 		warnFocusedDefense:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFocusedDefense:Show()
-			if not mod:IsTank() then
-				sndWOP:Play("justrun") --快跑
-			end
 		end
-	elseif args:IsSpellID(116829) then
+	elseif spellId == 116829 then
 --		warnFocusedEnergy:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFocusedEnergy:Show()
-		end
-	end
-end
-
-function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(116778) then
-		if args:IsPlayer() then
-			sndWOP:Play("safenow") --安全
-		end
-	end
-end
-
-local function addsDelay(add)
-	if add == "Courage" then
-		courageCount = courageCount + 1
-		warnCourageActivated:Show(courageCount)
-		specWarnCourageActivated:Show()
-		--Titan gases delay spawns by 50 seconds, even on heroic (even though there is no actual gas phase, the timing stays same on heroic)
-		if courageCount >= 2 then
-			timerCourageActivates:Start(150, courageCount+1)
-		else
-			timerCourageActivates:Start(100, courageCount+1)
-		end
-	elseif add == "Strength" then
-		strengthCount = strengthCount + 1
-		warnStrengthActivated:Show(strengthCount)
-		specWarnStrengthActivated:Show()
-		--Titan gases delay spawns by 50 seconds, even on heroic (even though there is no actual gas phase, the timing stays same on heroic)
-		if strengthCount == 4 or strengthCount == 6 or strengthCount == 8 then--The add counts where the delays are
-			timerStrengthActivates:Start(100, strengthCount+1)
-		else
-			timerStrengthActivates:Start(50, strengthCount+1)
-		end
-	elseif add == "Rage" then
-		warnRageActivated:Show(rageCount)
-		rageCount = rageCount + 1
-		ragetime = rageTimers[rageCount] or 33
-		--Titan gas delay has funny interaction with these and causes 30 or 60 second delays. Pretty much have to use a table.
-		timerRageActivates:Start(ragetime, rageCount)
-		mod:Schedule(ragetime, addsDelay, "Rage")--Because he doesn't always yell, schedule next one here as a failsafe
-		if mod:IsDifficulty("heroic10", "heroic25") then
-			if MyBomb() then
-				specWarnBomb:Schedule(ragetime + 1, rageCount)
-				sndWOP:Schedule(ragetime + 1, "ex_mop_bpzb") --爆破準備
-			end
-			if MyKZ() then
-				specWarnKZ:Schedule(ragetime - 5, rageCount)
-				sndWOP:Schedule(ragetime - 5, "ex_mop_kzzb")
-			end
-		end
-		sndADD1A:Schedule(ragetime - 6, "ex_mop_qjbzb") --輕甲
-		sndADD1:Schedule(ragetime - 1, "ex_mop_qjbcx")	
-	elseif add == "Boss" then
-		warnBossesActivated:Show()
-		specWarnBossesActivated:Show(10)
-		if not mod:IsDifficulty("heroic10", "heroic25") then
-			timerTitanGasCD:Start(113, 1)
 		end
 	end
 end
@@ -254,188 +192,122 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Rage or msg:find(L.Rage) then--Apparently boss only yells sometimes, so this isn't completely reliable
 		self:Unschedule(addsDelay, "Rage")--Unschedule any failsafes that triggered and resync to yell
 		self:Schedule(14, addsDelay, "Rage")
-		if rageCount == 1 then
-			sndADD1A:Schedule(5, "ex_mop_qjbzb") --輕甲
-			sndADD1:Schedule(10, "ex_mop_qjbcx")
-			if mod:IsDifficulty("heroic10", "heroic25") and MyKZ() then
-				specWarnKZ:Schedule(6, rageCount)
-				sndWOP:Schedule(6, "ex_mop_kzzb") --控制準備
-			end
-			timerRageActivates:Start(14, rageCount)
-		end
+		timerRageActivates:Start(14, self.vb.rageCount+1)
 	end
 end
 
 function mod:RAID_BOSS_EMOTE(msg)
 	if msg == L.Strength or msg:find(L.Strength) then
 		self:Unschedule(addsDelay, "Strength")
-		self:Schedule(7, addsDelay, "Strength")
-		sndADD3A:Play("ex_mop_zjbzb") --重甲
-		sndADD3:Schedule(8, "ex_mop_zjbcx")
+		self:Schedule(9, addsDelay, "Strength")
 	elseif msg == L.Courage or msg:find(L.Courage) then
 		self:Unschedule(addsDelay, "Courage")
-		self:Schedule(8, addsDelay, "Courage")
-		sndADD2A:Play("ex_mop_dbzb") --盾兵
-		sndADD2:Schedule(8, "ex_mop_dbkd")
+		self:Schedule(10, addsDelay, "Courage")
 	elseif msg == L.Boss or msg:find(L.Boss) then
 		warnBossesActivatedSoon:Show()
 		self:Schedule(10, addsDelay, "Boss")
-		sndWOP:Schedule(8, "ex_mop_szcz") --雙子
 	elseif msg:find("spell:116779") then
-		if self:IsDifficulty("heroic10", "heroic25") then--On heroic the boss activates this perminantly on pull and it's always present
+		if self:IsHeroic() then--On heroic the boss activates this perminantly on pull and it's always present
 			if not self:IsInCombat() then
 				DBM:StartCombat(self, 0)
 			end
 		else--Normal/LFR
-			titanGasCast = titanGasCast + 1
-			warnTitanGas:Show(titanGasCast)
+			self.vb.titanGasCast = self.vb.titanGasCast + 1
+			warnTitanGas:Show(self.vb.titanGasCast)
 			specWarnTitanGas:Show()
-			sndWOP:Play("ex_mop_ttqt") --泰坦氣體
-			if titanGasCast < 4 then -- after Titan Gas casted 4 times, Titan Gas lasts permanently. (soft enrage)
+			if self.vb.titanGasCast < 4 then -- after Titan Gas casted 4 times, Titan Gas lasts permanently. (soft enrage)
 				timerTitanGas:Start()
-				timerTitanGasCD:Start(150, titanGasCast+1)
+				timerTitanGasCD:Start(150, self.vb.titanGasCast+1)
 			end
 		end
-	end
-end
-
-function chooseboss(BuId)
-	if mod.Options.optBY == "tarfoc" and (BuId ~= "target") and (BuId ~= "focus") then
-		return false
-	elseif mod.Options.optBY == "Janxi" and (UnitName(BuId) ~= UnitName("boss2")) then
-		return false
-	elseif mod.Options.optBY == "Qinxi" and (UnitName(BuId) ~= UnitName("boss1")) then
-		return false
-	elseif mod.Options.optBY == "none" then
-		return false
-	else
-		return true
-	end
-end
-
-function checkisstomp()
-	if mod:IsDps() then
-		sndWOP:Schedule(1, "counttwo")
-		sndWOP:Schedule(2, "countone")
-	end
-	mod:Schedule(2, function() Isstomp = 0 end)
-	mod:Schedule(4, function() 
-		if Isstomp ~= 1 and comboCount ~= 0 then
-			sndWOP:Play("ex_mop_jt") --踐踏
-		end
-	end)
-end
-
-function countsoundcombo()
-	if comboCount == 10 then
-		sndWOP:Schedule(1, "countten")
-	elseif comboCount == 9 then
-		sndWOP:Schedule(1, "countnine")
-	elseif comboCount == 8 then
-		sndWOP:Schedule(1, "counteight")
-	elseif comboCount == 7 then
-		sndWOP:Schedule(1, "countseven")
-	elseif comboCount == 6 then
-		sndWOP:Schedule(1, "countsix")
-	elseif comboCount == 5 then
-		sndWOP:Schedule(1, "countfive")
-	elseif comboCount == 4 then
-		sndWOP:Schedule(1, "countfour")
-	elseif comboCount == 3 then
-		sndWOP:Schedule(1, "countthree")
-	elseif comboCount == 2 then
-		sndWOP:Schedule(1, "counttwo")
-	elseif comboCount == 1 then
-		sndWOP:Schedule(1, "countone")
 	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 116556 and uId == "target" then
+	if spellId == 116556 then
 		warnEnergizingSmash:Show()
 	end
-	if (not chooseboss(uId)) then return end
-	if spellId == 116968 and self:AntiSpam(2, 1) then--Arc Left
-		if self.Options.ArrowOnCombo then
-			if self:IsTank() then--Assume tank is in front of the boss
-				DBM.Arrow:ShowStatic(90, 3)
-			else--Assume anyone else is behind the boss
-				DBM.Arrow:ShowStatic(270, 3)
+	--Melee that wasn't targeting boss when it started, but is targeting boss now so activate warnings immediately.
+	--It's safe to assume MELEE are on boss, they are in range of attacks
+	if not self.vb.comboMob and self:IsMelee() and (UnitIsUnit(uId, "boss1") or UnitIsUnit(uId, "boss2")) then
+		self.vb.comboMob = UnitGUID(uId)
+	end
+	if (self.vb.comboMob or "") == UnitGUID(uId) then
+		if spellId == 116968 then--Arc Left
+			self.vb.comboCount = self.vb.comboCount + 1
+			if self.Options.CountOutCombo and self.vb.comboCount < 11 then
+				DBM:PlayCountSound(self.vb.comboCount)
 			end
-		end
-		Isstomp = 1
-		comboCount = comboCount + 1
-		checkisstomp()
-		warnArcLeft:Show(comboCount)
-		sndWOP:Play("ex_mop_left") --左側
-		if mod:IsHealer() then
-			countsoundcombo()
-		end
-	elseif spellId == 116971 and self:AntiSpam(2, 2) then--Arc Right
-		if self.Options.ArrowOnCombo then
-			if self:IsTank() then--Assume tank is in front of the boss
-				DBM.Arrow:ShowStatic(270, 3)
-			else--Assume anyone else is behind the boss
-				DBM.Arrow:ShowStatic(90, 3)
+			warnArcLeft:Show(self.vb.comboCount)
+			if self.Options.ArrowOnCombo then
+				if self:IsTank() then--Assume tank is in front of the boss
+					DBM.Arrow:ShowStatic(90, 3)
+				else--Assume anyone else is behind the boss
+					DBM.Arrow:ShowStatic(270, 3)
+				end
 			end
-		end
-		Isstomp = 1
-		comboCount = comboCount + 1
-		checkisstomp()
-		warnArcRight:Show(comboCount)
-		sndWOP:Play("ex_mop_right") --右側
-		if mod:IsHealer() then
-			countsoundcombo()
-		end
-	elseif spellId == 116972 and self:AntiSpam(2, 3) then--Arc Center
-		if self.Options.ArrowOnCombo then
-			if self:IsTank() then--Assume tank is in front of the boss
-				DBM.Arrow:ShowStatic(0, 3)
+		elseif spellId == 116971 then--Arc Right
+			self.vb.comboCount = self.vb.comboCount + 1
+			if self.Options.CountOutCombo and self.vb.comboCount < 11 then
+				DBM:PlayCountSound(self.vb.comboCount)
 			end
+			warnArcRight:Show(self.vb.comboCount)
+			if self.Options.ArrowOnCombo then
+				if self:IsTank() then--Assume tank is in front of the boss
+					DBM.Arrow:ShowStatic(270, 3)
+				else--Assume anyone else is behind the boss
+					DBM.Arrow:ShowStatic(90, 3)
+				end
+			end
+		elseif spellId == 116972 then--Arc Center
+			self.vb.comboCount = self.vb.comboCount + 1
+			if self.Options.CountOutCombo and self.vb.comboCount < 11 then
+				DBM:PlayCountSound(self.vb.comboCount)
+			end
+			warnArcCenter:Show(self.vb.comboCount)
+			if self.Options.ArrowOnCombo then
+				if self:IsTank() then--Assume tank is in front of the boss
+					DBM.Arrow:ShowStatic(0, 3)
+				end
+			end
+		elseif spellId == 116969 or spellId == 132425 then--Stomp
+			self.vb.comboCount = self.vb.comboCount + 1
+			if self.Options.CountOutCombo and self.vb.comboCount < 11 then
+				DBM:PlayCountSound(self.vb.comboCount)
+			end
+			warnStomp:Show(self.vb.comboCount)
 		end
-		Isstomp = 1
-		comboCount = comboCount + 1
-		checkisstomp()
-		warnArcCenter:Show(comboCount)
-		sndWOP:Play("ex_mop_center") --前方
---		specWarnArcCenter:Show()
-		if mod:IsHealer() then
-			countsoundcombo()
+		if self.vb.comboCount == (self:IsHeroic() and 10 or 5) then
+			self.vb.comboMob = nil
+			self.vb.comboCount = 0
+			self.vb.prevPower = UnitPower(uId)
 		end
-	elseif (spellId == 116969 or spellId == 132425) and self:AntiSpam(2, 4) then--Stomp
-		comboCount = comboCount + 1
-		warnStomp:Show(comboCount)
 	end
 end
 
-function mod:UNIT_POWER(uId)
-	if (not chooseboss(uId)) then return end
-	if (self:GetUnitCreatureId(uId) == 60399 or self:GetUnitCreatureId(uId) == 60400) and UnitPower(uId) == 18 and not comboWarned then
-		comboWarned = true
-		specWarnCombo:Show()		
-		sndWOP:Play("ex_mop_zbbyz") --準備半月斬
-		dao = 0
-	elseif (self:GetUnitCreatureId(uId) == 60399 or self:GetUnitCreatureId(uId) == 60400) and UnitPower(uId) == 1 then
-		comboWarned = false
-		comboCount = 0
---		timerComboCD:Start()
+function mod:UNIT_POWER_FREQUENT(uId)
+	if (uId == "target" or uId == "targettarget") and not UnitIsFriend(uId, "player") and not self.vb.comboMob then
+		local powerLevel = UnitPower(uId)
+		if powerLevel >= 18 then--Give more than 1 second to find comboMob
+			if self.vb.prevPower < powerLevel then--Power is going up, not down, reset comboCount again to be sure
+				self.vb.comboCount = 0
+			end
+			self.vb.comboMob = UnitGUID(uId)
+			specWarnCombo:Show()
+		end
+	--split because we want to prefer target over focus. IE I focus other boss while targeting one i'm tanking. previous method bugged out and gave me combo warnings for my focus and NOT my target
+	--Now target should come first and focus should be af allback IF not targeting a boss.
+	elseif (uId == "focus") and not UnitIsFriend(uId, "player") and not self.vb.comboMob then
+		local powerLevel = UnitPower(uId)
+		if powerLevel >= 18 then
+			if self.vb.prevPower < powerLevel then--Power is going up, not down, reset comboCount again to be sure
+				self.vb.comboCount = 0
+			end
+			self.vb.comboMob = UnitGUID(uId)
+			specWarnCombo:Show()
+		end
+	end
+	if self.vb.comboMob then
+		self.vb.prevPower = UnitPower(uId)
 	end
 end
-
-function mod:SWING_DAMAGE(sourceGUID, _, _, _, destGUID)
-	local cid = self:GetCIDFromGUID(sourceGUID)
-	if cid == 60396 and destGUID == UnitGUID("player") and self:AntiSpam(3, 5) then
-		specWarnFocused:Show()
-		sndWOP:Play("runaway") --快躲開
-	end
-end
-mod.SWING_MISSED = mod.SWING_DAMAGE
-
---[[achi only 
-function mod:SPELL_DAMAGE(_, sourceNAME, _, _, destGUID, _, _, _, spellId)
-	if spellId == 116809 then
-		dao = dao+1
-		SendChatMessage(dao..":"..sourceNAME, "SAY")
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE]]

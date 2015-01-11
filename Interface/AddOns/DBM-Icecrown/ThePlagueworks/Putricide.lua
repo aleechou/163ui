@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("Putricide", "DBM-Icecrown", 2)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 58 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetCreatureID(36678)
+mod:SetEncounterID(1102)
 mod:SetModelID(30881)
 mod:SetUsedIcons(5, 6, 7, 8)
 --mod:SetMinSyncRevision(3860)
@@ -37,7 +37,7 @@ local warnMutatedPlague				= mod:NewStackAnnounce(72451, 3, nil, mod:IsTank() or
 local warnUnboundPlague				= mod:NewTargetAnnounce(70911, 3)		-- Heroic Ability
 
 local specWarnVolatileOozeAdhesive	= mod:NewSpecialWarningYou(70447)
-local specWarnGaseousBloat			= mod:NewSpecialWarningYou(70672)
+local specWarnGaseousBloat			= mod:NewSpecialWarningRun(70672, nil, nil, nil, 4)
 local specWarnVolatileOozeOther		= mod:NewSpecialWarningTarget(70447, false)
 local specWarnGaseousBloatOther		= mod:NewSpecialWarningTarget(70672, false)
 local specWarnMalleableGoo			= mod:NewSpecialWarningYou(72295)
@@ -55,8 +55,8 @@ local timerSlimePuddleCD			= mod:NewCDTimer(35, 70341)				-- Approx
 local timerUnstableExperimentCD		= mod:NewNextTimer(38, 70351)			-- Used every 38 seconds exactly except after phase changes
 local timerChokingGasBombCD			= mod:NewNextTimer(35.5, 71255)
 local timerMalleableGooCD			= mod:NewCDTimer(25, 72295)
-local timerTearGas					= mod:NewBuffActiveTimer(16, 71615)
-local timerPotions					= mod:NewBuffActiveTimer(30, 73122)
+local timerTearGas					= mod:NewBuffFadesTimer(16, 71615)
+local timerPotions					= mod:NewBuffActiveTimer(30, 71621)
 local timerMutatedPlagueCD			= mod:NewCDTimer(10, 72451)				-- 10 to 11
 local timerUnboundPlagueCD			= mod:NewNextTimer(60, 70911)
 local timerUnboundPlague			= mod:NewBuffActiveTimer(12, 70911)		-- Heroic Ability: we can't keep the debuff 60 seconds, so we have to switch at 12-15 seconds. Otherwise the debuff does to much damage!
@@ -67,9 +67,6 @@ local timerRegurgitatedOoze			= mod:NewTargetTimer(20, 70539)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
-local soundGaseousBloat 			= mod:NewSound(70672)
-
-
 mod:AddBoolOption("OozeAdhesiveIcon")
 mod:AddBoolOption("GaseousBloatIcon")
 mod:AddBoolOption("MalleableGooIcon")
@@ -78,9 +75,7 @@ mod:AddBoolOption("GooArrow")
 
 local warned_preP2 = false
 local warned_preP3 = false
-local phase = 0
-local glime = true
-local lastGoo = 0
+mod.vb.phase = 0
 
 function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
@@ -89,9 +84,7 @@ function mod:OnCombatStart(delay)
 	warnUnstableExperimentSoon:Schedule(25-delay)
 	warned_preP2 = false
 	warned_preP3 = false
-	glime = true
-	phase = 1
-	lastGoo = 0
+	self.vb.phase = 1
 	if self:IsDifficulty("heroic10", "heroic25") then
 		timerUnboundPlagueCD:Start(10-delay)
 	end
@@ -104,20 +97,14 @@ function mod:MalleableGooTarget(targetname, uId)
 		end
 	if targetname == UnitName("player") then
 		specWarnMalleableGoo:Show()
-		sndWOP:Play("runaway")
 		yellMalleableGoo:Yell()
 	else
 		if uId then
 			local inRange = CheckInteractDistance(uId, 2)
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
 			if inRange then
 				specWarnMalleableGooNear:Show(targetname)
-				sndWOP:Play("runaway")
 				if self.Options.GooArrow then
+					local x, y = UnitPosition(uId)
 					DBM.Arrow:ShowRunAway(x, y, 10, 5)
 				end
 			end
@@ -131,45 +118,30 @@ function mod:SPELL_CAST_START(args)
 		warnUnstableExperiment:Show()
 		timerUnstableExperimentCD:Start()
 		warnUnstableExperimentSoon:Schedule(33)
-		if glime then
-			sndWOP:Schedule(3, "gslime")
-			sndWOP:Schedule(7, "killslime")
-			glime = false
-		else
-			sndWOP:Schedule(3, "rslime")
-			sndWOP:Schedule(7, "killslime")
-			glime = true
-		end
-	elseif args:IsSpellID(71617) then				--Tear Gas, normal phase change trigger
+	elseif args.spellId == 71617 then				--Tear Gas, normal phase change trigger
 		warnTearGas:Show()
 		warnUnstableExperimentSoon:Cancel()
 		warnChokingGasBombSoon:Cancel()
-		if mod:IsMelee() then
-			sndWOP:Cancel("bombsoon")
-		end
 		timerUnstableExperimentCD:Cancel()
 		timerMalleableGooCD:Cancel()
 		timerSlimePuddleCD:Cancel()
 		timerChokingGasBombCD:Cancel()
 		timerUnboundPlagueCD:Cancel()
-	elseif args.spellId == 72842 then		--Volatile Experiment (heroic phase change begin)
+	elseif args.spellId == 72840 then		--Volatile Experiment (heroic phase change begin)
 		warnVolatileExperiment:Show()
 		warnUnstableExperimentSoon:Cancel()
 		warnChokingGasBombSoon:Cancel()
-		if mod:IsMelee() then
-			sndWOP:Cancel("bombsoon")
-		end
 		timerUnstableExperimentCD:Cancel()
 		timerMalleableGooCD:Cancel()
 		timerSlimePuddleCD:Cancel()
 		timerChokingGasBombCD:Cancel()
 		timerUnboundPlagueCD:Cancel()
-	elseif args.spellId == 72851 then		--Create Concoction (Heroic phase change end)
+	elseif args.spellId == 71621 then		--Create Concoction (Heroic phase change end)
 		if self:IsDifficulty("heroic10", "heroic25") then
 			self:ScheduleMethod(40, "NextPhase")	--May need slight tweaking +- a second or two
 			timerPotions:Start()
 		end
-	elseif args.spellId == 73121 then		--Guzzle Potions (Heroic phase change end)
+	elseif args.spellId == 71893 then		--Guzzle Potions (Heroic phase change end)
 		if self:IsDifficulty("heroic10") then
 			self:ScheduleMethod(40, "NextPhase")	--May need slight tweaking +- a second or two
 			timerPotions:Start()
@@ -181,28 +153,22 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:NextPhase()
-	phase = phase + 1
-	if phase == 2 then
+	self.vb.phase = self.vb.phase + 1
+	if self.vb.phase == 2 then
 		warnUnstableExperimentSoon:Schedule(15)
 		timerUnstableExperimentCD:Start(20)
 		timerSlimePuddleCD:Start(10)
 		timerMalleableGooCD:Start(5)
 		timerChokingGasBombCD:Start(15)
 		warnChokingGasBombSoon:Schedule(10)
-		if mod:IsMelee() then
-			sndWOP:Schedule(12, "bombsoon")
-		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerUnboundPlagueCD:Start(50)
 		end
-	elseif phase == 3 then
+	elseif self.vb.phase == 3 then
 		timerSlimePuddleCD:Start(15)
 		timerMalleableGooCD:Start(9)
 		timerChokingGasBombCD:Start(12)
 		warnChokingGasBombSoon:Schedule(7)
-		if mod:IsMelee() then
-			sndWOP:Schedule(9, "bombsoon")
-		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerUnboundPlagueCD:Start(50)
 		end
@@ -212,7 +178,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 70341 and self:AntiSpam(5, 1) then
 		warnSlimePuddle:Show()
-		if phase == 3 then
+		if self.vb.phase == 3 then
 			timerSlimePuddleCD:Start(20)--In phase 3 it's faster
 		else
 			timerSlimePuddleCD:Start()
@@ -222,16 +188,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnChokingGasBomb:Show()
 		timerChokingGasBombCD:Start()
 		warnChokingGasBombSoon:Schedule(30.5)
-		sndWOP:Play("gasbomb")
-		if mod:IsMelee() then
-			sndWOP:Schedule(32, "bombsoon")
-		end
 	elseif args.spellId == 70911 then
 		timerUnboundPlagueCD:Start()
 	elseif args.spellId == 72295 then
 		warnMalleableGoo:Show()
 		specWarnMalleableGooCast:Show()
-		sndWOP:Play("greenball")
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerMalleableGooCD:Start(20)
 		else
@@ -257,7 +218,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerGaseousBloat:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnGaseousBloat:Show()
-			soundGaseousBloat:Play()
 		end
 		if self.Options.GaseousBloatIcon then
 			self:SetIcon(args.destName, 7, 20)
@@ -265,7 +225,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(71615, 71618) then	--71615 used in 10 and 25 normal, 71618?
 		timerTearGas:Start()
 	elseif args.spellId == 72451 then	-- Mutated Plague
-		warnMutatedPlague:Show(args.spellName, args.destName, args.amount or 1)
+		warnMutatedPlague:Show(args.destName, args.amount or 1)
 		timerMutatedPlagueCD:Start()
 	elseif args.spellId == 70542 then
 		timerMutatedSlash:Show(args.destName)
@@ -274,12 +234,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args.spellId == 70352 then	--Ooze Variable
 		if args:IsPlayer() then
 			specWarnOozeVariable:Show()
-			sndWOP:Play("gslime")
 		end
 	elseif args.spellId == 70353 then	-- Gas Variable
 		if args:IsPlayer() then
 			specWarnGasVariable:Show()
-			sndWOP:Play("rslime")
 		end
 	elseif args.spellId == 70911 then	 -- Unbound Plague
 		warnUnboundPlague:Show(args.destName)
@@ -290,14 +248,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnUnboundPlague:Show()
 			timerUnboundPlague:Start()
 			yellUnboundPlague:Yell()
-			sndWOP:Schedule(30, "transplague")
 		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED_DOSE(args)
 	if args.spellId == 72451 then	-- Mutated Plague
-		warnMutatedPlague:Show(args.spellName, args.destName, args.amount or 1)
+		warnMutatedPlague:Show(args.destName, args.amount or 1)
 		timerMutatedPlagueCD:Start()
 	elseif args.spellId == 70542 then
 		timerMutatedSlash:Show(args.destName)
@@ -327,9 +284,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.UnboundPlagueIcon then
 			self:SetIcon(args.destName, 0)
 		end
-		if args:IsPlayer() then
-			sndWOP:Cancel("transplague")
-		end
 	elseif args.spellId == 71615 and self:AntiSpam(5, 2) then 	-- Tear Gas Removal
 		self:NextPhase()
 	elseif args.spellId == 70539 then
@@ -341,13 +295,11 @@ end
 
 --values subject to tuning depending on dps and his health pool
 function mod:UNIT_HEALTH(uId)
-	if phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+	if self.vb.phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
 		warned_preP2 = true
 		warnPhase2Soon:Show()	
-		sndWOP:Play("ptwo")
-	elseif phase == 2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then
+	elseif self.vb.phase == 2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 36678 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then
 		warned_preP3 = true
 		warnPhase3Soon:Show()	
-		sndWOP:Play("pthree")
 	end
 end

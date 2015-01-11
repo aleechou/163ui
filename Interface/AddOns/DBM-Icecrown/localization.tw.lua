@@ -2,82 +2,6 @@
 
 local L
 
----------------------------
---  Trash - Lower Spire  --
----------------------------
-L = DBM:GetModLocalization("LowerSpireTrash")
-
-L:SetGeneralLocalization{
-	name = "城塞大門小怪"
-}
-
-L:SetWarningLocalization{
-	SpecWarnTrap	= "觸發陷阱! - 亡縛守衛被釋放了"
-}
-
-L:SetOptionLocalization{
-	SpecWarnTrap	= "當觸發陷阱時顯示特別警告"
-}
-
-L:SetMiscLocalization{
-	WarderTrap1	= "誰...在那兒...?",
-	WarderTrap2	= "我...甦醒了!",
-	WarderTrap3	= "主人的聖所受到了打擾!"
-}
-
----------------------------
---  Trash - Plagueworks  --
----------------------------
-L = DBM:GetModLocalization("PlagueworksTrash")
-
-L:SetGeneralLocalization{
-	name = "大寶及臭皮"
-}
-
-L:SetWarningLocalization{
-	SpecWarnTrap	= "觸發陷阱! - 復仇的血肉收割者到來"
-}
-
-L:SetOptionLocalization{
-	SpecWarnTrap	= "當觸發陷阱時顯示特別警告"
-}
-
-L:SetMiscLocalization{
-	FleshreaperTrap1	= "快，我們要從後面奇襲他們!",
-	FleshreaperTrap2	= "你無法逃避我們!",
-	FleshreaperTrap3	= "The living? Here?!"
-}
-
----------------------------
---  Trash - Crimson Hall  --
----------------------------
-L = DBM:GetModLocalization("CrimsonHallTrash")
-
-L:SetGeneralLocalization{
-	name = "赤紅大廳小怪"
-}
-
----------------------------
---  Trash - Frostwing Hall  --
----------------------------
-L = DBM:GetModLocalization("FrostwingHallTrash")
-
-L:SetGeneralLocalization{
-	name = "霜翼大廳小怪"
-}
-
-L:SetWarningLocalization{
-	SpecWarnGosaEvent	= "辛德拉苟莎夾道攻擊開始!"
-}
-
-L:SetOptionLocalization{
-	SpecWarnGosaEvent	= "為辛德拉苟莎夾道攻擊顯示特別警告"
-}
-
-L:SetMiscLocalization{
-	SindragosaEvent		= "你一定不能靠近冰霜之后。快，阻止他們!"
-}
-
 ----------------------
 --  Lord Marrowgar  --
 ----------------------
@@ -133,13 +57,11 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	TimerCombatStart	= "為戰鬥開始顯示計時器",
 	WarnAddsSoon		= "為新的小怪出現顯示預先警告",
 	TimerAdds			= "為新的小怪顯示計時器"
 }
 
 L:SetTimerLocalization{
-	TimerCombatStart	= "戰鬥開始",
 	TimerAdds			= "新的小怪"
 }
 
@@ -163,12 +85,7 @@ L:SetGeneralLocalization{
 	name = "死亡使者薩魯法爾"
 }
 
-L:SetTimerLocalization{
-	TimerCombatStart		= "戰鬥開始"
-}
-
 L:SetOptionLocalization{
-	TimerCombatStart		= "為戰鬥開始顯示計時器",
 	RangeFrame				= "顯示距離框 (12碼)",
 	RunePowerFrame			= "顯示首領血量及$spell:72371條",
 	BeastIcons				= "為血獸設置標記"
@@ -384,14 +301,12 @@ L:SetWarningLocalization{
 }
 
 L:SetTimerLocalization{
-	TimerCombatStart	= "戰鬥開始",
 	TimerRoleplay		= "角色扮演",
 	PhaseTransition		= "轉換階段",
 	TimerNecroticPlagueCleanse 	= "淨化亡域瘟疫"
 }
 
 L:SetOptionLocalization{
-	TimerCombatStart		= "為戰鬥開始顯示計時器",
 	TimerRoleplay			= "為角色扮演事件顯示計時器",
 	WarnNecroticPlagueJump	= "提示$spell:73912跳躍後的目標",
 	TimerNecroticPlagueCleanse	= "為淨化第一次堆疊前的亡域瘟疫顯示計時器",
@@ -411,4 +326,35 @@ L:SetMiscLocalization{
 	ValkGrabbed				= "華爾琪影衛抓住了%s",
 	PlagueStackWarning		= "警告: %s中了%d層亡域瘟疫",
 	AchievementCompleted	= ">> 成就成功: %s中了%d層亡域瘟疫 <<"
+}
+
+-------------
+--  Trash  --
+-------------
+L = DBM:GetModLocalization("ICCTrash")
+
+L:SetGeneralLocalization{
+	name = "冰冠城塞小怪"
+}
+
+L:SetWarningLocalization{
+	SpecWarnTrapL		= "觸發陷阱! - 亡縛守衛被釋放了",
+	SpecWarnTrapP		= "觸發陷阱! - 復仇的血肉收割者到來",
+	SpecWarnGosaEvent	= "辛德拉苟莎夾道攻擊開始!"
+}
+
+L:SetOptionLocalization{
+	SpecWarnTrapL		= "當觸發陷阱時顯示特別警告",
+	SpecWarnTrapP		= "當觸發陷阱時顯示特別警告",
+	SpecWarnGosaEvent	= "為辛德拉苟莎夾道攻擊顯示特別警告"
+}
+
+L:SetMiscLocalization{
+	WarderTrap1			= "誰...在那兒...?",
+	WarderTrap2			= "我...甦醒了!",
+	WarderTrap3			= "主人的聖所受到了打擾!",
+	FleshreaperTrap1	= "快，我們要從後面奇襲他們!",
+	FleshreaperTrap2	= "你無法逃避我們!",
+	FleshreaperTrap3	= "生人...在此?",
+	SindragosaEvent		= "你一定不能靠近冰霜之后。快，阻止他們!"
 }

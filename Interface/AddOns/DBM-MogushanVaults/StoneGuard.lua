@@ -1,8 +1,7 @@
 local mod	= DBM:NewMod(679, "DBM-MogushanVaults", nil, 317)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 11193 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 2 $"):sub(12, -3))
 mod:SetCreatureID(60051, 60043, 59915, 60047)--Cobalt: 60051, Jade: 60043, Jasper: 59915, Amethyst: 60047
 mod:SetEncounterID(1395)
 mod:SetZone()
@@ -172,18 +171,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			local uId = DBM:GetBossUnitId(Jasper)
 			if uId and UnitPower(uId) <= 50 and activePetrification == "Jasper" then--Make sure his energy isn't already high, otherwise breaking chains when jasper will only be active for a few seconds is bad
 				specWarnBreakJasperChains:Show()
-				sndWOP:Play("ex_mop_ldsl") --拉斷鎖鏈
 				DBM.Arrow:Hide()
-			else
-				specWarnJasperChains:Show()
-				sndWOP:Play("ex_mop_lx")--連線快靠近
 			end
 		end
 	elseif spellId == 130774 and args:IsPlayer() then
 		specWarnAmethystPool:Show()
-		sndWOP:Play("runaway")--快躲開
-	elseif spellId == 115745 and args.sourceGUID == UnitGUID("target") and mod:IsTank() then
-		sndWOP:Play("ex_mop_mbsh")--目標石化
 	end
 end
 
@@ -241,7 +233,6 @@ function mod:RAID_BOSS_EMOTE(msg, boss)
 	elseif msg:find("spell:116529") then
 		warnPowerDown:Show()
 		specWarnPowerDown:Show()
-		sndWOP:Play("ex_mop_dzcz")--地磚重置
 	end
 end
 
@@ -249,15 +240,6 @@ function mod:OnSync(msg, boss)
 	-- if boss aprats from 10 yard and get Solid Stone, power no longer increase. If this, overlord not casts. So timer can be confusing. Disabled for find better way. 
 	if msg == "Overload" and boss ~= activePetrification then
 		specWarnOverloadSoon:Show(Overload[boss])
-		if boss == "Cobalt" then
-			sndWOP:Play("ex_mop_lscz") --藍色超載		
-		elseif boss == "Jade" then
-			sndWOP:Play("ex_mop_lvscz") --綠色超載
-		elseif boss == "Jasper" then
-			sndWOP:Play("ex_mop_hscz") --紅色超載
-		elseif boss == "Amethyst" then
-			sndWOP:Play("ex_mop_zscz") --紫色超載
-		end
 	end
 end
 
@@ -279,7 +261,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			DBM.InfoFrame:SetHeader(Cobalt)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		end
-		sndWOP:Play("ex_mop_lssh") --藍色石化
 	elseif spellId == 116006 then
 		activePetrification = "Jade"
 		timerPetrification:Start()
@@ -287,11 +268,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			DBM.InfoFrame:SetHeader(Jade)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		end
-		sndWOP:Play("ex_mop_lvssh") --綠色石化
 	elseif spellId == 116036 then
 		activePetrification = "Jasper"
 		timerPetrification:Start()
-		sndWOP:Play("ex_mop_hssh") --紅色石化
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(Jasper)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
@@ -301,7 +280,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			if uId and UnitPower(uId) <= 50 then--Make sure his energy isn't already high, otherwise breaking chains when jasper will only be active for a few seconds is bad
 				specWarnBreakJasperChains:Show()
 				DBM.Arrow:Hide()
-				sndWOP:Schedule(1, "ex_mop_ldsl") --拉斷鎖鏈
 			end
 		end
 	elseif spellId == 116057 then
@@ -313,7 +291,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		end
 	elseif spellId == 129424 then
 		warnCobaltMine:Show()
-		sndWOP:Play("ex_mop_zssh") --紫色石化
 		if self:IsDifficulty("lfr25") then
 			timerCobaltMineCD:Start(10.5)
 		else

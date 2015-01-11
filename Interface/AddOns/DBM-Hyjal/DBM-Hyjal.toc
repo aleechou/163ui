@@ -1,0 +1,28 @@
+## Interface: 60000
+## X-Min-Interface: 50001
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mount Hyjal|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0하이잘 정상|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Die Schlacht um den Hyjal|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0海加爾山之戰|r
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMHyjal_SavedVars, DBMHyjal_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: BC
+## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-Mod-MapID: 534
+## X-DBM-Mod-Sort: 502
+localization.en.lua
+localization.de.lua
+localization.cn.lua
+localization.tw.lua
+localization.ru.lua
+localization.es.lua
+localization.kr.lua
+RageWinterchill.lua
+Anetheron.lua
+Kazrogal.lua
+Azgalor.lua
+Archimonde.lua
+WaveTimers.lua

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1234, "DBM-Party-WoD", 8, 559)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12037 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12314 $"):sub(12, -3))
 mod:SetCreatureID(77120)
 mod:SetEncounterID(1762)
 mod:SetZone()
@@ -20,8 +20,8 @@ local warnReboundingBlade		= mod:NewSpellAnnounce(155705, 2, nil, false)--More f
 local warnBlackIronCyclone		= mod:NewTargetAnnounce(155721, 3)
 local warnZaela					= mod:NewSpellAnnounce("ej10312", 3, "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp")
 
-local specWarnBlackIronCyclone	= mod:NewSpecialWarningRun(155721)
-local specWarnZaela				= mod:NewSpecialWarningSwitch("ej10312", mod:IsTank())
+local specWarnBlackIronCyclone	= mod:NewSpecialWarningRun("OptionVersion2", 155721, nil, nil, nil, 4)
+local specWarnZaela				= mod:NewSpecialWarningSwitch("OptionVersion3", "ej10312", mod:IsTank())
 
 local timerDestructiveSmiteCD	= mod:NewNextTimer(15.5, 155673, nil, mod:IsTank())
 local timerReboundingBladeCD	= mod:NewNextTimer(10.5, 155705, nil, false)
@@ -30,7 +30,6 @@ local timerZaelaReturns			= mod:NewTimer(26.5, "timerZaelaReturns", 166041)
 
 local countdownDestructiveSmite	= mod:NewCountdown("OptionVersion2", 15.5, 155673, mod:IsTank())
 
-local soundCyclone				= mod:NewSound(155721)
 local voiceCyclone				= mod:NewVoice(155721)
 local voicePhaseChange			= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
@@ -38,7 +37,7 @@ function mod:OnCombatStart(delay)
 	timerReboundingBladeCD:Start(-delay)
 	timerDestructiveSmiteCD:Start(10-delay)
 	countdownDestructiveSmite:Start(10-delay)
-	timerBlackIronCycloneCD:Start(-delay)--In one pull, the first cast got interrupted
+	timerBlackIronCycloneCD:Start(18-delay)--In one pull, the first cast got interrupted
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -55,7 +54,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBlackIronCycloneCD:Start()
 		if args:IsPlayer() then
 			specWarnBlackIronCyclone:Show()
-			soundCyclone:Play()
 			voiceCyclone:Play("runaway") 
 		end
 	end

@@ -1,17 +1,14 @@
-﻿local mod	= DBM:NewMod(669, "DBM-Party-MoP", 2, 302)
+local mod	= DBM:NewMod(669, "DBM-Party-MoP", 2, 302)
 local L		= mod:GetLocalizedStrings()
-local sndWOP	= mod:SoundMM("SoundWOP")
 
-mod:SetRevision(("$Revision: 10698 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 30 $"):sub(12, -3))
 mod:SetCreatureID(56717)
+mod:SetEncounterID(1413)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_DAMAGE",
-	"SPELL_MISSED",
-	"RAID_BOSS_EMOTE",
 	"SPELL_CAST_START"
 )
 
@@ -27,8 +24,6 @@ local timerFurlwindCD		= mod:NewNextTimer(25, 112992)--True CD, 43 seconds, but 
 local timerBreath			= mod:NewBuffActiveTimer(18, 112944)
 local timerBreathCD			= mod:NewNextTimer(18, 112944)--true CD, 43 seconds, same as Furlwind, which is what makes their interaction with eachother predictable.
 
---local soundFurlwind			= mod:NewSound(112992, nil, mod:IsMelee())
-
 --Notes:
 --5/2 13:55:03.578  SPELL_CAST_SUCCESS,0xF130DD8D0000748B,"Hoptallus",0xa48,0x0,0x0000000000000000,nil,0x80000000,0x80000000,114366,"Hoptallus Keg Scene",0x1
 --Not sure if ENGAGE fires on above event, or when he's attackable.
@@ -43,12 +38,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 112992 then
 		warnFurlwind:Show()
---		specWarnFurlwind:Show()
---		soundFurlwind:Play()
-		sndWOP:Play("wwsoon")--準備旋風
-		sndWOP:Schedule(10, "countthree")
-		sndWOP:Schedule(11, "counttwo")
-		sndWOP:Schedule(12, "countone")
+		specWarnFurlwind:Show()
 		timerFurlwind:Start()
 		timerBreathCD:Start()--Always 18 seconds after Furlwind
 	elseif args.spellId == 112944 then
@@ -56,20 +46,5 @@ function mod:SPELL_CAST_START(args)
 		specWarnCarrotBreath:Show()
 		timerBreath:Start()
 		timerFurlwindCD:Start()--Always 25 seconds after Carrot Breath
-		
-	end
-end
-
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 112993 and destGUID == UnitGUID("player") and self:AntiSpam() and (not mod:IsTank()) then
-		specWarnFurlwind:Show()
-		sndWOP:Play("runaway")--快躲開
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
-
-function mod:RAID_BOSS_EMOTE(msg)
-	if msg == L.Tuzi or msg:find(L.Tuzi) then
-		sndWOP:Play("mobsoon")--準備小怪
 	end
 end

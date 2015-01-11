@@ -1,6 +1,5 @@
 local mod	= DBM:NewMod("Geddon", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
-local Yike	= mod:SoundMM("SoundWOP")
 
 mod:SetRevision(("$Revision: 550 $"):sub(12, -3))
 mod:SetCreatureID(12056)
@@ -47,7 +46,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBomb:Show()
 			if self:IsDifficulty("event40") then
 				yellBomb:Yell()
-				Yike:Play("runout")
 			end
 		end
 	end

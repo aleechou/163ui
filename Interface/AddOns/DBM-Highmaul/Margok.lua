@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1197, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 12216 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 12316 $"):sub(12, -3))
 mod:SetCreatureID(77428, 78623)
 mod:SetEncounterID(1705)
 mod:SetZone()
@@ -20,8 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REFRESH 157763",
 	"SPELL_AURA_REMOVED 158605 164176 164178 164191 157763 156225 164004 164005 164006 165102 165595",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
-	"CHAT_MSG_MONSTER_YELL"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
 )
 
 --TODO, do more fancy stuff with radar in phase 4 when i have more logs, like closing it when it's not needed. Or may just leave it as is depending on preferences.
@@ -89,7 +88,7 @@ local specWarnMarkOfChaosReplicationOther		= mod:NewSpecialWarningTaunt(164191, 
 
 local specWarnBranded							= mod:NewSpecialWarningStack(156225, nil, 5)--Debuff Name "Branded" for Arcane Wrath
 local specWarnBrandedDisplacement				= mod:NewSpecialWarningStack(164004, nil, 5)
-local specWarnBrandedFortification				= mod:NewSpecialWarningStack(164005, nil, 8)
+local specWarnBrandedFortification				= mod:NewSpecialWarningStack(164005, nil, 7)
 local specWarnBrandedReplication				= mod:NewSpecialWarningStack(164006, nil, 5)
 local yellBranded								= mod:NewYell(156225, L.BrandedYell)
 
@@ -117,7 +116,7 @@ local specWarnDarkStar							= mod:NewSpecialWarningSpell(178607, nil, nil, nil,
 local timerArcaneWrathCD						= mod:NewCDTimer(50, 156238, nil, not mod:IsTank())--Pretty much a next timer, HOWEVER can get delayed by other abilities so only reason it's CD timer anyways
 local timerDestructiveResonanceCD				= mod:NewCDTimer(15, 156467, nil, not mod:IsMelee())--16-30sec variation noted. I don't like it
 local timerMarkOfChaos							= mod:NewTargetTimer(8, 158605, nil, mod:IsTank())
-local timerMarkOfChaosCD						= mod:NewCDTimer(50, 158605, nil, mod:IsTank())
+local timerMarkOfChaosCD						= mod:NewCDTimer(50.5, 158605, nil, mod:IsTank())
 local timerForceNovaCD							= mod:NewCDCountTimer(45, 157349)--45-52
 local timerSummonArcaneAberrationCD				= mod:NewCDCountTimer(45, "ej9945", nil, not mod:IsHealer(), nil, 156471)--45-52 Variation Noted
 local timerTransition							= mod:NewPhaseTimer(74)
@@ -414,7 +413,6 @@ function mod:SPELL_CAST_START(args)
 			if self.Options.warnMarkOfChaos then
 				warnMarkOfChaos:Show(targetName)
 			end
-			timerMarkOfChaos:Start(targetName)
 			if tanking or (status == 3) then
 				specWarnMarkOfChaos:Show()
 				voiceMarkOfChaos:Play("runout")
@@ -554,14 +552,14 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			elseif spellId == 164005 then
 				if self.Options.warnBranded then
-					warnBrandedFortification:CombinedShow(0.5, args.destName, currentStack)
+					warnBrandedFortification:Show(args.destName, currentStack)
 				end
 				if args:IsPlayer() and currentStack > 6  then--Special warning only for person that needs to get out
 					specWarnBrandedFortification:Show(currentStack)
 				end
 			elseif spellId == 164006 then
 				if self.Options.warnBranded then
-					warnBrandedReplication:Show(args.destName, currentStack)--Changed from combined show cause it can only be max targets, and important to have stack counts.
+					warnBrandedReplication:CombinedShow(0.5, args.destName, currentStack)
 				end
 				if args:IsPlayer() and currentStack > 4 then--Special warning only for person that needs to get out
 					specWarnBrandedReplication:Show(currentStack)
@@ -588,6 +586,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		--Update frame again in case he swaped targets during cast (happens)
 		self.vb.markActive = true
 		self.vb.lastMarkedTank = args.destName
+		local uId = DBM:GetRaidUnitId(args.destName)
+		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff(uId, args.spellName)
+		timerMarkOfChaos:Start(duration, args.destName)
 		if args:IsPlayer() then
 			self.vb.playerHasMark = true
 			if spellId == 164176 then 
@@ -749,7 +750,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if spellId == 157964 then
 			if self:IsMythic() then
 				self.vb.phase = 3
-				voicePhaseChange:Play("pthree")	
+				voicePhaseChange:Play("pthree")
+				self:RegisterShortTermEvents(
+					"CHAT_MSG_MONSTER_YELL"
+				)
 			else
 				self.vb.phase = 4
 				voicePhaseChange:Play("pfour")
@@ -759,9 +763,33 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 164336 then--Teleport to Displacement (first phase change that has no transition)
+		--This needs complicated work. Timers that have > 10 seconds remaining get extended by about 3-4 seconds.
+		--But timers that have < 10 seconds remaining get extended by like 10-13 seconds. 
+		--So besides code that's already done below, need to check time remaining < or > 10 and do all kinds of nasty crap. maybe not worth it
+--[[		countdownArcaneWrath:Cancel()
+		countdownMarkofChaos:Cancel()
+		countdownForceNova:Cancel()
+		voiceForceNova:Cancel()
+		local te1, te2, te3, te4, te5
+		local tt1, tt2, tt3, tt4, tt5
+		te1, tt1 = timerArcaneWrathCD:GetTime()
+		te2, tt2 = timerDestructiveResonanceCD:GetTime()
+		te3, tt3 = timerSummonArcaneAberrationCD:GetTime()
+		te4, tt4 = timerMarkOfChaosCD:GetTime()
+		te5, tt5 = timerForceNovaCD:GetTime()
+		local tr1, tr2, tr3, tr4, tr5 = tt1-te1,tt2-te2,tt3-te3,tt4-te4,tt5-te5
+		countdownArcaneWrath:Start(tr1+n)
+		timerArcaneWrathCD:Start(tr1+n)
+		timerDestructiveResonanceCD:Start(tr2+n)
+		timerSummonArcaneAberrationCD:Start(tr3+n)
+		timerMarkOfChaosCD:Start(tr4+n)		
+		countdownMarkofChaos:Start(tr4+n)
+		timerForceNovaCD:Start(tr5+n)
+		countdownForceNova:Start(tr5+n)--]]
 		voicePhaseChange:Play("ptwo")
 		self.vb.phase = 2
 	elseif spellId == 70628 then --Margok being killed by chogal
+		self.vb.phase = 4
 		voicePhaseChange:Play("pfour")
 		timerArcaneWrathCD:Cancel()
 		countdownArcaneWrath:Cancel()
@@ -801,8 +829,8 @@ end
 "<653.1 00:41:38> [INSTANCE_ENCOUNTER_ENGAGE_UNIT] Fake Args:#false#false#true#未知目標#Vehicle-0-3127-1228-11037-77428-00001D8C50#elite#0#false#true#true#丘加利#--Chogall Active
 --]]
 function mod:CHAT_MSG_MONSTER_YELL(msg, npc)
-	if npc == chogallName and not self.vb.phase == 4 then--Some creative shit right here. Screw localized text. This will trigger off first yell at start of 35 second RP Sender is 丘加利 (Cho'gall)
-		self.vb.phase = 4
-		timerTransition:Start(35)--Boss/any arcane adds still active during this, so do not cancel timers here, canceled on margok death
+	if npc == chogallName then--Some creative shit right here. Screw localized text. This will trigger off first yell at start of 35 second RP Sender is 丘加利 (Cho'gall)
+		self:UnregisterShortTermEvents()--Unregister Yell
+		timerTransition:Start(34)--Boss/any arcane adds still active during this, so do not cancel timers here, canceled on margok death
 	end
 end

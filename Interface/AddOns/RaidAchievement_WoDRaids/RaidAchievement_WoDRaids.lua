@@ -181,7 +181,7 @@ rpradelayzonech=GetTime()+2
 end
 
 if event == "ADDON_LOADED" then
-	if arg1=="RaidAchievement_PandaRaids" then
+	if arg1=="RaidAchievement_WoDRaids" then
 
 for i=1,#wodrraspisokach25 do
 if wodrraspisokon[i]==nil then wodrraspisokon[i]=1 end
