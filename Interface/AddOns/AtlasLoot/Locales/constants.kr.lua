@@ -5,7 +5,6 @@ if not AL then return end
 -- These localization strings are translated on WoWAce: http://www.wowace.com/addons/atlasloot-enhanced/localization
 AL["25 Player"] = "25인" -- Needs review
 AL["25 Player Heroic"] = "25인 영웅" -- Needs review
-AL["2H Weapons"] = "양손 무기"
 AL["Achievements"] = "업적"
 AL["Aged Dalaran Wizard"] = "늙은 달라란 마술사"
 AL["/al - Open the AtlasLoot window."] = "/al - AtlasLoot  열기."
@@ -36,6 +35,7 @@ AL[ [=[|cffFF0000Click: |cffFFFFFFOpen AtlasLoot
 |cffFF0000Shift+Click: |cffFFFFFFOpen AtlasLoot-Options ]=] ] = [=[|cffFF0000클릭: |cffFFFFFF AtlasLoot 열기
 |cffFF0000쉬프트+클릭: |cffFFFFFFAtlasLoot-설정 열기 ]=]
 AL["Chest"] = "가슴보호구"
+AL["Children's Week"] = "어린이 주간" -- Needs review
 AL["Classic"] = "오리지널"
 AL["Classic Sets"] = "오리지널 세트"
 AL["Class Sets"] = "직업 세트"
@@ -83,9 +83,12 @@ AL["Items"] = "아이템"
 AL["Knot Thimblejack"] = "노트 팀블잭"
 AL["Legendary Items"] = "전설급 아이템"
 AL["Loading Data ..."] = "데이터 읽는 중 ..."
+AL["Love is in the Air"] = "온누리에 사랑을" -- Needs review
+AL["Lunar Festival"] = "달의 축제" -- Needs review
 AL["Map"] = "지도"
 AL["Master Elemental Shaper Krixix"] = "수석 원소구현술사 크릭시스"
 AL["Meta Gems"] = "얼개 보석"
+AL["Midsummer Fire Festival"] = "한여름 축제" -- Needs review
 AL["Miscellaneous"] = "기타"
 AL["Mists of Pandaria"] = "판다리아의 안개"
 AL["Model"] = "모델"
@@ -93,6 +96,7 @@ AL["Mounts"] = "탈것" -- Needs review
 AL["Mythic"] = "신화"
 AL["Neck"] = "목"
 AL["Necklaces"] = "목걸이"
+AL["Noblegarden"] = "귀족의 정원" -- Needs review
 AL["No module found."] = "No module found."
 AL["Non-Playable Race Masks"] = "선택 할 수 없는 종족 가면"
 AL["Normal"] = "일반"

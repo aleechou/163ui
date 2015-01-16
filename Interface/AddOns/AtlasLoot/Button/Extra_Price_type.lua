@@ -19,16 +19,21 @@ local STRING_RED = "|cffff0000"
 local STRING_GREEN = "|cff1eff00"
 
 local PRICE_INFO = {
+	["ancestrycoin"] = { itemID = 21100 },
 	["apexis"] = { currencyID = 823 },
 	["artifactfragment"] = { currencyID = 944 },
 	["bloodycoin"] = { currencyID = 789 },
 	["brewfest"] = { itemID = 37829 },
-	["champseal"] = { currencyID = 241 },
+	["burningblossom"] = { itemID = 23247 },
+	["championsseal"] = { currencyID = 241 },
 	["conquest"] = { currencyID = 390 },
 	["darkmoon"] = { currencyID = 515 },
 	["eldercharm"] = { currencyID = 697 },
 	["honor"] = { currencyID = 392 },
+	["lovetoken"] = { itemID = 49927 },
 	["money"] = { func = GetCoinTextureString },
+	["noblegardenchocolate"] = { itemID = 44791 },
+	["spiritofharmony"] = { itemID = 76061 },
 	["timelesscoin"] = { currencyID = 777 },
 	["tolbarad"] = { currencyID = 391 },
 	["trickytreat"] = { itemID = 33226 },

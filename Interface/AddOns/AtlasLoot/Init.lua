@@ -2,7 +2,7 @@ local addonname = ...
 local _G = _G
 
 _G.AtlasLoot = {
-	__addonrevision = tonumber("4320") or 0
+	__addonrevision = tonumber("4322") or 0
 }
 
 local AddonNameVersion = string.format("%s-%d", addonname, _G.AtlasLoot.__addonrevision)

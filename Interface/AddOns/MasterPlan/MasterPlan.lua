@@ -1,50 +1,59 @@
-local api, bgapi, addonName, T = {}, {}, ...
+local api, addonName, T = {}, ...
+if T.Mark ~= 23 then
+	local m = "You must restart World of Warcraft after installing this update."
+	if type(T.L) == "table" and type(T.L[m]) == "string" then m = T.L[m] end
+	return print("|cffffffff[Master Plan]: |cffff8000" .. m)
+end
 
-local defaults, mdata, mcdata = {
-	availableMissionSort="threats",
+local defaults = {
+	availableMissionSort="xp",
 	sortFollowers=true,
 	batchMissions=true,
 	dropLessSalvage=true,
 	riskReward=1,
-	announceLoss=false,
+	xpPerGold=0,
+	xpCapGrace=2000,
+	goldRewardThreshold=2000000,
 	ignore={},
-	version="0.13",
+	complete={},
 }
+
 local conf = setmetatable({}, {__index=defaults})
 T.Evie.RegisterEvent("ADDON_LOADED", function(ev, addon)
 	if addon == addonName then
-		if type(MasterPlanConfig) == "table" then
-			for k,v in pairs(MasterPlanConfig) do
-				if type(v) == type(defaults[k]) then
-					conf[k] = v
+		local pc, seen
+		if type(MasterPlanPC) == "table" then
+			pc, MasterPlanPC = MasterPlanPC
+		else
+			pc = {}
+		end
+		
+		seen, pc.seen = type(pc.seen) == "table" and pc.seen or {}
+		for k,v in pairs(pc) do
+			local tv = type(v)
+			if k ~= "ignore" and k ~= "seen" and k ~= "complete" and tv == type(defaults[k]) then
+				conf[k] = v
+			elseif k == "ignore" and tv == "table" then
+				for k,v in pairs(v) do
+					conf.ignore[k] = v
 				end
 			end
 		end
-		conf.version = defaults.version
+		T._SetMissionSeenTable(seen, pc.complete)
+		conf.version = GetAddOnMetadata(addonName, "Version")
 		T.Evie.RaiseEvent("MP_SETTINGS_CHANGED")
-		
-		mdata = type(MasterPlanData) == "table" and MasterPlanData or {}
-		local n, r = UnitFullName("player")
-		local ckey = (r or "?") .. "#" .. n
-		mcdata = type(mdata[ckey]) == "table" and mdata[ckey] or {}
-		if type(mcdata.__ignore) == "table" then
-			for k,v in pairs(mcdata.__ignore) do
-				conf.ignore[k] = v
-			end
-			mcdata.__ignore = nil
-		end
-		T._SetMissionSeenTable(mcdata)
 		
 		return "remove"
 	end
 end)
 T.Evie.RegisterEvent("PLAYER_LOGOUT", function()
-	MasterPlanConfig, MasterPlanData, mcdata.__ignore = conf, mdata, next(conf.ignore) and conf.ignore
+	local seen, complete = securecall(T._GetMissionSeenTable)
+	MasterPlanPC, conf.ignore, conf.seen, conf.complete = conf, next(conf.ignore) and conf.ignore, seen or conf.seen, complete or conf.complete
 	T._ObserveMissions()
 end)
 
-setmetatable(api, {__index=bgapi})
-bgapi.GarrisonAPI, T.config = T.Garrison, conf
+setmetatable(api, {__index={GarrisonAPI=T.Garrison}})
+T.config = conf
 
 do -- Localizer stub
 	local LL, L = type(T.L) == "table" and T.L or {}, newproxy(true)
@@ -67,9 +76,6 @@ function api:SetMissionOrder(order)
 	assert(type(order) == "string", 'Syntax: MasterPlan:SetMissionOrder("order")')
 	conf.availableMissionSort = order
 	T.Evie.RaiseEvent("MP_SETTINGS_CHANGED", "availableMissionSort")
-	if GarrisonMissionFrameMissions and GarrisonMissionFrameMissions:IsShown() then
-		GarrisonMissionList_UpdateMissions()
-	end
 end
 function api:GetMissionOrder()
 	return conf.availableMissionSort
@@ -85,6 +91,7 @@ function api:GetBatchMissionCompletion()
 end
 
 local parties, tentativeState = {}, {}
+T.tentativeState = tentativeState
 local function dissolve(mid)
 	local p = parties[mid]
 	if p then

@@ -1,10 +1,10 @@
 ﻿## Interface: 60000
 ## Author: Hegarol
-## Version: v8.00.00beta5
+## Version: v8.00.00beta7
 ## SavedVariables: AtlasLootDB
 ## SavedVariablesPerCharacter: AtlasLootCharDB
-## OptionalDeps: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
-## X-Curse-Packaged-Version: v8.00.00beta5
+## OptionalDeps: Ace3, LibStub, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
+## X-Curse-Packaged-Version: v8.00.00beta7
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -33,7 +33,7 @@
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
-## X-Embeds: Ace3, LibStub, AceDB-3.0, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
+## X-Embeds: LibStub, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
 ## X-Localizations: enUS, deDE, frFR, esES, koKR, zhCN, zhTW, esMX, ptBR, ruRU
 
 embeds.xml
@@ -50,8 +50,7 @@ db.lua
 ## Notes-zhCN: 显示副本中的首领与小怪可能掉落的物品
 ## Notes-zhTW: 顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141231120002
-
+## X-163UI-Version: 2015011201
 Locales\Locales.lua
 Locales\constants.lua
 Locales\constants.cn.lua
@@ -72,7 +71,6 @@ Loader.lua
 
 Core\StaticPopupDialogs.lua
 Core\SlashCommands.lua
-Core\ChatLink.lua
 Core\ClickHandler.lua
 Core\Tooltip.lua
 Core\ItemInfo.lua
@@ -80,6 +78,7 @@ Core\TooltipScan.lua
 Core\EncounterJournal.lua
 Core\ItemQuery.lua
 Core\ItemString.lua
+Core\MapPOI.lua
 
 MiniMapButton.lua
 
@@ -88,7 +87,6 @@ Data\Token.lua
 Data\Sets.lua
 
 ItemDB\ItemDB.lua
-ItemDB\NpcData.lua
 ItemDB\SoundData.lua
 
 Button\Button.lua
@@ -119,7 +117,6 @@ GUI\ModelFrame.lua
 GUI\SoundFrame.lua
 GUI\QuickLootFrame.lua
 GUI\SetViewFrame.lua
-GUI\Styler.lua
 
 Addons\Addons.lua
 Addons\BonusRoll.lua

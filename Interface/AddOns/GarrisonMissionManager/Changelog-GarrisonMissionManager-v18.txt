@@ -1,0 +1,8 @@
+2015-01-13  ovolkov  <ovolkov>
+
+[dbbd301538eb] [v18]
+* GarrisonMissionManager.toc, GarrisonMissionManager.txt:
+
+v18 toc + changelog
+
+

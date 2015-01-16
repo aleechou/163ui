@@ -16,6 +16,7 @@ local tbl_insert, tbl_remove = table.insert, table.remove
 
 -- WoW
 local GetNumAddOns, GetAddOnInfo, IsAddOnLoaded, GetAddOnMetadata = GetNumAddOns, GetAddOnInfo, IsAddOnLoaded, GetAddOnMetadata
+local GetTime = GetTime
 
 
 -- A list of officiel AtlasLoot modules
@@ -158,19 +159,25 @@ function Loader.Init()
 end
 
 AtlasLoot:AddInitFunc(Loader.Init)
+
 --/dump GetAddOnEnableState(playerName, i) == 0 and false or true
 --- Loads a module for AtlasLoot
 -- @param	moduleName		<string> name of the module
 -- @param	onLoadFunction	<function> function that is called after the module is finish loaded
 -- @param	oneFunction		<string> category of the load
+local warningSpam = {nil, nil}
 function Loader:LoadModule(moduleName, onLoadFunction, oneFunction)
 	if not moduleName or not ModuleList[moduleName] then return end
 	if ( ModuleList[moduleName].loadReason and ModuleList[moduleName].loadReason ~= "DEMAND_LOADED" ) or not ModuleList[moduleName].enabled then
 		local state = ModuleList[moduleName].loadReason == "DEMAND_LOADED" and "DISABLED" or ModuleList[moduleName].loadReason
-		if state == "DISABLED" then -- localized "ADDON_" ("BANNED", "CORRUPT", "DEMAND_LOADED", "DISABLED", "INCOMPATIBLE", "INTERFACE_VERSION", "MISSING")
-			AtlasLoot:Print(str_format(AL["Module %s is deactivated."], moduleName))
-		elseif state == "MISSING" then
-			AtlasLoot:Print(str_format(AL["Module %s is not installed."], moduleName))
+		if warningSpam[1] ~= moduleName or ( warningSpam[1] == moduleName and GetTime() - warningSpam[2] > 1 ) then
+			if state == "DISABLED" then -- localized "ADDON_" ("BANNED", "CORRUPT", "DEMAND_LOADED", "DISABLED", "INCOMPATIBLE", "INTERFACE_VERSION", "MISSING")
+				AtlasLoot:Print(str_format(AL["Module %s is deactivated."], moduleName))
+			elseif state == "MISSING" then
+				AtlasLoot:Print(str_format(AL["Module %s is not installed."], moduleName))
+			end
+			warningSpam[1] = moduleName
+			warningSpam[2] = GetTime()
 		end
 		return state
 	end

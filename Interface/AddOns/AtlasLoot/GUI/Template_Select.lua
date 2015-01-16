@@ -11,6 +11,7 @@
 		},
 	}
 ]]--
+local ALName, ALPrivate = ...
 local AtlasLoot = _G.AtlasLoot
 local GUI = AtlasLoot.GUI
 
@@ -23,6 +24,8 @@ local min, floor = min, floor
 local SELECT_COUNT = 0
 
 local BUTTON_HEIGHT = 15
+
+local COIN_TEXTURE = ALPrivate.COIN_TEXTURE
 
 
 -- functions
@@ -263,7 +266,7 @@ do
 	local function SetupCoin(coinTexture, button, selected)
 		button.coin:SetDesaturated(false)
 		if coinTexture == "Achievement" then
-			button.coin:SetTexture("Interface\\AchievementFrame\\UI-Achievement-TinyShield")
+			button.coin:SetTexture(COIN_TEXTURE.AC)
 			button.coin:SetTexCoord(0, 0.625, 0, 0.625)
 			if selected then
 				button.coin:SetDesaturated(false)
@@ -272,7 +275,7 @@ do
 			end
 		elseif coinTexture == "Reputation" or coinTexture == "Faction" then
 			button.coin:SetTexCoord(0, 1, 0, 1)
-			button.coin:SetTexture("Interface\\Icons\\Achievement_Reputation_08")
+			button.coin:SetTexture(COIN_TEXTURE.REPUTATION)
 			if selected then
 				button.coin:SetDesaturated(false)
 			else
@@ -281,9 +284,9 @@ do
 		else
 			button.coin:SetTexCoord(0, 1, 0, 1)
 			if selected then
-				button.coin:SetTexture(_G.AtlasLoot.IMAGE_PATH.."gold")
+				button.coin:SetTexture(COIN_TEXTURE.GOLD)
 			else
-				button.coin:SetTexture(_G.AtlasLoot.IMAGE_PATH.."silver")
+				button.coin:SetTexture(COIN_TEXTURE.SILVER)
 			end
 		end
 	end

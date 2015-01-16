@@ -1,9 +1,9 @@
 ﻿## Interface: 60000
 ## Author: Hegarol	
-## Version: v8.00.00beta6
+## Version: v8.00.00beta7
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
-## X-Curse-Packaged-Version: v8.00.00beta6
+## X-Curse-Packaged-Version: v8.00.00beta7
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -33,4 +33,4 @@ data.lua
 ## Notes-zhCN: 《PvP》物品信息
 ## Notes-zhTW: 《PvP》物品信息
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141231115659
+## X-163UI-Version: 2015011201

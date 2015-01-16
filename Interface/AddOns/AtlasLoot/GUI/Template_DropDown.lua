@@ -18,7 +18,7 @@
 		}
 	}
 ]]
-
+local ALName, ALPrivate = ...
 local AtlasLoot = _G.AtlasLoot
 local GUI = AtlasLoot.GUI
 
@@ -357,7 +357,7 @@ do
 			
 			frame = CreateFrame("Frame", frameName)
 			frame:EnableMouse(true)
-			frame:SetBackdrop(ATLASLOOT_STYLE_TT_BACKDROP)
+			frame:SetBackdrop(ALPrivate.BOX_BORDER_BACKDROP)
 							
 			frame.label = frame:CreateFontString(frameName.."-label", "ARTWORK", "GameFontNormalSmall")
 			frame.label:SetPoint("TOP", frame, "TOP", 0, -5)
@@ -478,7 +478,7 @@ function GUI.CreateDropDown()
 	frame:ClearAllPoints()
 	frame:SetHeight(25)
 	frame:EnableMouse(true)
-	frame:SetBackdrop(ATLASLOOT_STYLE_TT_BACKDROP)
+	frame:SetBackdrop(ALPrivate.BOX_BORDER_BACKDROP)
 	frame:SetBackdropColor(0,0,0,1)
 	frame:SetScript("OnHide", MainFrame_OnHide)
 	frame:SetScript("OnClick", DropDownButtonOnClick)

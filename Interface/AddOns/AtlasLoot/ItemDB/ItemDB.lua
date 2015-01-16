@@ -29,9 +29,6 @@ ItemDB.contentMt = {
 ItemDB.mt = {
 	__newindex = function(t, k, v)
 		t.__atlaslootdata.contentCount = t.__atlaslootdata.contentCount + 1
-		contentList[t.__atlaslootdata.addonName] = contentList[t.__atlaslootdata.addonName] or {}
-		--if not contentList[t.__atlaslootdata.addonName] then contentList[t.__atlaslootdata.addonName] = {} end
-		--assert(not contentList[t.__atlaslootdata.addonName][k], k.." already exists in module "..t.__atlaslootdata.addonName)
 		setmetatable(v, ItemDB.contentMt)
 		contentList[t.__atlaslootdata.addonName][t.__atlaslootdata.contentCount] = k
 		contentList[t.__atlaslootdata.addonName][k] = t.__atlaslootdata.contentCount
@@ -56,6 +53,7 @@ function ItemDB:Add(addonName, tierID)
 			tierID = tierID
 		}
 		setmetatable(ItemDB.Storage[addonName], ItemDB.mt)
+		contentList[addonName] = {}
 	end
 	return ItemDB.Storage[addonName]
 end
@@ -65,22 +63,19 @@ function ItemDB:Get(addonName)
 	return ItemDB.Storage[addonName]
 end
 
-function ItemDB:Open(addonName, dataID, boss, dif)
-	print(addonName, dataID, boss, dif)
-end
-
 function ItemDB:GetDifficulty(addonName, contentName, boss, dif)
 	dif = dif or 1
 	local diffs = ItemDB.Storage[addonName]:GetDifficultys()
 	-- first try to get the next lower difficulty
-	-- if nothing found get higher one or throw error
+	-- if nothing found get higher one or try again with lowest difficulty
 	local count = dif
 	local numDiffs = #diffs
 	while true do
 		if count == 0 then
 			count = dif + 1
 		elseif count > numDiffs then
-			error(dif.." (dif) not found! -> "..boss)
+			--error(dif.." (dif) not found! -> "..boss)
+			return ItemDB:GetDifficulty(addonName, contentName, boss, 1)
 		end
 		if ItemDB.Storage[addonName][contentName].items[boss][count] then
 			return count
@@ -152,14 +147,16 @@ local function loadItemsFromOtherModule(moduleLoader, loadString, contentTable, 
 	end
 	
 	local addonName, contentName, bossID, shortDiff = str_split(":", loadString)
-	if moduleLoader and moduleLoader ~= addonName then return end
+	if (moduleLoader and moduleLoader ~= addonName) then 
+		return
+	end
 	bossID = tonumber(bossID)
 	
-	local combat = AtlasLoot.Loader:LoadModule(addonName, nil, "itemDB")
-	if combat == "InCombat" then
+	local loadState = AtlasLoot.Loader:LoadModule(addonName, nil, "itemDB")
+	if loadState == "InCombat" or loadState == "DISABLED" or loadState == "MISSING" then
 		AtlasLoot.Loader:LoadModule(addonName, loadItemsFromOtherModule, "itemDB")
-		return addonName
-	elseif contentName then
+		return addonName, loadState
+	elseif contentName and ItemDB.Storage[addonName] then
 		-- get name of diff
 		local newDif = ItemDB.Storage[curAddonName]:GetDifficultyUName(curDiff)
 		-- get new diff ID
@@ -176,7 +173,7 @@ local function loadItemsFromOtherModule(moduleLoader, loadString, contentTable, 
 		end
 		contentTable[curContentName].items[curBossID][curDiff].__linkedInfo = {addonName, contentName, bossID, newDif}
 		currentModuleLoadingInfo = nil
-	else
+	elseif ItemDB.Storage[addonName] then
 		-- getBossID by name
 		local bossID = contentTable[curContentName]:GetNameForItemTable(curBossID)
 		for i=1, #ItemDB.Storage[addonName][curContentName].items do
@@ -199,7 +196,7 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 	assert(addonName and ItemDB.Storage[addonName], addonName.." (addonName) not found!")
 	assert(contentName and ItemDB.Storage[addonName][contentName], contentName.." (contentName) not found!")
 	assert(boss and ItemDB.Storage[addonName][contentName].items[boss], boss.." (boss) not found!")
-	local addonNameRETVALUE
+	local addonNameRETVALUE, addon
 	if ItemDB.Storage[addonName][contentName].items[boss].link then
 		return ItemDB:GetItemTable(ItemDB.Storage[addonName][contentName].items[boss].link[1], ItemDB.Storage[addonName][contentName].items[boss].link[2], ItemDB.Storage[addonName][contentName].items[boss].link[3], dif)
 	end
@@ -215,7 +212,10 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 		local bossDiff = ItemDB.Storage[addonName][contentName].items[boss][dif]
 		-- get the items table from a string
 		if type(bossDiff) == STRING_TYPE then
-			addonNameRETVALUE = loadItemsFromOtherModule(nil, bossDiff, ItemDB.Storage[addonName], contentName, boss, addonName, dif)
+			local notLoadedAddonName, reason = loadItemsFromOtherModule(nil, bossDiff, ItemDB.Storage[addonName], contentName, boss, addonName, dif)
+			if notLoadedAddonName then
+				return notLoadedAddonName, reason, ItemDB.Storage[addonName]:GetDifficultyData(dif)
+			end
 		-- get the items table from a other difficulty
 		elseif type(bossDiff) == "number" then
 			ItemDB.Storage[addonName][contentName].items[boss][dif] = ItemDB.Storage[addonName][contentName].items[boss][ bossDiff ]
@@ -226,7 +226,7 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 	end
 	
 	--assert(dif and ItemDB.Storage[addonName][contentName].items[boss][dif], dif.." (dif) not found!")
-	return addonNameRETVALUE or ItemDB.Storage[addonName][contentName].items[boss][dif], getItemTableType(addonName, contentName, boss, dif), ItemDB.Storage[addonName]:GetDifficultyData(dif)
+	return ItemDB.Storage[addonName][contentName].items[boss][dif], getItemTableType(addonName, contentName, boss, dif), ItemDB.Storage[addonName]:GetDifficultyData(dif)
 end
 
 function ItemDB:GetModuleList(addonName)

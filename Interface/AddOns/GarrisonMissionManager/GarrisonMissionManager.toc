@@ -1,25 +1,27 @@
 ## Interface: 60000
-## X-Curse-Packaged-Version: v12
+## X-Curse-Packaged-Version: v18
 ## X-Curse-Project-Name: Garrison Mission Manager
 ## X-Curse-Project-ID: garrison-mission-manager
 ## X-Curse-Repository-ID: wow/garrison-mission-manager/mainline
 
-## Title: 要塞任务管理器
-## Version: v12
-## Notes: 在要塞追随者任务面板增加帮助你选取最佳队伍的功能
+## Title: 要塞任务管家
+## Version: v18
+## Notes: Assists you with selecting best team for garrison missions
 ## Author: Oleg "Rowaa[SR13]" Volkov
 
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_GarrisonUI
+## Dependencies: Blizzard_GarrisonUI
+## OptionalDeps: SR13-TimeRecord
 
 ## SavedVariables: SV_GarrisonMissionManager
 ## SavedVariablesPerCharacter: SVPC_GarrisonMissionManager
 
 GarrisonMissionManager.lua
-## Title: |cff880303[网易有爱]|r 要塞任务管理器
-## Title-zhCN: |cff880303[网易有爱]|r 要塞任务管理器
+## Title: |cff880303[网易有爱]|r 要塞任务管家
+## Title-zhCN: |cff880303[网易有爱]|r 要塞任务管家
 ## Title-zhTW: |cff880303[网易有爱]|r 要塞任務管理器
-## Notes-zhCN: 帮助你选择最优配置来进行要塞追随者任务
+## Notes-zhCN: 在要塞追随者任务面板增加帮助你选取最佳队伍的功能
 ## Notes-zhTW: 幫助你合理選擇追隨者便捷的完成要塞的任務
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141215173029
+## X-163UI-Version: 2015011501

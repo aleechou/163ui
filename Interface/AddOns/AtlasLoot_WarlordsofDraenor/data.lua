@@ -75,7 +75,7 @@ local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
-local AC_ITTYPE = data:AddItemTableType("Achievement")
+local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
@@ -2286,6 +2286,7 @@ data["BlackrockFoundry"] = {
 				{ 17, 116316 },	-- Captured Flickerspark
 				{ 19, 116385 },	-- Magma Monsoon Mace
 				{ 20, 116384 },	-- Steelbringer's Polished Shield
+				{ 22, 115493, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Flamebender's Tome
 			},
 			[NORMAL_RAID_DIFF] = {
 				{ 1, 113916 },	-- Charbreath Firecloak
@@ -2306,12 +2307,13 @@ data["BlackrockFoundry"] = {
 				{ 20, 113920 },	-- Dagger of Blazing Radiance
 				{ 21, 113918 },	-- Molten Edge Eviscerator
 				{ 22, 113913 },	-- Ka'graz's Burning Blade
-				{ 24, "ac8929" },
+				{ 24, 115493, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Flamebender's Tome
+				{ 26, "ac8929" },
 			},
 			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-				{ 25, "ac8932" },
+				{ 27, "ac8932" },
 			},
 		},
 		{	--BFHansgarFranzok
@@ -2400,6 +2402,7 @@ data["BlackrockFoundry"] = {
 				{ 17, 116315 },	-- Heart of the Fury [Needs Name Change]
 				{ 19, 116382 },	-- Spire of Pyroclastic Flame
 				{ 20, 116379 },	-- Flickering Lantern Wisp
+				{ 22, 115479, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Heart of the Fury
 			},
 			[NORMAL_RAID_DIFF] = {
 				{ 1, 113887 },	-- Bracers of Spattered Steel
@@ -2417,12 +2420,13 @@ data["BlackrockFoundry"] = {
 				{ 18, 119313, false },	-- Leggings of the Iron Vanquisher
 				{ 20, 113886 },	-- Crescent of Living Magma
 				{ 21, 113885 },	-- Mouth of The Fury
-				{ 23, "ac8930" },
+				{ 23, 115479, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Heart of the Fury
+				{ 25, "ac8930" },
 			},
 			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-				{ 24, "ac8970" },
+				{ 26, "ac8970" },
 			},
 		},
 		{	--BFKromog
@@ -2480,6 +2484,7 @@ data["BlackrockFoundry"] = {
 				{ 16, 116312 },	-- Sorka's Ear Collection
 				{ 17, 116314 },	-- Blackheart Enforcer's Medallion
 				{ 19, 116390 },	-- Battle Medic's Wand
+				{ 21, 115494, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Draenic Thaumaturgical Orb
 			},
 			[NORMAL_RAID_DIFF] = {
 				{ 1, 113972 },	-- Cloak of Sanguine Terror
@@ -2499,12 +2504,13 @@ data["BlackrockFoundry"] = {
 				{ 20, 113966 },	-- Gar'an's Brutal Spearlauncher
 				{ 21, 113973 },	-- Koloch Na, the Blood Feast
 				{ 22, 113965 },	-- Sorka's Chainfist
-				{ 24, "ac8984" },
+				{ 24, 115494, false, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Draenic Thaumaturgical Orb
+				{ 26, "ac8984" },
 			},
 			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-				{ 25, "ac8972" },
+				{ 27, "ac8972" },
 			},
 		},
 		{	--BFBlackhand

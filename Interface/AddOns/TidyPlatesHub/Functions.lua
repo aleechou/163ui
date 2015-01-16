@@ -189,7 +189,7 @@ end
 local function GetFriendlyClass(name)
 	local class = TidyPlatesUtility.GroupMembers.Class[name]
 
-	if (IsInInstance() == nil) and (not class) and LocalVars.AdvancedEnableUnitCache then
+	if (not IsInInstance()) and (not class) and LocalVars.AdvancedEnableUnitCache then
 		class = CachedUnitClass(name) end
 	return class
 end
@@ -597,8 +597,16 @@ local function CastBarDelegate(unit)
 		color = LocalVars.ColorNormalSpellCast
 	else color = LocalVars.ColorUnIntpellCast end
 
+
+	if unit.reaction == "FRIENDLY" and (not LocalVars.SpellCastEnableFriendly) then
+		alpha = 0
+	else alpha = 1 end
+
+	--[[
 	if unit.reaction ~= "FRIENDLY" or LocalVars.SpellCastEnableFriendly then alpha = 1
 	else alpha = 0 end
+	--]]
+
 
 	return color.r, color.g, color.b, alpha
 end

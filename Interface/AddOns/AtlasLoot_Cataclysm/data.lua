@@ -4,6 +4,7 @@ local data = AtlasLoot.ItemDB:Add(addonname, 4)
 
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
+local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
 local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", nil, 7)
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
@@ -14,7 +15,7 @@ local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
 local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
-local AC_ITTYPE = data:AddItemTableType("Achievement")
+local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
@@ -918,6 +919,11 @@ data["ShadowfangKeep"] = {
 				{ 16, "ac5093" },
 				{ 17, "ac5505" },
 			},
+		},
+		{	--LoveisintheAirTrio
+			name = BB["Apothecary Hummel"].." ("..AL["Love is in the Air"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:LoveisintheAir:1",
 		},
 		CATA_DUNGEON_HERO_AC_TABLE,
 		CATA_DEFENDER_AC_TABLE,

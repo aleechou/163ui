@@ -37,6 +37,7 @@ function Quest.OnSet(mainButton, descFrame)
 	local typeVal = mainButton.__atlaslootinfo.extraType[2]
 	if Cache[typeVal] then
 		SetQuest(Cache[typeVal][1], Cache[typeVal][2], descFrame)
+		descFrame.info = typeVal
 	else
 		descFrame.cacheTyp = typeVal
 		if type(typeVal) == "string" then

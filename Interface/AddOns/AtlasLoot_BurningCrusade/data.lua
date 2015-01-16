@@ -4,7 +4,6 @@ local data = AtlasLoot.ItemDB:Add(addonname, 2)
 
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
-
 local BB = AtlasLoot.LibBabble:Get("LibBabble-Boss-3.0")
 
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
@@ -1763,6 +1762,11 @@ data["CFRTheSlavePens"] = {
 				{ 27, 72119, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- The Slave Master's Eye
 				{ 29, "ac669" },
 			},
+		},
+		{	--MidsummerFireFestivalAhune
+			name = BB["Ahune"].." ("..AL["Midsummer Fire Festival"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:MidsummerFireFestival:1",
 		},
 		{	--Dungeon Sets 3
 			name = format(AL["Dungeon %d Sets"], 3),

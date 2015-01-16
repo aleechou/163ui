@@ -10,57 +10,6 @@ local defaultArtPath = "Interface\\Addons\\TidyPlates\\Media"
 local font =					NAMEPLATE_FONT
 local EMPTY_TEXTURE = defaultArtPath.."\\Empty"
 
-
-
---[[
--- Prototype Tidy Plates 7.0 Theme Format
-TemplateTheme.threatborder = {
-	-- Shown Texture
-	texture =			EMPTY_TEXTURE,
-
-	-- Positioning
-	width = 128,
-	height = 64,
-	x = 0,
-	y = -5,
-	anchor = "CENTER",
-
-	--
-	root_object_table[i]....  etc.
-
-	root_object = "healthborder",		-- If nil or "default", use the default root and copy the self anchor point. (Core)
-	root_anchor = "CENTER",
-
-	-- Texture/Cropping Coordinates
-	left = 0,
-	right = 1,
-	top = 0,
-	bottom = 1,
-
-	-- Visibility
-	show = true,
-
-	--
-}
-
-StyleLibrary[StyleName]
-
-Style
-	- Graphical Element Definitions
-	- Widget Positions
-	- Functional Overrides
-
-Widgets
-	- Managed widget system
-	- As-Needed distribution
-	-
-
-
-
---]]
-
-
-
 TemplateTheme.hitbox = {
 	width = 149,
 	height = 40,
@@ -276,6 +225,59 @@ TemplateTheme.threatcolor = {
 }
 
 
+
+--[[
+-- Prototype Tidy Plates 7.0 Theme Format
+TemplateTheme.threatborder = {
+	-- Shown Texture
+	texture =			EMPTY_TEXTURE,
+
+	-- Positioning
+	width = 128,
+	height = 64,
+	x = 0,
+	y = -5,
+	anchor = "CENTER",
+
+	--
+	root_object_table[i]....  etc.
+
+	root_object = "healthborder",		-- If nil or "default", use the default root and copy the self anchor point. (Core)
+	root_anchor = "CENTER",
+
+	-- Texture/Cropping Coordinates
+	left = 0,
+	right = 1,
+	top = 0,
+	bottom = 1,
+
+	-- Visibility
+	show = true,
+
+	--
+}
+
+StyleLibrary[StyleName]
+
+Style
+	- Graphical Element Definitions
+	- Widget Positions
+	- Functional Overrides
+
+Widgets
+	- Managed widget system
+	- As-Needed distribution
+	-
+
+
+
+--]]
+
+
+
+
+--[[
+
 ------------------------------------------------
 --	Blizzard-Style (Used for the default/fallback theme)
 ------------------------------------------------
@@ -292,6 +294,7 @@ BlizzardTheme.healthborder.width = 128
 BlizzardTheme.healthborder.height = 32
 BlizzardTheme.healthborder.x = 0
 BlizzardTheme.healthborder.y = 0 + BlizzardThemeVertical
+BlizzardTheme.healthborder.right = .50
 
 BlizzardTheme.eliteicon.texture = "Interface\\Tooltips\\EliteNameplateIcon"
 BlizzardTheme.eliteicon.width = 32
@@ -354,7 +357,7 @@ BlizzardTheme.level.flags = "NONE"
 BlizzardTheme.healthbar.texture =					 "Interface\\TARGETINGFRAME\\UI-StatusBar"
 BlizzardTheme.healthbar.backdrop = 				EMPTY_TEXTURE
 BlizzardTheme.healthbar.height = 9
-BlizzardTheme.healthbar.width = 102
+BlizzardTheme.healthbar.width = 104
 BlizzardTheme.healthbar.x = -8.5
 BlizzardTheme.healthbar.y = -7	+ BlizzardThemeVertical
 
@@ -401,6 +404,7 @@ BlizzardTheme.frame.x = 0
 BlizzardTheme.frame.y = 0
 BlizzardTheme.frame.anchor = "CENTER"
 
+--]]
 
 --[[
 BlizzardTheme.target = {
@@ -443,17 +447,20 @@ BlizzardTheme.customtext = {
 	flags = "NONE",
 	show = false,
 }
+
+
 --]]
-
-
 
 -----------------------------------------------
 -- References
 -----------------------------------------------
 TidyPlates.Template = TemplateTheme
-TidyPlatesDefaultThemeName = "Blizzard"
-TidyPlatesThemeList[TidyPlatesDefaultThemeName] = BlizzardTheme
-TidyPlates:ActivateTheme(BlizzardTheme)		-- Activates the template as a holder theme, until the user preference is loaded
+--TidyPlatesThemeList["None"] = TemplateTheme
+TidyPlates:ActivateTheme(TemplateTheme)
+
+--TidyPlatesDefaultThemeName = "Blizzard"
+--TidyPlatesThemeList[TidyPlatesDefaultThemeName] = BlizzardTheme
+--TidyPlates:ActivateTheme(BlizzardTheme)		-- Activates the template as a holder theme, until the user preference is loaded
 
 
 

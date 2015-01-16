@@ -63,12 +63,12 @@ local templateFunctions = {
 	end,
 	["SetColors"] = function(self, bgColor, textColor)
 		if bgColor then
-			self:SetBackdropColor(bgColor.r or 1,bgColor.g or 1,bgColor.b or 1,bgColor.a or 1)
+			self:SetBackdropColor((bgColor.r or bgColor[1]) or 1, (bgColor.g or bgColor[2]) or 1, (bgColor.b or bgColor[3]) or 1, (bgColor.a or bgColor[4]) or 1)
 		else
 			self:SetBackdropColor(1,1,1,1)
 		end
 		if textColor then
-			self.text:SetTextColor(textColor.r or 0,textColor.g or 0,textColor.b or 0,textColor.a or 1)
+			self.text:SetTextColor((textColor.r or textColor[1]) or 0, (textColor.g or textColor[2]) or 0, (textColor.b or textColor[3]) or 0, (textColor.a or textColor[4]) or 1)
 			if textColor.font then
 				self.text:SetFont(LibSharedMedia:Fetch("font", textColor.font), textColor.fontSize or 12)
 			else
@@ -99,7 +99,9 @@ function GUI.CreateTextWithBg(parent, width, height, bgColor, textColor)
 		end
 	end
 	frame:SetSize(width or 10, height or 10)
-	frame:SetColors(bgColor, textColor)
+	if bgColor or textColor then
+		frame:SetColors(bgColor, textColor)
+	end
 	
 	frame:ClearAllPoints()
 	frame:SetParent(parent)

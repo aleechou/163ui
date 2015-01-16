@@ -1610,6 +1610,11 @@ data["ShadowfangKeep"] = {
 				{ 18, 60875 },	-- Ghostly Essence
 			},
 		},
+		{	--LoveisintheAirTrio
+			name = BB["Apothecary Hummel"].." ("..AL["Love is in the Air"]..")",
+			ExtraList = true,
+			[NORMAL_DIFF] = "AtlasLoot_WorldEvents:LoveisintheAir:1",
+		},
 		CLASSIC_INSTANCE_AC_TABLE,
 	}
 }
@@ -2317,19 +2322,22 @@ data["AhnQiraj"] = {
 				{ 6, 21695 },	-- Angelista's Touch
 				{ 8, 21237 },	-- Imperial Qiraji Regalia
 				{ 9, 21232 },	-- Imperial Qiraji Armaments
-				{ 11, 21680 },	-- Vest of Swift Execution
-				{ 12, 21603 },	-- Wand of Qiraji Nobility
-				{ 13, 21681 },	-- Ring of the Devoured
-				{ 14, 21685 },	-- Petrified Scarab
-				{ 16, 21689 },	-- Gloves of Ebru
-				{ 17, 21691 },	-- Ooze-Ridden Gauntlets
-				{ 18, 21688 },	-- Boots of the Fallen Hero
-				{ 19, 21690 },	-- Angelista's Charm
-				{ 21, 21686 },	-- Mantle of Phrenic Power
-				{ 22, 21682 },	-- Bile-Covered Gauntlets
-				{ 23, 21684 },	-- Mantle of the Desert's Fury
-				{ 24, 21683 },	-- Mantle of the Desert Crusade
-				{ 25, 21687 },	-- Ukko's Ring of Darkness
+				{ 11, "INV_Box_01", nil, BB["Lord Kri"], nil },
+				{ 12, 21680 },	-- Vest of Swift Execution
+				{ 13, 21603 },	-- Wand of Qiraji Nobility
+				{ 14, 21681 },	-- Ring of the Devoured
+				{ 15, 21685 },	-- Petrified Scarab
+				{ 16, "INV_Box_01", nil, BB["Princess Yauj"], nil },
+				{ 17, 21686 },	-- Mantle of Phrenic Power
+				{ 18, 21682 },	-- Bile-Covered Gauntlets
+				{ 19, 21684 },	-- Mantle of the Desert's Fury
+				{ 20, 21683 },	-- Mantle of the Desert Crusade
+				{ 21, 21687 },	-- Ukko's Ring of Darkness
+				{ 23, "INV_Box_01", nil, BB["Vem"], nil },
+				{ 24, 21689 },	-- Gloves of Ebru
+				{ 25, 21691 },	-- Ooze-Ridden Gauntlets
+				{ 26, 21688 },	-- Boots of the Fallen Hero
+				{ 27, 21690 },	-- Angelista's Charm
 			},
 		},
 		{	--AQ40Sartura

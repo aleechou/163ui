@@ -60,18 +60,16 @@ local OnNewNameplate
 local ForEachPlate
 
 -- Context
-local isHighlighted
-
-if (tonumber((select(2, GetBuildInfo()))) > 18414) then					-- Remove after 6.0 LIVE release
-	function isHighlighted(plate)
-		return ceil(select(3, plate.extended.regions.name:GetTextColor())) == 0	-- 6.0 Mouseover; Check name color
-	end
-else
-	function isHighlighted(plate)
-		return (plate.extended.regions.highlight:IsShown() == 1)		-- 5.x Mouseover; Not valid in 6.0
-	end
+local function isHighlighted(plate)
+	--local r,g,b = plate.extended.regions.name:GetTextColor()
+	return (plate.extended.regions.highlight:IsShown())		-- 5.x Mouseover; Not valid in 6.0
+	--return ((b < .1) and (g > .8)) --or (plate.extended.unit.guid == UnitGUID("mouseover"))
+	-- ceil(select(3, plate.extended.regions.name:GetTextColor())) == 0	-- 6.0 Mouseover; Check name color
+	--[[
+		if you're in combat with something, the name goes red.
+		if you've got it highlighted, the name goes yellow, but not if it's red.
+	--]]
 end
-
 
 -- UpdateReferences
 local function UpdateReferences(plate)
@@ -98,9 +96,11 @@ do
 	-- IsNameplate
 	local function IsNameplate(frame)
 		if frame:GetName() and strfind(frame:GetName(), '^NamePlate%d') then
-			local nameTextChild = select(2, frame:GetChildren())
+			local textureChild, nameTextChild =frame:GetChildren()
+			--local nameTextChild = select(2, frame:GetChildren())
 			if nameTextChild then
-				local nameTextRegion = nameTextChild:GetRegions()
+				local nameTextRegion, otherRegion, anotherRegion = nameTextChild:GetRegions()
+				--print(nameTextRegion:GetObjectType(), otherRegion, anotherRegion)
 				return (nameTextRegion and nameTextRegion:GetObjectType() == 'FontString')
 			end
 		end
@@ -289,7 +289,6 @@ do
 		regions.spelltext:Hide()
 		--]]
 
-
         -- Tidy Plates Frame
         --------------------------------
 		local carrier
@@ -475,7 +474,7 @@ do
 		regions.highlight:Hide()
 
 		-- Widgets/Extensions
-		if activetheme.OnInitialize then activetheme.OnInitialize(extended) end
+		if activetheme.OnInitialize then activetheme.OnInitialize(extended, activetheme) end
 
 		-- Initial Data Gather
 		-- 6.12.Beta3: Disabled initial Data Gather because certain units are showing up with Target Alpha on the first cycle.
@@ -620,11 +619,7 @@ do
 		unit.isBoss = regions.skullicon:IsShown()
 		unit.isDangerous = unit.isBoss
 
-		if (tonumber((select(2, GetBuildInfo()))) > 18414) then			-- Remove after 6.0 LIVE release
-			unit.isElite = regions.eliteicon:IsShown()						-- 6.0
-		else
-			unit.isElite = (regions.eliteicon:IsShown() or 0) == 1  		-- 5.4.8
-		end
+		unit.isElite = regions.eliteicon:IsShown()						-- 6.0
 
 		if bars.group:GetScale() > .9 then
 			unit.platetype = 1
@@ -648,6 +643,8 @@ do
 
         -- UpdateUnitContext: Updates Target/Mouseover
 	function UpdateUnitContext(plate)
+		local guid
+
 		UpdateReferences(plate)
 
 		unit.isMouseover = plate.isMouseover
@@ -658,26 +655,30 @@ do
 			unit.alpha = 1
 		end
 
-
-
 		unit.isMouseover = isHighlighted(plate)
 
 		unit.isTarget = HasTarget and unit.alpha == 1
 
-
 		if unit.isMouseover then
 			visual.highlight:Show()
-			if (not unit.guid) then
-				unit.guid = UnitGUID("mouseover")
-				if unit.guid then GUID[unit.guid] = plate end
-			end
+			guid = UnitGUID("mouseover")
 		else visual.highlight:Hide() end
 
 		if unit.isTarget then
-			if not unit.guid then
-				-- UpdateCurrentGUID
-				unit.guid = UnitGUID("target")
-				if unit.guid then GUID[unit.guid] = plate end
+			guid = UnitGUID("target")
+		end
+
+		-- Update and verify guid
+		if unit.guid then
+			if guid and (unit.guid ~= guid) then
+				GUID[unit.guid] = nil		-- Clear out old GUID
+				GUID[guid] = plate			-- Update new GUID
+				unit.guid = guid
+			end
+		else
+			if guid then
+				unit.guid = guid
+				GUID[guid] = plate
 			end
 		end
 
@@ -699,7 +700,7 @@ do
 		unit.isInCombat = GetUnitCombatStatus(regions.name:GetTextColor())
 		unit.class = ClassReference[ColorToString(unit.red, unit.green, unit.blue)] or "UNKNOWN"
 
-		unit.health = bars.health:GetValue() or 0
+		unit.health = tonumber(bars.health:GetValue()) or 0
 		unit.healthmax = select(2, bars.health:GetMinMaxValues())
 
 		unit.isMarked = regions.raidicon:IsShown() or false
@@ -917,7 +918,6 @@ do
 		local castbar = extended.visual.castbar
 
 		if not unit.health then return end
-		--if unit.reaction == "FRIENDLY" then	return end
 
 		OnUpdateCastbar(bar)
 		castbar:Show()
@@ -962,15 +962,8 @@ do
 	function events:PLAYER_REGEN_ENABLED() InCombat = false; SetUpdateAll() end
 	function events:PLAYER_REGEN_DISABLED() InCombat = true; SetUpdateAll() end
 
-
-	if (tonumber((select(2, GetBuildInfo()))) > 18414) then			-- Remove after 6.0 LIVE release
-		-- 6.0
-		function events:PLAYER_TARGET_CHANGED() HasTarget = UnitExists("target") == true; 	SetUpdateAll() 	end
-	else
-		-- 5.4.8
-		function events:PLAYER_TARGET_CHANGED() HasTarget = (UnitExists("target") == 1); 	SetUpdateAll() 	end
-	end
-
+	-- 6.0
+	function events:PLAYER_TARGET_CHANGED() HasTarget = UnitExists("target") == true; 	SetUpdateAll() 	end
 
 	function events:RAID_TARGET_UPDATE() SetUpdateAll() end
 	function events:UNIT_THREAT_SITUATION_UPDATE() SetUpdateAll() end  -- Only fired when a target changes

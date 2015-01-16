@@ -11,7 +11,7 @@
 ## X-Curse-Project-Name: LibBabble-ItemSet-3.0
 ## X-Curse-Project-ID: libbabble-itemset-3-0
 ## X-Curse-Repository-ID: wow/libbabble-itemset-3-0/mainline
-## X-Curse-Packaged-Version: v8.00.00beta6
+## X-Curse-Packaged-Version: v8.00.00beta7
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline

@@ -1,3 +1,13 @@
+2015-01-16/01
+===
+
+* 更新AtlasLoot物品掉落信息查询到8.00.00beta7
+* 更新GarrisonMissionManager要塞任务管家到v18
+* 更新MasterPlan追随者任务大师到0.23.1
+* 更新TidyPlates姓名板增强到6.16.beta9
+* **加入GladiatorlosSAPVP技能语音提示2.2.1(该插件默认为不加载.需要用户自行加载)**
+
+
 2015-01-11/01
 ===
 

@@ -1,3 +1,4 @@
+local ALName, ALPrivate = ...
 local _G = _G
 local AtlasLoot = _G.AtlasLoot
 local GUI = {}
@@ -19,7 +20,7 @@ local GUI_CREATED = false
 local FIRST_SHOW = true
 local PLAYER_CLASS, PLAYER_CLASS_FN
 
-local LOADER_STRING = "GUILOADING"
+local LOADER_STRING = "GUI_LOADING"
 
 local db
 
@@ -294,7 +295,7 @@ local function ClassFilterButton_OnClick(self, button)
 			local button = CreateFrame("BUTTON", nil, frame)
 			button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			button:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
-			button:SetBackdrop(ATLASLOOT_STYLE_BOX_BACKDROP)
+			button:SetBackdrop(ALPrivate.BOX_BACKDROP)
 			button:SetBackdropColor(RAID_CLASS_COLORS[PLAYER_CLASS_FN].r, RAID_CLASS_COLORS[PLAYER_CLASS_FN].g, RAID_CLASS_COLORS[PLAYER_CLASS_FN].b, 1)
 			button.obj = frame
 			button.specID = 0
@@ -461,7 +462,7 @@ local function loadModule(addonName)
 	end
 end
 
-function GUI:ShowLoadingInfo(addonName, noWipe)
+function GUI:ShowLoadingInfo(addonName, noWipe, displayType)
 	if not GUI.frame.contentFrame.loadingDataText then
 		local text = GUI.frame.contentFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightLarge")
 		text:SetAllPoints(GUI.frame.contentFrame)
@@ -487,22 +488,37 @@ function GUI:ShowLoadingInfo(addonName, noWipe)
 		GUI.frame.contentFrame.clasFilterButton:Hide()
 	end
 	
-	GUI.frame.contentFrame.loadingDataText:SetText(string.format(AL["%s will finish loading after combat."], addonName))
+	if not displayType or displayType == "InCombat" then
+		GUI.frame.contentFrame.loadingDataText:SetText(str_format(AL["%s will finish loading after combat."], addonName))
+	elseif displayType == "DISABLED" then
+		GUI.frame.contentFrame.loadingDataText:SetText(str_format(AL["Required module %s is currently disabled."], addonName))
+	elseif displayType == "MISSING" then
+		GUI.frame.contentFrame.loadingDataText:SetText(str_format(AL["Required module %s is not installed."], addonName))
+	else
+		GUI.frame.contentFrame.loadingDataText:SetText(addonName)
+	end
+	
 	GUI.frame.contentFrame.loadingDataText:Show()
 end
 
+local ModuleSelectFunction_FirstCall = true
 local function ModuleSelectFunction(self, id, arg)
 	db.selected[1] = id
-	db.selected[4] = 1
+	if ModuleSelectFunction_FirstCall then
+		ModuleSelectFunction_FirstCall = false
+	else
+		db.selected[4] = 1
+	end
 	local combat = AtlasLoot.Loader:LoadModule(id, loadModule, LOADER_STRING)
 	if combat == "InCombat" then
 		GUI:ShowLoadingInfo(id)
 	end
 end
 
+local SubCatSelectFunction_FirstCall = true
 local function SubCatSelectFunction(self, id, arg)
 	db.selected[2] = id
-	db.selected[3] = 1
+	db.selected[3] = 0
 	local moduleData = AtlasLoot.ItemDB:Get(db.selected[1])
 	local data = {}
 	local dataExtra
@@ -712,7 +728,7 @@ function GUI:Create()
 	frame:SetScript("OnShow", FrameOnShow)
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
-	frame:SetBackdrop(ATLASLOOT_STYLE_BOX_BACKDROP)
+	frame:SetBackdrop(ALPrivate.BOX_BACKDROP)
 	--frame:SetBackdropColor(0.45,0.45,0.45,1)
 	frame:Hide()
 	tinsert(UISpecialFrames, frameName)	-- allow ESC close
@@ -724,7 +740,7 @@ function GUI:Create()
 	--frame.Title:SetPoint("TOP", frame, "TOP", 0, -10)
 	--frame.Title:SetText(AL["AtlasLoot"])
 	
-	frame.titleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0, {r=0.05, g=0.05, b=0.05}, {r=0.9, g=0.9, b=0.9})
+	frame.titleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0)
 	frame.titleFrame:SetPoint("TOPLEFT", frame, 10, -7)
 	frame.titleFrame:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -30, -25)
 	frame.titleFrame.text:SetText(AL["AtlasLoot"])

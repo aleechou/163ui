@@ -30,7 +30,7 @@ data["WODFACTIONS"] = {
 				{ 5, 118682, [PRICE_EXTRA_ITTYPE] = "money:5000000" },	-- Saberon Protector
 				{ 7, "f1515rep7" },
 				{ 8, 119143, "pet1574", [PRICE_EXTRA_ITTYPE] = "money:10000000:apexis:2000" },	-- Son of Sethe
-				{ 9, 118698, [PRICE_EXTRA_ITTYPE] = "money:10000000" },	-- Wings of the Outcasts
+				{ 9, 118698, [PRICE_EXTRA_ITTYPE] = "money:10000000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Wings of the Outcasts
 				{ 16, "f1515rep8" },
 				{ 17, 116772, "mount", [PRICE_EXTRA_ITTYPE] = "money:50000000:apexis:5000" },	-- Shadowmane Charger
 				{ 18, 119136, [PRICE_EXTRA_ITTYPE] = "money:1000000" },	-- Arakkoa Outcasts Tabard
@@ -367,7 +367,7 @@ data["MOPFACTIONS"] = {
 				{ 6, 95054, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Potion of Light Steps
 				{ 8, "f1387rep7" },
 				{ 9, 95545, [PRICE_EXTRA_ITTYPE] = "money:450000" },	-- Grand Commendation of the Kirin Tor Offensive
-				{ 10, 95052, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Arcane Propellant
+				{ 10, 95052, [PRICE_EXTRA_ITTYPE] = "eldercharm:1", [ATLASLOOT_IT_AMOUNT1] = 2 },	-- Arcane Propellant
 				{ 11, 95055, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Frost Rune Trap
 				{ 16, "f1387rep6" },
 				{ 17, 95532, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Belt of Loa Charms
@@ -379,7 +379,7 @@ data["MOPFACTIONS"] = {
 				{ 23, 95534, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Skumblade Ritualist Links
 				{ 24, 95529, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Girdle of Shan'ze Glory
 				{ 25, 95533, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Thunder Caressed Waistguard
-				{ 26, 95053, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- A Common Rock
+				{ 26, 95053, [PRICE_EXTRA_ITTYPE] = "eldercharm:1", [ATLASLOOT_IT_AMOUNT1] = 2 },	-- A Common Rock
 				{ 27, 95093, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Sleep Dust
 				{ 101, "f1387rep8" },
 				{ 102, 95564, "mount", [PRICE_EXTRA_ITTYPE] = "money:24000000" },	-- Reins of the Golden Primal Direhorn
@@ -550,7 +550,7 @@ data["MOPFACTIONS"] = {
 				{ 6, 95568, [PRICE_EXTRA_ITTYPE] = "money:250000" },	-- Sunreaver Beacon
 				{ 8, "f1388rep7" },
 				{ 9, 95548, [PRICE_EXTRA_ITTYPE] = "money:450000" },	-- Grand Commendation of the Sunreaver Onslaught
-				{ 10, 97159, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Arcane Propellant
+				{ 10, 97159, [PRICE_EXTRA_ITTYPE] = "eldercharm:1", [ATLASLOOT_IT_AMOUNT1] = 2 },	-- Arcane Propellant
 				{ 11, 97156, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Frost Rune Trap
 				{ 16, "f1388rep6" },
 				{ 17, 95523, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Belt of Loa Charms
@@ -562,7 +562,7 @@ data["MOPFACTIONS"] = {
 				{ 23, 95525, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Skumblade Ritualist Links
 				{ 24, 95520, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Girdle of Shan'ze Glory
 				{ 25, 95524, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Thunder Caressed Waistguard
-				{ 26, 97158, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- A Common Rock
+				{ 26, 97158, [PRICE_EXTRA_ITTYPE] = "eldercharm:1", [ATLASLOOT_IT_AMOUNT1] = 2 },	-- A Common Rock
 				{ 27, 97154, [PRICE_EXTRA_ITTYPE] = "eldercharm:1" },	-- Sleep Dust
 				{ 101, "f1388rep8" },
 				{ 102, 95565, "mount", [PRICE_EXTRA_ITTYPE] = "money:24000000" },	-- Reins of the Crimson Primal Direhorn
@@ -1106,7 +1106,7 @@ data["WOTLKFACTIONS"] = {
 				{ 1, "f1104rep5" },
 				{ 2, 41561, [PRICE_EXTRA_ITTYPE] = "money:20000" },	-- Design: Reckless Huge Citrine (p12 350)
 				{ 3, 44064, [PRICE_EXTRA_ITTYPE] = "money:3200" },	-- Nepeta Leaf
-				{ 4, 44072, [PRICE_EXTRA_ITTYPE] = "money:16000" },	-- Roasted Mystery Beast
+				{ 4, 44072, [PRICE_EXTRA_ITTYPE] = "money:16000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Roasted Mystery Beast
 				{ 6, "f1104rep7" },
 				{ 7, 44116 },	-- Muddied Crimson Gloves
 				{ 8, 44117 },	-- Azure Strappy Pants
@@ -1247,7 +1247,7 @@ data["WOTLKFACTIONS"] = {
 			[NORMAL_DIFF] = {
 				{ 1, "f1073rep5" },
 				{ 2, 41568, [PRICE_EXTRA_ITTYPE] = "money:20000" },	-- Design: Purified Shadow Crystal (p12 350)
-				{ 3, 44049, [PRICE_EXTRA_ITTYPE] = "money:16000" },	-- Freshly-Speared Emperor Salmon
+				{ 3, 44049, [PRICE_EXTRA_ITTYPE] = "money:16000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Freshly-Speared Emperor Salmon
 				{ 5, "f1073rep6" },
 				{ 6, 44061 },	-- Pigment-Stained Robes
 				{ 7, 44062 },	-- Turtle-Minders Robe
@@ -1287,7 +1287,7 @@ data["WOTLKFACTIONS"] = {
 				{ 13, 41724, [PRICE_EXTRA_ITTYPE] = "money:40000" },	-- Design: Misty Forest Emerald (p12 350)
 				{ 14, 39878, [PRICE_EXTRA_ITTYPE] = "money:30000" },	-- Mysterious Egg
 				{ 16, "f1105rep6" },
-				{ 17, 44071, [PRICE_EXTRA_ITTYPE] = "money:16000" },	-- Slow-Roasted Eel
+				{ 17, 44071, [PRICE_EXTRA_ITTYPE] = "money:16000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Slow-Roasted Eel
 				{ 19, "f1105rep8" },
 				{ 20, 44074 },	-- Oracle Talisman of Ablution
 				{ 22, 39883 },	-- Cracked Egg
@@ -1304,10 +1304,10 @@ data["WOTLKFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[ALLIANCE_DIFF] = {
 				{ 1, "f1094rep8" },
-				{ 2, 46813, "mount", [PRICE_EXTRA_ITTYPE] = "champseal:150" },	-- Silver Covenant Hippogryph
-				{ 3, 46815, "mount", [PRICE_EXTRA_ITTYPE] = "champseal:100" },	-- Quel'dorei Steed
-				{ 4, 46820, "pet229", [PRICE_EXTRA_ITTYPE] = "champseal:40" },	-- Shimmering Wyrmling
-				{ 5, 46817, [PRICE_EXTRA_ITTYPE] = "champseal:50" },	-- Silver Covenant Tabard
+				{ 2, 46813, "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:150" },	-- Silver Covenant Hippogryph
+				{ 3, 46815, "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:100" },	-- Quel'dorei Steed
+				{ 4, 46820, "pet229", [PRICE_EXTRA_ITTYPE] = "championsseal:40" },	-- Shimmering Wyrmling
+				{ 5, 46817, [PRICE_EXTRA_ITTYPE] = "championsseal:50" },	-- Silver Covenant Tabard
 			},
 		},
 		{	--TheSonsofHodir
@@ -1343,10 +1343,10 @@ data["WOTLKFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[HORDE_DIFF] = {
 				{ 1, "f1124rep8" },
-				{ 2, 46814, "mount", [PRICE_EXTRA_ITTYPE] = "champseal:150" },	-- Sunreaver Dragonhawk
-				{ 3, 46816, "mount", [PRICE_EXTRA_ITTYPE] = "champseal:100" },	-- Sunreaver Hawkstrider
-				{ 4, 46821, "pet229", [PRICE_EXTRA_ITTYPE] = "champseal:40" },	-- Shimmering Wyrmling
-				{ 5, 46818, [PRICE_EXTRA_ITTYPE] = "champseal:50" },	-- Sunreaver Tabard
+				{ 2, 46814, "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:150" },	-- Sunreaver Dragonhawk
+				{ 3, 46816, "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:100" },	-- Sunreaver Hawkstrider
+				{ 4, 46821, "pet229", [PRICE_EXTRA_ITTYPE] = "championsseal:40" },	-- Shimmering Wyrmling
+				{ 5, 46818, [PRICE_EXTRA_ITTYPE] = "championsseal:50" },	-- Sunreaver Tabard
 			},
 		},
 		{	--TheWyrmrestAccord
@@ -1487,8 +1487,8 @@ data["BCFACTIONS"] = {
 				{ 2, 29213, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Pattern: Felstalker Belt (p7 350)
 				{ 3, 23142, [PRICE_EXTRA_ITTYPE] = "money:60000" },	-- Design: Regal Deep Peridot (p12 315)
 				{ 4, 22531, [PRICE_EXTRA_ITTYPE] = "money:60000" },	-- Formula: Enchant Bracer - Superior Healing (p4 325)
-				{ 5, 24007, [PRICE_EXTRA_ITTYPE] = "money:2000" },	-- Footman's Waterskin
-				{ 6, 24008, [PRICE_EXTRA_ITTYPE] = "money:4500" },	-- Dried Mushroom Rations
+				{ 5, 24007, [PRICE_EXTRA_ITTYPE] = "money:2000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Footman's Waterskin
+				{ 6, 24008, [PRICE_EXTRA_ITTYPE] = "money:4500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Dried Mushroom Rations
 				{ 8, "f946rep6" },
 				{ 9, 25826 },	-- Sage's Band
 				{ 10, 25825 },	-- Footman's Longsword
@@ -1642,9 +1642,9 @@ data["BCFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1, "f1031rep5" },
-				{ 2, 32722, [PRICE_EXTRA_ITTYPE] = "money:4000" },	-- Enriched Terocone Juice
+				{ 2, 32722, [PRICE_EXTRA_ITTYPE] = "money:4000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Enriched Terocone Juice
 				{ 4, "f1031rep6" },
-				{ 5, 32721, [PRICE_EXTRA_ITTYPE] = "money:4500" },	-- Skyguard Rations
+				{ 5, 32721, [PRICE_EXTRA_ITTYPE] = "money:4500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Skyguard Rations
 				{ 7, "f1031rep7" },
 				{ 8, 32539 },	-- Skyguard's Drape
 				{ 9, 32538 },	-- Skywitch's Drape
@@ -1672,7 +1672,7 @@ data["BCFACTIONS"] = {
 				{ 6, 35263, [PRICE_EXTRA_ITTYPE] = "money:500000" },	-- Design: Solid Empyrean Sapphire (p12 375)
 				{ 7, 35264, [PRICE_EXTRA_ITTYPE] = "money:500000" },	-- Design: Sparkling Empyrean Sapphire (p12 375)
 				{ 8, 35261, [PRICE_EXTRA_ITTYPE] = "money:500000" },	-- Design: Subtle Lionseye (p12 375)
-				{ 9, 34780 },	-- Naaru Ration
+				{ 9, 34780, [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Naaru Ration
 				{ 16, "f1077rep6" },
 				{ 17, 35266, [PRICE_EXTRA_ITTYPE] = "money:500000" },	-- Design: Glinting Shadowsong Amethyst (p12 375)
 				{ 18, 35253, [PRICE_EXTRA_ITTYPE] = "money:500000" },	-- Design: Jagged Seaspray Emerald (p12 375)
@@ -1757,7 +1757,7 @@ data["BCFACTIONS"] = {
 			[NORMAL_DIFF] = {
 				{ 1, "f970rep5" },
 				{ 2, 30156, [PRICE_EXTRA_ITTYPE] = "24245:1" },	-- Recipe: Clam Bar (p3 300)
-				{ 3, 24539, [PRICE_EXTRA_ITTYPE] = "24245:1" },	-- Marsh Lichen
+				{ 3, 24539, [PRICE_EXTRA_ITTYPE] = "24245:1", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Marsh Lichen
 				{ 4, 25548, [PRICE_EXTRA_ITTYPE] = "24245:2" },	-- Tallstalk Mushroom
 				{ 6, "f970rep6" },
 				{ 7, 25827, [PRICE_EXTRA_ITTYPE] = "24245:25" },	-- Muck-Covered Drape
@@ -2044,8 +2044,8 @@ data["BCFACTIONS"] = {
 				{ 2, 25738, [PRICE_EXTRA_ITTYPE] = "money:120000" },	-- Pattern: Felstalker Belt (p7 350)
 				{ 3, 31359, [PRICE_EXTRA_ITTYPE] = "money:60000" },	-- Design: Regal Deep Peridot (p12 315)
 				{ 4, 24000, [PRICE_EXTRA_ITTYPE] = "money:60000" },	-- Formula: Enchant Bracer - Superior Healing (p4 325)
-				{ 5, 24006 },	-- Grunt's Waterskin
-				{ 6, 24009 },	-- Dried Fruit Rations
+				{ 5, 24006, [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Grunt's Waterskin
+				{ 6, 24009, [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Dried Fruit Rations
 				{ 8, "f947rep6" },
 				{ 9, 25824 },	-- Farseer's Band
 				{ 10, 25823 },	-- Grunt's Waraxe
@@ -2102,7 +2102,7 @@ data["CLASSICFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1, "f529rep5" },
-				{ 2, 13724, [PRICE_EXTRA_ITTYPE] = "money:6000" },	-- Enriched Manna Biscuit
+				{ 2, 13724, [PRICE_EXTRA_ITTYPE] = "money:6000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Enriched Manna Biscuit
 				{ 4, "f529rep6" },
 				{ 5, 13482, [PRICE_EXTRA_ITTYPE] = "money:15000" },	-- Recipe: Transmute Air to Fire (p1 275)
 				{ 6, 19203, [PRICE_EXTRA_ITTYPE] = "money:22000" },	-- Plans: Girdle of the Dawn (p2 290)
@@ -2120,8 +2120,8 @@ data["CLASSICFACTIONS"] = {
 				{ 23, 19447, [PRICE_EXTRA_ITTYPE] = "money:60000" },	-- Formula: Enchant Bracer - Healing Power (p4 300)
 				{ 24, 19329, [PRICE_EXTRA_ITTYPE] = "money:40000" },	-- Pattern: Golden Mantle of the Dawn (p7 300)
 				{ 25, 19217, [PRICE_EXTRA_ITTYPE] = "money:40000" },	-- Pattern: Argent Shoulders (p8 300)
-				{ 26, 13810, [PRICE_EXTRA_ITTYPE] = "money:6000" },	-- Blessed Sunfruit
-				{ 27, 13813, [PRICE_EXTRA_ITTYPE] = "money:6000" },	-- Blessed Sunfruit Juice
+				{ 26, 13810, [PRICE_EXTRA_ITTYPE] = "money:6000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Blessed Sunfruit
+				{ 27, 13813, [PRICE_EXTRA_ITTYPE] = "money:6000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Blessed Sunfruit Juice
 			},
 		},
 		{	--BloodsailBuccaneers

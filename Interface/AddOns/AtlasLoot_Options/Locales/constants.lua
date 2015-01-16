@@ -11,6 +11,7 @@ AL["Font color/alpha"] = true
 AL["Background color/alpha"] = true
 AL["Font size"] = true
 AL["Title"] = true
+AL["Subtitle"] = true
 AL["Scale"] = true
 AL["Preview"] = true
 
@@ -26,6 +27,7 @@ AL["Content bottom bar"] = true
 AL["Use content color if available."] = true
 AL["Show background image if available."] = true
 AL["Content top/bottom bar"] = true
+AL["Quick Loot"] = true
 
 AL["Minimap Button"] = true
 AL["Show minimap button."] = true
@@ -36,6 +38,9 @@ AL["Reset position of the |cff33ff99\"Minimap button\"|r."] = true
 
 AL["Set View"] = true
 
+-- Buttons
+AL["Always show item comparison."] = true
+AL["Always show quick preview."] = true
 
 -- Addons
 AL["A window with possible loot is shown if a Bonus Roll is started."] = true

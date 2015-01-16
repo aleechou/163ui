@@ -47,6 +47,25 @@ AtlasLoot.AtlasLootDBDefaults = {
 	},
 	QuickLootFrame = {
 		point = {"CENTER"},
+		mainFrame = {
+			scale = 1,
+			bgColor = {0, 0, 0, 1},
+			title = {
+				bgColor = { 0, 0.86, 1, 1 },
+				textColor = {1, 1, 1, 1},
+				size = 12,
+				font = "Friz Quadrata TT",
+			},
+			subTitle = {
+				bgColor = { 0, 1, 1, 1 },
+				textColor = {1, 1, 1, 1},
+				size = 12,
+				font = "Friz Quadrata TT",
+			},
+			content = {
+				bgColor = { 1, 1, 1, 1 },
+			},
+		},
 	},
 	SetViewFrame = {
 		point = {"CENTER"},
@@ -88,6 +107,7 @@ AtlasLoot.AtlasLootDBDefaults = {
 		Item = {
 			showDropRate = true,
 			alwaysShowCompareTT = false,
+			alwaysShowPreviewTT = false,
 			showCompletedHook = false,
 			ClickHandler = {}
 		},

@@ -199,11 +199,16 @@ end
 
 local function FindWidgetByName(SearchFor)
 	if SearchFor == nil then return end
+	local SearchForForeign = SearchFor..FOREIGN_SERVER_LABEL
+
 	local widget
 	--local SearchFor = strsplit("-", NameString)
 	for widget in pairs(WidgetList) do
 		--if widget.unit.name == SearchFor then
-		if widget.unit.rawName == SearchFor then
+		if widget.unit.rawName == SearchFor  then
+			return widget
+		-- Try this alternative...
+		elseif widget.unit.name == SearchForForeign then
 			return widget
 		end
 	end
@@ -219,11 +224,6 @@ end
 
 local function CallForWidgetUpdate(guid, raidicon, name)
 	local widget
-	--[[
-	if guid then widget = FindWidgetByGUID(guid) end
-	if (not widget) and name then widget = FindWidgetByName(name) end
-	if (not widget) and raidicon then widget = FindWidgetByIcon(raidicon) end
-	--]]
 
 	widget = FindWidgetByGUID(guid) or FindWidgetByName(name) or FindWidgetByIcon(raidicon)
 
@@ -397,15 +397,17 @@ local function UpdateAurasByUnitID(unitid)
 		end
 
 		-- Buffs (Only for friendly units)
-		if unitType == AURA_TARGET_FRIENDLY then
+
+		--if unitType == AURA_TARGET_FRIENDLY then
 			for index = 1, 40 do
 				local spellname , _, texture, count, dispelType, duration, expirationTime, unitCaster, _, _, spellid, _, isBossDebuff = UnitBuff(unitid, index)
 				if not spellname then break end
 				SetSpellDuration(spellid, duration)			-- Caches the aura data for times when the duration cannot be determined (ie. via combat log)
 				SetAuraInstance(guid, spellid, spellname, expirationTime, count, UnitGUID(unitCaster or ""), duration, texture, AURA_TYPE_BUFF, AURA_TARGET_FRIENDLY)
-
 			end
-		end
+		--end
+
+
 
 		local raidicon, name
 		if UnitPlayerControlled(unitid) then
@@ -450,11 +452,15 @@ end
 -----------------------------------------------------
 
 local function CombatLog_ApplyAura(...)
-	local timestamp, sourceGUID, destGUID, destName, spellid, spellname, stackCount = ...
+	local timestamp, sourceGUID, destGUID, destName, spellid, spellname, stackCount, auraType = ...
 	local duration = GetSpellDuration(spellid)
 	local texture = GetSpellTexture(spellid)
 
-	SetAuraInstance(destGUID, spellid, spellname, GetTime() + (duration or 0), 1, sourceGUID, duration, texture, AURA_TYPE_DEBUFF, AURA_TARGET_HOSTILE)
+	local convertedAuraType = 6
+	if auraType == "BUFF" then convertedAuraType = 1 end
+
+	SetAuraInstance(destGUID, spellid, spellname, GetTime() + (duration or 0), 1, sourceGUID, duration, texture, convertedAuraType, AURA_TARGET_HOSTILE)
+
 end
 
 local function CombatLog_RemoveAura(...)
@@ -629,12 +635,9 @@ local function TargetOnlyEventHandler(frame, event, unitid)
 end
 
 local function GuidIsLocalUnitId(guid)
-	if guid == UnitGUID("target") or guid == UnitGUID("mouseover") or guid == UnitGUID("focus") then
+	if guid == UnitGUID("player") or guid == UnitGUID("target") or guid == UnitGUID("mouseover") or guid == UnitGUID("focus") then
 		return true
-	--elseif LocalUnitLookup[guid] then
-	--	return true
-	else
-		return false
+	-- elseif LocalUnitLookup[guid] then return true
 	end
 end
 
@@ -652,28 +655,22 @@ local function CombatEventHandler(frame, event, ...)
 	-- Combat Log Unfiltered
 	local timestamp, combatevent, sourceGUID, destGUID, destName, destFlags, destRaidFlag, auraType, spellid, spellname, stackCount = GetCombatEventResults(...)
 
-	-- Evaluate only for enemy units, for now
-	--if (bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) == 0) then							-- FILTER: ENEMY UNIT
-	-- COMBATLOG_OBJECT_CONTROL_PLAYER
-
 		local CombatLogUpdateFunction = CombatLogEvents[combatevent]
+
 		-- Evaluate only for certain combat log events
 		if CombatLogUpdateFunction then
-			-- Evaluate only for debuffs
-			--if auraType == "DEBUFF" then 															-- FILTER: DEBUFF
-
 				-- Update Auras via API/UnitID Search
-				--if not UpdateAuraByLookup(destGUID) then				--- REMOVE this function, and replace with a function that checks to see if the detected unit is a unitid matcher
-				if not GuidIsLocalUnitId(destGUID) then				--- REMOVE this function, and replace with a function that checks to see if the detected unit is a unitid match
+				if not GuidIsLocalUnitId(destGUID) then				-- Skip over the aura update if the unit is accessible by a local unitid.
+						-- ADDITION: Also, we can skip player controlled friendly units when in a raid or battleground.
+
 					-- Update Auras via Combat Log
-					CombatLogUpdateFunction(timestamp, sourceGUID, destGUID, destName, spellid, spellname, stackCount)
+					CombatLogUpdateFunction(timestamp, sourceGUID, destGUID, destName, spellid, spellname, stackCount, auraType)
 				end
 				-- To Do: Need to write something to detect when a change was made to the destID
-				-- Return values on functions?
 
+				-- Cache Names and Rain Icon/Target Data....
 				local name, raidicon
-
-				if (bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) == 0) then							-- FILTER: ENEMY UNIT
+				if (bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) == 0) then							-- Evaluate only Enemy Units
 					-- Cache Unit Name for alternative lookup strategy
 					if (bit.band(destFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) > 0) and destName ~= nil then
 						local rawName = strsplit("-", destName)			-- Strip server name from players
@@ -692,9 +689,9 @@ local function CombatEventHandler(frame, event, ...)
 				end
 
 				CallForWidgetUpdate(destGUID, raidicon, name)
-			--end
+
 		end
-	--end
+
 end
 
 -------------------------------------------------------------
@@ -702,12 +699,16 @@ end
 -------------------------------------------------------------
 
 local function UpdateWidgetTime(frame, expiration)
-	local timeleft = expiration-GetTime()
-	if timeleft > 60 then
-		frame.TimeLeft:SetText(floor(timeleft/60).."m")
+	if expiration == 0 then
+		frame.TimeLeft:SetText("")
 	else
-		frame.TimeLeft:SetText(floor(timeleft))
-		--frame.TimeLeft:SetText(floor(timeleft*10)/10)
+		local timeleft = expiration-GetTime()
+		if timeleft > 60 then
+			frame.TimeLeft:SetText(floor(timeleft/60).."m")
+		else
+			frame.TimeLeft:SetText(floor(timeleft))
+			--frame.TimeLeft:SetText(floor(timeleft*10)/10)
+		end
 	end
 end
 
@@ -731,7 +732,8 @@ local function UpdateIcon(frame, texture, expiration, stacks, r, g, b)
 		-- Expiration
 		UpdateWidgetTime(frame, expiration)
 		frame:Show()
-		PolledHideIn(frame, expiration)
+		if expiration ~= 0 then PolledHideIn(frame, expiration) end
+
 	elseif frame then
 		PolledHideIn(frame, 0)
 	end
@@ -775,6 +777,7 @@ local function UpdateIconGrid(frame, guid)
 
 				aura.spellid, aura.name, aura.expiration, aura.stacks, aura.caster, aura.duration, aura.texture, aura.type, aura.reaction = GetAuraInstance(guid, instanceid)
 
+				--if aura.type == 1 then print(aura.name, frame.unit.name) end
 				if tonumber(aura.spellid) then
 					local show, priority, r, g, b
 					aura.unit = frame.unit
@@ -786,8 +789,11 @@ local function UpdateIconGrid(frame, guid)
 						show, priority, r, g, b = AuraFilterFunction(aura)
 					end				-- This method will replace it
 
+					--print(aura.name, aura.spellid, aura.caster, aura.caster == UnitGUID("player"), aura.duration, aura.expiration)
+
 					-- Get Order/Priority
-					if show and aura.expiration > GetTime() then
+					--if show and aura.expiration > GetTime() then		--- Testing this to enable certain 0 Expiration Debuffs  (MONK)
+					if show then
 						aura.priority = priority or 10
 						aura.r, aura.g, aura.b = r, g, b
 						debuffCount = debuffCount + 1
@@ -799,12 +805,18 @@ local function UpdateIconGrid(frame, guid)
 		end
 
 
-
+		-------------------------
 		-- Debuff Cache Format
-		-- DebuffCache[i] = {'spellid', 'name', 'expiration', 'stacks', 'caster', 'duration', 'texture', 'type', 'reaction', 'priority', 'r', 'g', 'b'}
-		-- How to use: You have control over the DebuffCache before it's sorted and displayed, particularly by adding and removing items.
+		--[[
+		DebuffCache[i] = {'spellid', 'name', 'expiration', 'stacks', 'caster', 'duration', 'texture', 'type', 'reaction', 'priority', 'r', 'g', 'b'}
+		How to use: You have control over the DebuffCache before it's sorted and displayed, particularly by adding and removing items.
+		--]]
 
-		--[[ Personal Aura Tracker: For displaying the presence of an aura on your character via target's aura widget...
+
+		--[[
+		-------------------------
+		-- Personal Aura Tracker: For displaying the presence of an aura on your character via target's aura widget...
+
 		local PersonalAuraList = {"Rejuvenation"}
 
 		if frame.unit.isTarget then --  and InCombatLockdown()

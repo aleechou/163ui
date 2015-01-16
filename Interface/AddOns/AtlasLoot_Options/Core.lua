@@ -11,7 +11,19 @@ end
 
 -- windows
 local function windows(gui, content)
+	local last
 	
+	last = gui:Add("CheckBox")
+		:Point("TOP", 0, -5)
+		:Size("full")
+		:Text(AL["Always show item comparison."])
+		:DB(db.Button.Item, "alwaysShowCompareTT")
+		
+	last = gui:Add("CheckBox")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Always show quick preview."])
+		:DB(db.Button.Item, "alwaysShowPreviewTT")
 end
 
 -- windows -> atlasloot
@@ -26,7 +38,7 @@ local function windows_atlasloot(gui, content)
 	last = gui:Add("Slider")
 		:Point("TOP", last, "BOTTOM")
 		:Size("full")
-		:MinMaxStep(0.5, 1.5, 0.05)
+		:MinMaxStep(0.5, 1.5, 0.01)
 		:Text(AL["Scale"])
 		:DB(db.GUI.mainFrame, "scale", AtlasLoot.GUI.RefreshMainFrame)	
 		
@@ -152,7 +164,7 @@ local function windows_setview(gui, content)
 	last = gui:Add("Slider")
 		:Point("TOP", last, "BOTTOM")
 		:Size("full")
-		:MinMaxStep(0.5, 1.5, 0.05)
+		:MinMaxStep(0.5, 1.5, 0.01)
 		:Text(AL["Scale"])
 		:DB(db.SetViewFrame.mainFrame, "scale", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
 		
@@ -279,6 +291,104 @@ local function windows_setview_content(gui, content)
 		:DB(db.SetViewFrame.content, "textSize", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
 end
 
+-- windows -> quickloot
+local function windows_quickloot(gui, content)
+	local last
+	
+	-- main window
+	last = gui:Add("Line")
+		:Point("TOP", 0, -5)
+		:Size("full")
+		:Text(AL["Main Window"])
+		
+	last = gui:Add("Slider")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:MinMaxStep(0.5, 1.5, 0.01)
+		:Text(AL["Scale"])
+		:DB(db.QuickLootFrame.mainFrame, "scale", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Background color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
+	
+	-- Title
+	last = gui:Add("Line")
+		:Point("TOP", last, "BOTTOM", 0, -15)
+		:Size("full")
+		:Text(AL["Title"])
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Background color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame.title, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Font color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame.title, "textColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
+		
+	last = gui:Add("Slider")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:MinMaxStep(10, 20, 1)
+		:Text(AL["Font size"])
+		:DB(db.QuickLootFrame.mainFrame.title, "size", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)
+		
+	-- SUbTitle
+	last = gui:Add("Line")
+		:Point("TOP", last, "BOTTOM", 0, -15)
+		:Size("full")
+		:Text(AL["Subtitle"])
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Background color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame.subTitle, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Font color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame.subTitle, "textColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
+		
+	last = gui:Add("Slider")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:MinMaxStep(10, 20, 1)
+		:Text(AL["Font size"])
+		:DB(db.QuickLootFrame.mainFrame.subTitle, "size", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)
+	
+	-- Content
+	last = gui:Add("Line")
+		:Point("TOP", last, "BOTTOM", 0, -15)
+		:Size("full")
+		:Text(AL["Content"])
+		
+	last = gui:Add("ColorPicker")
+		:Point("TOP", last, "BOTTOM")
+		:Size("full")
+		:Text(AL["Background color/alpha"])
+		:DB(db.QuickLootFrame.mainFrame.content, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
+	
+	-- test
+	last = gui:Add("Button")
+		:Point("BOTTOMLEFT", nil, "BOTTOMLEFT", 2, 2)
+		:Text(AL["Preview"])
+		:Click(AtlasLoot.Addons.BonusRoll.Preview)
+		
+	last = gui:Add("Button")
+		:Point("BOTTOMRIGHT", nil, "BOTTOMRIGHT", -2, 2)
+		:Text(AL["Reset frame position"])
+		:Click(AtlasLoot.GUI.QuickLootFrame.ResetFrames)
+		:Confirm(format(AL["Reset position of the |cff33ff99\"%s\"|r window."], AL["Quick Loot"]))	
+end
+
 -- minimap Button
 local function minimapbutton(gui, content)
 	local last
@@ -361,6 +471,11 @@ local ALOptions = LibStub("ALOptions-1.0"):Register(AL["AtlasLoot"], AL["AtlasLo
 						clickFunc = windows_setview_content,
 					},
 				}
+			},
+			{
+				title = AL["Quick Loot"],
+				--desc = "",
+				clickFunc = windows_quickloot,
 			}
 		},
 	},

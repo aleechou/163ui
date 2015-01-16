@@ -1,3 +1,4 @@
+local ALName, ALPrivate = ...
 local AtlasLoot = _G.AtlasLoot
 local Set = AtlasLoot.Button:AddType("Set", "set")
 local AL = AtlasLoot.Locales
@@ -166,7 +167,7 @@ function Set.ShowToolTipFrame(button)
 		frame.modelFrame:SetAllPoints(frame)
 		frame.modelFrame.defaultRotation = MODELFRAME_DEFAULT_ROTATION
 		frame.modelFrame:SetRotation(MODELFRAME_DEFAULT_ROTATION)
-		frame.modelFrame:SetBackdrop(ATLASLOOT_STYLE_TT_BACKDROP)
+		frame.modelFrame:SetBackdrop(ALPrivate.BOX_BORDER_BACKDROP)
 		frame.modelFrame:SetBackdropColor(0,0,0,1)
 		frame.modelFrame:SetUnit("player")
 		frame.modelFrame.minZoom = 0

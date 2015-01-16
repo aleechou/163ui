@@ -1,17 +1,15 @@
+local ALName, ALPrivate = ...
 local AL = {}
 _G.AtlasLoot.Locales = AL
 
 --lua
 local rawset = rawset
 
--- WoW
-local CurLocale = GetLocale()
-
 -- save
 local localeSave = {}
 
 function _G.AtlasLoot.GetLocales(locale)
-	return CurLocale == locale and AL or nil
+	return ALPrivate.ACCOUNT_LOCALE == locale and AL or nil
 end
 
 setmetatable(AL, {

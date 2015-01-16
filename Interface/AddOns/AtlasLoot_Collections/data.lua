@@ -229,7 +229,7 @@ data["BOEWORLDEPICS"] = {
 				{ 22, 90591 },	-- Ring of the Shipwrecked Prince
 				{ 24, 90571 },	-- Scroll of Whispered Secrets
 				{ 25, 90575 },	-- Sutiru's Brazen Bulwark
-				{ 27, "INV_box_03", nil, ALIL["Vine-Cracked Junkbox"], GetSpellInfo(921) },
+				{ 27, 88165, nil, nil, GetSpellInfo(921) },	-- Vine-Cracked Junkbox
 				{ 28, 88149 },	-- The Gloaming Blade
 				{ 29, 88150 },	-- Krol Scimitar
 				{ 101, 90721 },	-- Cournith Waterstrider's Silken Finery
@@ -270,7 +270,7 @@ data["BOEWORLDEPICS"] = {
 				{ 22, 67129 },	-- Signet of High Arcanist Savor
 				{ 24, 67149 },	-- Heartbound Tome
 				{ 25, 67145 },	-- Blockade's Lost Shield
-				{ 27, "INV_box_03", nil, ALIL["Flame-Scarred Junkbox"], GetSpellInfo(921) },
+				{ 27, 63349, nil, nil, GetSpellInfo(921) },	-- Flame-Scarred Junkbox
 				{ 28, 68163 },	-- The Twilight Blade
 				{ 29, 68161 },	-- Krol Decapitator
 			},
@@ -285,7 +285,7 @@ data["BOEWORLDEPICS"] = {
 				{ 16, 44310 },	-- Namlak's Supernumerary Sticker
 				{ 17, 44311 },	-- Avool's Sword of Jin
 				{ 18, 44313 },	-- Zom's Crackling Bulwark
-				{ 20, "INV_box_03", nil, ALIL["Reinforced Junkbox"], GetSpellInfo(921) },
+				{ 20, 43575, nil, nil, GetSpellInfo(921) },	-- Reinforced Junkbox
 				{ 21, 43613 },	-- The Dusk Blade
 				{ 22, 43611 },	-- Krol Cleaver
 			},
@@ -535,6 +535,140 @@ data["DUNGEONSETS"] = {
 	},
 }
 
+data["HEIRLOOM"] = {
+	name = AL["Heirloom"],
+	ContentType = COLLECTION_CONTENT,
+	items = {
+		{	--HeirloomCloaksClothLeather
+			name = AL["Cloaks"].." / "..ALIL["Cloth"].." / "..ALIL["Leather"],
+			[NORMAL_DIFF] = {
+				{ 1, 62040, [PRICE_EXTRA_ITTYPE] = "money:12000000" },	-- Ancient Bloodmoon Cloak
+				{ 2, 62039, [PRICE_EXTRA_ITTYPE] = "money:12000000" },	-- Inherited Cape of the Black Baron
+				{ 3, 69892, [PRICE_EXTRA_ITTYPE] = "money:12000000" },	-- Ripped Sandstorm Cloak
+				{ 4, 62038, [PRICE_EXTRA_ITTYPE] = "money:12000000" },	-- Worn Stoneskin Gargoyle Cape
+				{ 6, 61958, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Tattered Dreadmist Mask
+				{ 7, 93859, [PRICE_EXTRA_ITTYPE] = "42985:1:darkmoon:44" },	-- Bloodstained Dreadmist Mantle
+				{ 8, 42985, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Tattered Dreadmist Mantle
+				{ 9, 93860, [PRICE_EXTRA_ITTYPE] = "48691:1:darkmoon:44" },	-- Bloodstained Dreadmist Robe
+				{ 10, 48691, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Tattered Dreadmist Robe
+				{ 11, 62029, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Tattered Dreadmist Leggings
+				{ 16, 61942, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Preened Tribal War Feathers
+				{ 17, 93864, [PRICE_EXTRA_ITTYPE] = "42984:1:darkmoon:44" },	-- Majestic Ironfeather Shoulders
+				{ 18, 42984, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Preened Ironfeather Shoulders
+				{ 19, 93865, [PRICE_EXTRA_ITTYPE] = "48687:1:darkmoon:44" },	-- Majestic Ironfeather Breastplate
+				{ 20, 48687, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Preened Ironfeather Breastplate
+				{ 21, 62027, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Preened Wildfeather Leggings
+				{ 23, 61937, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Stained Shadowcraft Cap
+				{ 24, 93862, [PRICE_EXTRA_ITTYPE] = "42952:1:darkmoon:44" },	-- Supple Shadowcraft Spaulders
+				{ 25, 42952, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Stained Shadowcraft Spaulders
+				{ 26, 93863, [PRICE_EXTRA_ITTYPE] = "48689:1:darkmoon:44" },	-- Supple Shadowcraft Tunic
+				{ 27, 48689, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Stained Shadowcraft Tunic
+				{ 28, 62026, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Stained Shadowcraft Pants
+			},
+		},
+		{	--HeirloomMailPlate
+			name = ALIL["Mail"].." / "..ALIL["Plate"],
+			[NORMAL_DIFF] = {
+				{ 1, 61935, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	--Tarnished Raging Berserker's Helm
+				{ 2, 93887, [PRICE_EXTRA_ITTYPE] = "42950:1:darkmoon:44" },	-- Grand Champion Herod's Shoulder
+				{ 3, 42950, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Champion Herod's Shoulder
+				{ 4, 93888, [PRICE_EXTRA_ITTYPE] = "48677:1:darkmoon:44" },	-- Furious Deathdealer Breastplate
+				{ 5, 48677, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Champion's Deathdealer Breastplate
+				{ 6, 62024, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Tarnished Leggings of Destruction
+				{ 8, 61936, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Mystical Coif of Elements
+				{ 9, 93876, [PRICE_EXTRA_ITTYPE] = "42951:1:darkmoon:44" },	-- Awakened Pauldrons of Elements
+				{ 10, 42951, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Mystical Pauldrons of Elements
+				{ 11, 93885, [PRICE_EXTRA_ITTYPE] = "48683:1:darkmoon:44" },	-- Awakened Vest of Elements
+				{ 12, 48683, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Mystical Vest of Elements
+				{ 13, 62025, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Mystical Kilt of Elements
+				{ 16, 69887, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Burnished Helm of Might
+				{ 17, 93893, [PRICE_EXTRA_ITTYPE] = "69890:1:darkmoon:44" },	-- Brushed Pauldrons of Might
+				{ 18, 69890, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Burnished Pauldrons of Might
+				{ 19, 93892, [PRICE_EXTRA_ITTYPE] = "69889:1:darkmoon:44" },	-- Brushed Breastplate of Might
+				{ 20, 69889, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Burnished Breastplate of Might
+				{ 21, 69888, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Burnished Legplates of Might
+				{ 23, 61931, [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Polished Helm of Valor
+				{ 24, 93890, [PRICE_EXTRA_ITTYPE] = "42949:1:darkmoon:44" },	-- Gleaming Spaulders of Valor
+				{ 25, 42949, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Polished Spaulders of Valor
+				{ 26, 93891, [PRICE_EXTRA_ITTYPE] = "48685:1:darkmoon:44" },	-- Gleaming Breastplate of Valor
+				{ 27, 48685, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Polished Breastplate of Valor
+				{ 28, 62023, [PRICE_EXTRA_ITTYPE] = "money:17500000" },	-- Polished Legplates of Valor
+			},
+		},
+		{	--HeirloomWeapons
+			name = AL["Trinkets"].." & "..AL["Weapons"],
+			[NORMAL_DIFF] = {
+				{ 1, 93897, [PRICE_EXTRA_ITTYPE] = "42992:1:darkmoon:60" },	-- Piercing Eye of the Beast
+				{ 2, 93896, [PRICE_EXTRA_ITTYPE] = "42991:1:darkmoon:60" },	-- Forceful Hand of Justice
+				{ 4, 93857, [PRICE_EXTRA_ITTYPE] = "42944:1:darkmoon:44" },	-- Vengeful Heartseeker
+				{ 5, 93845, [PRICE_EXTRA_ITTYPE] = "69893:1:darkmoon:44" },	-- Gore-Steeped Skullforge Reaver
+				{ 6, 93856, [PRICE_EXTRA_ITTYPE] = "42945:1:darkmoon:44" },	-- Noble Dal'Rend's Sacred Charge
+				{ 7, 93843, [PRICE_EXTRA_ITTYPE] = "42943:1:darkmoon:64" },	-- Hardened Arcanite Reaper
+				{ 8, 93853, [PRICE_EXTRA_ITTYPE] = "42948:1:darkmoon:44" },	-- Pious Aurastone Hammer
+				{ 9, 93847, [PRICE_EXTRA_ITTYPE] = "48716:1:darkmoon:44" },	-- Crushing Mass of McGowan
+				{ 10, 93846, [PRICE_EXTRA_ITTYPE] = "48718:1:darkmoon:64" },	-- Re-Engineered Lava Dredger
+				{ 11, 93844, [PRICE_EXTRA_ITTYPE] = "79131:1:darkmoon:64" },	-- Refinished Warden Staff
+				{ 12, 93854, [PRICE_EXTRA_ITTYPE] = "42947:1:darkmoon:64" },	-- Scholarly Headmaster's Charge
+				{ 13, 93855, [PRICE_EXTRA_ITTYPE] = "42946:1:darkmoon:64" },	-- War-Torn Ancient Bone Bow
+				{ 14, 93902, [PRICE_EXTRA_ITTYPE] = "darkmoon:110" },	-- Flamescarred Draconian Deflector
+				{ 15, 93903, [PRICE_EXTRA_ITTYPE] = "darkmoon:110" },	-- Weathered Observer's Shield
+				{ 16, 42992, [PRICE_EXTRA_ITTYPE] = "championsseal:75-darkmoon:130" },	-- Discerning Eye of the Beast
+				{ 17, 42991, [PRICE_EXTRA_ITTYPE] = "championsseal:75-darkmoon:130" },	-- Swift Hand of Justice
+				{ 19, 42944, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Balanced Heartseeker
+				{ 20, 69893, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Bloodsoaked Skullforge Reaver
+				{ 21, 42945, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Venerable Dal'Rend's Sacred Charge
+				{ 22, 42943, [PRICE_EXTRA_ITTYPE] = "championsseal:95-darkmoon:160" },	-- Bloodied Arcanite Reaper
+				{ 23, 42948, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Devout Aurastone Hammer
+				{ 24, 48716, [PRICE_EXTRA_ITTYPE] = "championsseal:60-darkmoon:110" },	-- Venerable Mass of McGowan
+				{ 25, 48718, [PRICE_EXTRA_ITTYPE] = "championsseal:95-darkmoon:160" },	-- Repurposed Lava Dredger
+				{ 26, 79131, [PRICE_EXTRA_ITTYPE] = "championsseal:95-darkmoon:160" },	-- Burnished Warden Staff
+				{ 27, 42947, [PRICE_EXTRA_ITTYPE] = "championsseal:95-darkmoon:160" },	-- Dignified Headmaster's Charge
+				{ 28, 42946, [PRICE_EXTRA_ITTYPE] = "championsseal:95-darkmoon:160" },	-- Charmed Ancient Bone Bow
+				{ 29, 93904, [PRICE_EXTRA_ITTYPE] = "darkmoon:110" },	-- Musty Tome of the Lost
+			},
+		},
+		{	--HeirloomPvP
+			name = AL["PvP"],
+			[ALLIANCE_DIFF] = {
+				{ 1, 93861, [PRICE_EXTRA_ITTYPE] = "44107:1:honor:870" },	-- Prestigious Sunderseer Mantle
+				{ 2, 44107, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Exquisite Sunderseer Mantle
+				{ 3, 93867, [PRICE_EXTRA_ITTYPE] = "44103:1:honor:870" },	-- Superior Stormshroud Shoulders
+				{ 4, 44103, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Exceptional Stormshroud Shoulders
+				{ 5, 93866, [PRICE_EXTRA_ITTYPE] = "44105:1:honor:870" },	-- Wild Feralheart Spaulders
+				{ 6, 44105, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Lasting Feralheart Spaulders
+				{ 7, 93889, [PRICE_EXTRA_ITTYPE] = "44102:1:honor:870" },	-- Venerated Pauldrons of The Five Thunders
+				{ 8, 44102, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Aged Pauldrons of The Five Thunders
+				{ 9, 93886, [PRICE_EXTRA_ITTYPE] = "44101:1:honor:870" },	-- Adorned Beastmaster's Mantle
+				{ 10, 44101, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Prized Beastmaster's Mantle
+				{ 11, 93894, [PRICE_EXTRA_ITTYPE] = "44100:1:honor:870" },	-- Immaculate Lightforge Spaulders
+				{ 12, 44100, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Pristine Lightforge Spaulders
+				{ 13, 93895, [PRICE_EXTRA_ITTYPE] = "44099:1:honor:870" },	-- Reinforced Stockade Pauldrons
+				{ 14, 44099, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Strengthened Stockade Pauldrons
+				{ 15, 93900, [PRICE_EXTRA_ITTYPE] = "honor:2725" },	-- Inherited Mark of Tyranny
+				{ 16, 93899, [PRICE_EXTRA_ITTYPE] = "44098:1:honor:1090" },	-- Bequeathed Insignia of the Alliance
+				{ 17, 44098, [PRICE_EXTRA_ITTYPE] = "honor:2725" },	-- Inherited Insignia of the Alliance
+				{ 19, 93852, [PRICE_EXTRA_ITTYPE] = "44091:1:honor:870" },	-- Deadly Scarlet Kris
+				{ 20, 44091, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Sharpened Scarlet Kris
+				{ 21, 93848, [PRICE_EXTRA_ITTYPE] = "44096:1:honor:870" },	-- Battle-Hardened Thrash Blade
+				{ 22, 44096, [PRICE_EXTRA_ITTYPE] = "honor:2175" },	-- Battleworn Thrash Blade
+				{ 23, 93851, [PRICE_EXTRA_ITTYPE] = "44092:1:honor:1400" },	-- Battle-Forged Truesilver Champion
+				{ 24, 44092, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Reforged Truesilver Champion
+				{ 25, 93850, [PRICE_EXTRA_ITTYPE] = "44094:1:honor:1090" },	-- The Sanctified Hammer of Grace
+				{ 26, 44094, [PRICE_EXTRA_ITTYPE] = "honor:2725" },	-- The Blessed Hammer of Grace
+				{ 27, 93849, [PRICE_EXTRA_ITTYPE] = "44095:1:honor:1400" },	-- Elder Staff of Jordan
+				{ 28, 44095, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Grand Staff of Jordan
+				{ 29, 93841, [PRICE_EXTRA_ITTYPE] = "44093:1:honor:1400" },	-- Smoothbore Dwarven Hand Cannon
+				{ 30, 44093, [PRICE_EXTRA_ITTYPE] = "honor:3500" },	-- Upgraded Dwarven Hand Cannon
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 16, 93898, [PRICE_EXTRA_ITTYPE] = "44097:1:honor:1090" },	-- Bequeathed Insignia of the Horde
+				{ 17, 44097, [PRICE_EXTRA_ITTYPE] = "honor:2725" },	-- Inherited Insignia of the Horde
+			},
+		},
+	},
+}
+
 data["LEGENDARIES"] = {
 	name = AL["Legendary Items"],
 	ContentType = COLLECTION_CONTENT,
@@ -647,53 +781,56 @@ data["MOLTENFRONT"] = {
 		{
 			name = AL["Vendor"]..": "..AL["Ayla Shadowstorm"],
 			[NORMAL_DIFF] = {
-				{ 1, 70110, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Band of Glittering Lights
-				{ 2, 70113, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Moon Blessed Band
-				{ 3, 70142, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Moonwell Chalice
-				{ 4, 70143, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Moonwell Phial
-				{ 5, 70112, [PRICE_EXTRA_ITTYPE] = "money:982176" },	-- Globe of Moonlight
-				{ 16, 70175, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Triple-Reinforced Mining Bag (p7 500)
-				{ 17, 70174, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Royal Scribe's Satchel (p7 510)
-				{ 18, 70176, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Luxurious Silk Gem Bag (p8 515)
-				{ 20, 70160, "pet318", [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Crimson Lasher
-				{ 21, 70161, [PRICE_EXTRA_ITTYPE] = "money:5000000" },	-- Mushroom Chair
+				{ 1, "INV_Box_01", nil, AL["Ayla Shadowstorm"], nil, [QUEST_EXTRA_ITTYPE] = 29279 },
+				{ 2, 70110, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Band of Glittering Lights
+				{ 3, 70113, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Moon Blessed Band
+				{ 4, 70142, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Moonwell Chalice
+				{ 5, 70143, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Moonwell Phial
+				{ 6, 70112, [PRICE_EXTRA_ITTYPE] = "money:982176" },	-- Globe of Moonlight
+				{ 17, 70175, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Triple-Reinforced Mining Bag (p7 500)
+				{ 18, 70174, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Royal Scribe's Satchel (p7 510)
+				{ 19, 70176, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Pattern: Luxurious Silk Gem Bag (p8 515)
+				{ 21, 70160, "pet318", [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Crimson Lasher
+				{ 22, 70161, [PRICE_EXTRA_ITTYPE] = "money:5000000" },	-- Mushroom Chair
 			},
 		},
 		{
 			name = AL["Vendor"]..": "..AL["Varlan Highbough"],
 			[NORMAL_DIFF] = {
-				{ 1, 70122, [PRICE_EXTRA_ITTYPE] = "money:840360" },	-- Aviana's Grips
-				{ 2, 70123, [PRICE_EXTRA_ITTYPE] = "money:1525210" },	-- Lancer's Greaves
-				{ 3, 70127, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Lylagar Horn Ring
-				{ 4, 70126, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Nemesis Shell Band
-				{ 5, 70124, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Spirit Fragment Band
-				{ 6, 70141, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Dwyer's Caber
-				{ 16, 70140, "pet317", [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Hyjal Bear Cub
-				{ 17, 70159, [PRICE_EXTRA_ITTYPE] = "money:35000000" },	-- Mylune's Call
+				{ 1, "INV_Box_01", nil, AL["Varlan Highbough"], nil, [QUEST_EXTRA_ITTYPE] = 29283 },
+				{ 2, 70122, [PRICE_EXTRA_ITTYPE] = "money:840360" },	-- Aviana's Grips
+				{ 3, 70123, [PRICE_EXTRA_ITTYPE] = "money:1525210" },	-- Lancer's Greaves
+				{ 4, 70127, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Lylagar Horn Ring
+				{ 5, 70126, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Nemesis Shell Band
+				{ 6, 70124, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Spirit Fragment Band
+				{ 7, 70141, [PRICE_EXTRA_ITTYPE] = "money:1528525" },	-- Dwyer's Caber
+				{ 17, 70140, "pet317", [PRICE_EXTRA_ITTYPE] = "money:15000000" },	-- Hyjal Bear Cub
+				{ 18, 70159, [PRICE_EXTRA_ITTYPE] = "money:35000000" },	-- Mylune's Call
 			},
 		},
 		{
 			name = AL["Vendor"]..": "..AL["Damek Bloombeard"],
 			[NORMAL_DIFF] = {
-				{ 1, 70118, [PRICE_EXTRA_ITTYPE] = "money:731902" },	-- Widow's Clutches
-				{ 2, 70114, [PRICE_EXTRA_ITTYPE] = "money:902050" },	-- Fireplume Girdle
-				{ 3, 70115, [PRICE_EXTRA_ITTYPE] = "money:1636746" },	-- Fiery Treads
-				{ 4, 70121, [PRICE_EXTRA_ITTYPE] = "money:1178682" },	-- Ricket's Gun Show
-				{ 5, 70116, [PRICE_EXTRA_ITTYPE] = "money:1279180" },	-- Gauntlets of Living Obsidium
-				{ 6, 70117, [PRICE_EXTRA_ITTYPE] = "money:1283724" },	-- Belt of Living Obsidium
-				{ 7, 70120, [PRICE_EXTRA_ITTYPE] = "money:1174260" },	-- Rickety Belt
-				{ 8, 70119, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Meteorite Ring
-				{ 9, 70144, [PRICE_EXTRA_ITTYPE] = "money:1528524" },	-- Ricket's Magnetic Fireball
-				{ 16, 70166, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Brainsplinter (p2 525)
-				{ 17, 70169, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Elementium-Edged Scalper (p2 525)
-				{ 18, 70168, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Lightforged Elementium Hammer (p2 525)
-				{ 19, 70172, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Masterwork Elementium Deathblade (p2 525)
-				{ 20, 70167, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Masterwork Elementium Spellblade (p2 525)
-				{ 21, 70170, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Pyrium Spellward (p2 525)
-				{ 22, 70171, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Unbreakable Guardian (p2 525)
-				{ 23, 70173, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Witch-Hunter's Harvester (p2 525)
-				{ 24, 70177, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Schematic: Flintlocke's Woodchucker (p5 515)
-				{ 25, 71078, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Schematic: Extreme-Impact Hole Puncher (p5 525)
+				{ 1, "INV_Box_01", nil, AL["Damek Bloombeard"], nil, [QUEST_EXTRA_ITTYPE] = 29281 },
+				{ 2, 70118, [PRICE_EXTRA_ITTYPE] = "money:731902" },	-- Widow's Clutches
+				{ 3, 70114, [PRICE_EXTRA_ITTYPE] = "money:902050" },	-- Fireplume Girdle
+				{ 4, 70115, [PRICE_EXTRA_ITTYPE] = "money:1636746" },	-- Fiery Treads
+				{ 5, 70121, [PRICE_EXTRA_ITTYPE] = "money:1178682" },	-- Ricket's Gun Show
+				{ 6, 70116, [PRICE_EXTRA_ITTYPE] = "money:1279180" },	-- Gauntlets of Living Obsidium
+				{ 7, 70117, [PRICE_EXTRA_ITTYPE] = "money:1283724" },	-- Belt of Living Obsidium
+				{ 8, 70120, [PRICE_EXTRA_ITTYPE] = "money:1174260" },	-- Rickety Belt
+				{ 9, 70119, [PRICE_EXTRA_ITTYPE] = "money:1014508" },	-- Meteorite Ring
+				{ 10, 70144, [PRICE_EXTRA_ITTYPE] = "money:1528524" },	-- Ricket's Magnetic Fireball
+				{ 17, 70166, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Brainsplinter (p2 525)
+				{ 18, 70169, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Elementium-Edged Scalper (p2 525)
+				{ 19, 70168, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Lightforged Elementium Hammer (p2 525)
+				{ 20, 70172, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Masterwork Elementium Deathblade (p2 525)
+				{ 21, 70167, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Masterwork Elementium Spellblade (p2 525)
+				{ 22, 70170, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Pyrium Spellward (p2 525)
+				{ 23, 70171, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Unbreakable Guardian (p2 525)
+				{ 24, 70173, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Plans: Witch-Hunter's Harvester (p2 525)
+				{ 25, 70177, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Schematic: Flintlocke's Woodchucker (p5 515)
+				{ 26, 71078, [PRICE_EXTRA_ITTYPE] = "money:3000000" },	-- Schematic: Extreme-Impact Hole Puncher (p5 525)
 			},
 		},
 	},
@@ -1763,11 +1900,11 @@ data["TIMELESSISLE"] = {
 				{ 106, 103680, [PRICE_EXTRA_ITTYPE] = "timelesscoin:100" },	-- Mask of Hatred
 				{ 107, 103682, [PRICE_EXTRA_ITTYPE] = "timelesscoin:100" },	-- Mask of Violence
 				{ 108, 103684, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- Scroll of Challenge
-				{ 109, 103786, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- "Dapper Gentleman" Costume
-				{ 110, 103795, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- "Dread Pirate" Costume
-				{ 111, 103789, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- "Little Princess" Costume
-				{ 112, 103797, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- Big Pink Bow
-				{ 113, 71153, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- Magical Pet Biscuit
+				{ 109, 103786, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- "Dapper Gentleman" Costume
+				{ 110, 103795, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- "Dread Pirate" Costume
+				{ 111, 103789, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- "Little Princess" Costume
+				{ 112, 103797, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Big Pink Bow
+				{ 113, 71153, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500", [ATLASLOOT_IT_AMOUNT1] = 25 },	-- Magical Pet Biscuit
 				{ 114, 103977, [PRICE_EXTRA_ITTYPE] = "timelesscoin:500" },	-- Time-Worn Journal
 				{ 116, 102467, [PRICE_EXTRA_ITTYPE] = "timelesscoin:2500" },	-- Censer of Eternal Agony
 				{ 118, 103638, [PRICE_EXTRA_ITTYPE] = "bloodycoin:500" },	-- Reins of the Ashhide Mushan Beast
@@ -1780,7 +1917,7 @@ data["TIMELESSISLE"] = {
 				{ 126, 102147, [PRICE_EXTRA_ITTYPE] = "101529:3" },	-- Yu'la, Broodling of Yu'lon
 				{ 127, 102146, [PRICE_EXTRA_ITTYPE] = "101529:3" },	-- Zao, Calfling of Niuzao
 				{ 128, 98715, [PRICE_EXTRA_ITTYPE] = "101529:3" },	-- Marked Flawless Battle-Stone
-				{ 129, 86143, [PRICE_EXTRA_ITTYPE] = "101529:1" },	-- Battle Pet Bandage
+				{ 129, 86143, [PRICE_EXTRA_ITTYPE] = "101529:1", [ATLASLOOT_IT_AMOUNT1] = 25 },	-- Battle Pet Bandage
 				{ 130, 98114, [PRICE_EXTRA_ITTYPE] = "101529:1" },	-- Pet Treat
 			},
 		},

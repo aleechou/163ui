@@ -1,0 +1,4 @@
+- Version 2.2.1
+
+	* AntiMagicShellDown added.
+	* Korean locale added ( thx to jungwan2 )

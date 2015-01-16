@@ -51,15 +51,6 @@ end
 function Evie.RaiseEvent(event, ...)
 	return RaiseEvent(nil, event, ...)
 end
-function Evie.CreateTimer(interval, func, start)
-	local ag = WorldFrame:CreateAnimationGroup()
-	ag:SetLooping("REPEAT")
-	local ani = ag:CreateAnimation()
-	ani:SetDuration(interval)
-	ani:SetScript("OnFinished", func)
-	if start ~= false then ag:Play() end
-	return ag
-end
 do
 	local function ok(f, ...)
 		return true, f(...)

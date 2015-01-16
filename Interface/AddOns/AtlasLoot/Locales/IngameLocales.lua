@@ -32,23 +32,6 @@ local IngameLocales = {
 	["The August Celestials"] = GetFactionInfoByID(1341),
 
 	-- ######################################################################
-	--- Items
-	-- ######################################################################
-	---- Related to BoE World Epics
-	["Flame-Scarred Junkbox"] = GetItemInfo(63349),
-	["Reinforced Junkbox"] = GetItemInfo(43575),
-	["Vine-Cracked Junkbox"] = GetItemInfo(88165),
-	-- Feast of Winter Veil
-	["Carefully Wrapped Present"] = GetItemInfo(21191),
-	["Gaily Wrapped Present"] = GetItemInfo(21310),
-	["Gently Shaken Gift"] = GetItemInfo(21271),
-	["Festive Gift"] = GetItemInfo(21363),
-	["Smokywood Pastures Extra-Special Gift"] = GetItemInfo(21216),
-	["Stolen Present"] = GetItemInfo(116762),
-	["Ticking Present"] = GetItemInfo(21327),
-	["Winter Veil Gift"] = GetItemInfo(116761),
-
-	-- ######################################################################
 	-- Months
 	-- ######################################################################
 	["January"] = months[1],
@@ -96,7 +79,10 @@ local IngameLocales = {
 	["Blackwing Lair"] = GetMapNameByID(755),
 	["Lower Blackrock Spire"] = GetAchievementName(643),
 	["Molten Core"] = GetMapNameByID(696),
+	["Orgrimmar"] = GetMapNameByID(321),
 	["Ruins of Ahn'Qiraj"] = GetMapNameByID(717),
+	["Shadowfang Keep"] = GetMapNameByID(764),
+	["Stormwind City"] = GetMapNameByID(301),
 	["Upper Blackrock Spire"] = GetAchievementName(1307),
 
 	-- Burning Crusade
@@ -105,13 +91,19 @@ local IngameLocales = {
 	["Hyjal Summit"] = GetMapNameByID(775),
 	["Karazhan"] = GetMapNameByID(799),
 	["Magtheridon's Lair"] = GetMapNameByID(779),
+	["Outland"] = GetAchievementCriteriaInfo(46,3),
 	["Serpentshrine Cavern"] = GetMapNameByID(780),
+	["Shattrath City"] = GetMapNameByID(481),
 	["Sunwell Plateau"] = GetMapNameByID(789),
 	["Tempest Keep"] = GetMapNameByID(782),
+	["The Slave Pens"] = GetMapNameByID(728),
 
 	-- Wrath of the Lich King
+	["Dalaran"] = GetMapNameByID(504),
+	["Icecrown"] = GetMapNameByID(492),
 	["Icecrown Citadel"] = GetMapNameByID(604),
 	["Naxxramas"] = GetMapNameByID(535),
+	["Northrend"] = GetAchievementCriteriaInfo(46,4),
 	["Onyxia's Lair"] = GetMapNameByID(718),
 	["The Eye of Eternity"] = GetMapNameByID(527),
 	["The Obsidian Sanctum"] = GetMapNameByID(531),

@@ -1,10 +1,11 @@
-Garrison Mission Manager, v12
+Garrison Mission Manager, v18
 
 http://www.curse.com/addons/wow/garrison-mission-manager
+http://www.wowinterface.com/downloads/info23375-GarrisonMissionManager.html
 
-This addon assists you with selecting best team for garrison missions. It adds 3 butons on mission page with top 3 suggestions. Clicking any of those button sets suggested team. Each button will show you success rate along with icons for XP bonus, GR bonus, and reduced time.
+This addon assists you with selecting best team for garrison missions. It adds 3 buttons on mission page with top 3 suggestions. Clicking any of those button sets suggested team. Each button will show you success rate along with icons for XP bonus, GR bonus, and reduced time. Second set of 3 more buttons will appear on garrison resources reward missions, showing best choices for GR gain - i.e. you could have lower success rate, but in long run your average GR yield will be better thanks to "Scavenger" traits.
 
-It also adds a top team button to each mission on mission list page so you can see at a glance which missions you could reliably do with your current followers. Missions that require more followers that you currently have will be dimmed out to let you concentrate on missions that you can do.
+It also adds a top team button to each mission on mission list page so you can see at a glance which missions you could reliably do with your current followers. Missions that require more followers or garrison resources than you currently have will be dimmed out to let you concentrate on missions that you can do.
 
 It takes care of each and every trait and ability your followers have, present and future, including those easily forgotten "Increases success chance when on a mission with a <race>" traits, by not actually caring about them at all - it simply tries all combinations and selects those that give best total success chance.
 
@@ -12,18 +13,41 @@ Suggestions will try to maximize success rate first, material multiplier (garris
 
 You can add followers to ignore list if you want. Select "GMM: Ignore" in right-click follower menu. Ignored follower will be dimmed with red overlay in followers list and won't be used in any calculated party.
 
+While on a mission screen, when you add a follower to party that could boost a ready shipment order in one of your buildings, it will be indicated by name of building and number of ready orders bellow follower's portrait.
+
+Buttons at garrison architect table will allow you to automatically mass-assign all available workers to buildings or mass-remove them. Note that Blizzard throttles follower assignment/removal, so it could take a second or two to finish. Be sure to wait for buttons to switch states and usual follower assign/remove click sound before leaving architect table. GMM will always prefer the best follower for building - that is, with highest level and lowest ilevel and will only set this follower to each respective building. Tooltips on the buttons will show which follower will be added/remove from each building and in case of assignment button, will also show in red followers that would be assigned, but currently unavailable - e.g. on the mission.
+
 People who love macros can access mission page buttons with:
  * /run GMM_Click("MissionPage1")
  * /run GMM_Click("MissionPage2")
  * /run GMM_Click("MissionPage3")
 
-Planned features:
- * option to risk lower chance missions with XP/material multiplier party for better average yield
- * add "total level of followers involved" to sort order below XP gain, lower - better
- * tooltip or flash followers in the list on mousing over button
+GMM aims to be fast and lightweight, keeping CPU and memory use to the minimum.
 
 
 Change log:
+
+2015-01-12 v18
+ * Fix tooltip errors on mass assign/remove buttons.
+
+2015-01-12 v17
+ * Mass assign/remove buttons on garrison architect table screen.
+ * Prefer lowest level/ilevel followers among otherwise identical results.
+
+2014-12-23 v16
+ * Use special ilvl border for portrait and force abbreviated text - helps Chinese client against ilevel string overflowing out of frame.
+ * Save/restore followers set in party on mission page for better compatibility with addons that pre-seed party (like MP).
+
+2014-12-23 v15
+ * Show iLevel instead of maxed level directly on follower portrait in all lists, just like it works in party on mission page.
+
+2014-12-17 v14
+ * Refresh shipment data when calculating alert about followers for orders, or it'd be stuck on info you've last seen on garrison landing page.
+
+2014-12-16 v13
+ * Detect and alert in below follower's party portrait if there's orders ready in building this follower could boost.
+ * GR yield mode - add a second set of buttons with best average GR yield on relevant missions.
+ * Dim missions if you don't have enough GR to start as well.
 
 2014-12-05 v12
  * Fix forgotten settings save - ignored followers are now remembered.

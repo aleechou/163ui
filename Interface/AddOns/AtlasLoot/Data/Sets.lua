@@ -365,6 +365,51 @@ local NORMAL_DIFF = Global_Set:AddDifficulty(AL["Normal"], "n")
 
 local SOURCE_INFO = Global_Set:AddInfoList("DUMMY")
 
+-- TestSet after loaidng looks like
+--[[
+["GMTESTSET"] = {
+	["name"] = "GM",
+	["__addonName"] = "global",
+	{	
+		["subSetName"] = "gm",
+		["name"] = "GM",
+		["__id"] = 1,
+		[201] = {		-- 201 is the intern diff number
+			12064, -- [1]
+			2586, -- [2]
+			11508, -- [3]
+			33475, -- [4]
+			["itemTable"] = {
+				12064, -- [1]
+				2586, -- [2]
+				11508, -- [3]
+				33475, -- [4]
+			},
+		},
+	}, -- [1]
+	["subSetNames"] = {
+		["gm"] = {
+			["subSetName"] = "gm",
+			["name"] = "GM",
+			["__id"] = 1,
+			[201] = {		-- 201 is the intern diff number
+				12064, -- [1]
+				2586, -- [2]
+				11508, -- [3]
+				33475, -- [4]
+				["itemTable"] = {
+					12064, -- [1]
+					2586, -- [2]
+					11508, -- [3]
+					33475, -- [4]
+				},
+			},
+			
+		},
+	},
+},
+]]--
+
 local globalSetTable = {
 	["GMTESTSET"] = {	-- T17 Sets
 		name = "GM",

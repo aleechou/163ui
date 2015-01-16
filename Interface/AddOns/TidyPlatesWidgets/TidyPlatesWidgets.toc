@@ -1,17 +1,15 @@
 ## Interface: 60000
 ## Title: Tidy Plates Widgets
-
 ## Notes: Library of Widgets
-
 ## Dependencies: TidyPlates
 ## SavedVariables: TidyPlatesWidgetData
 
 Widgets.xml
+
 ## Title: |cff880303[网易有爱]|r 姓名板增强 Widgets
 ## Title-zhCN: |cff880303[网易有爱]|r 姓名板增强 Widgets
 ## Title-zhTW: |cff880303[网易有爱]|r 姓名板增强 Widgets
 ## Notes-zhCN: 强大到爆的多功能姓名版美化插件-设置模块。
 ## Notes-zhTW: 強大到爆的多功能姓名版美化插件-設置模塊。
 ## X-Vendor: NetEase
-## X-163UI-Version: 20141118121700
-
+## X-163UI-Version: 2015011601

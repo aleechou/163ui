@@ -119,7 +119,7 @@ function ItemFrame:Refresh(skipProtect)
 			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF, GUI.frame.contentFrame.title.txt or "", diffData.name or ""))
 		end
 		if type(items) == "string" then
-			GUI:ShowLoadingInfo(items, true)
+			GUI:ShowLoadingInfo(items, true, tableType)
 			AtlasLoot.Loader:LoadModule(items, function() ItemFrame:Refresh(true) GUI.frame.contentFrame.loadingDataText:Hide() end, true)
 			return
 		end

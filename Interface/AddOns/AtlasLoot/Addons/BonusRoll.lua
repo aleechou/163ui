@@ -101,7 +101,7 @@ local function LoadQuickLootFrame(self)
 		QLF:SetEncounterJournalBonusRoll(tonumber(tierID), GetRaidDifficultyID() or 1, tonumber(instanceID), tonumber(encounterID))
 	end
 end
---/run LoadQuickLootFrame({spellID = 145909})
+
 local function ClearQuickLootFrame(self)
 	if AtlasLoot.db.Addons.BonusRoll.enabled then
 		QLF:Clear()
@@ -111,81 +111,6 @@ end
 BonusRollFrame:HookScript("OnShow", LoadQuickLootFrame)
 BonusRollFrame:HookScript("OnHide", ClearQuickLootFrame)
 
-function BonusRoll:Test()
-	QLF:SetEncounterJournalBonusRoll(tonumber(tierID), GetRaidDifficultyID() or 1, tonumber(instanceID), tonumber(encounterID))
+function BonusRoll:Preview()
+	LoadQuickLootFrame({spellID = 177529})
 end
---[[
-/run BonusRollFrame_StartBonusRoll(145922, "", 180)
-function BonusRollFrame_OnEvent(self, event, ...)
-	if ( event == "BONUS_ROLL_FAILED" ) then
-		self.state = "finishing";
-		self.rewardType = nil;
-		self.rewardLink = nil;
-		self.rewardQuantity = nil;
-		self.rewardSpecID = nil;
-		self.RollingFrame.LootSpinner:Hide();
-		self.RollingFrame.LootSpinnerFinal:Hide();
-		self.FinishRollAnim:Play();
-	elseif ( event == "BONUS_ROLL_STARTED" ) then
-		self.state = "rolling";
-		self.animFrame = 0;
-		self.animTime = 0;
-		PlaySoundKitID(31579);	--UI_BonusLootRoll_Start
-		--Make sure we don't keep playing the sound ad infinitum.
-		if ( self.rollSound ) then
-			StopSound(self.rollSound);
-		end
-		local _, soundHandle = PlaySoundKitID(31580);	--UI_BonusLootRoll_Loop
-		self.rollSound = soundHandle;
-		self.RollingFrame.LootSpinner:Show();
-		self.RollingFrame.LootSpinnerFinal:Hide();
-		self.StartRollAnim:Play();
-	elseif ( event == "BONUS_ROLL_RESULT" ) then
-		local rewardType, rewardLink, rewardQuantity, rewardSpecID = ...;
-		self.state = "slowing";
-		self.rewardType = rewardType;
-		self.rewardLink = rewardLink;
-		self.rewardQuantity = rewardQuantity;
-		self.rewardSpecID = rewardSpecID;
-		self.StartRollAnim:Finish();
-	elseif ( event == "PLAYER_LOOT_SPEC_UPDATED" ) then
-		local specID = GetLootSpecialization();
-		if ( specID and specID > 0 ) then
-			local id, name, description, texture, background, role, class = GetSpecializationInfoByID(specID);
-			self.SpecIcon:SetTexture(texture);
-			self.SpecIcon:Show();
-			self.SpecRing:Show();
-		else
-			self.SpecIcon:Hide();
-			self.SpecRing:Hide();
-		end
-	elseif ( event == "BONUS_ROLL_DEACTIVATE" ) then
-		self.PromptFrame.RollButton:Disable();
-	elseif ( event == "BONUS_ROLL_ACTIVATE" ) then
-		if ( self.state == "prompt" ) then
-			self.PromptFrame.RollButton:Enable();
-		end
-	end
-end
-
-
-
-
-eventFrame:RegisterEvent("SPELL_CONFIRMATION_PROMPT")		-- Bonus roll startet 		( SPELL_CONFIRMATION_PROMPT 145910 1  180 776 )
-
-spellID 
-Number - Spell ID for the Confirmation Prompt Spell. These are very specific spells that only appear during this event.
-confirmType 
-Number - The possible values for this are not entirely known, however, 1 does seem to be the confirmType when the prompt triggers a bonus roll.
-text 
-String - So far, I've only seen this value be a blank string of "". Presumably, it will contain text if text is needed, but with bonus rolls, it is not needed.
-duration 
-Number - This number is in seconds. Typically, it is 180 seconds.
-currencyID 
-Number - The ID of the currency required if the prompt requires a currency (it does for bonus rolls).
-
-eventFrame:RegisterEvent("SPELL_CONFIRMATION_TIMEOUT")		-- Bonus roll pass/timeout	( SPELL_CONFIRMATION_TIMEOUT 145910 1 )
-eventFrame:RegisterEvent("BONUS_ROLL_STARTED")
-eventFrame:RegisterEvent("BONUS_ROLL_FAILED")
-eventFrame:RegisterEvent("BONUS_ROLL_RESULT")
-]]

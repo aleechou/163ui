@@ -39,7 +39,7 @@ function ChatLink:GetChatLink(type, ...)
 end
 
 function AtlasLoot:Send(msg)
-	SendChatMessage(ChatLink:GetChatLink("InstanceLink", msg), "WHISPER", nil, "Shijera")
+	SendChatMessage(ChatLink:GetChatLink("InstanceLink", msg), "SAY")
 end
 
 ChatLink:Register("InstanceLink", "IL:([%w%d%s_- ]+)", function(ini) return "IL:"..ini end, function(...) return ... end, function(cacheTable, ...) print(...) end, "([%w%d%s_-]+)")
@@ -88,10 +88,10 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", ChatFilter)
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(self, link, text, button)
     if(link == "atlasloot") then	
-		 if(IsShiftKeyDown()) then
+		if(IsShiftKeyDown()) then
 			local editbox = GetCurrentKeyBoardFocus()
 			if(editbox) then
-				--editbox:Insert(text)
+				editbox:Insert(text)
 			end
 		else
 			local start, finish

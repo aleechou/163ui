@@ -1,3 +1,4 @@
+local ALName, ALPrivate = ...
 local AtlasLoot = _G.AtlasLoot
 local GUI = AtlasLoot.GUI
 local ItemDB = AtlasLoot.ItemDB
@@ -5,6 +6,8 @@ local Button = AtlasLoot.Button
 local QLF = {}
 AtlasLoot.GUI.QuickLootFrame = QLF
 local AL = AtlasLoot.Locales
+
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 
 --lua
 local rawset, type, unpack, setmetatable = rawset, type, unpack, setmetatable
@@ -22,8 +25,7 @@ local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 --const
 local QLF_FRAME_NAME = "AtlasLoot-QuickLootFrame"
 local QLF_FRAME_WIDTH = 285
-local QLF_FRAME_MIN_HEIGHT_STD = 50
-local BACKDROP_DATA = {bgFile = "Interface/Tooltips/UI-Tooltip-Background"}
+local QLF_FRAME_MIN_HEIGHT_STD = 54
 
 local SELECTION_ICON_SIZE = 24
 
@@ -325,9 +327,9 @@ function QLF:SetAtlasLootBonusRollItemTableOLD(addonName, contentName, boss, dif
 	local frame = self.frame
 	
 	-- set title
-	frame.topTitleFrame.title:SetText(moduleData[contentName]:GetName() or "")
-	frame.titleFrame.title:SetText(format(PAGE_NAME_DIFF, moduleData[contentName]:GetNameForItemTable(boss) or "", diffData.name))
-	--frame.titleFrame.title:SetText(moduleData[contentName]:GetNameForItemTable(boss) or "")
+	frame.topTitleFrame.text:SetText(moduleData[contentName]:GetName() or "")
+	frame.titleFrame.text:SetText(format(PAGE_NAME_DIFF, moduleData[contentName]:GetNameForItemTable(boss) or "", diffData.name))
+	--frame.titleFrame.text:SetText(moduleData[contentName]:GetNameForItemTable(boss) or "")
 	
 	-- set items
 	local item, itemID
@@ -373,8 +375,8 @@ function QLF:SetEncounterJournalBonusRoll(tierID, difficultyID, instanceID, enco
 	QLF:SetSelection("spec")
 	
 	-- TopTitle with 
-	self.frame.topTitleFrame.title:SetText( EJ_GetInstanceInfo(instanceID) or "" )
-	self.frame.titleFrame.title:SetText( format(PAGE_NAME_DIFF, EJ_GetEncounterInfo(encounterID) or "", DIF_INFO[difficultyID]) )
+	self.frame.topTitleFrame.text:SetText( EJ_GetInstanceInfo(instanceID) or "" )
+	self.frame.titleFrame.text:SetText( format(PAGE_NAME_DIFF, EJ_GetEncounterInfo(encounterID) or "", DIF_INFO[difficultyID]) )
 	
 	AtlasLoot.EncounterJournal:SetLootQuery(instanceID, encounterID, difficultyID, tierID, nil, self.selectedPlayerSpec or 0, renewItemDataEJ)
 	
@@ -408,8 +410,8 @@ function QLF:Create()
 	self.frame = frame
 	frame:SetParent(UIParent)
 	frame:SetSize(QLF_FRAME_WIDTH, QLF_FRAME_MIN_HEIGHT)
-	frame:SetBackdrop(BACKDROP_DATA)
-	frame:SetBackdropColor(0,0,0,1)
+	frame:SetBackdrop(ALPrivate.BOX_BACKDROP)
+	--frame:SetBackdropColor(0,0,0,1)
 	frame:SetPoint(db.point[1], db.point[2], db.point[3], db.point[4], db.point[5])
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
@@ -424,38 +426,16 @@ function QLF:Create()
 	frame:SetScript("OnHide", FrameOnHide)
 	frame:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
 	
-	frame.topTitleFrame = CreateFrame("Frame", QLF_FRAME_NAME.."-TopTitleFrame")
-	frame.topTitleFrame:ClearAllPoints()
-	frame.topTitleFrame:SetParent(frame)
-	frame.topTitleFrame:SetSize(QLF_FRAME_WIDTH-31, 14)
-	frame.topTitleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
-	frame.topTitleFrame:SetBackdrop(BACKDROP_DATA)
-	frame.topTitleFrame:SetBackdropColor(0,0.86,1,1)
-	
-	frame.topTitleFrame.title = frame.topTitleFrame:CreateFontString(QLF_FRAME_NAME.."-TopTitleFrameTitle", "ARTWORK", "GameFontNormal")
-	frame.topTitleFrame.title:SetPoint("TOPLEFT", frame.topTitleFrame, 2, 0)
-	frame.topTitleFrame.title:SetPoint("BOTTOMRIGHT", frame.topTitleFrame)
-	frame.topTitleFrame.title:SetJustifyH("LEFT")
-	frame.topTitleFrame.title:SetTextColor(1,1,1,1)
-	frame.topTitleFrame.title:SetText("topTitleFrame.title")
-	
 	frame.CloseButton = CreateFrame("Button", QLF_FRAME_NAME.."-CloseButton", frame, "UIPanelCloseButton")
 	frame.CloseButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 3, 4)
 	
-	frame.titleFrame = CreateFrame("Frame", QLF_FRAME_NAME.."-TitleFrame")
-	frame.titleFrame:ClearAllPoints()
-	frame.titleFrame:SetParent(frame)
-	frame.titleFrame:SetSize(QLF_FRAME_WIDTH-10, 14)
+	frame.topTitleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0, {r=0, g=0.86, b=1}, {r=1, g=1, b=1})
+	frame.topTitleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -3)
+	frame.topTitleFrame:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -26, -21)
+
+	frame.titleFrame = AtlasLoot.GUI.CreateTextWithBg(frame, 0, 0, {r=0, g=1, b=1}, {r=1, g=1, b=1})
 	frame.titleFrame:SetPoint("TOPLEFT", frame.topTitleFrame, "BOTTOMLEFT", 0, -5)
-	frame.titleFrame:SetBackdrop(BACKDROP_DATA)
-	frame.titleFrame:SetBackdropColor(0,1,1,1)
-	
-	frame.titleFrame.title = frame.titleFrame:CreateFontString(QLF_FRAME_NAME.."-TitleFrameTitle", "ARTWORK", "GameFontNormal")
-	frame.titleFrame.title:SetPoint("TOPLEFT", frame.titleFrame)
-	frame.titleFrame.title:SetPoint("BOTTOMRIGHT", frame.titleFrame)
-	frame.titleFrame.title:SetJustifyH("CENTER")
-	frame.titleFrame.title:SetTextColor(1,1,1,1)
-	frame.titleFrame.title:SetText("titleFrame.title")
+	frame.titleFrame:SetPoint("BOTTOMRIGHT", frame.topTitleFrame, "BOTTOMRIGHT", 21, -21)
 	
 	frame.selection = CreateFrame("Frame", QLF_FRAME_NAME.."-Selection")
 	frame.selection:ClearAllPoints()
@@ -463,8 +443,7 @@ function QLF:Create()
 	frame.selection:SetWidth(26)
 	frame.selection:SetPoint("TOPRIGHT", frame.titleFrame, "BOTTOMRIGHT", 0, -5)
 	frame.selection:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 5)
-	frame.selection:SetBackdrop(BACKDROP_DATA)
-	frame.selection:SetBackdropColor(1,1,1,1)
+	frame.selection:SetBackdrop(ALPrivate.BOX_BACKDROP)
 	
 	
 	frame.selection.list = {}
@@ -477,47 +456,12 @@ function QLF:Create()
 		end,}
 	)
 	
-	--[[
-	frame.specs.spec = {}
-	
-	-- Create Spec icons
-	local id, name, description, icon, background, role, button
-	for i=1,GetNumSpecializations() do
-		id, name, description, icon, background, role = GetSpecializationInfo(i)
-		
-		
-		frame.specs.spec[i] = CreateFrame("BUTTON", QLF_FRAME_NAME.."-SpecsButton"..i, frame.specs)
-		button = frame.specs.spec[i]
-		button:SetSize(SPEC_ICON_SIZE, SPEC_ICON_SIZE)
-		button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-		button:SetAlpha(0.5)
-		if i == 1 then
-			button:SetPoint("TOPLEFT", frame.specs, "TOPLEFT", 1, -1)
-			QLF_FRAME_MIN_HEIGHT = QLF_FRAME_MIN_HEIGHT + SPEC_ICON_SIZE
-		else
-			button:SetPoint("TOPLEFT", frame.specs.spec[i-1], "BOTTOMLEFT", 0, -1)
-			QLF_FRAME_MIN_HEIGHT = QLF_FRAME_MIN_HEIGHT + SPEC_ICON_SIZE + 1
-		end
-		button:SetScript("OnEnter", SpecButtonOnEnter)
-		button:SetScript("OnLeave", SpecButtonOnLeave)
-		
-		button.name = name
-		button.desc = description
-		
-		button.icon = button:CreateTexture(QLF_FRAME_NAME.."-SpecsButton"..i.."-Icon", button)
-		button.icon:SetPoint("TOPLEFT", button)
-		button.icon:SetPoint("BOTTOMRIGHT", button)
-		button.icon:SetTexture(icon)
-		
-	end
-	]]--
 	frame.items = CreateFrame("Frame", QLF_FRAME_NAME.."ItemFrame")
 	frame.items:ClearAllPoints()
 	frame.items:SetParent(frame)
 	frame.items:SetPoint("TOPLEFT", frame.titleFrame, "BOTTOMLEFT", 0, -5)
 	frame.items:SetPoint("BOTTOMRIGHT", frame.selection, "BOTTOMLEFT", -5, 0)
-	frame.items:SetBackdrop(BACKDROP_DATA)
-	frame.items:SetBackdropColor(1,1,1,1)
+	frame.items:SetBackdrop(ALPrivate.BOX_BACKDROP)
 	
 	frame.items.loadingText = frame.items:CreateFontString(QLF_FRAME_NAME.."ItemFrameLoadingText", "ARTWORK", "GameFontNormal")
 	frame.items.loadingText:SetPoint("TOPLEFT", frame.items)
@@ -540,12 +484,34 @@ function QLF:Create()
 	QLF_ITEM_FRAME_ITEM_DISTANCE = (((frame.items:GetWidth())/ITEMS_PER_LINE-ITEM_SIZE)*ITEMS_PER_LINE)/(ITEMS_PER_LINE+1)
 	frame:Hide()
 	self.frame = frame
+	QLF.RefreshStyle()
 end
---QLF:Create()
+
 function QLF.ResetFrames()
 	db.point = { "CENTER" }
 	if QLF.frame then
 		QLF.frame:ClearAllPoints()
 		QLF.frame:SetPoint(db.point[1])
 	end
+end
+
+
+function QLF.RefreshStyle()
+	local frame = QLF.frame
+	if not frame then return end
+	-- main frame
+	frame:SetScale(db.mainFrame.scale)
+	frame:SetBackdropColor(db.mainFrame.bgColor[1], db.mainFrame.bgColor[2], db.mainFrame.bgColor[3], db.mainFrame.bgColor[4])
+	
+	-- title
+	frame.topTitleFrame:SetColors(db.mainFrame.title.bgColor, db.mainFrame.title.textColor)
+	frame.topTitleFrame.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.title.font), db.mainFrame.title.size)
+	
+	-- subTitle
+	frame.titleFrame:SetColors(db.mainFrame.subTitle.bgColor, db.mainFrame.subTitle.textColor)
+	frame.titleFrame.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.subTitle.font), db.mainFrame.subTitle.size)
+	
+	-- content
+	frame.items:SetBackdropColor(db.mainFrame.content.bgColor[1], db.mainFrame.content.bgColor[2], db.mainFrame.content.bgColor[3], db.mainFrame.content.bgColor[4])
+	frame.selection:SetBackdropColor(db.mainFrame.content.bgColor[1], db.mainFrame.content.bgColor[2], db.mainFrame.content.bgColor[3], db.mainFrame.content.bgColor[4])
 end

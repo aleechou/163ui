@@ -1,4 +1,15 @@
 
+--[[
+Tidy Plates Hub: Interface Panel
+
+Color Guide:
+|cffffdd00		for Yellow
+|cffff6906		for Orange
+|cff999999		for Grey
+|cffffaa33		for Brownish Orange
+
+--]]
+
 -- Rapid Panel Functions
 local CreateQuickSlider = TidyPlatesHubRapidPanel.CreateQuickSlider
 local CreateQuickCheckbutton = TidyPlatesHubRapidPanel.CreateQuickCheckbutton
@@ -12,23 +23,29 @@ local OnMouseWheelScrollFrame = TidyPlatesHubRapidPanel.OnMouseWheelScrollFrame
 local CreateInterfacePanel = TidyPlatesHubRapidPanel.CreateInterfacePanel
 
 -- Modes
-local ThemeList = TidyPlatesHubModes.ThemeList
-local StyleModes = TidyPlatesHubModes.StyleModes
-local TextModes = TidyPlatesHubModes.TextModes
-local RangeModes = TidyPlatesHubModes.RangeModes
-local AuraWidgetModes = TidyPlatesHubModes.AuraWidgetModes
-local DebuffStyles = TidyPlatesHubModes.DebuffStyles
-local OpacityModes = TidyPlatesHubModes.OpacityModes
-local ScaleModes = TidyPlatesHubModes.ScaleModes
-local FriendlyBarModes = TidyPlatesHubModes.FriendlyBarModes
-local EnemyBarModes = TidyPlatesHubModes.EnemyBarModes
---local WarningGlowModes = TidyPlatesHubModes.WarningGlowModes
-local ThreatWidgetModes = TidyPlatesHubModes.ThreatWidgetModes
-local NameColorModes = TidyPlatesHubModes.NameColorModes
-local TextPlateFieldModes = TidyPlatesHubModes.TextPlateFieldModes
-local ArtStyles = TidyPlatesHubModes.ArtStyles
-local ArtModes = TidyPlatesHubModes.ArtModes
-local ThreatModes = TidyPlatesHubModes.ThreatModes
+local ThemeList = TidyPlatesHubMenus.ThemeList
+local StyleModes = TidyPlatesHubMenus.StyleModes
+local TextModes = TidyPlatesHubMenus.TextModes
+local RangeModes = TidyPlatesHubMenus.RangeModes
+local AuraWidgetModes = TidyPlatesHubMenus.AuraWidgetModes
+local DebuffStyles = TidyPlatesHubMenus.DebuffStyles
+local EnemyOpacityModes = TidyPlatesHubMenus.EnemyOpacityModes
+local FriendlyOpacityModes = TidyPlatesHubMenus.FriendlyOpacityModes
+local ScaleModes = TidyPlatesHubMenus.ScaleModes
+local FriendlyBarModes = TidyPlatesHubMenus.FriendlyBarModes
+local EnemyBarModes = TidyPlatesHubMenus.EnemyBarModes
+local ThreatWidgetModes = TidyPlatesHubMenus.ThreatWidgetModes
+local EnemyNameColorModes = TidyPlatesHubMenus.EnemyNameColorModes
+local FriendlyNameColorModes = TidyPlatesHubMenus.FriendlyNameColorModes
+local EnemyNameSubtextModes = TidyPlatesHubMenus.EnemyNameSubtextModes
+local ArtStyles = TidyPlatesHubMenus.ArtStyles
+local ArtModes = TidyPlatesHubMenus.ArtModes
+local ThreatWarningModes = TidyPlatesHubMenus.ThreatWarningModes
+local CustomTextModes = TidyPlatesHubMenus.CustomTextModes
+local BasicTextModes = TidyPlatesHubMenus.BasicTextModes
+
+local cEnemy = "|cffff5544"
+local cFriendly = "|cffc8e915"
 
 ------------------------------------------------------------------
 -- Generate Panel
@@ -36,179 +53,134 @@ local ThreatModes = TidyPlatesHubModes.ThreatModes
 local function CreateInterfacePanelWidgets(panel)
 	local objectName = panel.objectName
 	local AlignmentColumn = panel.AlignmentColumn
-	local OffsetColumnB = 200	-- 240
+	local OffsetColumnB = 200						-- 240
+	local F = nil									-- Cache for anchoring
+	local ColumnTop, ColumnEnd
 
---[[
-------------------------------------------------------------------------------------------------------------------------
-NOTES:
+	panel.StyleLabel, F = CreateQuickHeadingLabel(nil, "姓名版样式", AlignmentColumn, F, 0, 5)
 
-1. Aura Widget Enhancements
-	- Cooldowns
-	- Abilities
-	- Dispellables
-	- Mixed Sizes
+	ColumnTop = F
 
-2. New Settings Lists
+	panel.StyleEnemyBarsLabel, F = CreateQuickItemLabel(nil, cEnemy.."敌对血量条:", AlignmentColumn, F, 0, 2)
+	panel.StyleEnemyBarsOnNPC, F = CreateQuickCheckbutton(objectName.."StyleEnemyBarsOnNPC", "所有NPC", AlignmentColumn, F, 16, 0)
+	panel.StyleEnemyBarsInstanceMode, F = CreateQuickCheckbutton(objectName.."StyleEnemyBarsInstanceMode", "排除实例", AlignmentColumn, F, 32*(1/.8), 0)
+	panel.StyleEnemyBarsInstanceMode:SetScale(.8)
+	panel.StyleEnemyBarsOnElite, F = CreateQuickCheckbutton(objectName.."StyleEnemyBarsOnElite", "精英单位", AlignmentColumn, F, 16, 0)
+	panel.StyleEnemyBarsOnPlayers, F = CreateQuickCheckbutton(objectName.."StyleEnemyBarsOnPlayers", "玩家", AlignmentColumn, F, 16, 0)
+	panel.StyleEnemyBarsOnActive, F = CreateQuickCheckbutton(objectName.."StyleEnemyBarsOnActive", "主动/受伤单位", AlignmentColumn, F, 16, 0)
 
-3. Name Text Pre/Suff
+	ColumnEnd = F
 
-4. Core Fade/In Animations
+	panel.StyleFriendlyBarsLabel, F = CreateQuickItemLabel(nil, cFriendly.."友好血量条:", AlignmentColumn, ColumnTop, OffsetColumnB, 2)
+	panel.StyleFriendlyBarsOnNPC, F = CreateQuickCheckbutton(objectName.."StyleFriendlyBarsOnNPC", "所有NPC", AlignmentColumn, F, OffsetColumnB+16, 0)
+	panel.StyleFriendlyBarsInstanceMode, F = CreateQuickCheckbutton(objectName.."StyleFriendlyBarsInstanceMode", "排除实例", AlignmentColumn, F, (OffsetColumnB+32)*(1/.8), 0)
+	panel.StyleFriendlyBarsInstanceMode:SetScale(.8)
+	panel.StyleFriendlyBarsOnElite, F = CreateQuickCheckbutton(objectName.."StyleFriendlyBarsOnElite", "精英单位", AlignmentColumn, F, OffsetColumnB+16, 0)
 
-Likely Conditions/Settings
-Health Bar
-- Class Colors in BGs
-- Threat Colors in Instances
+	panel.StyleFriendlyBarsOnPlayers, F = CreateQuickCheckbutton(objectName.."StyleFriendlyBarsOnPlayers", "玩家", AlignmentColumn, F, OffsetColumnB+16, 0)
+	panel.StyleFriendlyBarsOnActive, F = CreateQuickCheckbutton(objectName.."StyleFriendlyBarsOnActive", "主动/受伤单位", AlignmentColumn, F, OffsetColumnB+16, 0)
 
-Warning, Healer Icon, Animated?
+	F =  ColumnEnd
+	panel.HealthBarStyleLabel, F = CreateQuickItemLabel(nil, "血量条预览:", AlignmentColumn, F, 0, 2)
+	panel.StyleForceBarsOnTargets, F = CreateQuickCheckbutton(objectName.."StyleForceBarsOnTargets", "Force Bars on Targets", AlignmentColumn, F, 16, 2)
 
-
-Mouseover Highlight colors on Name
-Target Color Name
-Name Text Prefix and Suffix   <- Name ->
-
-Plate Show, Fade In Animation
-------------------------------------------------------------------------------------------------------------------------
---]]
-
-	--[[
-	Friendly Unit Bar Coloring					Enemy Unit Bar Coloring
-		- Reaction								- Threat
-		- Health								- Reaction
-		- Class									- Health
-												- Raid Icon * Remove * Add to a checkbox
-												- Class
-
-		- Raid Icon Coloring should be an overrride setting, rather than a complete package
-
-		How can we remove the Warning Glow option?
-
-
-		Under Health
-			- Enable Low Health Border Glow
-
-		Under ____
-			- Enable Enemy Healer Warning Glow
-
-		PVP Category?
-
-
-		Need to update, EnableWatchers()
-
-	--]]
-
-	------------------------------
-    -- Text
-	------------------------------
---[[
-
-	Friendly Unit Name Coloring					Enemy Unit Name Coloring
-		- Reaction								- Threat
-		- Health								- Reaction
-		- Class									- Health
-												- Raid Icon
-												- Class
-
-		- Elite/Significance
-
-	Custom Text Field
-	*Field 1				*Field 2				* Field 3
-		- Target, Approx Health, Total and Current, Mana/Power, Arena Number, etc.
-
-		None
-		Percent Health
-		Exact Health
-		Rounded Health
-		Health Deficit
-		Health Total & Percent
-		Target Of
-		Level
-		Arena ID
-		Power
-
-	Enable Level Text
-	Alt Font
-	Show Optional Text on Target/Mouseover
-
-	------
-	NOTES:
-	Name text highlight color
-	Yellow when the name is white
-	Brighter/White when the name is a color
---]]
-
-	--[[
-	Bar Modes:
-	By Threat + By Class (Default)
-	* Make it so it can be out-of-box, automatic
-
-	Friendly By Class
-	--]]
-
-
-	------------------------------
-	-- Trivial Units
-	------------------------------
-	--Trivial Mob Scale
-
-
+	panel.StyleHeadlineLabel, F = CreateQuickItemLabel(nil, "框架预览 (只有文本):", AlignmentColumn, F, 0, 2)
+	panel.StyleHeadlineNeutral, F = CreateQuickCheckbutton(objectName.."StyleHeadlineNeutral", "Force Headline on Neutral Units", AlignmentColumn, F, 16, 2)
+	panel.StyleHeadlineOutOfCombat, F = CreateQuickCheckbutton(objectName.."StyleHeadlineOutOfCombat", "Force Headline View while Out-of-Combat", AlignmentColumn, F, 16, 0)
 
 	------------------------------
     -- Health Bars
 	------------------------------
 
-    panel.HealthBarLabel = CreateQuickHeadingLabel(nil, "生命值风格", AlignmentColumn, nil, 0, 5)
+    panel.HealthBarLabel, F = CreateQuickHeadingLabel(nil, "血条样式", AlignmentColumn, F, 0, 5)
 
     -- Enemy
-	panel.ColorEnemyBarMode =  CreateQuickDropdown(objectName.."ColorEnemyBarMode", "敌对血条颜色:", EnemyBarModes, 1, AlignmentColumn, panel.HealthBarLabel)
-	panel.ColorEnemyNameMode =  CreateQuickDropdown(objectName.."ColorEnemyNameMode", "敌对名字颜色:", NameColorModes, 1, AlignmentColumn, panel.ColorEnemyBarMode)
-	panel.ColorEnemyStatusTextMode =  CreateQuickDropdown(objectName.."ColorEnemyStatusTextMode", "敌对血条上的文字:", TextModes, 1, AlignmentColumn, panel.ColorEnemyNameMode)
+	panel.EnemyBarColorMode, F =  CreateQuickDropdown(objectName.."EnemyBarColorMode", cEnemy.."敌对血条颜色:", EnemyBarModes, 1, AlignmentColumn, F)
+	panel.EnemyNameColorMode, F =  CreateQuickDropdown(objectName.."EnemyNameColorMode", cEnemy.."敌对名字颜色:", EnemyNameColorModes, 1, AlignmentColumn, F)
+	panel.EnemyStatusTextMode, F =  CreateQuickDropdown(objectName.."EnemyStatusTextMode", cEnemy.."敌对血条上的文字:", TextModes, 1, AlignmentColumn, F )
+	--panel.EnemyStatusTextModeCenter, F =  CreateQuickDropdown(objectName.."EnemyStatusTextModeCenter", "", BasicTextModes, 1, AlignmentColumn, F, 0, -14 )
+	--panel.EnemyStatusTextModeRight, F =  CreateQuickDropdown(objectName.."EnemyStatusTextModeRight", "", BasicTextModes, 1, AlignmentColumn, F, 0, -14 )
 
 	-- Friendly
-	panel.ColorFriendlyBarMode =  CreateQuickDropdown(objectName.."ColorFriendlyBarMode", "友方血条颜色:", FriendlyBarModes, 1, AlignmentColumn, panel.HealthBarLabel, OffsetColumnB)
-	panel.ColorFriendlyNameMode =  CreateQuickDropdown(objectName.."ColorFriendlyNameMode", "友方名字颜色:", NameColorModes, 1, AlignmentColumn, panel.ColorFriendlyBarMode, OffsetColumnB)
-	panel.ColorFriendlyStatusTextMode =  CreateQuickDropdown(objectName.."ColorFriendlyStatusTextMode", "友方血条上的文字:", TextModes, 1, AlignmentColumn, panel.ColorFriendlyNameMode, OffsetColumnB)
+	panel.FriendlyBarColorMode, F =  CreateQuickDropdown(objectName.."FriendlyBarColorMode", cFriendly.."友方血条颜色:", FriendlyBarModes, 1, AlignmentColumn, panel.HealthBarLabel, OffsetColumnB)
+	panel.FriendlyNameColorMode, F =  CreateQuickDropdown(objectName.."FriendlyNameColorMode", cFriendly.."友方名字颜色:", FriendlyNameColorModes, 1, AlignmentColumn, F, OffsetColumnB)
+	panel.FriendlyStatusTextMode, F =  CreateQuickDropdown(objectName.."FriendlyStatusTextMode", cFriendly.."友方血条上的文字:", TextModes, 1, AlignmentColumn, F, OffsetColumnB)
+	--panel.FriendlyStatusTextModeCenter, F =  CreateQuickDropdown(objectName.."FriendlyStatusTextModeCenter", "", BasicTextModes, 1, AlignmentColumn, F, OffsetColumnB, -14)
+	--panel.FriendlyStatusTextModeRight, F =  CreateQuickDropdown(objectName.."FriendlyStatusTextModeRight", "", BasicTextModes, 1, AlignmentColumn, F, OffsetColumnB, -14)
 
 	-- Other
-	panel.TextShowLevel = CreateQuickCheckbutton(objectName.."TextShowLevel", "显示等级", AlignmentColumn, panel.ColorFriendlyStatusTextMode, 0)
-	panel.TextUseBlizzardFont = CreateQuickCheckbutton(objectName.."TextUseBlizzardFont", "使用BLZ默认字体", AlignmentColumn, panel.TextShowLevel, 0)
-    panel.TextShowOnlyOnTargets = CreateQuickCheckbutton(objectName.."TextShowOnlyOnTargets", "鼠标移上去显示血条文字", AlignmentColumn, panel.TextUseBlizzardFont, 0)
+	panel.TextShowLevel, F = CreateQuickCheckbutton(objectName.."TextShowLevel", "显示等级", AlignmentColumn, F, 0, 2)
+	panel.TextUseBlizzardFont, F = CreateQuickCheckbutton(objectName.."TextUseBlizzardFont", "使用暴雪默认字体", AlignmentColumn, F, 0)
+    panel.TextShowOnlyOnTargets, F = CreateQuickCheckbutton(objectName.."TextShowOnlyOnTargets", "鼠标移上去显示血条文字", AlignmentColumn, F, 0)
+    panel.TextShowOnlyOnActive, F = CreateQuickCheckbutton(objectName.."TextShowOnlyOnActive", "为主动/受伤单位显示状态文本", AlignmentColumn, F, 0)
 
 
 	------------------------------
 	-- Headline View
 	------------------------------
-	panel.StyleLabel = CreateQuickHeadingLabel(nil, "文字血条模式", AlignmentColumn, panel.TextShowOnlyOnTargets, 0, 5)
-	panel.StyleEnemyMode =  CreateQuickDropdown(objectName.."StyleEnemyMode", "敌对框架:", StyleModes, 1, AlignmentColumn, panel.StyleLabel, 0, 2)
-	panel.StyleFriendlyMode =  CreateQuickDropdown(objectName.."StyleFriendlyMode", "友方框架:", StyleModes, 1, AlignmentColumn, panel.StyleLabel, OffsetColumnB, 2)
+	--[[
+		Hostile Headline	(Current Selection in Dropdown)
+			Default Bars
+			Headline Always
+			Out-of-Combat - Bars during Combat
+			On Idle - Bars on Active
+			On NPCs - Bars on Players
+			On Non-Targets - Bar on Current Target
+			On Aggroed Units - Bars on Low Threat (Tank Mode)
 
-	panel.HeadlineEnemyColor = CreateQuickDropdown(objectName.."HeadlineEnemyColor", "敌对血条颜色:", NameColorModes, 1, AlignmentColumn, panel.StyleEnemyMode)	-- |cffee9900Text-Only Style
-	panel.HeadlineFriendlyColor = CreateQuickDropdown(objectName.."HeadlineFriendlyColor", "友方血条颜色:", NameColorModes, 1, AlignmentColumn, panel.StyleFriendlyMode, OffsetColumnB)	-- |cffee9900Text-Only Style
+		Show Enemy/Friendly Health Bars:
+			- On Elite Units
+			- On NPCs
+			- On Players (When available)
+			- On Active/Damaged Units	- Low Threat (Tank Mode)  (Could roll the Tank mode into Active/Damaged units)
 
-	panel.TextPlateFieldMode =  CreateQuickDropdown(objectName.."TextPlateFieldMode", "血条上的文字:", TextPlateFieldModes, 1, AlignmentColumn, panel.HeadlineEnemyColor )	-- |cffee9900Text-Only Style
+		- (Headline Neutral Units)
+		- Force Headline Out-of-Combat		Bars during Combat; Headline Out-of-Combat 		(Eliminate this)
 
+	--]]
+	panel.StyleLabel, F = CreateQuickHeadingLabel(nil, "框架预览 (只有文本)", AlignmentColumn, F, 0, 5)
+
+	ColumnTop = F
+
+	panel.EnemyHeadlineColor, F = CreateQuickDropdown(objectName.."EnemyHeadlineColor", cEnemy.."敌对框架:", EnemyNameColorModes, 1, AlignmentColumn, F)	-- |cffee9900Text-Only Style
+	panel.HeadlineEnemySubtext, F =  CreateQuickDropdown(objectName.."HeadlineEnemySubtext", cEnemy.."敌对血条颜色:", EnemyNameSubtextModes, 1, AlignmentColumn, F )	-- |cffee9900Text-Only Style
+
+	ColumnEnd = F
+
+	panel.FriendlyHeadlineColor, F = CreateQuickDropdown(objectName.."FriendlyHeadlineColor", cFriendly.."友方框架:", FriendlyNameColorModes, 1, AlignmentColumn, ColumnTop, OffsetColumnB)	-- |cffee9900Text-Only Style
+	panel.HeadlineFriendlySubtext, F =  CreateQuickDropdown(objectName.."HeadlineFriendlySubtext", cFriendly.."友方血条颜色:", EnemyNameSubtextModes, 1, AlignmentColumn, F, OffsetColumnB )	-- |cffee9900Text-Only Style
+
+	F = ColumnEnd
 
 	------------------------------
 	-- Aura (Buff and Debuff) Widget
 	------------------------------
-	panel.DebuffsLabel = CreateQuickHeadingLabel(nil, "Buffs & Debuffs", AlignmentColumn, panel.TextPlateFieldMode, 0, 5)
-	panel.WidgetsDebuff = CreateQuickCheckbutton(objectName.."WidgetsDebuff", "显示buff图标", AlignmentColumn, panel.DebuffsLabel)
-	panel.WidgetsDebuffStyle =  CreateQuickDropdown(objectName.."WidgetsDebuffStyle", "图标风格:", DebuffStyles, 1, AlignmentColumn, panel.WidgetsDebuff, 16)
-	panel.WidgetsAuraMode =  CreateQuickDropdown(objectName.."WidgetsAuraMode", "过滤模式:", AuraWidgetModes, 1, AlignmentColumn, panel.WidgetsDebuffStyle, 16)		-- used to be WidgetsDebuffMode
-	panel.WidgetsDebuffListLabel = CreateQuickItemLabel(nil, "光环列表:", AlignmentColumn, panel.WidgetsAuraMode, 16)
+	panel.DebuffsLabel = CreateQuickHeadingLabel(nil, "Buffs以及Debuffs", AlignmentColumn, F, 0, 5)
+	panel.WidgetsDebuff = CreateQuickCheckbutton(objectName.."WidgetsDebuff", "启用光环小部件", AlignmentColumn, panel.DebuffsLabel)
+
+	--panel.WidgetsAuraMode =  CreateQuickDropdown(objectName.."WidgetsAuraMode", "Filter Mode:", AuraWidgetModes, 1, AlignmentColumn, panel.WidgetsDebuffStyle, 16)		-- used to be WidgetsDebuffMode
+
+	panel.WidgetsMyDebuff = CreateQuickCheckbutton(objectName.."WidgetsMyDebuff", "包括我的Debuffs", AlignmentColumn, panel.WidgetsDebuff, 16)
+	panel.WidgetsMyBuff = CreateQuickCheckbutton(objectName.."WidgetsMyBuff", "包括我的Buffs", AlignmentColumn, panel.WidgetsMyDebuff, 16)
+
+	panel.WidgetsDebuffListLabel = CreateQuickItemLabel(nil, "额外的光环:", AlignmentColumn, panel.WidgetsMyBuff, 16)
 	panel.WidgetsDebuffTrackList = CreateQuickEditbox(objectName.."WidgetsDebuffTrackList", AlignmentColumn, panel.WidgetsDebuffListLabel, 16)
 
-	panel.WidgetAuraTrackDispelFriendly = CreateQuickCheckbutton(objectName.."WidgetAuraTrackDispelFriendly", "驱散友方身上的Debuff", AlignmentColumn, panel.WidgetsDebuffTrackList, 0, 4)
-	panel.WidgetAuraTrackCurse = CreateQuickCheckbutton(objectName.."WidgetAuraTrackCurse", "诅咒", AlignmentColumn, panel.WidgetAuraTrackDispelFriendly, 16, -2)
-	panel.WidgetAuraTrackDisease = CreateQuickCheckbutton(objectName.."WidgetAuraTrackDisease", "疾病", AlignmentColumn, panel.WidgetAuraTrackCurse, 16, -2)
-	panel.WidgetAuraTrackMagic = CreateQuickCheckbutton(objectName.."WidgetAuraTrackMagic", "魔法", AlignmentColumn, panel.WidgetAuraTrackDisease, 16, -2)
-	panel.WidgetAuraTrackPoison = CreateQuickCheckbutton(objectName.."WidgetAuraTrackPoison", "病毒", AlignmentColumn, panel.WidgetAuraTrackMagic, 16, -2)
+	panel.WidgetsDebuffStyle =  CreateQuickDropdown(objectName.."WidgetsDebuffStyle", "图标样式:", DebuffStyles, 1, AlignmentColumn, panel.WidgetsDebuffTrackList, 16)
+
+	panel.WidgetAuraTrackDispelFriendly = CreateQuickCheckbutton(objectName.."WidgetAuraTrackDispelFriendly", "包括在友好单位上的可驱散的Debuffs", AlignmentColumn, panel.WidgetsDebuffStyle, 16, 4)
+	panel.WidgetAuraTrackCurse = CreateQuickCheckbutton(objectName.."WidgetAuraTrackCurse", "诅咒", AlignmentColumn, panel.WidgetAuraTrackDispelFriendly, 16+16, -2)
+	panel.WidgetAuraTrackDisease = CreateQuickCheckbutton(objectName.."WidgetAuraTrackDisease", "疾病", AlignmentColumn, panel.WidgetAuraTrackCurse, 16+16, -2)
+	panel.WidgetAuraTrackMagic = CreateQuickCheckbutton(objectName.."WidgetAuraTrackMagic", "魔法", AlignmentColumn, panel.WidgetAuraTrackDisease, 16+16, -2)
+	panel.WidgetAuraTrackPoison = CreateQuickCheckbutton(objectName.."WidgetAuraTrackPoison", "中毒", AlignmentColumn, panel.WidgetAuraTrackMagic, 16+16, -2)
+
 
 	------------------------------
 	-- Debuff Help Tip
-	panel.DebuffHelpTip = CreateQuickItemLabel(nil, "Tip: |cffCCCCCC一区索拉丁《熊猫骚香》友情提示:在左边写入你的法术名字或ID "..
-			"前+ 'My' or 'All', 来监视你要的光环 "..
-			"谁在列表前，那么就优先显示（一般我会设置123按键分别对应左中右，哪里没有点哪里？有木有）", AlignmentColumn, panel.WidgetsDebuffListLabel, 225+40) -- 210, 275, )
-	panel.DebuffHelpTip:SetHeight(128)
+	panel.DebuffHelpTip = CreateQuickItemLabel(nil, "友情提示: |cffCCCCCC在左边写入你的法术名字或ID. "..
+		"前+ 'My' or 'All', 来监视你要的光环 "..
+		"谁在列表前，那么就优先显示", AlignmentColumn, panel.WidgetsDebuffListLabel, 225+40) -- 210, 275, )
+	panel.DebuffHelpTip:SetHeight(150)
 	panel.DebuffHelpTip:SetWidth(200)
 	panel.DebuffHelpTip.Text:SetJustifyV("TOP")
 
@@ -218,27 +190,39 @@ Plate Show, Fade In Animation
 	------------------------------
 	--Opacity
 	------------------------------
-	panel.OpacityLabel = CreateQuickHeadingLabel(nil, "透明度模块", AlignmentColumn, panel.WidgetAuraTrackPoison, 0, 5)
-	panel.OpacityTarget = CreateQuickSlider(objectName.."OpacityTarget", "目标透明度:", AlignmentColumn, panel.OpacityLabel, 0, 2)
+	panel.OpacityLabel, F = CreateQuickHeadingLabel(nil, "透明度", AlignmentColumn, panel.WidgetAuraTrackPoison, 0, 5)
+	panel.EnemyAlphaSpotlightMode =  CreateQuickDropdown(objectName.."EnemyAlphaSpotlightMode", cEnemy.."敌对焦点模式:", EnemyOpacityModes, 1, AlignmentColumn, F)
+	panel.FriendlyAlphaSpotlightMode, F =  CreateQuickDropdown(objectName.."FriendlySpotlightMode", cFriendly.."友好焦点模式:", FriendlyOpacityModes, 1, AlignmentColumn, F, OffsetColumnB)
+
+	panel.OpacitySpotlight = CreateQuickSlider(objectName.."OpacitySpotlight", "焦点透明度:", AlignmentColumn, F, 0, 2)
+	panel.OpacityTarget = CreateQuickSlider(objectName.."OpacityTarget", "目标透明度:", AlignmentColumn, panel.OpacitySpotlight, 0, 2)
 	panel.OpacityNonTarget = CreateQuickSlider(objectName.."OpacityNonTarget", "非目标透明度:", AlignmentColumn, panel.OpacityTarget, 0, 2)
-	panel.OpacitySpotlightMode =  CreateQuickDropdown(objectName.."OpacitySpotlightMode", "聚焦模式:", OpacityModes, 1, AlignmentColumn, panel.OpacityNonTarget)
-	panel.OpacitySpotlight = CreateQuickSlider(objectName.."OpacitySpotlight", "聚焦模式透明度:", AlignmentColumn, panel.OpacitySpotlightMode, 0, 2)
-	panel.OpacityFullSpell = CreateQuickCheckbutton(objectName.."OpacityFullSpell", "正在施法单位透明度", AlignmentColumn, panel.OpacitySpotlight, 16)
-	panel.OpacityFullMouseover = CreateQuickCheckbutton(objectName.."OpacityFullMouseover", "鼠标悬停透明度", AlignmentColumn, panel.OpacityFullSpell, 16)
-	panel.OpacityFullNoTarget = CreateQuickCheckbutton(objectName.."OpacityFullNoTarget", "没目标下的透明度", AlignmentColumn, panel.OpacityFullMouseover, 16)
+
+	panel.OpacitySpotlightSpell = CreateQuickCheckbutton(objectName.."OpacitySpotlightSpell", "焦点施法单位", AlignmentColumn, panel.OpacityNonTarget, 0)
+	panel.OpacitySpotlightMouseover = CreateQuickCheckbutton(objectName.."OpacitySpotlightMouseover", "鼠标悬停焦点", AlignmentColumn, panel.OpacitySpotlightSpell, 0)
+	panel.OpacitySpotlightRaidMarked = CreateQuickCheckbutton(objectName.."OpacitySpotlightRaidMarked", "Raid标记焦点", AlignmentColumn, panel.OpacitySpotlightMouseover, 0)
+
+	panel.OpacityFullNoTarget = CreateQuickCheckbutton(objectName.."OpacityFullNoTarget", "没目标下的透明度", AlignmentColumn, panel.OpacitySpotlightRaidMarked, 0)
 
 	------------------------------
 	--Scale
 	------------------------------
 	panel.ScaleLabel = CreateQuickHeadingLabel(nil, "比例", AlignmentColumn, panel.OpacityFullNoTarget, 0, 5)
 	panel.ScaleStandard = CreateQuickSlider(objectName.."ScaleStandard", "全局比例:", AlignmentColumn, panel.ScaleLabel, 0, 2)
-	panel.ScaleSpotlightMode =  CreateQuickDropdown(objectName.."ScaleSpotlightMode", "聚焦模块类型:", ScaleModes, 1, AlignmentColumn, panel.ScaleStandard)
-	panel.ScaleSpotlight = CreateQuickSlider(objectName.."ScaleSpotlight", "聚焦模式比例:", AlignmentColumn, panel.ScaleSpotlightMode, 0, 2)
+
+	panel.ScaleFunctionMode =  CreateQuickDropdown(objectName.."ScaleFunctionMode", "焦点比例类型:", ScaleModes, 1, AlignmentColumn, panel.ScaleStandard)
+
+
+	panel.ScaleSpotlight = CreateQuickSlider(objectName.."ScaleSpotlight", "焦点比例:", AlignmentColumn, panel.ScaleFunctionMode, 0, 2)
 	panel.ScaleIgnoreNeutralUnits= CreateQuickCheckbutton(objectName.."ScaleIgnoreNeutralUnits", "忽略中立", AlignmentColumn, panel.ScaleSpotlight, 16)
 	panel.ScaleIgnoreNonEliteUnits= CreateQuickCheckbutton(objectName.."ScaleIgnoreNonEliteUnits", "忽略非精英", AlignmentColumn, panel.ScaleIgnoreNeutralUnits, 16)
-	panel.ScaleIgnoreInactive= CreateQuickCheckbutton(objectName.."ScaleIgnoreInactive", "忽略非激活的", AlignmentColumn, panel.ScaleIgnoreNonEliteUnits, 16)
-	panel.ScaleMiniMobs= CreateQuickCheckbutton(objectName.."ScaleMiniMobs", "自动缩放小宠物", AlignmentColumn, panel.ScaleIgnoreInactive, 0)
-	panel.ScaleCastingSpotlight= CreateQuickCheckbutton(objectName.."ScaleCastingSpotlight", "施法状态启用聚焦模式", AlignmentColumn, panel.ScaleMiniMobs, 0)
+	panel.ScaleIgnoreInactive, F = CreateQuickCheckbutton(objectName.."ScaleIgnoreInactive", "忽略非激活的", AlignmentColumn, panel.ScaleIgnoreNonEliteUnits, 16)
+
+	panel.ScaleCastingSpotlight, F = CreateQuickCheckbutton(objectName.."ScaleCastingSpotlight", "为施法状态启用焦点", AlignmentColumn, F, 0)
+	panel.ScaleTargetSpotlight, F = CreateQuickCheckbutton(objectName.."ScaleTargetSpotlight", "为当前目标启动焦点", AlignmentColumn, F, 0)
+	panel.ScaleMouseoverSpotlight, F = CreateQuickCheckbutton(objectName.."ScaleMouseoverSpotlight", "为鼠标悬停启用焦点", AlignmentColumn, F, 0)
+	panel.ScaleMiniMobs, F = CreateQuickCheckbutton(objectName.."ScaleMiniMobs", "自动缩放小宠物", AlignmentColumn, F, 0)
+
 	-- panel.ScaleTrivialMobsMultiplier =
 	-- Downscale Trivial Mobs  (70%)
 
@@ -281,7 +265,7 @@ Plate Show, Fade In Animation
 	------------------------------
 	-- Filter
 	--------------------------------
-	panel.FilterLabel = CreateQuickHeadingLabel(nil, "单位过滤", AlignmentColumn, panel.ScaleCastingSpotlight, 0, 5)
+	panel.FilterLabel = CreateQuickHeadingLabel(nil, "单位过滤", AlignmentColumn, F, 0, 5)
 	panel.OpacityFiltered = CreateQuickSlider(objectName.."OpacityFiltered", "过滤单位透明度:", AlignmentColumn, panel.FilterLabel, 0, 2)
 	panel.ScaleFiltered = CreateQuickSlider(objectName.."ScaleFiltered", "过滤单位比例:", AlignmentColumn, panel.OpacityFiltered, 0, 2)
 	panel.FilterScaleLock = CreateQuickCheckbutton(objectName.."FilterScaleLock", "打勾启动过滤", AlignmentColumn, panel.ScaleFiltered, 16)
@@ -296,14 +280,16 @@ Plate Show, Fade In Animation
 	panel.OpacityFilterMini = CreateQuickCheckbutton(objectName.."OpacityFilterMini", "过滤小宠物", AlignmentColumn, panel.OpacityFilterInactive, OffsetColumnB)
 
 	panel.OpacityCustomFilterLabel = CreateQuickItemLabel(nil, "过滤单位名字:", AlignmentColumn, panel.OpacityFilterFriendlyNPC, 8, 4)
-	panel.OpacityFilterList = CreateQuickEditbox(objectName.."OpacityFilterList", AlignmentColumn, panel.OpacityCustomFilterLabel, 8)
+	panel.OpacityFilterList, L = CreateQuickEditbox(objectName.."OpacityFilterList", AlignmentColumn, panel.OpacityCustomFilterLabel, 8)
 
+
+-- [[
 
     ------------------------------
 	-- Reaction
 	------------------------------
-
-        panel.ReactionLabel = CreateQuickHeadingLabel(nil, "反应类型", AlignmentColumn, panel.OpacityFilterList, 0, 5)
+	-- Health Bar Color
+    panel.ReactionLabel = CreateQuickHeadingLabel(nil, "反应类型", AlignmentColumn, panel.OpacityFilterList, 0, 5)
 	panel.ReactionColorLabel = CreateQuickItemLabel(nil, "血条颜色:", AlignmentColumn, panel.ReactionLabel, 0, 2)
 	panel.ColorFriendlyNPC = CreateQuickColorbox(objectName.."ColorFriendlyNPC", "友方NPC", AlignmentColumn, panel.ReactionColorLabel , 16)
 	panel.ColorFriendlyPlayer = CreateQuickColorbox(objectName.."ColorFriendlyPlayer", "友方玩家", AlignmentColumn, panel.ColorFriendlyNPC , 16)
@@ -311,7 +297,7 @@ Plate Show, Fade In Animation
 	panel.ColorHostileNPC = CreateQuickColorbox(objectName.."ColorHostileNPC", "敌对NPC", AlignmentColumn, panel.ColorNeutral , 16)
 	panel.ColorHostilePlayer = CreateQuickColorbox(objectName.."ColorHostilePlayer", "敌对玩家", AlignmentColumn, panel.ColorHostileNPC , 16)
 	panel.ColorGuildMember = CreateQuickColorbox(objectName.."ColorGuildMember", "公会成员", AlignmentColumn, panel.ColorHostilePlayer , 16)
-    -- Column 2
+    -- Text Color
     panel.TextReactionColorLabel = CreateQuickItemLabel(nil, "文字颜色:", AlignmentColumn, panel.ReactionLabel, OffsetColumnB )
 	panel.TextColorFriendlyNPC = CreateQuickColorbox(objectName.."TextColorFriendlyNPC", "友方NPC", AlignmentColumn, panel.ReactionColorLabel , OffsetColumnB + 16)
 	panel.TextColorFriendlyPlayer = CreateQuickColorbox(objectName.."TextColorFriendlyPlayer", "友方玩家", AlignmentColumn, panel.TextColorFriendlyNPC , OffsetColumnB + 16)
@@ -319,110 +305,139 @@ Plate Show, Fade In Animation
 	panel.TextColorHostileNPC = CreateQuickColorbox(objectName.."TextColorHostileNPC", "敌对NPC", AlignmentColumn, panel.TextColorNeutral , OffsetColumnB + 16)
 	panel.TextColorHostilePlayer = CreateQuickColorbox(objectName.."TextColorHostilePlayer", "敌对玩家", AlignmentColumn, panel.TextColorHostileNPC , OffsetColumnB + 16)
 	panel.TextColorGuildMember = CreateQuickColorbox(objectName.."TextColorGuildMember", "公会成员", AlignmentColumn, panel.TextColorHostilePlayer , OffsetColumnB + 16)
+	-- Other
+	panel.OtherColorLabel = CreateQuickItemLabel(nil, "其他颜色:", AlignmentColumn, panel.ColorGuildMember, 0, 2)
+	panel.ColorTapped, L = CreateQuickColorbox(objectName.."ColorTapped", "Tapped Unit", AlignmentColumn, panel.OtherColorLabel , 16)
+	--panel.ColorTotem = CreateQuickColorbox(objectName.."ColorTotem", "Totem", AlignmentColumn, panel.ColorTapped , 16)
+
+--]]
 
 	------------------------------
 	-- Threat
 	------------------------------
     -- Column 1
-	panel.ThreatLabel = CreateQuickHeadingLabel(nil, "仇恨", AlignmentColumn, panel.ColorGuildMember, 0, 5)
-	panel.ThreatMode =  CreateQuickDropdown(objectName.."ThreatMode", "仇恨模块:", ThreatModes, 1, AlignmentColumn, panel.ThreatLabel, 0, 2)
-	panel.ThreatGlowEnable = CreateQuickCheckbutton(objectName.."ThreatGlowEnable", "启用边框发光", AlignmentColumn, panel.ThreatMode,0)
+	panel.ThreatLabel = CreateQuickHeadingLabel(nil, "威胁", AlignmentColumn, L, 0, 5)
+	panel.ThreatWarningMode =  CreateQuickDropdown(objectName.."ThreatWarningMode", "威胁模式:", ThreatWarningModes, 1, AlignmentColumn, panel.ThreatLabel, 0, 2)
+	panel.ThreatGlowEnable = CreateQuickCheckbutton(objectName.."ThreatGlowEnable", "开启发光警告", AlignmentColumn, panel.ThreatWarningMode,0)
 
-	panel.ColorThreatColorLabels = CreateQuickItemLabel(nil, "仇恨颜色:", AlignmentColumn, panel.ThreatGlowEnable, 0, 2)
-	panel.ColorAttackingMe = CreateQuickColorbox(objectName.."ColorAttackingMe", "危险", AlignmentColumn, panel.ColorThreatColorLabels , 16)
-	panel.ColorAggroTransition = CreateQuickColorbox(objectName.."ColorAggroTransition", "不危险也不安全", AlignmentColumn, panel.ColorAttackingMe , 16)
-	panel.ColorAttackingOthers = CreateQuickColorbox(objectName.."ColorAttackingOthers", "安全", AlignmentColumn, panel.ColorAggroTransition, 16)
+	panel.ColorThreatColorLabels = CreateQuickItemLabel(nil, "威胁颜色:", AlignmentColumn, panel.ThreatGlowEnable, 0, 2)
+	panel.ColorThreatWarning = CreateQuickColorbox(objectName.."ColorThreatWarning", "警告", AlignmentColumn, panel.ColorThreatColorLabels , 16)
+	panel.ColorThreatTransition = CreateQuickColorbox(objectName.."ColorThreatTransition", "转变", AlignmentColumn, panel.ColorThreatWarning , 16)
+	panel.ColorThreatSafe = CreateQuickColorbox(objectName.."ColorThreatSafe", "安全", AlignmentColumn, panel.ColorThreatTransition, 16)
 
 	--[[
 	-- Warning Border Glow
 	--]]
 
     -- Column 2
-	panel.ColorEnableOffTank = CreateQuickCheckbutton(objectName.."ColorEnableOffTank", "高亮显示丢仇恨的畜生", AlignmentColumn, panel.ThreatLabel, OffsetColumnB)
-	panel.ColorAttackingOtherTank = CreateQuickColorbox(objectName.."ColorAttackingOtherTank", "攻击另外一只坦克时", AlignmentColumn, panel.ColorEnableOffTank , 16+OffsetColumnB)
+	panel.EnableOffTankHighlight = CreateQuickCheckbutton(objectName.."EnableOffTankHighlight", "Highlight Mobs Tanked by other Tanks", AlignmentColumn, panel.ThreatLabel, OffsetColumnB)
+	panel.ColorAttackingOtherTank = CreateQuickColorbox(objectName.."ColorAttackingOtherTank", "攻击其他坦克", AlignmentColumn, panel.EnableOffTankHighlight , 16+OffsetColumnB)
 
-	panel.ColorShowPartyAggro = CreateQuickCheckbutton(objectName.."ColorShowPartyAggro", "高亮显示队友仇恨", AlignmentColumn, panel.ColorAttackingOtherTank, OffsetColumnB)
-	panel.ColorPartyAggro = CreateQuickColorbox(objectName.."ColorPartyAggro", "队友仇恨", AlignmentColumn, panel.ColorShowPartyAggro , 14+OffsetColumnB)
+	panel.ColorShowPartyAggro = CreateQuickCheckbutton(objectName.."ColorShowPartyAggro", "保持突出团队成员 Aggro", AlignmentColumn, panel.ColorAttackingOtherTank, OffsetColumnB)
+	panel.ColorPartyAggro = CreateQuickColorbox(objectName.."ColorPartyAggro", "团队成员 Aggro", AlignmentColumn, panel.ColorShowPartyAggro , 14+OffsetColumnB)
 	panel.ColorPartyAggroBar = CreateQuickCheckbutton(objectName.."ColorPartyAggroBar", "血条颜色", AlignmentColumn, panel.ColorPartyAggro, 16+OffsetColumnB)
-	panel.ColorPartyAggroGlow = CreateQuickCheckbutton(objectName.."ColorPartyAggroGlow", "边框警告发光", AlignmentColumn, panel.ColorPartyAggroBar, 16+OffsetColumnB)
-	panel.ColorPartyAggroText = CreateQuickCheckbutton(objectName.."ColorPartyAggroText", "名字文字颜色", AlignmentColumn, panel.ColorPartyAggroGlow, 16+OffsetColumnB)
+	panel.ColorPartyAggroGlow = CreateQuickCheckbutton(objectName.."ColorPartyAggroGlow", "边界发光/发光警告", AlignmentColumn, panel.ColorPartyAggroBar, 16+OffsetColumnB)
+	panel.ColorPartyAggroText = CreateQuickCheckbutton(objectName.."ColorPartyAggroText", "名字文本颜色", AlignmentColumn, panel.ColorPartyAggroGlow, 16+OffsetColumnB)
 
 	------------------------------
 	-- Health
 	------------------------------
-	panel.HealthLabel = CreateQuickHeadingLabel(nil, "生命值", AlignmentColumn, panel.ColorPartyAggroText, 0, 5)
-	panel.HighHealthThreshold = CreateQuickSlider(objectName.."HighHealthThreshold", "高血量:", AlignmentColumn, panel.HealthLabel, 0, 2)
-	panel.LowHealthThreshold =  CreateQuickSlider(objectName.."LowHealthThreshold", "低血量:", AlignmentColumn, panel.HighHealthThreshold, 0, 2)
-	panel.HealthColorLabels = CreateQuickItemLabel(nil, "血条颜色:", AlignmentColumn, panel.LowHealthThreshold, 0)
+	panel.HealthLabel, F = CreateQuickHeadingLabel(nil, "血量", AlignmentColumn, panel.ColorPartyAggroText, 0, 5)
+	panel.EnableHealerWarning, F = CreateQuickCheckbutton(objectName.."EnableHealerWarning", "开启血量预警", AlignmentColumn, F)
+	panel.HighHealthThreshold = CreateQuickSlider(objectName.."HighHealthThreshold", "高血量的阈值:", AlignmentColumn, F, 0, 2)
+	panel.LowHealthThreshold =  CreateQuickSlider(objectName.."LowHealthThreshold", "低血量的阈值:", AlignmentColumn, panel.HighHealthThreshold, 0, 2)
+	panel.HealthColorLabels = CreateQuickItemLabel(nil, "Health Colors:", AlignmentColumn, panel.LowHealthThreshold, 0)
 	panel.ColorHighHealth = CreateQuickColorbox(objectName.."ColorHighHealth", "高血量", AlignmentColumn, panel.HealthColorLabels , 16)
 	panel.ColorMediumHealth = CreateQuickColorbox(objectName.."ColorMediumHealth", "中血量", AlignmentColumn, panel.ColorHighHealth , 16)
-	panel.ColorLowHealth = CreateQuickColorbox(objectName.."ColorLowHealth", "低血量", AlignmentColumn, panel.ColorMediumHealth , 16)
+	panel.ColorLowHealth, F = CreateQuickColorbox(objectName.."ColorLowHealth", "低血量", AlignmentColumn, panel.ColorMediumHealth , 16)
+	-- [ ]  Highlight Enemy Healers
 
-	--[[
-			[ ]  Highlight Enemy Healers
-	--]]
 
 	------------------------------
     -- Cast Bars
 	------------------------------
+    panel.SpellCastLabel, F = CreateQuickHeadingLabel(nil, "施法条", AlignmentColumn, F, 0, 5)
+    panel.SpellCastEnableFriendly, F = CreateQuickCheckbutton(objectName.."SpellCastEnableFriendly", "启用友方施法条", AlignmentColumn, F)
+	panel.SpellCastColorLabel, F = CreateQuickItemLabel(nil, "施法条颜色:", AlignmentColumn, F, 0, 2)
+	panel.ColorNormalSpellCast, F = CreateQuickColorbox(objectName.."ColorNormalSpellCast", "可打断", AlignmentColumn, F , 16)
+	panel.ColorUnIntpellCast, F = CreateQuickColorbox(objectName.."ColorUnIntpellCast", "不可打断", AlignmentColumn, F , 16)
+
 	--[[
-	Enable Friendly Cast Bars
-	Enable Enemy Cast Bars
-	Interuptable Color
-	Un-Interuptable Color
+	------------------------------
+	-- Text
+	------------------------------
+	panel.StatusTextLabel, F = CreateQuickHeadingLabel(nil, "Status Text", AlignmentColumn, F, 0, 5)
 
-	(Uninteruptable Cast Art)
+	panel.StatusTextLeft, F =  CreateQuickDropdown(objectName.."StatusTextLeft", "Custom Text Program:", CustomTextModes, 1, AlignmentColumn, F, 0, 0)
+	panel.StatusTextLeftColor = CreateQuickCheckbutton(objectName.."StatusTextLeftColor", "Context Color", AlignmentColumn, F, 150, -16)
+	--panel.StatusTextLeftBracket = CreateQuickCheckbutton(objectName.."StatusTextLeftBracket", "Bracket", AlignmentColumn, F, 300, -16)
+
+	panel.StatusTextCenter, F =  CreateQuickDropdown(objectName.."StatusTextCenter", "", CustomTextModes, 1, AlignmentColumn, F, 0, -11)
+	panel.StatusTextCenterColor = CreateQuickCheckbutton(objectName.."StatusTextCenterColor", "Context Color", AlignmentColumn, F, 150, -16)
+	--panel.StatusTextCenterBracket = CreateQuickCheckbutton(objectName.."StatusTextCenterBracket", "Bracket", AlignmentColumn, F, 300, -16)
+
+	panel.StatusTextRight, F =  CreateQuickDropdown(objectName.."StatusTextRight", "", CustomTextModes, 1, AlignmentColumn, F, 0, -11)
+	panel.StatusTextRightColor = CreateQuickCheckbutton(objectName.."StatusTextRightColor", "Context Color", AlignmentColumn, F, 150, -16)
+	--panel.StatusTextRightBracket = CreateQuickCheckbutton(objectName.."StatusTextRightBracket", "Bracket", AlignmentColumn, F, 300, -16)
+
 	--]]
-
-    panel.SpellCastLabel = CreateQuickHeadingLabel(nil, "施法条", AlignmentColumn, panel.ColorLowHealth, 0, 5)
-    panel.SpellCastEnableFriendly = CreateQuickCheckbutton(objectName.."SpellCastEnableFriendly", "启用友方施法条", AlignmentColumn, panel.SpellCastLabel)
-	panel.SpellCastColorLabel = CreateQuickItemLabel(nil, "施法条颜色:", AlignmentColumn, panel.SpellCastEnableFriendly, 0, 2)
-	panel.ColorNormalSpellCast = CreateQuickColorbox(objectName.."ColorNormalSpellCast", "可打断", AlignmentColumn, panel.SpellCastColorLabel , 16)
-	panel.ColorUnIntpellCast = CreateQuickColorbox(objectName.."ColorUnIntpellCast", "不可打断", AlignmentColumn, panel.ColorNormalSpellCast , 16)
-
-
 
 	------------------------------
 	--Widgets
 	------------------------------
-	panel.WidgetsLabel = CreateQuickHeadingLabel(nil, "一些小东西", AlignmentColumn, panel.ColorUnIntpellCast, 0, 5)
+	panel.WidgetsLabel, F = CreateQuickHeadingLabel(nil, "其他部件", AlignmentColumn, F, 0, 5)
 	panel.WidgetTargetHighlight = CreateQuickCheckbutton(objectName.."WidgetTargetHighlight", "目标高亮", AlignmentColumn, panel.WidgetsLabel)
 	panel.WidgetEliteIndicator = CreateQuickCheckbutton(objectName.."WidgetEliteIndicator", "显示精英图标", AlignmentColumn, panel.WidgetTargetHighlight)
-	panel.ClassEnemyIcon = CreateQuickCheckbutton(objectName.."ClassEnemyIcon", "显示敌人职业图标", AlignmentColumn, panel.WidgetEliteIndicator)
-	panel.ClassPartyIcon = CreateQuickCheckbutton(objectName.."ClassPartyIcon", "显示好人职业图标", AlignmentColumn, panel.ClassEnemyIcon)
+	panel.ClassEnemyIcon = CreateQuickCheckbutton(objectName.."ClassEnemyIcon", "显示敌对职业图标", AlignmentColumn, panel.WidgetEliteIndicator)
+	panel.ClassPartyIcon = CreateQuickCheckbutton(objectName.."ClassPartyIcon", "显示友好职业图标", AlignmentColumn, panel.ClassEnemyIcon)
 	panel.WidgetsTotemIcon = CreateQuickCheckbutton(objectName.."WidgetsTotemIcon", "显示图腾图标", AlignmentColumn, panel.ClassPartyIcon)
 	panel.WidgetsComboPoints = CreateQuickCheckbutton(objectName.."WidgetsComboPoints", "显示连击点", AlignmentColumn, panel.WidgetsTotemIcon)
 
-	panel.WidgetsEnableExternal = CreateQuickCheckbutton(objectName.."WidgetsEnableExternal", "启用外部小工具", AlignmentColumn, panel.WidgetsComboPoints)
+	panel.WidgetsEnableExternal = CreateQuickCheckbutton(objectName.."WidgetsEnableExternal", "启用外部部件", AlignmentColumn, panel.WidgetsComboPoints)
 
-	panel.WidgetsThreatIndicator = CreateQuickCheckbutton(objectName.."WidgetsThreatIndicator", "显示仇恨指示器", AlignmentColumn, panel.WidgetsLabel, OffsetColumnB)
-	panel.WidgetsThreatIndicatorMode =  CreateQuickDropdown(objectName.."WidgetsThreatIndicatorMode", "仇恨指示器:", ThreatWidgetModes, 1, AlignmentColumn, panel.WidgetsThreatIndicator, OffsetColumnB+16)
-	panel.WidgetsRangeIndicator = CreateQuickCheckbutton(objectName.."WidgetsRangeIndicator", "小队距离警告", AlignmentColumn, panel.WidgetsThreatIndicatorMode, OffsetColumnB)
+	panel.WidgetsThreatIndicator, F = CreateQuickCheckbutton(objectName.."WidgetsThreatIndicator", "显示仇恨指示器", AlignmentColumn, panel.WidgetsLabel, OffsetColumnB)
+	--panel.WidgetsThreatIndicatorMode =  CreateQuickDropdown(objectName.."WidgetsThreatIndicatorMode", "Threat Indicator:", ThreatWidgetModes, 1, AlignmentColumn, panel.WidgetsThreatIndicator, OffsetColumnB+16)
+	panel.WidgetsRangeIndicator = CreateQuickCheckbutton(objectName.."WidgetsRangeIndicator", "小队距离警告", AlignmentColumn, F, OffsetColumnB)
 	panel.WidgetsRangeMode =  CreateQuickDropdown(objectName.."WidgetsRangeMode", "距离:", RangeModes, 1, AlignmentColumn, panel.WidgetsRangeIndicator, OffsetColumnB+16)
 
 	------------------------------
 	-- Advanced
 	------------------------------
-	panel.AdvancedLabel = CreateQuickHeadingLabel(nil, "高级模块", AlignmentColumn, panel.WidgetsEnableExternal, 0, 5)
-	panel.AdvancedEnableUnitCache = CreateQuickCheckbutton(objectName.."AdvancedEnableUnitCache", "允许对象数据缓存", AlignmentColumn, panel.AdvancedLabel)
-	panel.FrameVerticalPosition = CreateQuickSlider(objectName.."FrameVerticalPosition", "血条垂直位置（别太设置过分，会影响鼠标点击面板）", AlignmentColumn, panel.AdvancedEnableUnitCache, 0, 4)
+	panel.AdvancedLabel = CreateQuickHeadingLabel(nil, "高级", AlignmentColumn, panel.WidgetsEnableExternal, 0, 5)
+	panel.AdvancedEnableUnitCache, F = CreateQuickCheckbutton(objectName.."AdvancedEnableUnitCache", "允许对象数据缓存", AlignmentColumn, panel.AdvancedLabel)
+	panel.FrameVerticalPosition, F = CreateQuickSlider(objectName.."FrameVerticalPosition", "血条垂直位置（设置太过分会影响鼠标点击面板）", AlignmentColumn, F, 0, 4)
+	panel.FrameBarWidth, F = CreateQuickSlider(objectName.."FrameBarWidth", "血条宽度(%)", AlignmentColumn, F, 0, 4)
 
 	--panel.AdvancedCustomCodeLabel = CreateQuickItemLabel(nil, "Custom Theme Code:", AlignmentColumn, panel.FrameVerticalPosition, 0, 4)
 	--panel.AdvancedCustomCodeTextbox = CreateQuickEditbox(objectName.."AdvancedCustomCodeTextbox", AlignmentColumn, panel.AdvancedHealthTextLabel, 8)
 
 
-	--loadstring( [[return function(unit) ]]..LocalVars.AdvancedCustomCodeTextbox..[[ end]])
 	--[[
-	--function(theme)
-
 	theme.Default.name.size = 18
 	--]]
+	local ClearCacheButton = CreateFrame("Button", objectName.."ClearCacheButton", AlignmentColumn, "TidyPlatesPanelButtonTemplate")
+	ClearCacheButton:SetPoint("TOPLEFT", F, "BOTTOMLEFT",-6, -18)
+	--ClearCacheButton:SetPoint("TOPLEFT", panel.AdvancedCustomCodeTextbox, "BOTTOMLEFT",-6, -18)
+	ClearCacheButton:SetWidth(300)
+	ClearCacheButton:SetText("清理缓存")
+	ClearCacheButton:SetScript("OnClick", function()
+			local count = 0
+			for index, obj in pairs(TidyPlatesWidgetData) do
+				if type(obj) == 'table' then
+					for subIndex in pairs(obj) do
+						count = count + 1
+						TidyPlatesWidgetData[index][subIndex] = nil
+					end
+				end
+			end
+			print("Tidy Plates Hub: Cleared", count, "entries from cache.")
+		end)
 
 	local BlizzOptionsButton = CreateFrame("Button", objectName.."BlizzButton", AlignmentColumn, "TidyPlatesPanelButtonTemplate")
-	BlizzOptionsButton:SetPoint("TOPLEFT", panel.FrameVerticalPosition, "BOTTOMLEFT",-6, -18)
+	BlizzOptionsButton:SetPoint("TOPLEFT", ClearCacheButton, "BOTTOMLEFT", 0, -16)
 	--BlizzOptionsButton:SetPoint("TOPLEFT", panel.AdvancedCustomCodeTextbox, "BOTTOMLEFT",-6, -18)
 	BlizzOptionsButton:SetWidth(300)
-	BlizzOptionsButton:SetText("玻璃渣姓名版...")
+	BlizzOptionsButton:SetText("暴雪姓名版...")
 	BlizzOptionsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(_G["InterfaceOptionsNamesPanel"]) end)
 
 
@@ -446,11 +461,12 @@ Plate Show, Fade In Animation
 	SetSliderMechanics(panel.OpacitySpotlight, 1, 0, 1, .01)
 	SetSliderMechanics(panel.OpacityFiltered, 1, 0, 1, .01)
 
-	SetSliderMechanics(panel.ScaleFiltered, 1, .1, 2.5, .01)
-	SetSliderMechanics(panel.ScaleStandard, 1, .1, 2.5, .01)
-	SetSliderMechanics(panel.ScaleSpotlight, 1, .1, 2.5, .01)
+	SetSliderMechanics(panel.ScaleFiltered, 1, .5, 2.2, .01)
+	SetSliderMechanics(panel.ScaleStandard, 1, .5, 2.2, .01)
+	SetSliderMechanics(panel.ScaleSpotlight, 1, .5, 2.2, .01)
 
 	SetSliderMechanics(panel.FrameVerticalPosition, .5, 0, 1, .02)
+	SetSliderMechanics(panel.FrameBarWidth, .5, 0, 1.2, .02)
 
 	SetSliderMechanics(panel.HighHealthThreshold, .7, .5, 1, .01)
 	SetSliderMechanics(panel.LowHealthThreshold, .3, 0, .5, .01)
@@ -468,28 +484,77 @@ Plate Show, Fade In Animation
 		-- Convert Unit Filter Strings
 		ConvertStringToTable(LocalVars.OpacityFilterList, LocalVars.OpacityFilterLookup)
 		ConvertStringToTable(LocalVars.UnitSpotlightList, LocalVars.UnitSpotlightLookup)
-		-- Convert Custom Code...  (Testing)
-		--local func, err = loadstring( [[return function(unit) ]]..LocalVars.AdvancedCustomCodeTextbox..[[ end]])
-		--if func == nil and err then print(panel.name, "|r CUSTOM SCRIPT ERROR", err)
-		--elseif func then LocalVars.CustomHealthFunction = func()	end
 
+		-- Convert Custom Code...  (Testing)
+
+		-- local func, err = loadstring( [[return function(unit) ]]..LocalVars.AdvancedCustomCodeTextbox..[[ end]])
+		-- if func == nil and err then print(panel.name, "|r CUSTOM SCRIPT ERROR", err)
+		-- elseif func then LocalVars.CustomHealthFunction = func()	end
 	end
 end
 
 --local function OnLogin()
 	-- Init
-	--InitializeTidyPlatesHubModes()
+	--InitializeTidyPlatesHubMenus()
 
 	-- Create Instances of Panels
-	local TankPanel = CreateInterfacePanel( "HubPanelSettingsTank", "Tidy Plates Hub: |cFF3782D1Tank", nil )
+	-- [[
+	local TankPanel = CreateInterfacePanel( "HubPanelSettingsTank", "Tidy Plates Hub: |cFF3782D1坦克", nil )
 	CreateInterfacePanelWidgets(TankPanel)
 	InterfaceOptions_AddCategory(TankPanel)
 	function ShowTidyPlatesHubTankPanel() TidyPlatesUtility.OpenInterfacePanel(TankPanel) end
+	--]]
 
-	local DamagePanel = CreateInterfacePanel( "HubPanelSettingsDamage", "Tidy Plates Hub: |cFFFF1100Damage", nil )
+	local DamagePanel = CreateInterfacePanel( "HubPanelSettingsDamage", "Tidy Plates Hub: |cFFFF1100输出", nil )
 	CreateInterfacePanelWidgets(DamagePanel)
 	InterfaceOptions_AddCategory(DamagePanel)
 	function ShowTidyPlatesHubDamagePanel() TidyPlatesUtility.OpenInterfacePanel(DamagePanel) end
+
+
+	local HealerPanel = CreateInterfacePanel( "HubPanelSettingsHealer", "Tidy Plates Hub: |cFF44DD55治疗", nil )
+	CreateInterfacePanelWidgets(HealerPanel)
+	InterfaceOptions_AddCategory(HealerPanel)
+	function ShowTidyPlatesHubHealerPanel() InterfaceOptionsFrame_OpenToCategory(HealerPanel) end
+
+
+
+---------------------------------------------
+-- Slash Commands
+---------------------------------------------
+
+local function GetProfile()
+	if TidyPlatesUtility.GetSpec(false, false) == 2 then return TidyPlatesOptions.SecondaryProfile
+	else return TidyPlatesOptions.PrimaryProfile end
+end
+
+function ShowTidyPlatesHubPanel(profile)
+
+	if profile == "Tank" then
+		ShowTidyPlatesHubTankPanel()
+	elseif profile == "Healer" then
+		ShowTidyPlatesHubHealerPanel()
+	else
+		ShowTidyPlatesHubDamagePanel()
+	end
+	--local theme = TidyPlatesThemeList[TidyPlatesOptions[GetCurrentSpec()]]
+	--if theme and theme.ShowConfigPanel and type(theme.ShowConfigPanel) == 'function' then theme.ShowConfigPanel() end
+end
+
+local function SlashCommandHub()
+	local profile = GetProfile()
+	ShowTidyPlatesHubPanel(profile)
+end
+
+
+SLASH_HUB1 = '/hub'
+SlashCmdList['HUB'] = SlashCommandHub
+
+
+--[[
+	local ColorPanel = CreateInterfacePanel( "HubPanelSettingsColors", "Tidy Plates Hub: Colors", nil )
+	ColorPanel.RefreshSettings = function() end
+	InterfaceOptions_AddCategory(ColorPanel)
+--]]
 --end
 
 --local HubHandler = CreateFrame("Frame")
@@ -514,8 +579,31 @@ function ShowTidyPlatesHubGladiatorPanel() InterfaceOptionsFrame_OpenToCategory(
 
 HubDamageConfigFrame = DamagePanel
 
-local HealerPanel = CreateInterfacePanel( "HubPanelSettingsHealer", "Tidy Plates Hub: |cFF44DD55Healer", nil )
-CreateInterfacePanelWidgets(HealerPanel)
-function ShowTidyPlatesHubHealerPanel() InterfaceOptionsFrame_OpenToCategory(HealerPanel) end
 --]]
+
+
+StaticPopupDialogs["TIDYPLATESHUB_RESETCHECK"] = {
+  text = "Tidy Plates Hub: 你的设置无法在当前版本上运行...",
+  button1 = "重置并重载UI",
+  button2 = "忽略",
+
+  OnAccept = function()
+  		-- print()
+  end,
+
+  OnCancel = function()
+  		-- print()
+  end,
+
+  timeout = 0,
+  whileDead = true,
+  hideOnEscape = true,
+  preferredIndex = 3,  -- avoid some UI taint, see http://www.wowace.com/announcements/how-to-avoid-some-ui-taint/
+}
+
+--StaticPopup_Show ("TIDYPLATESHUB_RESETCHECK")
+--StaticPopup_Hide ("EXAMPLE_HELLOWORLD")
+
+
+
 

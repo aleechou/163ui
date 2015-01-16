@@ -1,9 +1,29 @@
-local font = TidyPlatesHubLocalizedFont or "Font\\ARHei.ttf"
+local font = TidyPlatesHubLocalizedFont or "Interface\\Addons\\TidyPlates\\Media\\DefaultFont.ttf"
 local divider = "Interface\\Addons\\TidyPlatesHub\\shared\\ThinBlackLine"
 
 local PanelHelpers = TidyPlatesUtility.PanelHelpers 		-- PanelTools
 local DropdownFrame = CreateFrame("Frame", "TidyPlatesHubCategoryFrame", UIParent, "UIDropDownMenuTemplate" )
 local L = TidyPlatesHub_GetLocalizedString
+
+-- Menu Templates
+TidyPlatesHubMenus = TidyPlatesHubMenus or {}
+
+TidyPlatesHubMenus.ScaleModes = {}
+TidyPlatesHubMenus.EnemyOpacityModes = {}
+TidyPlatesHubMenus.FriendlyOpacityModes = {}
+TidyPlatesHubMenus.EnemyBarModes = {}
+TidyPlatesHubMenus.FriendlyBarModes = {}
+TidyPlatesHubMenus.StyleModes = {}
+TidyPlatesHubMenus.TextModes = {}
+TidyPlatesHubMenus.HeadlineEnemySubtexts = {}
+TidyPlatesHubMenus.NameColorModes = {}
+
+--TidyPlatesHubMenus.RangeModes = {}
+--TidyPlatesHubMenus.DebuffStyles = {}
+--TidyPlatesHubMenus.AuraWidgetModes = {}
+--TidyPlatesHubMenus.ThreatWarningModes = {}
+
+
 --[[
 The basic concept of RapidPanel is that each UI widget will get attached to a 'rail' or alignment column.  This rail
 provides access to a common update function.  Each widget gets attached as a stack, with widget definition tagging
@@ -25,7 +45,7 @@ end
 
 local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, yOffset)
 		local columnFrame = ...
-		local frame = PanelHelpers:CreateSliderFrame(name, columnFrame, L(label), .5, 0, 1, .1)
+		local frame = PanelHelpers:CreateSliderFrame(name, columnFrame, label, .5, 0, 1, .1)
 		frame:SetWidth(250)
 		--frame.Label:SetFont("FONTS/ARIALN.TTF", 14)
 		-- Margins	-- Bottom/Left are negative
@@ -37,12 +57,12 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 			columnFrame.Callback()
 			--if columnFrame.OnFeedback then columnFrame:OnFeedback() end
 		end)
-		return frame
+		return frame, frame
 	end
 
 	local function CreateQuickCheckbutton(name, label, ...)
 		local columnFrame = ...
-		local frame = PanelHelpers:CreateCheckButton(name, columnFrame, L(label))
+		local frame = PanelHelpers:CreateCheckButton(name, columnFrame, label)
 		--frame.Label:SetFont("FONTS/ARIALN.TTF", 14)
 		-- Margins	-- Bottom/Left are supposed to be negative
 		frame.Margins = { Left = 2, Right = 100, Top = 0, Bottom = 0,}
@@ -53,7 +73,7 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 			columnFrame.Callback()
 			--if columnFrame.OnFeedback then columnFrame:OnFeedback() end
 		end)
-		return frame
+		return frame, frame
 	end
 
 	local function SetSliderMechanics(slider, value, minimum, maximum, increment)
@@ -111,12 +131,12 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		QuickSetPoints(frame, ...)
 		-- Set Feedback Function
 		--frame.OnValueChanged = columnFrame.OnFeedback
-		return frame
+		return frame, frame
 	end
 
 	local function CreateQuickColorbox(name, label, ...)
 		local columnFrame = ...
-		local frame = PanelHelpers:CreateColorBox(name, columnFrame, L(label), 0, .5, 1, 1)
+		local frame = PanelHelpers:CreateColorBox(name, columnFrame, label, 0, .5, 1, 1)
 		-- Margins	-- Bottom/Left are supposed to be negative
 		frame.Margins = { Left = 5, Right = 100, Top = 3, Bottom = 2,}
 		-- Set Positions
@@ -124,12 +144,13 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		-- Set Feedback Function
 		frame.OnValueChanged = function() columnFrame.Callback() end
 		--frame.OnValueChanged = columnFrame.OnFeedback
-		return frame
+		return frame, frame
 	end
 
 	local function CreateQuickDropdown(name, label, dropdownTable, initialValue, ...)
 		local columnFrame = ...
-		local frame = PanelHelpers:CreateDropdownFrame(name, columnFrame, dropdownTable, initialValue, L(label))
+
+		local frame = PanelHelpers:CreateDropdownFrame(name, columnFrame, dropdownTable, initialValue, label)		--- ADD the new valueMethod  (2 for Token)
 		-- Margins	-- Bottom/Left are supposed to be negative
 		frame.Margins = { Left = -12, Right = 2, Top = 22, Bottom = 0,}
 		-- Set Positions
@@ -137,7 +158,7 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		-- Set Feedback Function
 		frame.OnValueChanged = function() columnFrame.Callback() end
 		--frame.OnValueChanged = columnFrame.OnFeedback
-		return frame
+		return frame, frame
 	end
 
 	local function CreateQuickHeadingLabel(name, label, ...)
@@ -150,7 +171,7 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		frame.Text:SetFont(font, 26)
 		frame.Text:SetTextColor(255/255, 105/255, 6/255)
 		frame.Text:SetAllPoints()
-		frame.Text:SetText(L(label))
+		frame.Text:SetText(label)
 		frame.Text:SetJustifyH("LEFT")
 		frame.Text:SetJustifyV("BOTTOM")
                 -- Divider Line
@@ -171,7 +192,7 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		columnFrame.HeadingBookmarks = columnFrame.HeadingBookmarks or {}
 		columnFrame.HeadingBookmarks[label] = bookmark
 		-- Done!
-		return frame
+		return frame, frame
 	end
 
 	local function CreateDrawer(name, label, ...)
@@ -205,7 +226,7 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		QuickSetPoints(frame.AnchorButton, ...)
 		frame:SetPoint("TOPLEFT", frame.AnchorButton, "TOPLEFT", 0, 0)
 		-- Done!
-		return frame
+		return frame, frame
 	end
 
 	local function CreateQuickItemLabel(name, label, ...)
@@ -221,14 +242,14 @@ local function CreateQuickSlider(name, label, ... ) --, neighborFrame, xOffset, 
 		--frame.Text:SetTextColor(1, .7, 0)
 		--frame.Text:SetTextColor(55/255, 173/255, 255/255)
 		frame.Text:SetAllPoints()
-		frame.Text:SetText(L(label))
+		frame.Text:SetText(label)
 		frame.Text:SetJustifyH("LEFT")
 		frame.Text:SetJustifyV("BOTTOM")
 		-- Margins	-- Bottom/Left are supposed to be negative
 		frame.Margins = { Left = 6, Right = 2, Top = 2, Bottom = 2,}
 		-- Set Positions
 		QuickSetPoints(frame, ...)
-		return frame
+		return frame, frame
 	end
 
 local function OnMouseWheelScrollFrame(frame, value, name)
@@ -520,7 +541,7 @@ local function CreateInterfacePanel( objectName, panelTitle, parentTitle)
 		-- Verify Variable Integrity
 		CheckVariableIntegrity(objectName)
 		-- Refresh Panel based on loaded variables
-		panel.RefreshSettings(GetVariableSet(panel))
+		if panel.RefreshSettings then panel.RefreshSettings(GetVariableSet(panel)) end
 	end)
 	panel:RegisterEvent("PLAYER_ENTERING_WORLD")
 
@@ -531,51 +552,51 @@ local function CreateInterfacePanel( objectName, panelTitle, parentTitle)
 
 	-- Paste
 	local PasteThemeDataButton = CreateFrame("Button", objectName.."PasteThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	PasteThemeDataButton.tooltipText = "从剪切板粘贴你的设置 ，按住'Shift'使用特有的剪切板"
+	PasteThemeDataButton.tooltipText = "Pastes your settings from the cache.  'Shift'-clicking uses the panel-specific cache"
 	PasteThemeDataButton:SetPoint("TOPRIGHT", -40, -22)
 	PasteThemeDataButton:SetWidth(60)
 	PasteThemeDataButton:SetScale(.85)
-	PasteThemeDataButton:SetText("粘贴")
+	PasteThemeDataButton:SetText("Paste")
 
 	PasteThemeDataButton:SetScript("OnClick", function() PasteSettings(panel); end)
 
 	-- Copy
 	local CopyThemeDataButton = CreateFrame("Button", objectName.."CopyThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	CopyThemeDataButton.tooltipText = "复制你的设置到剪切板，按住'shift'点击使用特有的剪切板"
+	CopyThemeDataButton.tooltipText = "Copies your settings to the cache.  'Shift'-clicking uses a panel-specific cache"
 	---- This feature works between matching panel types (ie. Hub/Damage to Hub/Damage)
 	CopyThemeDataButton:SetPoint("TOPRIGHT", PasteThemeDataButton, "TOPLEFT", -4, 0)
 	CopyThemeDataButton:SetWidth(60)
 	CopyThemeDataButton:SetScale(.85)
-	CopyThemeDataButton:SetText("复制")
-	
+	CopyThemeDataButton:SetText("Copy")
+
 	CopyThemeDataButton:SetScript("OnClick", function() CopySettings(panel); end)
 
 	-- Reset
 	local ReloadThemeDataButton = CreateFrame("Button", objectName.."ReloadThemeDataButton", panel, "TidyPlatesPanelButtonTemplate")
-	ReloadThemeDataButton.tooltipText = "重置你的配置为默认.  按住'shfit'点击将会清除所有已存储的设置，并重载界面"
+	ReloadThemeDataButton.tooltipText = "Resets the configuration to Default.  Holding down 'Shift' will also clear saved unit data, and restart your UI."
 	ReloadThemeDataButton:SetPoint("TOPRIGHT", CopyThemeDataButton, "TOPLEFT", -4, 0)
 	ReloadThemeDataButton:SetWidth(60)
 	ReloadThemeDataButton:SetScale(.85)
-	ReloadThemeDataButton:SetText("重置")
-		
-	ReloadThemeDataButton:SetScript("OnClick", function() 
+	ReloadThemeDataButton:SetText("Reset")
+
+	ReloadThemeDataButton:SetScript("OnClick", function()
 		PlaySound("igMainMenuOptionCheckBoxOn"); ResetSettings(panel);
 	end)
 
 
 	-- Bookmark/Table of Contents Button
-	local BookmarkButton = CreateFrame("Button", objectName.."标签", panel, "TidyPlatesPanelButtonTemplate")
+	local BookmarkButton = CreateFrame("Button", objectName.."BookmarkButton", panel, "TidyPlatesPanelButtonTemplate")
 	BookmarkButton:SetPoint("TOPRIGHT", ReloadThemeDataButton, "TOPLEFT", -4, 0)
 	BookmarkButton:SetWidth(110)
 	BookmarkButton:SetScale(.85)
-	BookmarkButton:SetText("快速定位")
+	BookmarkButton:SetText("Bookmarks...")
 
         --local child1, child2, child3 = BookmarkButton:GetRegions()
 
         --child1:SetVertexColor()
 
 
-
+--[[
 
 	local function InitializeDropdownMenu()
 		AddDropdownTitle("Bookmarks")
@@ -594,11 +615,43 @@ local function CreateInterfacePanel( objectName, panelTitle, parentTitle)
 		end
 	end
 
-	BookmarkButton:SetScript("OnClick", function(frame)
-		UIDropDownMenu_Initialize(DropdownFrame, InitializeDropdownMenu, "MENU")
-		ToggleDropDownMenu(1, nil, DropdownFrame, frame)
+	--]]
+
+	local function OnClickBookmark(frame)
+		local scrollTo = panel.AlignmentColumn.HeadingBookmarks[frame:GetText()]:GetHeight()
+		--print(frame:GetText(), scrollTo)
+		panel.ScrollFrame:SetVerticalScroll(ceil(scrollTo - 27))
+		PanelHelpers.HideDropdownMenu()
+	end
+
+	local function OnClickBookmarkDrawer(frame)
 		PlaySound("igMainMenuOptionCheckBoxOn")
-	end)
+
+		if not (panel.AlignmentColumn and panel.AlignmentColumn.Headings) then return end
+		local BookmarkMenu = {}
+
+
+		for index, name in pairs(panel.AlignmentColumn.Headings) do
+			BookmarkMenu[index] = {}
+			BookmarkMenu[index].text = name
+		end
+
+		PanelHelpers.ShowDropdownMenu(BookmarkButton, BookmarkMenu, OnClickBookmark)
+	end
+
+
+
+			--UIDropDownMenu_Initialize(DropdownFrame, InitializeDropdownMenu, "MENU")
+		--ToggleDropDownMenu(1, nil, DropdownFrame, frame)
+
+--[[
+
+--PanelHelpers.HideDropdownMenu
+
+		ShowDropdownMenu(drawer, menu, OnClickItem)
+		--]]
+
+	BookmarkButton:SetScript("OnClick", OnClickBookmarkDrawer )
 
 	--[[
 	-- Bookmark/Table of Contents Button

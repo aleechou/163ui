@@ -90,8 +90,8 @@ end
 
 local function valueToString(value)
     if value ~= nil then
-        if value >= 100000000 then return format('%.1f亿', value / 100000000)
-        elseif value >= 10000 then return format('%.1f万', value / 10000)
+        if value >= 1000000 then return format('%.1fm', value / 1000000)
+        elseif value >= 1000 then return format('%.1fk', value / 1000)
         else return value end
     end
 end
@@ -311,7 +311,7 @@ end
 ------------------------------------------------
 
 local DropDownMenuFrame = CreateFrame("Frame")
-local MaxDropdownItems = 20
+local MaxDropdownItems = 25
 
 DropDownMenuFrame:SetSize(100, 100)
 DropDownMenuFrame:SetFrameStrata("TOOLTIP");
@@ -320,16 +320,13 @@ DropDownMenuFrame:Hide()
 local Border = CreateFrame("Frame", nil, DropDownMenuFrame)
 Border:SetBackdrop(
 		{	bgFile = "Interface/DialogFrame/UI-DialogBox-Background-Dark",
-			--bgFile = "Interface/Tooltips/UI-Tooltip-Background",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            --edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
             tile = true, tileSize = 16, edgeSize = 16,
             insets = { left = 4, right = 4, top = 4, bottom = 4 }});
 Border:SetBackdropColor(0,0,0,1);
 Border:SetPoint("TOPLEFT", DropDownMenuFrame, "TOPLEFT")
-Border:SetPoint("TOPRIGHT", DropDownMenuFrame, "TOPRIGHT")
 
-
+-- Create the Menu Item Buttons
 for i = 1, MaxDropdownItems do
 	local button = CreateFrame("Button", "TidyPlateDropdownMenuButton"..i, DropDownMenuFrame)
 	DropDownMenuFrame["Button"..i] = button
@@ -338,7 +335,7 @@ for i = 1, MaxDropdownItems do
 	button:SetPoint("RIGHT", DropDownMenuFrame, "RIGHT")
 	button:SetText("Button")
 
-	button._ButtonIndex = i
+	button.buttonIndex = i
 
 	if i > 1 then
 		button:SetPoint("TOPLEFT", DropDownMenuFrame["Button"..i-1], "BOTTOMLEFT")
@@ -361,22 +358,27 @@ end
 
 --[[
 local CloseDropdownButton = CreateFrame("Button", nil, DropDownMenuFrame, "UIPanelCloseButton")
-CloseDropdownButton:SetPoint("TOPLEFT", DropDownMenuFrame, "TOPRIGHT")
+CloseDropdownButton:SetPoint("TOPLEFT", DropDownMenuFrame, "TOPRIGHT", -4, 0)
+CloseDropdownButton:SetFrameStrata("TOOLTIP");
+CloseDropdownButton:Raise()
 CloseDropdownButton:Show()
 --]]
+
 
 local function HideDropdownMenu()
 	DropDownMenuFrame:Hide()
 end
 
-
-local function ShowDropdownMenu(sourceFrame, menu, script)
+local function ShowDropdownMenu(sourceFrame, menu, clickScript)
 	if DropDownMenuFrame:IsShown() and DropDownMenuFrame.SourceFrame == sourceFrame then
 		HideDropdownMenu()
 		return
 	end
 
+	local currentSelection
+
 	DropDownMenuFrame.SourceFrame = sourceFrame
+	if sourceFrame.GetValue then currentSelection = sourceFrame:GetValue() end
 
 	local numOfItems = 0
 	local maxWidth = 0
@@ -386,10 +388,27 @@ local function ShowDropdownMenu(sourceFrame, menu, script)
 		local button = DropDownMenuFrame["Button"..i]
 
 		if item then
-			button:SetText(item.text)
+			local itemText = item.text
+
+			local region1, region2 = button:GetRegions()
+			--print(region1:GetObjectType(), region2:GetObjectType() )
+
+			if currentSelection == i or itemText == currentSelection then
+				region1:SetTextColor(1, .8, 0)
+				region1:SetFont(1, .8, 0)
+			else
+				region1:SetTextColor(1, 1, 1)
+			end
+
+			button:SetText(itemText)
+			button.Value = item.value
+
+			--button:SetText
 			maxWidth = max(maxWidth, button:GetTextWidth())
 			numOfItems = numOfItems + 1
-			button:SetScript("OnClick", script)
+			button:SetScript("OnClick", clickScript)
+
+
 			button:Show()
 		else
 			button:Hide()
@@ -397,8 +416,8 @@ local function ShowDropdownMenu(sourceFrame, menu, script)
 
 	end
 
-	DropDownMenuFrame:SetWidth(maxWidth + 18)
-	Border:SetPoint("BOTTOM", DropDownMenuFrame["Button"..numOfItems], "BOTTOM", 0, -12)
+	DropDownMenuFrame:SetWidth(maxWidth + 20)
+	Border:SetPoint("BOTTOMRIGHT", DropDownMenuFrame["Button"..numOfItems], "BOTTOMRIGHT", 10, -12)
 	DropDownMenuFrame:SetPoint("TOPLEFT", sourceFrame, "BOTTOM")
 	DropDownMenuFrame:Show()
 	DropDownMenuFrame:Raise()
@@ -412,77 +431,73 @@ end
 ------------------------------------------------
 -- Creates the Dropdown Drawer object
 ------------------------------------------------
-local function CreateDropdownFrame(helpertable, reference, parent, menu, default, label, byName)
-
-	--[[
-
-	Add:
-		- Description Text Field on Top, which displays tooltip Text
-		- Textures
-		- Close/Cancel Button
 
 
-	--]]
-
+local function CreateDropdownFrame(helpertable, reference, parent, menu, default, label, valueMethod)
 	local drawer = CreateFrame("Frame", reference, parent, "TidyPlatesDropdownDrawerTemplate" )
-	local index, item
+
 	drawer.Text = _G[reference.."Text"]
-	if byName then drawer.Text:SetText(default) else drawer.Text:SetText(menu[default].text) end
-	drawer.Text:SetWidth(100)
+	drawer.Button = _G[reference.."Button"]
 	drawer:SetWidth(120)
-	--
+
 	if label then
 		drawer.Label = drawer:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
 		drawer.Label:SetPoint("TOPLEFT", 18, 18)
 		drawer.Label:SetText(label)
 	end
 
+	drawer.valueMethod = valueMethod
 
+
+	drawer.Text:SetWidth(100)
 	drawer.Value = default
 
---[[
-	-- Old Dropdown Method
-	dropdown.initialize = function(self, level)		-- Replaces the default init function
-		--print("Dropdown Init", reference)
-		--print("Plog")
-		for index, item in pairs(menu) do
-			item.value = index
-			item.func = OnClickDropdownItem
-
-			UIDropDownMenu_AddButton(item)
-		end
-	end
-
---]]
-
+	-- SetValue is used in the Hub and Panel functions; Very important
+	------------------------------------
 	drawer.SetValue = function (self, value)
-		if byName and value then drawer.Text:SetText(value) else
-			drawer.Text:SetText(menu[value].text); drawer.Value = value
+		--if not value then return end
+
+		local itemText
+
+		-- Search for Numerical Index
+		if menu[value] then
+			itemText = menu[value].text
+		else
+			-- Search for Token
+			for i,v in pairs(menu) do
+				if v.value == value then
+					itemText = v.text
+					break
+				end
+			end
+		end
+
+		if value then
+			drawer.Text:SetText(itemText)
+			drawer.Value = value
 		end
 	end
 
-	drawer.GetValue = function ()
-		if byName then return drawer.Text:GetText() else
-			return drawer.Value
-		end
+	-- GetValue is used in the Hub and Panel functions; Very important
+	------------------------------------
+	drawer.GetValue = function (self)
+		return self.Value
 	end
 
-	-- [[
-	------------------------------------------------
 	-- New Dropdown Method
 	------------------------------------------------
 
-
 	local function OnClickItem(self)
-		drawer.Text:SetText(self:GetText())
-		drawer.Value = self._ButtonIndex
-		if drawer.OnValueChanged then drawer.OnValueChanged() end
+
+		drawer:SetValue(menu[self.buttonIndex].value or self.buttonIndex)
+		--print(self.Value, menu[self.buttonIndex].value, drawer:GetValue())
+
+		if drawer.OnValueChanged then drawer.OnValueChanged(drawer) end
 		PlaySound("igMainMenuOptionCheckBoxOn");
 		HideDropdownMenu()
 	end
 
 	local function OnClickDropdown()
-
 		PlaySound("igMainMenuOptionCheckBoxOn");
 		ShowDropdownMenu(drawer, menu, OnClickItem)
 	end
@@ -495,7 +510,9 @@ local function CreateDropdownFrame(helpertable, reference, parent, menu, default
 	local button = _G[reference.."Button"]
 	button:SetScript("OnClick", OnClickDropdown)
 	button:SetScript("OnHide", OnHideDropdown)
-	--]]
+
+	-- Set the default value on itself
+	drawer:SetValue(default)
 
 	return drawer
 end
@@ -561,6 +578,8 @@ PanelHelpers.CreateRadioButtons = CreateRadioButtons
 PanelHelpers.CreateSliderFrame = CreateSliderFrame
 PanelHelpers.CreateDropdownFrame = CreateDropdownFrame
 PanelHelpers.CreateColorBox = CreateColorBox
+PanelHelpers.ShowDropdownMenu = ShowDropdownMenu
+PanelHelpers.HideDropdownMenu = HideDropdownMenu
 
 TidyPlatesUtility.PanelHelpers = PanelHelpers
 
